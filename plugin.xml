@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+	<name>
+		<lang name="default">Admin panel NEW</lang>
+	</name>
+	<author>
+		<lang name="default">LiveStreet Developers Team</lang>
+	</author>
+	<homepage>http://livestreet.ru</homepage>
+	<settings>{admin}</settings>
+	<version>1.0</version>
+	<requires>
+		<livestreet>1.0.*</livestreet>
+		<plugins>
+		</plugins>
+	</requires>
+	<description>
+		<lang name="default">Панель управления для LiveStreet</lang>
+	</description>
+</plugin>

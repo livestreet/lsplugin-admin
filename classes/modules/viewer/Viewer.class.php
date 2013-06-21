@@ -1,0 +1,26 @@
+<?php 
+
+if (!class_exists('Plugin')) {
+	die('Hacking attemp!');
+}
+
+class PluginAdmin_ModuleViewer
+extends PluginAdmin_Inherit_ModuleViewer {
+	
+	public function GetSmartyTemplateVar($sName){
+		return $this->oSmarty->get_template_vars($sName);
+	}
+	
+	public function AddSmartyPluginsDir($sDir){
+		if(!is_dir($sDir)){
+			return false;
+		}
+		if(!in_array($sDir, $this->oSmarty->getPluginsDir())){
+			$this->oSmarty->setPluginsDir(array_merge($this->oSmarty->getPluginsDir(),array($sDir)));
+		}
+		return true;
+	}
+	
+}
+
+?>
