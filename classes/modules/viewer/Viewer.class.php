@@ -4,8 +4,7 @@ if (!class_exists('Plugin')) {
 	die('Hacking attemp!');
 }
 
-class PluginAdmin_ModuleViewer
-extends PluginAdmin_Inherit_ModuleViewer {
+class PluginAdmin_ModuleViewer extends PluginAdmin_Inherit_ModuleViewer {
 	
 	public function GetSmartyTemplateVar($sName){
 		return $this->oSmarty->get_template_vars($sName);
@@ -20,7 +19,25 @@ extends PluginAdmin_Inherit_ModuleViewer {
 		}
 		return true;
 	}
-	
+
+	public function ClearStyle($bClearConfig=false) {
+		$this->aCssInclude = array(
+			'append'  => array(),
+			'prepend' => array()
+		);
+		$this->aFilesParams=array(
+			'js'  => array(),
+			'css' => array()
+		);
+
+		if ($bClearConfig) {
+			$this->aFilesDefault=array(
+				'js'  => array(),
+				'css' => array()
+			);
+			Config::Set('head.rules',array());
+		}
+	}
 }
 
 ?>
