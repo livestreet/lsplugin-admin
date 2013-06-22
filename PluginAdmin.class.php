@@ -42,7 +42,6 @@ class PluginAdmin extends Plugin {
 	 * Инициализация плагина
 	 */
 	public function Init() {
-
 	}
 }
 ?>

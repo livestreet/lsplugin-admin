@@ -1,0 +1,22 @@
+/**
+ * Иконки
+ * 
+ * Иконки Glyphicons
+ * http://glyphicons.com/
+ * 
+ * Пример использования:
+ * 
+ * <a href="#"><i class="icon icon-remove"></i> Remove</a>
+ */
+
+[class^="icon-"],
+[class*=" icon-"]  { 
+	display: inline-block;
+	vertical-align: text-top;
+	width: 14px;
+	height: 14px;
+	line-height: 14px;
+	background: url(../images/icons.png) no-repeat;
+}
+
+.icon-nav-main-home { width: 19px; height: 19px; background: url(../images/icons/nav-main-home.png) no-repeat; }

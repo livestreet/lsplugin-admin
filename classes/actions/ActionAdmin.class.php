@@ -23,6 +23,70 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 	public function Init() {
 		$this->SetDefaultEvent('index');
 
+		/**
+		 * Styles
+		 */
+		$this->Viewer_ClearStyle(true);
+		
+		$this->Viewer_AppendStyle(Config::Get('path.static.framework')."/css/reset.css");
+		$this->Viewer_AppendStyle(Config::Get('path.static.framework')."/css/helpers.css");
+		$this->Viewer_AppendStyle(Config::Get('path.static.framework')."/css/text.css");
+		$this->Viewer_AppendStyle(Config::Get('path.static.framework')."/css/dropdowns.css");
+		$this->Viewer_AppendStyle(Config::Get('path.static.framework')."/css/buttons.css");
+		$this->Viewer_AppendStyle(Config::Get('path.static.framework')."/css/forms.css");
+		$this->Viewer_AppendStyle(Config::Get('path.static.framework')."/css/navs.css");
+		$this->Viewer_AppendStyle(Config::Get('path.static.framework')."/css/modals.css");
+		$this->Viewer_AppendStyle(Config::Get('path.static.framework')."/css/tooltip.css");
+		$this->Viewer_AppendStyle(Config::Get('path.static.framework')."/css/popover.css");
+		$this->Viewer_AppendStyle(Config::Get('path.static.framework')."/css/alerts.css");
+		$this->Viewer_AppendStyle(Config::Get('path.static.framework')."/css/toolbar.css");
+		$this->Viewer_AppendStyle(Config::Get('path.static.framework')."/css/toolbar.css");
+
+		$this->Viewer_AppendStyle(Plugin::GetTemplatePath(__CLASS__)."css/base.css");
+		$this->Viewer_AppendStyle(Plugin::GetTemplatePath(__CLASS__)."css/grid.css");
+		$this->Viewer_AppendStyle(Plugin::GetTemplatePath(__CLASS__)."css/blocks.css");
+		$this->Viewer_AppendStyle(Plugin::GetTemplatePath(__CLASS__)."css/pagination.css");
+		$this->Viewer_AppendStyle(Plugin::GetTemplatePath(__CLASS__)."css/icons.css");
+		$this->Viewer_AppendStyle(Plugin::GetTemplatePath(__CLASS__)."css/navs.css");
+
+		/**
+		 * Scripts
+		 */
+		$this->Viewer_AppendScript(Config::Get('path.static.framework')."/js/vendor/jquery-1.9.1.min.js");
+		$this->Viewer_AppendScript(Config::Get('path.static.framework')."/js/vendor/jquery-ui/js/jquery-ui-1.10.2.custom.min.js");
+		$this->Viewer_AppendScript(Config::Get('path.static.framework')."/js/vendor/jquery-ui/js/localization/jquery-ui-datepicker-ru.js");
+		$this->Viewer_AppendScript(Config::Get('path.static.framework')."/js/vendor/jquery.browser.js");
+		$this->Viewer_AppendScript(Config::Get('path.static.framework')."/js/vendor/jquery.scrollto.js");
+		$this->Viewer_AppendScript(Config::Get('path.static.framework')."/js/vendor/jquery.rich-array.min.js");
+		$this->Viewer_AppendScript(Config::Get('path.static.framework')."/js/vendor/jquery.form.js");
+		$this->Viewer_AppendScript(Config::Get('path.static.framework')."/js/vendor/jquery.jqplugin.js");
+		$this->Viewer_AppendScript(Config::Get('path.static.framework')."/js/vendor/jquery.cookie.js");
+		$this->Viewer_AppendScript(Config::Get('path.static.framework')."/js/vendor/jquery.serializejson.js");
+		$this->Viewer_AppendScript(Config::Get('path.static.framework')."/js/vendor/jquery.file.js");
+		$this->Viewer_AppendScript(Config::Get('path.static.framework')."/js/vendor/jcrop/jquery.Jcrop.js");
+		$this->Viewer_AppendScript(Config::Get('path.static.framework')."/js/vendor/jquery.placeholder.min.js");
+		$this->Viewer_AppendScript(Config::Get('path.static.framework')."/js/vendor/jquery.charcount.js");
+		$this->Viewer_AppendScript(Config::Get('path.static.framework')."/js/vendor/jquery.imagesloaded.js");
+		$this->Viewer_AppendScript(Config::Get('path.static.framework')."/js/vendor/notifier/jquery.notifier.js");
+		$this->Viewer_AppendScript(Config::Get('path.static.framework')."/js/vendor/markitup/jquery.markitup.js");
+		$this->Viewer_AppendScript(Config::Get('path.static.framework')."/js/vendor/prettify/prettify.js");
+		$this->Viewer_AppendScript(Config::Get('path.static.framework')."/js/vendor/prettyphoto/js/jquery.prettyphoto.js");
+
+		$this->Viewer_AppendScript(Config::Get('path.static.framework')."/js/core/hook.js");
+		$this->Viewer_AppendScript(Config::Get('path.static.framework')."/js/core/main.js");
+
+		$this->Viewer_AppendScript(Config::Get('path.static.framework')."/js/ui/popup.js");
+		$this->Viewer_AppendScript(Config::Get('path.static.framework')."/js/ui/dropdown.js");
+		$this->Viewer_AppendScript(Config::Get('path.static.framework')."/js/ui/tooltip.js");
+		$this->Viewer_AppendScript(Config::Get('path.static.framework')."/js/ui/popover.js");
+		$this->Viewer_AppendScript(Config::Get('path.static.framework')."/js/ui/tab.js");
+		$this->Viewer_AppendScript(Config::Get('path.static.framework')."/js/ui/modal.js");
+		$this->Viewer_AppendScript(Config::Get('path.static.framework')."/js/ui/toolbar.js");
+
+		$this->Viewer_AppendScript(Config::Get('path.static.framework')."/js/livestreet/init.js");
+		$this->Viewer_AppendScript(Plugin::GetTemplatePath(__CLASS__)."/js/init.js");
+
+
 		//var_dump($this->aItem);
 
 		$this->Viewer_Assign('oCursor', $this->PluginAdmin_Ui_GetCursor());
@@ -30,7 +94,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		$this->Viewer_Assign('oMenuAddition', $this->PluginAdmin_Ui_GetMenuAddition());
 
 		$this->InitMenu();
-		$this->Viewer_AddBlock('right','blocks/block.menu.tpl',array('plugin'=>'admin'));
+		$this->Viewer_AddBlock('right','blocks/block.nav.tpl',array('plugin'=>'admin'));
 
 		$this->Hook_Run('init_action_admin');
 	}

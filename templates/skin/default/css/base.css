@@ -1,0 +1,88 @@
+/**
+ * Основные стили
+ */
+
+body {
+	font-size: 13px;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	line-height: 18px;
+	color: #333;
+	background-color: #f1f1f1;
+}
+
+
+/**
+ * Ссылки
+ */
+a 		{ color: #08c; text-decoration: none; }
+a:hover { color: #058; }
+
+.text a:visited, 
+.topic .topic-header .topic-title a:visited,
+.item-list li a:visited { color: #1D2273; }
+
+
+/**
+ * Заголовки
+ */
+.h1, .h2, .h3, .h4, .h5, .h6 { margin-bottom: 15px; line-height: 1.2em; }
+
+.h1 { font-size: 28px; }
+.h2 { font-size: 26px; }
+.h3 { font-size: 24px; }
+.h4 { font-size: 22px; }
+.h5 { font-size: 20px; }
+.h6 { font-size: 18px; }
+
+.page-header      { color: #333; font-size: 27px; line-height: 1em; font-weight: bold; margin-bottom: 20px; }
+.page-header span { color: #aaa; }
+
+
+/**
+ * Header
+ *
+ * @template layout.base.tpl
+ */
+.site-name { font: 300 40px/1em 'Open Sans', Arial; }
+.site-name a { color: #333; }
+.site-name a:hover { color: #f00; }
+
+
+/**
+ * Footer
+ *
+ * @template layout.base.tpl
+ */
+#footer a { color: #6c6c6c; text-decoration: none; border-bottom: 1px solid #c5c5c5; display: inline-block; line-height: 13px; }
+#footer a:hover { border-color: #FFAEAE; color: #f00; }
+
+#footer ul li { margin-bottom: 5px; }
+
+
+/**
+ * Content
+ *
+ * @template layout.base.tpl
+ */
+#content { position: relative; min-height: 200px; }
+
+/* Shadow */
+#content:after {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: 2.5%;
+	width: 95%;
+	height: 10px;
+	-webkit-box-shadow: 0 0 45px rgba(0,0,0,.3);
+	-moz-box-shadow: 0 0 45px rgba(0,0,0,.3);
+	box-shadow: 0 0 45px rgba(0,0,0,.3);
+	z-index: -5;
+	background: #000;
+}
+
+
+/**
+ * Stat Perfomance
+ */
+.stat-performance { display: none; }

@@ -1,0 +1,37 @@
+/**
+ * Навгиация
+ */
+
+/**
+ * Основная навгиация
+ * 
+ * @template navs/nav.main.tpl
+ */
+.nav-main { padding-top: 10px; }
+
+.nav-main li   { font-size: 16px; font-family: 'Open Sans'; position: relative; }
+.nav-main li a { display: block;  }
+
+.nav-main > li > a:hover span,
+.nav-main li a:hover span { border-color: #FFAEAE; color: #f00; }
+
+/* Root */
+.nav-main > li > a             { font-size: 16px; padding: 5px 10px 5px 42px; color: #464646; }
+.nav-main > li.active > a      { background: #fff; }
+.nav-main > li.active > a span { border: none; color: #000; }
+.nav-main > li > a span        { display: inline-block; border-bottom: 1px solid #c3c3c3; }
+.nav-main > li > i             { position: absolute; top: 5px; left: 11px; }
+
+/* Sub */
+.nav-main ul                  { margin-bottom: 10px; padding-bottom: 10px; position: relative; }
+.nav-main ul li               { font-family: Verdana; font-size: 13px; }
+.nav-main ul li a             { color: #6c6c6c; padding: 5px 0 5px 42px; }
+.nav-main ul li a span        { display: inline-block; border-bottom: 1px solid #ccc; line-height: 14px; }
+.nav-main ul li.active a      { background: #fff; }
+.nav-main ul li.active a span { border: none; color: #000; font-weight: bold; }
+
+.nav-main ul:after,
+.nav-main ul:before { content: ""; position: absolute; bottom: -1px; left: 5%; width: 90%; height: 0; border-bottom: 1px solid #dbdbdb; }
+.nav-main ul:after { border-color: #fff; bottom: -2px; }
+.nav-main > li:last-child ul:after,
+.nav-main > li:last-child ul:before { display: none; }

@@ -1,9 +1,5 @@
-{include file='header.tpl'}
+{extends file="{$aTemplatePathPlugin.admin}/layout.base.tpl"}
 
-
-<div class="topic">
+{block name='layout_content'}
 	админ панель
-</div>
-
-
-{include file='footer.tpl'}
+{/block}
