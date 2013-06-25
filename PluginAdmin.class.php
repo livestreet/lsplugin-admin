@@ -44,4 +44,5 @@ class PluginAdmin extends Plugin {
 	public function Init() {
 	}
 }
+
 ?>
