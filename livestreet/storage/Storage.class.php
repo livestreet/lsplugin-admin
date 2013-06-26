@@ -45,7 +45,7 @@ class ModuleStorage extends Module {
 	const ENGINE_KEY_NAME = '__system__';
 
 	// Кеширование параметров на время работы сессии
-	//protected $aSessionCache = array ();																											// todo, проверять и хранить в GetOneParam ()
+	protected $aSessionCache = array ();											// structure: array ('key' => array ('param1' => 'value1', 'param2' => 'value2'))
 
 	// ---
 
@@ -76,7 +76,7 @@ class ModuleStorage extends Module {
 	// ---
 	
 	/*
-		Получить из БД значение одного ключа
+		Получить из БД строковое значение одного ключа
 	*/
 	protected function GetFieldOne ($sKey, $sInstance = self::DEFAULT_SYSTEM_INSTANCE) {
 		$sKey = (string) $sKey;
@@ -120,7 +120,7 @@ class ModuleStorage extends Module {
 	}
 	
 	//
-	// --- Высокоуровневые обертки для работы непосредственно с параметрами каждого ключа
+	// --- Обработка значений параметров
 	//
 	
 	/*
@@ -151,13 +151,26 @@ class ModuleStorage extends Module {
 		return $mValue;
 	}
 	
+	//
+	// --- Высокоуровневые обертки для работы непосредственно с параметрами каждого ключа
+	//
+	
 	/*
 		Получить список всех параметров ключа
 	*/
 	protected function GetParamsAll ($sKey, $sInstance = self::DEFAULT_SYSTEM_INSTANCE) {
+		// Если значение есть в кеше сессии - получить его
+		if (isset ($this -> aSessionCache [$sKey])) {
+			return $this -> aSessionCache [$sKey];
+		}
+		
 		// Если есть запись для ключа и она не повреждена и корректна
 		if ($sFieldData = $this -> GetFieldOne ($sKey, $sInstance)) {
 			if (($aData = @unserialize ($sFieldData)) !== false and is_array ($aData)) {
+				
+				// Сохранить в кеше сессии
+				$this -> aSessionCache [$sKey] = $aData;
+				
 				return $aData;
 			}
 		}
@@ -171,7 +184,12 @@ class ModuleStorage extends Module {
 	*/
 	protected function SetOneParam ($sKey, $sParamName, $mValue, $sInstance = self::DEFAULT_SYSTEM_INSTANCE) {
 		$aParamsContainer = $this -> GetParamsAll ($sKey, $sInstance);
-		$aParamsContainer [(string) $sParamName] = $this -> PrepareParamValueBeforeSaving ($mValue);
+		$mValueChecked = $this -> PrepareParamValueBeforeSaving ($mValue);
+		$aParamsContainer [(string) $sParamName] = $mValueChecked;
+		
+		// Сохранить в кеше сессии
+		$this -> aSessionCache [$sKey][$sParamName] = $mValueChecked;
+		
 		return $this -> SetFieldOne ($sKey, serialize ($aParamsContainer), $sInstance);
 	}
 	
@@ -181,8 +199,18 @@ class ModuleStorage extends Module {
 		Получить значение параметра для ключа
 	*/
 	protected function GetOneParam ($sKey, $sParamName, $sInstance = self::DEFAULT_SYSTEM_INSTANCE) {
+		// Если значение есть в кеше сессии - получить его
+		if (isset ($this -> aSessionCache [$sKey][$sParamName])) {
+			return $this -> aSessionCache [$sKey][$sParamName];
+		}
+		
 		if ($aFieldData = $this -> GetParamsAll ($sKey, $sInstance) and isset ($aFieldData [(string) $sParamName])) {
-			return $this -> RetrieveParamValueFromSavedValue ($aFieldData [(string) $sParamName]);
+			$mData = $this -> RetrieveParamValueFromSavedValue ($aFieldData [(string) $sParamName]);
+			
+			// Сохранить в кеше сессии
+			$this -> aSessionCache [$sKey][$sParamName] = $mData;
+			
+			return $mData;
 		}
 		return null;
 	}
@@ -195,6 +223,9 @@ class ModuleStorage extends Module {
 	protected function RemoveOneParam ($sKey, $sParamName, $sInstance = self::DEFAULT_SYSTEM_INSTANCE) {
 		$aParamsContainer = $this -> GetParamsAll ($sKey, $sInstance);
 		unset ($aParamsContainer [(string) $sParamName]);
+		
+		// Удалить значение из кеша сессии
+		unset ($this -> aSessionCache [$sKey][$sParamName]);
 		return $this -> SetFieldOne ($sKey, serialize ($aParamsContainer), $sInstance);
 	}
 	
@@ -204,6 +235,8 @@ class ModuleStorage extends Module {
 		Удалить все параметры ключа
 	*/
 	protected function RemoveAllParams ($sKey, $sInstance = self::DEFAULT_SYSTEM_INSTANCE) {
+		// Удалить все значения из кеша сессии
+		unset ($this -> aSessionCache [$sKey]);
 		return $this -> DeleteFieldOne ($sKey, $sInstance);
 	}
 	
@@ -226,7 +259,9 @@ class ModuleStorage extends Module {
 		if (!is_object ($oCaller)) throw new Exception ('Storage: caller is not correct. Always use "$this"');
 	}
 	
-	// --- Методы для работы ---
+	//
+	// --- Конечные методы для использования в движке и плагинах ---
+	//
 	
 	/*
 		Установить значение
