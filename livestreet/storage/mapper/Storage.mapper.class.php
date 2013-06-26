@@ -72,7 +72,7 @@ class ModuleStorage_MapperStorage extends Mapper {
 				`svalue` = ?
 		";
 
-		return $this -> oDb -> Query ($sql,
+		return $this -> oDb -> query ($sql,
 			$sKey,
 			$sValue,
 			$sInstance,
@@ -92,7 +92,7 @@ class ModuleStorage_MapperStorage extends Mapper {
 			LIMIT ?d
 		";
 
-		return $this -> oDb -> Query ($sql,
+		return $this -> oDb -> query ($sql,
 			$iLimit
 		);
 	}
