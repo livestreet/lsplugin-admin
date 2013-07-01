@@ -77,8 +77,7 @@ class ModuleStorage_MapperStorage extends Mapper {
 			$sValue,
 			$sInstance,
 			
-			$sValue,
-			$sInstance
+			$sValue
 		);
 	}
   
