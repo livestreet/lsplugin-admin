@@ -57,11 +57,9 @@ $config ['__Admin_Interface__'] = array (
     'name' => 'config_parameters.hello_message.name'                   // отображаемое имя параметра, ключ языкового файла
     'range' => array (0, 100),                                          // только для строковых типов, длина от и до
     'description' => 'config_parameters.hello_message.description',    // отображаемое описание параметра, ключ языкового файла
-    'validator' => array (              // валидация (если нужна)
-      'internal' => array (             // существующие типы валидаторов ядра
-        'type' => 'Boolean',            // Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url
-        'params' => array (),           // параметры, которые будут переданы в валидатор
-      ),
+    'validator' => array (              // валидация (если нужна), существующие типы валидаторов ядра
+      'type' => 'Boolean',            // Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url
+      'params' => array (),           // параметры, которые будут переданы в валидатор
     ),
   ),
   
