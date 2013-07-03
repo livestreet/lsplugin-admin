@@ -34,40 +34,17 @@ class PluginAdmin_ActionAdmin_EventUser extends Event {
 
 		$this->SetTemplateAction('user/list');
 	}
+	
+	// ---
 
 	public function EventUser() {
 
-
-		if (getRequestStr('ok')) {
-			return $this->EventNotFound();
-		}
-
-		$aArr=$this->aItem;
-		$aArr[]=3;
-		$this->aItem=$aArr;
-
-		//$this->aItem=9;
-		//array_push($this->aItem,5);
-		if (in_array(4,$this->aItem)) {
-			//var_dump('OK');
-		}
-		//var_dump($this->aItem);
-		$this->test('est!!!');
-
-		//$this->SetTemplateaction('index');
-		$this->SetTemplate(false);
 	}
-
-
+	
+	// ---
 
 	public function EventShowTopic() {
-		if ($this->oUserCurrent) {
-			var_dump('User id: '.$this->oUserCurrent->getId());
-		}
 
-		var_dump('Topic id: '.$this->GetParamEventMatch(0,1));
-
-		$this->SetTemplate(false);
 	}
 
-}
+}?>

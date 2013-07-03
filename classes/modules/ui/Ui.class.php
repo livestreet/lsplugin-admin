@@ -4,8 +4,7 @@ if (!class_exists('Plugin')) {
 	die('Hacking attemp!');
 }
 
-class PluginAdmin_ModuleUi
-extends Module {
+class PluginAdmin_ModuleUi extends Module {
 	
 	protected $oMenuMain;
 	protected $oMenuAddition;

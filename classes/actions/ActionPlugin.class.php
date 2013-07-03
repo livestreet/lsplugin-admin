@@ -15,6 +15,10 @@
 ---------------------------------------------------------
 */
 
+/*
+	От этого класса должны быть унаследованы все екшены плагинов, которые нужно интегрировать в админку
+*/
+
 abstract class PluginAdmin_ActionPlugin extends ActionPlugin {
 
 	protected function SetTemplateAction($sTemplate) {
@@ -40,4 +44,5 @@ abstract class PluginAdmin_ActionPlugin extends ActionPlugin {
 	}
 
 }
+
 ?>

@@ -1,7 +1,11 @@
 <?php
 
 class PluginAdmin_ActionAdmin_EventPlugin extends Event {
-
+	
+	/*
+		Интегрирует настройки плагина в админку и запускает класс "PluginИмяплагина_ActionAdmin",
+		который должен быть унаследован от PluginAdmin_ActionPlugin
+	*/
 	public function EventPlugin() {
 		$aParams=$this->GetParams();
 		$sPlugin=strtolower(array_shift($aParams));
@@ -24,7 +28,8 @@ class PluginAdmin_ActionAdmin_EventPlugin extends Event {
 		}
 		return $this->EventNotFound();
 	}
-
+	
+	// ---
 
 	protected function IsInstanceClass($sClass,$sParent) {
 		if (!class_exists($sClass)) {
@@ -40,4 +45,4 @@ class PluginAdmin_ActionAdmin_EventPlugin extends Event {
 		return false;
 	}
 
-}
+}?>

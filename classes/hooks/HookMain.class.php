@@ -24,6 +24,8 @@ class PluginAdmin_HookMain extends Hook {
 	public function RegisterHook() {
 		$this->AddHook('init_action','InitAction');
 	}
+	
+	// ---
 
 	public function InitAction() {
 		$aPlugins=Engine::getInstance()->GetPlugins();
@@ -37,4 +39,7 @@ class PluginAdmin_HookMain extends Hook {
 		$this->Viewer_Assign("aAdminTemplateWebPathPlugin",$aTemplateWebPathPlugin);
 		$this->Viewer_Assign("aAdminTemplatePathPlugin",$aTemplatePathPlugin);
 	}
+	
 }
+
+?>

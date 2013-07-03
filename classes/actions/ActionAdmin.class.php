@@ -17,9 +17,6 @@
 
 class PluginAdmin_ActionAdmin extends ActionPlugin {
 
-	protected $oUser=12345;
-	protected $aItem=array(1,2);
-
 	public function Init() {
 		$this->SetDefaultEvent('index');
 
@@ -87,8 +84,6 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		$this->Viewer_AppendScript(Plugin::GetTemplatePath(__CLASS__)."/js/init.js");
 
 
-		//var_dump($this->aItem);
-
 		$this->Viewer_Assign('oCursor', $this->PluginAdmin_Ui_GetCursor());
 		$this->Viewer_Assign('oMenuMain', $this->PluginAdmin_Ui_GetMenuMain());
 		$this->Viewer_Assign('oMenuAddition', $this->PluginAdmin_Ui_GetMenuAddition());
@@ -127,11 +122,6 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 	 **********************************************************************************
 	 */
 
-	protected function test($s) {
-		var_dump('test!');
-		return 'bla: '.$s;
-	}
-
 	protected function EventIndex() {
 
 		/**
@@ -139,6 +129,8 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 */
 		$this->SetTemplateAction('index');
 	}
+	
+	// ---
 
 	protected function EventUser() {
 
@@ -147,10 +139,10 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 */
 		$this->SetTemplateAction('index');
 	}
+	
+	// ---
 
-
-	private function InitMenu()
-	{
+	private function InitMenu() {
 		$this->PluginAdmin_Ui_GetMenuMain()
 			->AddSection(
 			Engine::GetEntity('PluginAdmin_Ui_MenuSection')
@@ -209,6 +201,8 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		)
 		;
 	}
+	
+	// ---
 
 	public function EventShutdown() {
 		$this->PluginAdmin_Ui_HighlightMenus();
@@ -216,4 +210,5 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		//var_dump($this->aItem);
 	}
 }
+
 ?>

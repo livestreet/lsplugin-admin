@@ -14,9 +14,16 @@
 *
 ---------------------------------------------------------
 */
+
+$config['user']['per_page'] = 3;
+
+
+
+/*
+	роутер
+*/
 $config['$root$']['router']['page']['admin'] = 'PluginAdmin_ActionAdmin';
 
-$config['user']['per_page']=3;
-
 return $config;
+
 ?>

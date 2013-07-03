@@ -24,25 +24,18 @@ if (!class_exists('Plugin')) {
 
 class PluginAdmin extends Plugin {
 
-	protected $aInherits = array(
-		'module'	=> array(
-			'ModuleViewer'						=> 'PluginAdmin_ModuleViewer',
-		),
-	);
-
-	/**
-	 * Активация плагина "Статические страницы".
-	 * Создание таблицы в базе данных при ее отсутствии.
-	 */
 	public function Activate() {
 		return true;
 	}
 
-	/**
-	 * Инициализация плагина
-	 */
-	public function Init() {
-	}
+	public function Init() {}
+  
+	protected $aInherits = array(
+		'module'	=> array(
+			'ModuleViewer' => 'PluginAdmin_ModuleViewer',
+		),
+	);
+
 }
 
 ?>

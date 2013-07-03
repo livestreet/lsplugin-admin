@@ -10,6 +10,8 @@ class PluginAdmin_ModuleViewer extends PluginAdmin_Inherit_ModuleViewer {
 		return $this->oSmarty->get_template_vars($sName);
 	}
 	
+	// ---
+	
 	public function AddSmartyPluginsDir($sDir){
 		if(!is_dir($sDir)){
 			return false;
@@ -19,6 +21,8 @@ class PluginAdmin_ModuleViewer extends PluginAdmin_Inherit_ModuleViewer {
 		}
 		return true;
 	}
+	
+	// ---
 
 	public function ClearStyle($bClearConfig=false) {
 		$this->aCssInclude = array(
@@ -38,6 +42,7 @@ class PluginAdmin_ModuleViewer extends PluginAdmin_Inherit_ModuleViewer {
 			Config::Set('head.rules',array());
 		}
 	}
+	
 }
 
 ?>
