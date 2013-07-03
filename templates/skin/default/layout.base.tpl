@@ -173,15 +173,6 @@
 	{/block}
 
 
-	{* Подключение модальных окон *}
-	{if $oUserCurrent}
-		{include file='modals/modal.write.tpl'}
-		{include file='modals/modal.favourite_form_tags.tpl'}
-	{else}
-		{include file='modals/modal.login.tpl'}
-	{/if}
-
-
 	{hook run='body_end'}
 </body>
 </html>
