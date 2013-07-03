@@ -1,9 +1,5 @@
 <?php 
 
-if (!class_exists('Plugin')) {
-	die('Hacking attemp!');
-}
-
 class PluginAdmin_ModuleViewer extends PluginAdmin_Inherit_ModuleViewer {
 	
 	public function GetSmartyTemplateVar($sName){

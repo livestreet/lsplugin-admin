@@ -1,0 +1,15 @@
+
+/* temp, todo: delete in production */
+
+.OnePlugin {
+    border-bottom: 1px solid #EEEEEE;
+    margin-bottom: 20px;
+}
+
+.OnePlugin h4 {
+    font-size: 18px;
+}
+
+.mb20 {
+    margin-bottom: 20px;
+}

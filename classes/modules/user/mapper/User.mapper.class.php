@@ -67,3 +67,5 @@ class PluginAdmin_ModuleUser_MapperUser extends Mapper {
 	}
 
 }
+
+?>

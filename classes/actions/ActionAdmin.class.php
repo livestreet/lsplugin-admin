@@ -45,6 +45,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		$this->Viewer_AppendStyle(Plugin::GetTemplatePath(__CLASS__)."css/pagination.css");
 		$this->Viewer_AppendStyle(Plugin::GetTemplatePath(__CLASS__)."css/icons.css");
 		$this->Viewer_AppendStyle(Plugin::GetTemplatePath(__CLASS__)."css/navs.css");
+		$this->Viewer_AppendStyle(Plugin::GetTemplatePath(__CLASS__)."css/__temp__.css");								// todo: delete on production
 
 		/**
 		 * Scripts
@@ -106,13 +107,32 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 */
 		$this->RegisterEventExternal('User','PluginAdmin_ActionAdmin_EventUser');
 		$this->RegisterEventExternal('Plugin','PluginAdmin_ActionAdmin_EventPlugin');
-
+		
+		// NOW: working
+		$this->RegisterEventExternal('Plugins','PluginAdmin_ActionAdmin_EventPlugins');
+		$this->RegisterEventExternal('Settings','PluginAdmin_ActionAdmin_EventSettings');
+		
+		//
+		// дашборд и статистика
+		//
 		$this->AddEvent('index','EventIndex');
-
-		//$this->AddEvent('user', 'User::');
+		
+		//
+		// Пользователи
+		//
 		$this->AddEventPreg('/^user$/i','/^list$/i','/^$/i','User::EventUserList');
 		$this->AddEventPreg('/^user$/i','/^(\d+)\.html$/i','/^$/i','User::EventShowTopic');
 		$this->AddEvent('user', 'User::EventUser');
+		
+		//
+		// Плагины
+		//
+		// NOW: working
+		//$this->AddEventPreg('#^plugin$#iu', '#^toggle$#iu', 'Plugins::EventPluginsToggle');//todo:
+		$this->AddEventPreg('#^plugins$#iu', '#^list$#iu', 'Plugins::EventPluginsList');
+		
+		$this->AddEvent('config', 'Settings::EventGet');
+		
 		$this->AddEventPreg('/^plugin$/i','/^[\w_\-]+$/i','Plugin::EventPlugin');
 	}
 
@@ -123,82 +143,71 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 	 */
 
 	protected function EventIndex() {
-
-		/**
-		 * Устанавливаем шаблон для вывода
-		 */
+		// дашборд
 		$this->SetTemplateAction('index');
 	}
 	
 	// ---
-
-	protected function EventUser() {
-
-		/**
-		 * Устанавливаем шаблон для вывода
-		 */
-		$this->SetTemplateAction('index');
-	}
 	
-	// ---
-
+	
+	// Построение меню
 	private function InitMenu() {
 		$this->PluginAdmin_Ui_GetMenuMain()
 			->AddSection(
-			Engine::GetEntity('PluginAdmin_Ui_MenuSection')
+				Engine::GetEntity('PluginAdmin_Ui_MenuSection')
 				->SetCaption('Главная') // $this->Lang_Get('admin_menu_main_section_main_caption')
 				->SetCssClass('sb-item-1')
 				->SetUrl('')
-		)
+			)	// /AddSection
 			->AddSection(
-			Engine::GetEntity('PluginAdmin_Ui_MenuSection')
+				Engine::GetEntity('PluginAdmin_Ui_MenuSection')
 				->SetCaption('Пользователи')
 				->SetName('users')
 				->SetCssClass('sb-item-8')
 				->SetUrl('user')
 				->AddItem(
-				Engine::GetEntity('PluginAdmin_Ui_MenuItem')
+					Engine::GetEntity('PluginAdmin_Ui_MenuItem')
 					->SetCaption('Статистика')
 					->SetUrl('stats')
-			)
+				)
 				->AddItem(
-				Engine::GetEntity('PluginAdmin_Ui_MenuItem')
+					Engine::GetEntity('PluginAdmin_Ui_MenuItem')
 					->SetCaption('Весь список')
 					->SetUrl('list')
-			)
+				)
 				->AddItem(
-				Engine::GetEntity('PluginAdmin_Ui_MenuItem')
+					Engine::GetEntity('PluginAdmin_Ui_MenuItem')
 					->SetCaption('Бан-листы')
 					->SetUrl('ban')
-			)
+				)
 				->AddItem(
-				Engine::GetEntity('PluginAdmin_Ui_MenuItem')
+					Engine::GetEntity('PluginAdmin_Ui_MenuItem')
 					->SetCaption('Администраторы')
 					->SetUrl('admins')
-			)
+				)
 				->AddItem(
-				Engine::GetEntity('PluginAdmin_Ui_MenuItem')
+					Engine::GetEntity('PluginAdmin_Ui_MenuItem')
 					->SetCaption('Инвайты')
 					->SetUrl('invite')
-			)
-		)
+				)
+			)	// /AddSection
 			->AddSection(
-			Engine::GetEntity('PluginAdmin_Ui_MenuSection')
+				Engine::GetEntity('PluginAdmin_Ui_MenuSection')
 				->SetCaption('Плагины')
 				->SetName('plugins')
 				->SetCssClass('sb-item-3')
 				->SetUrl('plugins')
 				->AddItem(
-				Engine::GetEntity('PluginAdmin_Ui_MenuItem')
+					Engine::GetEntity('PluginAdmin_Ui_MenuItem')
 					->SetCaption('Список плагинов')
 					->SetUrl('list')
-			)
+				)
 				->AddItem(
-				Engine::GetEntity('PluginAdmin_Ui_MenuItem')
+					Engine::GetEntity('PluginAdmin_Ui_MenuItem')
 					->SetCaption('Установить плагин')
 					->SetUrl('install')
-			)
-		)
+				)
+			)	// /AddSection
 		;
 	}
 	
@@ -207,7 +216,6 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 	public function EventShutdown() {
 		$this->PluginAdmin_Ui_HighlightMenus();
 		//$this->PluginAdmin_Ui_ArraysToViewer();
-		//var_dump($this->aItem);
 	}
 }
 

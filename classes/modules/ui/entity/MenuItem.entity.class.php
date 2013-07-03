@@ -1,12 +1,6 @@
 <?php 
 
-if (!class_exists('Plugin')) {
-	die('Hacking attemp!');
-}
-
-class PluginAdmin_ModuleUi_EntityMenuItem
-extends Entity
-{
+class PluginAdmin_ModuleUi_EntityMenuItem extends Entity {
 	// Getters
 	
 	public function GetSection(){

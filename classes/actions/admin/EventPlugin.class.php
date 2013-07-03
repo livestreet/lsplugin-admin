@@ -45,4 +45,6 @@ class PluginAdmin_ActionAdmin_EventPlugin extends Event {
 		return false;
 	}
 
-}?>
+}
+
+?>

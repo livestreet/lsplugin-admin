@@ -27,4 +27,7 @@ class PluginAdmin_ModuleUser extends Module {
 		$data['collection']=$this->User_GetUsersAdditionalData($data['collection'],$aAllowData);
 		return $data;
 	}
+	
 }
+
+?>

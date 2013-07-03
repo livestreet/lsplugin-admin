@@ -1,13 +1,9 @@
 <?php 
 
-if (!class_exists('Plugin')) {
-	die('Hacking attemp!');
-}
-
-class PluginAdmin_ModuleUi_EntityMenu
-extends Entity
-{
+class PluginAdmin_ModuleUi_EntityMenu extends Entity {
+	//
 	// Getters
+	//
 	
 	public function GetUrlPrefix(){
 		return is_array($this->_aData['url_prefix'])

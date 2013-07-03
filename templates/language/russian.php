@@ -20,6 +20,23 @@
  */
 return array(
 
+	//
+	// Описание каждого параметра
+	//
+	'config_parameters' => array (
+		'user' => array(
+			'per_page' => array(
+				'name' => 'Количество пользователей на страницу',
+				'description' => 'Укажите сколько пользователей нужно отображать на одной странице',
+			)
+		),
+		'moredata' => array(
+			'name' => 'Ещё один параметр',
+			'description' => 'Укажите новую строку',
+		),
+	
+	),	// /config_parameters
+
 );
 
 ?>

@@ -1,12 +1,6 @@
 <?php 
 
-if (!class_exists('Plugin')) {
-	die('Hacking attemp!');
-}
-
-class PluginAdmin_ModuleUi_EntityCursor
-extends Entity
-{
+class PluginAdmin_ModuleUi_EntityCursor extends Entity {
 	// Getters
 	
 	public function GetMenu($sName){
@@ -22,12 +16,16 @@ extends Entity
 		return $oMenu;
 	}
 	
+	// ---
+	
 	public function GetMenus(){
 		return is_array(@$this->_aData['menus'])
 			? $this->_aData['menus']
 			: array()
 		;
 	}
+	
+	// ---
 	
 	public function GetMenuNames(){
 		$aMenus = $this->GetMenus();
@@ -37,6 +35,8 @@ extends Entity
 		}
 		return $aNames;
 	}
+	
+	// ---
 	
 	public function GetActiveSection(){
 		if(!($aMenuNames = func_get_args())){
@@ -49,6 +49,8 @@ extends Entity
 		}
 	}
 	
+	// ---
+	
 	public function GetActiveItem(){
 		if(!($aMenuNames = func_get_args())){
 			$aMenuNames = $this->GetMenuNames();
@@ -60,7 +62,9 @@ extends Entity
 		}
 	}
 	
+	//
 	// Setters
+	//
 	
 	public function SetActiveSection(PluginAdmin_ModuleUi_EntityMenuSection $oMenuSection){
 		$this->_aData['active'][
@@ -72,6 +76,8 @@ extends Entity
 		;
 		return $this;
 	}
+	
+	// ---
 	
 	public function SetActiveItem(PluginAdmin_ModuleUi_EntityMenuItem $oMenuItem){
 		$this->_aData['active'][
@@ -85,6 +91,8 @@ extends Entity
 		return $this;
 	}
 	
+	// ---
+	
 	public function SetInActiveSection(PluginAdmin_ModuleUi_EntityMenuSection $oMenuSection){
 		$sMenuName = $oMenuSection->GetMenu()->GetName();
 		$oActiveSection = $this->GetActiveSection($sMenuName);
@@ -94,6 +102,8 @@ extends Entity
 		return $this;
 	}
 	
+	// ---
+	
 	public function SetInActiveItem(PluginAdmin_ModuleUi_EntityMenuItem $oMenuItem){
 		$sMenuName = $oMenuItem->GetSection()->GetMenu()->GetName();
 		$oActiveItem = $this->GetActiveItem($sMenuName);
@@ -102,6 +112,8 @@ extends Entity
 		}
 		return $this;
 	}
+	
+	// ---
 	
 	public function PostSetActive($oEntity){
 		$bActive = $oEntity->GetActive();
@@ -155,7 +167,9 @@ extends Entity
 		return $this;
 	}
 	
+	//
 	// Adders
+	//
 
 	public function AddMenu(PluginAdmin_ModuleUi_EntityMenu $oMenu){
 		if(!is_array(@$this->_aData['menus'])){
@@ -167,7 +181,9 @@ extends Entity
 		return $this;
 	}
 	
+	//
 	// Misc
+	//
 	
 	public function Highligh(){
 		$this->PluginAdmin_Ui_HighlightMenus($this);
