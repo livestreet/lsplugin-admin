@@ -13,3 +13,32 @@
 .mb20 {
     margin-bottom: 20px;
 }
+
+h2.Title {
+    font-size: 18px;
+}
+
+/* parameters list */
+
+.OneParameterContainer {
+    border-bottom: 1px solid #EEEEEE;
+    clear: both;
+    overflow: hidden;
+    padding: 10px;
+}
+
+.OneParameterContainer .ParamNum {
+    color: #999999;
+    float: right;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.OneParameterContainer .DisplayKey {
+    background: none repeat scroll 0 0 #EEEEEE;
+    border-radius: 2px 2px 2px 2px;
+    float: right;
+    margin: 0 10px;
+    padding: 0 5px;
+    text-shadow: 0 1px 0 #FFFFFF;
+}

@@ -1,29 +1,31 @@
 
-  {if $oSetting->getType()=='integer' or $oSetting->getType()=='string'}
+  {if $oParameter->getType()=='integer' or $oParameter->getType()=='string'}
     
     
-    <input type="text" name="SettingsNum{$iNumOrder}[]" value="{$oSetting->getValue()|escape:'html'}" class="input-text input-width-250" />
+    <input type="text" name="{$sInputDataName}" value="{$oParameter->getValue()|escape:'html'}" class="input-text input-width-250" />
   
     
-  {elseif $oSetting->getType()=='array'}
+  {elseif $oParameter->getType()=='array'}
   
   
-    <textarea name="SettingsNum{$iNumOrder}[]" class="input-text input-width-250">{var_export($oSetting->getValue())|escape:'html'}</textarea>
+    <textarea name="{$sInputDataName}" class="input-text input-width-250">{var_export($oParameter->getValue())|escape:'html'}</textarea>
   
   
-  {elseif $oSetting->getType()=='boolean'}
+  {elseif $oParameter->getType()=='boolean'}
   
   
-    <select name="SettingsNum{$iNumOrder}[]" class="input-width-250">
-      <option value="1"{if $oSetting->getValue()} selected="selected"{/if}>
-        TRUE
+    <select name="{$sInputDataName}" class="input-width-250">
+      <option value="1"{if $oParameter->getValue()} selected="selected"{/if}>
+        {$aLang.plugin.admin.true}
       </option>
-      <option value="0"{if !$oSetting->getValue()} selected="selected"{/if}>
-        FALSE
+      <option value="0"{if !$oParameter->getValue()} selected="selected"{/if}>
+        {$aLang.plugin.admin.false}
       </option>
     </select>
   
   
   {else}
-    Unknown param type: <b>{$oSetting->getType()}</b>.
+    Unknown param type: <b>{$oParameter->getType()}</b>.
   {/if}
+
+	type: <b>{$oParameter->getType()}</b>

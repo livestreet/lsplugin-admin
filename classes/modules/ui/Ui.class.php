@@ -17,13 +17,8 @@ class PluginAdmin_ModuleUi extends Module {
 	public function Init() {
 		// init menu
 		$this->oCursor = Engine::GetEntity('PluginAdmin_Ui_Cursor');
-		$this->oMenuMain = $this->oCursor->GetMenu('main')
-			->SetUrlPrefix('admin')
-		;
-		$this->oMenuAddition = $this->oCursor->GetMenu('addition')
-			->SetUrlPrefix('admin/p')
-			->SetCaption('Дополнительно')
-		;
+		$this->oMenuMain = $this->oCursor->GetMenu('main')->SetUrlPrefix('admin');
+		$this->oMenuAddition = $this->oCursor->GetMenu('addition')->SetUrlPrefix('admin/p')->SetCaption('Дополнительно');
 		//$this->Viewer_AddSmartyPluginsDir(Plugin::GetPath(__CLASS__).'include/smarty/');	// todo: delete
 	}
 	

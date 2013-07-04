@@ -27,13 +27,15 @@ class PluginAdmin extends Plugin {
 	public function Activate() {
 		return true;
 	}
+	
+	// ---
 
 	public function Init() {}
+	
+	// ---
   
 	protected $aInherits = array(
-		'module'	=> array(
-			'ModuleViewer' => 'PluginAdmin_ModuleViewer',
-		),
+		'module'	=> array ('ModuleViewer', 'ModuleStorage')
 	);
 
 }

@@ -5,11 +5,19 @@
 	<br /><br />
 
   {if $aPluginsInfo and count($aPluginsInfo)>0}
+  
+    <div class="OnePlugin" title="system config">
+      <a href="{router page='admin'}settings/{$sAdminSystemConfigId}/?security_ls_key={$LIVESTREET_SECURITY_KEY}" title="Settings">
+        <h4 class="enabled {if $sConfigName==$sAdminSystemConfigId} selected{/if}">Системный конфиг</h4>
+      </a>
+    </div>
+  
     {foreach from=$aPluginsInfo item=oPlugin}
+    
       <div class="OnePlugin" title="{$oPlugin.property->description->data|strip_tags|escape:'html'}">
-				{* todo: langs *}
-        <a href="{router page='admin'}config/{$oPlugin.code}/?security_ls_key={$LIVESTREET_SECURITY_KEY}" title="{if $oPlugin.is_active}{$aLang.plugin.adminconfig.PluginList.Plugin_Settings}{else}{$aLang.plugin.adminconfig.PluginList.Plugin_Need_To_Be_Activated}{/if}">
-          <h4 class="{if $oPlugin.is_active}enabled{else}disabled{/if}{if $sPluginName==$oPlugin.code} selected{/if}">{$oPlugin.property->name->data}</h4>
+
+        <a href="{router page='admin'}settings/{$oPlugin.code}/?security_ls_key={$LIVESTREET_SECURITY_KEY}" title="{if $oPlugin.is_active}Settings{else}Plugin_Need_To_Be_Activated{/if}">
+          <h4 class="{if $oPlugin.is_active}enabled{else}disabled{/if}{if $sConfigName==$oPlugin.code} selected{/if}">{$oPlugin.property->name->data}</h4>
         </a>
 			
         <div class="Controls">
@@ -35,6 +43,7 @@
           
         </div>
       </div>
+      
     {/foreach}
   {else}
 		no plugins

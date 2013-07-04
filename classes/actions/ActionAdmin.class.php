@@ -18,13 +18,12 @@
 class PluginAdmin_ActionAdmin extends ActionPlugin {
 
 	public function Init() {
-		$this->SetDefaultEvent('index');
-
+		// Reset added styles and scripts
+		$this->Viewer_ClearStyle(true);
+		
 		/**
 		 * Styles
 		 */
-		$this->Viewer_ClearStyle(true);
-		
 		$this->Viewer_AppendStyle(Config::Get('path.static.framework')."/css/reset.css");
 		$this->Viewer_AppendStyle(Config::Get('path.static.framework')."/css/helpers.css");
 		$this->Viewer_AppendStyle(Config::Get('path.static.framework')."/css/text.css");
@@ -45,7 +44,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		$this->Viewer_AppendStyle(Plugin::GetTemplatePath(__CLASS__)."css/pagination.css");
 		$this->Viewer_AppendStyle(Plugin::GetTemplatePath(__CLASS__)."css/icons.css");
 		$this->Viewer_AppendStyle(Plugin::GetTemplatePath(__CLASS__)."css/navs.css");
-		$this->Viewer_AppendStyle(Plugin::GetTemplatePath(__CLASS__)."css/__temp__.css");								// todo: delete on production
+		$this->Viewer_AppendStyle(Plugin::GetTemplatePath(__CLASS__)."css/__temp__.css");								// todo: temporary, delete on production
 
 		/**
 		 * Scripts
@@ -84,15 +83,8 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		$this->Viewer_AppendScript(Config::Get('path.static.framework')."/js/livestreet/init.js");
 		$this->Viewer_AppendScript(Plugin::GetTemplatePath(__CLASS__)."/js/init.js");
 
-
-		$this->Viewer_Assign('oCursor', $this->PluginAdmin_Ui_GetCursor());
-		$this->Viewer_Assign('oMenuMain', $this->PluginAdmin_Ui_GetMenuMain());
-		$this->Viewer_Assign('oMenuAddition', $this->PluginAdmin_Ui_GetMenuAddition());
-
-		$this->InitMenu();
-		$this->Viewer_AddBlock('right','blocks/block.nav.tpl',array('plugin'=>'admin'));
-
 		$this->Hook_Run('init_action_admin');
+		$this->SetDefaultEvent('index');
 	}
 
 
@@ -107,33 +99,34 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 */
 		$this->RegisterEventExternal('User','PluginAdmin_ActionAdmin_EventUser');
 		$this->RegisterEventExternal('Plugin','PluginAdmin_ActionAdmin_EventPlugin');
-		
-		// NOW: working
-		$this->RegisterEventExternal('Plugins','PluginAdmin_ActionAdmin_EventPlugins');
-		$this->RegisterEventExternal('Settings','PluginAdmin_ActionAdmin_EventSettings');
+		$this->RegisterEventExternal('Plugins', 'PluginAdmin_ActionAdmin_EventPlugins');					// Список плагинов
+		$this->RegisterEventExternal('Settings', 'PluginAdmin_ActionAdmin_EventSettings');				// Работа с настройками плагинов
 		
 		//
 		// дашборд и статистика
 		//
-		$this->AddEvent('index','EventIndex');
+		$this->AddEvent('index', 'EventIndex');
 		
 		//
 		// Пользователи
 		//
-		$this->AddEventPreg('/^user$/i','/^list$/i','/^$/i','User::EventUserList');
-		$this->AddEventPreg('/^user$/i','/^(\d+)\.html$/i','/^$/i','User::EventShowTopic');
-		$this->AddEvent('user', 'User::EventUser');
+		$this->AddEventPreg('/^user$/i', '/^list$/i','/^$/i', 'User::EventUserList');
+		//$this->AddEventPreg('/^user$/i','/^(\d+)\.html$/i','/^$/i','User::EventShowTopic');
+		//$this->AddEvent('user', 'User::EventUser');
 		
 		//
 		// Плагины
 		//
-		// NOW: working
 		//$this->AddEventPreg('#^plugin$#iu', '#^toggle$#iu', 'Plugins::EventPluginsToggle');//todo:
 		$this->AddEventPreg('#^plugins$#iu', '#^list$#iu', 'Plugins::EventPluginsList');
+		$this->AddEventPreg('/^plugin$/i', '/^[\w_\-]+$/i', 'Plugin::EventPlugin');			// показать страницу собственных настроек плагина
 		
-		$this->AddEvent('config', 'Settings::EventGet');
-		
-		$this->AddEventPreg('/^plugin$/i','/^[\w_\-]+$/i','Plugin::EventPlugin');
+		//
+		// Настройки
+		//
+		$this->AddEvent('settings', 'Settings::EventShow');
+		$this->AddEvent('saveconfig', 'Settings::EventSaveConfig');
+
 	}
 
 
@@ -214,9 +207,19 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 	// ---
 
 	public function EventShutdown() {
+		//$this->Viewer_Assign('oCursor', $this->PluginAdmin_Ui_GetCursor());		// todo: delete, unneeded
+		$this->Viewer_Assign('oMenuMain', $this->PluginAdmin_Ui_GetMenuMain());
+		$this->Viewer_Assign('oMenuAddition', $this->PluginAdmin_Ui_GetMenuAddition());
+
+		$this->InitMenu();	// todo: review: dublicates menu when redirecting using router
+		$this->Viewer_AddBlock('right','blocks/block.nav.tpl',array('plugin'=>'admin'));
+
 		$this->PluginAdmin_Ui_HighlightMenus();
 		//$this->PluginAdmin_Ui_ArraysToViewer();
+		
+		$this -> Viewer_Assign ('sAdminSystemConfigId', PluginAdmin_ActionAdmin_EventSettings::SYSTEM_CONFIG_ID);	// todo: review
 	}
+	
 }
 
 ?>
