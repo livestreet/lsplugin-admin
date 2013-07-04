@@ -151,10 +151,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 			$this -> ParsePOSTDataIntoSeparateConfigInstance ($sConfigName);
 			
 			// Сохранить все настройки плагина в БД
-			$this -> PluginAdmin_Settings_SaveConfig (
-				$sConfigName,
-				Config::Get ($this -> GetRealFullKey ($sConfigName, false), self::ADMIN_TEMP_CONFIG_INSTANCE)
-			);
+			$this -> PluginAdmin_Settings_SaveConfig ($sConfigName, $this -> GetKeysData ($sConfigName));
 		}
 		
     $this -> Message_AddNotice ('Ok');
@@ -181,9 +178,8 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 						);
 			      return false;		// todo: review: return false or continue if wrong value for one parameter is set?
 					}
-					// Сохранить значение ключа в отдельной области видимости для дальнейшего получения списка настроек
-					// Это очень удобно делать через отдельную инстанцию конфига - не нужно разбирать вручную ключи
-					Config::Set ($this -> GetRealFullKey ($sConfigName) . $sKey, $mValue, self::ADMIN_TEMP_CONFIG_INSTANCE);
+					// Сохранить значение ключа
+					$this -> SaveKeyValue ($sConfigName, $sKey, $mValue);
 				} else {
 		      $this -> Message_AddError (
 						$this -> Lang_Get ('plugin.admin.Errors.Unknown_Parameter', array ('key' => $sKey)),
@@ -192,6 +188,21 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 				}
 			}
 		}
+	}
+	
+	// ---
+	
+	private function SaveKeyValue ($sConfigName, $sKey, $mValue) {
+		// Сохранить значение ключа в отдельной области видимости для дальнейшего получения списка настроек
+		// Это очень удобно делать через отдельную инстанцию конфига - не нужно разбирать вручную ключи
+		Config::Set ($this -> GetRealFullKey ($sConfigName) . $sKey, $mValue, self::ADMIN_TEMP_CONFIG_INSTANCE);
+	}
+	
+	// ---
+	
+	private function GetKeysData ($sConfigName) {
+		// Все параметры из формы сохранены в отдельной инстанции конфига
+		return Config::Get ($this -> GetRealFullKey ($sConfigName, false), self::ADMIN_TEMP_CONFIG_INSTANCE)
 	}
 	
 	// ---
