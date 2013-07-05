@@ -59,7 +59,6 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 			$this -> Viewer_Assign ('aSettingsAll', $aSettingsAll);
 		}
 		
-		//print_r($aSettingsAll);die();			// todo: delete
 		$this -> Viewer_Assign ('sConfigName', $sConfigName);
 		$this -> Viewer_Assign ('sAdminSettingsFormSystemId', self::ADMIN_SETTINGS_FORM_SYSTEM_ID);
 		$this -> Viewer_Assign ('sAdminSystemConfigId', self::SYSTEM_CONFIG_ID);
@@ -138,7 +137,6 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 	
 	public function EventSaveConfig () {
 		$this -> Security_ValidateSendForm ();
-		//print_r($_POST);die();	// todo: delete
 		
 		if (isPost ('submit_save_settings')) {
 	    // Корректно ли имя конфига
@@ -154,8 +152,10 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 			$this -> PluginAdmin_Settings_SaveConfig ($sConfigName, $this -> GetKeysData ($sConfigName));
 		}
 		
-    $this -> Message_AddNotice ('Ok');
-		return Router::Action ('admin', 'settings');
+    $this -> Message_AddNotice ('Ok', '', true);
+		return Router::Location (
+			Router::GetPath ('admin') . 'settings/' . $sConfigName . '/?security_ls_key=' . $this -> Security_SetSessionKey ()		// todo: rework
+		);
 	}
 	
 	// ---
@@ -165,12 +165,22 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 		$aSettingsInfo = $this -> GetConfigSettingsStructureInfo ($sConfigName);
 		foreach ($_POST as $aPostRawData) {
 			// Проверка это ли параметр настроек формы
-			if (is_array ($aPostRawData) and count ($aPostRawData) == 4 and $aPostRawData [0] == self::ADMIN_SETTINGS_FORM_SYSTEM_ID) {
+			if (is_array ($aPostRawData) and count ($aPostRawData) == 3 and $aPostRawData [0] == self::ADMIN_SETTINGS_FORM_SYSTEM_ID) {
+				//
+				// Структура принимаемых данных:
+				//
+				// [0] - идентификатор приналежности значения к параметрам (всегда должен быть self::ADMIN_SETTINGS_FORM_SYSTEM_ID)
+				// [1] - ключ параметра (как в конфиге)
+				// [2] - значение параметра из формы
+				//
 				$sKey = $aPostRawData [1];
-				$mValue = $aPostRawData [3];
+				$mValue = $aPostRawData [2];
 				// Если существует запись в конфиге о таком параметре, который был передан
 				if (array_key_exists ($sKey, $aSettingsInfo)) {
 					$aParamInfo = $aSettingsInfo [$sKey];
+					
+					// todo: type assign needed
+					
 					if (!$this -> ValidateParameter ($aParamInfo ['validator'], $mValue)) {
 			      $this -> Message_AddError (
 							$this -> Lang_Get ('plugin.admin.Errors.Wrong_Parameter_Value', array ('key' => $sKey)),

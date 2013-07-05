@@ -17,7 +17,6 @@
 
 				  <input type="hidden" name="{$sInputDataName}" value="{$sAdminSettingsFormSystemId}" />
 				  <input type="hidden" name="{$sInputDataName}" value="{$sKey}" />
-					<input type="hidden" name="{$sInputDataName}" value="{$oParameter->getType()}" />
           
           <div class="CommentBefore">
             {$oParameter->getName()|nl2br}

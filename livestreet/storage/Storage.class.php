@@ -119,6 +119,25 @@ class ModuleStorage extends Module {
 		return $this -> oMapper -> DeleteData ($sFilter, 1);
 	}
 	
+	// ---
+	
+	/*
+		Получить из БД все ключи в "сыром" виде
+	*/
+	protected function GetFieldsAll ($sInstance = self::DEFAULT_SYSTEM_INSTANCE) {
+		$sInstance = (string) $sInstance;
+		
+		$sCacheKey = self::CACHE_FIELD_DATA_PREFIX . '_fields_all_' . $sInstance;
+		if (($mData = $this -> Cache_Get ($sCacheKey)) === false) {
+			$sFilter = $this -> oMapper -> BuildFilter (array (
+				'instance' => $sInstance
+			));
+			$mData = $this -> oMapper -> GetData ($sFilter);
+			$this -> Cache_Set ($mData, $sCacheKey, array ('storage_field_data'), 60 * 60 * 24 * 365);  // 1 year
+		}
+		return $mData;
+	}
+	
 	//
 	// --- Обработка значений параметров
 	//

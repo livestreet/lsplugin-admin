@@ -31,6 +31,25 @@ class PluginAdmin_ModuleStorage extends PluginAdmin_Inherits_ModuleStorage {
 		return parent::SetOneParam ($sKey, $sParamName, $mValue, $sInstance);
 	}
 	
+	// ---
+	
+	/*
+		Получить из БД все ключи в "сыром" виде
+	*/
+	public function GetFieldsAll ($sInstance = self::DEFAULT_SYSTEM_INSTANCE) {
+		return parent::GetFieldsAll ($sInstance);
+	}
+	
+	// ---
+	
+	
+	/*
+		Получить значение параметра для ключа
+	*/
+	public function GetOneParam ($sKey, $sParamName, $sInstance = self::DEFAULT_SYSTEM_INSTANCE) {
+		return parent::GetOneParam ($sKey, $sParamName, $sInstance);
+	}
+	
 	//
 	// --- Переопределение публичных методов чтобы запретить работу с параметром конфига каждого ключа ---
 	//
