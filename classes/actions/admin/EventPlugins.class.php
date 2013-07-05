@@ -2,7 +2,7 @@
 /*-------------------------------------------------------
 *
 *   LiveStreet Engine Social Networking
-*   Copyright © 2008 Mzhelskiy Maxim
+*   Copyright В© 2008 Mzhelskiy Maxim
 *
 *--------------------------------------------------------
 *
@@ -16,7 +16,7 @@
 */
 
 /*
-		Работа с плагинами
+		Р Р°Р±РѕС‚Р° СЃ РїР»Р°РіРёРЅР°РјРё
 		
 		by PSNet
 		http://psnet.lookformp3.net

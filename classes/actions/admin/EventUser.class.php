@@ -47,4 +47,6 @@ class PluginAdmin_ActionAdmin_EventUser extends Event {
 
 	}
 
-}?>
+}
+
+?>
