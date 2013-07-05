@@ -96,12 +96,16 @@ class PluginAdmin_ModuleStorage extends PluginAdmin_Inherits_ModuleStorage {
 		Удалить все значения
 	*/
 	public function RemoveAll ($oCaller, $sInstance = self::DEFAULT_SYSTEM_INSTANCE) {
+		$this -> CheckCaller ($oCaller);
+		$sCallerName = $this -> GetKeyForCaller ($oCaller);
 		
-		
-		// todo: delete all except PluginAdmin_ModuleSettings::CONFIG_DATA_PARAM_NAME
-		
-		
-		throw new Exception ('todo: admin: storage RemoveAll');
+		// Удалить все ключи, за исключением конфига (PluginAdmin_ModuleSettings::CONFIG_DATA_PARAM_NAME)
+		$aParamsList = $this -> GetParamsAll ($sCallerName, $sInstance);
+		foreach (array_keys ($aParamsList) as $sParamKeyName) {
+			if ($sParamKeyName != PluginAdmin_ModuleSettings::CONFIG_DATA_PARAM_NAME) {
+				$this -> RemoveOneParam ($sCallerName, $sParamKeyName, $sInstance);
+			}
+		}
 	}
 
 }
