@@ -36,36 +36,36 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 	//
 	public function EventShow () {
 		$this -> Security_ValidateSendForm ();
-		
-    // Корректно ли имя конфига
+
+		// Корректно ли имя конфига
 		if (!$sConfigName = $this -> getParam (0) or !is_string ($sConfigName)) {
-      $this -> Message_AddError ($this -> Lang_Get ('plugin.admin.Errors.Wrong_Config_Name'), $this -> Lang_Get ('error'));
-      return false;
+			$this -> Message_AddError ($this -> Lang_Get ('plugin.admin.Errors.Wrong_Config_Name'), $this -> Lang_Get ('error'));
+			return false;
 		}
 		
 		if ($sConfigName == self::SYSTEM_CONFIG_ID) {
 			// Загрузить системный конфиг
-      $aSettingsAll = $this -> GetConfigSettings ($sConfigName);
+			$aSettingsAll = $this -> GetConfigSettings ($sConfigName);
 			$this -> Viewer_Assign ('aSettingsAll', $aSettingsAll);
-			
+
 		} else {
 			// Загрузить конфиг плагина
 			if (!$this -> CheckIfThisPluginIsActive ($sConfigName)) {
-	      $this -> Message_AddError ($this -> Lang_Get ('plugin.admin.Errors.Plugin_Need_To_Be_Activated'), $this -> Lang_Get ('error'));
-	      return false;
+				$this -> Message_AddError ($this -> Lang_Get ('plugin.admin.Errors.Plugin_Need_To_Be_Activated'), $this -> Lang_Get ('error'));
+				return false;
 			}
-			
-      $aSettingsAll = $this -> GetConfigSettings ($sConfigName);
+
+			$aSettingsAll = $this -> GetConfigSettings ($sConfigName);
 			$this -> Viewer_Assign ('aSettingsAll', $aSettingsAll);
 		}
-		
+
 		$this -> Viewer_Assign ('sConfigName', $sConfigName);
 		$this -> Viewer_Assign ('sAdminSettingsFormSystemId', self::ADMIN_SETTINGS_FORM_SYSTEM_ID);
 		$this -> Viewer_Assign ('sAdminSystemConfigId', self::SYSTEM_CONFIG_ID);
 	}
-	
+
 	// ---
-	
+
 	protected function GetConfigSettings ($sConfigName) {
 		// Получить описание настроек из конфига
 		$aSettingsInfo = $this -> GetConfigSettingsStructureInfo ($sConfigName);
@@ -73,12 +73,12 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 		$aSettingsAll = array ();
 		foreach ($aSettingsInfo as $sConfigKey => $aOneParamInfo) {
 			// Получить текущее значение параметра
-			if (!$mValue = $this -> GetParameterValue ($sConfigName, $sConfigKey)) {
-	      $this -> Message_AddError (
+			if (($mValue = $this -> GetParameterValue ($sConfigName, $sConfigKey)) === null) {
+				$this -> Message_AddError (
 					$this -> Lang_Get ('plugin.admin.Errors.Wrong_Description_Key', array ('key' => $sConfigKey)),
 					$this -> Lang_Get ('error')
 				);
-	      continue;
+				continue;
 			}
 			
 			// Получить текстовки имени и описания параметра из ключей
@@ -113,7 +113,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 	// ---
 	
 	private function GetConfigSettingsStructureInfo ($sConfigName) {
-    $aData = Config::Get ($this -> GetRealFullKey ($sConfigName) . self::ADMIN_INTERFACE_DESCRIPTION_CONFIG_KEY);
+		$aData = Config::Get ($this -> GetRealFullKey ($sConfigName) . self::ADMIN_INTERFACE_DESCRIPTION_CONFIG_KEY);
 		return $aData ? $aData : array ();
 	}
 	
@@ -123,36 +123,36 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 		return Config::Get ($this -> GetRealFullKey ($sConfigName) . $sConfigKey);
 	}
 	
-  // ---
-  
-  private function CheckIfThisPluginIsActive ($sConfigName) {
-    return in_array ($sConfigName, array_keys (Engine::getInstance () -> GetPlugins ()));
-  }
+	// ---
+
+	private function CheckIfThisPluginIsActive ($sConfigName) {
+		return in_array ($sConfigName, array_keys (Engine::getInstance () -> GetPlugins ()));
+	}
 	
 	// ---
 	
 	//
 	// Сохранить настройки
 	//
-	
 	public function EventSaveConfig () {
 		$this -> Security_ValidateSendForm ();
-		
+
 		if (isPost ('submit_save_settings')) {
-	    // Корректно ли имя конфига
+			// Корректно ли имя конфига
 			if (!$sConfigName = $this -> getParam (0) or !is_string ($sConfigName)) {
-	      $this -> Message_AddError ($this -> Lang_Get ('plugin.admin.Errors.Wrong_Config_Name'), $this -> Lang_Get ('error'));
-	      return false;
+				$this -> Message_AddError ($this -> Lang_Get ('plugin.admin.Errors.Wrong_Config_Name'), $this -> Lang_Get ('error'));
+				return false;
 			}
-			
+
 			// Получение всех параметров, их валидация и сверка с описанием структуры и запись в отдельную инстанцию конфига
-			$this -> ParsePOSTDataIntoSeparateConfigInstance ($sConfigName);
-			
-			// Сохранить все настройки плагина в БД
-			$this -> PluginAdmin_Settings_SaveConfig ($sConfigName, $this -> GetKeysData ($sConfigName));
+			if ($this -> ParsePOSTDataIntoSeparateConfigInstance ($sConfigName)) {
+				// Сохранить все настройки плагина в БД
+				$this -> PluginAdmin_Settings_SaveConfig ($sConfigName, $this -> GetKeysData ($sConfigName));
+				
+				$this -> Message_AddNotice ('Ok', '', true);
+			}
 		}
-		
-    $this -> Message_AddNotice ('Ok', '', true);
+
 		return Router::Location (
 			Router::GetPath ('admin') . 'settings/' . $sConfigName . '/?security_ls_key=' . $this -> Security_SetSessionKey ()		// todo: rework
 		);
@@ -160,6 +160,9 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 	
 	// ---
 	
+	//
+	// Весь процесс получение настроек из формы
+	//
 	private function ParsePOSTDataIntoSeparateConfigInstance ($sConfigName) {
 		// Получить описание настроек из конфига
 		$aSettingsInfo = $this -> GetConfigSettingsStructureInfo ($sConfigName);
@@ -179,29 +182,56 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 				if (array_key_exists ($sKey, $aSettingsInfo)) {
 					$aParamInfo = $aSettingsInfo [$sKey];
 					
-					// todo: type assign needed
+					// Приведение значения к нужному типу
+					$mValue = $this -> SwitchValueToType ($mValue, $aParamInfo ['type']);
 					
 					if (!$this -> ValidateParameter ($aParamInfo ['validator'], $mValue)) {
-			      $this -> Message_AddError (
-							$this -> Lang_Get ('plugin.admin.Errors.Wrong_Parameter_Value', array ('key' => $sKey)),
-							$this -> Lang_Get ('error')
+						$this -> Message_AddError (
+							$this -> Lang_Get ('plugin.admin.Errors.Wrong_Parameter_Value', array ('key' => $sKey)) . $this -> ValidatorGetLastError (),
+							$this -> Lang_Get ('error'),
+							true
 						);
-			      return false;		// todo: review: return false or continue if wrong value for one parameter is set?
+						return false;		// todo: review: return false or continue if wrong value for one parameter is set?
 					}
 					// Сохранить значение ключа
 					$this -> SaveKeyValue ($sConfigName, $sKey, $mValue);
 				} else {
-		      $this -> Message_AddError (
+					$this -> Message_AddError (
 						$this -> Lang_Get ('plugin.admin.Errors.Unknown_Parameter', array ('key' => $sKey)),
-						$this -> Lang_Get ('error')
+						$this -> Lang_Get ('error'),
+						true
 					);
 				}
 			}
 		}
+		return true;
 	}
 	
 	// ---
 	
+	//
+	// Принудительное приведение значения к типу, заданному в описании конфига
+	//
+	private function SwitchValueToType ($mValue, $sType) {
+		switch ($sType) {
+			case 'integer':
+			case 'string':
+			case 'array':
+			case 'boolean':
+			case 'float':
+				settype ($mValue, $sType);
+				break;
+			default:
+				throw new Exception ('Admin: value parsing error: unknown variable type defined in config`s description');
+		}
+		return $mValue;
+	}
+	
+	// ---
+	
+	//
+	// Сохранение данных одного ключа в временной инстанции конфига
+	//
 	private function SaveKeyValue ($sConfigName, $sKey, $mValue) {
 		// Сохранить значение ключа в отдельной области видимости для дальнейшего получения списка настроек
 		// Это очень удобно делать через отдельную инстанцию конфига - не нужно разбирать вручную ключи
@@ -210,6 +240,9 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 	
 	// ---
 	
+	//
+	// Получение всех данных ранее сохраненных ключей из временной инстанции
+	//
 	private function GetKeysData ($sConfigName) {
 		// Все параметры из формы сохранены в отдельной инстанции конфига
 		return Config::Get ($this -> GetRealFullKey ($sConfigName, false), self::ADMIN_TEMP_CONFIG_INSTANCE);
@@ -217,8 +250,17 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 	
 	// ---
 	
+	//
+	// Проводит валидацию значения параметра (используется валидатор движка)
+	//
 	private function ValidateParameter ($aValidatorInfo, $mValue) {
 		return $this -> Validate_Validate ($aValidatorInfo ['type'], $mValue, $aValidatorInfo ['params']);
+	}
+	
+	// ---
+	
+	private function ValidatorGetLastError () {
+		return $this -> Validate_GetErrorLast (true);
 	}
 
 }

@@ -26,10 +26,10 @@ return array (
 	//
 	'Errors' => array (
 		'Plugin_Need_To_Be_Activated' => 'Плагин должен быть активированым для редактирования настроек',
-		'Wrong_Description_Key' => 'Ключ %%key%% в описании настроек указывает на не существующий параметр конфига',
+		'Wrong_Description_Key' => 'Ключ <b>%%key%%</b> в описании настроек указывает на не существующий параметр конфига',
 		'Wrong_Config_Name' => 'Неверный ключ имени плагина',
-		'Wrong_Parameter_Value' => 'Неверное значение для параметра <b>%%key%%</b>',
-		'Unknown_Parameter' => 'Передан параметр %%key%%, описание которого нет',
+		'Wrong_Parameter_Value' => 'Неверное значение для параметра <b>%%key%%</b>. ',
+		'Unknown_Parameter' => 'Передан параметр <b>%%key%%</b>, описание которого нет',
 	
 	),
 	
@@ -43,8 +43,8 @@ return array (
 	// Описание каждого параметра конфига для отображения в админке
 	//
 	'config_parameters' => array (
-		'user' => array(
-			'per_page' => array(
+		'test' => array(
+			'subarr' => array(
 				'name' => 'Количество пользователей на страницу',
 				'description' => 'Укажите сколько пользователей нужно отображать на одной странице',
 			)
@@ -56,6 +56,22 @@ return array (
 		'some_param' => array(
 			'name' => 'Параметр булевого типа',
 			'description' => 'У вас два варианта ответа',
+		),
+		'users' => array(
+			'min_rating' => array(
+				'name' => 'Минимальный рейтинг пользователей',
+				'description' => 'Укажите минимальный рейтинг пользователей',
+			)
+		),
+		'sitemap' => array(
+			'cache_lifetime' => array(
+				'name' => 'Время жизни кеша',
+				'description' => 'Укажите время жизни кеша',
+			),
+			'sitemap_priority' => array(
+				'name' => 'Приоритет для сайтмапа',
+				'description' => 'Укажите приоритет для сайтмапа',
+			)
 		),
 	
 	),	// /config_parameters

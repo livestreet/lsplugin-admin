@@ -1,31 +1,33 @@
 
-  {if $oParameter->getType()=='integer' or $oParameter->getType()=='string'}
+	{if $oParameter->getType()=='integer' or $oParameter->getType()=='string' or $oParameter->getType()=='float'}
     
     
-    <input type="text" name="{$sInputDataName}" value="{$oParameter->getValue()|escape:'html'}" class="input-text input-width-250" />
+		<input type="text" name="{$sInputDataName}" value="{$oParameter->getValue()|escape:'html'}" class="input-text input-width-250" />
   
     
-  {elseif $oParameter->getType()=='array'}
+	{elseif $oParameter->getType()=='array'}
   
   
-    <textarea name="{$sInputDataName}" class="input-text input-width-250">{var_export($oParameter->getValue())|escape:'html'}</textarea>
+		<textarea name="{$sInputDataName}" class="input-text input-width-250">{var_export($oParameter->getValue())|escape:'html'}</textarea>
   
   
-  {elseif $oParameter->getType()=='boolean'}
+	{elseif $oParameter->getType()=='boolean'}
   
   
-    <select name="{$sInputDataName}" class="input-width-250">
-      <option value="1"{if $oParameter->getValue()} selected="selected"{/if}>
-        {$aLang.plugin.admin.true}
-      </option>
-      <option value="0"{if !$oParameter->getValue()} selected="selected"{/if}>
-        {$aLang.plugin.admin.false}
-      </option>
-    </select>
+		<select name="{$sInputDataName}" class="input-width-250">
+			<option value="1"{if $oParameter->getValue()} selected="selected"{/if}>
+				{$aLang.plugin.admin.true}
+			</option>
+			<option value="0"{if !$oParameter->getValue()} selected="selected"{/if}>
+				{$aLang.plugin.admin.false}
+			</option>
+		</select>
   
   
-  {else}
-    Unknown param type: <b>{$oParameter->getType()}</b>.
-  {/if}
+	{else}
+    <div class="UnknownParamType">
+      Unknown param type: <b>{$oParameter->getType()}</b>.
+    </div>
+	{/if}
 
 	type: <b>{$oParameter->getType()}</b>

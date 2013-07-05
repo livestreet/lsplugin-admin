@@ -15,61 +15,11 @@
 ---------------------------------------------------------
 */
 
+//
+// Базовые настройки, которые не меняются через интерфейс
+//
+
 $config['user']['per_page'] = 3;
-$config['moredata'] = 'param2';
-$config['some_param'] = true;
-
-//
-// Описание настроек плагина
-//
-$config ['__Admin_Interface__'] = array (
-  //
-  // Пример для параметра целочисленного типа
-  //
-  'user.per_page' => array (
-    'type' => 'integer',																							// integer, string, array, boolean
-    'name' => 'config_parameters.user.per_page.name',                  // отображаемое имя параметра, ключ языкового файла
-    'description' => 'config_parameters.user.per_page.description',    // отображаемое описание параметра, ключ языкового файла
-    'validator' => array (           // валидация (если нужна), существующие типы валидаторов ядра
-      'type' => 'Number',            // Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url
-      'params' => array (            // параметры, которые будут переданы в валидатор
-				'min' => 1,
-				'max' => 100,
-			),
-    ),
-  ),
-	
-  //
-  // Пример для параметра строкового типа
-  //
-  'moredata' => array (
-    'type' => 'string',																						// integer, string, array, boolean
-    'name' => 'config_parameters.moredata.name',                  // отображаемое имя параметра, ключ языкового файла
-    'description' => 'config_parameters.moredata.description',    // отображаемое описание параметра, ключ языкового файла
-    'validator' => array (           // валидация (если нужна), существующие типы валидаторов ядра
-      'type' => 'String',            // Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url
-      'params' => array (            // параметры, которые будут переданы в валидатор
-				'min' => 2,
-				'max' => 50,
-			),
-    ),
-  ),
-	
-  //
-  // Пример для параметра булевого типа
-  //
-  'some_param' => array (
-    'type' => 'boolean',																						// integer, string, array, boolean
-    'name' => 'config_parameters.some_param.name',                  // отображаемое имя параметра, ключ языкового файла
-    'description' => 'config_parameters.some_param.description',    // отображаемое описание параметра, ключ языкового файла
-    'validator' => array (						// валидация (если нужна), существующие типы валидаторов ядра
-      'type' => 'Boolean',            // Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url
-			'params' => array (),
-    ),
-  ),
-	
-);
-
 
 /*
 	роутер
