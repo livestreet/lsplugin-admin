@@ -73,6 +73,12 @@ return array (
 				'description' => 'Укажите приоритет для сайтмапа',
 			)
 		),
+		'setup_rules' => array(
+			'one' => array(
+				'name' => 'Набор данных для массива',
+				'description' => 'Укажите значения',
+			),
+		),
 	
 	),	// /config_parameters
 

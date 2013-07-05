@@ -36,8 +36,7 @@ $config['sitemap'] = array (
     'sitemap_priority' => '0.8',
 );
 
-
-$config ['setup_rules']['one'] = array (1,2,3);	// todo:
+$config ['setup_rules']['one'] = array (1, 2, 3);
 
 //
 // FAQ: Потом нужно указать описание структуры для каждого параметра в специальном массиве, которым управляет админка
@@ -144,6 +143,16 @@ $config ['__Admin_Interface__'] = array (
 				'max' => 100,
 			),
     ),
+  ),
+	
+	
+  //
+  // Пример для параметра-массива
+  //
+  'setup_rules.one' => array (
+    'type' => 'array',																						// integer, string, array, boolean, float
+    'name' => 'config_parameters.setup_rules.one.name',                  // отображаемое имя параметра, ключ языкового файла
+    'description' => 'config_parameters.setup_rules.one.description',    // отображаемое описание параметра, ключ языкового файла
   ),
 	
 );

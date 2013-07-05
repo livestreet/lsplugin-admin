@@ -185,7 +185,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 					// Приведение значения к нужному типу
 					$mValue = $this -> SwitchValueToType ($mValue, $aParamInfo ['type']);
 					
-					if (!$this -> ValidateParameter ($aParamInfo ['validator'], $mValue)) {
+					if (isset ($aParamInfo ['validator']) and !$this -> ValidateParameter ($aParamInfo ['validator'], $mValue)) {
 						$this -> Message_AddError (
 							$this -> Lang_Get ('plugin.admin.Errors.Wrong_Parameter_Value', array ('key' => $sKey)) . $this -> ValidatorGetLastError (),
 							$this -> Lang_Get ('error'),
@@ -214,9 +214,11 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 	//
 	private function SwitchValueToType ($mValue, $sType) {
 		switch ($sType) {
+			case 'array':
+				$mValue = eval ('return ' . $mValue . ';');
+				//break;
 			case 'integer':
 			case 'string':
-			case 'array':
 			case 'boolean':
 			case 'float':
 				settype ($mValue, $sType);
