@@ -202,7 +202,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 	
 	private function GetKeysData ($sConfigName) {
 		// Все параметры из формы сохранены в отдельной инстанции конфига
-		return Config::Get ($this -> GetRealFullKey ($sConfigName, false), self::ADMIN_TEMP_CONFIG_INSTANCE)
+		return Config::Get ($this -> GetRealFullKey ($sConfigName, false), self::ADMIN_TEMP_CONFIG_INSTANCE);
 	}
 	
 	// ---
