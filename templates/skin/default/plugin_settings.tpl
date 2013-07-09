@@ -36,5 +36,5 @@
     </form>
 
   {else}
-    no settings for this plugin or author not declated them
+    no settings for this plugin or author not declared them
   {/if}

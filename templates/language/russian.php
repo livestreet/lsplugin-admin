@@ -30,6 +30,19 @@ return array (
 		'Wrong_Config_Name' => 'Неверный ключ имени плагина',
 		'Wrong_Parameter_Value' => 'Неверное значение для параметра <b>%%key%%</b>. ',
 		'Unknown_Parameter' => 'Передан параметр <b>%%key%%</b>, описание которого нет',
+		
+		/*
+		 * Ошибки встроенного валидатора массивов
+		 */
+		'validator' => array(
+			'validate_array_must_be_array' => 'Поле %%field%% должно быть массивом',
+			'validate_array_too_small' => 'Массив %%field%% слишком маленький (минимально допустимо %%min_items%% элементов)',
+			'validate_array_too_big' => 'Массив %%field%% слишком большой (максимально допустимо %%max_items%% элементов)',
+			'validate_array_value_is_not_allowed' => 'В массиве %%field%% не должно быть значения %%val%%',
+			'validate_array_value_is_too_small' => 'В массиве %%field%% значения не должны быть меньшими чем %%min%%',
+			'validate_array_value_is_too_big' => 'В массиве %%field%% значения не должны быть больше чем %%max%%',
+		
+		),
 	
 	),
 	

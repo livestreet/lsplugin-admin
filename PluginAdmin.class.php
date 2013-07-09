@@ -35,7 +35,8 @@ class PluginAdmin extends Plugin {
 	
   
 	protected $aInherits = array(
-		'module'	=> array ('ModuleViewer', 'ModuleStorage')
+		'module'	=> array ('ModuleViewer', 'ModuleStorage'),
+		'entity'	=> array ('ModuleValidate_EntityValidatorArray')		// Добавляем новый тип валидатора - Array
 	);
 
 }
