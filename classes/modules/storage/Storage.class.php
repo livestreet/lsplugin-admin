@@ -27,32 +27,32 @@ class PluginAdmin_ModuleStorage extends PluginAdmin_Inherits_ModuleStorage {
 	//
 	// Для того, чтобы админка могла сама установить параметр для нужного ключа вручную
 	//
-	public function SetOneParam ($sKey, $sParamName, $mValue, $sInstance = self::DEFAULT_SYSTEM_INSTANCE) {
+	public function SetOneParam ($sKey, $sParamName, $mValue, $sInstance = self::DEFAULT_INSTANCE) {
 		return parent::SetOneParam ($sKey, $sParamName, $mValue, $sInstance);
 	}
 	
-	// ---
+	
 	
 	/*
 		Получить из БД все ключи в "сыром" виде
 	*/
-	public function GetFieldsAll ($sInstance = self::DEFAULT_SYSTEM_INSTANCE) {
+	public function GetFieldsAll ($sInstance = self::DEFAULT_INSTANCE) {
 		return parent::GetFieldsAll ($sInstance);
 	}
 	
-	// ---
+	
 	
 	
 	/*
 		Получить значение параметра для ключа
 	*/
-	public function GetOneParam ($sKey, $sParamName, $sInstance = self::DEFAULT_SYSTEM_INSTANCE) {
+	public function GetOneParam ($sKey, $sParamName, $sInstance = self::DEFAULT_INSTANCE) {
 		return parent::GetOneParam ($sKey, $sParamName, $sInstance);
 	}
 	
-	//
-	// --- Переопределение публичных методов чтобы запретить работу с параметром конфига каждого ключа ---
-	//
+	/*
+	 * --- Переопределение публичных методов чтобы запретить работу с параметром конфига каждого ключа ---
+   */
 	
 	private function CheckParamName ($sParamName) {
 		if ($sParamName == PluginAdmin_ModuleSettings::CONFIG_DATA_PARAM_NAME) {
@@ -60,42 +60,42 @@ class PluginAdmin_ModuleStorage extends PluginAdmin_Inherits_ModuleStorage {
 		}
 	}
 	
-	// ---
+	
 	
 	/*
 		Установить значение
 	*/
-	public function Set ($sParamName, $mValue, $oCaller, $sInstance = self::DEFAULT_SYSTEM_INSTANCE) {
+	public function Set ($sParamName, $mValue, $oCaller, $sInstance = self::DEFAULT_INSTANCE) {
 		$this -> CheckParamName ($sParamName);
 		return parent::Set ($sParamName, $mValue, $oCaller, $sInstance);
 	}
 	
-	// ---
+	
 	
 	/*
 		Получить значение
 	*/
-	public function Get ($sParamName, $oCaller, $sInstance = self::DEFAULT_SYSTEM_INSTANCE) {
+	public function Get ($sParamName, $oCaller, $sInstance = self::DEFAULT_INSTANCE) {
 		$this -> CheckParamName ($sParamName);
 		return parent::Get ($sParamName, $oCaller, $sInstance);
 	}
 	
-	// ---
+	
 	
 	/*
 		Удалить значение
 	*/
-	public function Remove ($sParamName, $oCaller, $sInstance = self::DEFAULT_SYSTEM_INSTANCE) {
+	public function Remove ($sParamName, $oCaller, $sInstance = self::DEFAULT_INSTANCE) {
 		$this -> CheckParamName ($sParamName);
 		return parent::Remove ($sParamName, $oCaller, $sInstance);
 	}
 	
-	// ---
+	
 	
 	/*
 		Удалить все значения
 	*/
-	public function RemoveAll ($oCaller, $sInstance = self::DEFAULT_SYSTEM_INSTANCE) {
+	public function RemoveAll ($oCaller, $sInstance = self::DEFAULT_INSTANCE) {
 		$this -> CheckCaller ($oCaller);
 		$sCallerName = $this -> GetKeyForCaller ($oCaller);
 		

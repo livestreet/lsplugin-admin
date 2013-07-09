@@ -30,7 +30,7 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
     $this -> Viewer_Assign ('aPluginsInfo', $aPluginList);
 	}
 	
-  // ---
+  
   
   private function GetAllPluginLists () {
     return $this -> Plugin_GetList (array ('order' => 'name'));

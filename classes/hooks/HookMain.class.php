@@ -25,7 +25,7 @@ class PluginAdmin_HookMain extends Hook {
 		$this->AddHook('init_action','InitAction');
 	}
 	
-	// ---
+	
 
 	public function InitAction() {
 		$aPlugins=Engine::getInstance()->GetPlugins();

@@ -124,9 +124,8 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		//
 		// Настройки
 		//
-		$this->AddEvent('settings', 'Settings::EventShow');
-		$this->AddEvent('saveconfig', 'Settings::EventSaveConfig');
-
+		$this->AddEventPreg('#^settings$#iu', '#^plugin$#iu', 'Settings::EventShow');
+		$this->AddEventPreg('#^settings$#iu', '#^save$#iu', 'Settings::EventSaveConfig');
 	}
 
 
@@ -140,7 +139,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		$this->SetTemplateAction('index');
 	}
 	
-	// ---
+	
 	
 	
 	// Построение меню
@@ -204,7 +203,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		;
 	}
 	
-	// ---
+	
 
 	public function EventShutdown() {
 		//$this->Viewer_Assign('oCursor', $this->PluginAdmin_Ui_GetCursor());		// todo: delete, unneeded
@@ -217,7 +216,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		$this->PluginAdmin_Ui_HighlightMenus();
 		//$this->PluginAdmin_Ui_ArraysToViewer();
 		
-		$this -> Viewer_Assign ('sAdminSystemConfigId', PluginAdmin_ActionAdmin_EventSettings::SYSTEM_CONFIG_ID);	// todo: review
+		$this -> Viewer_Assign ('sAdminSystemConfigId', PluginAdmin_ModuleSettings::SYSTEM_CONFIG_ID);	// todo: review
 	}
 	
 }

@@ -6,7 +6,7 @@ class PluginAdmin_ModuleMain extends Module {
 
 	}
 	
-	// ---
+	
 
 	public function GetPluginTemplatePath($sName) {
 		$sNamePlugin=Engine::GetPluginName($sName);
@@ -25,7 +25,7 @@ class PluginAdmin_ModuleMain extends Module {
 		return false;
 	}
 	
-	// ---
+	
 
 	public function GetPluginTemplateWebPath($sName) {
 		if ($sPath=$this->GetPluginTemplatePath($sName)) {

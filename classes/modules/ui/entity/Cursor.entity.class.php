@@ -16,7 +16,7 @@ class PluginAdmin_ModuleUi_EntityCursor extends Entity {
 		return $oMenu;
 	}
 	
-	// ---
+	
 	
 	public function GetMenus(){
 		return is_array(@$this->_aData['menus'])
@@ -25,7 +25,7 @@ class PluginAdmin_ModuleUi_EntityCursor extends Entity {
 		;
 	}
 	
-	// ---
+	
 	
 	public function GetMenuNames(){
 		$aMenus = $this->GetMenus();
@@ -36,7 +36,7 @@ class PluginAdmin_ModuleUi_EntityCursor extends Entity {
 		return $aNames;
 	}
 	
-	// ---
+	
 	
 	public function GetActiveSection(){
 		if(!($aMenuNames = func_get_args())){
@@ -49,7 +49,7 @@ class PluginAdmin_ModuleUi_EntityCursor extends Entity {
 		}
 	}
 	
-	// ---
+	
 	
 	public function GetActiveItem(){
 		if(!($aMenuNames = func_get_args())){
@@ -77,7 +77,7 @@ class PluginAdmin_ModuleUi_EntityCursor extends Entity {
 		return $this;
 	}
 	
-	// ---
+	
 	
 	public function SetActiveItem(PluginAdmin_ModuleUi_EntityMenuItem $oMenuItem){
 		$this->_aData['active'][
@@ -91,7 +91,7 @@ class PluginAdmin_ModuleUi_EntityCursor extends Entity {
 		return $this;
 	}
 	
-	// ---
+	
 	
 	public function SetInActiveSection(PluginAdmin_ModuleUi_EntityMenuSection $oMenuSection){
 		$sMenuName = $oMenuSection->GetMenu()->GetName();
@@ -102,7 +102,7 @@ class PluginAdmin_ModuleUi_EntityCursor extends Entity {
 		return $this;
 	}
 	
-	// ---
+	
 	
 	public function SetInActiveItem(PluginAdmin_ModuleUi_EntityMenuItem $oMenuItem){
 		$sMenuName = $oMenuItem->GetSection()->GetMenu()->GetName();
@@ -113,7 +113,7 @@ class PluginAdmin_ModuleUi_EntityCursor extends Entity {
 		return $this;
 	}
 	
-	// ---
+	
 	
 	public function PostSetActive($oEntity){
 		$bActive = $oEntity->GetActive();

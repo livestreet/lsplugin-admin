@@ -28,7 +28,7 @@ class PluginAdmin_HookSettings extends Hook {
 		$this -> AddHook ('lang_init_start', 'LangInitStart', __CLASS__, PHP_INT_MAX);              // наивысший приоритет, который можно установить
 	}
 	
-	// ---
+	
 
 	public function LangInitStart () {
 		// выполнить загрузку конфигов системы и плагинов

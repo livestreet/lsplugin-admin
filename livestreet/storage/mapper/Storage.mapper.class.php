@@ -52,14 +52,13 @@ class ModuleStorage_MapperStorage extends Mapper {
 		);
 	}
   
-	// ---
 
 	public function SetData ($sKey, $sValue, $sInstance) {
 		$sql = "INSERT INTO
 			`" . Config::Get ('db.table.storage') . "`
 			(
-				`skey`,
-				`svalue`,
+				`key`,
+				`value`,
 				`instance`
 			)
 			VALUES
@@ -69,7 +68,7 @@ class ModuleStorage_MapperStorage extends Mapper {
 				?
 			)
 			ON DUPLICATE KEY UPDATE
-				`svalue` = ?
+				`value` = ?
 		";
 
 		return $this -> oDb -> query ($sql,
@@ -81,7 +80,6 @@ class ModuleStorage_MapperStorage extends Mapper {
 		);
 	}
   
-	// ---
 
 	public function DeleteData ($sFilter = null, $iLimit = 1) {
 		$sql = "DELETE
@@ -96,15 +94,14 @@ class ModuleStorage_MapperStorage extends Mapper {
 		);
 	}
 	
-	// ---
 	
 	public function BuildFilter ($aFilter = array ()) {
 		$sFilter = '';
 		// Список доступных фильтров
-		if (isset ($aFilter ['skey'])) {
+		if (isset ($aFilter ['key'])) {
 			$sFilter .= '
 				AND
-					`skey` = "' . $aFilter ['skey'] . '"
+					`key` = "' . $aFilter ['key'] . '"
 			';
 		}
 		if (isset ($aFilter ['instance'])) {

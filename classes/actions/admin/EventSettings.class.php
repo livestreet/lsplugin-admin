@@ -24,12 +24,11 @@
 
 class PluginAdmin_ActionAdmin_EventSettings extends Event {
 	
-	const ADMIN_INTERFACE_DESCRIPTION_CONFIG_KEY = '__Admin_Interface__';		// Ключ конфига, который хранит описатели настроек данного конфига
+	const CONFIG_SCHEMA_KEY = '$config_schema$';														// Ключ конфига, который хранит описатели настроек данного конфига
 	const ADMIN_SETTINGS_FORM_SYSTEM_ID = 'LS-Admin';												// Скрытый системный идентификатор данных о настройках
-	const SYSTEM_CONFIG_ID = '__root_config__';															// Имя системного конфига
 	const ADMIN_TEMP_CONFIG_INSTANCE = 'temporary_instance';								// До момента сохранения настроек в БД они будут хранится здесь
 	
-	// ---
+	
 	
 	//
 	// Показать настройки
@@ -38,12 +37,12 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 		$this -> Security_ValidateSendForm ();
 
 		// Корректно ли имя конфига
-		if (!$sConfigName = $this -> getParam (0) or !is_string ($sConfigName)) {
+		if (!$sConfigName = $this -> getParam (1) or !is_string ($sConfigName)) {
 			$this -> Message_AddError ($this -> Lang_Get ('plugin.admin.Errors.Wrong_Config_Name'), $this -> Lang_Get ('error'));
 			return false;
 		}
 		
-		if ($sConfigName == self::SYSTEM_CONFIG_ID) {
+		if ($sConfigName == PluginAdmin_ModuleSettings::SYSTEM_CONFIG_ID) {
 			// Загрузить системный конфиг
 			$aSettingsAll = $this -> GetConfigSettings ($sConfigName);
 			$this -> Viewer_Assign ('aSettingsAll', $aSettingsAll);
@@ -61,14 +60,14 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 
 		$this -> Viewer_Assign ('sConfigName', $sConfigName);
 		$this -> Viewer_Assign ('sAdminSettingsFormSystemId', self::ADMIN_SETTINGS_FORM_SYSTEM_ID);
-		$this -> Viewer_Assign ('sAdminSystemConfigId', self::SYSTEM_CONFIG_ID);
+		$this -> Viewer_Assign ('sAdminSystemConfigId', PluginAdmin_ModuleSettings::SYSTEM_CONFIG_ID);
 	}
 
-	// ---
+	
 
 	protected function GetConfigSettings ($sConfigName) {
 		// Получить описание настроек из конфига
-		$aSettingsInfo = $this -> GetConfigSettingsStructureInfo ($sConfigName);
+		$aSettingsInfo = $this -> GetConfigSettingsSchemeInfo ($sConfigName);
 		
 		$aSettingsAll = array ();
 		foreach ($aSettingsInfo as $sConfigKey => $aOneParamInfo) {
@@ -82,7 +81,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 			}
 			
 			// Получить текстовки имени и описания параметра из ключей
-			$this -> ExpandLangs ($sConfigName, $aOneParamInfo);
+			$aOneParamInfo = $this -> ConvertLangKeysToTexts ($sConfigName, $aOneParamInfo);
 			
 			// Собрать данные параметра и получить сущность параметра
 			$aParamData = array_merge ($aOneParamInfo, array (
@@ -95,41 +94,41 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 		return $aSettingsAll;
 	}
 	
-	// ---
 	
-	private function ExpandLangs ($sConfigName, &$aParam, $aKeys = array ('name', 'description')) {
+	
+	private function ConvertLangKeysToTexts ($sConfigName, $aParam, $aKeys = array ('name', 'description')) {
 		foreach ($aKeys as $sNamesToExtend) {
 			$aParam [$sNamesToExtend] = $this -> Lang_Get ($this -> GetRealFullKey ($sConfigName) . $aParam [$sNamesToExtend]);
 		}
-		return true;
+		return $aParam;
 	}
 	
-	// ---
+	
 	
 	private function GetRealFullKey ($sConfigName, $bAddDot = true) {
-		return $sConfigName == self::SYSTEM_CONFIG_ID ? '' : 'plugin.' . $sConfigName . ($bAddDot ? '.' : '');
+		return $sConfigName == PluginAdmin_ModuleSettings::SYSTEM_CONFIG_ID ? '' : 'plugin.' . $sConfigName . ($bAddDot ? '.' : '');
 	}
 	
-	// ---
 	
-	private function GetConfigSettingsStructureInfo ($sConfigName) {
-		$aData = Config::Get ($this -> GetRealFullKey ($sConfigName) . self::ADMIN_INTERFACE_DESCRIPTION_CONFIG_KEY);
+	
+	private function GetConfigSettingsSchemeInfo ($sConfigName) {
+		$aData = Config::Get ($this -> GetRealFullKey ($sConfigName) . self::CONFIG_SCHEMA_KEY);
 		return $aData ? $aData : array ();
 	}
 	
-	// ---
+	
 	
 	private function GetParameterValue ($sConfigName, $sConfigKey) {
 		return Config::Get ($this -> GetRealFullKey ($sConfigName) . $sConfigKey);
 	}
 	
-	// ---
+	
 
 	private function CheckIfThisPluginIsActive ($sConfigName) {
 		return in_array ($sConfigName, array_keys (Engine::getInstance () -> GetPlugins ()));
 	}
 	
-	// ---
+	
 	
 	//
 	// Сохранить настройки
@@ -139,7 +138,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 
 		if (isPost ('submit_save_settings')) {
 			// Корректно ли имя конфига
-			if (!$sConfigName = $this -> getParam (0) or !is_string ($sConfigName)) {
+			if (!$sConfigName = $this -> getParam (1) or !is_string ($sConfigName)) {
 				$this -> Message_AddError ($this -> Lang_Get ('plugin.admin.Errors.Wrong_Config_Name'), $this -> Lang_Get ('error'));
 				return false;
 			}
@@ -154,18 +153,18 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 		}
 
 		return Router::Location (
-			Router::GetPath ('admin') . 'settings/' . $sConfigName . '/?security_ls_key=' . $this -> Security_SetSessionKey ()		// todo: rework
+			Router::GetPath ('admin') . 'settings/plugin/' . $sConfigName . '/?security_ls_key=' . $this -> Security_SetSessionKey ()		// todo: rework
 		);
 	}
 	
-	// ---
+	
 	
 	//
 	// Весь процесс получение настроек из формы
 	//
 	private function ParsePOSTDataIntoSeparateConfigInstance ($sConfigName) {
 		// Получить описание настроек из конфига
-		$aSettingsInfo = $this -> GetConfigSettingsStructureInfo ($sConfigName);
+		$aSettingsInfo = $this -> GetConfigSettingsSchemeInfo ($sConfigName);
 		foreach ($_POST as $aPostRawData) {
 			// Проверка это ли параметр настроек формы
 			if (is_array ($aPostRawData) and count ($aPostRawData) == 3 and $aPostRawData [0] == self::ADMIN_SETTINGS_FORM_SYSTEM_ID) {
@@ -207,7 +206,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 		return true;
 	}
 	
-	// ---
+	
 	
 	//
 	// Принудительное приведение значения к типу, заданному в описании конфига
@@ -229,7 +228,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 		return $mValue;
 	}
 	
-	// ---
+	
 	
 	//
 	// Сохранение данных одного ключа в временной инстанции конфига
@@ -240,7 +239,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 		Config::Set ($this -> GetRealFullKey ($sConfigName) . $sKey, $mValue, self::ADMIN_TEMP_CONFIG_INSTANCE);
 	}
 	
-	// ---
+	
 	
 	//
 	// Получение всех данных ранее сохраненных ключей из временной инстанции
@@ -250,7 +249,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 		return Config::Get ($this -> GetRealFullKey ($sConfigName, false), self::ADMIN_TEMP_CONFIG_INSTANCE);
 	}
 	
-	// ---
+	
 	
 	//
 	// Проводит валидацию значения параметра (используется валидатор движка)
@@ -259,7 +258,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 		return $this -> Validate_Validate ($aValidatorInfo ['type'], $mValue, $aValidatorInfo ['params']);
 	}
 	
-	// ---
+	
 	
 	private function ValidatorGetLastError () {
 		return $this -> Validate_GetErrorLast (true);

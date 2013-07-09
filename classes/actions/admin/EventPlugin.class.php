@@ -29,7 +29,7 @@ class PluginAdmin_ActionAdmin_EventPlugin extends Event {
 		return $this->EventNotFound();
 	}
 	
-	// ---
+	
 
 	protected function IsInstanceClass($sClass,$sParent) {
 		if (!class_exists($sClass)) {

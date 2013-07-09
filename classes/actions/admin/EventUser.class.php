@@ -35,13 +35,13 @@ class PluginAdmin_ActionAdmin_EventUser extends Event {
 		$this->SetTemplateAction('user/list');
 	}
 	
-	// ---
+	
 
 	public function EventUser() {
 
 	}
 	
-	// ---
+	
 
 	public function EventShowTopic() {
 

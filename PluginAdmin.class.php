@@ -28,11 +28,11 @@ class PluginAdmin extends Plugin {
 		return true;
 	}
 	
-	// ---
+	
 
 	public function Init() {}
 	
-	// ---
+	
   
 	protected $aInherits = array(
 		'module'	=> array ('ModuleViewer', 'ModuleStorage')

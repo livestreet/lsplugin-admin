@@ -1,7 +1,7 @@
 
   {if $aSettingsAll and count($aSettingsAll)>0}
   
-    <form action="{router page='admin'}saveconfig/{$sConfigName}/" method="post" enctype="application/x-www-form-urlencoded">
+    <form action="{router page='admin'}settings/save/{$sConfigName}/" method="post" enctype="application/x-www-form-urlencoded">
       <input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
       
       {foreach from=$aSettingsAll item=oParameter name=ConfigSettingForCycle}
@@ -18,15 +18,15 @@
 				  <input type="hidden" name="{$sInputDataName}" value="{$sAdminSettingsFormSystemId}" />
 				  <input type="hidden" name="{$sInputDataName}" value="{$sKey}" />
           
-          <div class="CommentBefore">
+          <div>
             {$oParameter->getName()|nl2br}
           </div>
 					
-          <div class="OneField">
+          <div>
             {include file="{$aTemplatePathPlugin.admin}plugin_settings_one_field.tpl"}
           </div>
 					
-          <div class="CommentAfter">
+          <div>
             {$oParameter->getDescription()|nl2br}
           </div>
         </div>

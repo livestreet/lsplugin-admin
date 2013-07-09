@@ -22,25 +22,25 @@ class PluginAdmin_ModuleUi extends Module {
 		//$this->Viewer_AddSmartyPluginsDir(Plugin::GetPath(__CLASS__).'include/smarty/');	// todo: delete
 	}
 	
-	// ---
+	
 	
 	public function GetMenuMain() {
 		return $this->oMenuMain;
 	}
 	
-	// ---
+	
 	
 	public function GetMenuAddition() {
 		return $this->oMenuAddition;
 	}
 	
-	// ---
+	
 	
 	public function GetCursor() {
 		return $this->oCursor;
 	}
 	
-	// ---
+	
 	
 	public function HighlightMenus($oCursor = null){
 		if(is_null($oCursor)){
@@ -83,7 +83,7 @@ class PluginAdmin_ModuleUi extends Module {
 		return $oCursor;
 	}
 	
-	// ---
+	
 	
 	public function MergeMessages(){
 		$aErrors = $this->Message_GetError();
@@ -105,7 +105,7 @@ class PluginAdmin_ModuleUi extends Module {
 		}
 	}
 	
-	// ---
+	
 	
 	public function DisplayJson($bMergeMessages = true){
 		if($bMergeMessages){
@@ -115,7 +115,7 @@ class PluginAdmin_ModuleUi extends Module {
 		$this->Viewer_DisplayAjax('json');
 	}
 	
-	// ---
+	
 	
 	public function AjaxArraysToViewer(){
 		foreach($this->aAjaxArray as $sName => $aArray){
@@ -123,7 +123,7 @@ class PluginAdmin_ModuleUi extends Module {
 		}
 	}
 	
-	// ---
+	
 	
 	public function AddAjaxArrayElement($sArrayName, $mValue, $sKey = null){
 		if(is_null($sKey)){
@@ -133,7 +133,7 @@ class PluginAdmin_ModuleUi extends Module {
 		}
 	}
 	
-	// ---
+	
 	
 	public function ArraysToViewer(){
 		foreach($this->aViewerArray as $sName => $aArray){
@@ -141,7 +141,7 @@ class PluginAdmin_ModuleUi extends Module {
 		}
 	}
 	
-	// ---
+	
 	
 	public function AddViewerArrayElement($sArrayName, $mValue, $sKey = null){
 		if(is_null($sKey)){
@@ -151,7 +151,7 @@ class PluginAdmin_ModuleUi extends Module {
 		}
 	}
 	
-	// ---
+	
 	
 	public function GetViewerArray($sArrayName){
 		if(isset($this->aViewerArray[$sArrayName])
@@ -161,7 +161,7 @@ class PluginAdmin_ModuleUi extends Module {
 		return array();
 	}
 	
-	// ---
+	
 	
 	public function AddHeadJsDefine($sName, $mValue){
 		$this->AddViewerArrayElement('aHeadJsDefine', $mValue, $sName);
