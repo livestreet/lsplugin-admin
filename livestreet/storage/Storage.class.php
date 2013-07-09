@@ -59,7 +59,7 @@ class ModuleStorage extends Module {
 
 	/*
    *  Кеширование параметров на время работы сессии
-   *  structure: array('key' => array('param1' => 'value1', 'param2' => 'value2'))
+   *  structure: array('instance' => array('key' => array('param1' => 'value1', 'param2' => 'value2')))
    */
 	protected $aSessionCache = array();
 
@@ -69,8 +69,10 @@ class ModuleStorage extends Module {
 	}
 	
 	/*
+	 *
    * --- Низкоуровневые обертки для работы с БД ---
    * Для highload проектов эти обертки можно будет переопределить через плагин чтобы подключить не РСУБД хранилища, такие, например, как Redis
+	 *
    */
 	
 	/*
@@ -150,7 +152,9 @@ class ModuleStorage extends Module {
 	}
 	
 	/*
+	 *
    * --- Обработка значений параметров ---
+	 *
    */
 	
 	/*
@@ -161,7 +165,7 @@ class ModuleStorage extends Module {
 			throw new Exception ('Storage: your data must be scalar value, not resource!');
 		}
 		if (self::SERIALIZE_PARAM_VALUES) {
-			return serialize ($mValue);
+			return $this -> PackValue ($mValue);
 		}
 		return $mValue;
 	}
@@ -172,7 +176,7 @@ class ModuleStorage extends Module {
 	*/
 	protected function RetrieveParamValueFromSavedValue ($mValue) {
 		if (self::SERIALIZE_PARAM_VALUES) {
-			if (($mData = @unserialize ($mValue)) !== false) {
+			if ($mData = $this -> UnpackValue ($mValue)) {
 				return $mData;
 			}
 			return null;
@@ -180,9 +184,24 @@ class ModuleStorage extends Module {
 		return $mValue;
 	}
 	
+	
+	protected function PackValue ($mValue) {
+		return serialize ($mValue);
+	}
+	
+	
+	protected function UnpackValue ($mValue) {
+		if (($mData = @unserialize ($mValue)) !== false) {
+			return $mData;
+		}
+		return null;
+	}
+	
         
 	/*
+	 *
    * --- Высокоуровневые обертки для работы непосредственно с параметрами каждого ключа ---
+	 *
    */
 	
         
@@ -197,9 +216,10 @@ class ModuleStorage extends Module {
 		
 		// Если есть запись для ключа и она не повреждена и корректна
 		if ($sFieldData = $this -> GetFieldOne ($sKey, $sInstance)) {
-			if (($aData = @unserialize ($sFieldData)) !== false and is_array($aData)) {
+			if ($aData = $this -> UnpackValue ($sFieldData) and is_array($aData)) {
 				
-				// Сохранить в кеше сессии
+				// Сохранить в кеше сессии распакованные значения
+				$aData = array_map (array($this, 'RetrieveParamValueFromSavedValue'), $aData);
 				$this -> aSessionCache [$sInstance][$sKey] = $aData;
 				
 				return $aData;
@@ -214,14 +234,14 @@ class ModuleStorage extends Module {
    * Сохранить значение параметра для ключа
 	*/
 	protected function SetOneParam ($sKey, $sParamName, $mValue, $sInstance = self::DEFAULT_INSTANCE) {
-		$aParamsContainer = $this -> GetParamsAll ($sKey, $sInstance);
 		$mValueChecked = $this -> PrepareParamValueBeforeSaving ($mValue);
-		$aParamsContainer [(string) $sParamName] = $mValueChecked;
+		$aParamsContainer = $this -> GetParamsAll ($sKey, $sInstance);
+		$aParamsContainer [$sParamName] = $mValueChecked;
 		
 		// Сохранить в кеше сессии
-		$this -> aSessionCache [$sInstance][$sKey][$sParamName] = $mValueChecked;
+		$this -> aSessionCache [$sInstance][$sKey][$sParamName] = $mValue;
 		
-		return $this -> SetFieldOne ($sKey, serialize ($aParamsContainer), $sInstance);
+		return $this -> SetFieldOne ($sKey, $this -> PackValue ($aParamsContainer), $sInstance);
 	}
 	
 	
@@ -235,13 +255,8 @@ class ModuleStorage extends Module {
 			return $this -> aSessionCache [$sInstance][$sKey][$sParamName];
 		}
 		
-		if ($aFieldData = $this -> GetParamsAll ($sKey, $sInstance) and isset ($aFieldData [(string) $sParamName])) {
-			$mData = $this -> RetrieveParamValueFromSavedValue ($aFieldData [(string) $sParamName]);
-			
-			// Сохранить в кеше сессии
-			$this -> aSessionCache [$sInstance][$sKey][$sParamName] = $mData;
-			
-			return $mData;
+		if ($aFieldData = $this -> GetParamsAll ($sKey, $sInstance) and isset ($aFieldData [$sParamName])) {
+			return $aFieldData [$sParamName];
 		}
 		return null;
 	}
@@ -252,12 +267,12 @@ class ModuleStorage extends Module {
    * Удалить значение параметра для ключа
 	*/
 	protected function RemoveOneParam ($sKey, $sParamName, $sInstance = self::DEFAULT_INSTANCE) {
-		$aParamsContainer = $this -> GetParamsAll ($sKey, $sInstance);
-		unset($aParamsContainer [(string) $sParamName]);
-		
 		// Удалить значение из кеша сессии
 		unset($this -> aSessionCache [$sInstance][$sKey][$sParamName]);
-		return $this -> SetFieldOne ($sKey, serialize ($aParamsContainer), $sInstance);
+		
+		$aParamsContainer = $this -> GetParamsAll ($sKey, $sInstance);
+		unset($aParamsContainer [$sParamName]);
+		return $this -> SetFieldOne ($sKey, $this -> PackValue ($aParamsContainer), $sInstance);
 	}
 	
 	
@@ -272,11 +287,13 @@ class ModuleStorage extends Module {
 	}
 	
 	/*
+	 *
    * --- Хелперы ---
+	 *
    */
 
   /*
-   * Получить имя ключа из текущего вызывающего метод контекста
+   * Получить имя ключа из текущего, вызывающего метод, контекста
    */
 	protected function GetKeyForCaller ($oCaller) {
 		$this -> CheckCaller ($oCaller);
@@ -297,7 +314,9 @@ class ModuleStorage extends Module {
 	}
 	
 	/*
+	 *
    * --- Конечные методы для использования в движке и плагинах ---
+	 *
    */
 	
 	/*
@@ -324,7 +343,7 @@ class ModuleStorage extends Module {
 	*/
 	public function GetAll ($oCaller, $sInstance = self::DEFAULT_INSTANCE) {
 		$sCallerName = $this -> GetKeyForCaller ($oCaller);
-		return array_map (array($this, 'RetrieveParamValueFromSavedValue'), $this -> GetParamsAll ($sCallerName, $sInstance));
+		return $this -> GetParamsAll ($sCallerName, $sInstance);
 	}
 	
 	
@@ -345,6 +364,28 @@ class ModuleStorage extends Module {
 	public function RemoveAll ($oCaller, $sInstance = self::DEFAULT_INSTANCE) {
 		$sCallerName = $this -> GetKeyForCaller ($oCaller);
 		return $this -> RemoveAllParams ($sCallerName, $sInstance);
+	}
+	
+	
+	/*
+   * Сохранить значение параметра для ключа на время сессии (без записи в хранилище)
+	*/
+	public function SetSmart ($sParamName, $mValue, $oCaller, $sInstance = self::DEFAULT_INSTANCE) {
+		// todo: on lower level, this must be just wrapper
+		$sCallerName = $this -> GetKeyForCaller ($oCaller);
+		$this -> GetParamsAll ($sCallerName, $sInstance);
+		// Сохранить в кеше сессии
+		$this -> aSessionCache [$sInstance][$sCallerName][$sParamName] = $mValue;
+	}
+	
+	
+	/*
+   * Записать в хранилище значения параметров для ключа из кеша сессии
+	*/
+	public function Store ($oCaller, $sInstance = self::DEFAULT_INSTANCE) {
+		// todo: on lower level, this must be just wrapper
+		$sCallerName = $this -> GetKeyForCaller ($oCaller);
+		return $this -> SetFieldOne ($sCallerName, $this -> PackValue ($this -> aSessionCache [$sInstance][$sCallerName]), $sInstance);
 	}
 
 }
