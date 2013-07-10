@@ -44,7 +44,6 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 		if ($sConfigName == PluginAdmin_ModuleSettings::SYSTEM_CONFIG_ID) {
 			// Загрузить системный конфиг
 			$aSettingsAll = $this -> GetConfigSettings ($sConfigName);
-			$this -> Viewer_Assign ('aSettingsAll', $aSettingsAll);
 
 		} else {
 			// Загрузить конфиг плагина
@@ -54,9 +53,9 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 			}
 
 			$aSettingsAll = $this -> GetConfigSettings ($sConfigName);
-			$this -> Viewer_Assign ('aSettingsAll', $aSettingsAll);
 		}
-
+		
+		$this -> Viewer_Assign ('aSettingsAll', $aSettingsAll);
 		$this -> Viewer_Assign ('sConfigName', $sConfigName);
 		$this -> Viewer_Assign ('sAdminSettingsFormSystemId', self::ADMIN_SETTINGS_FORM_SYSTEM_ID);
 		$this -> Viewer_Assign ('sAdminSystemConfigId', PluginAdmin_ModuleSettings::SYSTEM_CONFIG_ID);

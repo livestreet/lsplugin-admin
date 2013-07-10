@@ -173,7 +173,12 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 * Проводит валидацию значения параметра (используется валидатор движка)
 	 */
 	public function ValidateParameter ($aValidatorInfo, $mValue) {
-		return $this -> Validate_Validate ($aValidatorInfo ['type'], $mValue, $aValidatorInfo ['params']);
+		if (!isset ($aValidatorInfo ['type'])) return true;
+		return $this -> Validate_Validate (
+			$aValidatorInfo ['type'],
+			$mValue,
+			isset ($aValidatorInfo ['params']) ? $aValidatorInfo ['params'] : array ()
+		);
 	}
 	
 	
