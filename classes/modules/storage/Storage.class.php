@@ -24,32 +24,6 @@
 
 class PluginAdmin_ModuleStorage extends PluginAdmin_Inherits_ModuleStorage {
 	
-	//
-	// Для того, чтобы админка могла сама установить параметр для нужного ключа вручную
-	//
-	public function SetOneParam ($sKey, $sParamName, $mValue, $sInstance = self::DEFAULT_INSTANCE) {
-		return parent::SetOneParam ($sKey, $sParamName, $mValue, $sInstance);
-	}
-	
-	
-	
-	/*
-		Получить из БД все ключи в "сыром" виде
-	*/
-	public function GetFieldsAll ($sInstance = self::DEFAULT_INSTANCE) {
-		return parent::GetFieldsAll ($sInstance);
-	}
-	
-	
-	
-	
-	/*
-		Получить значение параметра для ключа
-	*/
-	public function GetOneParam ($sKey, $sParamName, $sInstance = self::DEFAULT_INSTANCE) {
-		return parent::GetOneParam ($sKey, $sParamName, $sInstance);
-	}
-	
 	/*
 	 * --- Переопределение публичных методов чтобы запретить работу с параметром конфига каждого ключа ---
    */
@@ -61,7 +35,6 @@ class PluginAdmin_ModuleStorage extends PluginAdmin_Inherits_ModuleStorage {
 	}
 	
 	
-	
 	/*
 		Установить значение
 	*/
@@ -69,7 +42,6 @@ class PluginAdmin_ModuleStorage extends PluginAdmin_Inherits_ModuleStorage {
 		$this -> CheckParamName ($sParamName);
 		return parent::Set ($sParamName, $mValue, $oCaller, $sInstance);
 	}
-	
 	
 	
 	/*
@@ -81,7 +53,6 @@ class PluginAdmin_ModuleStorage extends PluginAdmin_Inherits_ModuleStorage {
 	}
 	
 	
-	
 	/*
 		Удалить значение
 	*/
@@ -91,12 +62,10 @@ class PluginAdmin_ModuleStorage extends PluginAdmin_Inherits_ModuleStorage {
 	}
 	
 	
-	
 	/*
 		Удалить все значения
 	*/
 	public function RemoveAll ($oCaller, $sInstance = self::DEFAULT_INSTANCE) {
-		$this -> CheckCaller ($oCaller);
 		$sCallerName = $this -> GetKeyForCaller ($oCaller);
 		
 		// Удалить все ключи, за исключением конфига (PluginAdmin_ModuleSettings::CONFIG_DATA_PARAM_NAME)
@@ -106,6 +75,79 @@ class PluginAdmin_ModuleStorage extends PluginAdmin_Inherits_ModuleStorage {
 				$this -> RemoveOneParam ($sCallerName, $sParamKeyName, $sInstance);
 			}
 		}
+	}
+	
+	
+	
+	/*
+	 * --- Работа с параметрами только на момент сессии ---
+	 */
+	
+	/*
+   * Сохранить значение параметра на время сессии (без записи в хранилище)
+	*/
+	public function SetSmart ($sParamName, $mValue, $oCaller, $sInstance = self::DEFAULT_INSTANCE) {
+		$this -> CheckParamName ($sParamName);
+		return parent::SetSmart ($sParamName, $mValue, $oCaller, $sInstance);
+	}
+	
+	
+	/*
+   * Удалить параметр кеша сессии (без записи в хранилище)
+	*/
+	public function RemoveSmart ($sParamName, $oCaller, $sInstance = self::DEFAULT_INSTANCE) {
+		$this -> CheckParamName ($sParamName);
+		return parent::RemoveSmart ($sParamName, $oCaller, $sInstance);
+	}
+	
+	
+	/*
+   * Сбросить кеш сессии (без записи в хранилище)
+	*/
+	public function Reset ($oCaller, $sInstance = self::DEFAULT_INSTANCE) {
+		$sCallerName = $this -> GetKeyForCaller ($oCaller);
+		
+		// Удалить все параметры, за исключением конфига (PluginAdmin_ModuleSettings::CONFIG_DATA_PARAM_NAME)
+		foreach ($this -> aSessionCache [$sInstance][$sCallerName] as $sParamKeyName) {
+			if ($sParamKeyName != PluginAdmin_ModuleSettings::CONFIG_DATA_PARAM_NAME) {
+				$this -> RemoveSmartParam ($sCallerName, $sParamKeyName, $sInstance);
+			}
+		}
+	}
+	
+	
+	/*
+   * Может быть вызвано плагином для сохранения ключей его конфига и последующей их автозагрузки как части конфига (после ручного их редактирования)
+	 *
+	 * Например, добавление данных:
+	 *
+	 *		Config::Set ('plugin.test.mykey', 'testing');
+	 *		Config::Set ('plugin.test.mydata', array (1, 2, 3));
+	 *		$this -> Storage_SaveMyConfig (array ('mykey', 'mydata'), $this);
+	 *
+	 * Удаление ранее сохраненного ключа (значение должно быть установлено в null):
+	 *
+	 *		Config::Set ('plugin.test.mykey', null);
+	 *		$this -> Storage_SaveMyConfig (array ('mykey'), $this);
+	 *
+	*/
+	public function SaveMyConfig ($aKeysToSave = array (), $oCaller, $sInstance = self::DEFAULT_INSTANCE) {
+		if (empty ($aKeysToSave)) return false;
+		$sCallerName = $this -> GetKeyForCaller ($oCaller);
+		// Получить сохраненный конфиг из хранилища
+		if (!$aConfigData = $this -> GetOneParam ($sCallerName, PluginAdmin_ModuleSettings::CONFIG_DATA_PARAM_NAME)) return false;
+		// Получить текущие данные конфига по ключам
+		$aDataToSave = array ();
+		foreach ($aKeysToSave as $sConfigKey) {
+			if (($mValue = $this -> PluginAdmin_Settings_GetParameterValue ($sCallerName, $sConfigKey)) === null) {
+				// Значение удалили, значит нужно удалить и из хранилища вместо добавления
+				unset ($aConfigData [$sConfigKey]);
+				continue;
+			}
+			$aDataToSave [] = $mValue;
+		}
+		// Обьеденить и записать данные
+		return $this -> PluginAdmin_Settings_SaveConfig ($sCallerName, array_merge ($aConfigData, $aDataToSave));
 	}
 
 }

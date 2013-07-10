@@ -23,60 +23,70 @@
 */
 
 class PluginAdmin_ModuleValidate_EntityValidatorArray extends ModuleValidate_EntityValidator {
+
 	/**
 	 * Допускать или нет пустое значение
 	 *
 	 * @var bool
 	 */
 	public $allowEmpty=true;
+	
 	/**
 	 * Максимально допустимый размер массива (элементов)
 	 *
 	 * @var null|integer|float
 	 */
 	public $max_items;
+	
 	/**
 	 * Минимально допустимый размер массива (элементов)
 	 *
 	 * @var null|integer|float
 	 */
 	public $min_items;
+	
 	/**
 	 * Список разрешенных элементов массива
 	 *
 	 * @var null|array
 	 */
 	public $enum;
+	
 	/**
 	 * Диапазон чисел элементов массива от и до
 	 *
 	 * @var null|array
 	 */
 	public $range;
+	
 	/**
 	 * Кастомное сообщение об ошибке при слишком большом массиве
 	 *
 	 * @var string
 	 */
 	public $msgTooBig;
+	
 	/**
 	 * Кастомное сообщение об ошибке при слишком маленьком массиве
 	 *
 	 * @var string
 	 */
 	public $msgTooSmall;
+	
 	/**
 	 * Кастомное сообщение об ошибке при значении, не входящим в список разрешенных
 	 *
 	 * @var string
 	 */
 	public $msgIncorrectValue;
+	
 	/**
 	 * Кастомное сообщение об ошибке при значении элемента, которое меньше допустимого из $range
 	 *
 	 * @var string
 	 */
 	public $msgValueIsTooSmall;
+	
 	/**
 	 * Кастомное сообщение об ошибке при значении элемента, которое больше допустимого из $range
 	 *
@@ -91,7 +101,7 @@ class PluginAdmin_ModuleValidate_EntityValidatorArray extends ModuleValidate_Ent
 	 *
 	 * @return bool|string
 	 */
-	public function validate($sValue) {
+	public function validate ($sValue) {
 		if (!is_array($sValue)) {
 			return $this->getMessage($this->Lang_Get('plugin.admin.Errors.validator.validate_array_must_be_array',null,false),'msg');
 		}

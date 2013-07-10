@@ -22,7 +22,7 @@
 		http://psnet.lookformp3.net
 */
 
-class PluginAdmin_ModuleSettings extends Module {
+class PluginAdmin_ModuleSettings extends ModuleStorage {
 	
 	const CONFIG_SCHEMA_KEY = '$config_schema$';					// Ключ конфига, который хранит описатели настроек данного конфига
 	const CONFIG_DATA_PARAM_NAME = '__config__';					// Имя параметра для плагина или ядра для сохранения конфига в хранилище
@@ -30,20 +30,21 @@ class PluginAdmin_ModuleSettings extends Module {
 	
 	
 
-	public function Init() {}
-	
+	public function Init() {
+		parent::Init ();
+	}
 	
 	
 	/*
 	 *	Сохранить конфиг ключа
 	 */
-	public function SaveConfig ($sConfigName, $aData) {
+	public function SaveConfig ($sConfigName, $mData) {
 		if ($sConfigName == self::SYSTEM_CONFIG_ID) {
-			$sKey = PluginAdmin_ModuleStorage::DEFAULT_KEY_NAME;
+			$sKey = ModuleStorage::DEFAULT_KEY_NAME;
 		} else {
-			$sKey = $sConfigName;
+			$sKey = ModuleStorage::PLUGIN_PREFIX . $sConfigName;
 		}
-		return $this -> PluginAdmin_Storage_SetOneParam ($sKey, self::CONFIG_DATA_PARAM_NAME, $aData);
+		return $this -> SetOneParam ($sKey, self::CONFIG_DATA_PARAM_NAME, $mData);
 	}
 	
 	
@@ -51,7 +52,7 @@ class PluginAdmin_ModuleSettings extends Module {
 	 *	Начать загрузку всех конфигов в системе
 	 */
 	public function AutoLoadConfigs () {
-		$aData = $this -> PluginAdmin_Storage_GetFieldsAll ();
+		$aData = $this -> GetFieldsAll ();
 		if ($aData ['count']) {
 			foreach ($aData ['collection'] as $aFieldData) {
 				$sKey = $aFieldData ['key'];
@@ -66,15 +67,23 @@ class PluginAdmin_ModuleSettings extends Module {
 	 */
 	private function LoadConfig ($sKey) {
 		// Получить конфиг текущего ключа (если существует)
-		if ($aConfigData = $this -> PluginAdmin_Storage_GetOneParam ($sKey, self::CONFIG_DATA_PARAM_NAME)) {
+		if ($aConfigData = $this -> GetOneParam ($sKey, self::CONFIG_DATA_PARAM_NAME)) {
 			if ($sKey == ModuleStorage::DEFAULT_KEY_NAME) {
 				// Данные ядра
 				$this -> LoadRootConfig ($aConfigData);
 			} else {
 				// Данные плагина
-				$this -> LoadPluginConfig ($sKey, $aConfigData);
+				$this -> LoadPluginConfig ($this -> StripPluginPrefix ($sKey), $aConfigData);
 			}
 		}
+	}
+	
+
+	/*
+	 *	Удалить префикс перед именем плагина
+	 */
+	private function StripPluginPrefix ($sKey) {
+		return str_replace (ModuleStorage::PLUGIN_PREFIX, '', $sKey);
 	}
 	
 	
@@ -103,6 +112,7 @@ class PluginAdmin_ModuleSettings extends Module {
 		$aMixedSettings = array_merge ($aOriginalSettingsFromConfig, $aSavedSettingsFromDB);
 		Config::Set ('plugin.' . $sPluginName, $aMixedSettings);
 	}
+	
 	
 	/*
 	 * Хелперы

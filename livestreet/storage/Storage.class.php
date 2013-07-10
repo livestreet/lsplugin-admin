@@ -30,7 +30,7 @@
 
 class ModuleStorage extends Module {
 	
-	protected $oMapper = null;
+	protected $oMapperStorage = null;
         
   /*
    * Группа настроек по-умолчанию
@@ -65,8 +65,10 @@ class ModuleStorage extends Module {
 
 
 	public function Init () {
-		$this -> oMapper = Engine::GetMapper (__CLASS__);
+		$this -> oMapperStorage = Engine::GetMapper (__CLASS__);
 	}
+	
+	
 	
 	/*
 	 *
@@ -86,9 +88,9 @@ class ModuleStorage extends Module {
 		$sCacheKey = self::CACHE_FIELD_DATA_PREFIX . $sKey . '_' . $sInstance;
 		$this -> Cache_Delete ($sCacheKey);
 		
-		return $this -> oMapper -> SetData ($sKey, $sValue, $sInstance);
+		return $this -> oMapperStorage -> SetData ($sKey, $sValue, $sInstance);
 	}
-
+	
 	
 	/*
    * Получить из БД строковое значение одного ключа
@@ -99,12 +101,12 @@ class ModuleStorage extends Module {
 		
 		$sCacheKey = self::CACHE_FIELD_DATA_PREFIX . $sKey . '_' . $sInstance;
 		if (($mData = $this -> Cache_Get ($sCacheKey)) === false) {
-			$sFilter = $this -> oMapper -> BuildFilter (array(
+			$sFilter = $this -> oMapperStorage -> BuildFilter (array(
 				'key' => $sKey,
 				'instance' => $sInstance
 			));
 			$mData = null;
-			$aResult = $this -> oMapper -> GetData ($sFilter, 1, 1);
+			$aResult = $this -> oMapperStorage -> GetData ($sFilter, 1, 1);
 			
 			if ($aResult ['count'] != 0) {
 				$mData = $aResult ['collection']['value'];
@@ -125,12 +127,12 @@ class ModuleStorage extends Module {
 		$sCacheKey = self::CACHE_FIELD_DATA_PREFIX . $sKey . '_' . $sInstance;
 		$this -> Cache_Delete ($sCacheKey);
 		
-		$sFilter = $this -> oMapper -> BuildFilter (array(
+		$sFilter = $this -> oMapperStorage -> BuildFilter (array(
 			'key' => $sKey,
 			'instance' => $sInstance
 		));
 		
-		return $this -> oMapper -> DeleteData ($sFilter, 1);
+		return $this -> oMapperStorage -> DeleteData ($sFilter, 1);
 	}
 	
 	
@@ -142,14 +144,16 @@ class ModuleStorage extends Module {
 		
 		$sCacheKey = self::CACHE_FIELD_DATA_PREFIX . '_fields_all_' . $sInstance;
 		if (($mData = $this -> Cache_Get ($sCacheKey)) === false) {
-			$sFilter = $this -> oMapper -> BuildFilter (array(
+			$sFilter = $this -> oMapperStorage -> BuildFilter (array(
 				'instance' => $sInstance
 			));
-			$mData = $this -> oMapper -> GetData ($sFilter);
+			$mData = $this -> oMapperStorage -> GetData ($sFilter);
 			$this -> Cache_Set ($mData, $sCacheKey, array('storage_field_data'), 60 * 60 * 24 * 365);  // 1 year
 		}
 		return $mData;
 	}
+	
+	
 	
 	/*
 	 *
@@ -185,17 +189,24 @@ class ModuleStorage extends Module {
 	}
 	
 	
+	/*
+   * Перевести данные в строковый вид (сериализировать)
+	*/
 	protected function PackValue ($mValue) {
 		return serialize ($mValue);
 	}
 	
 	
+	/*
+   * Восстановить данные из строкового вида (десериализировать)
+	*/
 	protected function UnpackValue ($mValue) {
 		if (($mData = @unserialize ($mValue)) !== false) {
 			return $mData;
 		}
 		return null;
 	}
+	
 	
         
 	/*
@@ -204,7 +215,6 @@ class ModuleStorage extends Module {
 	 *
    */
 	
-        
 	/*
    * Получить список всех параметров ключа
 	*/
@@ -229,7 +239,6 @@ class ModuleStorage extends Module {
 	}
 	
 	
-	
 	/*
    * Сохранить значение параметра для ключа
 	*/
@@ -243,7 +252,6 @@ class ModuleStorage extends Module {
 		
 		return $this -> SetFieldOne ($sKey, $this -> PackValue ($aParamsContainer), $sInstance);
 	}
-	
 	
 	
 	/*
@@ -262,7 +270,6 @@ class ModuleStorage extends Module {
 	}
 	
 	
-	
 	/*
    * Удалить значение параметра для ключа
 	*/
@@ -276,7 +283,6 @@ class ModuleStorage extends Module {
 	}
 	
 	
-	
 	/*
    * Удалить все параметры ключа
 	*/
@@ -285,6 +291,50 @@ class ModuleStorage extends Module {
 		unset($this -> aSessionCache [$sInstance][$sKey]);
 		return $this -> DeleteFieldOne ($sKey, $sInstance);
 	}
+	
+	
+	/*
+   * Сохранить значение параметра для ключа на время сессии (без записи в хранилище)
+	*/
+	protected function SetSmartParam ($sKey, $sParamName, $mValue, $sInstance = self::DEFAULT_INSTANCE) {
+		// trick: В первый запрос все данные будут загружены в сессионное хранилище и при повторном вызове они не будут затираться
+		$this -> GetParamsAll ($sKey, $sInstance);
+		// Сохранить в кеше сессии
+		$this -> aSessionCache [$sInstance][$sKey][$sParamName] = $mValue;
+	}
+	
+	
+	/*
+   * Удалить значение параметра для ключа на время сессии (без записи в хранилище)
+	*/
+	protected function RemoveSmartParam ($sKey, $sParamName, $sInstance = self::DEFAULT_INSTANCE) {
+		// trick: В первый запрос все данные будут загружены в сессионное хранилище и при повторном вызове они не будут затираться
+		$this -> GetParamsAll ($sKey, $sInstance);
+		// Удалить в кеше сессии
+		unset ($this -> aSessionCache [$sInstance][$sKey][$sParamName]);
+	}
+	
+	
+	/*
+   * Записать в хранилище значения параметров для ключа из кеша сессии
+	*/
+	protected function StoreParams ($sKey, $sInstance = self::DEFAULT_INSTANCE) {
+		return $this -> SetFieldOne ($sKey, $this -> PackValue ($this -> aSessionCache [$sInstance][$sKey]), $sInstance);
+	}
+	
+	
+	/*
+   * Сбросить кеш сессии (без записи в хранилище)
+	*/
+	protected function ResetSessionCache ($sKey = null, $sInstance = self::DEFAULT_INSTANCE) {
+		if (!is_null ($sKey)) {
+			unset ($this -> aSessionCache [$sInstance][$sKey]);
+		} else {
+			unset ($this -> aSessionCache [$sInstance]);
+		}
+	}
+	
+	
 	
 	/*
 	 *
@@ -313,6 +363,8 @@ class ModuleStorage extends Module {
 		if (!is_object ($oCaller)) throw new Exception ('Storage: caller is not correct. Always use "$this"');
 	}
 	
+	
+	
 	/*
 	 *
    * --- Конечные методы для использования в движке и плагинах ---
@@ -337,7 +389,6 @@ class ModuleStorage extends Module {
 	}
 	
 	
-	
 	/*
    * Получить все значения
 	*/
@@ -345,7 +396,6 @@ class ModuleStorage extends Module {
 		$sCallerName = $this -> GetKeyForCaller ($oCaller);
 		return $this -> GetParamsAll ($sCallerName, $sInstance);
 	}
-	
 	
 	
 	/*
@@ -357,7 +407,6 @@ class ModuleStorage extends Module {
 	}
 	
 	
-	
 	/*
    * Удалить все значения
 	*/
@@ -365,29 +414,47 @@ class ModuleStorage extends Module {
 		$sCallerName = $this -> GetKeyForCaller ($oCaller);
 		return $this -> RemoveAllParams ($sCallerName, $sInstance);
 	}
-	
+
 	
 	/*
-   * Сохранить значение параметра для ключа на время сессии (без записи в хранилище)
+	 * --- Работа с параметрами только на момент сессии ---
+	 */
+	
+	/*
+   * Сохранить значение параметра на время сессии (без записи в хранилище)
 	*/
 	public function SetSmart ($sParamName, $mValue, $oCaller, $sInstance = self::DEFAULT_INSTANCE) {
-		// todo: on lower level, this must be just wrapper
 		$sCallerName = $this -> GetKeyForCaller ($oCaller);
-		$this -> GetParamsAll ($sCallerName, $sInstance);
-		// Сохранить в кеше сессии
-		$this -> aSessionCache [$sInstance][$sCallerName][$sParamName] = $mValue;
+		return $this -> SetSmartParam ($sCallerName, $sParamName, $mValue, $sInstance);
 	}
 	
 	
 	/*
-   * Записать в хранилище значения параметров для ключа из кеша сессии
+   * Удалить параметр кеша сессии (без записи в хранилище)
+	*/
+	public function RemoveSmart ($sParamName, $oCaller, $sInstance = self::DEFAULT_INSTANCE) {
+		$sCallerName = $this -> GetKeyForCaller ($oCaller);
+		return $this -> RemoveSmartParam ($sCallerName, $sParamName, $sInstance);
+	}
+	
+	
+	/*
+   * Записать в хранилище значения параметров из кеша сессии
 	*/
 	public function Store ($oCaller, $sInstance = self::DEFAULT_INSTANCE) {
-		// todo: on lower level, this must be just wrapper
 		$sCallerName = $this -> GetKeyForCaller ($oCaller);
-		return $this -> SetFieldOne ($sCallerName, $this -> PackValue ($this -> aSessionCache [$sInstance][$sCallerName]), $sInstance);
+		return $this -> StoreParams ($sCallerName, $sInstance);
 	}
-
+	
+	
+	/*
+   * Сбросить кеш сессии (без записи в хранилище)
+	*/
+	public function Reset ($oCaller, $sInstance = self::DEFAULT_INSTANCE) {
+		$sCallerName = $this -> GetKeyForCaller ($oCaller);
+		return $this -> ResetSessionCache ($sCallerName, $sInstance);
+	}
+	
 }
 
 ?>
