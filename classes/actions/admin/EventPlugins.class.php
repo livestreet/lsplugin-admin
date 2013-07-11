@@ -28,6 +28,7 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
     $aPluginList = $this -> GetAllPluginLists ();
     
     $this -> Viewer_Assign ('aPluginsInfo', $aPluginList);
+    $this -> SetTemplateAction ('plugins');
 	}
 	
   

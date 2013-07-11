@@ -153,14 +153,16 @@ $config ['$config_schema$'] = array(
     'type' => 'array',																						// integer, string, array, boolean, float
     'name' => 'config_parameters.setup_rules.one.name',                  // отображаемое имя параметра, ключ языкового файла
     'description' => 'config_parameters.setup_rules.one.description',    // отображаемое описание параметра, ключ языкового файла
+    'show_as_php_array' => false,   // выводить как обычный массив, иначе будет показан селект на основе данных валидатора (enum или range)
     'validator' => array(						// валидация (если нужна), существующие типы валидаторов ядра
       'type' => 'Array',            // Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url, Array (special validator)
       'params' => array(            // параметры, которые будут переданы в валидатор
 				'min_items' => 2,						// мин. количество элементов в массиве
 				'max_items' => 10,					// макс. количество элементов в массиве
 				'enum' => array(						// перечисление разрешенных элементов массива
-					1,2,3,4,5,6,7,8,9,10
+					1, 2, 3, 4, 5, 6, 7, 8, 9, 10
 				),
+																		// ИЛИ
 				'range' => array(						// диапазон разрешенных чисел массива от и до
 					'min' => 0, 'max' => 100
 				),

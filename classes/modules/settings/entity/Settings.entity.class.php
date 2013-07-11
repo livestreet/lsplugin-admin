@@ -23,6 +23,11 @@
 */
 
 class PluginAdmin_ModuleSettings_EntitySettings extends Entity {
+	
+/*	public function IsValidatorArray () {
+		$aValidatorData = $this -> getValidator ();
+		return $aValidatorData ['type'] == 'Array';
+	}*/
 
 }
 

@@ -43,7 +43,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 		
 		if ($sConfigName == PluginAdmin_ModuleSettings::SYSTEM_CONFIG_ID) {
 			// Загрузить системный конфиг
-			$aSettingsAll = $this -> GetConfigSettings ($sConfigName);
+			$aSettingsAll = $this -> PluginAdmin_Settings_GetConfigSettings ($sConfigName);
 
 		} else {
 			// Загрузить конфиг плагина
@@ -52,7 +52,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 				return false;
 			}
 
-			$aSettingsAll = $this -> GetConfigSettings ($sConfigName);
+			$aSettingsAll = $this -> PluginAdmin_Settings_GetConfigSettings ($sConfigName);
 		}
 		
 		$this -> Viewer_Assign ('aSettingsAll', $aSettingsAll);
@@ -62,38 +62,6 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 	}
 
 	
-
-	protected function GetConfigSettings ($sConfigName) {
-		// Получить описание настроек из конфига
-		$aSettingsInfo = $this -> PluginAdmin_Settings_GetConfigSettingsSchemeInfo ($sConfigName);
-		
-		$aSettingsAll = array ();
-		foreach ($aSettingsInfo as $sConfigKey => $aOneParamInfo) {
-			// Получить текущее значение параметра
-			if (($mValue = $this -> PluginAdmin_Settings_GetParameterValue ($sConfigName, $sConfigKey)) === null) {
-				$this -> Message_AddError (
-					$this -> Lang_Get ('plugin.admin.Errors.Wrong_Description_Key', array ('key' => $sConfigKey)),
-					$this -> Lang_Get ('error')
-				);
-				continue;
-			}
-			
-			// Получить текстовки имени и описания параметра из ключей
-			$aOneParamInfo = $this -> PluginAdmin_Settings_ConvertLangKeysToTexts ($sConfigName, $aOneParamInfo);
-			
-			// Собрать данные параметра и получить сущность параметра
-			$aParamData = array_merge ($aOneParamInfo, array (
-				'key' => $sConfigKey,
-				'value' => $mValue
-			));
-			$aSettingsAll [] = Engine::GetEntity ('PluginAdmin_ModuleSettings_EntitySettings', $aParamData);
-		}
-		
-		return $aSettingsAll;
-	}
-	
-	
-
 	//
 	// Сохранить настройки
 	//
@@ -123,27 +91,34 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 	
 	
 	
-	//
-	// Весь процесс получение настроек из формы
-	//
+	/*
+	 *	Весь процесс получение настроек из формы
+	 */
 	private function ParsePOSTDataIntoSeparateConfigInstance ($sConfigName) {
 		// Получить описание настроек из конфига
 		$aSettingsInfo = $this -> PluginAdmin_Settings_GetConfigSettingsSchemeInfo ($sConfigName);
+		print_r($_POST);die();
 		foreach ($_POST as $aPostRawData) {
 			// Проверка это ли параметр настроек формы
-			if (is_array ($aPostRawData) and count ($aPostRawData) == 3 and $aPostRawData [0] == self::ADMIN_SETTINGS_FORM_SYSTEM_ID) {
+			if (is_array ($aPostRawData) and $aPostRawData [0] == self::ADMIN_SETTINGS_FORM_SYSTEM_ID) {
 				//
 				// Структура принимаемых данных:
 				//
 				// [0] - идентификатор приналежности значения к параметрам (всегда должен быть self::ADMIN_SETTINGS_FORM_SYSTEM_ID)
 				// [1] - ключ параметра (как в конфиге)
 				// [2] - значение параметра из формы
+				// [n] - n-е значение из формы
 				//
 				$sKey = $aPostRawData [1];
-				$mValue = $aPostRawData [2];
 				// Если существует запись в конфиге о таком параметре, который был передан
 				if (array_key_exists ($sKey, $aSettingsInfo)) {
 					$aParamInfo = $aSettingsInfo [$sKey];
+					// todo: type checking
+					
+					// todo: for array collect its value
+					
+					$mValue = $aPostRawData [2];
+					
 					
 					// Приведение значения к нужному типу
 					$mValue = $this -> PluginAdmin_Settings_SwitchValueToType ($mValue, $aParamInfo ['type']);
@@ -171,6 +146,20 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 		return true;
 	}
 	
+/*	
+	private function GetPostValueByType ($aPostRawData, $sType) {
+		$mValue = null;
+		switch ($sType) {
+			case 'array':
+				$mValue = array ();
+				
+				break;
+			default:
+				$mValue = $aPostRawData [2];
+				break;
+		}
+		return $mValue;
+	}*/
 	
 
 	//

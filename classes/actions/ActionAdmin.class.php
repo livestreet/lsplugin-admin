@@ -85,6 +85,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 
 		$this->Hook_Run('init_action_admin');
 		$this->SetDefaultEvent('index');
+		$this -> Viewer_AddHtmlTitle ($this -> Lang_Get ('plugin.admin.title'));
 	}
 
 
@@ -118,14 +119,14 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		// Плагины
 		//
 		//$this->AddEventPreg('#^plugin$#iu', '#^toggle$#iu', 'Plugins::EventPluginsToggle');//todo:
-		$this->AddEventPreg('#^plugins$#iu', '#^list$#iu', 'Plugins::EventPluginsList');
-		$this->AddEventPreg('/^plugin$/i', '/^[\w_\-]+$/i', 'Plugin::EventPlugin');			// показать страницу собственных настроек плагина
+		$this->AddEventPreg('/^plugin$/i', '/^[\w_\-]+$/i', 'Plugin::EventPlugin');			      // показать страницу собственных настроек плагина
+		$this->AddEventPreg('#^settings$#iu', '#^plugins$#iu', 'Plugins::EventPluginsList');  // список плагинов
 		
 		//
 		// Настройки
 		//
-		$this->AddEventPreg('#^settings$#iu', '#^plugin$#iu', 'Settings::EventShow');
-		$this->AddEventPreg('#^settings$#iu', '#^save$#iu', 'Settings::EventSaveConfig');
+		$this->AddEventPreg('#^settings$#iu', '#^plugin$#iu', 'Settings::EventShow');         // настройки плагина
+		$this->AddEventPreg('#^settings$#iu', '#^save$#iu', 'Settings::EventSaveConfig');     // сохранить настройки
 	}
 
 
@@ -186,13 +187,13 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			->AddSection(
 				Engine::GetEntity('PluginAdmin_Ui_MenuSection')
 				->SetCaption('Плагины')
-				->SetName('plugins')
+				->SetName('settings')
 				->SetCssClass('sb-item-3')
-				->SetUrl('plugins')
+				->SetUrl('settings')
 				->AddItem(
 					Engine::GetEntity('PluginAdmin_Ui_MenuItem')
 					->SetCaption('Список плагинов')
-					->SetUrl('list')
+					->SetUrl('plugins')
 				)
 				->AddItem(
 					Engine::GetEntity('PluginAdmin_Ui_MenuItem')

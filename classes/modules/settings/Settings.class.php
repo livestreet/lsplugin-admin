@@ -186,6 +186,32 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	public function ValidatorGetLastError () {
 		return $this -> Validate_GetErrorLast (true);
 	}
+	
+	
+	public function GetConfigSettings ($sConfigName) {
+		// Получить описание настроек из конфига
+		$aSettingsInfo = $this -> GetConfigSettingsSchemeInfo ($sConfigName);
+		
+		$aSettingsAll = array ();
+		foreach ($aSettingsInfo as $sConfigKey => $aOneParamInfo) {
+			// Получить текущее значение параметра
+			if (($mValue = $this -> GetParameterValue ($sConfigName, $sConfigKey)) === null) {
+				$this -> Message_AddError (
+					$this -> Lang_Get ('plugin.admin.Errors.Wrong_Description_Key', array ('key' => $sConfigKey)),
+					$this -> Lang_Get ('error')
+				);
+				continue;
+			}
+			
+			// Получить текстовки имени и описания параметра из ключей
+			$aOneParamInfo = $this -> ConvertLangKeysToTexts ($sConfigName, $aOneParamInfo);
+			
+			// Собрать данные параметра и получить сущность
+			$aParamData = array_merge ($aOneParamInfo, array ('key' => $sConfigKey, 'value' => $mValue));
+			$aSettingsAll [] = Engine::GetEntity ('PluginAdmin_ModuleSettings_EntitySettings', $aParamData);
+		}
+		return $aSettingsAll;
+	}
 
 	
 }
