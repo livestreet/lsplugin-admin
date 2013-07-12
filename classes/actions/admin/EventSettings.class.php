@@ -81,7 +81,21 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 			Router::GetPath ('admin') . 'settings/plugin/' . $sConfigName . '/?security_ls_key=' . $this -> Security_SetSessionKey ()		// todo: rework
 		);
 	}
+	
+	
+	public function EventShowSystemSettings () {
+		
+	}
 
+
+	public function EventShowTopicsSettings () {
+		
+	}
+
+	
+	public function EventShowUsersSettings () {
+		
+	}
 	
 }
 
