@@ -24,10 +24,19 @@
 
 class PluginAdmin_ModuleSettings_EntitySettings extends Entity {
 	
-/*	public function IsValidatorArray () {
+	public function getNeedToShowSpecialArrayForm () {
 		$aValidatorData = $this -> getValidator ();
-		return $aValidatorData ['type'] == 'Array';
-	}*/
+		
+		if ($aValidatorData ['type'] != 'Array') {
+			return false;
+		}
+		
+		$aValidatorParams = $aValidatorData ['params'];
+		if ($this -> getShowAsPhpArray () or (!isset ($aValidatorParams ['enum']) and !isset ($aValidatorParams ['range']))) {
+			return false;
+		}
+		return true;
+	}
 
 }
 

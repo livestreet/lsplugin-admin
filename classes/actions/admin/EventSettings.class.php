@@ -24,14 +24,9 @@
 
 class PluginAdmin_ActionAdmin_EventSettings extends Event {
 	
-	const ADMIN_SETTINGS_FORM_SYSTEM_ID = 'LS-Admin';												// Скрытый системный идентификатор данных о настройках из формы
-	const ADMIN_TEMP_CONFIG_INSTANCE = 'temporary_instance';								// До момента сохранения настроек в БД они будут хранится здесь
-	
-	
-	
-	//
-	// Показать настройки
-	//
+	/*
+	 *	Показать настройки
+	 */
 	public function EventShow () {
 		$this -> Security_ValidateSendForm ();
 
@@ -57,14 +52,12 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 		
 		$this -> Viewer_Assign ('aSettingsAll', $aSettingsAll);
 		$this -> Viewer_Assign ('sConfigName', $sConfigName);
-		$this -> Viewer_Assign ('sAdminSettingsFormSystemId', self::ADMIN_SETTINGS_FORM_SYSTEM_ID);
-		$this -> Viewer_Assign ('sAdminSystemConfigId', PluginAdmin_ModuleSettings::SYSTEM_CONFIG_ID);
 	}
 
 	
-	//
-	// Сохранить настройки
-	//
+	/*
+	 *	Сохранить настройки
+	 */
 	public function EventSaveConfig () {
 		$this -> Security_ValidateSendForm ();
 
@@ -76,9 +69,9 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 			}
 
 			// Получение всех параметров, их валидация и сверка с описанием структуры и запись в отдельную инстанцию конфига
-			if ($this -> ParsePOSTDataIntoSeparateConfigInstance ($sConfigName)) {
+			if ($this -> PluginAdmin_Settings_ParsePOSTDataIntoSeparateConfigInstance ($sConfigName)) {
 				// Сохранить все настройки плагина в БД
-				$this -> PluginAdmin_Settings_SaveConfig ($sConfigName, $this -> GetKeysData ($sConfigName));
+				$this -> PluginAdmin_Settings_SaveConfigByKey ($sConfigName);
 				
 				$this -> Message_AddNotice ('Ok', '', true);
 			}
@@ -88,99 +81,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 			Router::GetPath ('admin') . 'settings/plugin/' . $sConfigName . '/?security_ls_key=' . $this -> Security_SetSessionKey ()		// todo: rework
 		);
 	}
-	
-	
-	
-	/*
-	 *	Весь процесс получение настроек из формы
-	 */
-	private function ParsePOSTDataIntoSeparateConfigInstance ($sConfigName) {
-		// Получить описание настроек из конфига
-		$aSettingsInfo = $this -> PluginAdmin_Settings_GetConfigSettingsSchemeInfo ($sConfigName);
-		print_r($_POST);die();
-		foreach ($_POST as $aPostRawData) {
-			// Проверка это ли параметр настроек формы
-			if (is_array ($aPostRawData) and $aPostRawData [0] == self::ADMIN_SETTINGS_FORM_SYSTEM_ID) {
-				//
-				// Структура принимаемых данных:
-				//
-				// [0] - идентификатор приналежности значения к параметрам (всегда должен быть self::ADMIN_SETTINGS_FORM_SYSTEM_ID)
-				// [1] - ключ параметра (как в конфиге)
-				// [2] - значение параметра из формы
-				// [n] - n-е значение из формы
-				//
-				$sKey = $aPostRawData [1];
-				// Если существует запись в конфиге о таком параметре, который был передан
-				if (array_key_exists ($sKey, $aSettingsInfo)) {
-					$aParamInfo = $aSettingsInfo [$sKey];
-					// todo: type checking
-					
-					// todo: for array collect its value
-					
-					$mValue = $aPostRawData [2];
-					
-					
-					// Приведение значения к нужному типу
-					$mValue = $this -> PluginAdmin_Settings_SwitchValueToType ($mValue, $aParamInfo ['type']);
-					
-					if (isset ($aParamInfo ['validator']) and !$this -> PluginAdmin_Settings_ValidateParameter ($aParamInfo ['validator'], $mValue)) {
-						$this -> Message_AddError (
-							$this -> Lang_Get ('plugin.admin.Errors.Wrong_Parameter_Value', array ('key' => $sKey)) .
-								$this -> PluginAdmin_Settings_ValidatorGetLastError (),
-							$this -> Lang_Get ('error'),
-							true
-						);
-						return false;		// todo: review: return false or continue if wrong value for one parameter is set?
-					}
-					// Сохранить значение ключа
-					$this -> SaveKeyValue ($sConfigName, $sKey, $mValue);
-				} else {
-					$this -> Message_AddError (
-						$this -> Lang_Get ('plugin.admin.Errors.Unknown_Parameter', array ('key' => $sKey)),
-						$this -> Lang_Get ('error'),
-						true
-					);
-				}
-			}
-		}
-		return true;
-	}
-	
-/*	
-	private function GetPostValueByType ($aPostRawData, $sType) {
-		$mValue = null;
-		switch ($sType) {
-			case 'array':
-				$mValue = array ();
-				
-				break;
-			default:
-				$mValue = $aPostRawData [2];
-				break;
-		}
-		return $mValue;
-	}*/
-	
 
-	//
-	// Сохранение данных одного ключа в временной инстанции конфига
-	//
-	private function SaveKeyValue ($sConfigName, $sKey, $mValue) {
-		// Сохранить значение ключа в отдельной области видимости для дальнейшего получения списка настроек
-		// Это очень удобно делать через отдельную инстанцию конфига - не нужно разбирать вручную ключи
-		Config::Set ($this -> PluginAdmin_Settings_GetRealFullKey ($sConfigName) . $sKey, $mValue, self::ADMIN_TEMP_CONFIG_INSTANCE);
-	}
-	
-	
-	
-	//
-	// Получение всех данных ранее сохраненных ключей из временной инстанции
-	//
-	private function GetKeysData ($sConfigName) {
-		// Все параметры из формы сохранены в отдельной инстанции конфига
-		return Config::Get ($this -> PluginAdmin_Settings_GetRealFullKey ($sConfigName, false), self::ADMIN_TEMP_CONFIG_INSTANCE);
-	}
-	
 	
 }
 

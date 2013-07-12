@@ -207,7 +207,6 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 	
 
 	public function EventShutdown() {
-		//$this->Viewer_Assign('oCursor', $this->PluginAdmin_Ui_GetCursor());		// todo: delete, unneeded
 		$this->Viewer_Assign('oMenuMain', $this->PluginAdmin_Ui_GetMenuMain());
 		$this->Viewer_Assign('oMenuAddition', $this->PluginAdmin_Ui_GetMenuAddition());
 
@@ -215,9 +214,10 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		$this->Viewer_AddBlock('right','blocks/block.nav.tpl',array('plugin'=>'admin'));
 
 		$this->PluginAdmin_Ui_HighlightMenus();
-		//$this->PluginAdmin_Ui_ArraysToViewer();
 		
-		$this -> Viewer_Assign ('sAdminSystemConfigId', PluginAdmin_ModuleSettings::SYSTEM_CONFIG_ID);	// todo: review
+		// для редактирования настроек плагинов и системы
+		$this -> Viewer_Assign ('sAdminSettingsFormSystemId', PluginAdmin_ModuleSettings::ADMIN_SETTINGS_FORM_SYSTEM_ID);
+		$this -> Viewer_Assign ('sAdminSystemConfigId', PluginAdmin_ModuleSettings::SYSTEM_CONFIG_ID);
 	}
 	
 }
