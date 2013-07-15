@@ -45,7 +45,7 @@ $config ['setup_rules']['one'] = array(1, 2, 3);
 //
 // Описание настроек плагина
 //
-$config ['$config_schema$'] = array(
+$config ['$config_scheme$'] = array(
   //
   // Пример для параметра целочисленного типа
   //

@@ -1,23 +1,17 @@
 {extends file="{$aTemplatePathPlugin.admin}/layout.base.tpl"}
 
 {block name='layout_content'}
-  Список плагинов
+  <h3>Список плагинов</h3>
 	<br /><br />
 
   {if $aPluginsInfo and count($aPluginsInfo)>0}
-  
-    <div class="OnePlugin">
-      <a href="{router page='admin'}settings/plugin/{$sAdminSystemConfigId}/?security_ls_key={$LIVESTREET_SECURITY_KEY}">
-        <h4 class="enabled {if $sConfigName==$sAdminSystemConfigId} selected{/if}">Системный конфиг</h4>
-      </a>
-    </div>
   
     {foreach from=$aPluginsInfo item=oPlugin}
     
       <div class="OnePlugin" title="{$oPlugin.property->description->data|strip_tags|escape:'html'}">
 
-        <a href="{router page='admin'}settings/plugin/{$oPlugin.code}/?security_ls_key={$LIVESTREET_SECURITY_KEY}">
-          <h4 class="{if $oPlugin.is_active}enabled{else}disabled{/if}{if $sConfigName==$oPlugin.code} selected{/if}">{$oPlugin.property->name->data}</h4>
+        <a href="{router page='admin'}settings/plugin/{$oPlugin.code}/">
+          <h4 class="{if $oPlugin.is_active}enabled{else}disabled{/if}">{$oPlugin.property->name->data}</h4>
         </a>
 			
         <div>

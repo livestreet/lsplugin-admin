@@ -24,7 +24,7 @@
 
 class PluginAdmin_ModuleSettings extends ModuleStorage {
 	
-	const CONFIG_SCHEMA_KEY = '$config_schema$';							// Ключ конфига, который хранит описатели настроек данного конфига
+	const CONFIG_SCHEME_KEY = '$config_scheme$';							// Ключ конфига, который хранит описатели настроек данного конфига
 	const CONFIG_DATA_PARAM_NAME = '__config__';							// Имя параметра для плагина или ядра для сохранения конфига в хранилище
 	const SYSTEM_CONFIG_ID = '__root_config__';								// Имя системного конфига как плагина
 
@@ -148,7 +148,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	
 	
 	protected function GetConfigSettingsSchemeInfo ($sConfigName) {
-		$aData = Config::Get ($this -> GetRealFullKey ($sConfigName) . self::CONFIG_SCHEMA_KEY);
+		$aData = Config::Get ($this -> GetRealFullKey ($sConfigName) . self::CONFIG_SCHEME_KEY);
 		return $aData ? $aData : array ();
 	}
 	
@@ -197,12 +197,15 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	/*
 	 *	Получение обьектов информации и настройках конфига
 	 */
-	public function GetConfigSettings ($sConfigName) {
+	public function GetConfigSettings ($sConfigName, $bAllowAllKeys = true, $aAllowedKeys = array ()) {
 		// Получить описание настроек из конфига
 		$aSettingsInfo = $this -> GetConfigSettingsSchemeInfo ($sConfigName);
 		
 		$aSettingsAll = array ();
 		foreach ($aSettingsInfo as $sConfigKey => $aOneParamInfo) {
+			// Получить только нужные ключи
+			if (!$bAllowAllKeys and !$this -> CheckIfThisKeyIsAllowed ($sConfigKey, $aAllowedKeys)) continue;
+			
 			// Получить текущее значение параметра
 			if (($mValue = $this -> GetParameterValue ($sConfigName, $sConfigKey)) === null) {
 				$this -> Message_AddError (
@@ -220,6 +223,19 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 			$aSettingsAll [$sConfigKey] = Engine::GetEntity ('PluginAdmin_ModuleSettings_EntitySettings', $aParamData);
 		}
 		return $aSettingsAll;
+	}
+	
+	
+	/*
+	 *	Сравнение начала разрешенных ключей с текущим ключем, в списке разрешенных ключей можно использовать лишь их часть (начало)
+	 */
+	private function CheckIfThisKeyIsAllowed ($sCurrentKey, $aAllowedKeys) {
+		if (empty ($aAllowedKeys)) return false;
+		foreach ($aAllowedKeys as $sKey) {
+			$iLength = strlen ($sKey);
+			if (substr_compare ($sKey, $sCurrentKey, 0, $iLength, true) === 0) return true;
+		}
+		return false;
 	}
 	
 	
@@ -325,6 +341,11 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	public function SaveConfigByKey ($sConfigName) {
 		return $this -> SaveConfig ($sConfigName, $this -> GetKeysData ($sConfigName));
 	}
+	
+	// todo: delete
+/*	public function GetSecurityKey () {
+		return '/?security_ls_key=' . $this -> Security_SetSessionKey ();
+	}*/
 
 	
 }
