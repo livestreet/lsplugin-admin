@@ -25,7 +25,7 @@
 class PluginAdmin_ActionAdmin_EventSettings extends Event {
 	
 	/*
-	 *	Показать настройки
+	 *	Показать настройки плагина
 	 */
 	public function EventShow () {
 		// Корректно ли имя конфига
@@ -73,11 +73,12 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 	}
 	
 	
-	/////////////
-	
-	protected function ShowSystemSettings ($aKeysToShow) {
+	/*
+	 *	Получение настроек ядра по группе
+	 */
+	protected function ShowSystemSettings ($aKeysToShow = array (), $aKeysToExcludeFromList = array ()) {
 		$sConfigName = PluginAdmin_ModuleSettings::SYSTEM_CONFIG_ID;
-		$aSettingsAll = $this -> PluginAdmin_Settings_GetConfigSettings ($sConfigName, false, $aKeysToShow);
+		$aSettingsAll = $this -> PluginAdmin_Settings_GetConfigSettings ($sConfigName, $aKeysToShow, $aKeysToExcludeFromList);
 
 		$this -> Viewer_Assign ('aSettingsAll', $aSettingsAll);
 		$this -> Viewer_Assign ('sConfigName', $sConfigName);
@@ -85,75 +86,26 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 	}
 	
 	
-	public function EventShowSystemSettings () {
-		$aKeysToShow = array(
-			// первые символы разрешенных ключей для этой группы
-			//'view',
-			//'seo',
-			//'block',
-			'pagination',
-			'path',
-			'smarty',
-			'sys',
-			'general',
-			//'lang',
-			//'acl',
-			//'module',
-			'db',
-			'memcache',
-			'router',
-			'head',
-			'compress',
+	protected function GetGroupsListAndShowSettings ($sGroupName) {
+		return $this -> ShowSystemSettings (
+			$this -> aCoreSettingsGroups [$sGroupName]['allowed'],
+			$this -> aCoreSettingsGroups [$sGroupName]['exclude']
 		);
-		return $this -> ShowSystemSettings ($aKeysToShow);
+	}
+	
+	
+	public function EventShowSystemSettings () {
+		return $this -> GetGroupsListAndShowSettings ('system');
 	}
 
 
 	public function EventShowTopicsSettings () {
-		$aKeysToShow = array(
-			// первые символы разрешенных ключей для этой группы
-			'view',
-			'seo',
-			'block',
-			//'pagination',
-			//'path',
-			//'smarty',
-			//'sys',
-			//'general',
-			'lang',
-			//'acl',
-			//'module',
-			'db',
-			'memcache',
-			'router',
-			'head',
-			'compress',
-		);
-		return $this -> ShowSystemSettings ($aKeysToShow);
+		return $this -> GetGroupsListAndShowSettings ('topics');
 	}
 
 	
 	public function EventShowUsersSettings () {
-		$aKeysToShow = array(
-			// первые символы разрешенных ключей для этой группы
-			//'view',
-			//'seo',
-			//'block',
-			//'pagination',
-			//'path',
-			//'smarty',
-			//'sys',
-			//'general',
-			//'lang',
-			'acl',
-			'module',
-			//'db',
-			//'memcache',
-			//'router',
-			//'head',
-			//'compress',
-		);
-		return $this -> ShowSystemSettings ($aKeysToShow);
+		return $this -> GetGroupsListAndShowSettings ('user');
 	}
 	
 }

@@ -16,6 +16,10 @@
 */
 
 class PluginAdmin_ActionAdmin extends ActionPlugin {
+	
+	// Списки групп настроек системного конфига
+	protected $aCoreSettingsGroups = array ();
+	
 
 	public function Init () {
 		// Reset added styles and scripts
@@ -86,6 +90,8 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		
 		array_map (array ($this, 'Viewer_AppendStyle'), $aStyles);
 		array_map (array ($this, 'Viewer_AppendScript'), $aScripts);
+		
+		$this -> aCoreSettingsGroups = Config::Get ('plugin.admin.core_config_groups');
 		
 		$this -> SetDefaultEvent ('index');
 		$this -> Hook_Run ('init_action_admin');

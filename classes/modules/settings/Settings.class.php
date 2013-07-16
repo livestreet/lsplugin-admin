@@ -197,14 +197,17 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	/*
 	 *	Получение обьектов информации и настройках конфига
 	 */
-	public function GetConfigSettings ($sConfigName, $bAllowAllKeys = true, $aAllowedKeys = array ()) {
+	public function GetConfigSettings ($sConfigName, $aOnlyThisKeysAllowed = array (), $aExcludeThisKeys = array ()) {
 		// Получить описание настроек из конфига
 		$aSettingsInfo = $this -> GetConfigSettingsSchemeInfo ($sConfigName);
 		
 		$aSettingsAll = array ();
 		foreach ($aSettingsInfo as $sConfigKey => $aOneParamInfo) {
 			// Получить только нужные ключи
-			if (!$bAllowAllKeys and !$this -> CheckIfThisKeyIsAllowed ($sConfigKey, $aAllowedKeys)) continue;
+			if (!empty ($aOnlyThisKeysAllowed) and !$this -> CheckIfThisKeyInArray ($sConfigKey, $aOnlyThisKeysAllowed)) continue;
+			
+			// Исключить не нужные ключи
+			if (!empty ($aExcludeThisKeys) and $this -> CheckIfThisKeyInArray ($sConfigKey, $aExcludeThisKeys)) continue;
 			
 			// Получить текущее значение параметра
 			if (($mValue = $this -> GetParameterValue ($sConfigName, $sConfigKey)) === null) {
@@ -229,9 +232,9 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	/*
 	 *	Сравнение начала разрешенных ключей с текущим ключем, в списке разрешенных ключей можно использовать лишь их часть (начало)
 	 */
-	private function CheckIfThisKeyIsAllowed ($sCurrentKey, $aAllowedKeys) {
-		if (empty ($aAllowedKeys)) return false;
-		foreach ($aAllowedKeys as $sKey) {
+	private function CheckIfThisKeyInArray ($sCurrentKey, $aOnlyThisKeysAllowed) {
+		if (empty ($aOnlyThisKeysAllowed)) return false;
+		foreach ($aOnlyThisKeysAllowed as $sKey) {
 			$iLength = strlen ($sKey);
 			if (substr_compare ($sKey, $sCurrentKey, 0, $iLength, true) === 0) return true;
 		}
@@ -342,11 +345,6 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 		return $this -> SaveConfig ($sConfigName, $this -> GetKeysData ($sConfigName));
 	}
 	
-	// todo: delete
-/*	public function GetSecurityKey () {
-		return '/?security_ls_key=' . $this -> Security_SetSessionKey ();
-	}*/
-
 	
 }
 
