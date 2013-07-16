@@ -133,9 +133,16 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		$this -> AddEventPreg('#^settings$#iu', '#^plugin$#iu', 'Settings::EventShow');         // настройки плагина
 		$this -> AddEventPreg('#^settings$#iu', '#^save$#iu', 'Settings::EventSaveConfig');     // сохранить настройки
 		
-		$this -> AddEventPreg('#^settings$#iu', '#^system$#iu', 'Settings::EventShowSystemSettings');
-		$this -> AddEventPreg('#^settings$#iu', '#^topics$#iu', 'Settings::EventShowTopicsSettings');
-		$this -> AddEventPreg('#^settings$#iu', '#^users$#iu', 'Settings::EventShowUsersSettings');
+		//
+		// Системные настройки
+		//
+		// для каждой группы настроек добавим виртуальный эвент и будем ловить их через __call()
+		// чтобы не плодить полупустых методов, так компактнее и удобнее
+		// todo: нужно что-то ещё с меню придумать чтобы полностью автоматизировать процесс создания групп
+		// пока в меню нужно прописывать вручную пунткы групп
+		foreach (array_keys (Config::Get ('plugin.admin.core_config_groups')) as $sKey) {
+			$this -> AddEventPreg('#^settings$#iu', '#^' . $sKey . '$#iu', 'Settings::EventShowSystemSettings' . $sKey);
+		}
 	}
 
 
@@ -176,7 +183,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 				
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Системные')->SetUrl('system'))
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Топики')->SetUrl('topics'))
-				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Пользователи')->SetUrl('users'))
+				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Пользователи')->SetUrl('user'))
 			)	// /AddSection
 		;
 	}

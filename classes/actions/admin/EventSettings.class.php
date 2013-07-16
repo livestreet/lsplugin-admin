@@ -24,6 +24,8 @@
 
 class PluginAdmin_ActionAdmin_EventSettings extends Event {
 	
+	private $sCallbackMethodToShowSystemSettings = 'EventShowSystemSettings';
+	
 	/*
 	 *	Показать настройки плагина
 	 */
@@ -94,19 +96,20 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 	}
 	
 	
-	public function EventShowSystemSettings () {
-		return $this -> GetGroupsListAndShowSettings ('system');
+	public function __call ($sName, $aArgs) {
+		// если это вызов для показа системных настроек ядра
+		if (strpos ($sName, $this -> sCallbackMethodToShowSystemSettings) !== false) {
+			// пробуем получить имя группы настроек как оно должно быть записано в конфиге
+			$sGroupName = strtolower (str_replace ($this -> sCallbackMethodToShowSystemSettings, '', $sName));
+			// если такая группа настроек существует
+			if (isset ($this -> aCoreSettingsGroups [$sGroupName])) {
+				return $this -> GetGroupsListAndShowSettings ($sGroupName);
+			}
+			throw new Exception ('Admin: error: there is no settings group name as "' . $sGroupName . '"');			// this msg will be never shown
+		}
+		return parent::__call ($sName, $aArgs);
 	}
-
-
-	public function EventShowTopicsSettings () {
-		return $this -> GetGroupsListAndShowSettings ('topics');
-	}
-
 	
-	public function EventShowUsersSettings () {
-		return $this -> GetGroupsListAndShowSettings ('user');
-	}
 	
 }
 
