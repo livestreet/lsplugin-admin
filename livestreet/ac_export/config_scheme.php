@@ -68,7 +68,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.view.img_resize_width.name',
     'description' => 'config_parameters.view.img_resize_width.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -78,7 +78,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.view.img_max_width.name',
     'description' => 'config_parameters.view.img_max_width.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -88,7 +88,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.view.img_max_height.name',
     'description' => 'config_parameters.view.img_max_height.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -98,7 +98,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.view.img_max_size_url.name',
     'description' => 'config_parameters.view.img_max_size_url.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -108,7 +108,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.seo.description_words_count.name',
     'description' => 'config_parameters.seo.description_words_count.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -118,7 +118,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.block.stream.row.name',
     'description' => 'config_parameters.block.stream.row.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -138,7 +138,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.block.blogs.row.name',
     'description' => 'config_parameters.block.blogs.row.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -148,7 +148,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.block.tags.tags_count.name',
     'description' => 'config_parameters.block.tags.tags_count.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -158,7 +158,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.block.tags.personal_tags_count.name',
     'description' => 'config_parameters.block.tags.personal_tags_count.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -168,7 +168,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.pagination.pages.count.name',
     'description' => 'config_parameters.pagination.pages.count.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -278,7 +278,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.path.offset_request_url.name',
     'description' => 'config_parameters.path.offset_request_url.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -368,7 +368,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.sys.cookie.time.name',
     'description' => 'config_parameters.sys.cookie.time.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -478,7 +478,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.sys.mail.smtp.port.name',
     'description' => 'config_parameters.sys.mail.smtp.port.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -588,7 +588,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.sys.cache.directory_level.name',
     'description' => 'config_parameters.sys.cache.directory_level.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -788,7 +788,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.acl.create.blog.rating.name',
     'description' => 'config_parameters.acl.create.blog.rating.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -798,7 +798,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.acl.create.comment.rating.name',
     'description' => 'config_parameters.acl.create.comment.rating.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -808,7 +808,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.acl.create.comment.limit_time.name',
     'description' => 'config_parameters.acl.create.comment.limit_time.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -818,7 +818,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.acl.create.comment.limit_time_rating.name',
     'description' => 'config_parameters.acl.create.comment.limit_time_rating.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -828,7 +828,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.acl.create.topic.limit_time.name',
     'description' => 'config_parameters.acl.create.topic.limit_time.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -838,7 +838,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.acl.create.topic.limit_time_rating.name',
     'description' => 'config_parameters.acl.create.topic.limit_time_rating.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -848,7 +848,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.acl.create.topic.limit_rating.name',
     'description' => 'config_parameters.acl.create.topic.limit_rating.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -858,7 +858,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.acl.create.talk.limit_time.name',
     'description' => 'config_parameters.acl.create.talk.limit_time.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -868,7 +868,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.acl.create.talk.limit_time_rating.name',
     'description' => 'config_parameters.acl.create.talk.limit_time_rating.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -878,7 +878,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.acl.create.talk_comment.limit_time.name',
     'description' => 'config_parameters.acl.create.talk_comment.limit_time.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -888,7 +888,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.acl.create.talk_comment.limit_time_rating.name',
     'description' => 'config_parameters.acl.create.talk_comment.limit_time_rating.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -898,7 +898,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.acl.create.wall.limit_time.name',
     'description' => 'config_parameters.acl.create.wall.limit_time.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -908,7 +908,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.acl.create.wall.limit_time_rating.name',
     'description' => 'config_parameters.acl.create.wall.limit_time_rating.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -918,7 +918,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.acl.vote.comment.rating.name',
     'description' => 'config_parameters.acl.vote.comment.rating.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -928,7 +928,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.acl.vote.blog.rating.name',
     'description' => 'config_parameters.acl.vote.blog.rating.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -938,7 +938,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.acl.vote.topic.rating.name',
     'description' => 'config_parameters.acl.vote.topic.rating.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -948,7 +948,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.acl.vote.user.rating.name',
     'description' => 'config_parameters.acl.vote.user.rating.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -958,7 +958,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.acl.vote.topic.limit_time.name',
     'description' => 'config_parameters.acl.vote.topic.limit_time.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -968,7 +968,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.acl.vote.comment.limit_time.name',
     'description' => 'config_parameters.acl.vote.comment.limit_time.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -978,7 +978,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.blog.per_page.name',
     'description' => 'config_parameters.module.blog.per_page.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -988,7 +988,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.blog.users_per_page.name',
     'description' => 'config_parameters.module.blog.users_per_page.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -998,7 +998,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.blog.personal_good.name',
     'description' => 'config_parameters.module.blog.personal_good.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -1008,7 +1008,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.blog.collective_good.name',
     'description' => 'config_parameters.module.blog.collective_good.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -1018,7 +1018,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.blog.index_good.name',
     'description' => 'config_parameters.module.blog.index_good.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -1088,7 +1088,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.topic.new_time.name',
     'description' => 'config_parameters.module.topic.new_time.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -1098,7 +1098,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.topic.per_page.name',
     'description' => 'config_parameters.module.topic.per_page.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -1108,7 +1108,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.topic.max_length.name',
     'description' => 'config_parameters.module.topic.max_length.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -1118,7 +1118,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.topic.link_max_length.name',
     'description' => 'config_parameters.module.topic.link_max_length.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -1128,7 +1128,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.topic.question_max_length.name',
     'description' => 'config_parameters.module.topic.question_max_length.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -1148,7 +1148,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.user.per_page.name',
     'description' => 'config_parameters.module.user.per_page.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -1158,7 +1158,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.user.friend_on_profile.name',
     'description' => 'config_parameters.module.user.friend_on_profile.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -1208,7 +1208,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.user.login.min_size.name',
     'description' => 'config_parameters.module.user.login.min_size.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -1218,7 +1218,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.user.login.max_size.name',
     'description' => 'config_parameters.module.user.login.max_size.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -1238,7 +1238,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.user.time_active.name',
     'description' => 'config_parameters.module.user.time_active.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -1248,7 +1248,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.user.usernote_text_max.name',
     'description' => 'config_parameters.module.user.usernote_text_max.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -1258,7 +1258,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.user.usernote_per_page.name',
     'description' => 'config_parameters.module.user.usernote_per_page.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -1268,7 +1268,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.user.userfield_max_identical.name',
     'description' => 'config_parameters.module.user.userfield_max_identical.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -1278,7 +1278,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.user.profile_photo_width.name',
     'description' => 'config_parameters.module.user.profile_photo_width.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -1288,7 +1288,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.user.name_max.name',
     'description' => 'config_parameters.module.user.name_max.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -1308,7 +1308,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.comment.per_page.name',
     'description' => 'config_parameters.module.comment.per_page.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -1318,7 +1318,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.comment.bad.name',
     'description' => 'config_parameters.module.comment.bad.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -1328,7 +1328,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.comment.max_tree.name',
     'description' => 'config_parameters.module.comment.max_tree.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -1348,7 +1348,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.comment.nested_per_page.name',
     'description' => 'config_parameters.module.comment.nested_per_page.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -1378,7 +1378,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.talk.per_page.name',
     'description' => 'config_parameters.module.talk.per_page.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -1398,7 +1398,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.talk.max_users.name',
     'description' => 'config_parameters.module.talk.max_users.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -1438,7 +1438,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.notify.per_process.name',
     'description' => 'config_parameters.module.notify.per_process.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -1578,7 +1578,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.image.default.watermark_min_width.name',
     'description' => 'config_parameters.module.image.default.watermark_min_width.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -1588,7 +1588,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.image.default.watermark_min_height.name',
     'description' => 'config_parameters.module.image.default.watermark_min_height.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -1648,7 +1648,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.image.default.jpg_quality.name',
     'description' => 'config_parameters.module.image.default.jpg_quality.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -1708,7 +1708,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.userfeed.count_default.name',
     'description' => 'config_parameters.module.userfeed.count_default.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -1718,7 +1718,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.stream.count_default.name',
     'description' => 'config_parameters.module.stream.count_default.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -1758,7 +1758,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.wall.count_last_reply.name',
     'description' => 'config_parameters.module.wall.count_last_reply.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -1768,7 +1768,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.wall.per_page.name',
     'description' => 'config_parameters.module.wall.per_page.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -1778,7 +1778,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.wall.text_max.name',
     'description' => 'config_parameters.module.wall.text_max.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -1788,7 +1788,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.wall.text_min.name',
     'description' => 'config_parameters.module.wall.text_min.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -1798,7 +1798,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.image.photoset.jpg_quality.name',
     'description' => 'config_parameters.module.image.photoset.jpg_quality.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -1808,7 +1808,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.topic.photoset.photo_max_size.name',
     'description' => 'config_parameters.module.topic.photoset.photo_max_size.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -1818,7 +1818,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.topic.photoset.count_photos_min.name',
     'description' => 'config_parameters.module.topic.photoset.count_photos_min.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -1828,7 +1828,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.topic.photoset.count_photos_max.name',
     'description' => 'config_parameters.module.topic.photoset.count_photos_max.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -1838,7 +1838,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.module.topic.photoset.per_page.name',
     'description' => 'config_parameters.module.topic.photoset.per_page.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -2828,7 +2828,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.compress.css.case_properties.name',
     'description' => 'config_parameters.compress.css.case_properties.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -2838,7 +2838,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.compress.css.merge_selectors.name',
     'description' => 'config_parameters.compress.css.merge_selectors.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),
@@ -2848,7 +2848,7 @@ $config ['$config_scheme$'] = array (
     'name' => 'config_parameters.compress.css.optimise_shorthands.name',
     'description' => 'config_parameters.compress.css.optimise_shorthands.description',
     'validator' => array (
-      'type' => 'Integer',
+      'type' => 'Number',
       'params' => array (
       ),
     ),

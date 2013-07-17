@@ -24,8 +24,6 @@
 
 class PluginAdmin_ActionAdmin_EventSettings extends Event {
 	
-	private $sCallbackMethodToShowSystemSettings = 'EventShowSystemSettings';
-	
 	/*
 	 *	Показать настройки плагина
 	 */
@@ -36,7 +34,6 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 			return false;
 		}
 		
-		// Загрузить конфиг плагина
 		if (!$this -> PluginAdmin_Settings_CheckIfThisPluginIsActive ($sConfigName)) {
 			$this -> Message_AddError ($this -> Lang_Get ('plugin.admin.Errors.Plugin_Need_To_Be_Activated'), $this -> Lang_Get ('error'));
 			return false;
@@ -61,6 +58,13 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 				$this -> Message_AddError ($this -> Lang_Get ('plugin.admin.Errors.Wrong_Config_Name'), $this -> Lang_Get ('error'));
 				return false;
 			}
+			
+			if ($sConfigName != PluginAdmin_ModuleSettings::SYSTEM_CONFIG_ID and
+					!$this -> PluginAdmin_Settings_CheckIfThisPluginIsActive ($sConfigName)
+			) {
+				$this -> Message_AddError ($this -> Lang_Get ('plugin.admin.Errors.Plugin_Need_To_Be_Activated'), $this -> Lang_Get ('error'));
+				return false;
+			}
 
 			// Получение всех параметров, их валидация и сверка с описанием структуры и запись в отдельную инстанцию конфига
 			if ($this -> PluginAdmin_Settings_ParsePOSTDataIntoSeparateConfigInstance ($sConfigName)) {
@@ -71,7 +75,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 			}
 		}
 
-		return Router::Location (Router::GetPath ('admin') . 'settings/plugin/' . $sConfigName);
+		return Router::Location (isset ($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : Router::GetPath ('admin'));
 	}
 	
 	

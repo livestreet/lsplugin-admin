@@ -30,6 +30,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 
 	const ADMIN_SETTINGS_FORM_SYSTEM_ID = 'LS-Admin';					// Скрытый системный идентификатор данных о настройках из формы
 	const ADMIN_TEMP_CONFIG_INSTANCE = 'temporary_instance';	// До момента сохранения настроек в БД они будут хранится здесь
+	
 	const POST_RAW_DATA_ARRAY_SIGNATURE = 0;									// индекс массива с подписью параметра
 	const POST_RAW_DATA_ARRAY_KEY = 1;												// индекс массива с ключем параметра
 	const POST_RAW_DATA_ARRAY_VALUE_FIRST = 2;								// индекс массива с данными параметра (от этого номера и до конца массива)
@@ -44,11 +45,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 *	Сохранить конфиг ключа
 	 */
 	public function SaveConfig ($sConfigName, $mData) {
-		if ($sConfigName == self::SYSTEM_CONFIG_ID) {
-			$sKey = ModuleStorage::DEFAULT_KEY_NAME;
-		} else {
-			$sKey = ModuleStorage::PLUGIN_PREFIX . $sConfigName;
-		}
+		$sKey = $this -> GetCorrectStorageKey ($sConfigName);
 		return $this -> SetOneParam ($sKey, self::CONFIG_DATA_PARAM_NAME, $mData);
 	}
 	
@@ -60,8 +57,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 		$aData = $this -> GetFieldsAll ();
 		if ($aData ['count']) {
 			foreach ($aData ['collection'] as $aFieldData) {
-				$sKey = $aFieldData ['key'];
-				$this -> LoadConfig ($sKey);
+				$this -> LoadConfig ($aFieldData ['key']);
 			}
 		}
 	}
@@ -123,20 +119,6 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 */
 	
 	
-	public function GetRealFullKey ($sConfigName, $bAddDot = true) {
-		return $sConfigName == self::SYSTEM_CONFIG_ID ? '' : 'plugin.' . $sConfigName . ($bAddDot ? '.' : '');
-	}
-	
-	
-	public function ConvertLangKeysToTexts ($sConfigName, $aParam, $aKeys = array ('name', 'description')) {
-		foreach ($aKeys as $sNamesToExtend) {
-			if (!isset ($aParam [$sNamesToExtend])) continue;
-			$aParam [$sNamesToExtend] = $this -> Lang_Get ($this -> GetRealFullKey ($sConfigName) . $aParam [$sNamesToExtend]);
-		}
-		return $aParam;
-	}
-	
-	
 	public function GetParameterValue ($sConfigName, $sConfigKey) {
 		return Config::Get ($this -> GetRealFullKey ($sConfigName) . $sConfigKey);
 	}
@@ -144,6 +126,20 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	
 	public function CheckIfThisPluginIsActive ($sConfigName) {
 		return in_array ($sConfigName, array_keys (Engine::getInstance () -> GetPlugins ()));
+	}
+	
+	
+	protected function GetRealFullKey ($sConfigName, $bAddDot = true) {
+		return $sConfigName == self::SYSTEM_CONFIG_ID ? '' : 'plugin.' . $sConfigName . ($bAddDot ? '.' : '');
+	}
+	
+	
+	protected function ConvertLangKeysToTexts ($sConfigName, $aParam, $aKeys = array ('name', 'description')) {
+		foreach ($aKeys as $sNamesToExtend) {
+			if (!isset ($aParam [$sNamesToExtend])) continue;
+			$aParam [$sNamesToExtend] = $this -> Lang_Get ($this -> GetRealFullKey ($sConfigName) . $aParam [$sNamesToExtend]);
+		}
+		return $aParam;
 	}
 	
 	
@@ -156,7 +152,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	/*
 	 *	Принудительное приведение значения к типу, заданному в описании конфига
 	 */
-	public function SwitchValueToType ($mValue, $sType) {
+	protected function SwitchValueToType ($mValue, $sType) {
 		switch ($sType) {
 			case 'array':
 				if (!is_array ($mValue)) {
@@ -179,7 +175,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	/*
 	 *	Проводит валидацию значения параметра (используется валидатор движка)
 	 */
-	public function ValidateParameter ($aValidatorInfo, $mValue) {
+	protected function ValidateParameter ($aValidatorInfo, $mValue) {
 		if (!isset ($aValidatorInfo ['type'])) return true;
 		return $this -> Validate_Validate (
 			$aValidatorInfo ['type'],
@@ -189,7 +185,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	}
 	
 	
-	public function ValidatorGetLastError () {
+	protected function ValidatorGetLastError () {
 		return $this -> Validate_GetErrorLast (true);
 	}
 	
@@ -230,7 +226,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	
 	
 	/*
-	 *	Сравнение начала разрешенных ключей с текущим ключем, в списке разрешенных ключей можно использовать лишь их часть (начало)
+	 *	Сравнение начала ключей из массива с текущим ключем, в списке ключей массива можно использовать первые символы ключей
 	 */
 	private function CheckIfThisKeyInArray ($sCurrentKey, $aOnlyThisKeysAllowed) {
 		if (empty ($aOnlyThisKeysAllowed)) return false;
@@ -265,6 +261,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 				if (array_key_exists ($sKey, $aSettingsInfo)) {
 					$oParamInfo = $aSettingsInfo [$sKey];
 					
+					// получить значение данного параметра на основе данных о нем
 					$mValue = $this -> GetFormParameterValue ($aPostRawData, $oParamInfo);
 					
 					// Приведение значения к нужному типу
@@ -342,7 +339,53 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 *	Сохранить полученные настройки из кастомной инстанции конфига в хранилище
 	 */
 	public function SaveConfigByKey ($sConfigName) {
-		return $this -> SaveConfig ($sConfigName, $this -> GetKeysData ($sConfigName));
+		// получить данные, которые были сохранены во временной инстанции конфига после их парсинга и анализа
+		$aData = $this -> GetKeysData ($sConfigName);
+		// получить ранее сохраненные данные, если есть
+		if ($aConfigOldData = $this -> GetOneParam ($this -> GetCorrectStorageKey ($sConfigName), self::CONFIG_DATA_PARAM_NAME)) {
+			// обьеденить сохраненные ранее настройки с новыми
+			// это необходимо если настройки разбиты на группы и показываются в разных разделах частями (например, настройки ядра)
+			$aData = array_merge ($aConfigOldData, $aData);
+		}
+		return $this -> SaveConfig ($sConfigName, $aData);
+	}
+	
+	
+	/*
+	 *	Получить корректное имя ключа для сохранения в хранилище
+	 *	В админке для системного конфига есть собственное название - self::SYSTEM_CONFIG_ID
+	 *	В хранилище оно же должно быть указано как ModuleStorage::DEFAULT_KEY_NAME.
+	 *	Если же это плагин, то к его имени должен быть добавлен префикс ModuleStorage::PLUGIN_PREFIX
+	 */
+	protected function GetCorrectStorageKey ($sConfigName) {
+		if ($sConfigName == self::SYSTEM_CONFIG_ID) {
+			return ModuleStorage::DEFAULT_KEY_NAME;
+		}
+		return ModuleStorage::PLUGIN_PREFIX . $sConfigName;
+	}
+	
+	
+	/*
+	 *	Cохранения ключей конфига плагина и последующей их автозагрузки как части конфига
+	 */
+	public function SavePluginConfig ($aKeysToSave = array (), $sCallerName, $sInstance = self::DEFAULT_INSTANCE) {
+		// Получить сохраненный конфиг из хранилища
+		$aConfigData = $this -> GetOneParam ($sCallerName, self::CONFIG_DATA_PARAM_NAME, $sInstance);	// todo: if null?
+		print_r($aConfigData);die();
+		//print_r($sCallerName);die();
+		
+		// Получить текущие данные конфига по ключам
+		$aDataToSave = array ();
+		foreach ($aKeysToSave as $sConfigKey) {
+			if (($mValue = $this -> GetParameterValue ($sCallerName, $sConfigKey)) === null) {
+				// Значение удалили, значит нужно удалить и из хранилища вместо добавления
+				unset ($aConfigData [$sConfigKey]);
+				continue;
+			}
+			$aDataToSave [] = $mValue;
+		}
+		// Обьеденить и записать данные
+		return $this -> SaveConfig ($sCallerName, array_merge ($aConfigData, $aDataToSave));
 	}
 	
 	

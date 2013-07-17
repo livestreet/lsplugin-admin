@@ -117,7 +117,8 @@ class PluginAdmin_ModuleStorage extends PluginAdmin_Inherits_ModuleStorage {
 	
 	
 	/*
-   * Может быть вызвано плагином для сохранения ключей его конфига и последующей их автозагрузки как части конфига (после ручного их редактирования)
+   * Может быть вызвано плагином для сохранения ключей его конфига и последующей их автозагрузки как части конфига
+	 * (после программного их редактирования)
 	 *
 	 * Например, добавление данных:
 	 *
@@ -134,20 +135,7 @@ class PluginAdmin_ModuleStorage extends PluginAdmin_Inherits_ModuleStorage {
 	public function SaveMyConfig ($aKeysToSave = array (), $oCaller, $sInstance = self::DEFAULT_INSTANCE) {
 		if (empty ($aKeysToSave)) return false;
 		$sCallerName = $this -> GetKeyForCaller ($oCaller);
-		// Получить сохраненный конфиг из хранилища
-		if (!$aConfigData = $this -> GetOneParam ($sCallerName, PluginAdmin_ModuleSettings::CONFIG_DATA_PARAM_NAME)) return false;
-		// Получить текущие данные конфига по ключам
-		$aDataToSave = array ();
-		foreach ($aKeysToSave as $sConfigKey) {
-			if (($mValue = $this -> PluginAdmin_Settings_GetParameterValue ($sCallerName, $sConfigKey)) === null) {
-				// Значение удалили, значит нужно удалить и из хранилища вместо добавления
-				unset ($aConfigData [$sConfigKey]);
-				continue;
-			}
-			$aDataToSave [] = $mValue;
-		}
-		// Обьеденить и записать данные
-		return $this -> PluginAdmin_Settings_SaveConfig ($sCallerName, array_merge ($aConfigData, $aDataToSave));
+		return $this -> PluginAdmin_Settings_SavePluginConfig ($aKeysToSave, $sCallerName, $sInstance);
 	}
 
 }

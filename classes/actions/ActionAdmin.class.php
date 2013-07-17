@@ -19,6 +19,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 	
 	// Списки групп настроек системного конфига
 	protected $aCoreSettingsGroups = array ();
+	protected $sCallbackMethodToShowSystemSettings = 'EventShowSystemSettings';
 	
 
 	public function Init () {
@@ -141,7 +142,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		// todo: нужно что-то ещё с меню придумать чтобы полностью автоматизировать процесс создания групп
 		// пока в меню нужно прописывать вручную пунткы групп
 		foreach (array_keys (Config::Get ('plugin.admin.core_config_groups')) as $sKey) {
-			$this -> AddEventPreg('#^settings$#iu', '#^' . $sKey . '$#iu', 'Settings::EventShowSystemSettings' . $sKey);
+			$this -> AddEventPreg('#^settings$#iu', '#^' . $sKey . '$#iu', 'Settings::' . $this -> sCallbackMethodToShowSystemSettings . $sKey);
 		}
 	}
 
@@ -152,6 +153,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 	 */
 
 	protected function EventIndex () {
+		$this -> Storage_SaveMyConfig (array ('test'), $this);	// todo: delete
 		// дашборд
 		$this -> SetTemplateAction('index');
 	}
