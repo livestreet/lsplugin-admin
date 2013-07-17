@@ -59,9 +59,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 				return false;
 			}
 			
-			if ($sConfigName != PluginAdmin_ModuleSettings::SYSTEM_CONFIG_ID and
-					!$this -> PluginAdmin_Settings_CheckIfThisPluginIsActive ($sConfigName)
-			) {
+			if ($sConfigName != ModuleStorage::DEFAULT_KEY_NAME and !$this -> PluginAdmin_Settings_CheckIfThisPluginIsActive ($sConfigName)) {
 				$this -> Message_AddError ($this -> Lang_Get ('plugin.admin.Errors.Plugin_Need_To_Be_Activated'), $this -> Lang_Get ('error'));
 				return false;
 			}
@@ -83,7 +81,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 	 *	Получение настроек ядра по группе
 	 */
 	protected function ShowSystemSettings ($aKeysToShow = array (), $aKeysToExcludeFromList = array ()) {
-		$sConfigName = PluginAdmin_ModuleSettings::SYSTEM_CONFIG_ID;
+		$sConfigName = ModuleStorage::DEFAULT_KEY_NAME;
 		$aSettingsAll = $this -> PluginAdmin_Settings_GetConfigSettings ($sConfigName, $aKeysToShow, $aKeysToExcludeFromList);
 
 		$this -> Viewer_Assign ('aSettingsAll', $aSettingsAll);

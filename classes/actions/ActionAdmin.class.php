@@ -153,7 +153,6 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 	 */
 
 	protected function EventIndex () {
-		$this -> Storage_SaveMyConfig (array ('test'), $this);	// todo: delete
 		// дашборд
 		$this -> SetTemplateAction('index');
 	}
@@ -202,7 +201,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		
 		// для редактирования настроек плагинов и системы
 		$this -> Viewer_Assign ('sAdminSettingsFormSystemId', PluginAdmin_ModuleSettings::ADMIN_SETTINGS_FORM_SYSTEM_ID);
-		$this -> Viewer_Assign ('sAdminSystemConfigId', PluginAdmin_ModuleSettings::SYSTEM_CONFIG_ID);
+		$this -> Viewer_Assign ('sAdminSystemConfigId', ModuleStorage::DEFAULT_KEY_NAME);
 	}
 	
 }
