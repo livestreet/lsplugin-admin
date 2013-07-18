@@ -34,7 +34,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 			return false;
 		}
 		
-		if (!$this -> PluginAdmin_Settings_CheckIfThisPluginIsActive ($sConfigName)) {
+		if (!$this -> PluginAdmin_Settings_CheckPluginNameIsActive ($sConfigName)) {
 			$this -> Message_AddError ($this -> Lang_Get ('plugin.admin.Errors.Plugin_Need_To_Be_Activated'), $this -> Lang_Get ('error'));
 			return false;
 		}
@@ -59,7 +59,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 				return false;
 			}
 			
-			if ($sConfigName != ModuleStorage::DEFAULT_KEY_NAME and !$this -> PluginAdmin_Settings_CheckIfThisPluginIsActive ($sConfigName)) {
+			if ($sConfigName != ModuleStorage::DEFAULT_KEY_NAME and !$this -> PluginAdmin_Settings_CheckPluginNameIsActive ($sConfigName)) {
 				$this -> Message_AddError ($this -> Lang_Get ('plugin.admin.Errors.Plugin_Need_To_Be_Activated'), $this -> Lang_Get ('error'));
 				return false;
 			}

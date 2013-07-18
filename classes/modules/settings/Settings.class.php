@@ -43,7 +43,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	/*
 	 *	Сохранить конфиг ключа
 	 */
-	public function SaveConfig ($sConfigName, $mData, $sInstance = self::DEFAULT_INSTANCE) {
+	public function SaveConfigData ($sConfigName, $mData, $sInstance = self::DEFAULT_INSTANCE) {
 		$sKey = $this -> GetCorrectStorageKey ($sConfigName);
 		return $this -> SetOneParam ($sKey, self::CONFIG_DATA_PARAM_NAME, $mData, $sInstance);
 	}
@@ -118,13 +118,13 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 */
 	
 	
-	public function GetParameterValue ($sConfigName, $sConfigKey) {
-		return Config::Get ($this -> GetRealFullKey ($sConfigName) . $sConfigKey);
+	public function CheckPluginNameIsActive ($sConfigName) {
+		return in_array ($sConfigName, array_keys (Engine::getInstance () -> GetPlugins ()));
 	}
 	
 	
-	public function CheckIfThisPluginIsActive ($sConfigName) {
-		return in_array ($sConfigName, array_keys (Engine::getInstance () -> GetPlugins ()));
+	protected function GetConfigKeyValue ($sConfigName, $sConfigKey) {
+		return Config::Get ($this -> GetRealFullKey ($sConfigName) . $sConfigKey);
 	}
 	
 	
@@ -143,7 +143,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	
 	
 	protected function GetConfigSettingsSchemeInfo ($sConfigName) {
-		$aData = Config::Get ($this -> GetRealFullKey ($sConfigName) . self::CONFIG_SCHEME_KEY);
+		$aData = $this -> GetConfigKeyValue ($sConfigName, self::CONFIG_SCHEME_KEY);
 		return $aData ? $aData : array ();
 	}
 	
@@ -165,7 +165,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 				settype ($mValue, $sType);
 				break;
 			default:
-				throw new Exception ('Admin: value parsing error: unknown variable type defined in config`s description');
+				throw new Exception ('Admin: value parsing error: unknown variable type defined in config`s description as "' . $sType . '"');
 		}
 		return $mValue;
 	}
@@ -192,7 +192,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	/*
 	 *	Получение обьектов информации и настройках конфига
 	 */
-	public function GetConfigSettings ($sConfigName, $aOnlyThisKeysAllowed = array (), $aExcludeThisKeys = array ()) {
+	public function GetConfigSettings ($sConfigName, $aOnlyThisKeysAllowed = array (), $aExcludeKeys = array ()) {
 		// Получить описание настроек из конфига
 		$aSettingsInfo = $this -> GetConfigSettingsSchemeInfo ($sConfigName);
 		
@@ -202,10 +202,10 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 			if (!empty ($aOnlyThisKeysAllowed) and !$this -> CheckIfThisKeyInArray ($sConfigKey, $aOnlyThisKeysAllowed)) continue;
 			
 			// Исключить не нужные ключи
-			if (!empty ($aExcludeThisKeys) and $this -> CheckIfThisKeyInArray ($sConfigKey, $aExcludeThisKeys)) continue;
+			if (!empty ($aExcludeKeys) and $this -> CheckIfThisKeyInArray ($sConfigKey, $aExcludeKeys)) continue;
 			
 			// Получить текущее значение параметра
-			if (($mValue = $this -> GetParameterValue ($sConfigName, $sConfigKey)) === null) {
+			if (($mValue = $this -> GetConfigKeyValue ($sConfigName, $sConfigKey)) === null) {
 				$this -> Message_AddError (
 					$this -> Lang_Get ('plugin.admin.Errors.Wrong_Description_Key', array ('key' => $sConfigKey)),
 					$this -> Lang_Get ('error')
@@ -218,7 +218,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 			
 			// Собрать данные параметра и получить сущность
 			$aParamData = array_merge ($aOneParamInfo, array ('key' => $sConfigKey, 'value' => $mValue));
-			$aSettingsAll [$sConfigKey] = Engine::GetEntity ('PluginAdmin_ModuleSettings_EntitySettings', $aParamData);
+			$aSettingsAll [$sConfigKey] = Engine::GetEntity ('PluginAdmin_Settings', $aParamData);
 		}
 		return $aSettingsAll;
 	}
@@ -230,8 +230,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	private function CheckIfThisKeyInArray ($sCurrentKey, $aOnlyThisKeysAllowed) {
 		if (empty ($aOnlyThisKeysAllowed)) return false;
 		foreach ($aOnlyThisKeysAllowed as $sKey) {
-			$iLength = strlen ($sKey);
-			if (substr_compare ($sKey, $sCurrentKey, 0, $iLength, true) === 0) return true;
+			if (substr_compare ($sKey, $sCurrentKey, 0, strlen ($sKey), true) === 0) return true;
 		}
 		return false;
 	}
@@ -247,7 +246,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 			// Проверка это ли параметр настроек формы
 			if (is_array ($aPostRawData) and $aPostRawData [self::POST_RAW_DATA_ARRAY_SIGNATURE] == self::ADMIN_SETTINGS_FORM_SYSTEM_ID) {
 				//
-				// Структура принимаемых данных:
+				// Структура принимаемых данных - массив с значениями по ключам:
 				//
 				// [self::POST_RAW_DATA_ARRAY_SIGNATURE] - идентификатор приналежности значения к параметрам
 				//		(всегда должен быть self::ADMIN_SETTINGS_FORM_SYSTEM_ID)
@@ -257,7 +256,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 				//
 				$sKey = $aPostRawData [self::POST_RAW_DATA_ARRAY_KEY];
 				// Если существует запись в конфиге о таком параметре, который был передан
-				if (array_key_exists ($sKey, $aSettingsInfo)) {
+				if ($sKey and array_key_exists ($sKey, $aSettingsInfo)) {
 					$oParamInfo = $aSettingsInfo [$sKey];
 					
 					// получить значение данного параметра на основе данных о нем
@@ -346,7 +345,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 			// это необходимо если настройки разбиты на группы и показываются в разных разделах частями (например, настройки ядра)
 			$aData = array_merge ($aConfigOldData, $aData);
 		}
-		return $this -> SaveConfig ($sConfigName, $aData);
+		return $this -> SaveConfigData ($sConfigName, $aData);
 	}
 	
 	
@@ -377,7 +376,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 		// Получить текущие данные конфига по ключам
 		$aDataToSave = array ();
 		foreach ($aKeysToSave as $sConfigKey) {
-			if (($mValue = $this -> GetParameterValue ($sKey, $sConfigKey)) === null) {
+			if (($mValue = $this -> GetConfigKeyValue ($sKey, $sConfigKey)) === null) {
 				// Значение удалили, значит нужно удалить и из хранилища вместо добавления
 				unset ($aConfigData [$sConfigKey]);
 				continue;
@@ -385,7 +384,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 			$aDataToSave [$sConfigKey] = $mValue;
 		}
 		// Обьеденить и записать данные
-		return $this -> SaveConfig ($sKey, array_merge ($aConfigData, $aDataToSave), $sInstance);
+		return $this -> SaveConfigData ($sKey, array_merge ($aConfigData, $aDataToSave), $sInstance);
 	}
 	
 	

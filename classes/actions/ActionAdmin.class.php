@@ -19,6 +19,8 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 	
 	// Списки групп настроек системного конфига
 	protected $aCoreSettingsGroups = array ();
+	
+	// Имя виртуального метода, который будет пойман в __call для групп системных настроек
 	protected $sCallbackMethodToShowSystemSettings = 'EventShowSystemSettings';
 	
 
@@ -120,19 +122,19 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		//
 		// Пользователи
 		//
-		$this -> AddEventPreg('/^user$/i', '/^list$/i','/^$/i', 'User::EventUserList');
+		$this -> AddEventPreg ('/^user$/i', '/^list$/i','/^$/i', 'User::EventUserList');
 		
 		//
 		// Плагины
 		//
-		$this -> AddEventPreg('/^plugin$/i', '/^[\w_\-]+$/i', 'Plugin::EventPlugin');			      // показать страницу собственных настроек плагина
-		$this -> AddEventPreg('#^plugins$#iu', '#^list$#iu', 'Plugins::EventPluginsList');  		// список плагинов
+		$this -> AddEventPreg ('/^plugin$/i', '/^[\w_\-]+$/i', 'Plugin::EventPlugin');			      // показать страницу собственных настроек плагина
+		$this -> AddEventPreg ('#^plugins$#iu', '#^list$#iu', 'Plugins::EventPluginsList');  		// список плагинов
 		
 		//
 		// Настройки
 		//
-		$this -> AddEventPreg('#^settings$#iu', '#^plugin$#iu', 'Settings::EventShow');         // настройки плагина
-		$this -> AddEventPreg('#^settings$#iu', '#^save$#iu', 'Settings::EventSaveConfig');     // сохранить настройки
+		$this -> AddEventPreg ('#^settings$#iu', '#^plugin$#iu', 'Settings::EventShow');         // настройки плагина
+		$this -> AddEventPreg ('#^settings$#iu', '#^save$#iu', 'Settings::EventSaveConfig');     // сохранить настройки
 		
 		//
 		// Системные настройки
@@ -142,7 +144,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		// todo: нужно что-то ещё с меню придумать чтобы полностью автоматизировать процесс создания групп
 		// пока в меню нужно прописывать вручную пунткы групп
 		foreach (array_keys (Config::Get ('plugin.admin.core_config_groups')) as $sKey) {
-			$this -> AddEventPreg('#^settings$#iu', '#^' . $sKey . '$#iu', 'Settings::' . $this -> sCallbackMethodToShowSystemSettings . $sKey);
+			$this -> AddEventPreg ('#^settings$#iu', '#^' . $sKey . '$#iu', 'Settings::' . $this -> sCallbackMethodToShowSystemSettings . $sKey);
 		}
 	}
 
@@ -165,7 +167,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 				Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Главная')->SetUrl('')
 			)	// /AddSection
 			->AddSection(
-				Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Пользователи')->SetName('users')->SetUrl('users')
+				Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Пользователи')->SetName('user')->SetUrl('user')
 				
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Статистика')->SetUrl('stats'))
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Весь список')->SetUrl('list'))
