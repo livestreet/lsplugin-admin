@@ -34,6 +34,8 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	const POST_RAW_DATA_ARRAY_KEY = 1;												// индекс массива с ключем параметра
 	const POST_RAW_DATA_ARRAY_VALUE_FIRST = 2;								// индекс массива с данными параметра (от этого номера и до конца массива)
 	
+	const PATH_TO_ROOT_CONFIG_SCHEME = 'config/root_config/';	// путь к схеме и языковым файлам главного конфига относительно корня папки плагина
+	
 
 	public function Init() {
 		parent::Init ();
@@ -385,6 +387,70 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 		}
 		// Обьеденить и записать данные
 		return $this -> SaveConfigData ($sKey, array_merge ($aConfigData, $aDataToSave), $sInstance);
+	}
+	
+	
+	/*
+	 *	--- Функции работы с описанием главного конфига ---
+	 */
+	
+	protected function GetRootConfigSchemePath () {
+		return Plugin::GetPath (__CLASS__) . self::PATH_TO_ROOT_CONFIG_SCHEME;
+	}
+	
+	
+	protected function GetRootConfigLanguge ($sFileName) {
+		return $this -> GetRootConfigSchemePath () . 'language/' . $sFileName . '.php';
+	}
+	
+	
+	/*
+	 *	Добавить к главному конфигу движка схему его настроек, которая находится внутри плагина админки
+	 */
+	protected function AddConfigSchemeToRootConfig () {
+		$sPathRootConfigScheme = $this -> GetRootConfigSchemePath () . 'scheme.php';
+		if (!is_readable ($sPathRootConfigScheme)) {
+			throw new Exception ('Admin: error: can`t read root config scheme "' . $sPathRootConfigScheme . '". Check rights for this file.');
+		}
+		
+		$aRootConfigScheme = require_once ($sPathRootConfigScheme);
+		if (!is_array ($aRootConfigScheme)) {
+			throw new Exception ('Admin: error: scheme of root config is not an array. Last error: ' . print_r (error_get_last (), true));
+		}
+		
+		Config::Set ('$config_scheme$', $aRootConfigScheme);
+	}
+	
+	
+	/*
+	 *	Добавить к главному конфигу движка описание его настроек, которое находится внутри плагина админки
+	 */
+	protected function AddConfigLanguageToRootConfig () {
+		$sPathRootConfigLang = $this -> GetRootConfigLanguge (Config::Get ('lang.current'));
+		if (!is_readable ($sPathRootConfigLang)) {
+			$sPathRootConfigLang = $this -> GetRootConfigLanguge (Config::Get ('lang.default'));
+			if (!is_readable ($sPathRootConfigLang)) {
+				throw new Exception (
+					'Admin: error: can`t read root config language file "' . $sPathRootConfigLang . '" (current and default). Check rights for this file.'
+				);
+			}
+		}
+		
+		$aRootConfigLang = require_once ($sPathRootConfigLang);
+		if (!is_array ($aRootConfigLang)) {
+			throw new Exception ('Admin: error: language file of root config is not an array. Last error: ' . print_r (error_get_last (), true));
+		}
+		
+		$this -> Lang_AddMessages ($aRootConfigLang);
+	}
+	
+	
+	/*
+	 *	Добавить к главному конфигу движка схему его конфига и описание в языковый файл
+	 */
+	public function AddSchemeAndLangToRootConfig () {
+		$this -> AddConfigSchemeToRootConfig ();
+		$this -> AddConfigLanguageToRootConfig ();
 	}
 	
 	

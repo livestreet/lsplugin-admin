@@ -1,14 +1,12 @@
 
---- Список ВСЕХ настроек для главного конфига ядра ---
+В конфиге лс нужно изменить названия блоков:
 
-Из папки ac_export:
+$config['block']['userfeedBlogs']
+$config['block']['userfeedUsers']
 
-1. подключить файл "config_scheme.php" к главному конфигу (в конце):
+т.к. по правилам они должны бы называться:
 
-  require (dirname (__FILE__) . '/config_scheme.php');
-  
+$config['block']['rule_userfeedBlogs']
+$config['block']['rule_userfeedUsers']
 
-2. Содержимое файла "lang_ru_scheme_texts.php" добавить в языковый файл
-
-
-Другие файлы нужны в тестово-отладочных целях.
+это нужно для разделения настроек по группам в интерфейсе

@@ -53,6 +53,7 @@ return array (
 	'title' => 'Админка для LiveStreet CMS',
 	'true' => 'Включено (true)',
 	'false' => 'Выключено (false)',
+	'current' => 'текущее',
 	
 	/*
 	 * Список параметров

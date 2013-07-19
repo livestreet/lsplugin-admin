@@ -18,7 +18,7 @@
 			
 			<select name="{$sInputDataName}" class="input-text input-width-250" multiple>
 				{foreach from=$aItemsToShow item=sValue}
-					<option value="{$sValue}" {if in_array($sValue, $oParameter->getValue())}selected="selected"{/if}>{$sValue}</option>
+					<option value="{$sValue}" {if in_array($sValue, $oParameter->getValue())}selected="selected"{/if}>{$sValue}{if in_array($sValue, $oParameter->getValue())} ({$aLang.plugin.admin.current}){/if}</option>
 				{/foreach}
 			</select>
 			<div>

@@ -31,8 +31,36 @@ class PluginAdmin_ModuleSettings_EntitySettings extends Entity {
 			return false;
 		}
 		
+		if (!isset ($aValidatorData ['params'])) {
+			return false;
+		}
+		
 		$aValidatorParams = $aValidatorData ['params'];
 		if ($this -> getShowAsPhpArray () or (!isset ($aValidatorParams ['enum']) and !isset ($aValidatorParams ['range']))) {
+			return false;
+		}
+		return true;
+	}
+	
+	// ---
+	
+	public function getNeedToShowSpecialIntegerForm () {
+		$aValidatorData = $this -> getValidator ();
+		
+		if ($aValidatorData ['type'] != 'Number') {
+			return false;
+		}
+		
+		if (!isset ($aValidatorData ['params'])) {
+			return false;
+		}
+		
+		$aValidatorParams = $aValidatorData ['params'];
+		if (!isset ($aValidatorParams ['min']) or !isset ($aValidatorParams ['max'])) {
+			return false;
+		}
+		// чтобы не нагружать браузер слишком большими списками чисел
+		if ($aValidatorParams ['max'] - $aValidatorParams ['min'] > 500) {
 			return false;
 		}
 		return true;
