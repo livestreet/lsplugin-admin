@@ -18,6 +18,10 @@ h2.Title {
     font-size: 18px;
 }
 
+.input-width-50 {
+    width: 50px;
+}
+
 /* parameters list */
 
 .OneParameterContainer {
@@ -41,4 +45,26 @@ h2.Title {
     margin: 0 10px;
     padding: 0 5px;
     text-shadow: 0 1px 0 #FFFFFF;
+}
+
+/* special array list */
+
+.OneParameterContainer .js-array-values {
+    background: none repeat scroll 0 0 #FAFAFA;
+    border: 1px solid #EEEEEE;
+    border-radius: 2px 2px 2px 2px;
+    margin: 5px 0;
+    padding: 5px;
+}
+
+.OneParameterContainer .js-array-values .js-remove-previous {
+    color: #990000;
+    cursor: pointer;
+    font-weight: bold;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.OneParameterContainer .js-array-values .js-array-item-value {
+    display: inline-block;
 }

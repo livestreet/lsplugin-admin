@@ -51,7 +51,8 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$aPluginTemplatePath . "css/pagination.css",
 			$aPluginTemplatePath . "css/icons.css",
 			$aPluginTemplatePath . "css/navs.css",
-			$aPluginTemplatePath . "css/__temp__.css", // todo: temporary, delete on production
+			$aPluginTemplatePath . "css/_temp_/jquery.notifier.css",  // todo: temporary, delete on production
+			$aPluginTemplatePath . "css/_temp_/__temp__.css",         // todo: temporary, delete on production
 		);
 		
 		$aScripts = array(
@@ -75,8 +76,8 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$sFrameworkPath . "/js/vendor/prettify/prettify.js",
 			$sFrameworkPath . "/js/vendor/prettyphoto/js/jquery.prettyphoto.js",
 
+      $sFrameworkPath . "/js/core/main.js",
 			$sFrameworkPath . "/js/core/hook.js",
-			$sFrameworkPath . "/js/core/main.js",
 
 			$sFrameworkPath . "/js/ui/popup.js",
 			$sFrameworkPath . "/js/ui/dropdown.js",
@@ -89,6 +90,8 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$sFrameworkPath . "/js/livestreet/init.js",
 			
 			$aPluginTemplatePath . "/js/init.js",
+			$aPluginTemplatePath . "/js/admin.js",
+			$aPluginTemplatePath . "/js/array.js",
 		);
 		
 		array_map (array ($this, 'Viewer_AppendStyle'), $aStyles);
