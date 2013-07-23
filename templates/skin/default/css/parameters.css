@@ -1,5 +1,5 @@
 
-/* temp, todo: review in production */
+/* tmp */
 
 .OnePlugin {
     border-bottom: 1px solid #EEEEEE;
@@ -9,6 +9,8 @@
 .OnePlugin h4 {
     font-size: 18px;
 }
+
+/* misc */
 
 .mb20 {
     margin-bottom: 20px;
@@ -53,7 +55,9 @@ h2.Title {
     background: none repeat scroll 0 0 #FAFAFA;
     border: 1px solid #EEEEEE;
     border-radius: 2px 2px 2px 2px;
+    clear: both;
     margin: 5px 0;
+    overflow: hidden;
     padding: 5px;
 }
 
@@ -66,7 +70,7 @@ h2.Title {
 }
 
 .OneParameterContainer .js-array-values .js-array-item-value {
-    display: inline-block;
+    float: left;
 }
 
 .OneParameterContainer .js-array-values .js-array-item-value input {
@@ -104,4 +108,18 @@ h2.Title {
 .js-array-add-value {
     font: 18px/26px Arial;
     vertical-align: top;
+}
+
+/* input errors for parameters */
+
+.OneParameterContainer.admin-save-error-border {
+    border: 1px solid red;
+}
+
+.OneParameterContainer.admin-save-error-border .admin-save-error-wrapper {
+    background: none repeat scroll 0 0 #FFF8F8;
+    color: #990000;
+    margin-top: 5px;
+    padding: 5px;
+    text-shadow: 0 1px 0 #FFFFFF;
 }

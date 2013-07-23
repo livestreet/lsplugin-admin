@@ -52,7 +52,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$aPluginTemplatePath . "css/icons.css",
 			$aPluginTemplatePath . "css/navs.css",
 			$aPluginTemplatePath . "css/_temp_/jquery.notifier.css",  // todo: temporary, delete on production
-			$aPluginTemplatePath . "css/_temp_/__temp__.css",         // todo: temporary, delete on production
+			$aPluginTemplatePath . "css/parameters.css",
 		);
 		
 		$aScripts = array(
@@ -90,8 +90,8 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$sFrameworkPath . "/js/livestreet/init.js",
 			
 			$aPluginTemplatePath . "/js/init.js",
-			$aPluginTemplatePath . "/js/admin.js",
-			$aPluginTemplatePath . "/js/array.js",
+			$aPluginTemplatePath . "/js/admin_save.js",
+			$aPluginTemplatePath . "/js/admin_array.js",
 		);
 		
 		array_map (array ($this, 'Viewer_AppendStyle'), $aStyles);
@@ -145,7 +145,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		// для каждой группы настроек добавим виртуальный эвент и будем ловить их через __call()
 		// чтобы не плодить полупустых методов, так компактнее и удобнее
 		// todo: нужно что-то ещё с меню придумать чтобы полностью автоматизировать процесс создания групп
-		// пока в меню нужно прописывать вручную пунткы групп
+		// пока в меню нужно прописывать вручную пункты групп
 		foreach (array_keys (Config::Get ('plugin.admin.core_config_groups')) as $sKey) {
 			$this -> AddEventPreg ('#^settings$#iu', '#^' . $sKey . '$#iu', 'Settings::' . $this -> sCallbackMethodToShowSystemSettings . $sKey);
 		}

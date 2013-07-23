@@ -50,30 +50,47 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 	 *	Сохранить настройки
 	 */
 	public function EventSaveConfig () {
+		if ($bAjax = isAjaxRequest ()) {
+			$this -> Viewer_SetResponseAjax ('json');
+		}
+		
 		$this -> Security_ValidateSendForm ();
 
 		if (isPost ('submit_save_settings')) {
-			// Корректно ли имя конфига
-			if (!$sConfigName = $this -> getParam (1) or !is_string ($sConfigName)) {
-				$this -> Message_AddError ($this -> Lang_Get ('plugin.admin.Errors.Wrong_Config_Name'), $this -> Lang_Get ('error'));
-				return false;
-			}
-			
-			if ($sConfigName != ModuleStorage::DEFAULT_KEY_NAME and !$this -> PluginAdmin_Settings_CheckPluginNameIsActive ($sConfigName)) {
-				$this -> Message_AddError ($this -> Lang_Get ('plugin.admin.Errors.Plugin_Need_To_Be_Activated'), $this -> Lang_Get ('error'));
-				return false;
-			}
-
-			// Получение всех параметров, их валидация и сверка с описанием структуры и запись в отдельную инстанцию конфига
-			if ($this -> PluginAdmin_Settings_ParsePOSTDataIntoSeparateConfigInstance ($sConfigName)) {
-				// Сохранить все настройки плагина в БД
-				$this -> PluginAdmin_Settings_SaveConfigByKey ($sConfigName);
-				
+			if ($this -> SaveSettings () and !$bAjax) {
 				$this -> Message_AddNotice ('Ok', '', true);
 			}
+			if ($bAjax) {
+				$this -> Viewer_AssignAjax ('aParamErrors', $this -> Message_GetParamsErrors ());
+			}
+		}
+		
+		if (!$bAjax) {
+			return Router::Location (isset ($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : Router::GetPath ('admin'));
+		}
+	}
+	
+	
+	protected function SaveSettings () {
+		// Корректно ли имя конфига
+		if (!$sConfigName = $this -> getParam (1) or !is_string ($sConfigName)) {
+			$this -> Message_AddError ($this -> Lang_Get ('plugin.admin.Errors.Wrong_Config_Name'), $this -> Lang_Get ('error'));
+			return false;
+		}
+		
+		if ($sConfigName != ModuleStorage::DEFAULT_KEY_NAME and !$this -> PluginAdmin_Settings_CheckPluginNameIsActive ($sConfigName)) {
+			$this -> Message_AddError ($this -> Lang_Get ('plugin.admin.Errors.Plugin_Need_To_Be_Activated'), $this -> Lang_Get ('error'));
+			return false;
 		}
 
-		return Router::Location (isset ($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : Router::GetPath ('admin'));
+		// Получение всех параметров, их валидация и сверка с описанием структуры и запись в отдельную инстанцию конфига
+		if ($this -> PluginAdmin_Settings_ParsePOSTDataIntoSeparateConfigInstance ($sConfigName)) {
+			// Сохранить все настройки плагина в БД
+			$this -> PluginAdmin_Settings_SaveConfigByKey ($sConfigName);
+			
+			return true;
+		}
+		return false;
 	}
 	
 	

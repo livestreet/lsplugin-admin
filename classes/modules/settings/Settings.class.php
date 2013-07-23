@@ -243,6 +243,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 *	Весь процесс получения настроек из формы
 	 */
 	public function ParsePOSTDataIntoSeparateConfigInstance ($sConfigName) {
+		$bResult = true;
 		// Получить описание настроек из конфига
 		$aSettingsInfo = $this -> GetConfigSettings ($sConfigName);
 		foreach ($_POST as $aPostRawData) {
@@ -270,25 +271,25 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 					
 					// Валидация параметра
 					if ($oParamInfo -> getValidator () and !$this -> ValidateParameter ($oParamInfo -> getValidator (), $mValue)) {
-						$this -> Message_AddError (
+						$this -> Message_AddOneParamError (
 							$this -> Lang_Get ('plugin.admin.Errors.Wrong_Parameter_Value', array ('key' => $sKey)) . $this -> ValidatorGetLastError (),
-							$this -> Lang_Get ('error'),
-							true
+							$sKey
 						);
-						return false;		// todo: review: return false or continue if wrong value for one parameter is set?
+						$bResult = false;
+						continue;																					// continue if wrong value for one parameter is set
 					}
 					// Сохранить значение ключа
 					$this -> SaveKeyValue ($sConfigName, $sKey, $mValue);
 				} else {
-					$this -> Message_AddError (
+					$this -> Message_AddOneParamError (
 						$this -> Lang_Get ('plugin.admin.Errors.Unknown_Parameter', array ('key' => $sKey)),
-						$this -> Lang_Get ('error'),
-						true
+						$sKey
 					);
+					$bResult = false;
 				}
 			}
 		}
-		return true;
+		return $bResult;
 	}
 	
 	

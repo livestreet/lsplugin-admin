@@ -58,6 +58,8 @@ $config ['$config_scheme$'] = array(
 			'params' => array(						// параметры, которые будут переданы в валидатор
 				'min' => 1,
 				'max' => 100,
+				'integerOnly' => true,
+				'allowEmpty' => false,
 			),
 		),
 	),
@@ -74,6 +76,8 @@ $config ['$config_scheme$'] = array(
 			'params' => array(						// параметры, которые будут переданы в валидатор
 				'min' => 2,
 				'max' => 50,
+				//'is' => 30,               // Конкретное значение длины строки
+				'allowEmpty' => false,      // Допускать или нет пустое значение
 			),
 		),
 	),
@@ -162,6 +166,7 @@ $config ['$config_scheme$'] = array(
 				'enum' => array(						// перечисление разрешенных элементов массива
 					1, 2, 3, 4, 5, 6, 7, 8, 9, 10
 				),
+				'allowEmpty' => false,
 																		// и/ИЛИ
 				'item_validator' => array(	// валидатор каждого элемента массива как отдельного элемента
 					'type' => 'Number',			 // Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url, Array (special validator)
