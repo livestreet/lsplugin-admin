@@ -68,3 +68,35 @@ h2.Title {
 .OneParameterContainer .js-array-values .js-array-item-value {
     display: inline-block;
 }
+
+.OneParameterContainer .js-array-values .js-array-item-value input {
+    float: left;
+}
+
+.OneParameterContainer .js-array-values .js-remove-previous {
+    border: 1px solid #DDDDDD;
+    border-radius: 0 5px 5px 0;
+    color: #999999;
+    cursor: pointer;
+    display: block;
+    float: left;
+    font-weight: bold;
+    height: 26px;
+    line-height: 26px;
+    margin-left: -1px;
+    margin-right: 10px;
+    padding: 0 5px;
+    text-shadow: 0 1px 0 #FFFFFF;
+    vertical-align: top;
+}
+
+.OneParameterContainer .js-array-values .js-remove-previous:hover {
+    background: none repeat scroll 0 0 #C45050;
+    border-color: #C45050;
+    color: #FFFFFF;
+    text-shadow: none;
+}
+
+.OneParameterContainer .js-array-values .js-remove-previous:active {
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3) inset;
+}

@@ -1,16 +1,16 @@
 <?php
 /*-------------------------------------------------------
 *
-*   LiveStreet Engine Social Networking
-*   Copyright © 2008 Mzhelskiy Maxim
+*	 LiveStreet Engine Social Networking
+*	 Copyright © 2008 Mzhelskiy Maxim
 *
 *--------------------------------------------------------
 *
-*   Official site: www.livestreet.ru
-*   Contact e-mail: rus.engine@gmail.com
+*	 Official site: www.livestreet.ru
+*	 Contact e-mail: rus.engine@gmail.com
 *
-*   GNU General Public License, version 2:
-*   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+*	 GNU General Public License, version 2:
+*	 http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 *
 ---------------------------------------------------------
 */
@@ -53,11 +53,11 @@ class PluginAdmin_ModuleValidate_EntityValidatorArray extends ModuleValidate_Ent
 	public $enum;
 	
 	/**
-	 * Диапазон чисел элементов массива от и до
+	 * Валидатор для каждого значения массива, полный аналог обычного валидатора
 	 *
 	 * @var null|array
 	 */
-	public $range;
+	public $item_validator;
 	
 	/**
 	 * Кастомное сообщение об ошибке при слишком большом массиве
@@ -78,22 +78,15 @@ class PluginAdmin_ModuleValidate_EntityValidatorArray extends ModuleValidate_Ent
 	 *
 	 * @var string
 	 */
+	public $msgValueNotAllowed;
+	
+	/**
+	 * Кастомное сообщение об ошибке при значении элемента которое не проходит валидацию элемента
+	 *
+	 * @var string
+	 */
 	public $msgIncorrectValue;
 	
-	/**
-	 * Кастомное сообщение об ошибке при значении элемента, которое меньше допустимого из $range
-	 *
-	 * @var string
-	 */
-	public $msgValueIsTooSmall;
-	
-	/**
-	 * Кастомное сообщение об ошибке при значении элемента, которое больше допустимого из $range
-	 *
-	 * @var string
-	 */
-	public $msgValueIsTooBig;
-
 	/**
 	 * Запуск валидации
 	 *
@@ -121,27 +114,23 @@ class PluginAdmin_ModuleValidate_EntityValidatorArray extends ModuleValidate_Ent
 				if (!in_array($sVal, $this->enum)) {
 					return $this->getMessage(
 						$this->Lang_Get('plugin.admin.Errors.validator.validate_array_value_is_not_allowed',null,false),
-						'msgIncorrectValue',
+						'msgValueNotAllowed',
 						array('val'=>$sVal)
 					);
 				}
 			}
 		}
 		
-		if($this->range!==null and count($this->range)>0) {
+		if($this->item_validator!==null and count($this->item_validator)>0) {
 			foreach ($sValue as $sVal) {
-				if (isset($this->range['min']) and $sVal<$this->range['min']) {
+				if (!$this -> Validate_Validate (
+					$this->item_validator ['type'], $sVal, isset ($this->item_validator ['params']) ? $this->item_validator ['params'] : array ()
+				)) {
 					return $this->getMessage(
-						$this->Lang_Get('plugin.admin.Errors.validator.validate_array_value_is_too_small',null,false),
-						'msgValueIsTooSmall',
-						array('min'=>$this->range['min'])
-					);
-				}
-				if (isset($this->range['max']) and $sVal>$this->range['max']) {
-					return $this->getMessage(
-						$this->Lang_Get('plugin.admin.Errors.validator.validate_array_value_is_too_big',null,false),
-						'msgValueIsTooBig',
-						array('max'=>$this->range['max'])
+						$this->Lang_Get('plugin.admin.Errors.validator.validate_array_value_is_not_correct',null,false) .
+							$this -> Validate_GetErrorLast (true),
+						'msgIncorrectValue',
+						array('val'=>$sVal)
 					);
 				}
 			}

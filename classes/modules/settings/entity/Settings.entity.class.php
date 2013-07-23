@@ -36,10 +36,10 @@ class PluginAdmin_ModuleSettings_EntitySettings extends Entity {
 		}
 		
 		$aValidatorParams = $aValidatorData ['params'];
-		if ($this -> getShowAsPhpArray () or (!isset ($aValidatorParams ['enum']) and !isset ($aValidatorParams ['range']))) {
+		if ($this -> getShowAsPhpArray ()) {
 			return false;
 		}
-		return true;
+		return true;							// allow enum (if set) or text field for adding values
 	}
 	
 	// ---
