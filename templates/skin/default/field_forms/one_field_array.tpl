@@ -44,7 +44,7 @@
 				
 			{/if}
 			
-			<button class="js-array-add-value button button-primary" data-key="{$sKey}">+</button>
+			<div class="js-array-add-value button button-primary" data-key="{$sKey}">+</div>
 		
 		{else}
 		

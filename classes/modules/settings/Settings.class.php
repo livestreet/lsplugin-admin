@@ -153,7 +153,8 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	/*
 	 *	Принудительное приведение значения к типу, заданному в описании конфига
 	 */
-	protected function SwitchValueToType ($mValue, $sType) {
+	// deprecated. todo: review: delete
+/*	protected function SwitchValueToType ($mValue, $sType) {
 		switch ($sType) {
 			case 'array':
 				if (!is_array ($mValue)) {
@@ -170,7 +171,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 				throw new Exception ('Admin: value parsing error: unknown variable type defined in config`s description as "' . $sType . '"');
 		}
 		return $mValue;
-	}
+	}*/
 	
 	
 	/*
@@ -265,7 +266,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 					$mValue = $this -> GetFormParameterValue ($aPostRawData, $oParamInfo);
 					
 					// Приведение значения к нужному типу
-					$mValue = $this -> SwitchValueToType ($mValue, $oParamInfo -> getType ());
+					//$mValue = $this -> SwitchValueToType ($mValue, $oParamInfo -> getType ());		// todo: review: delete
 					
 					// Валидация параметра
 					if ($oParamInfo -> getValidator () and !$this -> ValidateParameter ($oParamInfo -> getValidator (), $mValue)) {

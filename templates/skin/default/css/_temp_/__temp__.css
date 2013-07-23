@@ -1,5 +1,5 @@
 
-/* temp, todo: delete in production */
+/* temp, todo: review in production */
 
 .OnePlugin {
     border-bottom: 1px solid #EEEEEE;
@@ -99,4 +99,9 @@ h2.Title {
 
 .OneParameterContainer .js-array-values .js-remove-previous:active {
     box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3) inset;
+}
+
+.js-array-add-value {
+    font: 18px/26px Arial;
+    vertical-align: top;
 }
