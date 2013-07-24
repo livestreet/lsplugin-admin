@@ -1,24 +1,24 @@
 <?php
 /*-------------------------------------------------------
 *
-*   LiveStreet Engine Social Networking
-*   Copyright © 2008 Mzhelskiy Maxim
+*	 LiveStreet Engine Social Networking
+*	 Copyright © 2008 Mzhelskiy Maxim
 *
 *--------------------------------------------------------
 *
-*   Official site: www.livestreet.ru
-*   Contact e-mail: rus.engine@gmail.com
+*	 Official site: www.livestreet.ru
+*	 Contact e-mail: rus.engine@gmail.com
 *
-*   GNU General Public License, version 2:
-*   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+*	 GNU General Public License, version 2:
+*	 http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 *
 ---------------------------------------------------------
 */
 
 /*
-		by PSNet
-		http://psnet.lookformp3.net
-*/
+ *	by PSNet
+ *	http://psnet.lookformp3.net
+ */
 
 class ModuleStorage_MapperStorage extends Mapper {
 
@@ -51,7 +51,7 @@ class ModuleStorage_MapperStorage extends Mapper {
 			'count' => 0
 		);
 	}
-  
+	
 
 	public function SetData ($sKey, $sValue, $sInstance) {
 		$sql = "INSERT INTO
@@ -79,7 +79,7 @@ class ModuleStorage_MapperStorage extends Mapper {
 			$sValue
 		);
 	}
-  
+	
 
 	public function DeleteData ($sFilter = null, $iLimit = 1) {
 		$sql = "DELETE
@@ -112,7 +112,7 @@ class ModuleStorage_MapperStorage extends Mapper {
 		}
 		return $sFilter;
 	}
-  
+	
 }
 
 ?>
