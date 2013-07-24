@@ -278,6 +278,15 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 						$bResult = false;
 						continue;																					// continue if wrong value for one parameter is set
 					}
+					// Проверить текущее значение и предыдущее, вызов событий
+					if (($mResult = $this -> FireEvents ($sConfigName, $sKey, $mValue, $oParamInfo)) !== true) {
+						$this -> Message_AddOneParamError (
+							$this -> Lang_Get ('plugin.admin.Errors.Disallowed_Parameter_Value', array ('key' => $sKey)) . $mResult,
+							$sKey
+						);
+						$bResult = false;
+						continue;																					// continue if triggered event disallowed this value
+					}
 					// Сохранить значение ключа
 					$this -> SaveKeyValue ($sConfigName, $sKey, $mValue);
 				} else {
@@ -453,6 +462,18 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	public function AddSchemeAndLangToRootConfig () {
 		$this -> AddConfigSchemeToRootConfig ();
 		$this -> AddConfigLanguageToRootConfig ();
+	}
+	
+	
+	/*
+	 *	Сверка нового значения параметра и предыдущего, оповещение подписчикам о смене
+	 */
+	protected function FireEvents ($sConfigName, $sKey, $mNewValue, $oParamInfo) {
+		$mPreviousValue = $oParamInfo -> getValue ();
+		if ($mNewValue != $mPreviousValue) {
+			return $this -> PluginAdmin_Events_ConfigParameterChangeNotification ($sConfigName, $sKey, $mNewValue, $mPreviousValue);
+		}
+		return true;
 	}
 	
 	

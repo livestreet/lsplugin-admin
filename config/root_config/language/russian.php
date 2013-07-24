@@ -153,10 +153,10 @@ return array (
 	  ),
 	  'path' => array (
 	    'root' => array (
-	      'web' => array (
+/*	      'web' => array (
 	        'name' => '',
 	        'description' => '',
-	      ),
+	      ),*/
 	      'server' => array (
 	        'name' => 'полный путь до сайта в файловой системе',
 	        'description' => '',
@@ -236,10 +236,10 @@ return array (
 	      ),
 	    ),
 	    'cookie' => array (
-	      'host' => array (
+/*	      'host' => array (
 	        'name' => 'хост для установки куков',
 	        'description' => 'Настройки куков',
-	      ),
+	      ),*/
 	      'path' => array (
 	        'name' => 'путь для установки куков',
 	        'description' => '',
@@ -258,10 +258,10 @@ return array (
 	        'name' => 'название сессии',
 	        'description' => '',
 	      ),
-	      'timeout' => array (
+/*	      'timeout' => array (
 	        'name' => 'Тайм-аут сессии в секундах',
 	        'description' => '',
-	      ),
+	      ),*/
 	      'host' => array (
 	        'name' => 'хост сессии в куках',
 	        'description' => '',

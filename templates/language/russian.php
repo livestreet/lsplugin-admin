@@ -31,6 +31,7 @@ return array (
 		'Wrong_Parameter_Value' => 'Неверное значение для параметра <b>%%key%%</b>. ',
 		'Unknown_Parameter' => 'Передан параметр <b>%%key%%</b>, описание которого нет',
 		'Unknown_Parameter_Type' => 'Неизвестный тип параметра',
+		'Disallowed_Parameter_Value' => 'Это значение для параметра <b>%%key%%</b> недопустимо. ',
 		
 		/*
 		 * Ошибки встроенного валидатора массивов

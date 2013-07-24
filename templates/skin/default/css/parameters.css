@@ -115,7 +115,9 @@ h2.Title {
 /* input errors for parameters */
 
 .OneParameterContainer.admin-save-error-border {
-    border: 1px solid red;
+    background: none repeat scroll 0 0 #FFFCFD;
+    border: 1px solid #BB0000;
+    border-radius: 2px 2px 2px 2px;
 }
 
 .OneParameterContainer.admin-save-error-border .admin-save-error-wrapper {

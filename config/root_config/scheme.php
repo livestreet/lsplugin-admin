@@ -29,6 +29,9 @@ return array (
     'validator' => array (
       'type' => 'String',
       'params' => array (
+				'min' => 2,
+				'max' => 50,
+				'allowEmpty' => false,
       ),
     ),
   ),
@@ -39,6 +42,9 @@ return array (
     'validator' => array (
       'type' => 'String',
       'params' => array (
+				'min' => 2,
+				'max' => 200,
+				'allowEmpty' => false,
       ),
     ),
   ),
@@ -192,7 +198,7 @@ return array (
       ),
     ),
   ),
-  'path.root.web' => array (
+/*  'path.root.web' => array (
     'type' => 'NULL',
     'name' => 'config_parameters.path.root.web.name',
     'description' => 'config_parameters.path.root.web.description',
@@ -201,7 +207,7 @@ return array (
       'params' => array (
       ),
     ),
-  ),
+  ),*/
   'path.root.server' => array (
     'type' => 'string',
     'name' => 'config_parameters.path.root.server.name',
@@ -362,7 +368,7 @@ return array (
       ),
     ),
   ),
-  'sys.cookie.host' => array (
+/*  'sys.cookie.host' => array (
     'type' => 'NULL',
     'name' => 'config_parameters.sys.cookie.host.name',
     'description' => 'config_parameters.sys.cookie.host.description',
@@ -371,7 +377,7 @@ return array (
       'params' => array (
       ),
     ),
-  ),
+  ),*/
   'sys.cookie.path' => array (
     'type' => 'string',
     'name' => 'config_parameters.sys.cookie.path.name',
@@ -412,7 +418,7 @@ return array (
       ),
     ),
   ),
-  'sys.session.timeout' => array (
+/*  'sys.session.timeout' => array (
     'type' => 'NULL',
     'name' => 'config_parameters.sys.session.timeout.name',
     'description' => 'config_parameters.sys.session.timeout.description',
@@ -421,7 +427,7 @@ return array (
       'params' => array (
       ),
     ),
-  ),
+  ),*/
   'sys.session.host' => array (
     'type' => 'string',
     'name' => 'config_parameters.sys.session.host.name',
