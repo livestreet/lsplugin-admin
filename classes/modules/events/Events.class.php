@@ -33,6 +33,9 @@ class PluginAdmin_ModuleEvents extends Module {
 	protected $sOnChangeFunctionPostfix = 'OnChange';
 	
 	
+	public function Init() {}
+	
+	
 	final public function ConfigParameterChangeNotification ($sConfigName, $sKey, $mNewValue, $mPreviousValue) {
 		$sPluginName = ucfirst ($sConfigName) . $this -> sOnChangeFunctionPostfix;	// todo: engine function name?
 		if (method_exists ($this, $sPluginName)) {
