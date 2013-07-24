@@ -130,6 +130,11 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 	}
 	
 	
+	public function EventChangeSkin () {
+		$this -> SetTemplateAction ('skin/list');
+		$this -> Viewer_Assign ('aSkins', $this -> PluginAdmin_Skin_GetSkinList ());
+	}
+	
 }
 
 ?>

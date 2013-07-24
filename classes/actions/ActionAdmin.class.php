@@ -53,6 +53,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$aPluginTemplatePath . "css/navs.css",
 			$aPluginTemplatePath . "css/_temp_/jquery.notifier.css",  // todo: temporary, delete on production
 			$aPluginTemplatePath . "css/parameters.css",
+			$aPluginTemplatePath . "css/skins.css",
 		);
 		
 		$aScripts = array(
@@ -139,6 +140,8 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		$this -> AddEventPreg ('#^settings$#iu', '#^plugin$#iu', 'Settings::EventShow');         // настройки плагина
 		$this -> AddEventPreg ('#^settings$#iu', '#^save$#iu', 'Settings::EventSaveConfig');     // сохранить настройки
 		
+		$this -> AddEventPreg ('#^settings$#iu', '#^skin$#iu', 'Settings::EventChangeSkin');     // управление шаблонами
+		
 		//
 		// Системные настройки
 		//
@@ -186,6 +189,8 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			)	// /AddSection
 			->AddSection(
 				Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Настройки')->SetName('settings')->SetUrl('settings')
+				
+				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Шаблоны')->SetUrl('skin'))
 				
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Внешний вид сайта')->SetUrl('view'))
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Интерфейс')->SetUrl('interface'))

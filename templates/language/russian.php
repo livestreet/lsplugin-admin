@@ -64,6 +64,7 @@ return array (
 		'titles' => array(
 			'main_config' => 'Настройки движка LiveStreet',
 			'plugin_config' => 'Настройки плагина',
+			'skin_config' => 'Управление шаблонами',
 		),
 		// для типов параметров (форм)
 		'param_type' => array(
