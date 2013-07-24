@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+	<name>
+		<lang name="default">Synio</lang>
+	</name>
+	<author>
+		<lang name="default">LiveStreet Developers Team</lang>
+	</author>
+	<homepage>http://livestreet.ru</homepage>
+	<version>1.0</version>
+	<requires>
+		<livestreet>1.0.*</livestreet>
+		<plugins>
+		</plugins>
+	</requires>
+	<description>
+		<lang name="default">Стандартный шаблон для LiveStreet</lang>
+	</description>
+</plugin>
