@@ -67,7 +67,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 		}
 		
 		if (!$bAjax) {
-			return Router::Location (isset ($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : Router::GetPath ('admin'));
+			return $this -> RedirectToReferer ();
 		}
 	}
 	
@@ -130,9 +130,45 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 	}
 	
 	
+	/*
+	 *	Работа с шаблонами
+	 */
 	public function EventChangeSkin () {
 		$this -> SetTemplateAction ('skin/list');
-		$this -> Viewer_Assign ('aSkins', $this -> PluginAdmin_Skin_GetSkinList ());
+		
+		$aSkinList = $this -> PluginAdmin_Skin_GetSkinList ();
+		
+		if ($sAction = $this -> getParam (1) and in_array ($sAction, array ('use', 'preview', 'turnoffpreview'))) {
+			if ($sSkinName = $this -> getParam (2) and isset ($aSkinList [$sSkinName])) {
+				$this -> Security_ValidateSendForm ();
+				
+				$sMethodName = ucfirst ($sAction) . 'Skin';
+				$this -> {$sMethodName} ($sSkinName);
+				
+				return $this -> RedirectToReferer ();
+			} else {
+				$this -> Message_AddError ('Incorrect skin name');
+			}
+		}
+		$this -> Viewer_Assign ('aSkins', $aSkinList);
+	}
+	
+	
+	private function UseSkin ($sSkinName) {
+		$this -> PluginAdmin_Skin_ChangeSkin ($sSkinName);
+		$this -> Message_AddNotice ($this -> Lang ('notices.template_changed'), '', true);
+	}
+	
+	
+	private function PreviewSkin ($sSkinName) {
+		$this -> PluginAdmin_Skin_PreviewSkin ($sSkinName);
+		$this -> Message_AddNotice ($this -> Lang ('notices.template_preview_set'), '', true);
+	}
+	
+	
+	private function TurnoffpreviewSkin ($sSkinName) {
+		$this -> PluginAdmin_Skin_TurnOffPreviewSkin ();
+		$this -> Message_AddNotice ($this -> Lang ('notices.template_preview_turned_off'), '', true);
 	}
 	
 }

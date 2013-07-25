@@ -22,7 +22,7 @@
  *	http://psnet.lookformp3.net
  */
 return array (
-  'view.skin' => array (
+/*  'view.skin' => array (
     'type' => 'string',
     'name' => 'config_parameters.view.skin.name',
     'description' => 'config_parameters.view.skin.description',
@@ -34,7 +34,7 @@ return array (
 				'allowEmpty' => false,
       ),
     ),
-  ),
+  ),*/
   'view.name' => array (
     'type' => 'string',
     'name' => 'config_parameters.view.name.name',

@@ -1,16 +1,16 @@
 <?php
 /*-------------------------------------------------------
 *
-*   LiveStreet Engine Social Networking
-*   Copyright © 2008 Mzhelskiy Maxim
+*	 LiveStreet Engine Social Networking
+*	 Copyright © 2008 Mzhelskiy Maxim
 *
 *--------------------------------------------------------
 *
-*   Official site: www.livestreet.ru
-*   Contact e-mail: rus.engine@gmail.com
+*	 Official site: www.livestreet.ru
+*	 Contact e-mail: rus.engine@gmail.com
 *
-*   GNU General Public License, version 2:
-*   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+*	 GNU General Public License, version 2:
+*	 http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 *
 ---------------------------------------------------------
 */
@@ -29,14 +29,13 @@ class PluginAdmin extends Plugin {
 	}
 	
 	
-
 	public function Init() {}
 	
 	
-  
-	protected $aInherits = array(
-		'module'	=> array ('ModuleViewer', 'ModuleStorage', 'ModuleMessage'),
-		'entity'	=> array ('ModuleValidate_EntityValidatorArray')		// Добавляем новый тип валидатора - Array
+	protected $aInherits = array (
+		//'action' => array ('ActionPlugin'),
+		'module' => array ('ModuleViewer', 'ModuleStorage', 'ModuleMessage'),
+		'entity' => array ('ModuleValidate_EntityValidatorArray')		// Добавляем новый тип валидатора - Array
 	);
 
 }

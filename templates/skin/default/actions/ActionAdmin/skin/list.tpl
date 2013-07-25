@@ -24,10 +24,20 @@
 						{assign var="sName" value=$oSkin->getName()}
 					{/if}
 					<div class="Controls">
-						<a href="#" class="button button-primary">use skin</a>											{* todo: *}
-						<a href="#" class="button">preview</a>
+						{$sAddClass=''}
+						{if $oConfig->GetValue('view.skin')!=$oSkin->getName()}
+							{$sAddClass='button-primary'}
+						{/if}
+						{if $sAddClass}
+							<a
+								href="{router page='admin'}settings/skin/use/{$oSkin->getName()}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
+								class="button {$sAddClass}">{$aLang.plugin.admin.skin.use_skin}</a>
+						{/if}
+						<a
+							href="{router page='admin'}settings/skin/preview/{$oSkin->getName()}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
+							class="button {$sAddClass}">{$aLang.plugin.admin.skin.preview_skin}</a>
 					</div>
-					<h4>{$sName}</h4>
+					<h4>{$sName}{if !$sAddClass} ({$aLang.plugin.admin.skin.current_skin}){/if}</h4>
 					{if $oInfo}
 						<div class="Info">
 							<dl>

@@ -231,6 +231,11 @@ $config ['core_config_groups'] = array(
 );	// /core_config_groups
 
 /*
+ *	Использовать ли аякс при отправке формы с настройками
+ */
+$config ['Admin_Save_Form_Ajax_Use'] = true;
+
+/*
  *	роутер
 */
 $config['$root$']['router']['page']['admin'] = 'PluginAdmin_ActionAdmin';

@@ -16,6 +16,7 @@
 */
 
 class PluginAdmin_ActionAdmin extends ActionPlugin {
+	protected $oUserCurrent = null;
 	
 	// Списки групп настроек системного конфига
 	protected $aCoreSettingsGroups = array ();
@@ -25,6 +26,11 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 	
 
 	public function Init () {
+		if (!$this -> oUserCurrent = $this -> User_GetUserCurrent () or !$this -> oUserCurrent -> isAdministrator ()) {
+			$this -> Message_AddError ($this -> Lang_Get ('plugin.admin.Errors.You_Are_Not_Admin'), $this -> Lang_Get ('error'));
+			return Router::Action ('error');
+		}
+		
 		// Reset added styles and scripts
 		$this -> Viewer_ClearStyle (true);
 		
@@ -212,6 +218,20 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Обработка JS и CSS')->SetUrl('compress'))
 			)	// /AddSection
 		;
+	}
+	
+	
+	// --- misc ---
+	
+	
+	public function RedirectToReferer () {
+		return Router::Location (isset ($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : Router::GetPath ('admin'));
+	}
+	
+	
+	// быстрое получение текстовки плагина
+	public function Lang ($sKey) {
+		return $this -> Lang_Get ('plugin.admin.' . $sKey);
 	}
 	
 	

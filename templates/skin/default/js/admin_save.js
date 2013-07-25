@@ -78,30 +78,34 @@ ls.admin_save = (function ($) {
 
 jQuery (document).ready (function ($) {
 
-	$ ('#admin_save').ajaxForm ({
-		dataType: 'json',
-		beforeSend: function () {
-			ls.admin_save.RemoveAllErrorMessages ();
-			// todo: add load indicator for submit button
-			// disable submit button
-		},
-		success: function (data) {
-			// process result
-			if (data.bStateError) {
-				ls.msg.error (data.sMsgTitle,data.sMsg);
-			} else {
-				if (data.aParamErrors.length > 0) {
-					ls.admin_save.ShowErrors (data.aParamErrors);
-					ls.msg.error ('', ls.lang.get ('plugin.admin.Errors.Some_Fields_Are_Incorrect'));
-					return false;
-				}
-				ls.msg.notice ('Ok');
-			}
-		},
-		complete: function (xhr) {
-			// todo: remove load indicator for submit button
-			// enable submit button
-		}
-	});
+  if (ls.registry.get ('admin_save_form_ajax_use')) {
+  
+    $ ('#admin_save').ajaxForm ({
+      dataType: 'json',
+      beforeSend: function () {
+        ls.admin_save.RemoveAllErrorMessages ();
+        // todo: add load indicator for submit button
+        // disable submit button
+      },
+      success: function (data) {
+        // process result
+        if (data.bStateError) {
+          ls.msg.error (data.sMsgTitle,data.sMsg);
+        } else {
+          if (data.aParamErrors.length > 0) {
+            ls.admin_save.ShowErrors (data.aParamErrors);
+            ls.msg.error ('', ls.lang.get ('plugin.admin.Errors.Some_Fields_Are_Incorrect'));
+            return false;
+          }
+          ls.msg.notice ('Ok');
+        }
+      },
+      complete: function (xhr) {
+        // todo: remove load indicator for submit button
+        // enable submit button
+      }
+    });
+    
+  }
 
 });

@@ -121,7 +121,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	
 	
 	public function CheckPluginNameIsActive ($sConfigName) {
-		return in_array ($sConfigName, array_keys (Engine::getInstance () -> GetPlugins ()));
+		return array_key_exists ($sConfigName, Engine::getInstance () -> GetPlugins ());
 	}
 	
 	
@@ -320,6 +320,9 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 				}
 				// для стандартного отображения массива в виде php array логика не меняется - получение идентично как и для других типов данных
 			default:
+				if (!isset ($aPostRawData [self::POST_RAW_DATA_ARRAY_VALUE_FIRST])) {
+					throw new Exception ('Admin: error: value was not sent by request, raw post data: ' . print_r ($aPostRawData, true));
+				}
 				$mValue = $aPostRawData [self::POST_RAW_DATA_ARRAY_VALUE_FIRST];
 				break;
 		}
@@ -349,14 +352,16 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	/*
 	 *	Сохранить полученные настройки из кастомной инстанции конфига в хранилище
 	 */
-	public function SaveConfigByKey ($sConfigName) {
-		// получить данные, которые были сохранены во временной инстанции конфига после их парсинга и анализа
-		$aData = $this -> GetKeysData ($sConfigName);
+	public function SaveConfigByKey ($sConfigName, $aData = null) {
+		if (is_null ($aData)) {
+			// получить данные, которые были сохранены во временной инстанции конфига после их парсинга и анализа
+			$aData = $this -> GetKeysData ($sConfigName);
+		}
 		// получить ранее сохраненные данные, если есть
 		if ($aConfigOldData = $this -> GetOneParam ($this -> GetCorrectStorageKey ($sConfigName), self::CONFIG_DATA_PARAM_NAME)) {
 			// обьеденить сохраненные ранее настройки с новыми
 			// это необходимо если настройки разбиты на группы и показываются в разных разделах частями (например, настройки ядра)
-			$aData = array_merge ($aConfigOldData, $aData);
+			$aData = array_merge_recursive_distinct ($aConfigOldData, $aData);										// dont use "array_merge_recursive"
 		}
 		return $this -> SaveConfigData ($sConfigName, $aData);
 	}

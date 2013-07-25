@@ -28,6 +28,8 @@ class PluginAdmin_ModuleSkin extends Module {
 	const SKIN_PREVIEW_FILE = 'template_preview.png';
 	const SKIN_XML_FILE = 'template_info.xml';
 	
+	const PREVIEW_SKIN_SESSION_PARAM_NAME = 'admin_preview_skin';
+	
 	
 	protected $sSkinPath = null;
 	protected $sLang = null;
@@ -87,7 +89,7 @@ class PluginAdmin_ModuleSkin extends Module {
 		}
 		
 		if (isset ($aFilter ['order']) and $aFilter ['order'] == 'name') {
-			natsort ($aSkins);
+			//natsort ($aSkins);//todo:
 		}
 		return $aSkins;
 	}
@@ -110,10 +112,64 @@ class PluginAdmin_ModuleSkin extends Module {
 	}
 	
 	
-	protected function GetWebPath ($sPath) {																					// todo: in engine export this funcs into tools module
-		return $this -> Image_GetWebPath ($sPath);
+	protected function GetWebPath ($sPath) {
+		return $this -> Image_GetWebPath ($sPath);																			// todo: in engine export this funcs into tools module
 	}
 	
+	
+	/*
+	 *
+	 *	Управление шаблонами
+	 *
+	*/
+	
+	
+	/*
+	 *	Установить шаблон
+	*/
+	public function ChangeSkin ($sSkinName) {
+		$aData = array (
+			'view' => array (
+				'skin' => $sSkinName
+			)
+		);
+		$this -> PluginAdmin_Settings_SaveConfigByKey (ModuleStorage::DEFAULT_KEY_NAME, $aData);
+	}
+	
+	
+	/*
+	 *	Установить шаблон для предпросмотра для текущего пользователя
+	*/
+	public function PreviewSkin ($sSkinName) {
+		$this -> Session_Set (self::PREVIEW_SKIN_SESSION_PARAM_NAME, $sSkinName);
+	}
+	
+	
+	/*
+	 *	Получить имя шаблона для предпросмтора (если есть) для текущего пользователя
+	*/
+	public function GetPreviewSkin () {
+		return $this -> Session_Get (self::PREVIEW_SKIN_SESSION_PARAM_NAME);
+	}
+	
+	
+	/*
+	 *	Показать шаблон для предпросмтора (если есть) текущему пользователю
+	*/
+	public function LoadPreviewTemplate () {
+		if ($sPreviewSkin = $this -> GetPreviewSkin ()) {
+			Config::Set ('view.skin', $sPreviewSkin);
+		}
+	}
+	
+	
+	/*
+	 *	Выключить предпросмотр шаблона
+	*/
+	public function TurnOffPreviewSkin () {
+		$this -> Session_Drop (self::PREVIEW_SKIN_SESSION_PARAM_NAME);
+	}
+
 
 }
 
