@@ -43,6 +43,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 		
 		$this -> Viewer_Assign ('aSettingsAll', $aSettingsAll);
 		$this -> Viewer_Assign ('sConfigName', $sConfigName);
+		$this -> Lang_AddLangJs (array ('plugin.admin.Errors.Some_Fields_Are_Incorrect'));
 	}
 
 	
@@ -87,7 +88,6 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 		if ($this -> PluginAdmin_Settings_ParsePOSTDataIntoSeparateConfigInstance ($sConfigName)) {
 			// Сохранить все настройки плагина в БД
 			$this -> PluginAdmin_Settings_SaveConfigByKey ($sConfigName);
-			
 			return true;
 		}
 		return false;

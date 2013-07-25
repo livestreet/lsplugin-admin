@@ -39,7 +39,21 @@ class PluginAdmin_ModuleSettings_EntitySettings extends Entity {
 		if ($this -> getShowAsPhpArray ()) {
 			return false;
 		}
+		if (!$this -> IsArraySimple ()) {
+			return false;
+		}
 		return true;							// allow enum (if set) or text field for adding values
+	}
+	
+	// ---
+	
+	protected function IsArraySimple () {
+		$aData = $this -> getValue ();
+		if (!is_array ($aData)) return false;
+		foreach ($aData as $mVal) {
+			if (!is_scalar ($mVal)) return false;
+		}
+		return true;
 	}
 	
 	// ---

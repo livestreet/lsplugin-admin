@@ -32,6 +32,7 @@ return array (
 		'Unknown_Parameter' => 'Передан параметр <b>%%key%%</b>, описание которого нет',
 		'Unknown_Parameter_Type' => 'Неизвестный тип параметра',
 		'Disallowed_Parameter_Value' => 'Это значение для параметра <b>%%key%%</b> недопустимо. ',
+		'Some_Fields_Are_Incorrect' => 'В некоторых полях указаны неверные значения',
 		
 		/*
 		 * Ошибки встроенного валидатора массивов

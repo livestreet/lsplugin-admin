@@ -78,11 +78,6 @@ ls.admin_save = (function ($) {
 
 jQuery (document).ready (function ($) {
 
-/*	$ (document).on ('click.admin', '#admin_save input[type="submit"]', function () {	// todo: delete
-		ls.admin.SaveSettings ($ (this).closest ('form'));
-		return false;
-	});*/
-	
 	$ ('#admin_save').ajaxForm ({
 		dataType: 'json',
 		beforeSend: function () {
@@ -97,7 +92,7 @@ jQuery (document).ready (function ($) {
 			} else {
 				if (data.aParamErrors.length > 0) {
 					ls.admin_save.ShowErrors (data.aParamErrors);
-					ls.msg.error ('Errors', 'Some fields are incorrect');
+					ls.msg.error ('', ls.lang.get ('plugin.admin.Errors.Some_Fields_Are_Incorrect'));
 					return false;
 				}
 				ls.msg.notice ('Ok');
