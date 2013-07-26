@@ -60,7 +60,7 @@ class PluginAdmin_ActionAdmin_EventPlugin extends Event {
 				return true;
 			}
 			$oClass=$oClass->getParentClass();
-		} while (false!==$oClass);
+		} while(false!==$oClass);
 		return false;
 	}
 

@@ -4,9 +4,9 @@ class PluginAdmin_ModuleUi_EntityCursor extends Entity {
 	// Getters
 	
 	public function GetMenu($sName){
-		if(is_array(@$this->_aData['menus'])){
+		if (is_array(@$this->_aData['menus'])){
 			foreach($this->_aData['menus'] as $oMenu){
-				if($oMenu->GetName() == $sName){
+				if ($oMenu->GetName() == $sName){
 					return $oMenu;
 				}
 			}
@@ -39,11 +39,11 @@ class PluginAdmin_ModuleUi_EntityCursor extends Entity {
 	
 	
 	public function GetActiveSection(){
-		if(!($aMenuNames = func_get_args())){
+		if (!($aMenuNames = func_get_args())){
 			$aMenuNames = $this->GetMenuNames();
 		}
 		foreach($aMenuNames as $sMenuName){
-			if(is_object(@$this->_aData['active'][$sMenuName]['section'])){
+			if (is_object(@$this->_aData['active'][$sMenuName]['section'])){
 				return $this->_aData['active'][$sMenuName]['section'];
 			}
 		}
@@ -52,11 +52,11 @@ class PluginAdmin_ModuleUi_EntityCursor extends Entity {
 	
 	
 	public function GetActiveItem(){
-		if(!($aMenuNames = func_get_args())){
+		if (!($aMenuNames = func_get_args())){
 			$aMenuNames = $this->GetMenuNames();
 		}
 		foreach($aMenuNames as $sMenuName){
-			if(is_object(@$this->_aData['active'][$sMenuName]['item'])){
+			if (is_object(@$this->_aData['active'][$sMenuName]['item'])){
 				return $this->_aData['active'][$sMenuName]['item'];
 			}
 		}
@@ -96,7 +96,7 @@ class PluginAdmin_ModuleUi_EntityCursor extends Entity {
 	public function SetInActiveSection(PluginAdmin_ModuleUi_EntityMenuSection $oMenuSection){
 		$sMenuName = $oMenuSection->GetMenu()->GetName();
 		$oActiveSection = $this->GetActiveSection($sMenuName);
-		if($oActiveSection && $oActiveSection == $oMenuSection){
+		if ($oActiveSection && $oActiveSection == $oMenuSection){
 			unset($this->_aData['active'][$sMenuName]['section']);
 		}
 		return $this;
@@ -107,7 +107,7 @@ class PluginAdmin_ModuleUi_EntityCursor extends Entity {
 	public function SetInActiveItem(PluginAdmin_ModuleUi_EntityMenuItem $oMenuItem){
 		$sMenuName = $oMenuItem->GetSection()->GetMenu()->GetName();
 		$oActiveItem = $this->GetActiveItem($sMenuName);
-		if($oActiveItem && $oActiveItem == $oMenuItem){
+		if ($oActiveItem && $oActiveItem == $oMenuItem){
 			unset($this->_aData['active'][$sMenuName]['item']);
 		}
 		return $this;
@@ -117,40 +117,40 @@ class PluginAdmin_ModuleUi_EntityCursor extends Entity {
 	
 	public function PostSetActive($oEntity){
 		$bActive = $oEntity->GetActive();
-		if($bActive){
-			if($oEntity instanceof PluginAdmin_ModuleUi_EntityMenuItem){
+		if ($bActive){
+			if ($oEntity instanceof PluginAdmin_ModuleUi_EntityMenuItem){
 				$oMenuSection = $oEntity->GetSection()->SetActive(true);
 				$sMenuName = $oMenuSection->GetMenu()->GetName();
 				$oActiveItem = $this->GetActiveItem($sMenuName);
-				if(!$oActiveItem){
+				if (!$oActiveItem){
 					$this->SetActiveItem($oEntity);
 					return $this;
 				}
 				$aMenuItems = $oMenu->GetItems();
 				foreach($aMenuItems as $oMenuItem){
-					if(!$oMenuItem->GetActive()){
+					if (!$oMenuItem->GetActive()){
 						continue;
 					}
-					if($oMenuItem == $oEntity){
+					if ($oMenuItem == $oEntity){
 						$this->SetActiveItem($oEntity);
 					}else{
 						$oMenuItem->SetActive(false);
 					}
 				}
-			}elseif($oEntity instanceof PluginAdmin_ModuleUi_EntityMenuSection){
+			}elseif ($oEntity instanceof PluginAdmin_ModuleUi_EntityMenuSection){
 				$oMenu = $oEntity->GetMenu();
 				$sMenuName = $oMenu->GetName();
 				$oActiveSection = $this->GetActiveSection($sMenuName);
-				if(!$oActiveSection){
+				if (!$oActiveSection){
 					$this->SetActiveSection($oEntity);
 					return $this;
 				}
 				$aMenuSections = $oMenu->GetSections();
 				foreach($aMenuSections as $oMenuSection){
-					if(!$oMenuSection->GetActive()){
+					if (!$oMenuSection->GetActive()){
 						continue;
 					}
-					if($oMenuSection == $oEntity){
+					if ($oMenuSection == $oEntity){
 						$this->SetActiveSection($oEntity);
 					}else{
 						$oMenuSection->SetActive(false);
@@ -158,9 +158,9 @@ class PluginAdmin_ModuleUi_EntityCursor extends Entity {
 				}
 			}
 		}else{
-			if($oEntity instanceof PluginAdmin_ModuleUi_EntityMenuItem){
+			if ($oEntity instanceof PluginAdmin_ModuleUi_EntityMenuItem){
 				$this->SetInActiveItem($oEntity);
-			}elseif($oEntity instanceof PluginAdmin_ModuleUi_EntityMenuSection){
+			}elseif ($oEntity instanceof PluginAdmin_ModuleUi_EntityMenuSection){
 				$this->SetInActiveSection($oEntity);
 			}
 		}
@@ -172,7 +172,7 @@ class PluginAdmin_ModuleUi_EntityCursor extends Entity {
 	//
 
 	public function AddMenu(PluginAdmin_ModuleUi_EntityMenu $oMenu){
-		if(!is_array(@$this->_aData['menus'])){
+		if (!is_array(@$this->_aData['menus'])){
 			$this->_aData['menus'] = array($oMenu);
 		}else{
 			$this->_aData['menus'][] = $oMenu;

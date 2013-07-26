@@ -29,7 +29,7 @@ abstract class PluginAdmin_ActionPlugin extends ActionPlugin {
 		$aDelegates = $this->Plugin_GetDelegationChain('action',$this->GetActionClass());
 		$sActionTemplatePath = $sTemplate.'.tpl';
 		foreach($aDelegates as $sAction) {
-			if(preg_match('/^Plugin([\w]+)_Action([\w]+)$/i',$sAction,$aMatches)) {
+			if (preg_match('/^Plugin([\w]+)_Action([\w]+)$/i',$sAction,$aMatches)) {
 				$sTemplatePath = 'actions/Action'.ucfirst($aMatches[2]).'/'.$sTemplate.'.tpl';
 
 				$sPath=Plugin::GetPath($sAction);

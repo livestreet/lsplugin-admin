@@ -9,10 +9,10 @@ class PluginAdmin_ModuleViewer extends PluginAdmin_Inherit_ModuleViewer {
 	
 	
 	public function AddSmartyPluginsDir($sDir){
-		if(!is_dir($sDir)){
+		if (!is_dir($sDir)){
 			return false;
 		}
-		if(!in_array($sDir, $this->oSmarty->getPluginsDir())){
+		if (!in_array($sDir, $this->oSmarty->getPluginsDir())){
 			$this->oSmarty->setPluginsDir(array_merge($this->oSmarty->getPluginsDir(),array($sDir)));
 		}
 		return true;

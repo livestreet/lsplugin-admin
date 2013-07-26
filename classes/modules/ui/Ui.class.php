@@ -43,7 +43,7 @@ class PluginAdmin_ModuleUi extends Module {
 	
 	
 	public function HighlightMenus($oCursor = null){
-		if(is_null($oCursor)){
+		if (is_null($oCursor)){
 			$oCursor = $this->oCursor;
 		}
 		$aEventParams = Router::GetParams();
@@ -56,11 +56,11 @@ class PluginAdmin_ModuleUi extends Module {
 			$aMenuSections = $oMenu->GetSections();
 			foreach($aMenuSections as $oMenuSection){
 				$oMenuSection->SetActive(false);
-				if(count($aUrlParams) < count($aSectionUrlParams = $oMenuSection->GetUrlArray())){
+				if (count($aUrlParams) < count($aSectionUrlParams = $oMenuSection->GetUrlArray())){
 					continue;
 				}else{
 					$aSlice = array_slice($aUrlParams, 0, count($aSectionUrlParams));
-					if($aSlice != $aSectionUrlParams){
+					if ($aSlice != $aSectionUrlParams){
 						continue;
 					}
 				}
@@ -68,11 +68,11 @@ class PluginAdmin_ModuleUi extends Module {
 				$aMenuItems = $oMenuSection->GetItems();
 				foreach($aMenuItems as $oMenuItem){
 					$oMenuItem->SetActive(false);
-					if(count($aUrlParams) < count($aItemUrlParams = $oMenuItem->GetUrlArray())){
+					if (count($aUrlParams) < count($aItemUrlParams = $oMenuItem->GetUrlArray())){
 						continue;
 					}else{
 						$aSlice = array_slice($aUrlParams, 0, count($aItemUrlParams));
-						if($aSlice != $aItemUrlParams){
+						if ($aSlice != $aItemUrlParams){
 							continue;
 						}
 					}
@@ -88,18 +88,18 @@ class PluginAdmin_ModuleUi extends Module {
 	public function MergeMessages(){
 		$aErrors = $this->Message_GetError();
 		$aNotices = $this->Message_GetNotice();
-		if(count($aErrors)>1){
+		if (count($aErrors)>1){
 			$sMsg = $sTitle = '';
 			foreach($aErrors as $aError){
 				$sTitle = $sTitle ? $sTitle : $aError['title'];
-				$sMsg .= ($sMsg ? '<br>' : '').$aError['msg'];
+				$sMsg .=($sMsg ? '<br>' : '').$aError['msg'];
 			}
 			$this->Message_AddErrorSingle($sMsg, $sTitle);
-		}elseif(!$aErrors && count($aNotices)>1){
+		}elseif (!$aErrors && count($aNotices)>1){
 			$sMsg = $sTitle = '';
 			foreach($aNotices as $aNotice){
 				$sTitle = $sTitle ? $sTitle : $aNotice['title'];
-				$sMsg .= ($sMsg ? '<br>' : '').$aNotice['msg'];
+				$sMsg .=($sMsg ? '<br>' : '').$aNotice['msg'];
 			}
 			$this->Message_AddNoticeSingle($sMsg, $sTitle);
 		}
@@ -108,7 +108,7 @@ class PluginAdmin_ModuleUi extends Module {
 	
 	
 	public function DisplayJson($bMergeMessages = true){
-		if($bMergeMessages){
+		if ($bMergeMessages){
 			$this->MergeMessages();
 		}
 		$this->AjaxArraysToViewer();
@@ -126,7 +126,7 @@ class PluginAdmin_ModuleUi extends Module {
 	
 	
 	public function AddAjaxArrayElement($sArrayName, $mValue, $sKey = null){
-		if(is_null($sKey)){
+		if (is_null($sKey)){
 			$this->aAjaxArray[$sArrayName][] = $mValue;
 		}else{
 			$this->aAjaxArray[$sArrayName][$sKey] = $mValue;
@@ -144,7 +144,7 @@ class PluginAdmin_ModuleUi extends Module {
 	
 	
 	public function AddViewerArrayElement($sArrayName, $mValue, $sKey = null){
-		if(is_null($sKey)){
+		if (is_null($sKey)){
 			$this->aViewerArray[$sArrayName][] = $mValue;
 		}else{
 			$this->aViewerArray[$sArrayName][$sKey] = $mValue;
@@ -154,7 +154,7 @@ class PluginAdmin_ModuleUi extends Module {
 	
 	
 	public function GetViewerArray($sArrayName){
-		if(isset($this->aViewerArray[$sArrayName])
+		if (isset($this->aViewerArray[$sArrayName])
 		&& is_array($this->aViewerArray[$sArrayName])){
 			return $this->aViewerArray[$sArrayName];
 		}

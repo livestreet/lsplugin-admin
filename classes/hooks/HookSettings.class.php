@@ -26,33 +26,33 @@
 
 class PluginAdmin_HookSettings extends Hook {
 
-	public function RegisterHook () {
-		$this -> AddHook ('lang_init_start', 'LangInitStart', __CLASS__, PHP_INT_MAX);              // наивысший приоритет, который можно установить
-		$this -> AddHook ('template_content_begin', 'ContentBegin');
+	public function RegisterHook() {
+		$this->AddHook('lang_init_start', 'LangInitStart', __CLASS__, PHP_INT_MAX);              // наивысший приоритет, который можно установить
+		$this->AddHook('template_content_begin', 'ContentBegin');
 	}
 	
 	
-	public function LangInitStart () {
+	public function LangInitStart() {
 		// выполнить загрузку конфигов системы и плагинов
-		$this -> PluginAdmin_Settings_AutoLoadConfigs ();
+		$this->PluginAdmin_Settings_AutoLoadConfigs();
 		// присоеденить схему главного конфига и текстовки
-		$this -> PluginAdmin_Settings_AddSchemeAndLangToRootConfig ();
+		$this->PluginAdmin_Settings_AddSchemeAndLangToRootConfig();
 		// показать превью шаблона, если он был выбран в админке
-		$this -> PluginAdmin_Skin_LoadPreviewTemplate ();
+		$this->PluginAdmin_Skin_LoadPreviewTemplate();
 	}
 	
 	
-	public function ContentBegin () {
-		//if ($this -> PluginAdmin_Skin_GetPreviewSkinName () and Router::GetAction () != 'admin') {	// todo: delete
-		if ($this -> PluginAdmin_Skin_GetPreviewSkinName ()) {
-			return $this -> ShowPreviewSkinMessage ();
+	public function ContentBegin() {
+		//if ($this->PluginAdmin_Skin_GetPreviewSkinName() and Router::GetAction() != 'admin') {	// todo: delete
+		if ($this->PluginAdmin_Skin_GetPreviewSkinName()) {
+			return $this->ShowPreviewSkinMessage();
 		}
 		return false;
 	}
 	
 	
-	public function ShowPreviewSkinMessage () {
-		return $this -> Viewer_Fetch (Plugin::GetTemplatePath (__CLASS__) . 'preview_skin_message.tpl');
+	public function ShowPreviewSkinMessage() {
+		return $this->Viewer_Fetch(Plugin::GetTemplatePath(__CLASS__) . 'preview_skin_message.tpl');
 	}
 	
 }

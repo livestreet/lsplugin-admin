@@ -4,7 +4,7 @@ class PluginAdmin_ModuleUi_EntityMenuItem extends Entity {
 	// Getters
 	
 	public function GetSection(){
-		if(isset($this->_aData['section'])
+		if (isset($this->_aData['section'])
 		&& is_object($this->_aData['section'])){
 			$oMenuSection = $this->_aData['section'];
 		}else{
@@ -17,7 +17,7 @@ class PluginAdmin_ModuleUi_EntityMenuItem extends Entity {
 	}
 	
 	public function GetUrl(){
-		return (string) @$this->_aData['url'];
+		return(string) @$this->_aData['url'];
 	}
 	
 	public function GetUrlArray(){
@@ -42,11 +42,11 @@ class PluginAdmin_ModuleUi_EntityMenuItem extends Entity {
 	}
 	
 	public function GetActive(){
-		return (bool) @$this->_aData['active'];
+		return(bool) @$this->_aData['active'];
 	}
 	
 	public function GetCaption(){
-		return (string) @$this->_aData['caption'];
+		return(string) @$this->_aData['caption'];
 	}
 	
 	
@@ -58,24 +58,24 @@ class PluginAdmin_ModuleUi_EntityMenuItem extends Entity {
 	}
 	
 	public function SetUrl($sUrl){
-		$this->_aData['url'] = (string) $sUrl;
+		$this->_aData['url'] =(string) $sUrl;
 		return $this;
 	}
 
 	public function SetUrlFull($sUrl){
-		$this->_aData['url_full'] = (string) $sUrl;
+		$this->_aData['url_full'] =(string) $sUrl;
 		return $this;
 	}
 	
 	public function SetActive($bActive = true){
-		$this->_aData['active'] = (bool) $bActive;
+		$this->_aData['active'] =(bool) $bActive;
 		$oCursor = $this->GetSection()->GetMenu()->GetCursor();
 		$oCursor->PostSetActive($this);
 		return $this;
 	}
 	
 	public function SetCaption($sCaption){
-		$this->_aData['caption'] = (string) @$sCaption;
+		$this->_aData['caption'] =(string) @$sCaption;
 		return $this;
 	}
 	

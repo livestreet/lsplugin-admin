@@ -23,13 +23,13 @@
  *	Модуль подписки на уведомление о изменении параметров конфига
  *
  *	Плагины, которые хотят получить уведомления о смене параметра их конфига, должны унаследовать этот модуль
- *	и добавить в него свой метод "PluginnameOnChange ($sKey, $mNewValue, $mPreviousValue)"
- *	и возвращать true в случае успеха (разрешения на изменение параметра)
- *	или текст ошибки (тип string) в случае запрета для данного значения ключа
+ *	и добавить в него свой метод "PluginnameOnChange($sKey, $mNewValue, $mPreviousValue)"
+ *	и возвращать true в случае успеха(разрешения на изменение параметра)
+ *	или текст ошибки(тип string) в случае запрета для данного значения ключа
  *
  *	Подписка может быть нужна, например, когда в админке изменили список размеров изображений и их нужно автоматически пересоздать.
  *	В таком случае плагин может подписаться на событие и его метод в наследуемом модуле будет вызван если один из его ключей изменился.
- *	Метод получит имя ключа в виде "ключ1.ключ2.ключ3" (как и в вызовах класса Config), новое и старое значение параметра.
+ *	Метод получит имя ключа в виде "ключ1.ключ2.ключ3"(как и в вызовах класса Config), новое и старое значение параметра.
  *	Метод обязательно должен вернуть true в случае успеха или текст ошибки.
  *	
  *
@@ -43,20 +43,20 @@ class PluginAdmin_ModuleEvents extends Module {
 	public function Init() {}
 	
 	
-	final public function ConfigParameterChangeNotification ($sConfigName, $sKey, $mNewValue, $mPreviousValue) {
-		$sMethodName = $this -> GetOnChangeHandlerMethodName ($sConfigName);
-		if (method_exists ($this, $sMethodName)) {
-			return call_user_func (array ($this, $sMethodName), $sKey, $mNewValue, $mPreviousValue);
+	final public function ConfigParameterChangeNotification($sConfigName, $sKey, $mNewValue, $mPreviousValue) {
+		$sMethodName = $this->GetOnChangeHandlerMethodName($sConfigName);
+		if (method_exists($this, $sMethodName)) {
+			return call_user_func(array($this, $sMethodName), $sKey, $mNewValue, $mPreviousValue);
 		}
 		return true;
 	}
 	
 	
-	final protected function GetOnChangeHandlerMethodName ($sConfigName) {
+	final protected function GetOnChangeHandlerMethodName($sConfigName) {
 		if ($sConfigName != ModuleStorage::DEFAULT_KEY_NAME) {
-			return ucfirst ($sConfigName) . $this -> sOnChangeFunctionPostfix;
+			return ucfirst($sConfigName) . $this->sOnChangeFunctionPostfix;
 		}
-		return $this -> sOnChangeFunctionPostfix;			// for engine this will be just "OnChange"
+		return $this->sOnChangeFunctionPostfix;			// for engine this will be just "OnChange"
 	}
 
 }

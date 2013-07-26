@@ -6,5 +6,5 @@
 
 $config['db']['table']['storage'] = '___db.table.prefix___storage';
 
-3. Добавить модуль Storage к в папку модулей ядра (\engine\modules\)
+3. Добавить модуль Storage к в папку модулей ядра(\engine\modules\)
 

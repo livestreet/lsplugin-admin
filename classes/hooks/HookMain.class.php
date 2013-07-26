@@ -37,7 +37,7 @@ class PluginAdmin_HookMain extends Hook {
 
 		$aTemplateWebPathPlugin=array();
 		$aTemplatePathPlugin=array();
-		foreach ($aPlugins as $k=>$oPlugin) {
+		foreach($aPlugins as $k=>$oPlugin) {
 			$aTemplateWebPathPlugin[$k]=$this->PluginAdmin_Main_GetPluginTemplateWebPath($oPlugin);
 			$aTemplatePathPlugin[$k]=$this->PluginAdmin_Main_GetPluginTemplatePath($oPlugin);
 		}

@@ -33,14 +33,14 @@ class PluginAdmin_ModuleValidate_EntityValidatorArray extends ModuleValidate_Ent
 	public $allowEmpty=true;
 	
 	/**
-	 * Максимально допустимый размер массива (элементов)
+	 * Максимально допустимый размер массива(элементов)
 	 *
 	 * @var null|integer|float
 	 */
 	public $max_items;
 	
 	/**
-	 * Минимально допустимый размер массива (элементов)
+	 * Минимально допустимый размер массива(элементов)
 	 *
 	 * @var null|integer|float
 	 */
@@ -95,23 +95,23 @@ class PluginAdmin_ModuleValidate_EntityValidatorArray extends ModuleValidate_Ent
 	 *
 	 * @return bool|string
 	 */
-	public function validate ($sValue) {
+	public function validate($sValue) {
 		if (!is_array($sValue)) {
 			return $this->getMessage($this->Lang_Get('plugin.admin.Errors.validator.validate_array_must_be_array',null,false),'msg');
 		}
-		if($this->allowEmpty and $this->isEmpty($sValue)) {
+		if ($this->allowEmpty and $this->isEmpty($sValue)) {
 			return true;
 		}
 		
-		if($this->min_items!==null and count($sValue)<$this->min_items) {
+		if ($this->min_items!==null and count($sValue)<$this->min_items) {
 			return $this->getMessage($this->Lang_Get('plugin.admin.Errors.validator.validate_array_too_small',null,false),'msgTooSmall',array('min_items'=>$this->min_items));
 		}
-		if($this->max_items!==null and count($sValue)>$this->max_items) {
+		if ($this->max_items!==null and count($sValue)>$this->max_items) {
 			return $this->getMessage($this->Lang_Get('plugin.admin.Errors.validator.validate_array_too_big',null,false),'msgTooBig',array('max_items'=>$this->max_items));
 		}
 
-		if($this->enum!==null and count($this->enum)>0) {
-			foreach ($sValue as $sVal) {
+		if ($this->enum!==null and count($this->enum)>0) {
+			foreach($sValue as $sVal) {
 				if (!in_array($sVal, $this->enum)) {
 					return $this->getMessage(
 						$this->Lang_Get('plugin.admin.Errors.validator.validate_array_value_is_not_allowed',null,false),
@@ -122,14 +122,14 @@ class PluginAdmin_ModuleValidate_EntityValidatorArray extends ModuleValidate_Ent
 			}
 		}
 		
-		if($this->item_validator!==null and count($this->item_validator)>0) {
-			foreach ($sValue as $sVal) {
-				if (!$this -> Validate_Validate (
-					$this->item_validator ['type'], $sVal, isset ($this->item_validator ['params']) ? $this->item_validator ['params'] : array ()
+		if ($this->item_validator!==null and count($this->item_validator)>0) {
+			foreach($sValue as $sVal) {
+				if (!$this->Validate_Validate(
+					$this->item_validator ['type'], $sVal, isset($this->item_validator ['params']) ? $this->item_validator ['params'] : array()
 				)) {
 					return $this->getMessage(
 						$this->Lang_Get('plugin.admin.Errors.validator.validate_array_value_is_not_correct',null,false) .
-							$this -> Validate_GetErrorLast (true),
+							$this->Validate_GetErrorLast(true),
 						'msgIncorrectValue',
 						array('val'=>$sVal)
 					);

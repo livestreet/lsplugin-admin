@@ -23,12 +23,12 @@
  * Русский языковой файл
  */
  
-return array (
+return array(
 
 	/*
 	 *  Ошибки
    */
-	'Errors' => array (
+	'Errors' => array(
 		'You_Are_Not_Admin' => 'Вы не администратор',
 		'Plugin_Need_To_Be_Activated' => 'Плагин должен быть активированым для редактирования настроек',
 		'Wrong_Description_Key' => 'Ключ <b>%%key%%</b> в описании настроек указывает на не существующий параметр конфига',
@@ -44,8 +44,8 @@ return array (
 		 */
 		'validator' => array(
 			'validate_array_must_be_array' => 'Поле %%field%% должно быть массивом',
-			'validate_array_too_small' => 'Массив %%field%% слишком маленький (минимально допустимо %%min_items%% элементов)',
-			'validate_array_too_big' => 'Массив %%field%% слишком большой (максимально допустимо %%max_items%% элементов)',
+			'validate_array_too_small' => 'Массив %%field%% слишком маленький(минимально допустимо %%min_items%% элементов)',
+			'validate_array_too_big' => 'Массив %%field%% слишком большой(максимально допустимо %%max_items%% элементов)',
 			'validate_array_value_is_not_allowed' => 'В массиве %%field%% не должно быть значения %%val%%',
 			//'validate_array_value_is_too_small' => 'В массиве %%field%% значения не должны быть меньшими чем %%min%%',  //todo: delete
 			//'validate_array_value_is_too_big' => 'В массиве %%field%% значения не должны быть больше чем %%max%%',
@@ -59,14 +59,14 @@ return array (
 	 * Общие
 	 */
 	'title' => 'Админка для LiveStreet CMS',
-	'true' => 'Включено (true)',
-	'false' => 'Выключено (false)',
+	'true' => 'Включено(true)',
+	'false' => 'Выключено(false)',
 	'current' => 'текущее',
 	
 	/*
 	 *  Уведомления
    */
-	'notices' => array (
+	'notices' => array(
 		'template_changed' => 'Шаблон изменён',
 		'template_preview_set' => 'Для вас установлен режим предпросмотра шаблона. Откройте главную страницу сайта и рассмотрите шаблон. Когда захотите отключить предпросмотр - нажмите на ссылку в уведомлении',
 		'template_preview_turned_off' => 'Предпросмотр шаблона отключен',
@@ -75,7 +75,7 @@ return array (
 	/*
 	 *  Шаблоны
    */
-	'skin' => array (
+	'skin' => array(
 		'use_skin' => 'Включить',
 		'preview_skin' => 'Предпросмотр',
 		'current_skin' => 'Включен сейчас',
@@ -95,10 +95,10 @@ return array (
 			'skin_config' => 'Другие доступные шаблоны',
 			'current_skin' => 'Текущий активный шаблон',
 		),
-		// для типов параметров (форм)
+		// для типов параметров(форм)
 /*		'param_type' => array(
 			'array' => array(
-				//'multiple_select_tip' => 'Можно выбирать несколько значений (для этого нажмите ctrl и выбирайте значения)',//todo: delete
+				//'multiple_select_tip' => 'Можно выбирать несколько значений(для этого нажмите ctrl и выбирайте значения)',//todo: delete
 			
 			),
 		
@@ -111,7 +111,7 @@ return array (
 	/*
 	 * Описание каждого параметра конфига для отображения в админке
 	 */
-	'config_parameters' => array (
+	'config_parameters' => array(
 		'test' => array(
 			'subarr' => array(
 				'name' => 'Количество пользователей на страницу',

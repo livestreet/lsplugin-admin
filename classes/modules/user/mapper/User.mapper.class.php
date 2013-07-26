@@ -15,7 +15,7 @@ class PluginAdmin_ModuleUser_MapperUser extends Mapper {
 	public function GetUsersByFilter($aFilter,$aOrder,&$iCount,$iCurrPage,$iPerPage) {
 		$aOrderAllow=array('u.user_id','u.user_login','u.user_date_register','u.user_rating','u.user_skill','u.user_profile_name','s.session_ip_last');
 		$sOrder='';
-		foreach ($aOrder as $key=>$value) {
+		foreach($aOrder as $key=>$value) {
 			if (!in_array($key,$aOrderAllow)) {
 				unset($aOrder[$key]);
 			} elseif (in_array($value,array('asc','desc'))) {
@@ -57,9 +57,9 @@ class PluginAdmin_ModuleUser_MapperUser extends Mapper {
 										  isset($aFilter['profile_sex']) ? $aFilter['profile_sex'] : DBSIMPLE_SKIP,
 										  isset($aFilter['login']) ? $aFilter['login'] : DBSIMPLE_SKIP,
 										  isset($aFilter['profile_name']) ? $aFilter['profile_name'] : DBSIMPLE_SKIP,
-										  ($iCurrPage-1)*$iPerPage, $iPerPage
+										 ($iCurrPage-1)*$iPerPage, $iPerPage
 		)) {
-			foreach ($aRows as $aRow) {
+			foreach($aRows as $aRow) {
 				$aResult[]=$aRow['user_id'];
 			}
 		}

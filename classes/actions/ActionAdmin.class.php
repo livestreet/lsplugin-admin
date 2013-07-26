@@ -23,23 +23,23 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 	//protected $oUserCurrent = null;
 	
 	// Списки групп настроек системного конфига
-	protected $aCoreSettingsGroups = array ();
+	protected $aCoreSettingsGroups = array();
 	
 	// Имя виртуального метода, который будет пойман в __call для групп системных настроек
 	protected $sCallbackMethodToShowSystemSettings = 'EventShowSystemSettings';
 	
 
-	public function Init () {
-		if (!$this -> User_IsAdmin ()) {
-			$this -> Message_AddError ($this -> Lang_Get ('plugin.admin.Errors.You_Are_Not_Admin'), $this -> Lang_Get ('error'));
-			return Router::Action ('error');
+	public function Init() {
+		if (!$this->User_IsAdmin()) {
+			$this->Message_AddError($this->Lang_Get('plugin.admin.Errors.You_Are_Not_Admin'), $this->Lang_Get('error'));
+			return Router::Action('error');
 		}
 		
 		// Reset added styles and scripts
-		$this -> Viewer_ClearStyle (true);
+		$this->Viewer_ClearStyle(true);
 		
-		$sFrameworkPath = Config::Get ('path.static.framework');
-		$aPluginTemplatePath = Plugin::GetTemplatePath (__CLASS__);
+		$sFrameworkPath = Config::Get('path.static.framework');
+		$aPluginTemplatePath = Plugin::GetTemplatePath(__CLASS__);
 		
 		$aStyles = array(
 			$sFrameworkPath . "/css/reset.css",
@@ -105,52 +105,52 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$aPluginTemplatePath . "/js/admin_array.js",
 		);
 		
-		array_map (array ($this, 'Viewer_AppendStyle'), $aStyles);
-		array_map (array ($this, 'Viewer_AppendScript'), $aScripts);
+		array_map(array($this, 'Viewer_AppendStyle'), $aStyles);
+		array_map(array($this, 'Viewer_AppendScript'), $aScripts);
 		
-		$this -> aCoreSettingsGroups = Config::Get ('plugin.admin.core_config_groups');
+		$this->aCoreSettingsGroups = Config::Get('plugin.admin.core_config_groups');
 		
-		$this -> SetDefaultEvent ('index');
-		$this -> Hook_Run ('init_action_admin');
-		$this -> Viewer_AddHtmlTitle ($this -> Lang_Get ('plugin.admin.title'));
+		$this->SetDefaultEvent('index');
+		$this->Hook_Run('init_action_admin');
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('plugin.admin.title'));
 	}
 
 
 	/**
 	 * Регистрируем евенты
 	 */
-	protected function RegisterEvent () {
+	protected function RegisterEvent() {
 		/**
 		 * Регистрируем внешние обработчики евентов
 		 */
-		$this -> RegisterEventExternal('User','PluginAdmin_ActionAdmin_EventUser');
-		$this -> RegisterEventExternal('Plugin','PluginAdmin_ActionAdmin_EventPlugin');
-		$this -> RegisterEventExternal('Plugins', 'PluginAdmin_ActionAdmin_EventPlugins');					// Список плагинов
-		$this -> RegisterEventExternal('Settings', 'PluginAdmin_ActionAdmin_EventSettings');				// Работа с настройками плагинов
+		$this->RegisterEventExternal('User','PluginAdmin_ActionAdmin_EventUser');
+		$this->RegisterEventExternal('Plugin','PluginAdmin_ActionAdmin_EventPlugin');
+		$this->RegisterEventExternal('Plugins', 'PluginAdmin_ActionAdmin_EventPlugins');					// Список плагинов
+		$this->RegisterEventExternal('Settings', 'PluginAdmin_ActionAdmin_EventSettings');				// Работа с настройками плагинов
 		
 		//
 		// дашборд и статистика
 		//
-		$this -> AddEvent('index', 'EventIndex');
+		$this->AddEvent('index', 'EventIndex');
 		
 		//
 		// Пользователи
 		//
-		$this -> AddEventPreg ('/^user$/i', '/^list$/i','/^$/i', 'User::EventUserList');
+		$this->AddEventPreg('/^user$/i', '/^list$/i','/^$/i', 'User::EventUserList');
 		
 		//
 		// Плагины
 		//
-		$this -> AddEventPreg ('/^plugin$/i', '/^[\w_\-]+$/i', 'Plugin::EventPlugin');			      // показать страницу собственных настроек плагина
-		$this -> AddEventPreg ('#^plugins$#iu', '#^list$#iu', 'Plugins::EventPluginsList');  		// список плагинов
+		$this->AddEventPreg('/^plugin$/i', '/^[\w_\-]+$/i', 'Plugin::EventPlugin');			      // показать страницу собственных настроек плагина
+		$this->AddEventPreg('#^plugins$#iu', '#^list$#iu', 'Plugins::EventPluginsList');  		// список плагинов
 		
 		//
 		// Настройки
 		//
-		$this -> AddEventPreg ('#^settings$#iu', '#^plugin$#iu', 'Settings::EventShow');         // настройки плагина
-		$this -> AddEventPreg ('#^settings$#iu', '#^save$#iu', 'Settings::EventSaveConfig');     // сохранить настройки
+		$this->AddEventPreg('#^settings$#iu', '#^plugin$#iu', 'Settings::EventShow');         // настройки плагина
+		$this->AddEventPreg('#^settings$#iu', '#^save$#iu', 'Settings::EventSaveConfig');     // сохранить настройки
 		
-		$this -> AddEventPreg ('#^settings$#iu', '#^skin$#iu', 'Settings::EventChangeSkin');     // управление шаблонами
+		$this->AddEventPreg('#^settings$#iu', '#^skin$#iu', 'Settings::EventChangeSkin');     // управление шаблонами
 		
 		//
 		// Системные настройки
@@ -159,8 +159,8 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		// чтобы не плодить полупустых методов, так компактнее и удобнее
 		// todo: нужно что-то ещё с меню придумать чтобы полностью автоматизировать процесс создания групп
 		// пока в меню нужно прописывать вручную пункты групп
-		foreach (array_keys (Config::Get ('plugin.admin.core_config_groups')) as $sKey) {
-			$this -> AddEventPreg ('#^settings$#iu', '#^' . $sKey . '$#iu', 'Settings::' . $this -> sCallbackMethodToShowSystemSettings . $sKey);
+		foreach(array_keys(Config::Get('plugin.admin.core_config_groups')) as $sKey) {
+			$this->AddEventPreg('#^settings$#iu', '#^' . $sKey . '$#iu', 'Settings::' . $this->sCallbackMethodToShowSystemSettings . $sKey);
 		}
 	}
 
@@ -170,15 +170,15 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 	 **********************************************************************************
 	 */
 
-	protected function EventIndex () {
+	protected function EventIndex() {
 		// дашборд
-		$this -> SetTemplateAction('index');
+		$this->SetTemplateAction('index');
 	}
 	
 	
 	// Построение меню
-	private function InitMenu () {
-		$this -> PluginAdmin_Ui_GetMenuMain()
+	private function InitMenu() {
+		$this->PluginAdmin_Ui_GetMenuMain()
 			->AddSection(
 				Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Главная')->SetUrl('')
 			)	// /AddSection
@@ -228,29 +228,29 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 	// --- misc ---
 	
 	
-	public function RedirectToReferer () {
-		return Router::Location (isset ($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : Router::GetPath ('admin'));
+	public function RedirectToReferer() {
+		return Router::Location(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : Router::GetPath('admin'));
 	}
 	
 	
 	// быстрое получение текстовки плагина
-	public function Lang ($sKey) {
-		return $this -> Lang_Get ('plugin.admin.' . $sKey);
+	public function Lang($sKey) {
+		return $this->Lang_Get('plugin.admin.' . $sKey);
 	}
 	
 	
-	public function EventShutdown () {
-		$this -> Viewer_Assign('oMenuMain', $this -> PluginAdmin_Ui_GetMenuMain());
-		$this -> Viewer_Assign('oMenuAddition', $this -> PluginAdmin_Ui_GetMenuAddition());
+	public function EventShutdown() {
+		$this->Viewer_Assign('oMenuMain', $this->PluginAdmin_Ui_GetMenuMain());
+		$this->Viewer_Assign('oMenuAddition', $this->PluginAdmin_Ui_GetMenuAddition());
 
-		$this -> InitMenu();	// todo: review: dublicates menu when redirecting using router
-		$this -> Viewer_AddBlock('right','blocks/block.nav.tpl',array('plugin'=>'admin'));
+		$this->InitMenu();	// todo: review: dublicates menu when redirecting using router
+		$this->Viewer_AddBlock('right','blocks/block.nav.tpl',array('plugin'=>'admin'));
 
-		$this -> PluginAdmin_Ui_HighlightMenus();
+		$this->PluginAdmin_Ui_HighlightMenus();
 		
 		// для редактирования настроек плагинов и системы
-		$this -> Viewer_Assign ('sAdminSettingsFormSystemId', PluginAdmin_ModuleSettings::ADMIN_SETTINGS_FORM_SYSTEM_ID);
-		$this -> Viewer_Assign ('sAdminSystemConfigId', ModuleStorage::DEFAULT_KEY_NAME);
+		$this->Viewer_Assign('sAdminSettingsFormSystemId', PluginAdmin_ModuleSettings::ADMIN_SETTINGS_FORM_SYSTEM_ID);
+		$this->Viewer_Assign('sAdminSystemConfigId', ModuleStorage::DEFAULT_KEY_NAME);
 	}
 	
 }

@@ -7,17 +7,17 @@
   $this->aConfigModule = Config::Get('module');
  }
 
-получение всех данных ключа "модуль", но (!) используется ведь только ключ "autoLoad" в LoadModules () т.е. LoadConfig  нужно переписать так:
+получение всех данных ключа "модуль", но(!) используется ведь только ключ "autoLoad" в LoadModules() т.е. LoadConfig  нужно переписать так:
 
  protected function LoadConfig() {
   $this->aConfigModule = Config::Get('module.autoLoad');
  }
  
-а в LoadModules () ядра, в цикле убрать ключ autoLoad вот так:
+а в LoadModules() ядра, в цикле убрать ключ autoLoad вот так:
 
  protected function LoadModules() {
   $this->LoadConfig();
-  foreach ($this->aConfigModule as $sModuleName) {
+  foreach($this->aConfigModule as $sModuleName) {
 
 
 проблемы это не создает, но в будущем мы можем забыть об этом моменте и использовать другие ключи сохраненного значения, поэтому эту правку желательно сделать.

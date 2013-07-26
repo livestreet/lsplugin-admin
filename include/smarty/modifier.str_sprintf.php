@@ -1,6 +1,6 @@
 <?php 
 
-if(!function_exists('smarty_modifier_str_sprintf')){
+if (!function_exists('smarty_modifier_str_sprintf')){
 	function smarty_modifier_str_sprintf()
 	{
 		$args = func_get_args();

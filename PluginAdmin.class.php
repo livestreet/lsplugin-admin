@@ -32,10 +32,10 @@ class PluginAdmin extends Plugin {
 	public function Init() {}
 	
 	
-	protected $aInherits = array (
-		//'action' => array ('ActionPlugin'),
-		'module' => array ('ModuleViewer', 'ModuleStorage', 'ModuleMessage'),
-		'entity' => array ('ModuleValidate_EntityValidatorArray')		// Добавляем новый тип валидатора - Array
+	protected $aInherits = array(
+		//'action' => array('ActionPlugin'),
+		'module' => array('ModuleViewer', 'ModuleStorage', 'ModuleMessage'),
+		'entity' => array('ModuleValidate_EntityValidatorArray')		// Добавляем новый тип валидатора - Array
 	);
 
 }

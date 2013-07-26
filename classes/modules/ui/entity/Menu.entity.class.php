@@ -36,7 +36,7 @@ class PluginAdmin_ModuleUi_EntityMenu extends Entity {
 	}
 	
 	public function GetCursor(){
-		if(is_object(@$this->_aData['cursor'])){
+		if (is_object(@$this->_aData['cursor'])){
 			$oCursor = $this->_aData['cursor'];
 		}else{
 			$oCursor = Engine::GetEntity('PluginAdmin_Ui_Cursor');
@@ -53,13 +53,13 @@ class PluginAdmin_ModuleUi_EntityMenu extends Entity {
 	}
 	
 	public function GetCaption(){
-		return (string) @$this->_aData['caption'];
+		return(string) @$this->_aData['caption'];
 	}
 	
 	// Setters
 	
 	public function SetUrlPrefix($aPrefix){
-		if(!is_array($aPrefix)){
+		if (!is_array($aPrefix)){
 			$aPrefix = explode('/', $aPrefix);
 		}
 		$this->_aData['url_prefix'] = $aPrefix;
@@ -72,12 +72,12 @@ class PluginAdmin_ModuleUi_EntityMenu extends Entity {
 	}
 	
 	public function SetCaption($sCaption){
-		$this->_aData['caption'] = (string) @$sCaption;
+		$this->_aData['caption'] =(string) @$sCaption;
 		return $this;
 	}
 	
 	public function SetName($sName){
-		$this->_aData['name'] = (string) @$sName;
+		$this->_aData['name'] =(string) @$sName;
 		return $this;
 	}
 	
@@ -85,7 +85,7 @@ class PluginAdmin_ModuleUi_EntityMenu extends Entity {
 	// Adders
 
 	public function AddSection(PluginAdmin_ModuleUi_EntityMenuSection $oMenuSection){
-		if(!is_array(@$this->_aData['sections'])){
+		if (!is_array(@$this->_aData['sections'])){
 			$this->_aData['sections'] = array($oMenuSection);
 		}else{
 			$this->_aData['sections'][] = $oMenuSection;

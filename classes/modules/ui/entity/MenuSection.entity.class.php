@@ -4,7 +4,7 @@ class PluginAdmin_ModuleUi_EntityMenuSection extends Entity {
 	// Getters
 	
 	public function GetUrl(){
-		return (string)@$this->_aData['url'];
+		return(string)@$this->_aData['url'];
 	}
 	
 	public function GetUrlArray(){
@@ -24,7 +24,7 @@ class PluginAdmin_ModuleUi_EntityMenuSection extends Entity {
 	}
 	
 	public function GetMenu(){
-		if(isset($this->_aData['menu'])
+		if (isset($this->_aData['menu'])
 		&& is_object($this->_aData['menu'])){
 			$oMenu = $this->_aData['menu'];
 		}else{
@@ -37,7 +37,7 @@ class PluginAdmin_ModuleUi_EntityMenuSection extends Entity {
 	}
 	
 	public function GetActive(){
-		return (bool) @$this->_aData['active'];
+		return(bool) @$this->_aData['active'];
 	}
 	
 	public function GetItems(){
@@ -48,21 +48,21 @@ class PluginAdmin_ModuleUi_EntityMenuSection extends Entity {
 	}
 	
 	public function GetCaption(){
-		return (string) @$this->_aData['caption'];
+		return(string) @$this->_aData['caption'];
 	}
 
 	public function GetName(){
-		return (string) @$this->_aData['name'];
+		return(string) @$this->_aData['name'];
 	}
 	
 	public function GetCssClass(){
-		return (string) @$this->_aData['css_class'];
+		return(string) @$this->_aData['css_class'];
 	}
 	
 	// Setters
 	
 	public function SetUrl($sUrl){
-		$this->_aData['url'] = (string) $sUrl;
+		$this->_aData['url'] =(string) $sUrl;
 		return $this;
 	}
 	
@@ -72,10 +72,10 @@ class PluginAdmin_ModuleUi_EntityMenuSection extends Entity {
 	}
 	
 	public function SetActive($bActive = true){
-		$this->_aData['active'] = (bool) $bActive;
+		$this->_aData['active'] =(bool) $bActive;
 		$oCursor = $this->GetMenu()->GetCursor();
 		$oCursor->PostSetActive($this);
-		if(!$this->GetActive()){
+		if (!$this->GetActive()){
 			$aMenuItems = $this->GetItems();
 			foreach($aMenuItems as $oMenuItem){
 				$oMenuItem->SetActive(false);
@@ -85,17 +85,17 @@ class PluginAdmin_ModuleUi_EntityMenuSection extends Entity {
 	}
 	
 	public function SetCaption($sCaption){
-		$this->_aData['caption'] = (string) @$sCaption;
+		$this->_aData['caption'] =(string) @$sCaption;
 		return $this;
 	}
 
 	public function SetName($sName){
-		$this->_aData['name'] = (string) @$sName;
+		$this->_aData['name'] =(string) @$sName;
 		return $this;
 	}
 	
 	public function SetCssClass($sCssClass){
-		$this->_aData['css_class'] = (string) @$sCssClass;
+		$this->_aData['css_class'] =(string) @$sCssClass;
 		return $this;
 	}
 	
@@ -103,7 +103,7 @@ class PluginAdmin_ModuleUi_EntityMenuSection extends Entity {
 	// Adders
 
 	public function AddItem(PluginAdmin_ModuleUi_EntityMenuItem $oMenuItem){
-		if(!is_array(@$this->_aData['items'])){
+		if (!is_array(@$this->_aData['items'])){
 			$this->_aData['items'] = array($oMenuItem);
 		}else{
 			$this->_aData['items'][] = $oMenuItem;
