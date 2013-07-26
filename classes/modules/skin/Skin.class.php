@@ -1,25 +1,26 @@
 <?php
-/*-------------------------------------------------------
-*
-*	 LiveStreet Engine Social Networking
-*	 Copyright © 2008 Mzhelskiy Maxim
-*
-*--------------------------------------------------------
-*
-*	 Official site: www.livestreet.ru
-*	 Contact e-mail: rus.engine@gmail.com
-*
-*	 GNU General Public License, version 2:
-*	 http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
-*
----------------------------------------------------------
-*/
+/**
+ * LiveStreet CMS
+ * Copyright © 2013 OOO "ЛС-СОФТ"
+ * 
+ * ------------------------------------------------------
+ * 
+ * Official site: www.livestreetcms.com
+ * Contact e-mail: office@livestreetcms.com
+ * 
+ * GNU General Public License, version 2:
+ * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * 
+ * ------------------------------------------------------
+ * 
+ * @link http://www.livestreetcms.com
+ * @copyright 2013 OOO "ЛС-СОФТ"
+ * @author PSNet <light.feel@gmail.com>
+ * 
+ */
 
 /*
  *	Модуль работы с шаблонами движка
- *
- *	by PSNet
- *	http://psnet.lookformp3.net
  *
 */
 
@@ -88,8 +89,22 @@ class PluginAdmin_ModuleSkin extends Module {
 			$aSkins [$sSkinName] = Engine::GetEntity ('PluginAdmin_Skin', $aSkinInfo);
 		}
 		
+		// сортировка
 		if (isset ($aFilter ['order']) and $aFilter ['order'] == 'name') {
 			//natsort ($aSkins);//todo:
+		}
+		
+		// отдельно вернуть данные текущего скина
+		// данный фильтр меняет формат возвращаемых данных
+		if (isset ($aFilter ['separate_current_skin'])) {
+			$aCurrentSkinData = $aSkins [$this -> GetOriginalSkinName ()];
+			if (isset ($aFilter ['delete_current_skin_from_list'])) {
+				unset ($aSkins [$this -> GetOriginalSkinName ()]);
+			}
+			return array(
+				'skins' => $aSkins,
+				'current' => $aCurrentSkinData
+			);
 		}
 		return $aSkins;
 	}
@@ -134,6 +149,7 @@ class PluginAdmin_ModuleSkin extends Module {
 			)
 		);
 		$this -> PluginAdmin_Settings_SaveConfigByKey (ModuleStorage::DEFAULT_KEY_NAME, $aData);
+		$this -> TurnOffPreviewSkin ();
 	}
 	
 	
@@ -148,18 +164,30 @@ class PluginAdmin_ModuleSkin extends Module {
 	/*
 	 *	Получить имя шаблона для предпросмтора (если есть) для текущего пользователя
 	*/
-	public function GetPreviewSkin () {
+	public function GetPreviewSkinName () {
 		return $this -> Session_Get (self::PREVIEW_SKIN_SESSION_PARAM_NAME);
 	}
 	
 	
 	/*
-	 *	Показать шаблон для предпросмтора (если есть) текущему пользователю
+	 *	Установить шаблон для предпросмотра (если есть) текущему пользователю
 	*/
 	public function LoadPreviewTemplate () {
-		if ($sPreviewSkin = $this -> GetPreviewSkin ()) {
+		if ($sPreviewSkin = $this -> GetPreviewSkinName ()) {
+			Config::Set ('view.skin_original', Config::Get ('view.skin'));		// for receiving original skin name while previewing other template
 			Config::Set ('view.skin', $sPreviewSkin);
 		}
+	}
+	
+	
+	/*
+	 *	Получить оригинальное имя шаблона (даже если включен режим предпросмотра другого шаблона)
+	*/
+	public function GetOriginalSkinName () {
+		if ($sPreviewSkin = $this -> GetPreviewSkinName ()) {
+			return Config::Get ('view.skin_original');
+		}
+		return Config::Get ('view.skin');
 	}
 	
 	
@@ -168,6 +196,7 @@ class PluginAdmin_ModuleSkin extends Module {
 	*/
 	public function TurnOffPreviewSkin () {
 		$this -> Session_Drop (self::PREVIEW_SKIN_SESSION_PARAM_NAME);
+		Config::Set ('view.skin_original', null);
 	}
 
 

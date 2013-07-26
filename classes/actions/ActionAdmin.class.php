@@ -1,22 +1,26 @@
 <?php
-/*-------------------------------------------------------
-*
-*   LiveStreet Engine Social Networking
-*   Copyright © 2008 Mzhelskiy Maxim
-*
-*--------------------------------------------------------
-*
-*   Official site: www.livestreet.ru
-*   Contact e-mail: rus.engine@gmail.com
-*
-*   GNU General Public License, version 2:
-*   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
-*
----------------------------------------------------------
-*/
+/**
+ * LiveStreet CMS
+ * Copyright © 2013 OOO "ЛС-СОФТ"
+ * 
+ * ------------------------------------------------------
+ * 
+ * Official site: www.livestreetcms.com
+ * Contact e-mail: office@livestreetcms.com
+ * 
+ * GNU General Public License, version 2:
+ * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * 
+ * ------------------------------------------------------
+ * 
+ * @link http://www.livestreetcms.com
+ * @copyright 2013 OOO "ЛС-СОФТ"
+ * @author PSNet <light.feel@gmail.com>
+ * 
+ */
 
 class PluginAdmin_ActionAdmin extends ActionPlugin {
-	protected $oUserCurrent = null;
+	//protected $oUserCurrent = null;
 	
 	// Списки групп настроек системного конфига
 	protected $aCoreSettingsGroups = array ();
@@ -26,7 +30,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 	
 
 	public function Init () {
-		if (!$this -> oUserCurrent = $this -> User_GetUserCurrent () or !$this -> oUserCurrent -> isAdministrator ()) {
+		if (!$this -> User_IsAdmin ()) {
 			$this -> Message_AddError ($this -> Lang_Get ('plugin.admin.Errors.You_Are_Not_Admin'), $this -> Lang_Get ('error'));
 			return Router::Action ('error');
 		}

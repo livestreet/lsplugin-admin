@@ -1,19 +1,23 @@
 <?php
-/*-------------------------------------------------------
-*
-*   LiveStreet Engine Social Networking
-*   Copyright © 2008 Mzhelskiy Maxim
-*
-*--------------------------------------------------------
-*
-*   Official site: www.livestreet.ru
-*   Contact e-mail: rus.engine@gmail.com
-*
-*   GNU General Public License, version 2:
-*   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
-*
----------------------------------------------------------
-*/
+/**
+ * LiveStreet CMS
+ * Copyright © 2013 OOO "ЛС-СОФТ"
+ * 
+ * ------------------------------------------------------
+ * 
+ * Official site: www.livestreetcms.com
+ * Contact e-mail: office@livestreetcms.com
+ * 
+ * GNU General Public License, version 2:
+ * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * 
+ * ------------------------------------------------------
+ * 
+ * @link http://www.livestreetcms.com
+ * @copyright 2013 OOO "ЛС-СОФТ"
+ * @author PSNet <light.feel@gmail.com>
+ * 
+ */
 
 /**
  * Русский языковой файл
@@ -64,7 +68,7 @@ return array (
    */
 	'notices' => array (
 		'template_changed' => 'Шаблон изменён',
-		'template_preview_set' => 'Для вас установлен режим предпросмотра шаблона. Откройте главную страницу сайта и рассмотрите шаблон. Когда захотите отключить предпросмотр - нажмите на ссылку в уведомлении в просматриваемом шаблоне',
+		'template_preview_set' => 'Для вас установлен режим предпросмотра шаблона. Откройте главную страницу сайта и рассмотрите шаблон. Когда захотите отключить предпросмотр - нажмите на ссылку в уведомлении',
 		'template_preview_turned_off' => 'Предпросмотр шаблона отключен',
 	),
 	
@@ -76,8 +80,8 @@ return array (
 		'preview_skin' => 'Предпросмотр',
 		'current_skin' => 'Включен сейчас',
 		
-		'this_is_preview' => 'Это предпросмотр выбранного шаблона, который доступен только вам.',
-		'turn_off_preview' => 'Выключить предпросмотр этого шаблона',
+		'this_is_preview' => 'Включен предпросмотр выбранного шаблона, который доступен только вам.',
+		'turn_off_preview' => 'Выключить предпросмотр шаблона',
 	
 	),
 	
@@ -88,7 +92,8 @@ return array (
 		'titles' => array(
 			'main_config' => 'Настройки движка LiveStreet',
 			'plugin_config' => 'Настройки плагина',
-			'skin_config' => 'Управление шаблонами',
+			'skin_config' => 'Другие доступные шаблоны',
+			'current_skin' => 'Текущий активный шаблон',
 		),
 		// для типов параметров (форм)
 /*		'param_type' => array(

@@ -1,19 +1,23 @@
 <?php
-/*-------------------------------------------------------
-*
-*	 LiveStreet Engine Social Networking
-*	 Copyright © 2008 Mzhelskiy Maxim
-*
-*--------------------------------------------------------
-*
-*	 Official site: www.livestreet.ru
-*	 Contact e-mail: rus.engine@gmail.com
-*
-*	 GNU General Public License, version 2:
-*	 http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
-*
----------------------------------------------------------
-*/
+/**
+ * LiveStreet CMS
+ * Copyright © 2013 OOO "ЛС-СОФТ"
+ * 
+ * ------------------------------------------------------
+ * 
+ * Official site: www.livestreetcms.com
+ * Contact e-mail: office@livestreetcms.com
+ * 
+ * GNU General Public License, version 2:
+ * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * 
+ * ------------------------------------------------------
+ * 
+ * @link http://www.livestreetcms.com
+ * @copyright 2013 OOO "ЛС-СОФТ"
+ * @author PSNet <light.feel@gmail.com>
+ * 
+ */
 
 /*
  *	Модуль подписки на уведомление о изменении параметров конфига
@@ -28,8 +32,6 @@
  *	Метод получит имя ключа в виде "ключ1.ключ2.ключ3" (как и в вызовах класса Config), новое и старое значение параметра.
  *	Метод обязательно должен вернуть true в случае успеха или текст ошибки.
  *	
- *	by PSNet
- *	http://psnet.lookformp3.net
  *
 */
 

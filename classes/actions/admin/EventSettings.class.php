@@ -1,26 +1,27 @@
 <?php
-/*-------------------------------------------------------
-*
-*   LiveStreet Engine Social Networking
-*   Copyright © 2008 Mzhelskiy Maxim
-*
-*--------------------------------------------------------
-*
-*   Official site: www.livestreet.ru
-*   Contact e-mail: rus.engine@gmail.com
-*
-*   GNU General Public License, version 2:
-*   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
-*
----------------------------------------------------------
-*/
+/**
+ * LiveStreet CMS
+ * Copyright © 2013 OOO "ЛС-СОФТ"
+ * 
+ * ------------------------------------------------------
+ * 
+ * Official site: www.livestreetcms.com
+ * Contact e-mail: office@livestreetcms.com
+ * 
+ * GNU General Public License, version 2:
+ * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * 
+ * ------------------------------------------------------
+ * 
+ * @link http://www.livestreetcms.com
+ * @copyright 2013 OOO "ЛС-СОФТ"
+ * @author PSNet <light.feel@gmail.com>
+ * 
+ */
 
 /*
-		Работа с настройками плагинов
-		
-		by PSNet
-		http://psnet.lookformp3.net
-*/
+ *	Работа с настройками плагинов
+ */
 
 class PluginAdmin_ActionAdmin_EventSettings extends Event {
 	
@@ -136,7 +137,12 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 	public function EventChangeSkin () {
 		$this -> SetTemplateAction ('skin/list');
 		
-		$aSkinList = $this -> PluginAdmin_Skin_GetSkinList ();
+		$aSkinsData = $this -> PluginAdmin_Skin_GetSkinList (array(
+			'separate_current_skin' => true,
+			'delete_current_skin_from_list' => true
+		));
+		$aSkinList = $aSkinsData['skins'];
+		$oCurrentSkin = $aSkinsData['current'];
 		
 		if ($sAction = $this -> getParam (1) and in_array ($sAction, array ('use', 'preview', 'turnoffpreview'))) {
 			if ($sSkinName = $this -> getParam (2) and isset ($aSkinList [$sSkinName])) {
@@ -151,6 +157,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 			}
 		}
 		$this -> Viewer_Assign ('aSkins', $aSkinList);
+		$this -> Viewer_Assign ('oCurrentSkin', $oCurrentSkin);
 	}
 	
 	
