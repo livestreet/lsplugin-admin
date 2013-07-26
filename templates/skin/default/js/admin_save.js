@@ -1,6 +1,6 @@
 /**
  * LiveStreet CMS
- * Copyright © 2013 OOO "À—-—Œ‘“"
+ * Copyright ¬© 2013 OOO "–õ–°-–°–û–§–¢"
  * 
  * ------------------------------------------------------
  * 
@@ -13,7 +13,7 @@
  * ------------------------------------------------------
  * 
  * @link http://www.livestreetcms.com
- * @copyright 2013 OOO "À—-—Œ‘“"
+ * @copyright 2013 OOO "–õ–°-–°–û–§–¢"
  * @author PSNet <light.feel@gmail.com>
  * 
  */
