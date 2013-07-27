@@ -31,7 +31,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 
 	public function Init() {
 		if (!$this->User_IsAdmin()) {
-			$this->Message_AddError($this->Lang_Get('plugin.admin.Errors.You_Are_Not_Admin'), $this->Lang_Get('error'));
+			$this->Message_AddError($this->Lang_Get('plugin.admin.errors.you_are_not_admin'), $this->Lang_Get('error'));
 			return Router::Action('error');
 		}
 		

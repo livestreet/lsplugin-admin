@@ -90,7 +90,7 @@
 	{hook run='html_head_end'}
 	
 	<script>
-		ls.registry.set('admin_save_form_ajax_use', {json var=$oConfig->Get('plugin.admin.Admin_Save_Form_Ajax_Use')});
+		ls.registry.set('admin_save_form_ajax_use', {json var=$oConfig->Get('plugin.admin.admin_save_form_ajax_use')});
 	</script>
 	
 </head>

@@ -211,7 +211,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 			// Получить текущее значение параметра
 			if (($mValue = $this->GetConfigKeyValue($sConfigName, $sConfigKey)) === null) {
 				$this->Message_AddError(
-					$this->Lang_Get('plugin.admin.Errors.Wrong_Description_Key', array('key' => $sConfigKey)),
+					$this->Lang_Get('plugin.admin.errors.wrong_description_key', array('key' => $sConfigKey)),
 					$this->Lang_Get('error')
 				);
 				continue;
@@ -273,7 +273,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 					// Валидация параметра
 					if ($oParamInfo->getValidator() and !$this->ValidateParameter($oParamInfo->getValidator(), $mValue)) {
 						$this->Message_AddOneParamError(
-							$this->Lang_Get('plugin.admin.Errors.Wrong_Parameter_Value', array('key' => $sKey)) . $this->ValidatorGetLastError(),
+							$this->Lang_Get('plugin.admin.errors.wrong_parameter_value', array('key' => $sKey)) . $this->ValidatorGetLastError(),
 							$sKey
 						);
 						$bResult = false;
@@ -282,7 +282,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 					// Проверить текущее значение и предыдущее, вызов событий
 					if (($mResult = $this->FireEvents($sConfigName, $sKey, $mValue, $oParamInfo)) !== true) {
 						$this->Message_AddOneParamError(
-							$this->Lang_Get('plugin.admin.Errors.Disallowed_Parameter_Value', array('key' => $sKey)) . $mResult,
+							$this->Lang_Get('plugin.admin.errors.disallowed_parameter_value', array('key' => $sKey)) . $mResult,
 							$sKey
 						);
 						$bResult = false;
@@ -292,7 +292,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 					$this->SaveKeyValue($sConfigName, $sKey, $mValue);
 				} else {
 					$this->Message_AddOneParamError(
-						$this->Lang_Get('plugin.admin.Errors.Unknown_Parameter', array('key' => $sKey)),
+						$this->Lang_Get('plugin.admin.errors.unknown_parameter', array('key' => $sKey)),
 						$sKey
 					);
 					$bResult = false;

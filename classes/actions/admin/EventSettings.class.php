@@ -31,12 +31,12 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 	public function EventShow() {
 		// Корректно ли имя конфига
 		if (!$sConfigName = $this->getParam(1) or !is_string($sConfigName)) {
-			$this->Message_AddError($this->Lang_Get('plugin.admin.Errors.Wrong_Config_Name'), $this->Lang_Get('error'));
+			$this->Message_AddError($this->Lang_Get('plugin.admin.errors.wrong_config_name'), $this->Lang_Get('error'));
 			return false;
 		}
 		
 		if (!$this->PluginAdmin_Settings_CheckPluginNameIsActive($sConfigName)) {
-			$this->Message_AddError($this->Lang_Get('plugin.admin.Errors.Plugin_Need_To_Be_Activated'), $this->Lang_Get('error'));
+			$this->Message_AddError($this->Lang_Get('plugin.admin.errors.plugin_need_to_be_activated'), $this->Lang_Get('error'));
 			return false;
 		}
 
@@ -44,7 +44,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 		
 		$this->Viewer_Assign('aSettingsAll', $aSettingsAll);
 		$this->Viewer_Assign('sConfigName', $sConfigName);
-		$this->Lang_AddLangJs(array('plugin.admin.Errors.Some_Fields_Are_Incorrect'));
+		$this->Lang_AddLangJs(array('plugin.admin.errors.some_fields_are_incorrect'));
 	}
 
 	
@@ -76,12 +76,12 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 	protected function SaveSettings() {
 		// Корректно ли имя конфига
 		if (!$sConfigName = $this->getParam(1) or !is_string($sConfigName)) {
-			$this->Message_AddError($this->Lang_Get('plugin.admin.Errors.Wrong_Config_Name'), $this->Lang_Get('error'));
+			$this->Message_AddError($this->Lang_Get('plugin.admin.errors.wrong_config_name'), $this->Lang_Get('error'));
 			return false;
 		}
 		
 		if ($sConfigName != ModuleStorage::DEFAULT_KEY_NAME and !$this->PluginAdmin_Settings_CheckPluginNameIsActive($sConfigName)) {
-			$this->Message_AddError($this->Lang_Get('plugin.admin.Errors.Plugin_Need_To_Be_Activated'), $this->Lang_Get('error'));
+			$this->Message_AddError($this->Lang_Get('plugin.admin.errors.plugin_need_to_be_activated'), $this->Lang_Get('error'));
 			return false;
 		}
 

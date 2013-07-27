@@ -105,7 +105,7 @@ jQuery(document).ready(function($) {
         } else {
           if (data.aParamErrors.length > 0) {
             ls.admin_save.ShowErrors(data.aParamErrors);
-            ls.msg.error('', ls.lang.get('plugin.admin.Errors.Some_Fields_Are_Incorrect'));
+            ls.msg.error('', ls.lang.get('plugin.admin.errors.some_fields_are_incorrect'));
             return false;
           }
           ls.msg.notice('Ok');

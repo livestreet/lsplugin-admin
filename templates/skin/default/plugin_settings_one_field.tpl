@@ -5,7 +5,7 @@
   
 	{else}
 		<div class="UnknownParamType">
-			{$aLang.plugin.admin.Errors.Unknown_Parameter_Type}: <b>{$oParameter->getType()}</b>.
+			{$aLang.plugin.admin.errors.unknown_parameter_type}: <b>{$oParameter->getType()}</b>.
 		</div>
 	{/if}
 
