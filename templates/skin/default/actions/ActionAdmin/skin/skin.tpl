@@ -46,6 +46,16 @@
 								<dt>description:</dt>
 								<dd>{$oInfo->description->data}</dd>
 							</dl>
+							<dl>
+								<dt>theme:</dt>
+								<dd>
+									<select name="theme">	{* todo: themes *}
+										{foreach from=$oInfo->themes->children() item=oTheme}
+											<option value="{$oTheme->value}">{$oTheme->description->data}</option>
+										{/foreach}
+									</select>
+								</dd>
+							</dl>
 						</div>
 					{/if}
 				</div>

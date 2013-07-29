@@ -178,21 +178,36 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 		$this->Viewer_Assign('aSkins', $aSkinList);
 		$this->Viewer_Assign('oCurrentSkin', $oCurrentSkin);
 	}
-	
-	
+
+
+	/**
+	 * Включить шаблон
+	 *
+	 * @param $sSkinName	имя шаблона
+	 */
 	private function UseSkin($sSkinName) {
 		if ($this->PluginAdmin_Skin_ChangeSkin($sSkinName)) {
 			$this->Message_AddNotice($this->Lang('notices.template_changed'), '', true);
 		}
 	}
-	
-	
+
+
+	/**
+	 * Предпросмотр шаблона
+	 *
+	 * @param $sSkinName	имя шаблона
+	 */
 	private function PreviewSkin($sSkinName) {
 		$this->PluginAdmin_Skin_PreviewSkin($sSkinName);
 		$this->Message_AddNotice($this->Lang('notices.template_preview_set'), '', true);
 	}
-	
-	
+
+
+	/**
+	 * Выключить предпросмотр
+	 *
+	 * @param $sSkinName	имя шаблона
+	 */
 	private function TurnoffpreviewSkin($sSkinName) {
 		$this->PluginAdmin_Skin_TurnOffPreviewSkin();
 		$this->Message_AddNotice($this->Lang('notices.template_preview_turned_off'), '', true);

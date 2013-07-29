@@ -26,14 +26,26 @@
 */
 
 class PluginAdmin_ModuleSkin extends Module {
-	
+
+	/*
+	 * файлы описания и превью шаблона, должны быть в корне папки шаблона
+	 */
 	const SKIN_PREVIEW_FILE = 'template_preview.png';
 	const SKIN_XML_FILE = 'template_info.xml';
-	
+
+	/*
+	 * ключ сессии, в котором хранится имя шаблона для предпросмотра
+	 */
 	const PREVIEW_SKIN_SESSION_PARAM_NAME = 'admin_preview_skin';
 	
-	
+	/*
+	 * путь к шаблонам в системе
+	 */
 	protected $sSkinPath = null;
+
+	/*
+	 * текущий язык сайта (для получения данных с описаний шаблонов)
+	 */
 	protected $sLang = null;
 	
 	
@@ -83,11 +95,17 @@ class PluginAdmin_ModuleSkin extends Module {
 	 */
 	protected function GetSkinXmlData($sSkinXmlFile) {
 		if ($oXml = @simplexml_load_file($sSkinXmlFile)) {
+			/*
+			 * задать новые свойства "data" со значениями атрибутов согласно настроек языка сайта
+			 */
 			$this->Xlang($oXml, 'name', $this->sLang);
 			$this->Xlang($oXml, 'author', $this->sLang);
 			$this->Xlang($oXml, 'description', $this->sLang);
 
 			$oXml->homepage = $this->Text_Parser((string) $oXml->homepage);
+			foreach ($oXml->themes->children() as $oTheme) {
+				$this->Xlang($oTheme, 'description', $this->sLang);
+			}
 			return $oXml;
 		}
 		return null;
@@ -135,23 +153,34 @@ class PluginAdmin_ModuleSkin extends Module {
 		$aSkins = array();
 		foreach($this->GetSkinNames() as $sSkinName) {
 			$aSkinInfo = array();
-			// имя шаблона
+			/*
+			 * имя шаблона
+			 */
 			$aSkinInfo ['name'] = $sSkinName;
-			// информация о шаблоне
+			/*
+			 * информация о шаблоне
+			 */
 			$aSkinInfo ['info'] = $this->GetSkinXmlObject($sSkinName);
-			// превью шаблона
+			/*
+			 * превью шаблона
+			 */
 			$aSkinInfo ['preview'] = $this->GetSkinPreviewImage($sSkinName);
+			/*
+			 * получить обьект шаблона, ключ массива - имя папки шаблона
+			 */
 			$aSkins [$sSkinName] = Engine::GetEntity('PluginAdmin_Skin', $aSkinInfo);
 		}
 		
-		// сортировка
+		/*
+		 * сортировка списка шаблонов
+		 */
 		if (isset($aFilter ['order']) and $aFilter ['order'] == 'name') {
 			//natsort($aSkins);//todo:
 		}
 
 		/*
-		 * отдельно вернуть данные текущего скина
-		 * данный фильтр меняет формат возвращаемых данных
+		 * фильтр: отдельно вернуть данные текущего скина
+		 * trick: фильтр меняет формат возвращаемых данных
 		 */
 		if (isset($aFilter ['separate_current_skin'])) {
 			$aCurrentSkinData = $aSkins [$this->GetOriginalSkinName()];
@@ -193,13 +222,12 @@ class PluginAdmin_ModuleSkin extends Module {
 	protected function GetWebPath($sPath) {
 		return $this->Image_GetWebPath($sPath);											// todo: in engine export this funcs into tools module
 	}
-	
-	
-	/*
+
+	/**
 	 *
-	 *	Управление шаблонами
+	 * Управление шаблонами
 	 *
-	*/
+	 */
 
 	/**
 	 * Проверяет зависимости шаблонов (версия движка и необходимые активированные плагины)
@@ -208,10 +236,12 @@ class PluginAdmin_ModuleSkin extends Module {
 	 * @return bool
 	 */
 	protected function CheckSkinDependencies ($sSkinName) {
-		// если нет файла описания шаблона - просто нечего сверять
+		/*
+		 * если нет файла описания шаблона - просто нечего сверять
+		 */
 		if (!$oXml = $this->GetSkinXmlObject($sSkinName)) return true;
-		/**
-		 * Проверяем совместимость с версией LS
+		/*
+		 * проверить совместимость с версией LS
 		 */
 		if (defined('LS_VERSION') and version_compare(LS_VERSION, (string) $oXml->requires->livestreet, '<')) {
 			$this->Message_AddError(
@@ -221,12 +251,12 @@ class PluginAdmin_ModuleSkin extends Module {
 			);
 			return false;
 		}
-		/**
-		 * Проверяем наличие require-плагинов
+		/*
+		 * проверить наличие активированных необходимых плагинов
 		 */
 		if($oXml->requires->plugins) {
-			$aActivePlugins=$this->Plugin_GetActivePlugins();
-			$iConflict=0;
+			$aActivePlugins = $this->Plugin_GetActivePlugins();
+			$iConflict = 0;
 			foreach ($oXml->requires->plugins->children() as $sReqPlugin) {
 				if (!in_array($sReqPlugin,$aActivePlugins)) {
 					$iConflict++;
@@ -251,15 +281,24 @@ class PluginAdmin_ModuleSkin extends Module {
 	 * @return bool
 	 */
 	public function ChangeSkin($sSkinName) {
+		/*
+		 * проверить зависимости
+		 */
 		if (!$this->CheckSkinDependencies($sSkinName)) {
 			return false;
 		}
+		/*
+		 * установить шаблон
+		 */
 		$aData = array(
 			'view' => array(
 				'skin' => $sSkinName
 			)
 		);
 		$this->PluginAdmin_Settings_SaveConfigByKey(ModuleStorage::DEFAULT_KEY_NAME, $aData);
+		/*
+		 * выключить превью
+		 */
 		$this->TurnOffPreviewSkin();
 		return true;
 	}
@@ -309,8 +348,8 @@ class PluginAdmin_ModuleSkin extends Module {
 	
 	
 	/**
-	 *	Выключить предпросмотр шаблона
-	*/
+	 * Выключить предпросмотр шаблона
+	 */
 	public function TurnOffPreviewSkin() {
 		$this->Session_Drop(self::PREVIEW_SKIN_SESSION_PARAM_NAME);
 		Config::Set('view.skin_original', null);

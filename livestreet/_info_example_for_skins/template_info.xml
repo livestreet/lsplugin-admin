@@ -16,4 +16,18 @@
 	<description>
 		<lang name="default">Стандартный шаблон для LiveStreet</lang>
 	</description>
+	<themes>
+		<item>
+			<value>default</value>
+			<description>
+				<lang name="default">по-умолчанию</lang>
+			</description>
+		</item>
+		<item>
+			<value>light</value>
+			<description>
+				<lang name="default">облегченная</lang>
+			</description>
+		</item>
+	</themes>
 </plugin>
