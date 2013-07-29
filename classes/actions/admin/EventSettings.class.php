@@ -93,10 +93,14 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 		}
 		return false;
 	}
-	
-	
-	/*
-	 *	Получение настроек ядра по группе
+
+
+	/**
+	 * Получение настроек ядра по группе
+	 *
+	 * @param array $aKeysToShow			ключи группы для показа (множество)
+	 * @param array $aKeysToExcludeFromList	ключи, которые необходимо исключить (подмножество)
+	 * @return bool
 	 */
 	protected function ShowSystemSettings($aKeysToShow = array(), $aKeysToExcludeFromList = array()) {
 		$sConfigName = ModuleStorage::DEFAULT_KEY_NAME;
@@ -105,17 +109,32 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 		$this->Viewer_Assign('aSettingsAll', $aSettingsAll);
 		$this->Viewer_Assign('sConfigName', $sConfigName);
 		$this->Viewer_Assign('aKeysToShow', $aKeysToShow);
+		return true;
 	}
-	
-	
+
+
+	/**
+	 * Получить ключи для показа и исключенные по группе
+	 *
+	 * @param $sGroupName	имя группы, как она записана в конфиге админки
+	 * @return bool
+	 */
 	protected function GetGroupsListAndShowSettings($sGroupName) {
 		return $this->ShowSystemSettings(
 			$this->aCoreSettingsGroups [$sGroupName]['allowed'],
 			$this->aCoreSettingsGroups [$sGroupName]['exclude']
 		);
 	}
-	
-	
+
+
+	/**
+	 * Этот магический метод показывает настройки для каждой, заданной в конфиге админки, группы
+	 *
+	 * @param $sName
+	 * @param $aArgs
+	 * @return bool|mixed
+	 * @throws Exception
+	 */
 	public function __call($sName, $aArgs) {
 		// если это вызов для показа системных настроек ядра
 		if (strpos($sName, $this->sCallbackMethodToShowSystemSettings) !== false) {
@@ -134,7 +153,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 	/*
 	 *	Работа с шаблонами
 	 */
-	public function EventChangeSkin() {
+	public function EventProcessSkin() {
 		$this->SetTemplateAction('skin/list');
 		
 		$aSkinsData = $this->PluginAdmin_Skin_GetSkinList(array(
@@ -162,8 +181,9 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 	
 	
 	private function UseSkin($sSkinName) {
-		$this->PluginAdmin_Skin_ChangeSkin($sSkinName);
-		$this->Message_AddNotice($this->Lang('notices.template_changed'), '', true);
+		if ($this->PluginAdmin_Skin_ChangeSkin($sSkinName)) {
+			$this->Message_AddNotice($this->Lang('notices.template_changed'), '', true);
+		}
 	}
 	
 	

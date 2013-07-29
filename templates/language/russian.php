@@ -52,7 +52,15 @@ return array(
 			'validate_array_value_is_not_correct' => 'Для массива %%field%% значение %%val%% не является корректным. ',
 		
 		),
-	
+
+		/*
+		 * Ошибки активации шаблона
+		 */
+		'skin'=>array(
+			'activation_version_error' => 'Для работы шаблона необходимо ядро LiveStreet версии не ниже %%version%%',
+			'activation_requires_error' => 'Для работы шаблона необходим активированный плагин <b>%%plugin%%</b>',
+		),
+
 	),
 	
 	/*

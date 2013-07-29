@@ -43,7 +43,6 @@ class PluginAdmin_HookSettings extends Hook {
 	
 	
 	public function ContentBegin() {
-		//if ($this->PluginAdmin_Skin_GetPreviewSkinName() and Router::GetAction() != 'admin') {	// todo: delete
 		if ($this->PluginAdmin_Skin_GetPreviewSkinName()) {
 			return $this->ShowPreviewSkinMessage();
 		}
@@ -54,7 +53,7 @@ class PluginAdmin_HookSettings extends Hook {
 	public function ShowPreviewSkinMessage() {
 		return $this->Viewer_Fetch(Plugin::GetTemplatePath(__CLASS__) . 'preview_skin_message.tpl');
 	}
-	
+
 }
 
 ?>

@@ -87,7 +87,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$sFrameworkPath . "/js/vendor/prettify/prettify.js",
 			$sFrameworkPath . "/js/vendor/prettyphoto/js/jquery.prettyphoto.js",
 
-      $sFrameworkPath . "/js/core/main.js",
+			$sFrameworkPath . "/js/core/main.js",
 			$sFrameworkPath . "/js/core/hook.js",
 
 			$sFrameworkPath . "/js/ui/popup.js",
@@ -127,38 +127,42 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		$this->RegisterEventExternal('Plugin','PluginAdmin_ActionAdmin_EventPlugin');
 		$this->RegisterEventExternal('Plugins', 'PluginAdmin_ActionAdmin_EventPlugins');					// Список плагинов
 		$this->RegisterEventExternal('Settings', 'PluginAdmin_ActionAdmin_EventSettings');				// Работа с настройками плагинов
-		
-		//
-		// дашборд и статистика
-		//
+
+		/*
+		 * дашборд и статистика
+		 *
+		 */
 		$this->AddEvent('index', 'EventIndex');
-		
-		//
-		// Пользователи
-		//
+
+		/*
+		 * Пользователи
+		 */
 		$this->AddEventPreg('/^user$/i', '/^list$/i','/^$/i', 'User::EventUserList');
+
+		/*
+		 * Плагины
+		 */
+		$this->AddEventPreg('/^plugin$/i', '/^[\w_\-]+$/i', 'Plugin::EventPlugin');				// показать страницу собственных настроек плагина
+		$this->AddEventPreg('#^plugins$#iu', '#^list$#iu', 'Plugins::EventPluginsList');		// список плагинов
+
+		/*
+		 * Настройки
+		 */
+		$this->AddEventPreg('#^settings$#iu', '#^plugin$#iu', 'Settings::EventShow');			// настройки плагина
+		$this->AddEventPreg('#^settings$#iu', '#^save$#iu', 'Settings::EventSaveConfig');		// сохранить настройки
 		
-		//
-		// Плагины
-		//
-		$this->AddEventPreg('/^plugin$/i', '/^[\w_\-]+$/i', 'Plugin::EventPlugin');			      // показать страницу собственных настроек плагина
-		$this->AddEventPreg('#^plugins$#iu', '#^list$#iu', 'Plugins::EventPluginsList');  		// список плагинов
-		
-		//
-		// Настройки
-		//
-		$this->AddEventPreg('#^settings$#iu', '#^plugin$#iu', 'Settings::EventShow');         // настройки плагина
-		$this->AddEventPreg('#^settings$#iu', '#^save$#iu', 'Settings::EventSaveConfig');     // сохранить настройки
-		
-		$this->AddEventPreg('#^settings$#iu', '#^skin$#iu', 'Settings::EventChangeSkin');     // управление шаблонами
-		
-		//
-		// Системные настройки
-		//
-		// для каждой группы настроек добавим виртуальный эвент и будем ловить их через __call()
-		// чтобы не плодить полупустых методов, так компактнее и удобнее
-		// todo: нужно что-то ещё с меню придумать чтобы полностью автоматизировать процесс создания групп
-		// пока в меню нужно прописывать вручную пункты групп
+		$this->AddEventPreg('#^settings$#iu', '#^skin$#iu', 'Settings::EventProcessSkin');		// управление шаблонами
+
+		/*
+		 * Системные настройки
+		 */
+
+		/*
+		 * для каждой группы настроек добавим виртуальный эвент и будем ловить их через __call()
+		 * чтобы не плодить полупустых методов, так компактнее и удобнее
+		 * todo: нужно что-то ещё с меню придумать чтобы полностью автоматизировать процесс создания групп
+		 * пока в меню нужно прописывать вручную пункты групп
+		 */
 		foreach(array_keys(Config::Get('plugin.admin.core_config_groups')) as $sKey) {
 			$this->AddEventPreg('#^settings$#iu', '#^' . $sKey . '$#iu', 'Settings::' . $this->sCallbackMethodToShowSystemSettings . $sKey);
 		}
