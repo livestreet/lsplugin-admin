@@ -20,7 +20,7 @@
  */
 
 class PluginAdmin_ActionAdmin extends ActionPlugin {
-	//protected $oUserCurrent = null;
+	protected $oUserCurrent = null;
 	
 	// Списки групп настроек системного конфига
 	protected $aCoreSettingsGroups = array();
@@ -30,7 +30,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 	
 
 	public function Init() {
-		if (!$this->User_IsAdmin()) {
+		if (!$this->oUserCurrent = $this->User_GetIsAdmin(true)) {
 			$this->Message_AddError($this->Lang_Get('plugin.admin.errors.you_are_not_admin'), $this->Lang_Get('error'));
 			return Router::Action('error');
 		}

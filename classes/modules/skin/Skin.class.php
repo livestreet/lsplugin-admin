@@ -19,7 +19,8 @@
  * 
  */
 
-/*
+/**
+ *
  *	Модуль работы с шаблонами движка
  *
 */
@@ -40,36 +41,64 @@ class PluginAdmin_ModuleSkin extends Module {
 		$this->sSkinPath = Config::Get('path.root.server') . '/templates/skin/';
 		$this->sLang = $this->Lang_GetLang();
 	}
-	
-	
+
+
+	/**
+	 * Полный путь к xml файлу для скина
+	 *
+	 * @param $sSkinName	Имя шаблона
+	 * @return string 		Полный путь к файлу и его имя
+	 */
 	protected function GetSkinXmlFile($sSkinName) {
 		return $this->sSkinPath . $sSkinName . '/' . self::SKIN_XML_FILE;
 	}
-	
-	
+
+
+	/**
+	 * Полный путь к файлу превью шаблона (изображение)
+	 *
+	 * @param $sSkinName	Имя шаблона
+	 * @return string		Полный путь к файлу и его имя
+	 */
 	protected function GetSkinPreviewFile($sSkinName) {
 		return $this->sSkinPath . $sSkinName . '/' . self::SKIN_PREVIEW_FILE;
 	}
-	
-	
+
+
+	/**
+	 * Список имен всех шаблонов
+	 *
+	 * @return array
+	 */
 	protected function GetSkinNames() {
 		return array_map('basename', glob($this->sSkinPath . '*', GLOB_ONLYDIR));
 	}
-	
-	
+
+
+	/**
+	 * Получает информацию из файла шаблона на основе основного языка сайта
+	 * @param $sSkinXmlFile 			Имя шаблона
+	 * @return null|SimpleXMLElement
+	 */
 	protected function GetSkinXmlData($sSkinXmlFile) {
 		if ($oXml = @simplexml_load_file($sSkinXmlFile)) {
 			$this->Xlang($oXml, 'name', $this->sLang);
 			$this->Xlang($oXml, 'author', $this->sLang);
 			$this->Xlang($oXml, 'description', $this->sLang);
-			
+
 			$oXml->homepage = $this->Text_Parser((string) $oXml->homepage);
 			return $oXml;
 		}
 		return null;
 	}
-	
-	
+
+
+	/**
+	 * Получает список шаблонов
+	 *
+	 * @param array $aFilter	Фильтр
+	 * @return array
+	 */
 	public function GetSkinList($aFilter = array()) {
 		$aSkins = array();
 		foreach($this->GetSkinNames() as $sSkinName) {
@@ -93,9 +122,11 @@ class PluginAdmin_ModuleSkin extends Module {
 		if (isset($aFilter ['order']) and $aFilter ['order'] == 'name') {
 			//natsort($aSkins);//todo:
 		}
-		
-		// отдельно вернуть данные текущего скина
-		// данный фильтр меняет формат возвращаемых данных
+
+		/*
+		 * отдельно вернуть данные текущего скина
+		 * данный фильтр меняет формат возвращаемых данных
+		 */
 		if (isset($aFilter ['separate_current_skin'])) {
 			$aCurrentSkinData = $aSkins [$this->GetOriginalSkinName()];
 			if (isset($aFilter ['delete_current_skin_from_list'])) {
@@ -125,8 +156,14 @@ class PluginAdmin_ModuleSkin extends Module {
 		}
 		$oXml->$sProperty->data=$this->Text_Parser(trim((string)array_shift($data)));
 	}
-	
-	
+
+
+	/**
+	 * Возвращает путь веб-путь из серверного
+	 *
+	 * @param $sPath	серверный путь
+	 * @return mixed	веб путь
+	 */
 	protected function GetWebPath($sPath) {
 		return $this->Image_GetWebPath($sPath);																			// todo: in engine export this funcs into tools module
 	}
@@ -137,11 +174,13 @@ class PluginAdmin_ModuleSkin extends Module {
 	 *	Управление шаблонами
 	 *
 	*/
-	
-	
-	/*
-	 *	Установить шаблон
-	*/
+
+
+	/**
+	 * Установить шаблон
+	 *
+	 * @param $sSkinName	шаблон
+	 */
 	public function ChangeSkin($sSkinName) {
 		$aData = array(
 			'view' => array(
@@ -151,38 +190,43 @@ class PluginAdmin_ModuleSkin extends Module {
 		$this->PluginAdmin_Settings_SaveConfigByKey(ModuleStorage::DEFAULT_KEY_NAME, $aData);
 		$this->TurnOffPreviewSkin();
 	}
-	
-	
-	/*
-	 *	Установить шаблон для предпросмотра для текущего пользователя
-	*/
+
+
+	/**
+	 * Установить шаблон для предпросмотра для текущего пользователя
+	 *
+	 * @param $sSkinName	шаблон
+	 */
 	public function PreviewSkin($sSkinName) {
 		$this->Session_Set(self::PREVIEW_SKIN_SESSION_PARAM_NAME, $sSkinName);
 	}
-	
-	
-	/*
-	 *	Получить имя шаблона для предпросмтора(если есть) для текущего пользователя
-	*/
+
+
+	/**
+	 * Получить имя шаблона для предпросмтора(если есть) для текущего пользователя
+	 *
+	 * @return string
+	 */
 	public function GetPreviewSkinName() {
 		return $this->Session_Get(self::PREVIEW_SKIN_SESSION_PARAM_NAME);
 	}
-	
-	
-	/*
-	 *	Установить шаблон для предпросмотра(если есть) текущему пользователю
-	*/
+
+	/**
+	 * Установить шаблон для предпросмотра(если есть) текущему пользователю
+	 */
 	public function LoadPreviewTemplate() {
 		if ($sPreviewSkin = $this->GetPreviewSkinName()) {
 			Config::Set('view.skin_original', Config::Get('view.skin'));		// for receiving original skin name while previewing other template
 			Config::Set('view.skin', $sPreviewSkin);
 		}
 	}
-	
-	
-	/*
-	 *	Получить оригинальное имя шаблона(даже если включен режим предпросмотра другого шаблона)
-	*/
+
+
+	/**
+	 * Получить оригинальное имя шаблона(даже если включен режим предпросмотра другого шаблона)
+	 *
+	 * @return string
+	 */
 	public function GetOriginalSkinName() {
 		if ($sPreviewSkin = $this->GetPreviewSkinName()) {
 			return Config::Get('view.skin_original');
@@ -191,7 +235,7 @@ class PluginAdmin_ModuleSkin extends Module {
 	}
 	
 	
-	/*
+	/**
 	 *	Выключить предпросмотр шаблона
 	*/
 	public function TurnOffPreviewSkin() {

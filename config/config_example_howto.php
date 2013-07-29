@@ -36,9 +36,13 @@ $config['moredata'] = 'param2';					// string
 $config['some_param'] = true;						// bool
 $config['users']['min_rating'] = 0.1;		// float
 
-// Массивы
+/**
+ * Массивы
+ */
 
-// Settings for plugin Sitemap
+/*
+ * Settings for plugin Sitemap
+ */
 $config['sitemap'] = array(
 		'cache_lifetime' => 60 * 60 * 24,
 		'sitemap_priority' => '0.8',
@@ -46,17 +50,17 @@ $config['sitemap'] = array(
 
 $config ['setup_rules']['one'] = array(1, 2, 3);
 
-//
-// FAQ: Потом нужно указать описание структуры для каждого параметра в специальном массиве, которым управляет админка
-//
+/*
+ * FAQ: Потом нужно указать описание структуры для каждого параметра в специальном массиве, которым управляет админка
+ */
 
-//
-// Описание настроек плагина
-//
+/*
+ * Описание настроек плагина
+ */
 $config ['$config_scheme$'] = array(
-	//
-	// Пример для параметра целочисленного типа
-	//
+	/*
+	 * Пример для параметра целочисленного типа
+	 */
 	'test.subarr' => array(
 		'type' => 'integer',																							// integer, string, array, boolean, float
 		'name' => 'config_parameters.test.subarr.name',									// отображаемое имя параметра, ключ языкового файла
@@ -72,9 +76,9 @@ $config ['$config_scheme$'] = array(
 		),
 	),
 	
-	//
-	// Пример для параметра строкового типа
-	//
+	/*
+	 * Пример для параметра строкового типа
+	 */
 	'moredata' => array(
 		'type' => 'string',																						// integer, string, array, boolean, float
 		'name' => 'config_parameters.moredata.name',									// отображаемое имя параметра, ключ языкового файла
@@ -89,10 +93,10 @@ $config ['$config_scheme$'] = array(
 			),
 		),
 	),
-	
-	//
-	// Пример для параметра булевого типа
-	//
+
+	/*
+	 * Пример для параметра булевого типа
+	 */
 	'some_param' => array(
 		'type' => 'boolean',																						// integer, string, array, boolean, float
 		'name' => 'config_parameters.some_param.name',									// отображаемое имя параметра, ключ языкового файла
@@ -103,9 +107,9 @@ $config ['$config_scheme$'] = array(
 		),
 	),
 	
-	//
-	// Пример для параметра плавающего типа
-	//
+	/*
+	 * Пример для параметра плавающего типа
+	 */
 	'users.min_rating' => array(
 		'type' => 'float',																										// integer, string, array, boolean, float
 		'name' => 'config_parameters.users.min_rating.name',									// отображаемое имя параметра, ключ языкового файла
@@ -121,11 +125,13 @@ $config ['$config_scheme$'] = array(
 		),
 	),
 	
-	// Массивы
-	
-	//
-	// Пример для параметра от массива
-	//
+	/*
+	 * Массивы
+	 */
+
+	/*
+	 * Пример для параметра от массива
+	 */
 	'sitemap.cache_lifetime' => array(
 		'type' => 'integer',																												// integer, string, array, boolean, float
 		'name' => 'config_parameters.sitemap.cache_lifetime.name',									// отображаемое имя параметра, ключ языкового файла
@@ -141,9 +147,9 @@ $config ['$config_scheme$'] = array(
 		),
 	),
 	
-	//
-	// Пример для параметра от массива
-	//
+	/*
+	 * Пример для параметра от массива
+	 */
 	'sitemap.sitemap_priority' => array(
 		'type' => 'string',																														// integer, string, array, boolean, float
 		'name' => 'config_parameters.sitemap.sitemap_priority.name',									// отображаемое имя параметра, ключ языкового файла
@@ -158,9 +164,9 @@ $config ['$config_scheme$'] = array(
 	),
 	
 	
-	//
-	// Пример для параметра-массива
-	//
+	/*
+	 * Пример для параметра-массива
+	 */
 	'setup_rules.one' => array(
 		'type' => 'array',																									 // integer, string, array, boolean, float
 		'name' => 'config_parameters.setup_rules.one.name',									// отображаемое имя параметра, ключ языкового файла
