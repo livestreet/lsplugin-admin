@@ -292,7 +292,8 @@ class PluginAdmin_ModuleSkin extends Module {
 		 */
 		$aData = array(
 			'view' => array(
-				'skin' => $sSkinName
+				'skin' => $sSkinName,
+				'theme' => null
 			)
 		);
 		$this->PluginAdmin_Settings_SaveConfigByKey(ModuleStorage::DEFAULT_KEY_NAME, $aData);
@@ -353,6 +354,45 @@ class PluginAdmin_ModuleSkin extends Module {
 	public function TurnOffPreviewSkin() {
 		$this->Session_Drop(self::PREVIEW_SKIN_SESSION_PARAM_NAME);
 		Config::Set('view.skin_original', null);
+	}
+
+
+	/**
+	 * Получить список имен тем шаблона из его информации (из xml файла)
+	 * @param $oInfo
+	 * @return array
+	 */
+	public function GetSkinThemesByInfo($oInfo) {
+		if (!is_object($oInfo)) return array();
+		$aThemes = array();
+		foreach($oInfo->themes->children() as $oTheme) {
+			$aThemes[] = $oTheme->value;
+		}
+		return $aThemes;
+	}
+
+
+	/**
+	 * Установить тему шаблона
+	 *
+	 * @param $sTheme	имя темы шаблона
+	 * @return bool
+	 */
+	public function ChangeTheme($sTheme) {
+		/*
+		 * установить тему
+		 */
+		$aData = array(
+			'view' => array(
+				'theme' => $sTheme
+			)
+		);
+		$this->PluginAdmin_Settings_SaveConfigByKey(ModuleStorage::DEFAULT_KEY_NAME, $aData);
+		/*
+		 * выключить превью
+		 */
+		$this->TurnOffPreviewSkin();
+		return true;
 	}
 
 

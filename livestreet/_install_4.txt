@@ -1,0 +1,6 @@
+
+для работы тем в шаблонах нужно вручную поотключать установку тем в их конфигурационных файлах:
+
+\templates\skin\synio\settings\config\config.php
+
+$config['view']['theme'] = 'default';

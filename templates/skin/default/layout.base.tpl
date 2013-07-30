@@ -70,9 +70,12 @@
 		ls.registry.set('block_stream_show_tip', {json var=$oConfig->Get('block.stream.show_tip')});
 	</script>
 
+
 	{**
 	 * Тип сетки сайта
 	 *}
+	{** TODO: review: delete: brokes admin styles, added styles for container in grid.css
+	
 	{if {cfg name='view.grid.type'} == 'fluid'}
 		<style>
 			#container {
@@ -82,9 +85,11 @@
 		</style>
 	{else}
 		<style>
-			#container { width: {cfg name='view.grid.fixed_width'}px; } {* *}
+			#container { width: {cfg name='view.grid.fixed_width'}px; }
 		</style>
 	{/if}
+	*}
+	
 
 	{block name='layout_head_end'}{/block}
 	{hook run='html_head_end'}

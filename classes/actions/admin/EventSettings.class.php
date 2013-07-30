@@ -162,14 +162,14 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 		));
 		$aSkinList = $aSkinsData['skins'];
 		$oCurrentSkin = $aSkinsData['current'];
-		
+
 		if ($sAction = $this->getParam(1) and in_array($sAction, array('use', 'preview', 'turnoffpreview'))) {
 			if ($sSkinName = $this->getParam(2) and isset($aSkinList [$sSkinName])) {
 				$this->Security_ValidateSendForm();
-				
+
 				$sMethodName = ucfirst($sAction) . 'Skin';
 				$this->{$sMethodName}($sSkinName);
-				
+
 				return $this->RedirectToReferer();
 			} else {
 				$this->Message_AddError('Incorrect skin name');
@@ -177,6 +177,36 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 		}
 		$this->Viewer_Assign('aSkins', $aSkinList);
 		$this->Viewer_Assign('oCurrentSkin', $oCurrentSkin);
+		return $aSkinsData;
+	}
+
+
+	/**
+	 * Изменить тему активного шаблона
+	 */
+	public function EventProcessSkinTheme() {
+		$this->Security_ValidateSendForm();
+		/*
+		 * получить имя нужной темы
+		 */
+		$sTheme = getRequestStr('theme');
+		/*
+		 * получить список шаблонов
+		 */
+		$aSkinsData = $this->EventProcessSkin();
+		/*
+		 * получить описание темы из xml файла
+		 */
+		$oInfo = $aSkinsData['current']->getInfo();
+		/*
+		 * проверить есть ли такая тема текущего шаблона
+		 */
+		if ($oInfo and in_array($sTheme, $this->PluginAdmin_Skin_GetSkinThemesByInfo ($oInfo))) {
+			if ($this->PluginAdmin_Skin_ChangeTheme($sTheme)) {
+				$this->Message_AddNotice($this->Lang('notices.theme_changed'), '', true);
+			}
+		}
+		return $this->RedirectToReferer();
 	}
 
 

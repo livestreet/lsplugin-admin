@@ -150,8 +150,9 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 */
 		$this->AddEventPreg('#^settings$#iu', '#^plugin$#iu', 'Settings::EventShow');			// настройки плагина
 		$this->AddEventPreg('#^settings$#iu', '#^save$#iu', 'Settings::EventSaveConfig');		// сохранить настройки
-		
-		$this->AddEventPreg('#^settings$#iu', '#^skin$#iu', 'Settings::EventProcessSkin');		// управление шаблонами
+
+		$this->AddEventPreg('#^settings$#iu', '#^skin$#iu', '#^theme$#iu', 'Settings::EventProcessSkinTheme');		// управление темами шаблонов
+		$this->AddEventPreg('#^settings$#iu', '#^skin$#iu', 'Settings::EventProcessSkin');							// управление шаблонами
 
 		/*
 		 * Системные настройки
