@@ -34,7 +34,9 @@ $config['user']['per_page'] = 3;
 $config ['core_config_groups'] = array(
 
 	'system' => array(
-		// начала параметров, разрешенных для показа в этой группе
+		/*
+		 * начала параметров, разрешенных для показа в этой группе
+		 */
 		'allowed' => array(
 			//'view',
 			//'seo',
@@ -53,7 +55,9 @@ $config ['core_config_groups'] = array(
 			//'head',
 			//'compress',
 		),
-		// начала параметров, которые необходимо исключить из группы(правило работает после списка разрешенных)
+		/*
+		 * начала параметров, которые необходимо исключить из группы(правило работает после списка разрешенных)
+		 */
 		'exclude' => array(
 			//'path.',
 			//'sys.plugins.activation_file',
@@ -240,8 +244,8 @@ $config ['core_config_groups'] = array(
 $config ['admin_save_form_ajax_use'] = true;
 
 /*
- *	роутер
-*/
+ * роутер
+ */
 $config['$root$']['router']['page']['admin'] = 'PluginAdmin_ActionAdmin';
 
 return $config;

@@ -22,10 +22,14 @@
 class PluginAdmin_ActionAdmin extends ActionPlugin {
 	protected $oUserCurrent = null;
 	
-	// Списки групп настроек системного конфига
+	/*
+	 * Списки групп настроек системного конфига
+	 */
 	protected $aCoreSettingsGroups = array();
 	
-	// Имя виртуального метода, который будет пойман в __call для групп системных настроек
+	/*
+	 * Имя виртуального метода, который будет пойман в __call для групп системных настроек
+	 */
 	protected $sCallbackMethodToShowSystemSettings = 'EventShowSystemSettings';
 	
 
@@ -35,7 +39,9 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			return Router::Action('error');
 		}
 		
-		// Reset added styles and scripts
+		/*
+		 * обнулить списки скриптов и таблиц стилей
+		 */
 		$this->Viewer_ClearStyle(true);
 		
 		$sFrameworkPath = Config::Get('path.static.framework');
@@ -236,9 +242,14 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 	public function RedirectToReferer() {
 		return Router::Location(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : Router::GetPath('admin'));
 	}
-	
-	
-	// быстрое получение текстовки плагина
+
+
+	/**
+	 * быстрое получение текстовки плагина
+	 *
+	 * @param $sKey		ключ языкового файла (без префикса plugin.имяплагина.)
+	 * @return mixed	значение
+	 */
 	public function Lang($sKey) {
 		return $this->Lang_Get('plugin.admin.' . $sKey);
 	}
@@ -253,7 +264,9 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 
 		$this->PluginAdmin_Ui_HighlightMenus();
 		
-		// для редактирования настроек плагинов и системы
+		/*
+		 * для редактирования настроек плагинов и системы
+		 */
 		$this->Viewer_Assign('sAdminSettingsFormSystemId', PluginAdmin_ModuleSettings::ADMIN_SETTINGS_FORM_SYSTEM_ID);
 		$this->Viewer_Assign('sAdminSystemConfigId', ModuleStorage::DEFAULT_KEY_NAME);
 	}

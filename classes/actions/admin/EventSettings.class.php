@@ -24,12 +24,16 @@
  */
 
 class PluginAdmin_ActionAdmin_EventSettings extends Event {
-	
-	/*
-	 *	Показать настройки плагина
+
+	/**
+	 * Показать настройки плагина
+	 *
+	 * @return bool
 	 */
 	public function EventShow() {
-		// Корректно ли имя конфига
+		/*
+		 * Корректно ли имя конфига
+		 */
 		if (!$sConfigName = $this->getParam(1) or !is_string($sConfigName)) {
 			$this->Message_AddError($this->Lang_Get('plugin.admin.errors.wrong_config_name'), $this->Lang_Get('error'));
 			return false;
@@ -47,9 +51,11 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 		$this->Lang_AddLangJs(array('plugin.admin.errors.some_fields_are_incorrect'));
 	}
 
-	
-	/*
-	 *	Сохранить настройки
+
+	/**
+	 * Сохранить настройки
+	 *
+	 * @return mixed
 	 */
 	public function EventSaveConfig() {
 		if ($bAjax = isAjaxRequest()) {
@@ -74,7 +80,9 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 	
 	
 	protected function SaveSettings() {
-		// Корректно ли имя конфига
+		/*
+		 * Корректно ли имя конфига
+		 */
 		if (!$sConfigName = $this->getParam(1) or !is_string($sConfigName)) {
 			$this->Message_AddError($this->Lang_Get('plugin.admin.errors.wrong_config_name'), $this->Lang_Get('error'));
 			return false;
@@ -85,9 +93,13 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 			return false;
 		}
 
-		// Получение всех параметров, их валидация и сверка с описанием структуры и запись в отдельную инстанцию конфига
+		/*
+		 * Получение всех параметров, их валидация и сверка с описанием структуры и запись в отдельную инстанцию конфига
+		 */
 		if ($this->PluginAdmin_Settings_ParsePOSTDataIntoSeparateConfigInstance($sConfigName)) {
-			// Сохранить все настройки плагина в БД
+			/*
+			 * Сохранить все настройки плагина в БД
+			 */
 			$this->PluginAdmin_Settings_SaveConfigByKey($sConfigName);
 			return true;
 		}
@@ -136,11 +148,17 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 	 * @throws Exception
 	 */
 	public function __call($sName, $aArgs) {
-		// если это вызов для показа системных настроек ядра
+		/*
+		 * если это вызов для показа системных настроек ядра
+		 */
 		if (strpos($sName, $this->sCallbackMethodToShowSystemSettings) !== false) {
-			// пробуем получить имя группы настроек как оно должно быть записано в конфиге
+			/*
+			 * пробуем получить имя группы настроек как оно должно быть записано в конфиге
+			 */
 			$sGroupName = strtolower(str_replace($this->sCallbackMethodToShowSystemSettings, '', $sName));
-			// если такая группа настроек существует
+			/*
+			 * если такая группа настроек существует
+			 */
 			if (isset($this->aCoreSettingsGroups [$sGroupName])) {
 				return $this->GetGroupsListAndShowSettings($sGroupName);
 			}
@@ -155,7 +173,10 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 	 */
 	public function EventProcessSkin() {
 		$this->SetTemplateAction('skin/list');
-		
+
+		/*
+		 * получить список скинов и отдельно - текущий скин
+		 */
 		$aSkinsData = $this->PluginAdmin_Skin_GetSkinList(array(
 			'separate_current_skin' => true,
 			'delete_current_skin_from_list' => true
@@ -163,6 +184,9 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 		$aSkinList = $aSkinsData['skins'];
 		$oCurrentSkin = $aSkinsData['current'];
 
+		/*
+		 * проверка разрешенных действий и корректности имени шаблона
+		 */
 		if ($sAction = $this->getParam(1) and in_array($sAction, array('use', 'preview', 'turnoffpreview'))) {
 			if ($sSkinName = $this->getParam(2) and isset($aSkinList [$sSkinName])) {
 				$this->Security_ValidateSendForm();

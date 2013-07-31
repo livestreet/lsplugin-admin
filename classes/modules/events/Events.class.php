@@ -36,13 +36,25 @@
 */
 
 class PluginAdmin_ModuleEvents extends Module {
-	
+
+	/*
+	 * часть названия метода
+	 */
 	protected $sOnChangeFunctionPostfix = 'OnChange';
 	
 	
 	public function Init() {}
-	
-	
+
+
+	/**
+	 * Проверяет наличие подписанных методов на изменение настроек, вызывает подписчиков
+	 *
+	 * @param $sConfigName			имя конфига
+	 * @param $sKey					ключ
+	 * @param $mNewValue			новое значение ключа
+	 * @param $mPreviousValue		предыдущее значение ключа
+	 * @return bool|mixed			можно ли ключу принимать такое значение
+	 */
 	final public function ConfigParameterChangeNotification($sConfigName, $sKey, $mNewValue, $mPreviousValue) {
 		$sMethodName = $this->GetOnChangeHandlerMethodName($sConfigName);
 		if (method_exists($this, $sMethodName)) {
@@ -50,8 +62,14 @@ class PluginAdmin_ModuleEvents extends Module {
 		}
 		return true;
 	}
-	
-	
+
+
+	/**
+	 * Возвращает имя метода подписки для плагина или ядра
+	 *
+	 * @param $sConfigName			имя конфига
+	 * @return string				имя метода
+	 */
 	final protected function GetOnChangeHandlerMethodName($sConfigName) {
 		if ($sConfigName != ModuleStorage::DEFAULT_KEY_NAME) {
 			return ucfirst($sConfigName) . $this->sOnChangeFunctionPostfix;
