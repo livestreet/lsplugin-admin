@@ -8,7 +8,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="ru"> <!--<![endif]-->
 
 <head>
-	{hook run='html_head_begin'}
+	{* {hook run='html_head_begin'} *}
 	{block name='layout_head_begin'}{/block}
 
 	<meta charset="utf-8">
@@ -92,7 +92,7 @@
 	
 
 	{block name='layout_head_end'}{/block}
-	{hook run='html_head_end'}
+	{* {hook run='html_head_end'} *}
 	
 	<script>
 		ls.registry.set('admin_save_form_ajax_use', {json var=$oConfig->Get('plugin.admin.admin_save_form_ajax_use')});
@@ -101,11 +101,11 @@
 </head>
 
 
-<body class="{$sBodyClasses} layout-{cfg name='view.grid.type'} {block name='layout_body_classes'}{/block}">
-	{hook run='body_begin'}
+<body class="{$sBodyClasses} {* layout-{cfg name='view.grid.type'} *} {block name='layout_body_classes'}{/block} ls-admin">
+	{* {hook run='body_begin'} *}
 
 	{block name='layout_body'}
-		<div id="container" class="{hook run='container_class'} {if $bNoSidebar}no-sidebar{/if}">
+		<div id="container" class="{* {hook run='container_class'} *} {if $bNoSidebar}no-sidebar{/if}">
 			{**
 			 * Шапка сайта
 			 *}
@@ -118,14 +118,14 @@
 
 
 			{* Вспомогательный контейнер-обертка *}
-			<div id="wrapper" class="{hook run='wrapper_class'} clearfix">
+			<div id="wrapper" class="{* {hook run='wrapper_class'} *} clearfix">
 				{* Контент *}
 				<div id="content-wrapper">
 					<div id="content" 
 						 role="main"
 						 {if $sMenuItemSelect == 'profile'}itemscope itemtype="http://data-vocabulary.org/Person"{/if}>
 
-						{hook run='content_begin'}
+						{* {hook run='content_begin'} *}
 						{block name='layout_content_begin'}{/block}
 
 						{block name='layout_page_title' hide}
@@ -153,7 +153,7 @@
 						{block name='layout_content'}{/block}
 
 						{block name='layout_content_end'}{/block}
-						{hook run='content_end'}
+						{* {hook run='content_end'} *}
 					</div>
 				</div>
 
@@ -183,6 +183,6 @@
 	{/block}
 
 
-	{hook run='body_end'}
+	{* {hook run='body_end'} *}
 </body>
 </html>
