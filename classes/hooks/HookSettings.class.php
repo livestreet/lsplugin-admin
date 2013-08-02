@@ -33,11 +33,17 @@ class PluginAdmin_HookSettings extends Hook {
 	
 	
 	public function LangInitStart() {
-		// выполнить загрузку конфигов системы и плагинов
+		/*
+		 * выполнить загрузку конфигов системы и плагинов
+		 */
 		$this->PluginAdmin_Settings_AutoLoadConfigs();
-		// присоеденить схему главного конфига и текстовки
+		/*
+		 * присоеденить схему главного конфига и текстовки
+		 */
 		$this->PluginAdmin_Settings_AddSchemeAndLangToRootConfig();
-		// показать превью шаблона, если он был выбран в админке
+		/*
+		 * показать превью шаблона, если он был выбран в админке
+		 */
 		$this->PluginAdmin_Skin_LoadPreviewTemplate();
 	}
 	

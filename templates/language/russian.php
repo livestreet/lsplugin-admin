@@ -47,8 +47,6 @@ return array(
 			'validate_array_too_small' => 'Массив %%field%% слишком маленький (минимально допустимо %%min_items%% элементов)',
 			'validate_array_too_big' => 'Массив %%field%% слишком большой (максимально допустимо %%max_items%% элементов)',
 			'validate_array_value_is_not_allowed' => 'В массиве %%field%% не должно быть значения %%val%%',
-			//'validate_array_value_is_too_small' => 'В массиве %%field%% значения не должны быть меньшими чем %%min%%',  //todo: delete
-			//'validate_array_value_is_too_big' => 'В массиве %%field%% значения не должны быть больше чем %%max%%',
 			'validate_array_value_is_not_correct' => 'Для массива %%field%% значение %%val%% не является корректным. ',
 		
 		),
@@ -92,7 +90,21 @@ return array(
 		'this_is_preview' => 'Включен предпросмотр выбранного шаблона, который доступен только вам.',
 		'turn_off_preview' => 'Выключить предпросмотр шаблона',
 		'change_theme' => 'Изменить тему',
-	
+
+		'author' => 'Автор',
+		'homepage' => 'Сайт',
+		'version' => 'Версия',
+		'description' => 'Описание',
+		'themes' => 'Темы',
+
+	),
+
+	/*
+	 * Пользователи
+	 */
+	'users' => array(
+		'title' => 'Списки пользователей',
+
 	),
 	
 	/*

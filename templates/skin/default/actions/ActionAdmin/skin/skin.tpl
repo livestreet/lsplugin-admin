@@ -32,24 +32,24 @@
 				{if $oInfo}
 					<div class="Info">
 						<dl>
-							<dt>author:</dt>
+							<dt>{$aLang.plugin.admin.skin.author}:</dt>
 							<dd>{$oInfo->author->data}</dd>
 						</dl>
 						<dl>
-							<dt>homepage:</dt>
+							<dt>{$aLang.plugin.admin.skin.homepage}:</dt>
 							<dd>{$oInfo->homepage}</dd>
 						</dl>
 						<dl>
-							<dt>version:</dt>
+							<dt>{$aLang.plugin.admin.skin.version}:</dt>
 							<dd>{$oInfo->version}</dd>
 						</dl>
 						<dl>
-							<dt>description:</dt>
+							<dt>{$aLang.plugin.admin.skin.description}:</dt>
 							<dd>{$oInfo->description->data}</dd>
 						</dl>
 						{if $oInfo->themes->children() and count($oInfo->themes->children())>0}
 							<dl>
-								<dt>theme:</dt>
+								<dt>{$aLang.plugin.admin.skin.themes}:</dt>
 								<dd>
 									{if $bThisSkin}
 										<form action="{router page='admin'}settings/skin/theme/{$oSkin->getName()}"

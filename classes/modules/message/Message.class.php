@@ -26,18 +26,33 @@
 
 class PluginAdmin_ModuleMessage extends PluginAdmin_Inherits_ModuleMessage {
 	
-	// список ошибок по полям
+	/*
+	 * список ошибок по полям
+	 */
 	private $aParamErrors = array();
-	
-	
+
+
+	/**
+	 * Добавляет запись ошибки в массив
+	 *
+	 * @param $sMsg		текст ошибки
+	 * @param $sKey		ключ, у которого эта ошибка возникла
+	 */
 	private function AddParamError($sMsg, $sKey) {
 		$this->aParamErrors [] = array(
 			'key' => $sKey,
 			'msg' => $sMsg
 		);
 	}
-	
-	
+
+
+	/**
+	 * Добавить показ ошибки
+	 * В зависимости от запроса (обычный или через аякс) будет использован стандартный метод для вывода ошибок или специальный
+	 *
+	 * @param $sMsg		текст ошибки
+	 * @param $sKey		ключ, у которого эта ошибка возникла
+	 */
 	public function AddOneParamError($sMsg, $sKey) {
 		if (isAjaxRequest()) {
 			// add errors into special array list
@@ -46,8 +61,13 @@ class PluginAdmin_ModuleMessage extends PluginAdmin_Inherits_ModuleMessage {
 			$this->Message_AddError($sMsg, $this->Lang_Get('error'), true);
 		}
 	}
-	
-	
+
+
+	/**
+	 * Получить список всех ошибок для вывода их через аякс
+	 *
+	 * @return array
+	 */
 	public function GetParamsErrors() {
 		return $this->aParamErrors;
 	}

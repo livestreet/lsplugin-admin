@@ -24,7 +24,13 @@
  */
 
 class PluginAdmin_ModuleSettings_EntitySettings extends Entity {
-	
+
+
+	/**
+	 * Нужно ли показывать для параметра типа "массив" форму специального отображения (динимическое поле)
+	 *
+	 * @return bool
+	 */
 	public function getNeedToShowSpecialArrayForm() {
 		$aValidatorData = $this->getValidator();
 		
@@ -36,18 +42,24 @@ class PluginAdmin_ModuleSettings_EntitySettings extends Entity {
 			return false;
 		}
 		
-		$aValidatorParams = $aValidatorData ['params'];
 		if ($this->getShowAsPhpArray()) {
 			return false;
 		}
 		if (!$this->IsArraySimple()) {
 			return false;
 		}
-		return true;							// allow enum(if set) or text field for adding values
+		/*
+		 * разрешить перечисление (если задано) или текстовое поле для добавления значений в противном случае
+		 */
+		return true;
 	}
-	
-	// ---
-	
+
+
+	/**
+	 * Проверяет является ли массив простым (каждое значение которого - скалярное)
+	 *
+	 * @return bool
+	 */
 	protected function IsArraySimple() {
 		$aData = $this->getValue();
 		if (!is_array($aData)) return false;
@@ -56,9 +68,13 @@ class PluginAdmin_ModuleSettings_EntitySettings extends Entity {
 		}
 		return true;
 	}
-	
-	// ---
-	
+
+
+	/**
+	 * Нужно ли показывать селект для выбора значения для типа параметра "целое число" (на основе данных валидатора)
+	 *
+	 * @return bool
+	 */
 	public function getNeedToShowSpecialIntegerForm() {
 		$aValidatorData = $this->getValidator();
 		
@@ -74,7 +90,9 @@ class PluginAdmin_ModuleSettings_EntitySettings extends Entity {
 		if (!isset($aValidatorParams ['min']) or !isset($aValidatorParams ['max'])) {
 			return false;
 		}
-		// чтобы не нагружать браузер слишком большими списками чисел
+		/*
+		 * чтобы не нагружать браузер слишком большими списками чисел
+		 */
 		if ($aValidatorParams ['max'] - $aValidatorParams ['min'] > 500) {
 			return false;
 		}

@@ -223,11 +223,13 @@ class PluginAdmin_ModuleSkin extends Module {
 		return $this->Image_GetWebPath($sPath);											// todo: in engine export this funcs into tools module
 	}
 
+
 	/**
 	 *
 	 * Управление шаблонами
 	 *
 	 */
+
 
 	/**
 	 * Проверяет зависимости шаблонов (версия движка и необходимые активированные плагины)
@@ -324,12 +326,16 @@ class PluginAdmin_ModuleSkin extends Module {
 		return $this->Session_Get(self::PREVIEW_SKIN_SESSION_PARAM_NAME);
 	}
 
+
 	/**
 	 * Включить шаблон для предпросмотра (если есть) текущему пользователю
 	 */
 	public function LoadPreviewTemplate() {
 		if ($sPreviewSkin = $this->GetPreviewSkinName()) {
-			Config::Set('view.skin_original', Config::Get('view.skin'));		// for receiving original skin name while previewing other template
+			/*
+			 * сохранить оригинальное значение шаблона чтобы получить его при предпросмотре другого шаблона
+			 */
+			Config::Set('view.skin_original', Config::Get('view.skin'));
 			Config::Set('view.skin', $sPreviewSkin);
 		}
 	}
@@ -359,6 +365,7 @@ class PluginAdmin_ModuleSkin extends Module {
 
 	/**
 	 * Получить список имен тем шаблона из его информации (из xml файла)
+	 *
 	 * @param $oInfo
 	 * @return array
 	 */

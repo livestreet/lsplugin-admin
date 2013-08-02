@@ -1,0 +1,20 @@
+
+/* base table settings */
+
+.ls-admin table {
+    border: 1px solid #EEEEEE;
+    width: 100%;
+}
+
+.ls-admin table thead {
+    background: none repeat scroll 0 0 #FAFAFA;
+}
+
+.ls-admin table thead th,
+.ls-admin table tbody td {
+    padding: 5px;
+}
+
+.ls-admin table tbody tr.second {
+    background: none repeat scroll 0 0 #FCFCFC;
+}

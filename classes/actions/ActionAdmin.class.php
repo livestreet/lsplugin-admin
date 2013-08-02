@@ -22,10 +22,14 @@
 class PluginAdmin_ActionAdmin extends ActionPlugin {
 	protected $oUserCurrent = null;
 	
-	// Списки групп настроек системного конфига
+	/*
+	 * Списки групп настроек системного конфига
+	 */
 	protected $aCoreSettingsGroups = array();
 	
-	// Имя виртуального метода, который будет пойман в __call для групп системных настроек
+	/*
+	 * Имя виртуального метода, который будет пойман в __call для групп системных настроек
+	 */
 	protected $sCallbackMethodToShowSystemSettings = 'EventShowSystemSettings';
 	
 
@@ -35,7 +39,9 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			return Router::Action('error');
 		}
 		
-		// Reset added styles and scripts
+		/*
+		 * обнулить списки скриптов и таблиц стилей
+		 */
 		$this->Viewer_ClearStyle(true);
 		
 		$sFrameworkPath = Config::Get('path.static.framework');
@@ -64,6 +70,8 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$aPluginTemplatePath . "css/_temp_/jquery.notifier.css",  // todo: temporary, delete on production
 			$aPluginTemplatePath . "css/parameters.css",
 			$aPluginTemplatePath . "css/skins.css",
+			$aPluginTemplatePath . "css/users.css",
+			$aPluginTemplatePath . "css/table.css",
 		);
 		
 		$aScripts = array(
@@ -122,16 +130,33 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 	 * Регистрируем евенты
 	 */
 	protected function RegisterEvent() {
-		/**
-		 * Регистрируем внешние обработчики евентов
+		/*
+		 *
+		 * --- Регистрируем внешние обработчики евентов ---
+		 *
 		 */
-		$this->RegisterEventExternal('User','PluginAdmin_ActionAdmin_EventUser');
-		$this->RegisterEventExternal('Plugin','PluginAdmin_ActionAdmin_EventPlugin');
-		$this->RegisterEventExternal('Plugins', 'PluginAdmin_ActionAdmin_EventPlugins');					// Список плагинов
-		$this->RegisterEventExternal('Settings', 'PluginAdmin_ActionAdmin_EventSettings');				// Работа с настройками плагинов
 
 		/*
-		 * дашборд и статистика
+		 * Работа с пользователями
+		 */
+		$this->RegisterEventExternal('Users','PluginAdmin_ActionAdmin_EventUsers');
+		/*
+		 * Встраивание интерфейса плагина в админку
+		 */
+		$this->RegisterEventExternal('Plugin','PluginAdmin_ActionAdmin_EventPlugin');
+		/*
+		 * Список плагинов
+		 */
+		$this->RegisterEventExternal('Plugins', 'PluginAdmin_ActionAdmin_EventPlugins');
+		/*
+		 * Работа с настройками плагинов и движка
+		 */
+		$this->RegisterEventExternal('Settings', 'PluginAdmin_ActionAdmin_EventSettings');
+
+
+		/*
+		 *
+		 * --- дашборд ---
 		 *
 		 */
 		$this->AddEvent('index', 'EventIndex');
@@ -141,27 +166,58 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		$this->AddEvent('error', 'EventError');
 
 		/*
-		 * Пользователи
+		 *
+		 * --- Пользователи ---
+		 *
 		 */
-		$this->AddEventPreg('/^user$/i', '/^list$/i','/^$/i', 'User::EventUserList');
 
 		/*
-		 * Плагины
+		 * список пользователей
 		 */
-		$this->AddEventPreg('/^plugin$/i', '/^[\w_\-]+$/i', 'Plugin::EventPlugin');				// показать страницу собственных настроек плагина
-		$this->AddEventPreg('#^plugins$#iu', '#^list$#iu', 'Plugins::EventPluginsList');		// список плагинов
+		$this->AddEventPreg('/^users$/iu', '/^list$/iu', '/^$/iu', 'Users::EventUsersList');
 
 		/*
-		 * Настройки
+		 *
+		 * --- Плагины ---
+		 *
 		 */
-		$this->AddEventPreg('#^settings$#iu', '#^plugin$#iu', 'Settings::EventShow');			// настройки плагина
-		$this->AddEventPreg('#^settings$#iu', '#^save$#iu', 'Settings::EventSaveConfig');		// сохранить настройки
-
-		$this->AddEventPreg('#^settings$#iu', '#^skin$#iu', '#^theme$#iu', 'Settings::EventProcessSkinTheme');		// управление темами шаблонов
-		$this->AddEventPreg('#^settings$#iu', '#^skin$#iu', 'Settings::EventProcessSkin');							// управление шаблонами
 
 		/*
-		 * Системные настройки
+		 * показать страницу собственных настроек плагина
+		 */
+		$this->AddEventPreg('/^plugin$/i', '/^[\w_\-]+$/i', 'Plugin::EventPlugin');
+		/*
+		 * список плагинов
+		 */
+		$this->AddEventPreg('#^plugins$#iu', '#^list$#iu', 'Plugins::EventPluginsList');
+
+		/*
+		 *
+		 * --- Настройки ---
+		 *
+		 */
+
+		/*
+		 * Настройки плагина
+		 */
+		$this->AddEventPreg('#^settings$#iu', '#^plugin$#iu', 'Settings::EventShow');
+		/*
+		 * Сохранить настройки
+		 */
+		$this->AddEventPreg('#^settings$#iu', '#^save$#iu', 'Settings::EventSaveConfig');
+		/*
+		 * Управление темами шаблонов
+		 */
+		$this->AddEventPreg('#^settings$#iu', '#^skin$#iu', '#^theme$#iu', 'Settings::EventProcessSkinTheme');
+		/*
+		 * Управление шаблонами
+		 */
+		$this->AddEventPreg('#^settings$#iu', '#^skin$#iu', 'Settings::EventProcessSkin');
+
+		/*
+		 *
+		 * --- Системные настройки ---
+		 *
 		 */
 
 		/*
@@ -181,20 +237,24 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 	 **********************************************************************************
 	 */
 
+	/**
+	 * Дашборд
+	 */
 	protected function EventIndex() {
-		// дашборд
 		$this->SetTemplateAction('index');
 	}
-	
-	
-	// Построение меню
+
+
+	/**
+	 * Построение меню
+	 */
 	private function InitMenu() {
 		$this->PluginAdmin_Ui_GetMenuMain()
 			->AddSection(
 				Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Главная')->SetUrl('')
 			)	// /AddSection
 			->AddSection(
-				Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Пользователи')->SetName('user')->SetUrl('user')
+				Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Пользователи')->SetName('users')->SetUrl('users')
 				
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Статистика')->SetUrl('stats'))
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Весь список')->SetUrl('list'))
@@ -236,15 +296,22 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 	}
 	
 	
-	// --- misc ---
+	/*
+	 * Хелперы
+	 */
 	
 	
 	public function RedirectToReferer() {
 		return Router::Location(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : Router::GetPath('admin'));
 	}
-	
-	
-	// быстрое получение текстовки плагина
+
+
+	/**
+	 * быстрое получение текстовки плагина
+	 *
+	 * @param $sKey		ключ языкового файла (без префикса plugin.имяплагина.)
+	 * @return mixed	значение
+	 */
 	public function Lang($sKey) {
 		return $this->Lang_Get('plugin.admin.' . $sKey);
 	}
@@ -259,7 +326,9 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 
 		$this->PluginAdmin_Ui_HighlightMenus();
 		
-		// для редактирования настроек плагинов и системы
+		/*
+		 * для редактирования настроек плагинов и системы
+		 */
 		$this->Viewer_Assign('sAdminSettingsFormSystemId', PluginAdmin_ModuleSettings::ADMIN_SETTINGS_FORM_SYSTEM_ID);
 		$this->Viewer_Assign('sAdminSystemConfigId', ModuleStorage::DEFAULT_KEY_NAME);
 	}

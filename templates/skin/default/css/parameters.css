@@ -16,7 +16,7 @@
     margin-bottom: 20px;
 }
 
-h2.Title {
+h2.title {
     font-size: 18px;
 }
 
@@ -112,7 +112,7 @@ h2.Title {
     vertical-align: top;
 }
 
-/* input errors for parameters */
+/* show errors for parameters */
 
 .OneParameterContainer.admin-save-error-border {
     background: none repeat scroll 0 0 #FFFCFD;

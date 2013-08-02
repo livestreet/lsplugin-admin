@@ -38,7 +38,9 @@ class ModuleStorage_MapperStorage extends Mapper {
 			($iCurrentPage - 1) * $iPerPage,
 			$iPerPage
 		)) {
-			// Если нужен только один элемент
+			/*
+			 * Если нужен только один элемент
+			 */
 			$aResult = $iPerPage == 1 ? array_shift($aResult) : $aResult;
 			return array(
 				'collection' => $aResult,
@@ -96,7 +98,9 @@ class ModuleStorage_MapperStorage extends Mapper {
 	
 	public function BuildFilter($aFilter = array()) {
 		$sFilter = '';
-		// Список доступных фильтров
+		/*
+		 * Список доступных фильтров
+		 */
 		if (isset($aFilter ['key'])) {
 			$sFilter .= '
 				AND
