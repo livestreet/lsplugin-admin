@@ -249,8 +249,11 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 	 * Построение меню
 	 */
 	private function InitMenu() {
-		$this->PluginAdmin_Ui_GetMenuMain()
-			->AddSection(
+		$oMenu=$this->PluginAdmin_Ui_GetMenuMain();
+		if ($oMenu->GetSections()) {
+			return;
+		}
+		$oMenu->AddSection(
 				Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Главная')->SetUrl('')
 			)	// /AddSection
 			->AddSection(
@@ -321,7 +324,6 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		$this->Viewer_Assign('oMenuMain', $this->PluginAdmin_Ui_GetMenuMain());
 		$this->Viewer_Assign('oMenuAddition', $this->PluginAdmin_Ui_GetMenuAddition());
 
-		//$this->InitMenu();	// todo: review: dublicates menu when redirecting using router
 		$this->Viewer_AddBlock('right','blocks/block.nav.tpl',array('plugin'=>'admin'));
 
 		$this->PluginAdmin_Ui_HighlightMenus();
