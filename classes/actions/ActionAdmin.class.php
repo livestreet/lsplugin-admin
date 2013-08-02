@@ -135,6 +135,10 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 *
 		 */
 		$this->AddEvent('index', 'EventIndex');
+		/**
+		 * Обработка ошибок, аналог ActionError
+		 */
+		$this->AddEvent('error', 'EventError');
 
 		/*
 		 * Пользователи
@@ -259,6 +263,30 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		$this->Viewer_Assign('sAdminSettingsFormSystemId', PluginAdmin_ModuleSettings::ADMIN_SETTINGS_FORM_SYSTEM_ID);
 		$this->Viewer_Assign('sAdminSystemConfigId', ModuleStorage::DEFAULT_KEY_NAME);
 	}
+
+	public function EventError() {
+		$aHttpErrors=array(
+			'404' => array(
+				'header' => '404 Not Found',
+			),
+		);
+		$iNumber=$this->GetParam(0);
+		if (array_key_exists($iNumber,$aHttpErrors)) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error_'.$iNumber),$iNumber);
+			$aHttpError=$aHttpErrors[$iNumber];
+			if (isset($aHttpError['header'])) {
+				$sProtocol=isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
+				header("{$sProtocol} {$aHttpError['header']}");
+			}
+		}
+		$this->Viewer_AddHtmlTitle($this->Lang_Get('error'));
+		$this->SetTemplateAction('error');
+	}
+
+	protected function EventNotFound() {
+		return Router::Action('admin','error',array('404'));
+	}
+
 	
 }
 

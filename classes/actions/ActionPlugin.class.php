@@ -47,6 +47,14 @@ abstract class PluginAdmin_ActionPlugin extends ActionPlugin {
 		$this->sActionTemplate = Plugin::GetPath('admin').'templates/skin/default/actions/ActionAdmin/plugin.tpl';
 	}
 
+
+	protected function EventNotFound() {
+		return Router::Action('admin','error',array('404'));
+	}
+
+	protected function EventError() {
+		return Router::Action('admin','error');
+	}
 }
 
 ?>

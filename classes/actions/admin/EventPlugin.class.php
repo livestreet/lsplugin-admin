@@ -42,6 +42,12 @@ class PluginAdmin_ActionAdmin_EventPlugin extends Event {
 				Config::Set('router.page.'.$sRouterPage,$sActionClass);
 				Router::getInstance()->LoadConfig();
 				$sEventPlugin=array_shift($aParams);
+				/**
+				 * Загружаем в шаблон объект для удобного получения URL внутри админки плагина
+				 */
+				$oAdminUrl=Engine::GetEntity('PluginAdmin_ModuleMain_EntityAdminUrl');
+				$oAdminUrl->setPlugin($sPlugin);
+				$this->Viewer_Assign('oAdminUrl',$oAdminUrl);
 				return Router::Action($sRouterPage,$sEventPlugin,$aParams);
 			}
 		}
