@@ -42,9 +42,9 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 			WHERE
 				1 = 1
 				{AND u.user_id = ?d}
-				{AND u.user_mail = ?}
+				{AND u.user_mail LIKE ?}
 				{AND u.user_password = ?}
-				{AND u.user_ip_register = ?}
+				{AND u.user_ip_register LIKE ?}
 				{AND u.user_activate = ?d}
 				{AND u.user_activate_key = ? }
 				{AND u.user_profile_sex = ?}

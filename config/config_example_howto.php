@@ -58,6 +58,25 @@ $config ['setup_rules']['one'] = array(1, 2, 3);
  * Описание настроек плагина
  */
 $config ['$config_scheme$'] = array(
+
+	/*
+	 * TEMP TEST todo: delete
+	 */
+	'user.per_page' => array(
+		'type' => 'integer',																							// integer, string, array, boolean, float
+		'name' => 'config_parameters.test.subarr.name',									// отображаемое имя параметра, ключ языкового файла
+		'description' => '',
+		'validator' => array(					 // валидация(если нужна), существующие типы валидаторов ядра
+			'type' => 'Number',						// Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url, Array(special validator)
+			'params' => array(						// параметры, которые будут переданы в валидатор
+				'min' => 1,
+				'max' => 100,
+				'integerOnly' => true,
+				'allowEmpty' => false,
+			),
+		),
+	),
+
 	/*
 	 * Пример для параметра целочисленного типа
 	 */

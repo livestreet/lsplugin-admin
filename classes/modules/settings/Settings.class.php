@@ -225,7 +225,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 */
 	protected function ConvertLangKeysToTexts($sConfigName, $aParam, $aKeys = array('name', 'description')) {
 		foreach($aKeys as $sNamesToExtend) {
-			if (!isset($aParam [$sNamesToExtend])) continue;
+			if (!isset($aParam [$sNamesToExtend]) or empty($aParam [$sNamesToExtend])) continue;
 			$aParam [$sNamesToExtend] = $this->Lang_Get($this->GetRealFullKey($sConfigName) . $aParam [$sNamesToExtend]);
 		}
 		return $aParam;

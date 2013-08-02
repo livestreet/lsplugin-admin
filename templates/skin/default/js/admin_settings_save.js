@@ -20,7 +20,7 @@
 
 var ls = ls || {};
 
-ls.admin_save = (function($) {
+ls.admin_settings_save = (function($) {
 	
 	this.styleClass = {
 		Error: 'admin-save-error-border',
@@ -83,7 +83,7 @@ ls.admin_save = (function($) {
 
 	return this;
 	
-}).call(ls.admin_save || {}, jQuery);
+}).call(ls.admin_settings_save || {}, jQuery);
 
 // ---
 
@@ -94,7 +94,7 @@ jQuery(document).ready(function($) {
     $('#admin_save').ajaxForm({
       dataType: 'json',
       beforeSend: function() {
-        ls.admin_save.RemoveAllErrorMessages();
+        ls.admin_settings_save.RemoveAllErrorMessages();
         // todo: add load indicator for submit button
         // disable submit button
       },
@@ -104,7 +104,7 @@ jQuery(document).ready(function($) {
           ls.msg.error(data.sMsgTitle,data.sMsg);
         } else {
           if (data.aParamErrors.length > 0) {
-            ls.admin_save.ShowErrors(data.aParamErrors);
+            ls.admin_settings_save.ShowErrors(data.aParamErrors);
             ls.msg.error('', ls.lang.get('plugin.admin.errors.some_fields_are_incorrect'));
             return false;
           }

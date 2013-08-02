@@ -23,7 +23,7 @@
  *	Базовые настройки, которые не меняются через интерфейс
  */
 
-$config['user']['per_page'] = 3;
+$config['user']['per_page'] = 10;
 
 /*
  *	Списки групп настроек главного конфига движка и принадлежащих им параметров
@@ -237,6 +237,11 @@ $config ['core_config_groups'] = array(
 
 	
 );	// /core_config_groups
+
+/*
+ * разрешенные типы поиска по пользователям
+ */
+$config ['user_search_allowed_types'] = array('id', 'mail', 'password', 'ip_register', 'activate', 'activate_key', 'profile_sex', 'login', 'profile_name');
 
 /*
  *	Использовать ли аякс при отправке формы с настройками

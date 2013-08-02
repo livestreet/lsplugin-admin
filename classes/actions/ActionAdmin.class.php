@@ -109,8 +109,9 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$sFrameworkPath . "/js/livestreet/init.js",
 			
 			$aPluginTemplatePath . "/js/init.js",
-			$aPluginTemplatePath . "/js/admin_save.js",
-			$aPluginTemplatePath . "/js/admin_array.js",
+			$aPluginTemplatePath . "/js/admin_settings_save.js",
+			$aPluginTemplatePath . "/js/admin_settings_array.js",
+			$aPluginTemplatePath . "/js/admin_user_per_page.js",
 		);
 		
 		array_map(array($this, 'Viewer_AppendStyle'), $aStyles);
@@ -168,7 +169,8 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		/*
 		 * список пользователей
 		 */
-		$this->AddEventPreg('/^users$/iu', '/^list$/iu', '/^$/iu', 'Users::EventUsersList');
+		$this->AddEventPreg('#^users$#iu', '#^list$#iu', '#^(page(\d{1,5}))?$#iu', 'Users::EventUsersList');
+		$this->AddEventPreg('#^users$#iu', '#^ajax-on-page$#iu', 'Users::EventAjaxUsersOnPage');
 
 		/*
 		 *
@@ -179,7 +181,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		/*
 		 * показать страницу собственных настроек плагина
 		 */
-		$this->AddEventPreg('/^plugin$/i', '/^[\w_\-]+$/i', 'Plugin::EventPlugin');
+		$this->AddEventPreg('#^plugin$#i', '#^[\w-]+$#i', 'Plugin::EventPlugin');
 		/*
 		 * список плагинов
 		 */

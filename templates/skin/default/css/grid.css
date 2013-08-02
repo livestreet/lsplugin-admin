@@ -14,7 +14,14 @@
 #nav             { margin-bottom: 15px; overflow: hidden; }
 #wrapper         { margin-bottom: 70px; }
 #content-wrapper { float: left; width: 100%; margin-right: -205px; }
-#content         { margin-right: 205px; padding: 16px; background: #fff; position: relative; }
+#content {
+    background: none repeat scroll 0 0 #FFFFFF;
+    margin-right: 205px;
+    min-height: 200px;
+    overflow: hidden;
+    padding: 15px;
+    position: relative;
+}
 #sidebar         { float: right; width: 200px; position: relative; z-index: 1; }
 #footer          { overflow: hidden; zoom: 1; margin-bottom: 20px; padding: 0 0 50px 16px; font-size: 11px; font-family: Verdana; }
 

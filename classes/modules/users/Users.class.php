@@ -34,7 +34,10 @@ class PluginAdmin_ModuleUsers extends Module {
 		'u.user_skill',
 		'u.user_profile_name',
 		'u.user_profile_birthday',
+		's.session_ip_create',
 		's.session_ip_last',
+		's.session_date_create',
+		's.session_date_last',
 	);
 
 	/*
@@ -105,9 +108,33 @@ class PluginAdmin_ModuleUsers extends Module {
 	}
 
 
+	/**
+	 * Получить сортировку наоборот
+	 *
+	 * @param $sWay			текущий тип сортировки
+	 * @return string		противоположный
+	 */
 	public function GetReversedOrderDirection ($sWay){
 		if (!in_array($sWay, $this -> SortingOrderWays)) return 'desc';
 		return $this -> SortingOrderWays[(int) ($sWay == 'asc')];
+	}
+
+
+	/**
+	 * Установить количество пользователей на странице
+	 *
+	 * @param $iPerPage		количество
+	 */
+	public function ChangeUsersPerPage ($iPerPage) {
+		/*
+		 * установить количество пользователей на странице
+		 */
+		$aData = array(
+			'user' => array(
+				'per_page' => $iPerPage,
+			)
+		);
+		$this->PluginAdmin_Settings_SaveConfigByKey('admin', $aData);
 	}
 	
 }

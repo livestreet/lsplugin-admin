@@ -105,6 +105,26 @@ return array(
 	'users' => array(
 		'title' => 'Списки пользователей',
 
+		'search_allowed_in' => array(
+			'id' => 'id',
+			'mail' => 'почте',
+			'password' => 'хеше пароля',
+			'ip_register' => 'ip регистрации',
+			'activate' => 'активирован ли',
+			'activate_key' => 'ключе активации',
+			'profile_sex' => 'стать',
+			'login' => 'логин',
+			'profile_name' => 'имени профиля',
+		),
+		'exact_search' => array(
+			'exact' => 'точно',
+			'prefix' => 'в начале',
+			'postfix' => 'в конце',
+			'any' => 'любое совпадение',
+		),
+		'search' => 'Поиск',
+		'on_page' => 'На странице',
+
 	),
 	
 	/*

@@ -25,7 +25,7 @@
 
 var ls = ls || {};
 
-ls.admin_array = (function($) {
+ls.admin_settings_array = (function($) {
 	
 	this.selectors = {
 		HiddenArrayItemCopy: '.js-hidden-array-item-copy',
@@ -124,7 +124,7 @@ ls.admin_array = (function($) {
 
 	return this;
 	
-}).call(ls.admin_array || {}, jQuery);
+}).call(ls.admin_settings_array || {}, jQuery);
 
 // ---
 
@@ -134,7 +134,7 @@ jQuery(document).ready(function($) {
 	// Remove elements from array special list
 	//
 	$(document).on('click.admin', '.js-array-values .js-array-item-value .js-remove-previous', function() {
-		ls.admin_array.RemoveArrayItem(this);
+		ls.admin_settings_array.RemoveArrayItem(this);
 		ls.msg.error('Ok', 'Deleted');
 	});
 	
@@ -142,7 +142,7 @@ jQuery(document).ready(function($) {
 	// Add elements to array special list
 	//
 	$(document).on('click.admin', '.OneParameterContainer .js-array-add-value', function() {
-		if (ls.admin_array.AddArrayItem(this)) {
+		if (ls.admin_settings_array.AddArrayItem(this)) {
 			ls.msg.notice('Ok', 'Added');
 		}
 		return false;

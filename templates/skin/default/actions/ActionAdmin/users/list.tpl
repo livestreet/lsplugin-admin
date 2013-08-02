@@ -5,6 +5,24 @@
 		{$aLang.plugin.admin.users.title}
     </h2>
 
+	<div class="UserSearch">
+		<form action="{router page='admin'}users/list/" method="post" enctype="application/x-www-form-urlencoded">
+			<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
+			<input type="text" name="q" class="input-text width-200" value="{$sSearchQuery}" />
+			<select name="field" class="width-150">
+				{foreach from=$oConfig->GetValue('plugin.admin.user_search_allowed_types') item=sSearchIn}
+					<option value="{$sSearchIn}" {if $sSearchIn==$sSearchField}selected="selected"{/if}>{$aLang.plugin.admin.users.search_allowed_in.$sSearchIn}</option>
+				{/foreach}
+			</select>
+			<select name="type" class="width-150">
+				{foreach from=array('exact', 'prefix', 'postfix', 'any') item=sType}
+					<option value="{$sType}" {if $sType==$sSearchType}selected="selected"{/if}>{$aLang.plugin.admin.users.exact_search.$sType}</option>
+				{/foreach}
+			</select>
+			<input type="submit" name="submit_search" value="{$aLang.plugin.admin.users.search}" class="button button-primary" />
+		</form>
+	</div>
+
 	{assign var=sDirectionHtml value="<span class=\"current-way\">{if $sWay=='asc'}&uarr;{elseif $sWay=='desc'}&darr;{/if}</span>"}
     <table class="table table-users">
         <thead>
@@ -24,31 +42,20 @@
 					<a href="?order=u.user_profile_birthday&way={$sReverseOrder}">birth</a>
 					{$sDirectionHtml}
 				</th>
-				<th class="visitandreg">
-					visit and reg
+				<th class="visitandreg {if $sOrder=='s.session_date_last'}active{/if}">
+					<a href="?order=s.session_date_last&way={$sReverseOrder}">visit and reg</a>
 					{$sDirectionHtml}
 				</th>
-				<th class="ips">
-					IPs
+				<th class="ips {if $sOrder=='s.session_ip_last'}active{/if}">
+					<a href="?order=s.session_ip_last&way={$sReverseOrder}">IPs</a>
 					{$sDirectionHtml}
 				</th>
-				<th class="rating">
-					rating and skill
+				<th class="rating {if $sOrder=='u.user_rating'}active{/if}">
+					<a href="?order=u.user_rating&way={$sReverseOrder}">rating, skill</a>
 					{$sDirectionHtml}
 				</th>
 				<th class="controls"></th>
 				
-				{*
-                <th class="name tab">
-                    <div class="tab-inner {if $sUsersOrder=='user_login'}active{/if}"><a href="{$sUsersRootPage}?order=user_login&order_way={if $sUsersOrder=='user_login'}{$sUsersOrderWayNext}{else}{$sUsersOrderWay}{/if}" {if $sUsersOrder=='user_login'}class="{$sUsersOrderWay}"{/if}><span>{$aLang.user}</span></a></div>
-                </th>
-                <th class="skill tab">
-                    <div class="tab-inner {if $sUsersOrder=='user_skill'}active{/if}"><a href="{$sUsersRootPage}?order=user_skill&order_way={if $sUsersOrder=='user_skill'}{$sUsersOrderWayNext}{else}{$sUsersOrderWay}{/if}" {if $sUsersOrder=='user_skill'}class="{$sUsersOrderWay}"{/if}><span>{$aLang.user_skill}</span></a></div>
-                </th>
-                <th class="rating tab">
-                    <div class="tab-inner {if $sUsersOrder=='user_rating'}active{/if}"><a href="{$sUsersRootPage}?order=user_rating&order_way={if $sUsersOrder=='user_rating'}{$sUsersOrderWayNext}{else}{$sUsersOrderWay}{/if}" {if $sUsersOrder=='user_rating'}class="{$sUsersOrderWay}"{/if}><span>{$aLang.user_rating}</span></a></div>
-                </th>
-				*}
             </tr>
         </thead>
 
@@ -117,6 +124,18 @@
         	{/foreach}
         </tbody>
     </table>
+
+	<div class="OnPageSelect">
+		<form action="{router page='admin'}users/ajax-on-page/" method="post" enctype="application/x-www-form-urlencoded" id="admin_onpage">
+			<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
+			{$aLang.plugin.admin.users.on_page}
+			<select name="onpage" class="width-50">
+				{foreach from=range(5,100,5) item=iVal}
+					<option value="{$iVal}" {if $iVal==$oConfig->GetValue('plugin.admin.user.per_page')}selected="selected"{/if}>{$iVal}</option>
+				{/foreach}
+			</select>
+		</form>
+	</div>
 
     {include file="{$aTemplatePathPlugin.admin}/pagination.tpl" aPaging=$aPaging}
     

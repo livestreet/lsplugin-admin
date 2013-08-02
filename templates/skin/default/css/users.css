@@ -118,3 +118,27 @@
     font: 14px/16px Arial;
     margin-right: 10px;
 }
+
+/* user search */
+
+.ls-admin .UserSearch {
+    background: none repeat scroll 0 0 #F9F9F9;
+    margin: 0 -15px 5px;
+    padding: 20px;
+}
+
+.ls-admin .UserSearch select {
+    vertical-align: top;
+}
+/*
+.ls-admin .UserSearch label {
+    display: inline-block;
+    line-height: 28px;
+    margin-bottom: 0;
+    vertical-align: middle;
+}
+*/
+
+.ls-admin .OnPageSelect {
+    float: right;
+}
