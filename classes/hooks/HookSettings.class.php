@@ -28,7 +28,8 @@ class PluginAdmin_HookSettings extends Hook {
 
 	public function RegisterHook() {
 		$this->AddHook('lang_init_start', 'LangInitStart', __CLASS__, PHP_INT_MAX);              // наивысший приоритет, который можно установить
-		$this->AddHook('template_content_begin', 'ContentBegin');
+		//$this->AddHook('template_content_begin', 'ContentBegin');
+		$this->AddHook('template_admin_content_begin', 'ContentBegin');   // todo: review: hook names (temp)
 	}
 	
 	
