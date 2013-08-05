@@ -90,7 +90,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 */
 		$this->Viewer_Assign('sReverseOrder', $this->PluginAdmin_Users_GetReversedOrderDirection ($sWay));
 		$this->Viewer_Assign('sOrder', $sOrder);
-		$this->Viewer_Assign('sWay', $sWay);
+		$this->Viewer_Assign('sWay', $this->PluginAdmin_Users_GetDefaultOrderDirectionIfIncorrect ($sWay));
 
 		/*
 		 * поиск

@@ -29,23 +29,23 @@
 				</th>
 				<th class="avatar"></th>
 				<th class="name {if $sOrder=='u.user_login'}active{/if}">
-					<a href="?order=u.user_login&way={$sReverseOrder}">name</a>
+					<a href="?order=u.user_login&way={if $sOrder=='u.user_login'}{$sReverseOrder}{else}{$sWay}{/if}">name</a>
 					{$sDirectionHtml}
 				</th>
 				<th class="birth {if $sOrder=='u.user_profile_birthday'}active{/if}">
-					<a href="?order=u.user_profile_birthday&way={$sReverseOrder}">birth</a>
+					<a href="?order=u.user_profile_birthday&way={if $sOrder=='u.user_profile_birthday'}{$sReverseOrder}{else}{$sWay}{/if}">birth</a>
 					{$sDirectionHtml}
 				</th>
 				<th class="visitandreg {if $sOrder=='s.session_date_last'}active{/if}">
-					<a href="?order=s.session_date_last&way={$sReverseOrder}">visit and reg</a>
+					<a href="?order=s.session_date_last&way={if $sOrder=='s.session_date_last'}{$sReverseOrder}{else}{$sWay}{/if}">visit and reg</a>
 					{$sDirectionHtml}
 				</th>
 				<th class="ips {if $sOrder=='s.session_ip_last'}active{/if}">
-					<a href="?order=s.session_ip_last&way={$sReverseOrder}">IPs</a>
+					<a href="?order=s.session_ip_last&way={if $sOrder=='s.session_ip_last'}{$sReverseOrder}{else}{$sWay}{/if}">IPs</a>
 					{$sDirectionHtml}
 				</th>
 				<th class="rating {if $sOrder=='u.user_rating'}active{/if}">
-					<a href="?order=u.user_rating&way={$sReverseOrder}">rating, skill</a>
+					<a href="?order=u.user_rating&way={if $sOrder=='u.user_rating'}{$sReverseOrder}{else}{$sWay}{/if}">rating, skill</a>
 					{$sDirectionHtml}
 				</th>
 				<th class="controls"></th>

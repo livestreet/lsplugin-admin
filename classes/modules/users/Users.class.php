@@ -46,10 +46,15 @@ class PluginAdmin_ModuleUsers extends Module {
 	protected $sSortingOrderByDefault = 'u.user_id desc';
 
 	/*
-	 * корректные направления сортировки
+	 * направление сортировки пользователей по-умолчанию
 	 */
-	protected $SortingOrderWays = array('asc', 'desc');
+	protected $sSortingWayByDefault = 'desc';
 
+	/*
+	 * корректные направления сортировки
+	 * (не менять порядок!)
+	 */
+	protected $aSortingOrderWays = array('desc', 'asc');
 
 
 	public function Init() {
@@ -96,7 +101,7 @@ class PluginAdmin_ModuleUsers extends Module {
 		foreach($aOrder as $sRow => $sDir) {
 			if (!in_array($sRow, $this -> aCorrectSortingOrder)) {
 				unset($aOrder[$sRow]);
-			} elseif (in_array($sDir, $this -> SortingOrderWays)) {
+			} elseif (in_array($sDir, $this -> aSortingOrderWays)) {
 				$sOrder .= " {$sRow} {$sDir},";
 			}
 		}
@@ -114,9 +119,21 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * @param $sWay			текущий тип сортировки
 	 * @return string		противоположный
 	 */
-	public function GetReversedOrderDirection ($sWay){
-		if (!in_array($sWay, $this -> SortingOrderWays)) return 'desc';
-		return $this -> SortingOrderWays[(int) ($sWay == 'asc')];
+	public function GetReversedOrderDirection ($sWay) {
+		if ($sDefaultWay = $this->GetDefaultOrderDirectionIfIncorrect($sWay) !== $sWay) return $sDefaultWay;
+		return $this -> aSortingOrderWays[(int) ($sWay == $this->sSortingWayByDefault)];
+	}
+
+
+	/**
+	 * Получить сортировку по-умолчанию, если она не задана или некорректна
+	 *
+	 * @param $sWay			текущий тип сортировки
+	 * @return string		текущий или по-умолчанию (если не корректен)
+	 */
+	public function GetDefaultOrderDirectionIfIncorrect ($sWay) {
+		if (!in_array($sWay, $this -> aSortingOrderWays)) return $this->sSortingWayByDefault;
+		return $sWay;
 	}
 
 
