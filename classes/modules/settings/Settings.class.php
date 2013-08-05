@@ -601,7 +601,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 * @return string
 	 */
 	protected function GetRootConfigLanguge($sFileName) {
-		return $this->GetRootConfigSchemePath() . 'language/' . $sFileName . '.php';
+		return $this->GetRootConfigSchemePath() . Config::Get('lang.dir') . '/' . $sFileName . '.php';
 	}
 
 
@@ -636,7 +636,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 			$sPathRootConfigLang = $this->GetRootConfigLanguge(Config::Get('lang.default'));
 			if (!is_readable($sPathRootConfigLang)) {
 				throw new Exception(
-					'Admin: error: can`t read root config language file "' . $sPathRootConfigLang . '"(current and default). Check rights for this file.'
+					'Admin: error: can`t read root config language file "' . $sPathRootConfigLang . '" (current and default). Check rights for this file.'
 				);
 			}
 		}

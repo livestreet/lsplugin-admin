@@ -36,8 +36,8 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	 * Список пользователей
 	 */
 	public function EventUsersList() {
-		$this -> SetTemplateAction('users/list');
-		$this -> SetPaging();
+		$this->SetTemplateAction('users/list');
+		$this->SetPaging();
 
 		/*
 		 * сортировка
@@ -50,26 +50,25 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 */
 		$sSearchQuery = getRequestStr('q');
 		$sSearchField = getRequestStr('field');
-		$sSearchType = getRequestStr('type');
 
 		/*
 		 * получение пользователей
 		 */
-		$aResult = $this -> PluginAdmin_Users_GetUsersByFilter(
-			$this -> GetSearchRule($sSearchQuery, $sSearchField, $sSearchType),
+		$aResult = $this->PluginAdmin_Users_GetUsersByFilter(
+			$this->GetSearchRule($sSearchQuery, $sSearchField),
 			array($sOrder => $sWay),
-			$this -> iPage,
-			$this -> iPerPage
+			$this->iPage,
+			$this->iPerPage
 		);
 		$aUsers = $aResult['collection'];
 
 		/*
 		 * Формируем постраничность
 		 */
-		$aPaging = $this -> Viewer_MakePaging(
+		$aPaging = $this->Viewer_MakePaging(
 			$aResult['count'],
-			$this -> iPage,
-			$this -> iPerPage,
+			$this->iPage,
+			$this->iPerPage,
 			Config::Get('pagination.pages.count'),
 			Router::GetPath('admin') . Router::GetActionEvent() . '/list',
 			array()
@@ -81,7 +80,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * сортировка
 		 */
-		$this->Viewer_Assign('sReverseOrder', $this -> PluginAdmin_Users_GetReversedOrderDirection ($sWay));
+		$this->Viewer_Assign('sReverseOrder', $this->PluginAdmin_Users_GetReversedOrderDirection ($sWay));
 		$this->Viewer_Assign('sOrder', $sOrder);
 		$this->Viewer_Assign('sWay', $sWay);
 
@@ -90,7 +89,6 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 */
 		$this->Viewer_Assign('sSearchQuery', $sSearchQuery);
 		$this->Viewer_Assign('sSearchField', $sSearchField);
-		$this->Viewer_Assign('sSearchType', $sSearchType);
 	}
 
 
@@ -107,10 +105,10 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	 * Задать страницу и количество элементов в пагинации
 	 */
 	protected function SetPaging () {
-		if (!$this -> iPage = intval(preg_replace ('#^page(\d+)$#iu', '$1', $this -> GetParam (1)))) {
-			$this -> iPage = 1;
+		if (!$this->iPage = intval(preg_replace ('#^page(\d+)$#iu', '$1', $this->GetParam (1)))) {
+			$this->iPage = 1;
 		}
-		$this -> iPerPage = Config::Get('plugin.admin.user.per_page');
+		$this->iPerPage = Config::Get('plugin.admin.user.per_page');
 	}
 
 
@@ -119,14 +117,13 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	 *
 	 * @param $sQuery		запрос
 	 * @param $sField		имя поля, по которому будет поиск
-	 * @param $sType		тип поиска (точный, префикс и т.п.)
 	 * @return array		правило для фильтра
 	 */
-	protected function GetSearchRule ($sQuery, $sField, $sType) {
+	protected function GetSearchRule ($sQuery, $sField) {
 		/*
 		 * если был поиск
 		 */
-		if (isPost('submit_search')) {
+		if (getRequestStr('submit_search')) {
 			/*
 			 * имя поля для поиска разрешено
 			 */
@@ -135,25 +132,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 				 * экранировать спецсимволы
 				 */
 				$sQuery = str_replace(array('_', '%'), array('\_', '\%'), $sQuery);
-
-				/*
-				 * тип поиска
-				 */
-				switch ($sType) {
-					case 'exact':
-						break;
-					case 'prefix':
-						$sQuery .= '%';
-						break;
-					case 'postfix':
-						$sQuery = '%' . $sQuery;
-						break;
-					case 'any':
-						$sQuery = '%' . $sQuery . '%';
-						break;
-					default:
-						break;
-				}
+				$sQuery = '%' . $sQuery . '%';
 				return array($sField => $sQuery);
 			}
 		}
