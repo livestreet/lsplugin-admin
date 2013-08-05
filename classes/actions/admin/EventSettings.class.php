@@ -252,8 +252,9 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 	 * @param $sSkinName	имя шаблона
 	 */
 	private function PreviewSkin($sSkinName) {
-		$this->PluginAdmin_Skin_PreviewSkin($sSkinName);
-		$this->Message_AddNotice($this->Lang('notices.template_preview_set'), '', true);
+		if ($this->PluginAdmin_Skin_PreviewSkin($sSkinName)) {
+			$this->Message_AddNotice($this->Lang('notices.template_preview_set'), '', true);
+		}
 	}
 
 

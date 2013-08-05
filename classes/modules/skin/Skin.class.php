@@ -103,8 +103,10 @@ class PluginAdmin_ModuleSkin extends Module {
 			$this->Xlang($oXml, 'description', $this->sLang);
 
 			$oXml->homepage = $this->Text_Parser((string) $oXml->homepage);
-			foreach ($oXml->themes->children() as $oTheme) {
-				$this->Xlang($oTheme, 'description', $this->sLang);
+			if ($oXml->themes) {
+				foreach ($oXml->themes->children() as $oTheme) {
+					$this->Xlang($oTheme, 'description', $this->sLang);
+				}
 			}
 			return $oXml;
 		}
@@ -311,9 +313,17 @@ class PluginAdmin_ModuleSkin extends Module {
 	 * Задать значение шаблона для предпросмотра для текущего пользователя
 	 *
 	 * @param $sSkinName	шаблон
+	 * @return bool
 	 */
 	public function PreviewSkin($sSkinName) {
+		/*
+		 * проверить зависимости
+		 */
+		if (!$this->CheckSkinDependencies($sSkinName)) {
+			return false;
+		}
 		$this->Session_Set(self::PREVIEW_SKIN_SESSION_PARAM_NAME, $sSkinName);
+		return true;
 	}
 
 
@@ -347,7 +357,7 @@ class PluginAdmin_ModuleSkin extends Module {
 	 * @return string
 	 */
 	public function GetOriginalSkinName() {
-		if ($sPreviewSkin = $this->GetPreviewSkinName()) {
+		if ($this->GetPreviewSkinName()) {
 			return Config::Get('view.skin_original');
 		}
 		return Config::Get('view.skin');
