@@ -239,9 +239,22 @@ $config ['core_config_groups'] = array(
 );	// /core_config_groups
 
 /*
- * разрешенные типы поиска по пользователям
+ * Разрешенные имена полей для поиска по пользователям
+ *
+ * параметр "search_as_part_of_string" разрешает искать по данному полю как по части строки запроса
+ * (при изменении необходимы правки в маппере модуля юзеров плагина - изменить присваивание на LIKE)
  */
-$config ['user_search_allowed_types'] = array('id', 'mail', 'password', 'ip_register', 'activate', 'activate_key', 'profile_sex', 'login', 'profile_name');
+$config ['user_search_allowed_types'] = array(
+	'id' => array('search_as_part_of_string'=>false),
+	'mail' => array('search_as_part_of_string'=>true),
+	'password' => array('search_as_part_of_string'=>false),
+	'ip_register' => array('search_as_part_of_string'=>true),
+	'activate' => array('search_as_part_of_string'=>false),
+	'activate_key' => array('search_as_part_of_string'=>false),
+	'profile_sex' => array('search_as_part_of_string'=>false),
+	'login' => array('search_as_part_of_string'=>true),
+	'profile_name' => array('search_as_part_of_string'=>true)
+);
 
 /*
  *	Использовать ли аякс при отправке формы с настройками

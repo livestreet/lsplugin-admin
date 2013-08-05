@@ -49,13 +49,21 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 * поиск по полям
 		 */
 		$sSearchQuery = getRequestStr('q');
-		$sSearchField = getRequestStr('field');
+		$aSearchFields = getRequest('field');
+		if (!is_array($aSearchFields)) {
+			$aSearchFields = (array) $aSearchFields;
+		}
+
+		/*
+		 * получить правила (фильтр для поиска)
+		 */
+		$aSearchRules = $this->GetSearchRule($sSearchQuery, $aSearchFields);
 
 		/*
 		 * получение пользователей
 		 */
 		$aResult = $this->PluginAdmin_Users_GetUsersByFilter(
-			$this->GetSearchRule($sSearchQuery, $sSearchField),
+			$aSearchRules,
 			array($sOrder => $sWay),
 			$this->iPage,
 			$this->iPerPage
@@ -88,7 +96,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 * поиск
 		 */
 		$this->Viewer_Assign('sSearchQuery', $sSearchQuery);
-		$this->Viewer_Assign('sSearchField', $sSearchField);
+		$this->Viewer_Assign('aSearchFields', $aSearchFields);
 	}
 
 
@@ -105,7 +113,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	 * Задать страницу и количество элементов в пагинации
 	 */
 	protected function SetPaging () {
-		if (!$this->iPage = intval(preg_replace ('#^page(\d+)$#iu', '$1', $this->GetParam (1)))) {
+		if (!$this->iPage = intval(preg_replace('#^page(\d+)$#iu', '$1', $this->GetParam (1)))) {
 			$this->iPage = 1;
 		}
 		$this->iPerPage = Config::Get('plugin.admin.user.per_page');
@@ -113,32 +121,45 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 
 
 	/**
-	 * Получить правило для поиска
+	 * Получить правила для поиска по полям
 	 *
-	 * @param $sQuery		запрос
-	 * @param $sField		имя поля, по которому будет поиск
-	 * @return array		правило для фильтра
+	 * @param string|array	$aSearchQueries		запросы
+	 * @param array 		$aSearchFields		имена полей, по которым будет происходить поиск
+	 * @return array							правило для фильтра
 	 */
-	protected function GetSearchRule ($sQuery, $sField) {
-		/*
-		 * если был поиск
-		 */
-		if (getRequestStr('submit_search')) {
+	protected function GetSearchRule ($aSearchQueries, $aSearchFields) {
+		$aUserSearchFieldsRules = Config::Get('plugin.admin.user_search_allowed_types');
+		$aQueries = array();
+		foreach ($aSearchFields as $sField) {
 			/*
-			 * имя поля для поиска разрешено
+			 * если имя поля для поиска разрешено
 			 */
-			if (in_array($sField, Config::Get('plugin.admin.user_search_allowed_types'))) {
+			if (in_array($sField, array_keys($aUserSearchFieldsRules))) {
+				// todo: review: the same query for all fields if not array
+				if (is_array($aSearchQueries)) {
+					$sQuery = $aSearchQueries [$sField];
+				} else {
+					$sQuery = $aSearchQueries;
+				}
 				/*
 				 * экранировать спецсимволы
 				 */
 				$sQuery = str_replace(array('_', '%'), array('\_', '\%'), $sQuery);
-				$sQuery = '%' . $sQuery . '%';
-				return array($sField => $sQuery);
+				/*
+				 * если разрешено искать по данному параметру как по части строки
+				 */
+				if ($aUserSearchFieldsRules[$sField]['search_as_part_of_string']) {
+					/*
+					 * искать в любой части строки
+					 */
+					$sQuery = '%' . $sQuery . '%';
+				}
+				$aQueries [$sField] = $sQuery;
 			}
 		}
-		return array();
+		return $aQueries;
 	}
-	
+
 }
 
 ?>
