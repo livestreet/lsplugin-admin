@@ -257,6 +257,23 @@ $config ['user_search_allowed_types'] = array(
 );
 
 /*
+ * Корректные значения для сортировок пользователей
+ */
+$config ['correct_sorting_order'] = array(
+	'u.user_id',
+	'u.user_login',
+	'u.user_date_register',
+	'u.user_rating',
+	'u.user_skill',
+	'u.user_profile_name',
+	'u.user_profile_birthday',
+	's.session_ip_create',
+	's.session_ip_last',
+	's.session_date_create',
+	's.session_date_last',
+);
+
+/*
  *	Использовать ли аякс при отправке формы с настройками
  */
 $config ['admin_save_form_ajax_use'] = true;

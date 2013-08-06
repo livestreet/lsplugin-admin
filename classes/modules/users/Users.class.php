@@ -24,29 +24,12 @@ class PluginAdmin_ModuleUsers extends Module {
 	protected $oMapper = null;
 
 	/*
-	 * корректные значения для сортировок пользователей
-	 */
-	protected $aCorrectSortingOrder = array(
-		'u.user_id',
-		'u.user_login',
-		'u.user_date_register',
-		'u.user_rating',
-		'u.user_skill',
-		'u.user_profile_name',
-		'u.user_profile_birthday',
-		's.session_ip_create',
-		's.session_ip_last',
-		's.session_date_create',
-		's.session_date_last',
-	);
-
-	/*
-	 * сортировка пользователей по-умолчанию
+	 * сортировка пользователей по-умолчанию (если указанная сортировка некорректна или не разрешена)
 	 */
 	protected $sSortingOrderByDefault = 'u.user_id desc';
 
 	/*
-	 * направление сортировки пользователей по-умолчанию
+	 * направление сортировки пользователей по-умолчанию (если она не задана или некорректна)
 	 */
 	protected $sSortingWayByDefault = 'desc';
 
@@ -65,11 +48,11 @@ class PluginAdmin_ModuleUsers extends Module {
 	/**
 	 * Возвращает список пользователей по фильтру
 	 *
-	 * @param array $aFilter	Фильтр
-	 * @param array $aOrder	Сортировка
-	 * @param int $iCurrPage	Номер страницы
-	 * @param int $iPerPage	Количество элментов на страницу
-	 * @param array $aAllowData	Список типо данных для подгрузки к пользователям
+	 * @param array 	$aFilter		Фильтр
+	 * @param array 	$aOrder			Сортировка
+	 * @param int 		$iCurrPage		Номер страницы
+	 * @param int 		$iPerPage		Количество элментов на страницу
+	 * @param array 	$aAllowData		Список типо данных для подгрузки к пользователям
 	 * @return array('collection'=>array,'count'=>int)
 	 */
 	public function GetUsersByFilter($aFilter = array(), $aOrder = array(), $iCurrPage = 1, $iPerPage = PHP_INT_MAX, $aAllowData = null) {
@@ -99,7 +82,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	protected function GetCorrectSortingOrder($aOrder = array ()) {
 		$sOrder = '';
 		foreach($aOrder as $sRow => $sDir) {
-			if (!in_array($sRow, $this -> aCorrectSortingOrder)) {
+			if (!in_array($sRow, Config::Get('plugin.admin.correct_sorting_order'))) {
 				unset($aOrder[$sRow]);
 			} elseif (in_array($sDir, $this -> aSortingOrderWays)) {
 				$sOrder .= " {$sRow} {$sDir},";
