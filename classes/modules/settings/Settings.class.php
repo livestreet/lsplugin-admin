@@ -635,18 +635,16 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 		if (!is_readable($sPathRootConfigLang)) {
 			$sPathRootConfigLang = $this->GetRootConfigLanguge(Config::Get('lang.default'));
 			if (!is_readable($sPathRootConfigLang)) {
-				throw new Exception(
-					'Admin: error: can`t read root config language file "' . $sPathRootConfigLang . '" (current and default). Check rights for this file.'
-				);
+				return false;
 			}
 		}
 		
 		$aRootConfigLang = require_once($sPathRootConfigLang);
-		if (!is_array($aRootConfigLang)) {
-			throw new Exception('Admin: error: language file of root config is not an array. Last error: ' . print_r(error_get_last(), true));
+		if (is_array($aRootConfigLang)) {
+			$this->Lang_AddMessages($aRootConfigLang);
+			return true;
 		}
-		
-		$this->Lang_AddMessages($aRootConfigLang);
+		return false;
 	}
 
 
