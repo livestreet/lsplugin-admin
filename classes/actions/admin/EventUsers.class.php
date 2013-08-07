@@ -79,7 +79,12 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 			$this->iPerPage,
 			Config::Get('pagination.pages.count'),
 			Router::GetPath('admin') . Router::GetActionEvent() . '/list',
-			array()
+			array(
+				'q' => $sSearchQuery,
+				'field' => $aSearchFields,
+				'order' => $sOrder,
+				'way' => $sWay
+			)
 		);
 
 		$this->Viewer_Assign('aPaging', $aPaging);
