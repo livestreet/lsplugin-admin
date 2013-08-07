@@ -253,7 +253,8 @@ $config ['user_search_allowed_types'] = array(
 	'activate_key' => array('search_as_part_of_string'=>false),
 	'profile_sex' => array('search_as_part_of_string'=>false),
 	'login' => array('search_as_part_of_string'=>true),
-	'profile_name' => array('search_as_part_of_string'=>true)
+	'profile_name' => array('search_as_part_of_string'=>true),
+	'session_ip_last' => array('search_as_part_of_string'=>true),
 );
 
 /*

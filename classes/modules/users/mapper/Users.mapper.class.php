@@ -50,6 +50,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 				{AND u.user_profile_sex = ?}
 				{AND u.user_login LIKE ?}
 				{AND u.user_profile_name LIKE ?}
+				{AND s.session_ip_last LIKE ?}
 			ORDER BY
 				{$sOrder}
 			LIMIT ?d, ?d
@@ -65,6 +66,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 			isset($aFilter['profile_sex']) ? $aFilter['profile_sex'] : DBSIMPLE_SKIP,
 			isset($aFilter['login']) ? $aFilter['login'] : DBSIMPLE_SKIP,
 			isset($aFilter['profile_name']) ? $aFilter['profile_name'] : DBSIMPLE_SKIP,
+			isset($aFilter['session_ip_last']) ? $aFilter['session_ip_last'] : DBSIMPLE_SKIP,
 			($iCurrPage-1) * $iPerPage,
 			$iPerPage
 		)) {

@@ -109,13 +109,20 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	}
 
 
+	/**
+	 * Показать страницу информации о пользователе
+	 *
+	 * @return string
+	 */
 	public function EventUserProfile () {
 		$this->SetTemplateAction('users/profile');
 		if (!$iUserId = $this->GetParam(1) or !$oUser = $this->User_GetUserById($iUserId)) {
 			return Router::Action('error');
 		}
+		$oGeoTarget = $this->Geo_GetTargetByTarget('user', $oUser->getId());
 
 
+		$this->Viewer_Assign('oGeoTarget', $oGeoTarget);
 		$this->Viewer_Assign('oUser', $oUser);
 	}
 

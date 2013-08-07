@@ -115,12 +115,7 @@ return array(
 			'profile_sex' => 'стать',
 			'login' => 'логин',
 			'profile_name' => 'имени профиля',
-		),
-		'exact_search' => array(
-			'exact' => 'точно',
-			'prefix' => 'в начале',
-			'postfix' => 'в конце',
-			'any' => 'любое совпадение',
+			'session_ip_last' => 'ip последнего захода',
 		),
 		'search' => 'Поиск',
 		'on_page' => 'На странице',

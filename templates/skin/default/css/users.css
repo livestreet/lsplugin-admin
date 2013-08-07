@@ -256,3 +256,24 @@
 .ls-admin .profile-info-wrapper .inner-data .more-info .left-data {
     overflow: hidden;
 }
+
+.ls-admin .profile-info-wrapper .inner-data .more-info .left-data .resume dl {
+    clear: both;
+    margin-bottom: 5px;
+    overflow: hidden;
+}
+
+.ls-admin .profile-info-wrapper .inner-data .more-info .left-data .resume dl dt {
+    border-bottom: 1px dotted #EEEEEE;
+    float: left;
+    width: 200px;
+}
+
+.ls-admin .profile-info-wrapper .inner-data .more-info .left-data .resume dl dd {
+    overflow: hidden;
+}
+
+.ls-admin .profile-info-wrapper .inner-data .more-info .left-data .line-2 {
+    border-bottom: 1px dotted #AAAAAA;
+    margin: 20px 0;
+}
