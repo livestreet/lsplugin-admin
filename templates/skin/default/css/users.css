@@ -1,13 +1,26 @@
 
 /* users */
 
+
+.ls-admin .user-is-online {
+    background: none repeat scroll 0 0 #3CD33B;
+    height: 2px;
+    margin-top: 2px;
+}
+
 .ls-admin table.table-users thead {
     background: none repeat scroll 0 0 transparent;
     border-bottom: 1px solid #EEEEEE;
 }
 
 .ls-admin table.table-users thead th {
+    font-size: 11px;
+    font-weight: normal;
     text-align: left;
+}
+
+.ls-admin table.table-users thead th a {
+    border-bottom: 1px dotted;
 }
 
 .ls-admin table.table-users {
@@ -17,8 +30,13 @@
 .ls-admin table.table-users tbody tr.second {
     background: none repeat scroll 0 0 transparent;
 }
+
 .ls-admin table.table-users tbody tr {
     border-bottom: 1px solid #EEEEEE;
+}
+
+.ls-admin table.table-users tbody tr:hover {
+    background: none repeat scroll 0 0 #FFF9E2;
 }
 
 /* user listing */
@@ -34,12 +52,6 @@
 .ls-admin table.table-users tbody .avatar a,
 .ls-admin table.table-users tbody .avatar a img {
     display: block;
-}
-
-.ls-admin table.table-users tbody .user-is-online {
-    background: none repeat scroll 0 0 #3CD33B;
-    height: 2px;
-    margin-top: 2px;
 }
 
 .ls-admin table.table-users tbody .name .username a {
@@ -58,7 +70,7 @@
 
 .ls-admin table.table-users tbody .visitandreg {
     font-size: 11px;
-    width: 100px;
+    width: 135px;
 }
 
 .ls-admin table.table-users tbody .visitandreg span {
@@ -126,4 +138,121 @@
 
 .ls-admin .OnPageSelect {
     float: right;
+}
+
+/* profile */
+
+.ls-admin .profile-info-wrapper {
+    clear: both;
+}
+
+.ls-admin .profile-info-wrapper .top-controls {
+    background: none repeat scroll 0 0 #464646;
+    color: #FFFFFF;
+    margin: 0 -15px;
+    padding: 15px;
+}
+
+.ls-admin .profile-info-wrapper .inner-data {
+    background: none repeat scroll 0 0 #F9F9F9;
+    margin: 0 -15px;
+    padding: 15px;
+}
+
+.ls-admin .profile-info-wrapper .inner-data .profile-links {
+    clear: both;
+    overflow: hidden;
+}
+
+.ls-admin .profile-info-wrapper .inner-data .profile-links li {
+    float: left;
+    line-height: 24px;
+    width: 120px;
+}
+
+.ls-admin .profile-info-wrapper .inner-data .profile-links li a {
+    border-bottom: 1px solid;
+    text-decoration: none;
+}
+
+.ls-admin .profile-info-wrapper .inner-data .line {
+    border-bottom: 1px solid #FFFFFF;
+    border-top: 1px solid #EEEEEE;
+    margin: 15px 0 20px;
+}
+
+.ls-admin .profile-info-wrapper .inner-data .base-info {
+    clear: both;
+    overflow: hidden;
+}
+
+.ls-admin .profile-info-wrapper .inner-data .base-info .left {
+    float: left;
+    width: 70%;
+}
+
+.ls-admin .profile-info-wrapper .inner-data .base-info .left .avatar-wrapper {
+    float: left;
+    margin-right: 20px;
+}
+
+.ls-admin .profile-info-wrapper .inner-data .base-info .left .avatar-wrapper a,
+.ls-admin .profile-info-wrapper .inner-data .base-info .left .avatar-wrapper a img {
+    display: block;
+}
+
+.ls-admin .profile-info-wrapper .inner-data .base-info .left .names {
+    overflow: hidden;
+}
+
+.ls-admin .profile-info-wrapper .inner-data .base-info .left .names .username {
+    font-size: 18px;
+    line-height: 24px;
+}
+
+.ls-admin .profile-info-wrapper .inner-data .base-info .left .names .realname {
+    font-size: 16px;
+    line-height: 22px;
+}
+
+.ls-admin .profile-info-wrapper .inner-data .base-info .left .names .mail {
+    font-size: 12px;
+}
+
+.ls-admin .profile-info-wrapper .inner-data .base-info .left .user-is-online {
+    height: 3px;
+}
+
+.ls-admin .profile-info-wrapper .inner-data .base-info .right {
+    overflow: hidden;
+}
+
+.ls-admin .profile-info-wrapper .inner-data .base-info .right .skill {
+    float: left;
+}
+
+.ls-admin .profile-info-wrapper .inner-data .base-info .right .rating {
+    float: right;
+}
+
+.ls-admin .profile-info-wrapper .inner-data .base-info .right .user-id {
+    clear: both;
+    font-size: 10px;
+    line-height: 25px;
+}
+
+.ls-admin .profile-info-wrapper .inner-data .more-info {
+    background: none repeat scroll 0 0 #FFFFFF;
+    margin: 15px -15px 0;
+    overflow: hidden;
+    padding: 15px;
+}
+
+.ls-admin .profile-info-wrapper .inner-data .more-info .right-data {
+    float: right;
+    width: 30%;
+}
+
+.ls-admin .profile-info-wrapper .inner-data .more-info .left-data {
+    overflow: hidden;
 }

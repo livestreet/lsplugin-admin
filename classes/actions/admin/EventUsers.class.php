@@ -79,12 +79,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 			$this->iPerPage,
 			Config::Get('pagination.pages.count'),
 			Router::GetPath('admin') . Router::GetActionEvent() . '/list',
-			array(
-				'q' => $sSearchQuery,
-				'field' => $aSearchFields,
-				'order' => $sOrder,
-				'way' => $sWay
-			)
+			$this->GetPagingAdditionalParams ($sSearchQuery, $aSearchFields, $sOrder, $sWay)
 		);
 
 		$this->Viewer_Assign('aPaging', $aPaging);
@@ -108,9 +103,20 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	/**
 	 * Изменить количество пользователей на странице
 	 */
-	public  function EventAjaxUsersOnPage () {
+	public function EventAjaxUsersOnPage () {
 		$this->Viewer_SetResponseAjax('json');
 		$this->PluginAdmin_Users_ChangeUsersPerPage(getRequestStr('onpage'));
+	}
+
+
+	public function EventUserProfile () {
+		$this->SetTemplateAction('users/profile');
+		if (!$iUserId = $this->GetParam(1) or !$oUser = $this->User_GetUserById($iUserId)) {
+			return Router::Action('error');
+		}
+
+
+		$this->Viewer_Assign('oUser', $oUser);
 	}
 
 
@@ -163,6 +169,33 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 			}
 		}
 		return $aQueries;
+	}
+
+
+	/**
+	 * Построить доп. параметры для пагинации
+	 *
+	 * @param $sSearchQuery
+	 * @param $aSearchFields
+	 * @param $sOrder
+	 * @param $sWay
+	 * @return array
+	 */
+	protected function GetPagingAdditionalParams ($sSearchQuery, $aSearchFields, $sOrder, $sWay) {
+		$aParams = array();
+		if ($sSearchQuery) {
+			$aParams ['q'] = $sSearchQuery;
+		}
+		if ($aSearchFields) {
+			$aParams ['field'] = $aSearchFields;
+		}
+		if ($sOrder) {
+			$aParams ['order'] = $sOrder;
+		}
+		if ($sWay) {
+			$aParams ['way'] = $sWay;
+		}
+		return $aParams;
 	}
 
 }

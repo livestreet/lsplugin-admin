@@ -36,22 +36,22 @@
 				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 					sCellClassName='birth'
 					sSortingOrder='u.user_profile_birthday'
-					sLinkHtml='Дата ДР'
+					sLinkHtml='Родился'
 				}
 				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 					sCellClassName='visitandreg'
 					sSortingOrder='s.session_date_last'
-					sLinkHtml='Рег. и визит'
+					sLinkHtml='Регистрация и визит'
 				}
 				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 					sCellClassName='ips'
 					sSortingOrder='s.session_ip_last'
-					sLinkHtml='IPs'
+					sLinkHtml='IP-адрес'
 				}
 				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 					sCellClassName='rating'
 					sSortingOrder='u.user_rating'
-					sLinkHtml='Рейтинг, сила'
+					sLinkHtml='Рейтинг и сила'
 				}
 				<th class="controls"></th>
 			</tr>
@@ -65,15 +65,15 @@
 						<input type="checkbox" name="checked[]" value="1" />
 					</td>
 					<td class="avatar">
-						<a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileAvatarPath(48)}" alt="avatar" class="avatar" /></a>
+						<a href="{router page='admin'}users/profile/{$oUser->getId()}"><img src="{$oUser->getProfileAvatarPath(48)}" alt="avatar" class="avatar" /></a>
 						{if $oUser->isOnline()}
-							<div class="user-is-online"></div>
+							<div class="user-is-online" title="{if $oUser->isOnline()}{$aLang.user_status_online}{else}{$aLang.user_status_offline}{/if}"></div>
 						{/if}
 					</td>
 					<td class="name">
 						<div class="name {if !$oUser->getProfileName()}no-realname{/if}">
 							<p class="username word-wrap">
-								<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
+								<a href="{router page='admin'}users/profile/{$oUser->getId()}">{$oUser->getLogin()}</a>
 							</p>
 							{if $oUser->getProfileName()}
 								<p class="realname">{$oUser->getProfileName()}</p>
@@ -103,7 +103,7 @@
 					<td class="ips">
 						<p title="reg ip">{$oUser->getIpRegister()}</p>
 						{if $oSession}
-							<p title="sess ip create">{$oSession->getIpCreate()}</p>
+							{* <p title="sess ip create">{$oSession->getIpCreate()}</p> *}
 							<p title="sess ip last">{$oSession->getIpLast()}</p>
 						{/if}
 					</td>
