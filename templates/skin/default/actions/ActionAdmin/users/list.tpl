@@ -13,41 +13,46 @@
 					<option value="{$sSearchIn}" {if in_array($sSearchIn, $aSearchFields)}selected="selected"{/if}>{$aLang.plugin.admin.users.search_allowed_in.$sSearchIn}</option>
 				{/foreach}
 			</select>
-			<input type="submit" name="submit_search" value="{$aLang.plugin.admin.users.search}" class="button button-primary" />
+			<input type="submit" value="{$aLang.plugin.admin.users.search}" class="button button-primary" />
 		</form>
 	</div>
 
-	{assign var=sDirectionHtml value="<span class=\"current-way\">{if $sWay=='asc'}&uarr;{elseif $sWay=='desc'}&darr;{/if}</span>"}
+
 	<table class="table table-users">
 		<thead>
 			<tr>
 				<th class="checked">
 					<label>
 						<input type="checkbox" name="checked[]" value="1" />
-						&darr;																			{* todo: *}
+						&darr;																			{* todo: select menu *}
 					</label>
 				</th>
 				<th class="avatar"></th>
-				<th class="name {if $sOrder=='u.user_login'}active{/if}">
-					<a href="?order=u.user_login&way={if $sOrder=='u.user_login'}{$sReverseOrder}{else}{$sWay}{/if}">name</a>
-					{$sDirectionHtml}
-				</th>
-				<th class="birth {if $sOrder=='u.user_profile_birthday'}active{/if}">
-					<a href="?order=u.user_profile_birthday&way={if $sOrder=='u.user_profile_birthday'}{$sReverseOrder}{else}{$sWay}{/if}">birth</a>
-					{$sDirectionHtml}
-				</th>
-				<th class="visitandreg {if $sOrder=='s.session_date_last'}active{/if}">
-					<a href="?order=s.session_date_last&way={if $sOrder=='s.session_date_last'}{$sReverseOrder}{else}{$sWay}{/if}">visit and reg</a>
-					{$sDirectionHtml}
-				</th>
-				<th class="ips {if $sOrder=='s.session_ip_last'}active{/if}">
-					<a href="?order=s.session_ip_last&way={if $sOrder=='s.session_ip_last'}{$sReverseOrder}{else}{$sWay}{/if}">IPs</a>
-					{$sDirectionHtml}
-				</th>
-				<th class="rating {if $sOrder=='u.user_rating'}active{/if}">
-					<a href="?order=u.user_rating&way={if $sOrder=='u.user_rating'}{$sReverseOrder}{else}{$sWay}{/if}">rating, skill</a>
-					{$sDirectionHtml}
-				</th>
+				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
+					sCellClassName='name'
+					sSortingOrder='u.user_login'
+					sLinkHtml='Имя'
+				}
+				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
+					sCellClassName='birth'
+					sSortingOrder='u.user_profile_birthday'
+					sLinkHtml='Дата ДР'
+				}
+				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
+					sCellClassName='visitandreg'
+					sSortingOrder='s.session_date_last'
+					sLinkHtml='Рег. и визит'
+				}
+				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
+					sCellClassName='ips'
+					sSortingOrder='s.session_ip_last'
+					sLinkHtml='IPs'
+				}
+				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
+					sCellClassName='rating'
+					sSortingOrder='u.user_rating'
+					sLinkHtml='Рейтинг, сила'
+				}
 				<th class="controls"></th>
 			</tr>
 		</thead>
@@ -117,6 +122,7 @@
 			{/foreach}
 		</tbody>
 	</table>
+
 
 	<div class="OnPageSelect">
 		<form action="{router page='admin'}users/ajax-on-page/" method="post" enctype="application/x-www-form-urlencoded" id="admin_onpage">

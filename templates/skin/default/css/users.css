@@ -31,7 +31,8 @@
     width: 50px;
 }
 
-.ls-admin table.table-users tbody .avatar a, .ls-admin table.table-users tbody .avatar a img {
+.ls-admin table.table-users tbody .avatar a,
+.ls-admin table.table-users tbody .avatar a img {
     display: block;
 }
 
@@ -52,7 +53,7 @@
 
 .ls-admin table.table-users tbody .birth {
     font-size: 11px;
-    width: 58px;
+    width: 75px;
 }
 
 .ls-admin table.table-users tbody .visitandreg {
@@ -64,34 +65,26 @@
     color: #999999;
 }
 
-.ls-admin table.table-users .ips {
+.ls-admin table.table-users tbody .ips {
     color: #999999;
     width: 100px;
 }
 
-.ls-admin table.table-users .ratings {
+.ls-admin table.table-users tbody .ratings {
     font-weight: bold;
-    width: 100px;
+    width: 110px;
 }
 
-.ls-admin table.table-users .ratings .rating {
+.ls-admin table.table-users tbody .ratings .rating {
     color: green;
 }
 
-.ls-admin table.table-users .ratings .skill {
+.ls-admin table.table-users tbody .ratings .skill {
     color: #999999;
 }
 
-.ls-admin table.table-users .controls {
+.ls-admin table.table-users tbody .controls {
     width: 22px;
-}
-
-.ls-admin table.table-users .controls p {
-    border: 1px solid #EEEEEE;
-    border-radius: 12px 12px 12px 12px;
-    display: block;
-    height: 20px;
-    width: 20px;
 }
 
 /* active */
@@ -130,14 +123,6 @@
 .ls-admin .UserSearch select {
     vertical-align: top;
 }
-/*
-.ls-admin .UserSearch label {
-    display: inline-block;
-    line-height: 28px;
-    margin-bottom: 0;
-    vertical-align: middle;
-}
-*/
 
 .ls-admin .OnPageSelect {
     float: right;

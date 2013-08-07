@@ -33,9 +33,26 @@ class PluginAdmin extends Plugin {
 	
 	
 	protected $aInherits = array(
-		//'action' => array('ActionPlugin'),
-		'module' => array('ModuleViewer', 'ModuleStorage', 'ModuleMessage'),
-		'entity' => array('ModuleValidate_EntityValidatorArray')		// Добавляем новый тип валидатора - Array
+		'module' => array(
+			/*
+			 * расширение возможностей работы со Smarty
+			 */
+			'ModuleViewer',
+			/*
+			 * расширение возможностей работы с хранилищем и сохранением данных конфигов
+			 */
+			'ModuleStorage',
+			/*
+			 * расширение возможностей показа сообщений об ошибках
+			 */
+			'ModuleMessage'
+		),
+		'entity' => array(
+			/*
+			 * Добавляем новый тип валидатора - Array
+			 */
+			'ModuleValidate_EntityValidatorArray',
+		)
 	);
 
 }

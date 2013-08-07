@@ -1,4 +1,9 @@
-<?php 
+<?php
+
+/*
+ * todo: пересмотреть методы - половина из них не используется
+ * узнать для чего они были нужны
+ */
 
 class PluginAdmin_ModuleUi extends Module {
 	
@@ -19,7 +24,6 @@ class PluginAdmin_ModuleUi extends Module {
 		$this->oCursor = Engine::GetEntity('PluginAdmin_Ui_Cursor');
 		$this->oMenuMain = $this->oCursor->GetMenu('main')->SetUrlPrefix('admin');
 		$this->oMenuAddition = $this->oCursor->GetMenu('addition')->SetUrlPrefix('admin/p')->SetCaption('Дополнительно');
-		//$this->Viewer_AddSmartyPluginsDir(Plugin::GetPath(__CLASS__).'include/smarty/');	// todo: delete
 	}
 	
 	

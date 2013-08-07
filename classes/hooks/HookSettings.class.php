@@ -20,9 +20,10 @@
  */
 
 /*
- *	Работа с настройками
  *
-*/
+ * Работа с настройками
+ *
+ */
 
 class PluginAdmin_HookSettings extends Hook {
 
@@ -31,8 +32,8 @@ class PluginAdmin_HookSettings extends Hook {
 		//$this->AddHook('template_content_begin', 'ContentBegin');
 		$this->AddHook('template_admin_content_begin', 'ContentBegin');   // todo: review: hook names (temp)
 	}
-	
-	
+
+
 	public function LangInitStart() {
 		/*
 		 * выполнить загрузку конфигов системы и плагинов
@@ -46,10 +47,17 @@ class PluginAdmin_HookSettings extends Hook {
 		 * показать превью шаблона, если он был выбран в админке
 		 */
 		$this->PluginAdmin_Skin_LoadPreviewTemplate();
+		/*
+		 * добавить директорию с плагинами для Smarty
+		 */
+		$this->Viewer_AddSmartyPluginsDir(Plugin::GetPath(__CLASS__) . 'include/smarty/');
 	}
 	
 	
 	public function ContentBegin() {
+		/*
+		 * показать сообщение о предпросмотре шаблона с ссылкой для выключения
+		 */
 		if ($this->PluginAdmin_Skin_GetPreviewSkinName()) {
 			return $this->ShowPreviewSkinMessage();
 		}

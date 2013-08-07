@@ -194,10 +194,24 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 *
 	 * @param $sConfigName			имя конфига (имя плагина или ядра)
 	 * @param $sConfigKey			ключ конфига
+	 * @param $sInstance			инстанция
 	 * @return mixed				значение
 	 */
-	protected function GetConfigKeyValue($sConfigName, $sConfigKey) {
-		return Config::Get($this->GetRealFullKey($sConfigName) . $sConfigKey);
+	protected function GetConfigKeyValue($sConfigName, $sConfigKey, $sInstance = Config::DEFAULT_CONFIG_INSTANCE) {
+		return Config::Get($this->GetRealFullKey($sConfigName) . $sConfigKey, $sInstance);
+	}
+
+
+	/**
+	 * Задать новое значение в конфиге, учитывая имя конфига
+	 *
+	 * @param $sConfigName			имя конфига (имя плагина или ядра)
+	 * @param $sConfigKey			ключ конфига
+	 * @param $mValue				значение
+	 * @param $sInstance			инстанция
+	 */
+	protected function SetConfigKeyValue($sConfigName, $sConfigKey, $mValue, $sInstance = Config::DEFAULT_CONFIG_INSTANCE) {
+		Config::Set($this->GetRealFullKey($sConfigName) . $sConfigKey, $mValue, $sInstance);
 	}
 
 
@@ -476,7 +490,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 		 * Сохранить значение ключа в отдельной области видимости для дальнейшего получения списка настроек
 		 * Это очень удобно делать через отдельную инстанцию конфига - не нужно разбирать вручную ключи
 		 */
-		Config::Set($this->GetRealFullKey($sConfigName) . $sKey, $mValue, self::ADMIN_TEMP_CONFIG_INSTANCE);
+		$this->SetConfigKeyValue($sConfigName, $sKey, $mValue, self::ADMIN_TEMP_CONFIG_INSTANCE);
 	}
 
 
