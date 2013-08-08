@@ -116,12 +116,87 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	 */
 	public function EventUserProfile () {
 		$this->SetTemplateAction('users/profile');
+		/*
+		 * проверяем корректность id пользователя
+		 */
 		if (!$iUserId = $this->GetParam(1) or !$oUser = $this->User_GetUserById($iUserId)) {
 			return Router::Action('error');
 		}
+		/*
+		 * получить гео-запись данных пользователя, которые он указал в профиле
+		 */
 		$oGeoTarget = $this->Geo_GetTargetByTarget('user', $oUser->getId());
 
+		/*
+		 * создал топиков и комментариев
+		 */
+		$iCountTopicUser = $this->Topic_GetCountTopicsPersonalByUser($oUser->getId(), 1);
+		$iCountCommentUser = $this->Comment_GetCountCommentsByUserId($oUser->getId(), 'topic');
+		
+		/*
+		 * топиков и комментариев в избранном
+		 */
+		$iCountTopicFavourite = $this->Topic_GetCountTopicsFavouriteByUserId($oUser->getId());
+		$iCountCommentFavourite = $this->Comment_GetCountCommentsFavouriteByUserId($oUser->getId());
 
+		/*
+		 * создал заметок
+		 */
+		$iCountNoteUser = $this->User_GetCountUserNotesByUserId($oUser->getId());
+
+		/*
+		 * записей на стене
+		 */
+		//$iWallItemsCount = $this->Wall_GetCountWall (array ('wall_user_id' => $oUser->getId (), 'pid' => null));
+		/*
+		 * получаем количество созданных блогов
+		 */
+		$iBlogsCountOwner = count($this->Blog_GetBlogsByOwnerId($oUser->getId(), true));
+
+		/*
+		 * количество читаемых блогов
+		 */
+		$iBlogCountReads = count($this->Blog_GetBlogUsersByUserId($oUser->getId(), ModuleBlog::BLOG_USER_ROLE_USER, true));
+
+		/*
+		 * количество друзей у пользователя
+		 */
+		$iCountFriendsUser = $this->User_GetCountUsersFriend ($oUser->getId ());
+
+		/*
+		 * переменные в шаблон
+		 */
+		$this->Viewer_Assign('iCountTopicUser', $iCountTopicUser);
+		$this->Viewer_Assign('iCountCommentUser', $iCountCommentUser);
+		$this->Viewer_Assign('iBlogsCountOwner', $iBlogsCountOwner);
+
+		$this->Viewer_Assign('iCountTopicFavourite', $iCountTopicFavourite);
+		$this->Viewer_Assign('iCountCommentFavourite', $iCountCommentFavourite);
+
+		$this->Viewer_Assign('iBlogCountReads', $iBlogCountReads);
+
+		$this->Viewer_Assign('iCountFriendsUser', $iCountFriendsUser);
+
+		//$this->Viewer_Assign('iCountNoteUser', $iCountNoteUser);
+		//$this->Viewer_Assign('iCountWallUser', $iWallItemsCount);
+		/*
+		 * общее число публикаций и избранного
+		 */
+		/*
+		$this->Viewer_Assign('iCountCreated',
+			(($this->oUserCurrent and $this->oUserCurrent->getId() == $oUser->getId()) ? $iCountNoteUser : 0) + $iCountTopicUser + $iCountCommentUser
+		);
+		$this->Viewer_Assign('iCountFavourite', $iCountCommentFavourite + $iCountTopicFavourite);
+		/*
+		 * заметка текущего пользователя о юзере
+		 */
+		/*
+		if ($this->oUserCurrent) {
+			$this->Viewer_Assign('oUserNote', $oUser->getUserNote());
+		}
+		*/
+
+		$this->Viewer_Assign('sTopMenuCurrent', 'profile');
 		$this->Viewer_Assign('oGeoTarget', $oGeoTarget);
 		$this->Viewer_Assign('oUser', $oUser);
 	}

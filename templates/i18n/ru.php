@@ -115,7 +115,7 @@ return array(
 			'profile_sex' => 'стать',
 			'login' => 'логин',
 			'profile_name' => 'имени профиля',
-			'session_ip_last' => 'ip последнего захода',
+			'session_ip_last' => 'ip последнего входа',
 		),
 		'search' => 'Поиск',
 		'on_page' => 'На странице',

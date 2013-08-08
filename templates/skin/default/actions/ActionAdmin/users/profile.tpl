@@ -2,28 +2,33 @@
 
 {block name='layout_content'}
 	{assign var="oSession" value=$oUser->getSession()}
-	<h2 class="title mb20">
-		{$aLang.plugin.admin.users.title}
-	</h2>
-
 	<div class="profile-info-wrapper">
 		<div class="top-controls">
-			wr, msg
+			<ul>
+				<li><a class="icon-white icon-pencil" href="#"></a></li>
+				<li><a href="{router page='talk/add'}?talk_users={$oUser->getLogin()}">Сообщение</a></li>
+				<li><a href="#">В администраторы</a></li>
+				<li><a href="#">Удалить контент</a></li>
+				<li><a href="#">Блокировать</a></li>
 
+				<li class="fl-r"><a class="icon-white icon-chevron-right" href="#"></a></li>
+				<li class="fl-r"><a class="icon-white icon-chevron-left" href="#"></a></li>
+				<li class="fl-r"><a class="icon-white icon-backward" href="#"></a></li>
+			</ul>
 		</div>
 		<div class="inner-data">
-			<ul class="profile-links">
-				<li><a href="#">Профиль</a></li>
-				<li><a href="#">Публикации</a></li>
-				<li><a href="#">Активность</a></li>
-				<li><a href="#">Друзья</a></li>
-				<li><a href="#">Жалобы</a></li>
-				<li><a href="#">Счет</a></li>
-				<li><a href="#">Стена</a></li>
-				<li><a href="#">Блоги</a></li>
-				<li><a href="#">Избранное</a></li>
-				<li><a href="#">Почта</a></li>
-				<li><a href="#">Права</a></li>
+			<ul class="profile-links {$sTopMenuCurrent}">
+				<li><a class="profile" href="#">Профиль</a></li>
+				<li><a class="publications" href="#">Публикации</a></li>
+				<li><a class="activity" href="#">Активность</a></li>
+				<li><a class="friends" href="#">Друзья</a></li>
+				<li><a class="claims" href="#">Жалобы</a></li>
+				<li><a class="money" href="#">Счет</a></li>
+				<li><a class="wall" href="#">Стена</a></li>
+				<li><a class="blogs" href="#">Блоги</a></li>
+				<li><a class="favorite" href="#">Избранное</a></li>
+				<li><a class="talk" href="#">Почта</a></li>
+				<li><a class="roles" href="#">Права</a></li>
 			</ul>
 			<div class="line"></div>
 			<div class="base-info">
@@ -66,7 +71,7 @@
 						<a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileFotoPath()}" alt="" class="photo" /></a>
 					</div>
 					<div class="your-note">
-						Добавить заметку
+						<a href="#">Добавить заметку</a>
 					</div>
 				</div>
 				<div class="left-data">
@@ -159,12 +164,87 @@
 					<div class="line-2"></div>
 
 					<div class="stats">
-						stats
+						<h2 class="title mb20">
+							Статистика
+						</h2>
+
+						<div class="stat-row">
+							<div class="stat-header">Создал</div>
+							<ul>
+								<li><a href="#">{$iCountTopicUser} топиков</a></li>
+								<li><a href="#">{$iCountCommentUser} комментариев</a></li>
+								<li><a href="#">{$iBlogsCountOwner} блогов</a></li>
+							</ul>
+						</div>
+						<div class="stat-row">
+							<div class="stat-header">В избранном</div>
+							<ul>
+								<li><a href="#">{$iCountTopicFavourite} топиков</a></li>
+								<li><a href="#">{$iCountCommentFavourite} комментариев</a></li>
+							</ul>
+
+						</div>
+						<div class="stat-row">
+							<div class="stat-header">Читает</div>
+							<ul>
+								<li><a href="#">{$iBlogCountReads} блогов</a></li>
+							</ul>
+
+						</div>
+						<div class="stat-row">
+							<div class="stat-header">Имеет</div>
+							<ul>
+								<li><a href="#">{$iCountFriendsUser} друзей</a></li>
+							</ul>
+
+						</div>
 
 					</div>
-					<div class="contacts">
-						contacts
+
+					<div class="line-2"></div>
+
+					<div class="user-fields">
+						<div class="contacts">
+							<h2 class="title mb20">
+								{$aLang.profile_contacts}
+							</h2>
+
+							{$aUserFieldContactValues = $oUser->getUserFieldValues(true,array('contact'))}
+
+							{if $aUserFieldContactValues}
+								<ul class="profile-contact-list">
+									{foreach from=$aUserFieldContactValues item=oField}
+										<li>
+											<i class="icon-contact icon-contact-{$oField->getName()}" title="{$oField->getName()}"></i>
+											{$oField->getValue(true,true)}
+										</li>
+									{/foreach}
+								</ul>
+							{/if}
+						</div>
+
+						<div class="social">
+							<h2 class="title mb20">
+								{$aLang.profile_social}
+							</h2>
+
+							{$aUserFieldContactValues = $oUser->getUserFieldValues(true,array('social'))}
+
+							{if $aUserFieldContactValues}
+								<ul class="profile-contact-list">
+									{foreach from=$aUserFieldContactValues item=oField}
+										<li>
+											<i class="icon-contact icon-contact-{$oField->getName()}" title="{$oField->getName()}"></i>
+											{$oField->getValue(true,true)}
+										</li>
+									{/foreach}
+								</ul>
+							{/if}
+
+						</div>
 					</div>
+
+
 				</div>
 
 			</div>

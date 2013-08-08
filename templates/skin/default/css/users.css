@@ -1,7 +1,6 @@
 
 /* users */
 
-
 .ls-admin .user-is-online {
     background: none repeat scroll 0 0 #3CD33B;
     height: 2px;
@@ -148,9 +147,29 @@
 
 .ls-admin .profile-info-wrapper .top-controls {
     background: none repeat scroll 0 0 #464646;
+    clear: both;
     color: #FFFFFF;
-    margin: 0 -15px;
-    padding: 15px;
+    margin: -15px -15px 0;
+    overflow: hidden;
+    padding: 7px;
+}
+
+.ls-admin .profile-info-wrapper .top-controls li {
+    border-right: 1px solid #696969;
+    float: left;
+    margin-right: 7px;
+    padding: 10px 17px 10px 10px;
+}
+
+.ls-admin .profile-info-wrapper .top-controls li a {
+    color: #FFFFFF;
+}
+
+.ls-admin .profile-info-wrapper .top-controls li.fl-r {
+    border-left: 1px solid #696969;
+    border-right: medium none;
+    padding-left: 17px;
+    padding-right: 10px;
 }
 
 .ls-admin .profile-info-wrapper .inner-data {
@@ -173,6 +192,24 @@
 .ls-admin .profile-info-wrapper .inner-data .profile-links li a {
     border-bottom: 1px solid;
     text-decoration: none;
+}
+
+/* menu links active */
+
+.ls-admin .profile-info-wrapper .inner-data .profile-links.profile a.profile,
+.ls-admin .profile-info-wrapper .inner-data .profile-links.publications a.publications,
+.ls-admin .profile-info-wrapper .inner-data .profile-links.activity a.activity,
+.ls-admin .profile-info-wrapper .inner-data .profile-links.friends a.friends,
+.ls-admin .profile-info-wrapper .inner-data .profile-links.claims a.claims,
+.ls-admin .profile-info-wrapper .inner-data .profile-links.money a.money,
+.ls-admin .profile-info-wrapper .inner-data .profile-links.wall a.wall,
+.ls-admin .profile-info-wrapper .inner-data .profile-links.blogs a.blogs,
+.ls-admin .profile-info-wrapper .inner-data .profile-links.favorite a.favorite,
+.ls-admin .profile-info-wrapper .inner-data .profile-links.talk a.talk,
+.ls-admin .profile-info-wrapper .inner-data .profile-links.roles a.roles {
+    border: medium none;
+    color: #555555;
+    font-weight: bold;
 }
 
 .ls-admin .profile-info-wrapper .inner-data .line {
@@ -205,14 +242,20 @@
     overflow: hidden;
 }
 
+.ls-admin .profile-info-wrapper .inner-data .base-info .left .names a {
+    color: #555555;
+}
+
 .ls-admin .profile-info-wrapper .inner-data .base-info .left .names .username {
-    font-size: 18px;
-    line-height: 24px;
+    font-size: 20px;
+    line-height: 22px;
+    margin-bottom: 5px;
 }
 
 .ls-admin .profile-info-wrapper .inner-data .base-info .left .names .realname {
     font-size: 16px;
     line-height: 22px;
+    margin-bottom: 15px;
 }
 
 .ls-admin .profile-info-wrapper .inner-data .base-info .left .names .mail {
@@ -253,6 +296,15 @@
     width: 30%;
 }
 
+.ls-admin .profile-info-wrapper .inner-data .more-info .right-data .your-note {
+    background: none repeat scroll 0 0 #FFFFD7;
+    padding: 15px;
+}
+
+.ls-admin .profile-info-wrapper .inner-data .more-info .right-data .your-note a {
+    color: #A1933A;
+}
+
 .ls-admin .profile-info-wrapper .inner-data .more-info .left-data {
     overflow: hidden;
 }
@@ -276,4 +328,37 @@
 .ls-admin .profile-info-wrapper .inner-data .more-info .left-data .line-2 {
     border-bottom: 1px dotted #AAAAAA;
     margin: 20px 0;
+}
+
+.ls-admin .profile-info-wrapper .inner-data .more-info .left-data .stats {
+    clear: both;
+    overflow: hidden;
+}
+
+.ls-admin .profile-info-wrapper .inner-data .more-info .left-data .stats .stat-row {
+    float: left;
+    width: 120px;
+}
+
+.ls-admin .profile-info-wrapper .inner-data .more-info .left-data .stats .stat-row .stat-header {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.ls-admin .profile-info-wrapper .inner-data .more-info .left-data .user-fields {
+    clear: both;
+    overflow: hidden;
+}
+
+.ls-admin .profile-info-wrapper .inner-data .more-info .left-data .user-fields > div {
+    float: left;
+    width: 50%;
+}
+
+.ls-admin .profile-contact-list li {
+    line-height: 28px;
+}
+
+.ls-admin .profile-contact-list li i {
+    margin-right: 10px;
 }

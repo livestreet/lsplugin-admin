@@ -79,3 +79,7 @@ a:hover { color: #058; }
  * Stat Perfomance
  */
 .stat-performance { display: none; }
+
+.ls-admin {
+    color: #676767;
+}
