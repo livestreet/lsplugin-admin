@@ -7,8 +7,8 @@
 
 	<div class="UserSearch">
 		<form action="{router page='admin'}users/list/" method="get" enctype="application/x-www-form-urlencoded">
-			<input type="text" name="q" class="input-text width-200" value="{$sSearchQuery}" />
-			<select name="field[]" class="width-150">
+			<input type="text" name="filter[q]" class="input-text width-200" value="{$sSearchQuery}" />
+			<select name="filter[field]" class="width-150">
 				{foreach from=array_keys($oConfig->GetValue('plugin.admin.user_search_allowed_types')) item=sSearchIn}
 					<option value="{$sSearchIn}" {if in_array($sSearchIn, $aSearchFields)}selected="selected"{/if}>{$aLang.plugin.admin.users.search_allowed_in.$sSearchIn}</option>
 				{/foreach}

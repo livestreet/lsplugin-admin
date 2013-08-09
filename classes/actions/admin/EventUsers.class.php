@@ -39,17 +39,20 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		$this->SetTemplateAction('users/list');
 		$this->SetPaging();
 
+		$aFilter = getRequest('filter');
+
 		/*
 		 * сортировка
 		 */
-		$sOrder = getRequestStr('order');
-		$sWay = getRequestStr('way');
+		$sOrder = @$aFilter['order'];	 			//getRequestStr('order');
+		$sWay = @$aFilter['way'];		 			//getRequestStr('way');
 
 		/*
 		 * поиск по полям
 		 */
-		$sSearchQuery = getRequestStr('q');
-		$aSearchFields = getRequest('field');
+		$sSearchQuery = @$aFilter['q'];				//getRequestStr('q');
+		$aSearchFields = @$aFilter['field'];		//getRequest('field');
+
 		if (!is_array($aSearchFields)) {
 			$aSearchFields = (array) $aSearchFields;
 		}
@@ -277,7 +280,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		if ($sWay) {
 			$aParams ['way'] = $sWay;
 		}
-		return $aParams;
+		return ($aParams ? array('filter' => $aParams) : null);
 	}
 
 }

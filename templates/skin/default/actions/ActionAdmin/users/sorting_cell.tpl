@@ -16,7 +16,6 @@
 		<a href="{router page='admin/users/list'}{request_filter
 			name=array('order', 'way')
 			value=array($sSortingOrder, $sWayForThisOrder)
-			with=array('q', 'field')
 		}">{$sLinkHtml}</a>
 
 		<span class="current-way">

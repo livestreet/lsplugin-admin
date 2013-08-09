@@ -20,21 +20,17 @@
  */
 
 
-/*
- * todo: пересмотреть на свежую голову
- */
-
 /**
- * Фильтр для построения строки запроса с автоматическим достроением части запроса из реквеста
+ * Фильтр для построения строки запроса с автоматическим достроением части запроса из переменной fillter[] реквеста
  *
  *
  * Пример со всеми параметрами:
  *
- *	{request_filter name=array('order', 'way') value=array('login', 'desc') with=array('q', 'field') prefix="?" separator="&"}
+ *	{request_filter name=array('order', 'way') value=array('login', 'desc') prefix="?" separator="&"}
  *
  * возвратит строку:
  *
- * 	?order=login&way=desc&q=значение_q_из_реквеста&field=значение_field_из_реквеста
+ * 	?fillter[order]=login&fillter[way]=desc&fillter[q]=значение_q_из_реквеста&fillter[field]=значение_field_из_реквеста
  *
  *
  * @param $aParams		параметры
@@ -42,7 +38,8 @@
  * @return string		строка запроса
  */
 function smarty_function_request_filter($aParams, &$oSmarty) {
-	$aRequest = $_REQUEST;
+	$aFilter = (array) @$_REQUEST['filter'];
+
 	/*
 	 * если указаны доп. ключи для реквеста
 	 */
@@ -68,7 +65,7 @@ function smarty_function_request_filter($aParams, &$oSmarty) {
 			 * установить все пары "ключ=значение" в реквесте
 			 */
 			foreach ($aParams['name'] as $iKey => $sVal) {
-				$aRequest[$sVal] = $aParams['value'][$iKey];
+				$aFilter[$sVal] = $aParams['value'][$iKey];
 			}
 
 		} else {
@@ -76,19 +73,15 @@ function smarty_function_request_filter($aParams, &$oSmarty) {
 			 * удалить значения из реквеста по имени ключей
 			 */
 			foreach ($aParams['name'] as $iKey => $sVal) {
-				unset($aRequest[$aParams['name'][$iKey]]);
+				unset($aFilter[$aParams['name'][$iKey]]);
 			}
 		}
 	}
 
 	/*
-	 * что выбирать из реквеста (имена ключей заданные + связанные)
+	 * все значение хранятся в массиве filter реквеста
 	 */
-	$aAllowFromKeys = isset($aParams['name']) ? $aParams['name'] : array();
-	$aAllowFromWith = isset($aParams['with']) ? $aParams['with'] : array();
-	$aAllow = array_merge($aAllowFromKeys, $aAllowFromWith);
-
-	$aResult = array_intersect_key($aRequest, array_flip($aAllow));
+	$aResult = array('filter' => $aFilter);
 
 	/*
 	 * для построения запроса
@@ -96,6 +89,9 @@ function smarty_function_request_filter($aParams, &$oSmarty) {
 	$sPrefix = isset($aParams['prefix']) ? $aParams['prefix'] : '?';
 	$sSeparator = isset($aParams['separator']) ? $aParams['separator'] : '&';
 
+	/*
+	 * построить строку
+	 */
 	$sResult = http_build_query($aResult, '', $sSeparator);
 	return $sResult ? $sPrefix . $sResult : '';
 }
