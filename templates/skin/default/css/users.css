@@ -194,7 +194,7 @@
     text-decoration: none;
 }
 
-/* menu links active */
+/* menu links active TODO: delete
 
 .ls-admin .profile-info-wrapper .inner-data .profile-links.profile a.profile,
 .ls-admin .profile-info-wrapper .inner-data .profile-links.publications a.publications,
@@ -211,6 +211,8 @@
     color: #555555;
     font-weight: bold;
 }
+
+*/
 
 .ls-admin .profile-info-wrapper .inner-data .line {
     border-bottom: 1px solid #FFFFFF;

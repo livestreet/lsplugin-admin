@@ -136,6 +136,54 @@ class PluginAdmin_ModuleUsers extends Module {
 		);
 		$this->PluginAdmin_Settings_SaveConfigByKey('admin', $aData);
 	}
+
+
+	/**
+	 * Получить информацию о том, за что, как и сколько раз голосовал пользователь
+	 *
+	 * @param $oUser		объект пользователя
+	 * @return array		ассоциативный массив голосований за обьекты
+	 */
+	public function GetUserVotingStats ($oUser) {
+		$sCacheKey = 'get_user_voting_stats_' . $oUser->getId();
+		if (($aData = $this->Cache_Get($sCacheKey)) === false) {
+			$aData = $this->CalcUserVotingStats($oUser);
+			$this->Cache_Set($aData, $sCacheKey, array(
+				'vote_update_topic',
+				'vote_update_comment',
+				'vote_update_blog',
+				'vote_update_user'
+			), 60 * 30);			// reset every 30 min
+		}
+		return $aData;
+	}
+
+
+	/**
+	 * Рассчитать статистику голосования пользователя
+	 *
+	 * @param $oUser		объект пользователя
+	 * @return array
+	 */
+	protected function CalcUserVotingStats ($oUser) {
+		/*
+		 * заполнить значениями по-умолчанию
+		 */
+		$aVotingStats = array(
+			'topic' => array('plus' => 0, 'minus' => 0),
+			'comment' => array('plus' => 0, 'minus' => 0),
+			'blog' => array('plus' => 0, 'minus' => 0),
+			'user' => array('plus' => 0, 'minus' => 0),
+		);
+		$aResult = $this->oMapper->GetUserVotingStats ($oUser->getId());
+		/*
+		 * собрать данные в удобном виде
+		 */
+		foreach ($aResult as $aData) {
+			$aVotingStats[$aData['target_type']][$aData['vote_direction'] == '1' ? 'plus' : 'minus'] = $aData['count'];
+		}
+		return $aVotingStats;
+	}
 	
 }
 

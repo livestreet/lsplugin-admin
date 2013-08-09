@@ -44,7 +44,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * сортировка
 		 */
-		$sOrder = @$aFilter['order'];	 			//getRequestStr('order');
+		$sOrder = @$aFilter['order'];	 			//getRequestStr('order');//todo; delete
 		$sWay = @$aFilter['way'];		 			//getRequestStr('way');
 
 		/*
@@ -145,7 +145,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * создал заметок
 		 */
-		$iCountNoteUser = $this->User_GetCountUserNotesByUserId($oUser->getId());
+		//$iCountNoteUser = $this->User_GetCountUserNotesByUserId($oUser->getId());
 
 		/*
 		 * записей на стене
@@ -199,7 +199,13 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		}
 		*/
 
-		$this->Viewer_Assign('sTopMenuCurrent', 'profile');
+		/*
+		 * подсчитать за что, как и сколько раз голосовал пользователь
+		 */
+		$aVotedStats = $this->PluginAdmin_Users_GetUserVotingStats ($oUser);
+
+
+		$this->Viewer_Assign('aUserVotedStat', $aVotedStats);
 		$this->Viewer_Assign('oGeoTarget', $oGeoTarget);
 		$this->Viewer_Assign('oUser', $oUser);
 	}

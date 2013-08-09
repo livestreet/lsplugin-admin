@@ -77,6 +77,33 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 		return $aResult;
 	}
 
+
+	/**
+	 * Возвращает за что, как и сколько раз голосовал пользователь
+	 *
+	 * @param $iUserId			ид пользователя
+	 * @return array			ассоциативный массив
+	 */
+	public function GetUserVotingStats ($iUserId) {
+		$sql = "SELECT
+				`target_type`,
+				`vote_direction`,
+				COUNT(*) as count
+			FROM
+				`" . Config::Get('db.table.vote') . "`
+			WHERE
+				`user_voter_id` = ?d
+			GROUP BY
+				`target_type`, `vote_direction`
+		";
+		if ($aData = $this->oDb->select($sql,
+			$iUserId
+		)) {
+			return $aData;
+		}
+		return array();
+	}
+
 }
 
 ?>

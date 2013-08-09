@@ -17,7 +17,7 @@
 			</ul>
 		</div>
 		<div class="inner-data">
-			<ul class="profile-links {$sTopMenuCurrent}">
+			<ul class="profile-links">
 				<li><a class="profile" href="{$oUser->getUserWebPath()}">Профиль</a></li>
 				<li><a class="publications" href="{$oUser->getUserWebPath()}created/">Публикации</a></li>
 				<li><a class="activity" href="{$oUser->getUserWebPath()}stream/">Активность</a></li>
@@ -179,8 +179,8 @@
 						<div class="stat-row">
 							<div class="stat-header">В избранном</div>
 							<ul>
-								<li><a href="#">{$iCountTopicFavourite} топиков</a></li>
-								<li><a href="#">{$iCountCommentFavourite} комментариев</a></li>
+								<li><a href="#">{$aUserVotedStat.topics.plus} топиков</a></li>
+								<li><a href="#">{$aUserVotedStat.topics.minus} комментариев</a></li>
 							</ul>
 
 						</div>
@@ -198,6 +198,48 @@
 							</ul>
 
 						</div>
+
+					</div>
+
+					<div class="line-2"></div>
+
+					<div class="stats">
+						<h2 class="title mb20">
+							Как голосовал
+						</h2>
+
+						<div class="stat-row">
+							<div class="stat-header">За топики</div>
+							<ul>
+								<li><a href="#">{$aUserVotedStat.topic.plus} +</a></li>
+								<li><a href="#">{$aUserVotedStat.topic.minus} -</a></li>
+							</ul>
+						</div>
+
+						<div class="stat-row">
+							<div class="stat-header">За комментарии</div>
+							<ul>
+								<li><a href="#">{$aUserVotedStat.comment.plus} +</a></li>
+								<li><a href="#">{$aUserVotedStat.comment.minus} -</a></li>
+							</ul>
+						</div>
+
+						<div class="stat-row">
+							<div class="stat-header">За блоги</div>
+							<ul>
+								<li><a href="#">{$aUserVotedStat.blog.plus} +</a></li>
+								<li><a href="#">{$aUserVotedStat.blog.minus} -</a></li>
+							</ul>
+						</div>
+
+						<div class="stat-row">
+							<div class="stat-header">За юзеров</div>
+							<ul>
+								<li><a href="#">{$aUserVotedStat.user.plus} +</a></li>
+								<li><a href="#">{$aUserVotedStat.user.minus} -</a></li>
+							</ul>
+						</div>
+
 
 					</div>
 
