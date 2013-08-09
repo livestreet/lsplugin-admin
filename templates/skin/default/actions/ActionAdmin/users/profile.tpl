@@ -18,17 +18,17 @@
 		</div>
 		<div class="inner-data">
 			<ul class="profile-links {$sTopMenuCurrent}">
-				<li><a class="profile" href="#">Профиль</a></li>
-				<li><a class="publications" href="#">Публикации</a></li>
-				<li><a class="activity" href="#">Активность</a></li>
-				<li><a class="friends" href="#">Друзья</a></li>
-				<li><a class="claims" href="#">Жалобы</a></li>
-				<li><a class="money" href="#">Счет</a></li>
-				<li><a class="wall" href="#">Стена</a></li>
-				<li><a class="blogs" href="#">Блоги</a></li>
-				<li><a class="favorite" href="#">Избранное</a></li>
-				<li><a class="talk" href="#">Почта</a></li>
-				<li><a class="roles" href="#">Права</a></li>
+				<li><a class="profile" href="{$oUser->getUserWebPath()}">Профиль</a></li>
+				<li><a class="publications" href="{$oUser->getUserWebPath()}created/">Публикации</a></li>
+				<li><a class="activity" href="{$oUser->getUserWebPath()}stream/">Активность</a></li>
+				<li><a class="friends" href="{$oUser->getUserWebPath()}friends/">Друзья</a></li>
+				{*<li><a class="claims" href="#">Жалобы</a></li>*}
+				{*<li><a class="money" href="#">Счет</a></li>*}
+				<li><a class="wall" href="{$oUser->getUserWebPath()}wall/">Стена</a></li>
+				{*<li><a class="blogs" href="#">Блоги</a></li>*}
+				<li><a class="favorite" href="{$oUser->getUserWebPath()}favourites/">Избранное</a></li>
+				{*<li><a class="talk" href="#">Почта</a></li>*}
+				{*<li><a class="roles" href="#">Права</a></li>*}
 			</ul>
 			<div class="line"></div>
 			<div class="base-info">
@@ -41,7 +41,7 @@
 					</div>
 					<div class="names {if !$oUser->getProfileName()}no-realname{/if}">
 						<p class="username word-wrap">
-							<a href="{router page='admin/users/profile'}{$oUser->getId()}">{$oUser->getLogin()}</a>
+							<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
 						</p>
 						{if $oUser->getProfileName()}
 							<p class="realname">{$oUser->getProfileName()}</p>
@@ -83,7 +83,7 @@
 							<dt>Почта</dt>
 							<dd>
 								<a href="{router page='admin/users/list'}{request_filter
-								name=array('q', 'field[]')
+								name=array('q', 'field')
 								value=array($oUser->getMail(), 'mail')
 								}">{$oUser->getMail()}</a>
 							</dd>
@@ -130,7 +130,7 @@
 							<dt>IP</dt>
 							<dd>
 								<a href="{router page='admin/users/list'}{request_filter
-								name=array('q', 'field[]')
+								name=array('q', 'field')
 								value=array($oUser->getIpRegister(), 'ip_register')
 								}">{$oUser->getIpRegister()}</a>
 							</dd>
@@ -145,13 +145,13 @@
 								<dt>IP</dt>
 								<dd>
 									<a href="{router page='admin/users/list'}{request_filter
-									name=array('q', 'field[]')
+									name=array('q', 'field')
 									value=array($oSession->getIpLast(), 'session_ip_last')
 									}">{$oSession->getIpLast()}</a>
 
 									<br />
 									<a href="{router page='admin/users/list'}{request_filter
-									name=array('q', 'field[]')
+									name=array('q', 'field')
 									value=array($oSession->getIpLast(), 'session_ip_last')
 									}" class="button mt-10">Искать с этим IP</a>
 								</dd>

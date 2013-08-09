@@ -30,7 +30,7 @@
  *
  * возвратит строку:
  *
- * 	?fillter[order]=login&fillter[way]=desc&fillter[q]=значение_q_из_реквеста&fillter[field]=значение_field_из_реквеста
+ * 	?filter[order]=login&filter[way]=desc&filter[q]=значение_q_из_реквеста&filter[field]=значение_field_из_реквеста
  *
  *
  * @param $aParams		параметры
@@ -41,7 +41,7 @@ function smarty_function_request_filter($aParams, &$oSmarty) {
 	$aFilter = (array) @$_REQUEST['filter'];
 
 	/*
-	 * если указаны доп. ключи для реквеста
+	 * если указаны дополнительные значения для фильтра
 	 */
 	if (isset($aParams['name'])) {
 		/*
@@ -62,7 +62,7 @@ function smarty_function_request_filter($aParams, &$oSmarty) {
 				$aParams['value'] = (array) $aParams['value'];
 			}
 			/*
-			 * установить все пары "ключ=значение" в реквесте
+			 * установить все пары "ключ=значение" в фильтре
 			 */
 			foreach ($aParams['name'] as $iKey => $sVal) {
 				$aFilter[$sVal] = $aParams['value'][$iKey];
@@ -70,7 +70,7 @@ function smarty_function_request_filter($aParams, &$oSmarty) {
 
 		} else {
 			/*
-			 * удалить значения из реквеста по имени ключей
+			 * удалить значения из фильтра по имени ключей
 			 */
 			foreach ($aParams['name'] as $iKey => $sVal) {
 				unset($aFilter[$aParams['name'][$iKey]]);
