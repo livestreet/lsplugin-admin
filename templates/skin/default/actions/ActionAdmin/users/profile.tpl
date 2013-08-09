@@ -179,8 +179,8 @@
 						<div class="stat-row">
 							<div class="stat-header">В избранном</div>
 							<ul>
-								<li><a href="#">{$aUserVotedStat.topics.plus} топиков</a></li>
-								<li><a href="#">{$aUserVotedStat.topics.minus} комментариев</a></li>
+								<li><a href="#">{$iCountTopicFavourite} топиков</a></li>
+								<li><a href="#">{$iCountCommentFavourite} комментариев</a></li>
 							</ul>
 
 						</div>
