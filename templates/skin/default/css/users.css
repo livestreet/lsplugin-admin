@@ -53,6 +53,10 @@
     display: block;
 }
 
+.ls-admin table.table-users tbody .name div.name {
+    min-height: 54px;
+}
+
 .ls-admin table.table-users tbody .name .username a {
     border-bottom: 1px solid;
 }
