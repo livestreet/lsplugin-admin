@@ -25,10 +25,10 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 	 * Возвращает список пользователей по фильтру
 	 *
 	 * @param array $aFilter	Фильтр
-	 * @param array $sOrder	Сортировка
-	 * @param int $iCount	Возвращает общее количество элементов
+	 * @param array $sOrder		Сортировка
+	 * @param int $iCount		Возвращает общее количество элементов
 	 * @param int $iCurrPage	Номер страницы
-	 * @param int $iPerPage	Количество элментов на страницу
+	 * @param int $iPerPage		Количество элментов на страницу
 	 * @return array
 	 */
 	public function GetUsersByFilter($aFilter, $sOrder, &$iCount, $iCurrPage, $iPerPage) {
@@ -102,6 +102,51 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 			return $aData;
 		}
 		return array();
+	}
+
+
+	/**
+	 * Получить списки голосований пользователя по фильтру
+	 *
+	 * @param     $iUserId		ид пользователя
+	 * @param     $sWhere		дополнительное условие WHERE запроса (построенное фильтром)
+	 * @param int $iPage		страница
+	 * @param int $iPerPage		количество результатов
+	 * @return array
+	 */
+	public function GetUserVotingListByFilter($iUserId, $sWhere, $iPage = 1, $iPerPage = PHP_INT_MAX) {
+		$sql = "SELECT
+				`target_id`,
+				`target_type`,
+				`vote_direction`,
+				`vote_value`,
+				`vote_date`,
+				`vote_ip`
+			FROM
+				`" . Config::Get('db.table.vote') . "`
+			WHERE
+				`user_voter_id` = ?d
+				{$sWhere}
+			ORDER BY
+				`vote_date` DESC
+			LIMIT ?d, ?d
+		";
+		$aEntities = array();
+		$iTotalCount = 0;
+
+		if ($aData = $this->oDb->selectPage($iTotalCount, $sql,
+			$iUserId,
+			($iPage - 1) * $iPerPage,
+			$iPerPage
+		)) {
+			foreach ($aData as $aRes) {
+				$aEntities[] = Engine::GetEntity('Vote', $aRes);
+			}
+		}
+		return array(
+			'collection' => $aEntities,
+			'count' => $iTotalCount
+		);
 	}
 
 }

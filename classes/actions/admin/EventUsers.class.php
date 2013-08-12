@@ -122,7 +122,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * проверяем корректность id пользователя
 		 */
-		if (!$iUserId = $this->GetParam(1) or !$oUser = $this->User_GetUserById($iUserId)) {
+		if (!$iUserId = (int) $this->GetParam(1) or !$oUser = $this->User_GetUserById($iUserId)) {
 			return Router::Action('error');
 		}
 		/*
@@ -154,12 +154,12 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * получаем количество созданных блогов
 		 */
-		$iBlogsCountOwner = count($this->Blog_GetBlogsByOwnerId($oUser->getId(), true));
+		$iCountBlogsUser = count($this->Blog_GetBlogsByOwnerId($oUser->getId(), true));
 
 		/*
 		 * количество читаемых блогов
 		 */
-		$iBlogCountReads = count($this->Blog_GetBlogUsersByUserId($oUser->getId(), ModuleBlog::BLOG_USER_ROLE_USER, true));
+		$iCountBlogReads = count($this->Blog_GetBlogUsersByUserId($oUser->getId(), ModuleBlog::BLOG_USER_ROLE_USER, true));
 
 		/*
 		 * количество друзей у пользователя
@@ -171,12 +171,12 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 */
 		$this->Viewer_Assign('iCountTopicUser', $iCountTopicUser);
 		$this->Viewer_Assign('iCountCommentUser', $iCountCommentUser);
-		$this->Viewer_Assign('iBlogsCountOwner', $iBlogsCountOwner);
+		$this->Viewer_Assign('iCountBlogsUser', $iCountBlogsUser);
 
 		$this->Viewer_Assign('iCountTopicFavourite', $iCountTopicFavourite);
 		$this->Viewer_Assign('iCountCommentFavourite', $iCountCommentFavourite);
 
-		$this->Viewer_Assign('iBlogCountReads', $iBlogCountReads);
+		$this->Viewer_Assign('iCountBlogReads', $iCountBlogReads);
 
 		$this->Viewer_Assign('iCountFriendsUser', $iCountFriendsUser);
 
@@ -213,12 +213,15 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 
 	/**
 	 * Задать страницу и количество элементов в пагинации
+	 *
+	 * @param int    $iParamNum					номер параметра, в котором нужно искать номер страницы
+	 * @param string $sConfigKeyPerPage			ключ конфига, в котором хранится количество элементов на страницу
 	 */
-	protected function SetPaging () {
-		if (!$this->iPage = intval(preg_replace('#^page(\d+)$#iu', '$1', $this->GetParam (1)))) {
+	protected function SetPaging ($iParamNum = 1, $sConfigKeyPerPage = 'user.per_page') {
+		if (!$this->iPage = intval(preg_replace('#^page(\d+)$#iu', '$1', $this->GetParam ($iParamNum)))) {
 			$this->iPage = 1;
 		}
-		$this->iPerPage = Config::Get('plugin.admin.user.per_page');
+		$this->iPerPage = Config::Get('plugin.admin.' . $sConfigKeyPerPage);
 	}
 
 
@@ -264,7 +267,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 
 
 	/**
-	 * Построить доп. параметры для пагинации
+	 * Построить дополнительные параметры для пагинации
 	 *
 	 * @param $sSearchQuery
 	 * @param $aSearchFields
@@ -287,6 +290,60 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 			$aParams ['way'] = $sWay;
 		}
 		return ($aParams ? array('filter' => $aParams) : null);
+	}
+
+
+	public function EventUserVotesList () {
+		$this->SetTemplateAction('users/voting');
+		$this->SetPaging(2, 'votes.per_page');
+
+		/*
+		 * проверяем корректность id пользователя
+		 */
+		if (!$iUserId = (int) $this->GetParam(1) or !$oUser = $this->User_GetUserById($iUserId)) {
+			return Router::Action('error');
+		}
+		/*
+		 * проверяем корректность типа обьекта, голоса по которому нужно показать
+		 */
+		if (!$sVotingTargetType = getRequestStr('type') or !in_array($sVotingTargetType, array('topic', 'comment', 'blog', 'user'))) {
+			return Router::Action('error');
+		}
+		/*
+		 * проверяем направление голосования
+		 */
+		if ($sVotingDirection = getRequestStr('dir') and !in_array($sVotingDirection, array('plus', 'minus'))) {
+			return Router::Action('error');
+		}
+		/*
+		 * строим фильтр
+		 */
+		$aFilter = array(
+			'type' => $sVotingTargetType,
+			'direction' => $sVotingDirection,
+		);
+		/*
+		 * данные голосований
+		 */
+		$aResult = $this->PluginAdmin_Users_GetUserVotingByFilter ($oUser, $aFilter, $this->iPage, $this->iPerPage);
+
+		/*
+		 * Формируем постраничность
+		 */
+		$aPaging = $this->Viewer_MakePaging(
+			$aResult['count'],
+			$this->iPage,
+			$this->iPerPage,
+			Config::Get('pagination.pages.count'),
+			Router::GetPath('admin') . Router::GetActionEvent() . '/votes/' . $oUser->getId(),
+			array(
+				'type' => $sVotingTargetType,
+				'dir' => $sVotingDirection
+			)
+		);
+
+		$this->Viewer_Assign('aPaging', $aPaging);
+		$this->Viewer_Assign('aVotingList', $aResult ['collection']);
 	}
 
 }

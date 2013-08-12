@@ -184,6 +184,10 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 * страница информации о пользователе
 		 */
 		$this->AddEventPreg('#^users$#iu', '#^profile#iu', '#^\d{1,5}$#iu', 'Users::EventUserProfile');
+		/*
+		 * просмотр в постраничном режиме за что именно голосовал пользователь
+		 */
+		$this->AddEventPreg('#^users$#iu', '#^votes#iu', '#^\d{1,5}$#iu', 'Users::EventUserVotesList');
 
 		/*
 		 *

@@ -173,7 +173,7 @@
 							<ul>
 								<li><a href="#">{$iCountTopicUser} топиков</a></li>
 								<li><a href="#">{$iCountCommentUser} комментариев</a></li>
-								<li><a href="#">{$iBlogsCountOwner} блогов</a></li>
+								<li><a href="#">{$iCountBlogsUser} блогов</a></li>
 							</ul>
 						</div>
 						<div class="stat-row">
@@ -187,7 +187,7 @@
 						<div class="stat-row">
 							<div class="stat-header">Читает</div>
 							<ul>
-								<li><a href="#">{$iBlogCountReads} блогов</a></li>
+								<li><a href="#">{$iCountBlogReads} блогов</a></li>
 							</ul>
 
 						</div>
@@ -209,34 +209,34 @@
 						</h2>
 
 						<div class="stat-row">
-							<div class="stat-header">За топики</div>
+							<div class="stat-header"><a href="{router page="admin/users/votes/{$oUser->getId()}"}?type=topic">За топики</a></div>
 							<ul>
-								<li><a href="#">{$aUserVotedStat.topic.plus} +</a></li>
-								<li><a href="#">{$aUserVotedStat.topic.minus} -</a></li>
+								<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?type=topic&dir=plus">{$aUserVotedStat.topic.plus} +</a></li>
+								<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?type=topic&dir=minus">{$aUserVotedStat.topic.minus} -</a></li>
 							</ul>
 						</div>
 
 						<div class="stat-row">
-							<div class="stat-header">За комментарии</div>
+							<div class="stat-header"><a href="{router page="admin/users/votes/{$oUser->getId()}"}?type=comment">За комментарии</a></div>
 							<ul>
-								<li><a href="#">{$aUserVotedStat.comment.plus} +</a></li>
-								<li><a href="#">{$aUserVotedStat.comment.minus} -</a></li>
+								<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?type=comment&dir=plus">{$aUserVotedStat.comment.plus} +</a></li>
+								<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?type=comment&dir=minus">{$aUserVotedStat.comment.minus} -</a></li>
 							</ul>
 						</div>
 
 						<div class="stat-row">
-							<div class="stat-header">За блоги</div>
+							<div class="stat-header"><a href="{router page="admin/users/votes/{$oUser->getId()}"}?type=blog">За блоги</a></div>
 							<ul>
-								<li><a href="#">{$aUserVotedStat.blog.plus} +</a></li>
-								<li><a href="#">{$aUserVotedStat.blog.minus} -</a></li>
+								<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?type=blog&dir=plus">{$aUserVotedStat.blog.plus} +</a></li>
+								<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?type=blog&dir=minus">{$aUserVotedStat.blog.minus} -</a></li>
 							</ul>
 						</div>
 
 						<div class="stat-row">
-							<div class="stat-header">За юзеров</div>
+							<div class="stat-header"><a href="{router page="admin/users/votes/{$oUser->getId()}"}?type=user">За юзеров</a></div>
 							<ul>
-								<li><a href="#">{$aUserVotedStat.user.plus} +</a></li>
-								<li><a href="#">{$aUserVotedStat.user.minus} -</a></li>
+								<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?type=user&dir=plus">{$aUserVotedStat.user.plus} +</a></li>
+								<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?type=user&dir=minus">{$aUserVotedStat.user.minus} -</a></li>
 							</ul>
 						</div>
 

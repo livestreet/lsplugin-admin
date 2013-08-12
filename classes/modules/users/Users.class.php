@@ -139,7 +139,7 @@ class PluginAdmin_ModuleUsers extends Module {
 
 
 	/**
-	 * Получить информацию о том, за что, как и сколько раз голосовал пользователь
+	 * Получить статистическую информацию о том, за что, как и сколько раз голосовал пользователь
 	 *
 	 * @param $oUser		объект пользователя
 	 * @return array		ассоциативный массив голосований за обьекты
@@ -183,6 +183,48 @@ class PluginAdmin_ModuleUsers extends Module {
 			$aVotingStats[$aData['target_type']][$aData['vote_direction'] == '1' ? 'plus' : 'minus'] = $aData['count'];
 		}
 		return $aVotingStats;
+	}
+
+
+	/**
+	 * Получить списки голосований пользователя по фильтру
+	 *
+	 * @param     $oUser		объект пользователя
+	 * @param     $aFilter		фильтр
+	 * @param int $iPage		номер страницы
+	 * @param int $iPerPage		результатов на страницу
+	 * @return mixed			коллекция и количество
+	 */
+	public function GetUserVotingByFilter ($oUser, $aFilter, $iPage = 1, $iPerPage = PHP_INT_MAX) {
+		$sCacheKey = 'get_user_voting_list_' . implode('_', array($oUser->getId(), serialize($aFilter), $iPage, $iPerPage));
+		if (($aData = $this->Cache_Get($sCacheKey)) === false) {
+			$aData = $this->oMapper->GetUserVotingListByFilter($oUser->getId(), $this->BuildFilterForVotingList($aFilter), $iPage, $iPerPage);
+			$this->Cache_Set($aData, $sCacheKey, array(
+				'vote_update_topic',
+				'vote_update_comment',
+				'vote_update_blog',
+				'vote_update_user'
+			), 60 * 30);			// reset every 30 min
+		}
+		return $aData;
+	}
+
+
+	/**
+	 * Построить фильтр для запроса списка голосований пользователя
+	 *
+	 * @param $aFilter			фильтр
+	 * @return string			строка sql запроса
+	 */
+	protected function BuildFilterForVotingList ($aFilter) {
+		$sWhere = '';
+		if (isset($aFilter['type']) and $aFilter['type']) {
+			$sWhere .= ' AND `target_type` = "' . $aFilter['type'] . '"';
+		}
+		if (isset($aFilter['direction']) and $aFilter['direction']) {
+			$sWhere .= ' AND `vote_direction` = ' . ($aFilter['direction'] == 'plus' ? '1' : '-1');
+		}
+		return $sWhere;
 	}
 	
 }
