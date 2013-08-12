@@ -26,19 +26,18 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 	 *
 	 * @param array $aFilter	Фильтр
 	 * @param array $sOrder		Сортировка
-	 * @param int $iCount		Возвращает общее количество элементов
 	 * @param int $iCurrPage	Номер страницы
 	 * @param int $iPerPage		Количество элментов на страницу
 	 * @return array
 	 */
-	public function GetUsersByFilter($aFilter, $sOrder, &$iCount, $iCurrPage, $iPerPage) {
+	public function GetUsersByFilter($aFilter, $sOrder, $iCurrPage, $iPerPage) {
 		$sql = "SELECT u.user_id
 			FROM
-				" . Config::Get('db.table.user') . " AS u
+				`" . Config::Get('db.table.user') . "` AS u
 			LEFT JOIN
-				" . Config::Get('db.table.session') . " AS s ON u.user_id = s.user_id
+				`" . Config::Get('db.table.session') . "` AS s ON u.user_id = s.user_id
 			LEFT JOIN
-				" . Config::Get('db.table.user_administrator') . " AS ua ON u.user_id = ua.user_id
+				`" . Config::Get('db.table.user_administrator') . "` AS ua ON u.user_id = ua.user_id		-- todo: review: delete
 			WHERE
 				1 = 1
 				{AND u.user_id = ?d}
@@ -55,8 +54,10 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 				{$sOrder}
 			LIMIT ?d, ?d
 		";
+		$iTotalCount = 0;
 		$aResult = array();
-		if ($aRows = $this->oDb->selectPage($iCount, $sql,
+
+		if ($aRows = $this->oDb->selectPage($iTotalCount, $sql,
 			isset($aFilter['id']) ? $aFilter['id'] : DBSIMPLE_SKIP,
 			isset($aFilter['mail']) ? $aFilter['mail'] : DBSIMPLE_SKIP,
 			isset($aFilter['password']) ? $aFilter['password'] : DBSIMPLE_SKIP,
@@ -74,7 +75,11 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 				$aResult[] = $aRow['user_id'];
 			}
 		}
-		return $aResult;
+
+		return array(
+			'collection' => $aResult,
+			'count' => $iTotalCount
+		);
 	}
 
 

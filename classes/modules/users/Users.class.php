@@ -59,14 +59,9 @@ class PluginAdmin_ModuleUsers extends Module {
 		if (is_null ($aAllowData)) {
 			$aAllowData = array ('session');
 		}
-		$iCount = 0;
 		$sOrder = $this -> GetCorrectSortingOrder($aOrder);
-		$aUsersIds = $this -> oMapper -> GetUsersByFilter($aFilter, $sOrder, $iCount, $iCurrPage, $iPerPage);
+		$mData = $this -> oMapper -> GetUsersByFilter($aFilter, $sOrder, $iCurrPage, $iPerPage);
 
-		$mData = array(
-			'collection' => $aUsersIds,
-			'count' => $iCount
-		);
 		$mData['collection'] = $this -> User_GetUsersAdditionalData($mData['collection'], $aAllowData);
 		return $mData;
 	}

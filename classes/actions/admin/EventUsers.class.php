@@ -293,6 +293,11 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	}
 
 
+	/**
+	 * Получить списки голосований пользователя
+	 *
+	 * @return string
+	 */
 	public function EventUserVotesList () {
 		$this->SetTemplateAction('users/voting');
 		$this->SetPaging(2, 'votes.per_page');
