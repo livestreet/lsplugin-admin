@@ -82,7 +82,12 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 			$this->iPerPage,
 			Config::Get('pagination.pages.count'),
 			Router::GetPath('admin') . Router::GetActionEvent() . '/list',
-			$this->GetPagingAdditionalParams ($sSearchQuery, $aSearchFields, $sOrder, $sWay)
+			$this->GetPagingAdditionalParamsByArray(array(
+				'q' => $sSearchQuery,
+				'field' => $aSearchFields,
+				'order' => $sOrder,
+				'way' => $sWay
+			))
 		);
 
 		$this->Viewer_Assign('aPaging', $aPaging);
@@ -267,33 +272,6 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 
 
 	/**
-	 * Построить дополнительные параметры для пагинации в списке пользователей
-	 *
-	 * @param $sSearchQuery
-	 * @param $aSearchFields
-	 * @param $sOrder
-	 * @param $sWay
-	 * @return array
-	 */
-	protected function GetPagingAdditionalParams ($sSearchQuery, $aSearchFields, $sOrder, $sWay) {
-		$aParams = array();
-		if ($sSearchQuery) {
-			$aParams ['q'] = $sSearchQuery;
-		}
-		if ($aSearchFields) {
-			$aParams ['field'] = $aSearchFields;
-		}
-		if ($sOrder) {
-			$aParams ['order'] = $sOrder;
-		}
-		if ($sWay) {
-			$aParams ['way'] = $sWay;
-		}
-		return ($aParams ? array('filter' => $aParams) : null);
-	}
-
-
-	/**
 	 * Получить списки голосований пользователя
 	 *
 	 * @return string
@@ -302,14 +280,13 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		$this->SetTemplateAction('users/voting');
 		$this->SetPaging(2, 'votes.per_page');
 
-
 		$aFilter = getRequest('filter');
 
 		/*
 		 * сортировка
 		 */
-		$sOrder = @$aFilter['order'];	 			//getRequestStr('order');//todo; delete
-		$sWay = @$aFilter['way'];		 			//getRequestStr('way');
+		$sOrder = @$aFilter['order'];
+		$sWay = @$aFilter['way'];
 
 
 		/*
@@ -359,7 +336,12 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 			$this->iPerPage,
 			Config::Get('pagination.pages.count'),
 			Router::GetPath('admin') . Router::GetActionEvent() . '/votes/' . $oUser->getId(),
-			$this->GetPagingAdditionalParamsForVotingList ($sVotingTargetType, $sVotingDirection, $sOrder, $sWay)
+			$this->GetPagingAdditionalParamsByArray(array(
+				'type' => $sVotingTargetType,
+				'dir' => $sVotingDirection,
+				'order' => $sOrder,
+				'way' => $sWay
+			))
 		);
 
 		$this->Viewer_Assign('aPaging', $aPaging);
@@ -376,22 +358,20 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	}
 
 
-
-	protected function GetPagingAdditionalParamsForVotingList ($sVotingTargetType, $sVotingDirection, $sOrder, $sWay) {
-		$aParams = array();
-		if ($sVotingTargetType) {
-			$aParams ['type'] = $sVotingTargetType;
+	/**
+	 * Построить дополнительные параметры для пагинации
+	 *
+	 * @param array $aParams		набор параметров ключ=>значение
+	 * @return array|null			массив параметров, которые имеют значение
+	 */
+	protected function GetPagingAdditionalParamsByArray ($aParams = array()) {
+		$aFilter = array();
+		foreach ($aParams as $sKey => $mData) {
+			if ($mData) {
+				$aFilter[$sKey] = $mData;
+			}
 		}
-		if ($sVotingDirection) {
-			$aParams ['dir'] = $sVotingDirection;
-		}
-		if ($sOrder) {
-			$aParams ['order'] = $sOrder;
-		}
-		if ($sWay) {
-			$aParams ['way'] = $sWay;
-		}
-		return ($aParams ? array('filter' => $aParams) : null);
+		return ($aFilter ? array('filter' => $aFilter) : null);
 	}
 
 }
