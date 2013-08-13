@@ -8,15 +8,45 @@
 
 	{if aVotingList and count($aVotingList)>0}
 
-		<table class="table">
+		<table class="table table-sorting">
 			<thead>
 				<tr>
-					<th>target id</th>
-					<th>target type</th>
-					<th>dir</th>
-					<th>val</th>
-					<th>date</th>
-					<th>ip</th>
+					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
+						sCellClassName='targetid'
+						sSortingOrder='target_id'
+						sLinkHtml='target id'
+						sBaseUrl="{router page="admin/users/votes/{$oUser->getId()}"}"
+					}
+					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
+						sCellClassName='targettype'
+						sSortingOrder='target_type'
+						sLinkHtml='target type'
+						sBaseUrl="{router page="admin/users/votes/{$oUser->getId()}"}"
+					}
+					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
+						sCellClassName='vote_direction'
+						sSortingOrder='vote_direction'
+						sLinkHtml='direction'
+						sBaseUrl="{router page="admin/users/votes/{$oUser->getId()}"}"
+					}
+					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
+						sCellClassName='vote_value'
+						sSortingOrder='vote_value'
+						sLinkHtml='value'
+						sBaseUrl="{router page="admin/users/votes/{$oUser->getId()}"}"
+					}
+					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
+						sCellClassName='vote_date'
+						sSortingOrder='vote_date'
+						sLinkHtml='date'
+						sBaseUrl="{router page="admin/users/votes/{$oUser->getId()}"}"
+					}
+					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
+						sCellClassName='vote_ip'
+						sSortingOrder='vote_ip'
+						sLinkHtml='ip'
+						sBaseUrl="{router page="admin/users/votes/{$oUser->getId()}"}"
+					}
 				</tr>
 			</thead>
 			<tbody>
@@ -45,7 +75,7 @@
 			</tbody>
 		</table>
 	{else}
-		no votings yet
+		пользователь не голосовал в выбранном направлении
 	{/if}
 
 	{include file="{$aTemplatePathPlugin.admin}/pagination.tpl" aPaging=$aPaging}

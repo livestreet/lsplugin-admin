@@ -18,7 +18,7 @@
 	</div>
 
 
-	<table class="table table-users">
+	<table class="table table-sorting">
 		<thead>
 			<tr>
 				<th class="checked">
@@ -32,26 +32,31 @@
 					sCellClassName='name'
 					sSortingOrder='u.user_login'
 					sLinkHtml='Имя'
+					sBaseUrl="{router page='admin/users/list'}"
 				}
 				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 					sCellClassName='birth'
 					sSortingOrder='u.user_profile_birthday'
 					sLinkHtml='Родился'
+					sBaseUrl="{router page='admin/users/list'}"
 				}
 				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 					sCellClassName='visitandreg'
 					sSortingOrder='s.session_date_last'
 					sLinkHtml='Регистрация и визит'
+					sBaseUrl="{router page='admin/users/list'}"
 				}
 				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 					sCellClassName='ips'
 					sSortingOrder='s.session_ip_last'
 					sLinkHtml='IP-адрес'
+					sBaseUrl="{router page='admin/users/list'}"
 				}
 				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 					sCellClassName='rating'
 					sSortingOrder='u.user_rating'
 					sLinkHtml='Рейтинг и сила'
+					sBaseUrl="{router page='admin/users/list'}"
 				}
 				<th class="controls"></th>
 			</tr>

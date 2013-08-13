@@ -113,13 +113,14 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 	/**
 	 * Получить списки голосований пользователя по фильтру
 	 *
-	 * @param     $iUserId		ид пользователя
-	 * @param     $sWhere		дополнительное условие WHERE запроса (построенное фильтром)
-	 * @param int $iPage		страница
-	 * @param int $iPerPage		количество результатов
+	 * @param     	$iUserId		ид пользователя
+	 * @param     	$sWhere			дополнительное условие WHERE запроса (построенное фильтром)
+	 * @param		$sOrder			сортировка
+	 * @param int 	$iPage			страница
+	 * @param int 	$iPerPage		количество результатов
 	 * @return array
 	 */
-	public function GetUserVotingListByFilter($iUserId, $sWhere, $iPage = 1, $iPerPage = PHP_INT_MAX) {
+	public function GetUserVotingListByFilter($iUserId, $sWhere, $sOrder, $iPage = 1, $iPerPage = PHP_INT_MAX) {
 		$sql = "SELECT
 				`target_id`,
 				`target_type`,
@@ -133,7 +134,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 				`user_voter_id` = ?d
 				{$sWhere}
 			ORDER BY
-				`vote_date` DESC
+				{$sOrder}
 			LIMIT ?d, ?d
 		";
 		$aEntities = array();

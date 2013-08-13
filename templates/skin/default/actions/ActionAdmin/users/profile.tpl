@@ -209,34 +209,34 @@
 						</h2>
 
 						<div class="stat-row">
-							<div class="stat-header"><a href="{router page="admin/users/votes/{$oUser->getId()}"}?type=topic">За топики</a></div>
+							<div class="stat-header"><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=topic">За топики</a></div>
 							<ul>
-								<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?type=topic&dir=plus">{$aUserVotedStat.topic.plus} +</a></li>
-								<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?type=topic&dir=minus">{$aUserVotedStat.topic.minus} -</a></li>
+								<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=topic&filter[dir]=plus">{$aUserVotedStat.topic.plus} +</a></li>
+								<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=topic&filter[dir]=minus">{$aUserVotedStat.topic.minus} -</a></li>
 							</ul>
 						</div>
 
 						<div class="stat-row">
-							<div class="stat-header"><a href="{router page="admin/users/votes/{$oUser->getId()}"}?type=comment">За комментарии</a></div>
+							<div class="stat-header"><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=comment">За комментарии</a></div>
 							<ul>
-								<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?type=comment&dir=plus">{$aUserVotedStat.comment.plus} +</a></li>
-								<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?type=comment&dir=minus">{$aUserVotedStat.comment.minus} -</a></li>
+								<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=comment&filter[dir]=plus">{$aUserVotedStat.comment.plus} +</a></li>
+								<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=comment&filter[dir]=minus">{$aUserVotedStat.comment.minus} -</a></li>
 							</ul>
 						</div>
 
 						<div class="stat-row">
-							<div class="stat-header"><a href="{router page="admin/users/votes/{$oUser->getId()}"}?type=blog">За блоги</a></div>
+							<div class="stat-header"><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=blog">За блоги</a></div>
 							<ul>
-								<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?type=blog&dir=plus">{$aUserVotedStat.blog.plus} +</a></li>
-								<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?type=blog&dir=minus">{$aUserVotedStat.blog.minus} -</a></li>
+								<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=blog&filter[dir]=plus">{$aUserVotedStat.blog.plus} +</a></li>
+								<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=blog&filter[dir]=minus">{$aUserVotedStat.blog.minus} -</a></li>
 							</ul>
 						</div>
 
 						<div class="stat-row">
-							<div class="stat-header"><a href="{router page="admin/users/votes/{$oUser->getId()}"}?type=user">За юзеров</a></div>
+							<div class="stat-header"><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=user">За юзеров</a></div>
 							<ul>
-								<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?type=user&dir=plus">{$aUserVotedStat.user.plus} +</a></li>
-								<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?type=user&dir=minus">{$aUserVotedStat.user.minus} -</a></li>
+								<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=user&filter[dir]=plus">{$aUserVotedStat.user.plus} +</a></li>
+								<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=user&filter[dir]=minus">{$aUserVotedStat.user.minus} -</a></li>
 							</ul>
 						</div>
 

@@ -184,16 +184,23 @@ class PluginAdmin_ModuleUsers extends Module {
 	/**
 	 * Получить списки голосований пользователя по фильтру
 	 *
-	 * @param     $oUser		объект пользователя
-	 * @param     $aFilter		фильтр
-	 * @param int $iPage		номер страницы
-	 * @param int $iPerPage		результатов на страницу
-	 * @return mixed			коллекция и количество
+	 * @param     	$oUser			объект пользователя
+	 * @param     	$aFilter		фильтр
+	 * @param		$aOrder			сортировка
+	 * @param int 	$iPage			номер страницы
+	 * @param int 	$iPerPage		результатов на страницу
+	 * @return mixed				коллекция и количество
 	 */
-	public function GetUserVotingByFilter ($oUser, $aFilter, $iPage = 1, $iPerPage = PHP_INT_MAX) {
+	public function GetUserVotingByFilter ($oUser, $aFilter, $aOrder = array(), $iPage = 1, $iPerPage = PHP_INT_MAX) {
 		$sCacheKey = 'get_user_voting_list_' . implode('_', array($oUser->getId(), serialize($aFilter), $iPage, $iPerPage));
 		if (($aData = $this->Cache_Get($sCacheKey)) === false) {
-			$aData = $this->oMapper->GetUserVotingListByFilter($oUser->getId(), $this->BuildFilterForVotingList($aFilter), $iPage, $iPerPage);
+			$aData = $this->oMapper->GetUserVotingListByFilter(
+				$oUser->getId(),
+				$this->BuildFilterForVotingList($aFilter),
+				$this->GetCorrectVotingListOrder($aOrder),
+				$iPage,
+				$iPerPage
+			);
 			$this->Cache_Set($aData, $sCacheKey, array(
 				'vote_update_topic',
 				'vote_update_comment',
@@ -220,6 +227,25 @@ class PluginAdmin_ModuleUsers extends Module {
 			$sWhere .= ' AND `vote_direction` = ' . ($aFilter['direction'] == 'plus' ? '1' : '-1');
 		}
 		return $sWhere;
+	}
+
+
+	protected function GetCorrectVotingListOrder ($aOrder) {
+		$sOrder = '';
+		foreach($aOrder as $sRow => $sDir) {
+			//if (!in_array($sRow, Config::Get('plugin.admin.correct_sorting_order'))) {	//todo:
+			if (!in_array($sRow, array('target_id', 'target_type', 'vote_direction', 'vote_value', 'vote_date', 'vote_ip'))) {
+				unset($aOrder[$sRow]);
+			} elseif (in_array($sDir, $this -> aSortingOrderWays)) {
+				$sOrder .= " {$sRow} {$sDir},";
+			}
+		}
+		$sOrder = rtrim($sOrder, ',');
+		if (empty($sOrder)) {
+			//$sOrder = $this -> sSortingOrderByDefault;	// todo:
+			$sOrder = '`vote_date` DESC';
+		}
+		return $sOrder;
 	}
 	
 }

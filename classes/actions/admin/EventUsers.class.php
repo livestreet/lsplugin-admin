@@ -267,7 +267,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 
 
 	/**
-	 * Построить дополнительные параметры для пагинации
+	 * Построить дополнительные параметры для пагинации в списке пользователей
 	 *
 	 * @param $sSearchQuery
 	 * @param $aSearchFields
@@ -302,6 +302,16 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		$this->SetTemplateAction('users/voting');
 		$this->SetPaging(2, 'votes.per_page');
 
+
+		$aFilter = getRequest('filter');
+
+		/*
+		 * сортировка
+		 */
+		$sOrder = @$aFilter['order'];	 			//getRequestStr('order');//todo; delete
+		$sWay = @$aFilter['way'];		 			//getRequestStr('way');
+
+
 		/*
 		 * проверяем корректность id пользователя
 		 */
@@ -311,13 +321,13 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * проверяем корректность типа обьекта, голоса по которому нужно показать
 		 */
-		if (!$sVotingTargetType = getRequestStr('type') or !in_array($sVotingTargetType, array('topic', 'comment', 'blog', 'user'))) {
+		if (!$sVotingTargetType = @$aFilter['type'] or !in_array($sVotingTargetType, array('topic', 'comment', 'blog', 'user'))) {
 			return Router::Action('error');
 		}
 		/*
 		 * проверяем направление голосования
 		 */
-		if ($sVotingDirection = getRequestStr('dir') and !in_array($sVotingDirection, array('plus', 'minus'))) {
+		if ($sVotingDirection = @$aFilter['dir'] and !in_array($sVotingDirection, array('plus', 'minus'))) {
 			return Router::Action('error');
 		}
 		/*
@@ -327,10 +337,18 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 			'type' => $sVotingTargetType,
 			'direction' => $sVotingDirection,
 		);
+
+
 		/*
-		 * данные голосований
+		 * получаем данные голосований
 		 */
-		$aResult = $this->PluginAdmin_Users_GetUserVotingByFilter ($oUser, $aFilter, $this->iPage, $this->iPerPage);
+		$aResult = $this->PluginAdmin_Users_GetUserVotingByFilter (
+			$oUser,
+			$aFilter,
+			array($sOrder => $sWay),
+			$this->iPage,
+			$this->iPerPage
+		);
 
 		/*
 		 * Формируем постраничность
@@ -341,14 +359,39 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 			$this->iPerPage,
 			Config::Get('pagination.pages.count'),
 			Router::GetPath('admin') . Router::GetActionEvent() . '/votes/' . $oUser->getId(),
-			array(
-				'type' => $sVotingTargetType,
-				'dir' => $sVotingDirection
-			)
+			$this->GetPagingAdditionalParamsForVotingList ($sVotingTargetType, $sVotingDirection, $sOrder, $sWay)
 		);
 
 		$this->Viewer_Assign('aPaging', $aPaging);
 		$this->Viewer_Assign('aVotingList', $aResult ['collection']);
+		$this->Viewer_Assign('oUser', $oUser);
+
+
+		/*
+		 * сортировка
+		 */
+		$this->Viewer_Assign('sReverseOrder', $this->PluginAdmin_Users_GetReversedOrderDirection ($sWay));
+		$this->Viewer_Assign('sOrder', $sOrder);
+		$this->Viewer_Assign('sWay', $this->PluginAdmin_Users_GetDefaultOrderDirectionIfIncorrect ($sWay));
+	}
+
+
+
+	protected function GetPagingAdditionalParamsForVotingList ($sVotingTargetType, $sVotingDirection, $sOrder, $sWay) {
+		$aParams = array();
+		if ($sVotingTargetType) {
+			$aParams ['type'] = $sVotingTargetType;
+		}
+		if ($sVotingDirection) {
+			$aParams ['dir'] = $sVotingDirection;
+		}
+		if ($sOrder) {
+			$aParams ['order'] = $sOrder;
+		}
+		if ($sWay) {
+			$aParams ['way'] = $sWay;
+		}
+		return ($aParams ? array('filter' => $aParams) : null);
 	}
 
 }
