@@ -3,7 +3,7 @@
 {block name='layout_content'}
 
 	<h2 class="title mb20">
-		Голосования
+		{$aLang.plugin.admin.users.votes.title}
 	</h2>
 
 	{if aVotingList and count($aVotingList)>0}
@@ -75,7 +75,7 @@
 			</tbody>
 		</table>
 	{else}
-		пользователь не голосовал в выбранном направлении
+		{$aLang.plugin.admin.users.votes.no_votes}
 	{/if}
 
 	{include file="{$aTemplatePathPlugin.admin}/pagination.tpl" aPaging=$aPaging}

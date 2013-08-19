@@ -268,7 +268,7 @@ $config ['user_search_allowed_types'] = array(
 /*
  * Корректные значения для сортировок пользователей
  */
-$config ['correct_sorting_order'] = array(
+$config ['correct_sorting_order_for_users'] = array(
 	'u.user_id',
 	'u.user_login',
 	'u.user_date_register',
@@ -281,6 +281,28 @@ $config ['correct_sorting_order'] = array(
 	's.session_date_create',
 	's.session_date_last',
 );
+
+/*
+ * Сортировка пользователей по-умолчанию (если указанная сортировка некорректна или не разрешена)
+ */
+$config ['default_sorting_order_for_users'] = 'u.user_id DESC';
+
+/*
+ * Корректные значения для сортировки голосов пользователя
+ */
+$config ['correct_sorting_order_for_votes'] = array(
+	'target_id',
+	'target_type',
+	'vote_direction',
+	'vote_value',
+	'vote_date',
+	'vote_ip'
+);
+
+/*
+ * Сортировка для вывода голосов по-умолчанию
+ */
+$config ['default_sorting_order_for_votes'] = '`vote_date` DESC';
 
 /*
  *	Использовать ли аякс при отправке формы с настройками

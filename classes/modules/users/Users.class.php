@@ -24,12 +24,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	protected $oMapper = null;
 
 	/*
-	 * сортировка пользователей по-умолчанию (если указанная сортировка некорректна или не разрешена)
-	 */
-	protected $sSortingOrderByDefault = 'u.user_id desc';
-
-	/*
-	 * направление сортировки пользователей по-умолчанию (если она не задана или некорректна)
+	 * направление сортировки по-умолчанию (если она не задана или некорректна)
 	 */
 	protected $sSortingWayByDefault = 'desc';
 
@@ -59,7 +54,11 @@ class PluginAdmin_ModuleUsers extends Module {
 		if (is_null ($aAllowData)) {
 			$aAllowData = array ('session');
 		}
-		$sOrder = $this -> GetCorrectSortingOrder($aOrder);
+		$sOrder = $this -> GetCorrectSortingOrder(
+			$aOrder,
+			Config::Get('plugin.admin.correct_sorting_order_for_users'),
+			Config::Get('plugin.admin.default_sorting_order_for_users')
+		);
 		$mData = $this -> oMapper -> GetUsersByFilter($aFilter, $sOrder, $iCurrPage, $iPerPage);
 
 		$mData['collection'] = $this -> User_GetUsersAdditionalData($mData['collection'], $aAllowData);
@@ -70,14 +69,16 @@ class PluginAdmin_ModuleUsers extends Module {
 	/**
 	 * Проверяет корректность сортировки и возращает часть sql запроса для сортировки
 	 *
-	 * @param array $aOrder		поля по которым нужно сортировать вывод пользователей
-	 * 							example: array('login' => 'desc', 'rating' => 'desc')
-	 * @return string			часть sql запроса
+	 * @param array $aOrder						поля, по которым нужно сортировать вывод пользователей
+	 * 											(array('login' => 'desc', 'rating' => 'desc'))
+	 * @param array $aCorrectSortingOrderList	список разрешенных сортировок
+	 * @param       $sSortingOrderByDefault		строка сортировки по-умолчанию
+	 * @return string							часть sql запроса
 	 */
-	protected function GetCorrectSortingOrder($aOrder = array ()) {
+	protected function GetCorrectSortingOrder($aOrder = array (), $aCorrectSortingOrderList = array(), $sSortingOrderByDefault) {
 		$sOrder = '';
 		foreach($aOrder as $sRow => $sDir) {
-			if (!in_array($sRow, Config::Get('plugin.admin.correct_sorting_order'))) {
+			if (!in_array($sRow, $aCorrectSortingOrderList)) {
 				unset($aOrder[$sRow]);
 			} elseif (in_array($sDir, $this -> aSortingOrderWays)) {
 				$sOrder .= " {$sRow} {$sDir},";
@@ -85,7 +86,7 @@ class PluginAdmin_ModuleUsers extends Module {
 		}
 		$sOrder = rtrim($sOrder, ',');
 		if (empty($sOrder)) {
-			$sOrder = $this -> sSortingOrderByDefault;
+			$sOrder = $sSortingOrderByDefault;
 		}
 		return $sOrder;
 	}
@@ -197,7 +198,11 @@ class PluginAdmin_ModuleUsers extends Module {
 			$aData = $this->oMapper->GetUserVotingListByFilter(
 				$oUser->getId(),
 				$this->BuildFilterForVotingList($aFilter),
-				$this->GetCorrectVotingListOrder($aOrder),
+				$this->GetCorrectSortingOrder(
+					$aOrder,
+					Config::Get('plugin.admin.correct_sorting_order_for_votes'),
+					Config::Get('plugin.admin.default_sorting_order_for_votes')
+				),
 				$iPage,
 				$iPerPage
 			);
@@ -230,24 +235,6 @@ class PluginAdmin_ModuleUsers extends Module {
 	}
 
 
-	protected function GetCorrectVotingListOrder ($aOrder) {
-		$sOrder = '';
-		foreach($aOrder as $sRow => $sDir) {
-			//if (!in_array($sRow, Config::Get('plugin.admin.correct_sorting_order'))) {	//todo:
-			if (!in_array($sRow, array('target_id', 'target_type', 'vote_direction', 'vote_value', 'vote_date', 'vote_ip'))) {
-				unset($aOrder[$sRow]);
-			} elseif (in_array($sDir, $this -> aSortingOrderWays)) {
-				$sOrder .= " {$sRow} {$sDir},";
-			}
-		}
-		$sOrder = rtrim($sOrder, ',');
-		if (empty($sOrder)) {
-			//$sOrder = $this -> sSortingOrderByDefault;	// todo:
-			$sOrder = '`vote_date` DESC';
-		}
-		return $sOrder;
-	}
-	
 }
 
 ?>
