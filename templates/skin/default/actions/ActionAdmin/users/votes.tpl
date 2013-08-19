@@ -6,6 +6,11 @@
 		{$aLang.plugin.admin.users.votes.title}
 	</h2>
 
+	<div class="mb-20">
+		{$aLang.plugin.admin.users.votes.votes_for}
+		{$aLang.plugin.admin.users.votes.votes_type.$sVotingTargetType}
+	</div>
+
 	{if aVotingList and count($aVotingList)>0}
 
 		<table class="table table-sorting">
@@ -15,12 +20,6 @@
 						sCellClassName='targetid'
 						sSortingOrder='target_id'
 						sLinkHtml='target id'
-						sBaseUrl="{router page="admin/users/votes/{$oUser->getId()}"}"
-					}
-					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
-						sCellClassName='targettype'
-						sSortingOrder='target_type'
-						sLinkHtml='target type'
 						sBaseUrl="{router page="admin/users/votes/{$oUser->getId()}"}"
 					}
 					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
@@ -47,6 +46,9 @@
 						sLinkHtml='ip'
 						sBaseUrl="{router page="admin/users/votes/{$oUser->getId()}"}"
 					}
+					<th>
+						target object
+					</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -54,9 +56,6 @@
 					<tr>
 						<td>
 							{$oVote->getTargetId()}
-						</td>
-						<td>
-							{$oVote->getTargetType()}
 						</td>
 						<td>
 							{$oVote->getDirection()}
@@ -69,6 +68,11 @@
 						</td>
 						<td>
 							{$oVote->getIp()}
+						</td>
+						<td>
+							<a href="{$oVote->getTargetFullUrl()}"
+							   target="_blank"
+							   title="{$oVote->getTargetTitle()|escape:'html'}">{$oVote->getTargetTitle()|truncate:100:'...'}</a>
 						</td>
 					</tr>
 				{/foreach}

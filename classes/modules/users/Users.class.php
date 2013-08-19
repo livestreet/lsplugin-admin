@@ -193,7 +193,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * @return mixed				коллекция и количество
 	 */
 	public function GetUserVotingByFilter ($oUser, $aFilter, $aOrder = array(), $iPage = 1, $iPerPage = PHP_INT_MAX) {
-		$sCacheKey = 'get_user_voting_list_' . implode('_', array($oUser->getId(), serialize($aFilter), $iPage, $iPerPage));
+		$sCacheKey = 'get_user_voting_list_' . implode('_', array($oUser->getId(), serialize($aFilter), serialize($aOrder), $iPage, $iPerPage));
 		if (($aData = $this->Cache_Get($sCacheKey)) === false) {
 			$aData = $this->oMapper->GetUserVotingListByFilter(
 				$oUser->getId(),
@@ -232,6 +232,52 @@ class PluginAdmin_ModuleUsers extends Module {
 			$sWhere .= ' AND `vote_direction` = ' . ($aFilter['direction'] == 'plus' ? '1' : '-1');
 		}
 		return $sWhere;
+	}
+
+
+	/**
+	 * Для списка голосов получить обьект и задать новые универсализированные параметры (заголовок и ссылку на сам обьект)
+	 *
+	 * @param array $aVotingList	массив голосов
+	 * @throws Exception
+	 */
+	public function GetTargetObjectsFromVotingList($aVotingList) {
+		foreach($aVotingList as $oVote) {
+			switch ($oVote->getTargetType()) {
+				case 'topic':
+					if ($oTopic = $this->Topic_GetTopicById($oVote->getTargetId())) {
+						$oVote->setTargetTitle($oTopic->getTitle());
+						$oVote->setTargetFullUrl($oTopic->getUrl());
+					}
+					break;
+				case 'blog':
+					if ($oBlog = $this->Blog_GetBlogById($oVote->getTargetId())) {
+						$oVote->setTargetTitle($oBlog->getTitle());
+						$oVote->setTargetFullUrl($oBlog->getUrlFull());
+					}
+					break;
+				case 'user':
+					if ($oUser = $this->User_GetUserById($oVote->getTargetId())) {
+						$oVote->setTargetTitle($oUser->getLogin());
+						$oVote->setTargetFullUrl($oUser->getUserWebPath());
+					}
+					break;
+				case 'comment':
+					if ($oComment = $this->Comment_GetCommentById($oVote->getTargetId())) {
+						$oVote->setTargetTitle($oComment->getText());
+						/*
+						 * пока только для топиков
+						 */
+						if ($oComment->getTargetType() == 'topic') {
+							$oVote->setTargetFullUrl($oComment->getTarget()->getUrl() . 'comment' . $oComment->getId());
+						}
+					}
+					break;
+				default:
+					throw new Exception('Admin: error: unsupported target type: "' . $oVote->getTargetType() . '"');
+					break;
+			}
+		}
 	}
 
 

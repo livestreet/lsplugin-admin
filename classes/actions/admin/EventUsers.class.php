@@ -328,6 +328,11 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		);
 
 		/*
+		 * дополнить данные голосований названиями обьектов и ссылками на них
+		 */
+		$this->PluginAdmin_Users_GetTargetObjectsFromVotingList($aResult ['collection']);
+
+		/*
 		 * Формируем постраничность
 		 */
 		$aPaging = $this->Viewer_MakePaging(
@@ -347,6 +352,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		$this->Viewer_Assign('aPaging', $aPaging);
 		$this->Viewer_Assign('aVotingList', $aResult ['collection']);
 		$this->Viewer_Assign('oUser', $oUser);
+		$this->Viewer_Assign('sVotingTargetType', $sVotingTargetType);
 
 
 		/*
