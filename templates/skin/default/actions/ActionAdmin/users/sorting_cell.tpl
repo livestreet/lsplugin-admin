@@ -15,7 +15,7 @@
 		{assign var="sWayForThisOrder" value="{if $sOrder==$sSortingOrder}{$sReverseOrder}{else}{$sWay}{/if}"}
 
 		<a href="{$sBaseUrl}{request_filter
-			name=array('order', 'way')
+			name=array('order_field', 'order_way')
 			value=array($sSortingOrder, $sWayForThisOrder)
 		}">{$sLinkHtml}</a>
 

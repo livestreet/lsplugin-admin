@@ -44,14 +44,14 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * сортировка
 		 */
-		$sOrder = @$aFilter['order'];	 			//getRequestStr('order');//todo; delete
-		$sWay = @$aFilter['way'];		 			//getRequestStr('way');
+		$sOrder = @$aFilter['order_field'];
+		$sWay = @$aFilter['order_way'];
 
 		/*
 		 * поиск по полям
 		 */
-		$sSearchQuery = @$aFilter['q'];				//getRequestStr('q');
-		$aSearchFields = @$aFilter['field'];		//getRequest('field');
+		$sSearchQuery = @$aFilter['q'];
+		$aSearchFields = @$aFilter['field'];
 
 		if (!is_array($aSearchFields)) {
 			$aSearchFields = (array) $aSearchFields;
@@ -85,8 +85,8 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 			$this->GetPagingAdditionalParamsByArray(array(
 				'q' => $sSearchQuery,
 				'field' => $aSearchFields,
-				'order' => $sOrder,
-				'way' => $sWay
+				'order_field' => $sOrder,
+				'order_way' => $sWay
 			))
 		);
 
@@ -277,7 +277,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	 * @return string
 	 */
 	public function EventUserVotesList () {
-		$this->SetTemplateAction('users/voting');
+		$this->SetTemplateAction('users/votes');
 		$this->SetPaging(2, 'votes.per_page');
 
 		$aFilter = getRequest('filter');
@@ -285,8 +285,8 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * сортировка
 		 */
-		$sOrder = @$aFilter['order'];
-		$sWay = @$aFilter['way'];
+		$sOrder = @$aFilter['order_field'];
+		$sWay = @$aFilter['order_way'];
 
 
 		/*
@@ -339,8 +339,8 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 			$this->GetPagingAdditionalParamsByArray(array(
 				'type' => $sVotingTargetType,
 				'dir' => $sVotingDirection,
-				'order' => $sOrder,
-				'way' => $sWay
+				'order_field' => $sOrder,
+				'order_way' => $sWay
 			))
 		);
 
