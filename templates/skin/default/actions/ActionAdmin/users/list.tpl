@@ -10,7 +10,9 @@
 			<input type="text" name="filter[q]" class="input-text width-200" value="{$sSearchQuery}" />
 			<select name="filter[field]" class="width-150">
 				{foreach from=array_keys($oConfig->GetValue('plugin.admin.user_search_allowed_types')) item=sSearchIn}
-					<option value="{$sSearchIn}" {if in_array($sSearchIn, $aSearchFields)}selected="selected"{/if}>{$aLang.plugin.admin.users.search_allowed_in.$sSearchIn}</option>
+					<option value="{$sSearchIn}" {if in_array($sSearchIn, $aSearchFields)}selected="selected"{/if}>
+						{$aLang.plugin.admin.users.search_allowed_in.$sSearchIn}
+					</option>
 				{/foreach}
 			</select>
 			<input type="submit" value="{$aLang.plugin.admin.users.search}" class="button button-primary" />
@@ -31,31 +33,31 @@
 				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 					sCellClassName='name'
 					sSortingOrder='u.user_login'
-					sLinkHtml='Имя'
+					sLinkHtml=$aLang.plugin.admin.users.table_header.name
 					sBaseUrl="{router page='admin/users/list'}"
 				}
 				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 					sCellClassName='birth'
 					sSortingOrder='u.user_profile_birthday'
-					sLinkHtml='Родился'
+					sLinkHtml=$aLang.plugin.admin.users.table_header.birth
 					sBaseUrl="{router page='admin/users/list'}"
 				}
 				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 					sCellClassName='visitandreg'
 					sSortingOrder='s.session_date_last'
-					sLinkHtml='Регистрация и визит'
+					sLinkHtml=$aLang.plugin.admin.users.table_header.reg_and_last_visit
 					sBaseUrl="{router page='admin/users/list'}"
 				}
 				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 					sCellClassName='ips'
 					sSortingOrder='s.session_ip_last'
-					sLinkHtml='IP-адрес'
+					sLinkHtml=$aLang.plugin.admin.users.table_header.ip
 					sBaseUrl="{router page='admin/users/list'}"
 				}
 				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 					sCellClassName='rating'
 					sSortingOrder='u.user_rating'
-					sLinkHtml='Рейтинг и сила'
+					sLinkHtml=$aLang.plugin.admin.users.table_header.rating_and_skill
 					sBaseUrl="{router page='admin/users/list'}"
 				}
 				<th class="controls"></th>
@@ -72,7 +74,8 @@
 					<td class="avatar">
 						<a href="{router page='admin'}users/profile/{$oUser->getId()}"><img src="{$oUser->getProfileAvatarPath(48)}" alt="avatar" class="avatar" /></a>
 						{if $oUser->isOnline()}
-							<div class="user-is-online" title="{if $oUser->isOnline()}{$aLang.user_status_online}{else}{$aLang.user_status_offline}{/if}"></div>
+							<div class="user-is-online"
+								 title="{if $oUser->isOnline()}{$aLang.user_status_online}{else}{$aLang.user_status_offline}{/if}"></div>
 						{/if}
 					</td>
 					<td class="name">
@@ -83,9 +86,7 @@
 							{if $oUser->getProfileName()}
 								<p class="realname">{$oUser->getProfileName()}</p>
 							{/if}
-							<p class="mail">
-								{$oUser->getMail()}
-							</p>
+							<p class="mail">{$oUser->getMail()}</p>
 						</div>
 					</td>
 					<td class="birth">

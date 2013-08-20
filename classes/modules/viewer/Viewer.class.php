@@ -21,13 +21,6 @@
 
 class PluginAdmin_ModuleViewer extends PluginAdmin_Inherit_ModuleViewer {
 
-	/*	todo: delete: not needed
-	public function GetSmartyTemplateVar($sName){
-		return $this->oSmarty->get_template_vars($sName);					// deprecated, see method in smarty
-	}
-	*/
-
-
 	/**
 	 * Добавить директорию с плагинами для Smarty
 	 * 

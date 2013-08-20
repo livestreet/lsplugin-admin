@@ -6,6 +6,8 @@
 		{$aLang.plugin.admin.users.votes.title}
 	</h2>
 
+	<div class="mb-20"><a href="{$oUser->getUserWebPath()}">{$aLang.plugin.admin.users.votes.back_to_user_profile_page} {$oUser->getLogin()}</a></div>
+
 	<div class="mb-20">
 		{$aLang.plugin.admin.users.votes.votes_for}
 		{$aLang.plugin.admin.users.votes.votes_type.$sVotingTargetType}
@@ -19,35 +21,35 @@
 					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 						sCellClassName='targetid'
 						sSortingOrder='target_id'
-						sLinkHtml='target id'
+						sLinkHtml=$aLang.plugin.admin.users.votes.table_header.target_id
 						sBaseUrl="{router page="admin/users/votes/{$oUser->getId()}"}"
 					}
 					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 						sCellClassName='vote_direction'
 						sSortingOrder='vote_direction'
-						sLinkHtml='direction'
+						sLinkHtml=$aLang.plugin.admin.users.votes.table_header.vote_direction
 						sBaseUrl="{router page="admin/users/votes/{$oUser->getId()}"}"
 					}
 					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 						sCellClassName='vote_value'
 						sSortingOrder='vote_value'
-						sLinkHtml='value'
+						sLinkHtml=$aLang.plugin.admin.users.votes.table_header.vote_value
 						sBaseUrl="{router page="admin/users/votes/{$oUser->getId()}"}"
 					}
 					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 						sCellClassName='vote_date'
 						sSortingOrder='vote_date'
-						sLinkHtml='date'
+						sLinkHtml=$aLang.plugin.admin.users.votes.table_header.vote_date
 						sBaseUrl="{router page="admin/users/votes/{$oUser->getId()}"}"
 					}
 					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 						sCellClassName='vote_ip'
 						sSortingOrder='vote_ip'
-						sLinkHtml='ip'
+						sLinkHtml=$aLang.plugin.admin.users.votes.table_header.vote_ip
 						sBaseUrl="{router page="admin/users/votes/{$oUser->getId()}"}"
 					}
 					<th>
-						target object
+						{$aLang.plugin.admin.users.votes.table_header.target_object}
 					</th>
 				</tr>
 			</thead>

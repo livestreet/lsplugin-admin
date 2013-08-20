@@ -37,6 +37,7 @@ return array(
 		'unknown_parameter' => 'Передан параметр <b>%%key%%</b>, описание которого нет',
 		'unknown_parameter_type' => 'Неизвестный тип параметра',
 		'disallowed_parameter_value' => 'Это значение для параметра <b>%%key%%</b> недопустимо. ',
+		'disallowed_settings_by_inheriting_plugin' => 'Набор данных значений для параметров запрещен для сохранения: ',
 		'some_fields_are_incorrect' => 'В некоторых полях указаны неверные значения',
 		
 		/*
@@ -122,6 +123,17 @@ return array(
 		'search' => 'Поиск',
 		'on_page' => 'На странице',
 		/*
+		 * заголовок таблицы списка пользователей
+		 */
+		'table_header' => array(
+			'name' => 'Имя',
+			'birth' => 'Родился',
+			'reg_and_last_visit' => 'Регистрация и визит',
+			'ip' => 'IP-адрес',
+			'rating_and_skill' => 'Рейтинг и сила',
+
+		),
+		/*
 		 * списки голосов
 		 */
 		'votes' => array(
@@ -134,7 +146,20 @@ return array(
 				'user' => 'пользователей',
 				'comment' => 'комментарии',
 			),
+			/*
+			 * заголовок таблицы списка голосов
+			 */
+			'table_header' => array(
+				'target_id' => 'id объекта',
+				'vote_direction' => 'направление',
+				'vote_value' => 'прирост',
+				'vote_date' => 'дата голосования',
+				'vote_ip' => 'ip-адрес',
+				'target_object' => 'объект',
+			),
+			'back_to_user_profile_page' => '&larr; Назад на страницу данных пользователя',
 		),
+
 
 	),
 	

@@ -67,7 +67,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$aPluginTemplatePath . "css/pagination.css",
 			$aPluginTemplatePath . "css/icons.css",
 			$aPluginTemplatePath . "css/navs.css",
-			$aPluginTemplatePath . "css/_temp_/jquery.notifier.css",  // todo: temporary, delete on production
+			$aPluginTemplatePath . "css/vendor/jquery.notifier.css",
 			$aPluginTemplatePath . "css/parameters.css",
 			$aPluginTemplatePath . "css/skins.css",
 			$aPluginTemplatePath . "css/users.css",
@@ -348,6 +348,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		$this->Viewer_Assign('sAdminSystemConfigId', ModuleStorage::DEFAULT_KEY_NAME);
 	}
 
+
 	public function EventError() {
 		$aHttpErrors=array(
 			'404' => array(
@@ -367,11 +368,11 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		$this->SetTemplateAction('error');
 	}
 
+
 	protected function EventNotFound() {
 		return Router::Action('admin','error',array('404'));
 	}
 
-	
 }
 
 ?>

@@ -435,6 +435,13 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 				}
 			}
 		}
+		/*
+		 * Проверить изменен ли хоть один параметр и вызвать событие
+		 */
+		if (($mResult = $this->FireChangedAtLeastOneParamEvent($sConfigName, $aSettingsInfo)) !== true) {
+			$this->Message_AddError($this->Lang('errors.disallowed_settings_by_inheriting_plugin') . $mResult);
+			$bResult = false;
+		}
 		return $bResult;
 	}
 
@@ -684,6 +691,40 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 		$mPreviousValue = $oParamInfo->getValue();
 		if ($mNewValue != $mPreviousValue) {
 			return $this->PluginAdmin_Events_ConfigParameterChangeNotification($sConfigName, $sKey, $mNewValue, $mPreviousValue);
+		}
+		return true;
+	}
+
+
+	/**
+	 * Проверка если хоть одно значение было изменено в конфиге, вызов подписчиков (перед записью данных)
+	 *
+	 * @param $sConfigName		имя конфига
+	 * @param $aSettingsInfo	набор настроек
+	 * @return bool				разрешение на запись настроек
+	 */
+	protected function FireChangedAtLeastOneParamEvent($sConfigName, $aSettingsInfo) {
+		/*
+		 * проверить каждый параметр - было изменено хотя бы одно значение
+		 */
+		foreach($aSettingsInfo as $sKey => $oParamInfo) {
+			/*
+			 * получить старое значение
+			 */
+			$mPreviousValue = $oParamInfo->getValue();
+			/*
+			 * получить новое значение из временной инстанции конфига (куда оно было помещено для последущего сохранения)
+			 */
+			$mNewValue = $this->GetConfigKeyValue($sConfigName, $sKey, self::ADMIN_TEMP_CONFIG_INSTANCE);
+			/*
+			 * сравнить значения
+			 */
+			if ($mNewValue != $mPreviousValue) {
+				/*
+				 * вызвать событие у подписчика (если таковые есть)
+				 */
+				return $this->PluginAdmin_Events_ConfigParametersAreChangedNotification($sConfigName);
+			}
 		}
 		return true;
 	}
