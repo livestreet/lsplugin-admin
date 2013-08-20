@@ -36,6 +36,26 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	 * Список пользователей
 	 */
 	public function EventUsersList() {
+		$this->GetUsersListByRules(Router::GetPath('admin/users/list'));
+
+	}
+
+
+	/**
+	 * Список админов
+	 */
+	public function EventAdminsList() {
+		$this->GetUsersListByRules(Router::GetPath('admin/users/admins'), array('admins_only' => true));
+	}
+
+
+	/**
+	 * Получить список пользователей по фильтру из формы и доп. фильтру, добавить постраничность и вывести списком с сортировкой
+	 *
+	 * @param       $sFullPagePathToEvent		путь к екшену
+	 * @param array $aAdditionalUsersFilter		дополнительный фильтр поиска по пользователям
+	 */
+	protected function GetUsersListByRules ($sFullPagePathToEvent, $aAdditionalUsersFilter = array()) {
 		$this->SetTemplateAction('users/list');
 		$this->SetPaging();
 
@@ -66,7 +86,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 * получение пользователей
 		 */
 		$aResult = $this->PluginAdmin_Users_GetUsersByFilter(
-			$aSearchRules,
+			array_merge($aSearchRules, $aAdditionalUsersFilter),
 			array($sOrder => $sWay),
 			$this->iPage,
 			$this->iPerPage
@@ -81,7 +101,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 			$this->iPage,
 			$this->iPerPage,
 			Config::Get('pagination.pages.count'),
-			Router::GetPath('admin') . Router::GetActionEvent() . '/list',
+			$sFullPagePathToEvent,
 			$this->GetPagingAdditionalParamsByArray(array(
 				'q' => $sSearchQuery,
 				'field' => $aSearchFields,
@@ -92,6 +112,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 
 		$this->Viewer_Assign('aPaging', $aPaging);
 		$this->Viewer_Assign('aUsers', $aUsers);
+		$this->Viewer_Assign('sFullPagePathToEvent', $sFullPagePathToEvent);
 
 		/*
 		 * сортировка

@@ -263,6 +263,7 @@ $config ['user_search_allowed_types'] = array(
 	'login' => array('search_as_part_of_string'=>true),
 	'profile_name' => array('search_as_part_of_string'=>true),
 	'session_ip_last' => array('search_as_part_of_string'=>true),
+	'admins_only' => array('search_as_part_of_string'=>false),
 );
 
 /*

@@ -6,7 +6,7 @@
 	</h2>
 
 	<div class="UserSearch">
-		<form action="{router page='admin'}users/list/" method="get" enctype="application/x-www-form-urlencoded">
+		<form action="{$sFullPagePathToEvent}" method="get" enctype="application/x-www-form-urlencoded">
 			<input type="text" name="filter[q]" class="input-text width-200" value="{$sSearchQuery}" />
 			<select name="filter[field]" class="width-150">
 				{foreach from=array_keys($oConfig->GetValue('plugin.admin.user_search_allowed_types')) item=sSearchIn}
@@ -34,31 +34,31 @@
 					sCellClassName='name'
 					sSortingOrder='u.user_login'
 					sLinkHtml=$aLang.plugin.admin.users.table_header.name
-					sBaseUrl="{router page='admin/users/list'}"
+					sBaseUrl=$sFullPagePathToEvent
 				}
 				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 					sCellClassName='birth'
 					sSortingOrder='u.user_profile_birthday'
 					sLinkHtml=$aLang.plugin.admin.users.table_header.birth
-					sBaseUrl="{router page='admin/users/list'}"
+					sBaseUrl=$sFullPagePathToEvent
 				}
 				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 					sCellClassName='visitandreg'
 					sSortingOrder='s.session_date_last'
 					sLinkHtml=$aLang.plugin.admin.users.table_header.reg_and_last_visit
-					sBaseUrl="{router page='admin/users/list'}"
+					sBaseUrl=$sFullPagePathToEvent
 				}
 				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 					sCellClassName='ips'
 					sSortingOrder='s.session_ip_last'
 					sLinkHtml=$aLang.plugin.admin.users.table_header.ip
-					sBaseUrl="{router page='admin/users/list'}"
+					sBaseUrl=$sFullPagePathToEvent
 				}
 				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 					sCellClassName='rating'
 					sSortingOrder='u.user_rating'
 					sLinkHtml=$aLang.plugin.admin.users.table_header.rating_and_skill
-					sBaseUrl="{router page='admin/users/list'}"
+					sBaseUrl=$sFullPagePathToEvent
 				}
 				<th class="controls"></th>
 			</tr>
@@ -82,6 +82,9 @@
 						<div class="name {if !$oUser->getProfileName()}no-realname{/if}">
 							<p class="username word-wrap">
 								<a href="{router page='admin'}users/profile/{$oUser->getId()}">{$oUser->getLogin()}</a>
+								{if $oUser->isAdministrator()}
+									<i class="icon-user" title="Admin"></i>
+								{/if}
 							</p>
 							{if $oUser->getProfileName()}
 								<p class="realname">{$oUser->getProfileName()}</p>

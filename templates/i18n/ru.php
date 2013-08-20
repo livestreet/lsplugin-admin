@@ -119,6 +119,7 @@ return array(
 			'login' => 'логин',
 			'profile_name' => 'имени профиля',
 			'session_ip_last' => 'ip последнего входа',
+			'admins_only' => 'только админы',
 		),
 		'search' => 'Поиск',
 		'on_page' => 'На странице',
