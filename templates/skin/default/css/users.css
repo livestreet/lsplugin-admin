@@ -228,3 +228,18 @@
 .ls-admin .profile-contact-list li i {
     margin-right: 10px;
 }
+
+/* change user rating and skill */
+
+.ls-admin .profile-info-wrapper .inner-data .base-info .right form {
+    background: none repeat scroll 0 0 #E1E1E1;
+    border: 1px solid #DDDDDD;
+    padding: 5px;
+}
+
+.ls-admin .profile-info-wrapper .inner-data .base-info .right form input[type="submit"] {
+    clear: both;
+    margin-top: 5px;
+    overflow: hidden;
+    width: 100%;
+}

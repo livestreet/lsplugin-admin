@@ -52,16 +52,21 @@
 					</div>
 				</div>
 				<div class="right">
-					<div class="skill">
-						S:
-						<input type="text" name="user-skill" class="input-text width-50" value="{$oUser->getSkill()}" />
-					</div>
-					<div class="rating">
-						R:
-						<input type="text" name="user-rating" class="input-text width-50" value="{$oUser->getRating()}" />
-					</div>
+					<form action="{router page='admin'}users/ajax-edit-rating/" method="post" enctype="application/x-www-form-urlencoded" id="admin_editrating">
+						<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
+						<input type="hidden" name="user_id" value="{$oUser->getId()}" />
+						<div class="skill">
+							S
+							<input type="text" name="user-skill" class="input-text width-50" value="{$oUser->getSkill()}" />
+						</div>
+						<div class="rating">
+							R
+							<input type="text" name="user-rating" class="input-text width-50" value="{$oUser->getRating()}" />
+						</div>
+						<input type="submit" value="{$aLang.plugin.admin.users.profile.edit_user_rating}" name="submit_edit_rating" class="button button-primary" />
+					</form>
 					<div class="user-id">
-						№ {$oUser->getId()}
+						{$aLang.plugin.admin.users.profile.user_no} {$oUser->getId()}
 					</div>
 				</div>
 			</div>

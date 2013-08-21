@@ -112,6 +112,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$aPluginTemplatePath . "/js/admin_settings_save.js",
 			$aPluginTemplatePath . "/js/admin_settings_array.js",
 			$aPluginTemplatePath . "/js/admin_user_per_page.js",
+			$aPluginTemplatePath . "/js/admin_edit_user_rating.js",
 		);
 		
 		array_map(array($this, 'Viewer_AppendStyle'), $aStyles);
@@ -177,10 +178,6 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 */
 		$this->AddEventPreg('#^users$#iu', '#^list$#iu', '#^(page(\d{1,5}))?$#iu', 'Users::EventUsersList');
 		/*
-		 * изменение количества пользователей на страницу (аякс)
-		 */
-		$this->AddEventPreg('#^users$#iu', '#^ajax-on-page$#iu', 'Users::EventAjaxUsersOnPage');
-		/*
 		 * страница информации о пользователе
 		 */
 		$this->AddEventPreg('#^users$#iu', '#^profile#iu', '#^\d{1,5}$#iu', 'Users::EventUserProfile');
@@ -192,6 +189,15 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 * список админов
 		 */
 		$this->AddEventPreg('#^users$#iu', '#^admins$#iu', '#^(page(\d{1,5}))?$#iu', 'Users::EventAdminsList');
+
+		/*
+		 * изменение количества пользователей на страницу (аякс)
+		 */
+		$this->AddEventPreg('#^users$#iu', '#^ajax-on-page$#iu', 'Users::EventAjaxUsersOnPage');
+		/*
+		 * изменение рейтинга и силы пользователя
+		 */
+		$this->AddEventPreg('#^users$#iu', '#^ajax-edit-rating$#iu', 'Users::EventAjaxEditUserRatingAndSkill');
 
 		/*
 		 *

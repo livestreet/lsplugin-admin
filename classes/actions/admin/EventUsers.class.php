@@ -37,7 +37,6 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	 */
 	public function EventUsersList() {
 		$this->GetUsersListByRules(Router::GetPath('admin/users/list'));
-
 	}
 
 
@@ -399,6 +398,20 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 			}
 		}
 		return ($aFilter ? array('filter' => $aFilter) : null);
+	}
+
+
+	/**
+	 * Изменить рейтинг и силу пользователя
+	 */
+	public function EventAjaxEditUserRatingAndSkill () {
+		$this->Viewer_SetResponseAjax('json');
+		if ($oUser = $this->User_GetUserById((int) getRequest('user_id'))) {
+			$oUser->setRating((float) getRequestStr('user-rating'));
+			$oUser->setSkill((float) getRequestStr('user-skill'));
+			$this->User_Update($oUser);
+			$this->Message_AddNotice('Ok');
+		}
 	}
 
 }
