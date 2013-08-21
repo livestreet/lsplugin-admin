@@ -36,7 +36,20 @@ ls.admin_misc = (function($) {
 		/*
 			редактирование рейтинга и силы
 		 */
-		edit_rating_form_id: '#admin_editrating'
+		edit_rating_form_id: '#admin_editrating',
+
+		/*
+			форма поиска по пользователям на странице пользователей
+		 */
+		user_search_form_id: '#admin_user_list_search_form',
+		user_search_form_q: '#admin_user_list_search_form_q',
+		user_search_form_field: '#admin_user_list_search_form_field',
+
+
+		/*
+			для удобства (последняя запятая отсутствует)
+		 */
+		last_element: 'without_comma'
 	};
 	
 	// ---
@@ -89,6 +102,22 @@ jQuery(document).ready(function($) {
 			}
 		},
 		complete: function(xhr) {}
+	});
+
+
+	/*
+		добавление срытого поля для поиска по пользователям (поле имеет имя field[profile_name])
+	 */
+	$ (ls.admin_misc.selectors.user_search_form_id).bind('submit.admin', function() {
+		q = $ (ls.admin_misc.selectors.user_search_form_q);
+		field = $ (ls.admin_misc.selectors.user_search_form_field);
+		$ (ls.admin_misc.selectors.user_search_form_id).prepend(
+			$ ('<input />', {
+				type: 'hidden',
+				name: 'filter[' + field.val() + ']',
+				value: q.val()
+			})
+		);
 	});
 
 });

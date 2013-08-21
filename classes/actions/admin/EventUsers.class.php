@@ -54,10 +54,13 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	 * @param       $sFullPagePathToEvent		путь к екшену
 	 * @param array $aAdditionalUsersFilter		дополнительный фильтр поиска по пользователям
 	 */
-	protected function GetUsersListByRules ($sFullPagePathToEvent, $aAdditionalUsersFilter = array()) {
+	protected function GetUsersListByRules($sFullPagePathToEvent, $aAdditionalUsersFilter = array()) {
 		$this->SetTemplateAction('users/list');
 		$this->SetPaging();
 
+		/*
+		 * получить фильтр, хранящий в себе все параметры (поиска и сортировки)
+		 */
 		$aFilter = getRequest('filter');
 
 		/*
@@ -67,19 +70,17 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		$sWay = @$aFilter['order_way'];
 
 		/*
-		 * поиск по полям
+		 * поиск по полям - отобрать корректные поля для поиска среди кучи других параметров
 		 */
-		$sSearchQuery = @$aFilter['q'];
-		$aSearchFields = @$aFilter['field'];
-
-		if (!is_array($aSearchFields)) {
-			$aSearchFields = (array) $aSearchFields;
-		}
-
+		$aValidatedSearchRules = $this->GetSearchRule($aFilter);
 		/*
 		 * получить правила (фильтр для поиска)
 		 */
-		$aSearchRules = $this->GetSearchRule($sSearchQuery, $aSearchFields);
+		$aSearchRules = $aValidatedSearchRules ['filter_queries'];
+		/*
+		 * получить правила только с оригинальными тектовыми запросами
+		 */
+		$aSearchRulesWithOriginalQueries = $aValidatedSearchRules ['filter_queries_with_original_values'];
 
 		/*
 		 * получение пользователей
@@ -101,12 +102,15 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 			$this->iPerPage,
 			Config::Get('pagination.pages.count'),
 			$sFullPagePathToEvent,
-			$this->GetPagingAdditionalParamsByArray(array(
-				'q' => $sSearchQuery,
-				'field' => $aSearchFields,
-				'order_field' => $sOrder,
-				'order_way' => $sWay
-			))
+			$this->GetPagingAdditionalParamsByArray(
+				array_merge(
+					array(
+						'order_field' => $sOrder,
+						'order_way' => $sWay
+					),
+					$aSearchRulesWithOriginalQueries
+				)
+			)
 		);
 
 		$this->Viewer_Assign('aPaging', $aPaging);
@@ -123,8 +127,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * поиск
 		 */
-		$this->Viewer_Assign('sSearchQuery', $sSearchQuery);
-		$this->Viewer_Assign('aSearchFields', $aSearchFields);
+		$this->Viewer_Assign('aSearchRulesWithOriginalQueries', $aSearchRulesWithOriginalQueries);
 	}
 
 
@@ -253,24 +256,31 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	/**
 	 * Получить правила для поиска по полям
 	 *
-	 * @param string|array	$aSearchQueries		запросы
-	 * @param array 		$aSearchFields		имена полей, по которым будет происходить поиск
+	 * @param string|array	$aFilter			имена полей и запросы, по которым будет происходить поиск
 	 * @return array							правило для фильтра
 	 */
-	protected function GetSearchRule ($aSearchQueries, $aSearchFields) {
+	protected function GetSearchRule($aFilter) {
 		$aUserSearchFieldsRules = Config::Get('plugin.admin.user_search_allowed_types');
+		/*
+		 * здесь будут пары "поле=>запрос" для запроса через фильтр
+		 */
 		$aQueries = array();
-		foreach ($aSearchFields as $sField) {
+		/*
+		 * здесь будут хранится проверенные поля по которым можно искать, но с оригинальными данными значений для поиска
+		 */
+		$aCorrectFieldsWithOriginalValues = array();
+		/*
+		 * набор правил для поиска представляет собой массив поле_поиска => запрос (в данном массиве хранится все вместе)
+		 */
+		foreach ((array) $aFilter as $sField => $sQuery) {
 			/*
-			 * если имя поля для поиска разрешено
+			 * если имя поля для поиска разрешено (получить корректное поле среди остальных данных)
 			 */
 			if (in_array($sField, array_keys($aUserSearchFieldsRules))) {
-				// todo: review: the same query for all fields if not array
-				if (is_array($aSearchQueries)) {
-					$sQuery = $aSearchQueries [$sField];
-				} else {
-					$sQuery = $aSearchQueries;
-				}
+				/*
+				 * до начала обработки поискового запроса сохранить оригинал для каждого корректного поля из данных фильтра
+				 */
+				$aCorrectFieldsWithOriginalValues [$sField] = $sQuery;
 				/*
 				 * экранировать спецсимволы
 				 */
@@ -284,10 +294,16 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 					 */
 					$sQuery = '%' . $sQuery . '%';
 				}
+				/*
+				 * добавить новую поисковую пару "поле=>запрос" для фильтра
+				 */
 				$aQueries [$sField] = $sQuery;
 			}
 		}
-		return $aQueries;
+		return array(
+			'filter_queries' =>  $aQueries,
+			'filter_queries_with_original_values' => $aCorrectFieldsWithOriginalValues
+		);
 	}
 
 
