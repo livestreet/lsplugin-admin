@@ -111,8 +111,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$aPluginTemplatePath . "/js/init.js",
 			$aPluginTemplatePath . "/js/admin_settings_save.js",
 			$aPluginTemplatePath . "/js/admin_settings_array.js",
-			$aPluginTemplatePath . "/js/admin_user_per_page.js",
-			$aPluginTemplatePath . "/js/admin_edit_user_rating.js",
+			$aPluginTemplatePath . "/js/admin_misc.js",
 		);
 		
 		array_map(array($this, 'Viewer_AppendStyle'), $aStyles);

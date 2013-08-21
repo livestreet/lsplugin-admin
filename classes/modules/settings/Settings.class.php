@@ -439,7 +439,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 		 * Проверить изменен ли хоть один параметр и вызвать событие
 		 */
 		if (($mResult = $this->FireChangedAtLeastOneParamEvent($sConfigName, $aSettingsInfo)) !== true) {
-			$this->Message_AddError($this->Lang('errors.disallowed_settings_by_inheriting_plugin') . $mResult);
+			$this->Message_AddError($this->Lang_Get('plugin.admin.errors.disallowed_settings_by_inheriting_plugin') . $mResult);
 			$bResult = false;
 		}
 		return $bResult;

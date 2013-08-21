@@ -6,7 +6,7 @@
 	</h2>
 
 	<div class="UserSearch">
-		<form action="{$sFullPagePathToEvent}" method="get" enctype="application/x-www-form-urlencoded">
+		<form action="{$sFullPagePathToEvent}" method="get" enctype="application/x-www-form-urlencoded" id="admin_user_list_search_form">
 			<input type="text" name="filter[q]" class="input-text width-200" value="{$sSearchQuery}" />
 			<select name="filter[field]" class="width-150">
 				{foreach from=array_keys($oConfig->GetValue('plugin.admin.user_search_allowed_types')) item=sSearchIn}
