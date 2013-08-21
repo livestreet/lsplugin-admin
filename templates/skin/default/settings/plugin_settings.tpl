@@ -23,7 +23,7 @@
 					</div>
 
 					<div>
-						{include file="{$aTemplatePathPlugin.admin}plugin_settings_one_field.tpl"}
+						{include file="{$aTemplatePathPlugin.admin}settings/plugin_settings_one_field.tpl"}
 					</div>
 
 					<div>

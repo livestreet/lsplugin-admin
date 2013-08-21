@@ -28,21 +28,18 @@
 
 
 /*
- *	FAQ: Сначала нужно записать параметры как обычно
+ *	FAQ: 1. Сначала нужно записать параметры как обычно
  */
 
 $config['test']['subarr'] = 3;					// integer
 $config['moredata'] = 'param2';					// string
-$config['some_param'] = true;						// bool
-$config['users']['min_rating'] = 0.1;		// float
+$config['some_param'] = true;					// bool
+$config['users']['min_rating'] = 0.1;			// float
 
-/**
+/*
  * Массивы
  */
 
-/*
- * Settings for plugin Sitemap
- */
 $config['sitemap'] = array(
 		'cache_lifetime' => 60 * 60 * 24,
 		'sitemap_priority' => '0.8',
@@ -51,7 +48,7 @@ $config['sitemap'] = array(
 $config ['setup_rules']['one'] = array(1, 2, 3);
 
 /*
- * FAQ: Потом нужно указать описание структуры для каждого параметра в специальном массиве, которым управляет админка
+ *	FAQ: 2. Потом нужно указать описание структуры для каждого параметра в специальном массиве, которым управляет админка
  */
 
 /*
@@ -60,7 +57,7 @@ $config ['setup_rules']['one'] = array(1, 2, 3);
 $config ['$config_scheme$'] = array(
 
 	/*
-	 * TEMP TEST todo: delete
+	 * todo: delete (TEMP TEST)
 	 */
 	'user.per_page' => array(
 		'type' => 'integer',																							// integer, string, array, boolean, float

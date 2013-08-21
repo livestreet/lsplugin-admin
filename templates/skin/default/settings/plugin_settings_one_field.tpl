@@ -1,7 +1,7 @@
 
 	{if in_array($oParameter->getType(), array('integer', 'string', 'float', 'array', 'boolean'))}
 	
-		{include file="{$aTemplatePathPlugin.admin}field_forms/one_field_{$oParameter->getType()}.tpl"}
+		{include file="{$aTemplatePathPlugin.admin}settings/field_forms/one_field_{$oParameter->getType()}.tpl"}
   
 	{else}
 		<div class="UnknownParamType">

@@ -29,8 +29,9 @@ class PluginAdmin_HookSettings extends Hook {
 
 	public function RegisterHook() {
 		$this->AddHook('lang_init_start', 'LangInitStart', __CLASS__, PHP_INT_MAX);              // наивысший приоритет, который можно установить
-		//$this->AddHook('template_content_begin', 'ContentBegin');
-		$this->AddHook('template_admin_content_begin', 'ContentBegin');   // todo: review: hook names (temp)
+
+		$this->AddHook('template_content_begin', 'ContentBegin');
+		$this->AddHook('template_admin_content_begin', 'ContentBegin');   // todo: review: temp hook names (dubplicate)
 	}
 
 
@@ -66,7 +67,7 @@ class PluginAdmin_HookSettings extends Hook {
 	
 	
 	public function ShowPreviewSkinMessage() {
-		return $this->Viewer_Fetch(Plugin::GetTemplatePath(__CLASS__) . 'preview_skin_message.tpl');
+		return $this->Viewer_Fetch(Plugin::GetTemplatePath(__CLASS__) . 'actions/ActionAdmin/skin/preview_skin_message.tpl');
 	}
 
 }
