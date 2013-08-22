@@ -430,6 +430,60 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		}
 	}
 
+
+	public function EventBansList() {
+		$this->SetTemplateAction('users/bans');
+		$this->SetPaging();
+
+
+	}
+
+	public function EventAddBan() {
+		$this->SetTemplateAction('users/bans.add');
+		$this->SetPaging();
+
+		/*
+		 * если была нажата кнопка
+		 */
+		if (isPost('submit_add_ban')) {
+			$this->Security_ValidateSendForm();
+
+			/*
+			 * получить идентификацию пользователя
+			 */
+			$sUserSign = getRequestStr('user_sign');
+			/*
+			 * тип бана
+			 */
+			$sBanType = getRequest('bantype');	// unlimited, period, days
+
+			/*
+			 * получить временные интервалы для типа бана "period"
+			 */
+			$sPeriodFrom = getRequestStr('period_from');
+			$sPeriodTo = getRequestStr('period_to');
+
+			/*
+			 * получить количество дней бана для типа бана "days"
+			 */
+			$sDaysCount = getRequestStr('period_to');
+
+			/*
+			 * получить причину бана (отображается для пользователя)
+			 */
+			$sBlockingReasonForUser = getRequestStr('reason_for_user');
+			/*
+			 * комментарий для админа
+			 */
+			$sBlockingComment = getRequestStr('reason_comment');
+
+			print_r ($_POST); die ();	// test debug, todo: delete
+
+
+		}
+
+	}
+
 }
 
 ?>

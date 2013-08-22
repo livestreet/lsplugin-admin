@@ -243,3 +243,36 @@
     overflow: hidden;
     width: 100%;
 }
+
+/* ban lists */
+
+.ls-admin .ban-page .one-param .right-info {
+	float: right;
+	width: 70%;
+}
+
+.ls-admin .ban-page .one-param {
+	background: none repeat scroll 0 0 #E4F3FF;
+	border-radius: 2px 2px 2px 2px;
+	padding: 5px;
+	clear: both;
+	overflow: hidden;
+	margin-bottom: 20px;
+}
+
+.ls-admin .ban-page .one-param label {
+	overflow: hidden;
+}
+
+.ls-admin .ban-page .ban-part-wrapper {
+	background: #F7FBFF;
+	margin-bottom: 20px;
+	padding: 20px;
+}
+
+.ls-admin .ban-page .ban-part-wrapper h3 {
+	color: #777777;
+	font-size: 18px;
+	margin-bottom: 15px;
+	text-shadow: 0 1px 0 #FFFFFF;
+}

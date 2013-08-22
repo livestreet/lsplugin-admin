@@ -106,7 +106,7 @@ jQuery(document).ready(function($) {
 
 
 	/*
-		добавление срытого поля для поиска по пользователям (поле имеет имя field[profile_name])
+		добавление срытого поля для поиска по пользователям (поле имеет имя filter[profile_name])
 	 */
 	$ (ls.admin_misc.selectors.user_search_form_id).bind('submit.admin', function() {
 		q = $ (ls.admin_misc.selectors.user_search_form_q);

@@ -60,6 +60,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$sFrameworkPath . "/css/popover.css",
 			$sFrameworkPath . "/css/alerts.css",
 			$sFrameworkPath . "/css/toolbar.css",
+			$sFrameworkPath . "/js/vendor/jquery-ui/css/smoothness/jquery-ui-1.10.2.custom.css",		// todo: review
 			
 			$aPluginTemplatePath . "css/base.css",
 			$aPluginTemplatePath . "css/grid.css",
@@ -188,6 +189,14 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 * список админов
 		 */
 		$this->AddEventPreg('#^users$#iu', '#^admins$#iu', '#^(page(\d{1,5}))?$#iu', 'Users::EventAdminsList');
+		/*
+		 * добавить бан
+		 */
+		$this->AddEventPreg('#^users$#iu', '#^bans#iu', '#^add$#iu', 'Users::EventAddBan');
+		/*
+		 * список банов
+		 */
+		$this->AddEventPreg('#^users$#iu', '#^bans#iu', '#^(page(\d{1,5}))?$#iu', 'Users::EventBansList');
 
 		/*
 		 * изменение количества пользователей на страницу (аякс)
@@ -283,7 +292,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 				
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Статистика')->SetUrl('stats'))
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Весь список')->SetUrl('list'))
-				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Бан-листы')->SetUrl('ban'))
+				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Бан-листы')->SetUrl('bans'))
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Администраторы')->SetUrl('admins'))
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Инвайты')->SetUrl('invite'))
 			)	// /AddSection
