@@ -477,9 +477,36 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 			 */
 			$sBlockingComment = getRequestStr('reason_comment');
 
+
+			$this->GetUserDataByUserRule($sUserSign);
+
 			print_r ($_POST); die ();	// test debug, todo: delete
 
 
+		}
+
+	}
+
+
+	protected function GetUserDataByUserRule($sSign) {
+		$aMatches = array();
+		if (preg_match('#^\d++$#iu', $sSign, $aMatches)) {
+			// this is user id
+			die ('id');
+		} elseif (preg_match('#^[\w-]++$#iu', $sSign, $aMatches)) {
+			// this is user login
+			die ('login');
+		} elseif (preg_match('#^[\w\.-]++@[\w-]++\.\w++$#iu', $sSign, $aMatches)) {
+			// mail
+			die ('mail');
+		} elseif (preg_match('#^\d++\.\d++\.\d++\.\d++$#iu', $sSign, $aMatches)) {
+			// ip
+			die ('ip');
+		} elseif (preg_match('#^\d++\.\d++\.\d++\.\d++\s*+-\s*+\d++\.\d++\.\d++\.\d++$#iu', $sSign, $aMatches)) {
+			// ip range
+			die ('ip range');
+		} else {
+			die ('cant find rule');
 		}
 
 	}
