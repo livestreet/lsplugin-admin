@@ -15,7 +15,12 @@ jQuery(document).ready(function($){
 	/**
 	 * Datepicker
 	 */
-	$('.date-picker').datepicker();
+	$('.date-picker').datepicker({
+		/*
+			формат даты изменен для удобства работы с ней на стороне php
+		 */
+		dateFormat: 'yy-mm-dd'
+	});
 
 
 	/**

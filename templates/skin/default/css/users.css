@@ -247,14 +247,13 @@
 /* ban lists */
 
 .ls-admin .ban-page .one-param .right-info {
-	float: right;
-	width: 70%;
+	overflow: hidden;
 }
 
 .ls-admin .ban-page .one-param {
 	background: none repeat scroll 0 0 #E4F3FF;
 	border-radius: 2px 2px 2px 2px;
-	padding: 5px;
+	padding: 5px 0 5px 20px;
 	clear: both;
 	overflow: hidden;
 	margin-bottom: 20px;
@@ -262,12 +261,14 @@
 
 .ls-admin .ban-page .one-param label {
 	overflow: hidden;
+	float: left;
+	width: 230px;
 }
 
 .ls-admin .ban-page .ban-part-wrapper {
-	background: #F7FBFF;
-	margin-bottom: 20px;
+	background: none repeat scroll 0 0 #f9f9f9;
 	padding: 20px;
+	margin: 0 -15px 25px;
 }
 
 .ls-admin .ban-page .ban-part-wrapper h3 {

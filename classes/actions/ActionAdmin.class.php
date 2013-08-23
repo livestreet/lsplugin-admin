@@ -220,7 +220,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		/*
 		 * список плагинов
 		 */
-		$this->AddEventPreg('#^plugins$#iu', '#^list$#iu', 'Plugins::EventPluginsList');
+		$this->AddEventPreg('#^plugins$#iu', '#^(?:list)?$#iu', 'Plugins::EventPluginsList');
 
 		/*
 		 *

@@ -431,6 +431,9 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	}
 
 
+	/**
+	 * Список банов
+	 */
 	public function EventBansList() {
 		$this->SetTemplateAction('users/bans');
 		$this->SetPaging();
@@ -438,77 +441,232 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 
 	}
 
+	/**
+	 * Добавить новую запись о бане пользователя
+	 * 
+	 * @return bool
+	 */
 	public function EventAddBan() {
 		$this->SetTemplateAction('users/bans.add');
-		$this->SetPaging();
-
 		/*
 		 * если была нажата кнопка
 		 */
 		if (isPost('submit_add_ban')) {
-			$this->Security_ValidateSendForm();
-
-			/*
-			 * получить идентификацию пользователя
-			 */
-			$sUserSign = getRequestStr('user_sign');
-			/*
-			 * тип бана
-			 */
-			$sBanType = getRequest('bantype');	// unlimited, period, days
-
-			/*
-			 * получить временные интервалы для типа бана "period"
-			 */
-			$sPeriodFrom = getRequestStr('period_from');
-			$sPeriodTo = getRequestStr('period_to');
-
-			/*
-			 * получить количество дней бана для типа бана "days"
-			 */
-			$sDaysCount = getRequestStr('period_to');
-
-			/*
-			 * получить причину бана (отображается для пользователя)
-			 */
-			$sBlockingReasonForUser = getRequestStr('reason_for_user');
-			/*
-			 * комментарий для админа
-			 */
-			$sBlockingComment = getRequestStr('reason_comment');
-
-
-			$this->GetUserDataByUserRule($sUserSign);
-
-			print_r ($_POST); die ();	// test debug, todo: delete
-
-
+			$this->SubmitBan();
 		}
-
 	}
 
 
+	/**
+	 * Добавить новую запись о бане 
+	 * 
+	 * @return bool
+	 * @throws Exception
+	 */
+	protected function SubmitBan() {
+		$this->Security_ValidateSendForm();
+
+		/*
+		 * получить идентификацию пользователя (правило поиска)
+		 */
+		$sUserSign = getRequestStr('user_sign');
+		/*
+		 * тип бана (unlimited, period, days)
+		 */
+		$sBanType = getRequest('bantype');
+		if (is_array($sBanType)) $sBanType = array_shift($sBanType);
+
+		/*
+		 * получить временные интервалы для типа бана "period"
+		 */
+		$sPeriodFrom = getRequestStr('period_from');
+		$sPeriodTo = getRequestStr('period_to');
+
+		/*
+		 * получить количество дней бана для типа бана "days"
+		 */
+		$iDaysCount = (int) getRequestStr('days_count');
+
+		/*
+		 * получить причину бана (отображается для пользователя)
+		 */
+		$sBlockingReasonForUser = getRequestStr('reason_for_user');
+		/*
+		 * комментарий бана для админа
+		 */
+		$sBlockingComment = getRequestStr('reason_comment');
+
+
+		/*
+		 * проверить правило бана
+		 */
+		if (!$aRuleData = $this->GetUserDataByUserRule($sUserSign)) {
+			$this->Message_AddError('Unknow rule sign');
+			return false;
+		}
+		/*
+		 * проверить тип бана
+		 */
+		if (!in_array($sBanType, array('unlimited', 'period', 'days'))) {
+			$this->Message_AddError('Unknow ban type "' . $sBanType . '" must be "unlimited", "period" or "days"');
+			return false;
+		}
+		/*
+		 * проверить временные интервалы
+		 */
+		$aMatches = array();
+		/*
+		 * если включен режим периода для бана
+		 */
+		if ($sBanType == 'period') {
+			/*
+			 * если дата начала задана - проверить корректность даты
+			 */
+			if (!$sPeriodFrom or !preg_match('#^\d{4}-\d{1,2}-\d{1,2}$#iu', $sPeriodFrom, $aMatches)) {
+				$this->Message_AddError('Period "from" is not correct (must be in YYYY-mm-dd)');
+				return false;
+			}
+			/*
+			 * если дата финиша задана - проверить корректность даты
+			 */
+			if (!$sPeriodTo or !preg_match('#^\d{4}-\d{1,2}-\d{1,2}$#iu', $sPeriodTo, $aMatches)) {
+				$this->Message_AddError('Period "to" is not correct (must be in YYYY-mm-dd)');
+				return false;
+			}
+			/*
+			 * проверить чтобы дата финиша была больше даты старта
+			 */
+			if (strtotime($sPeriodTo) <= strtotime($sPeriodFrom)) {
+				$this->Message_AddError('Period "to" must be greater than period "from"');
+				return false;
+			}
+		}
+		/*
+		 * проверить количество дней
+		 */
+		if ($sBanType == 'days' and !$iDaysCount) {
+			$this->Message_AddError('Days count are incorrect');
+			return false;
+		}
+		/*
+		 * парсинг комментариев
+		 */
+		$sBlockingReasonForUser = $this->Text_Parser($sBlockingReasonForUser);
+		$sBlockingComment = $this->Text_Parser($sBlockingComment);
+
+
+		/*
+		 * заполнение сущности
+		 */
+		$oEnt = Engine::GetEntity('PluginAdmin_Users_Ban');
+		/*
+		 * тип блокировки
+		 */
+		switch ($aRuleData['type']) {
+			case 'user':
+				$oEnt->setBlockType(PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_USER_ID);
+				$oEnt->setUserId($aRuleData['user']->getId());
+				break;
+			case 'ip':
+				$oEnt->setBlockType(PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_IP);
+				$oEnt->setIp(ip2long($aRuleData['ip']));					// todo: INT
+				break;
+			case 'ip_range':
+				$oEnt->setBlockType(PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_IP_RANGE);
+				$aIps = preg_split('#\s*+-\s*+#iu', $aRuleData['ip_range']);
+				$oEnt->setIpStart(ip2long(array_shift($aIps)));				// todo: INT
+				$oEnt->setIpFinish(ip2long(array_shift($aIps)));
+				break;
+			default:
+				throw new Exception('Admin: error: unknown block rule "' . $oEnt->getBlockType() . '"');
+		}
+		/*
+		 * тип временного интервала блокировки
+		 */
+		switch ($sBanType) {
+			case 'unlimited':
+				$oEnt->setTimeType(PluginAdmin_ModuleUsers::BAN_TIME_TYPE_PERMANENT);
+				$oEnt->setDateStart('2000-01-01');
+				$oEnt->setDateFinish('2030-01-01');
+				break;
+			case 'period':
+				$oEnt->setTimeType(PluginAdmin_ModuleUsers::BAN_TIME_TYPE_PERIOD);
+				$oEnt->setDateStart($sPeriodFrom);
+				$oEnt->setDateFinish($sPeriodTo);
+				break;
+			case 'days':
+				$oEnt->setTimeType(PluginAdmin_ModuleUsers::BAN_TIME_TYPE_PERIOD);
+				$oEnt->setDateStart(date('Y-m-d'));
+				$oEnt->setDateFinish(date('Y-m-d', mktime(date("H"), date("i"), date("s"), date("n"), date("j") + $iDaysCount, date("Y"))));
+				break;
+			default:
+				throw new Exception('Admin: error: unknown blocking time type "' . $sBanType . '"');
+		}
+		/*
+		 * причина бана и комментарий
+		 */
+		$oEnt->setReasonForUser($sBlockingReasonForUser);
+		$oEnt->setComment($sBlockingComment);
+
+		// todo: validation
+
+		$this->PluginAdmin_Users_AddBanRecord($oEnt);
+
+		$this->Message_AddNotice('Ok');
+	}
+
+
+	/**
+	 * Проверка правила бана (пользователь, ip или диапазон ip-адресов)
+	 *
+	 * @param $sSign			правило бана (строка)
+	 * @return array|bool		тип бана
+	 */
 	protected function GetUserDataByUserRule($sSign) {
 		$aMatches = array();
 		if (preg_match('#^\d++$#iu', $sSign, $aMatches)) {
 			// this is user id
-			die ('id');
+			if ($oUser = $this->User_GetUserById($sSign)) {
+				return array(
+					'user' => $oUser,
+					'type' => 'user',
+				);
+			}
+
 		} elseif (preg_match('#^[\w-]++$#iu', $sSign, $aMatches)) {
 			// this is user login
-			die ('login');
+			if ($oUser = $this->User_GetUserByLogin($sSign)) {
+				return array(
+					'user' => $oUser,
+					'type' => 'user',
+				);
+			}
+
 		} elseif (preg_match('#^[\w\.-]++@[\w-]++\.\w++$#iu', $sSign, $aMatches)) {
-			// mail
-			die ('mail');
+			// this is user mail
+			if ($oUser = $this->User_GetUserByMail($sSign)) {
+				return array(
+					'user' => $oUser,
+					'type' => 'user',
+				);
+			}
+
 		} elseif (preg_match('#^\d++\.\d++\.\d++\.\d++$#iu', $sSign, $aMatches)) {
 			// ip
-			die ('ip');
+			return array(
+				'ip' => $sSign,
+				'type' => 'ip',
+			);
+
 		} elseif (preg_match('#^\d++\.\d++\.\d++\.\d++\s*+-\s*+\d++\.\d++\.\d++\.\d++$#iu', $sSign, $aMatches)) {
 			// ip range
-			die ('ip range');
-		} else {
-			die ('cant find rule');
-		}
+			return array(
+				'ip_range' => $sSign,
+				'type' => 'ip_range',
+			);
 
+		}
+		return false;
 	}
 
 }

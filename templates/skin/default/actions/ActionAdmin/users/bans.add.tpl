@@ -17,10 +17,10 @@
 				<h3>Идентификация пользователя</h3>
 				<div class="usersign mb-20">
 					<div class="mb-10">
-						Введите id (1091), логин (userlogin), почту (user@mail.com),
-						ip-адрес (192.168.0.10) или диапазон ip-адресов (192.168.0.10 - 192.168.0.100) пользователя:
+						Введите id (1091), логин (userlogin) или почту (user@mail.com) зарегистрированного пользователя или
+						ip-адрес (192.168.0.10) или диапазон ip-адресов (192.168.0.10 - 192.168.0.100) для блокировки:
 					</div>
-					<input type="text" name="user_sign" class="input-text width-250" />		{* todo: on blur - check correct and if user exists *}
+					<input type="text" name="user_sign" class="input-text width-250" placeholder="spamuser" value="{$_aRequest.user_sign}" required="" />
 				</div>
 			</div>
 
@@ -32,45 +32,48 @@
 					</div>
 
 					<div class="one-param">
+						<label>
+							<input type="radio" name="bantype[]" value="unlimited"
+								   {if in_array('unlimited', (array) $_aRequest.bantype)}checked="checked"{/if} />
+							Пожизненно
+						</label>
 						<div class="right-info">
 							Пользователь с указанными данными не сможет войти на сайт никогда.
 							Следует применять данный метод в случае если указанный пользователь - бот и рассылает спам.
 							Примечание: у некоторых пользователей айпи адрес не статичен.
 						</div>
-						<label>
-							<input type="radio" name="bantype[]" value="unlimited" />
-							Пожизненно
-						</label>
 					</div>
 
 					<div class="one-param">
+						<label>
+							<input type="radio" name="bantype[]" value="period"
+								   {if in_array('period', (array) $_aRequest.bantype)}checked="checked"{/if} />
+							На период времени
+						</label>
 						<div class="right-info">
 							Пользователь не сможет получить доступ к сайту на период времени
 							<br />
-							с <input type="text" name="period_from" value="" class="input-text width-100 date-picker" />
+							с <input type="text" name="period_from" value="{$_aRequest.period_from}" class="input-text width-100 date-picker" placeholder="{date('Y-m-d')}" />
 							&nbsp;&nbsp;&nbsp;
-							по <input type="text" name="period_to" value="" class="input-text width-100 date-picker" />
+							по <input type="text" name="period_to" value="{$_aRequest.period_to}" class="input-text width-100 date-picker" placeholder="2030-01-01" />
 							<br />
 							По проишествии указанного времени пользователь автоматически сможет получить доступ к сайту.
 						</div>
-						<label>
-							<input type="radio" name="bantype[]" value="period" />
-							На период времени
-						</label>
 					</div>
 
 					<div class="one-param">
+						<label>
+							<input type="radio" name="bantype[]" value="days"
+								   {if in_array('days', (array) $_aRequest.bantype)}checked="checked"{/if} />
+							На количество дней
+						</label>
 						<div class="right-info">
 							Пользователь не сможет получить доступ к сайту на указанное количество дней начиная с текущего
 							<br />
-							<input type="text" name="days_count" value="" class="input-text width-100" /> дней
+							<input type="text" name="days_count" value="{$_aRequest.days_count}" class="input-text width-100" placeholder="31" /> дней
 							<br />
 							По проишествии указанного времени пользователь автоматически сможет получить доступ к сайту.
 						</div>
-						<label>
-							<input type="radio" name="bantype[]" value="days" />
-							На количество дней
-						</label>
 					</div>
 				</div>
 			</div>
@@ -81,12 +84,12 @@
 					<div class="mb-10">
 						Укажите причину блокировки, которая будет видна пользователю (если нужно):
 						<br />
-						<input type="text" name="reason_for_user" value="" class="input-text width-400" />
+						<input type="text" name="reason_for_user" value="{$_aRequest.reason_for_user}" class="input-text width-400" placeholder="Slow down, cowboy, spam elsewhere" />
 					</div>
 					<div class="mb-10">
 						Укажите заметку для себя (видна только администраторам на странице списка банов):
 						<br />
-						<input type="text" name="reason_comment" value="" class="input-text width-400" />
+						<input type="text" name="reason_comment" value="{$_aRequest.reason_comment}" class="input-text width-400" placeholder="spammer" />
 					</div>
 				</div>
 			</div>

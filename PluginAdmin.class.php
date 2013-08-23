@@ -25,6 +25,12 @@ if (!class_exists('Plugin')) {
 class PluginAdmin extends Plugin {
 
 	public function Activate() {
+		/*
+		 * дамп таблицы для банов пользователя
+		 */
+		if (!$this -> isTableExists ('prefix_admin_users_ban')) {
+			$this -> ExportSQL (dirname (__FILE__) . '/sql_dumps/admin_users_ban.sql');
+		}
 		return true;
 	}
 	

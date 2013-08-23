@@ -91,7 +91,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 	 * @param $iUserId			ид пользователя
 	 * @return array			ассоциативный массив
 	 */
-	public function GetUserVotingStats ($iUserId) {
+	public function GetUserVotingStats($iUserId) {
 		$sql = "SELECT
 				`target_type`,
 				`vote_direction`,
@@ -154,6 +154,89 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 		return array(
 			'collection' => $aEntities,
 			'count' => $iTotalCount
+		);
+	}
+
+
+	/**
+	 * Добавить запись о бане пользователя
+	 *
+	 * @param $oBan				обьект бана
+	 * @return array|null
+	 */
+	public function AddBanRecord($oBan) {
+		$sql = 'INSERT INTO
+				`' . Config::Get('db.table.users_ban') . '`
+			(
+				`block_type`,
+				`user_id`,
+				`ip`,
+				`ip_start`,
+				`ip_finish`,
+
+				`time_type`,
+				`date_start`,
+				`date_finish`,
+
+				`reason_for_user`,
+				`comment`
+			)
+			VALUES
+			(
+				?d,
+				?d,
+				?d,
+				?d,
+				?d,
+
+				?d,
+				?,
+				?,
+
+				?,
+				?
+			)
+			ON DUPLICATE KEY UPDATE
+				`block_type` = ?d,
+				`user_id` = ?d,
+				`ip` = ?d,
+				`ip_start` = ?d,
+				`ip_finish` = ?d,
+
+				`time_type` = ?d,
+				`date_start` = ?,
+				`date_finish` = ?,
+
+				`reason_for_user` = ?,
+				`comment` = ?
+		';
+		return $this->oDb->query($sql,
+			$oBan->getBlockType(),
+			$oBan->getUserId(),
+			$oBan->getIp(),
+			$oBan->getIpStart(),
+			$oBan->getIpFinish(),
+
+			$oBan->getTimeType(),
+			$oBan->getDateStart(),
+			$oBan->getDateFinish(),
+
+			$oBan->getReasonForUser(),
+			$oBan->getComment(),
+
+			// duplicate key
+			$oBan->getBlockType(),
+			$oBan->getUserId(),
+			$oBan->getIp(),
+			$oBan->getIpStart(),
+			$oBan->getIpFinish(),
+
+			$oBan->getTimeType(),
+			$oBan->getDateStart(),
+			$oBan->getDateFinish(),
+
+			$oBan->getReasonForUser(),
+			$oBan->getComment()
 		);
 	}
 

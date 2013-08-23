@@ -21,6 +21,19 @@
 
 class PluginAdmin_ModuleUsers extends Module {
 
+	/*
+	 * типы правила бана
+	 */
+	const BAN_BLOCK_TYPE_USER_ID = 1;
+	const BAN_BLOCK_TYPE_IP = 2;
+	const BAN_BLOCK_TYPE_IP_RANGE = 4;
+
+	/*
+	 * типы времени бана (постоянный и на период)
+	 */
+	const BAN_TIME_TYPE_PERMANENT = 1;
+	const BAN_TIME_TYPE_PERIOD = 2;
+
 	protected $oMapper = null;
 
 	/*
@@ -278,6 +291,12 @@ class PluginAdmin_ModuleUsers extends Module {
 					break;
 			}
 		}
+	}
+
+
+	public function AddBanRecord ($oBan) {
+		// todo: cache
+		return $this->oMapper->AddBanRecord ($oBan);
 	}
 
 

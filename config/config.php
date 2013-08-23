@@ -315,6 +315,11 @@ $config ['admin_save_form_ajax_use'] = true;
  */
 $config['$root$']['router']['page']['admin'] = 'PluginAdmin_ActionAdmin';
 
+/*
+ * таблицы
+ */
+$config['$root$']['db']['table']['users_ban'] = '___db.table.prefix___admin_users_ban';
+
 return $config;
 
 ?>
