@@ -27,7 +27,7 @@
  *
  *	Например:
  *		$this->Storage_Set('keyname', 'some_mixed_value', $this);	// сохранить 'some_mixed_value' под имененем 'keyname' для вашего плагина
- *		$this->Storage_Get('keyname', $this);			// получить данные по ключу 'keyname' для вашего плагина
+ *		$this->Storage_Get('keyname', $this);						// получить данные по ключу 'keyname' для вашего плагина
  *
  */
 
@@ -84,15 +84,15 @@ class ModuleStorage extends Module {
 	/**
 	 * Записать в БД строку одного ключа
 	 *
-	 * @param        $sKey			ключ
-	 * @param        $sValue		значение
-	 * @param string $sInstance		инстанция
+	 * @param			$sKey			ключ
+	 * @param			$sValue			значение
+	 * @param string 	$sInstance		инстанция
 	 * @return mixed
 	 */
 	protected function SetFieldOne($sKey, $sValue, $sInstance = self::DEFAULT_INSTANCE) {
-		$sKey =(string) $sKey;
-		$sValue =(string) $sValue;
-		$sInstance =(string) $sInstance;
+		$sKey = (string) $sKey;
+		$sValue = (string) $sValue;
+		$sInstance = (string) $sInstance;
 		
 		$sCacheKey = self::CACHE_FIELD_DATA_PREFIX . $sKey . '_' . $sInstance;
 		$this->Cache_Delete($sCacheKey);
@@ -104,13 +104,13 @@ class ModuleStorage extends Module {
 	/**
 	 * Получить из БД строковое значение одного ключа
 	 *
-	 * @param        $sKey			ключ
-	 * @param string $sInstance		инстанция
+	 * @param			$sKey			ключ
+	 * @param string 	$sInstance		инстанция
 	 * @return mixed
 	 */
 	protected function GetFieldOne($sKey, $sInstance = self::DEFAULT_INSTANCE) {
-		$sKey =(string) $sKey;
-		$sInstance =(string) $sInstance;
+		$sKey = (string) $sKey;
+		$sInstance = (string) $sInstance;
 		
 		$sCacheKey = self::CACHE_FIELD_DATA_PREFIX . $sKey . '_' . $sInstance;
 		if (($mData = $this->Cache_Get($sCacheKey)) === false) {
@@ -133,13 +133,13 @@ class ModuleStorage extends Module {
 	/**
 	 * Удалить из БД ключ
 	 *
-	 * @param        $sKey			ключ
-	 * @param string $sInstance		инстанция
+	 * @param			$sKey			ключ
+	 * @param string 	$sInstance		инстанция
 	 * @return mixed
 	 */
 	protected function DeleteFieldOne($sKey, $sInstance = self::DEFAULT_INSTANCE) {
-		$sKey =(string) $sKey;
-		$sInstance =(string) $sInstance;
+		$sKey = (string) $sKey;
+		$sInstance = (string) $sInstance;
 		
 		$sCacheKey = self::CACHE_FIELD_DATA_PREFIX . $sKey . '_' . $sInstance;
 		$this->Cache_Delete($sCacheKey);
@@ -156,11 +156,11 @@ class ModuleStorage extends Module {
 	/**
 	 * Получить из БД все ключи в "сыром" виде
 	 *
-	 * @param string $sInstance		инстанция
+	 * @param string 	$sInstance		инстанция
 	 * @return mixed
 	 */
 	protected function GetFieldsAll($sInstance = self::DEFAULT_INSTANCE) {
-		$sInstance =(string) $sInstance;
+		$sInstance = (string) $sInstance;
 		
 		$sCacheKey = self::CACHE_FIELD_DATA_PREFIX . '_fields_all_' . $sInstance;
 		if (($mData = $this->Cache_Get($sCacheKey)) === false) {
@@ -229,7 +229,7 @@ class ModuleStorage extends Module {
 
 
 	/**
-	 * Восстановить данные из строкового вида(десериализировать)
+	 * Восстановить данные из строкового вида (десериализировать)
 	 *
 	 * @param $mValue		значение
 	 * @return mixed|null
@@ -253,16 +253,16 @@ class ModuleStorage extends Module {
 	/**
 	 * Получить список всех параметров ключа
 	 *
-	 * @param        $sKey			ключ
-	 * @param string $sInstance		инстанция
+	 * @param			$sKey			ключ
+	 * @param string 	$sInstance		инстанция
 	 * @return array
 	 */
 	protected function GetParamsAll($sKey, $sInstance = self::DEFAULT_INSTANCE) {
 		/*
 		 * Если значение есть в кеше сессии - получить его
 		 */
-		if (isset($this->aSessionCache [$sInstance][$sKey])) {
-			return $this->aSessionCache [$sInstance][$sKey];
+		if (isset($this->aSessionCache[$sInstance][$sKey])) {
+			return $this->aSessionCache[$sInstance][$sKey];
 		}
 		
 		/*
@@ -275,7 +275,7 @@ class ModuleStorage extends Module {
 				 * Сохранить в кеше сессии распакованные значения
 				 */
 				$aData = array_map(array($this, 'RetrieveParamValueFromSavedValue'), $aData);
-				$this->aSessionCache [$sInstance][$sKey] = $aData;
+				$this->aSessionCache[$sInstance][$sKey] = $aData;
 				
 				return $aData;
 			}
@@ -287,10 +287,10 @@ class ModuleStorage extends Module {
 	/**
 	 * Сохранить значение параметра для ключа
 	 *
-	 * @param        $sKey				ключ
-	 * @param        $sParamName		параметр
-	 * @param        $mValue			значение
-	 * @param string $sInstance			инстанция
+	 * @param			$sKey				ключ
+	 * @param			$sParamName			параметр
+	 * @param			$mValue				значение
+	 * @param string 	$sInstance			инстанция
 	 * @return mixed
 	 */
 	protected function SetOneParam($sKey, $sParamName, $mValue, $sInstance = self::DEFAULT_INSTANCE) {
@@ -301,7 +301,7 @@ class ModuleStorage extends Module {
 		/*
 		 * Сохранить в кеше сессии
 		 */
-		$this->aSessionCache [$sInstance][$sKey][$sParamName] = $mValue;
+		$this->aSessionCache[$sInstance][$sKey][$sParamName] = $mValue;
 		
 		return $this->SetFieldOne($sKey, $this->PackValue($aParamsContainer), $sInstance);
 	}
@@ -310,17 +310,17 @@ class ModuleStorage extends Module {
 	/**
 	 * Получить значение параметра для ключа
 	 *
-	 * @param        $sKey				ключ
-	 * @param        $sParamName		параметр
-	 * @param string $sInstance			инстанция
+	 * @param			$sKey				ключ
+	 * @param			$sParamName			параметр
+	 * @param string 	$sInstance			инстанция
 	 * @return null
 	 */
 	protected function GetOneParam($sKey, $sParamName, $sInstance = self::DEFAULT_INSTANCE) {
 		/*
 		 * Если значение есть в кеше сессии - получить его
 		 */
-		if (isset($this->aSessionCache [$sInstance][$sKey][$sParamName])) {
-			return $this->aSessionCache [$sInstance][$sKey][$sParamName];
+		if (isset($this->aSessionCache[$sInstance][$sKey][$sParamName])) {
+			return $this->aSessionCache[$sInstance][$sKey][$sParamName];
 		}
 		
 		if ($aFieldData = $this->GetParamsAll($sKey, $sInstance) and isset($aFieldData [$sParamName])) {
@@ -333,16 +333,16 @@ class ModuleStorage extends Module {
 	/**
 	 * Удалить значение параметра для ключа
 	 *
-	 * @param        $sKey			ключ
-	 * @param        $sParamName	параметр
-	 * @param string $sInstance		инстанция
+	 * @param			$sKey			ключ
+	 * @param			$sParamName		параметр
+	 * @param string 	$sInstance		инстанция
 	 * @return mixed
 	 */
 	protected function RemoveOneParam($sKey, $sParamName, $sInstance = self::DEFAULT_INSTANCE) {
 		/*
 		 * Удалить значение из кеша сессии
 		 */
-		unset($this->aSessionCache [$sInstance][$sKey][$sParamName]);
+		unset($this->aSessionCache[$sInstance][$sKey][$sParamName]);
 		
 		$aParamsContainer = $this->GetParamsAll($sKey, $sInstance);
 		unset($aParamsContainer [$sParamName]);
@@ -353,26 +353,26 @@ class ModuleStorage extends Module {
 	/**
 	 * Удалить все параметры ключа
 	 *
-	 * @param        $sKey			ключ
-	 * @param string $sInstance		инстанция
+	 * @param			$sKey			ключ
+	 * @param string 	$sInstance		инстанция
 	 * @return mixed
 	 */
 	protected function RemoveAllParams($sKey, $sInstance = self::DEFAULT_INSTANCE) {
 		/*
 		 * Удалить все значения из кеша сессии
 		 */
-		unset($this->aSessionCache [$sInstance][$sKey]);
+		unset($this->aSessionCache[$sInstance][$sKey]);
 		return $this->DeleteFieldOne($sKey, $sInstance);
 	}
 
 
 	/**
-	 * Сохранить значение параметра для ключа на время сессии(без записи в хранилище)
+	 * Сохранить значение параметра для ключа на время сессии (без записи в хранилище)
 	 *
-	 * @param        $sKey			ключ
-	 * @param        $sParamName	параметр
-	 * @param        $mValue		значение
-	 * @param string $sInstance		инстанция
+	 * @param			$sKey			ключ
+	 * @param			$sParamName		параметр
+	 * @param			$mValue			значение
+	 * @param string 	$sInstance		инстанция
 	 */
 	protected function SetSmartParam($sKey, $sParamName, $mValue, $sInstance = self::DEFAULT_INSTANCE) {
 		/*
@@ -382,16 +382,16 @@ class ModuleStorage extends Module {
 		/*
 		 * Сохранить в кеше сессии
 		 */
-		$this->aSessionCache [$sInstance][$sKey][$sParamName] = $mValue;
+		$this->aSessionCache[$sInstance][$sKey][$sParamName] = $mValue;
 	}
 
 
 	/**
-	 * Удалить значение параметра для ключа на время сессии(без записи в хранилище)
+	 * Удалить значение параметра для ключа на время сессии (без записи в хранилище)
 	 *
-	 * @param        $sKey			ключ
-	 * @param        $sParamName	параметр
-	 * @param string $sInstance		инстанция
+	 * @param			$sKey			ключ
+	 * @param			$sParamName		параметр
+	 * @param string 	$sInstance		инстанция
 	 */
 	protected function RemoveSmartParam($sKey, $sParamName, $sInstance = self::DEFAULT_INSTANCE) {
 		/*
@@ -401,33 +401,33 @@ class ModuleStorage extends Module {
 		/*
 		 * Удалить в кеше сессии
 		 */
-		unset($this->aSessionCache [$sInstance][$sKey][$sParamName]);
+		unset($this->aSessionCache[$sInstance][$sKey][$sParamName]);
 	}
 
 
 	/**
 	 * Записать в хранилище значения параметров для ключа из кеша сессии
 	 *
-	 * @param        $sKey			ключ
-	 * @param string $sInstance		инстанция
+	 * @param			$sKey			ключ
+	 * @param string 	$sInstance		инстанция
 	 * @return mixed
 	 */
 	protected function StoreParams($sKey, $sInstance = self::DEFAULT_INSTANCE) {
-		return $this->SetFieldOne($sKey, $this->PackValue($this->aSessionCache [$sInstance][$sKey]), $sInstance);
+		return $this->SetFieldOne($sKey, $this->PackValue($this->aSessionCache[$sInstance][$sKey]), $sInstance);
 	}
 
 
 	/**
-	 * Сбросить кеш сессии(без записи в хранилище)
+	 * Сбросить кеш сессии (без записи в хранилище)
 	 *
-	 * @param null   $sKey			ключ
-	 * @param string $sInstance		инстанция
+	 * @param null	 	$sKey			ключ
+	 * @param string 	$sInstance		инстанция
 	 */
 	protected function ResetSessionCache($sKey = null, $sInstance = self::DEFAULT_INSTANCE) {
 		if (!is_null($sKey)) {
-			unset($this->aSessionCache [$sInstance][$sKey]);
+			unset($this->aSessionCache[$sInstance][$sKey]);
 		} else {
-			unset($this->aSessionCache [$sInstance]);
+			unset($this->aSessionCache[$sInstance]);
 		}
 	}
 	
@@ -483,10 +483,10 @@ class ModuleStorage extends Module {
 	/**
 	 * Установить значение
 	 *
-	 * @param        $sParamName		параметр
-	 * @param        $mValue			значение
-	 * @param        $oCaller			контекст, вызывающий метод
-	 * @param string $sInstance			инстанция
+	 * @param			$sParamName			параметр
+	 * @param			$mValue				значение
+	 * @param			$oCaller			контекст, вызывающий метод
+	 * @param string 	$sInstance			инстанция
 	 * @return mixed
 	 */
 	public function Set($sParamName, $mValue, $oCaller, $sInstance = self::DEFAULT_INSTANCE) {
@@ -498,9 +498,9 @@ class ModuleStorage extends Module {
 	/**
 	 * Получить значение
 	 *
-	 * @param        $sParamName		параметр
-	 * @param        $oCaller			контекст, вызывающий метод
-	 * @param string $sInstance			инстанция
+	 * @param			$sParamName			параметр
+	 * @param			$oCaller			контекст, вызывающий метод
+	 * @param string 	$sInstance			инстанция
 	 * @return null
 	 */
 	public function Get($sParamName, $oCaller, $sInstance = self::DEFAULT_INSTANCE) {
@@ -512,8 +512,8 @@ class ModuleStorage extends Module {
 	/**
 	 * Получить все значения
 	 *
-	 * @param        $oCaller			контекст, вызывающий метод
-	 * @param string $sInstance			инстанция
+	 * @param			$oCaller			контекст, вызывающий метод
+	 * @param string 	$sInstance			инстанция
 	 * @return array
 	 */
 	public function GetAll($oCaller, $sInstance = self::DEFAULT_INSTANCE) {
@@ -525,9 +525,9 @@ class ModuleStorage extends Module {
 	/**
 	 * Удалить значение
 	 *
-	 * @param        $sParamName		параметр
-	 * @param        $oCaller			контекст, вызывающий метод
-	 * @param string $sInstance			инстанция
+	 * @param			$sParamName			параметр
+	 * @param			$oCaller			контекст, вызывающий метод
+	 * @param string 	$sInstance			инстанция
 	 * @return mixed
 	 */
 	public function Remove($sParamName, $oCaller, $sInstance = self::DEFAULT_INSTANCE) {
@@ -539,8 +539,8 @@ class ModuleStorage extends Module {
 	/**
 	 * Удалить все значения
 	 *
-	 * @param        $oCaller			контекст, вызывающий метод
-	 * @param string $sInstance			инстанция
+	 * @param			$oCaller			контекст, вызывающий метод
+	 * @param string 	$sInstance			инстанция
 	 * @return mixed
 	 */
 	public function RemoveAll($oCaller, $sInstance = self::DEFAULT_INSTANCE) {
@@ -556,37 +556,37 @@ class ModuleStorage extends Module {
 	 */
 
 	/**
-	 * Сохранить значение параметра на время сессии(без записи в хранилище)
+	 * Сохранить значение параметра на время сессии (без записи в хранилище)
 	 *
-	 * @param        $sParamName		параметр
-	 * @param        $mValue			значение
-	 * @param        $oCaller			контекст, вызывающий метод
-	 * @param string $sInstance			инстанция
+	 * @param			$sParamName			параметр
+	 * @param			$mValue				значение
+	 * @param			$oCaller			контекст, вызывающий метод
+	 * @param string 	$sInstance			инстанция
 	 */
 	public function SetSmart($sParamName, $mValue, $oCaller, $sInstance = self::DEFAULT_INSTANCE) {
 		$sCallerName = $this->GetKeyForCaller($oCaller);
-		return $this->SetSmartParam($sCallerName, $sParamName, $mValue, $sInstance);
+		$this->SetSmartParam($sCallerName, $sParamName, $mValue, $sInstance);
 	}
 
 
 	/**
-	 * Удалить параметр кеша сессии(без записи в хранилище)
+	 * Удалить параметр кеша сессии (без записи в хранилище)
 	 *
-	 * @param        $sParamName		параметр
-	 * @param        $oCaller			контекст, вызывающий метод
-	 * @param string $sInstance			инстанция
+	 * @param			$sParamName			параметр
+	 * @param			$oCaller			контекст, вызывающий метод
+	 * @param string 	$sInstance			инстанция
 	 */
 	public function RemoveSmart($sParamName, $oCaller, $sInstance = self::DEFAULT_INSTANCE) {
 		$sCallerName = $this->GetKeyForCaller($oCaller);
-		return $this->RemoveSmartParam($sCallerName, $sParamName, $sInstance);
+		$this->RemoveSmartParam($sCallerName, $sParamName, $sInstance);
 	}
 
 
 	/**
 	 * Записать в хранилище значения параметров из кеша сессии
 	 *
-	 * @param        $oCaller			контекст, вызывающий метод
-	 * @param string $sInstance			инстанция
+	 * @param			$oCaller			контекст, вызывающий метод
+	 * @param string 	$sInstance			инстанция
 	 * @return mixed
 	 */
 	public function Store($oCaller, $sInstance = self::DEFAULT_INSTANCE) {
@@ -596,14 +596,14 @@ class ModuleStorage extends Module {
 
 
 	/**
-	 * Сбросить кеш сессии(без записи в хранилище)
+	 * Сбросить кеш сессии (без записи в хранилище)
 	 *
-	 * @param        $oCaller			контекст, вызывающий метод
-	 * @param string $sInstance			инстанция
+	 * @param			$oCaller			контекст, вызывающий метод
+	 * @param string 	$sInstance			инстанция
 	 */
 	public function Reset($oCaller, $sInstance = self::DEFAULT_INSTANCE) {
 		$sCallerName = $this->GetKeyForCaller($oCaller);
-		return $this->ResetSessionCache($sCallerName, $sInstance);
+		$this->ResetSessionCache($sCallerName, $sInstance);
 	}
 	
 }

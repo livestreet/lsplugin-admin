@@ -21,16 +21,25 @@
 
 class ModuleStorage_MapperStorage extends Mapper {
 
+	/**
+	 * Получить данные из хранилища по фильтру
+	 * 
+	 * @param null $sFilter			фильтр
+	 * @param int  $iCurrentPage	страница
+	 * @param int  $iPerPage		результатов на страницу
+	 * @return array
+	 */
 	public function GetData($sFilter = null, $iCurrentPage = 1, $iPerPage = PHP_INT_MAX) {
 		$sql = "SELECT *
 			FROM
 				`" . Config::Get('db.table.storage') . "`
-			" .($sFilter ? "WHERE 1 = 1 " . $sFilter : "") . "
+			" . ($sFilter ? "WHERE 1 = 1 " . $sFilter : "") . "
 			ORDER BY
 				`id` ASC
 			LIMIT ?d, ?d
 		";
 		$iTotalCount = 0;
+		$aCollection = array();
 
 		if ($aResult = $this->oDb->selectPage(
 			$iTotalCount,
@@ -41,19 +50,23 @@ class ModuleStorage_MapperStorage extends Mapper {
 			/*
 			 * Если нужен только один элемент
 			 */
-			$aResult = $iPerPage == 1 ? array_shift($aResult) : $aResult;
-			return array(
-				'collection' => $aResult,
-				'count' => $iTotalCount
-			);
+			$aCollection = $iPerPage == 1 ? array_shift($aResult) : $aResult;
 		}
 		return array(
-			'collection' => array(),
-			'count' => 0
+			'collection' => $aCollection,
+			'count' => $iTotalCount
 		);
 	}
-	
 
+
+	/**
+	 * Записать данные
+	 * 
+	 * @param $sKey			ключ
+	 * @param $sValue		значение
+	 * @param $sInstance	инстанция хранилища
+	 * @return array|null
+	 */
 	public function SetData($sKey, $sValue, $sInstance) {
 		$sql = "INSERT INTO
 			`" . Config::Get('db.table.storage') . "`
@@ -80,13 +93,20 @@ class ModuleStorage_MapperStorage extends Mapper {
 			$sValue
 		);
 	}
-	
 
+
+	/**
+	 * Удалить данные из хранилища
+	 * 
+	 * @param null $sFilter		фильтр
+	 * @param int  $iLimit		лимит запроса
+	 * @return array|null
+	 */
 	public function DeleteData($sFilter = null, $iLimit = 1) {
 		$sql = "DELETE
 			FROM
 				`" . Config::Get('db.table.storage') . "`
-			" .($sFilter ? "WHERE 1 = 1 " . $sFilter : "") . "
+			" . ($sFilter ? "WHERE 1 = 1 " . $sFilter : "") . "
 			LIMIT ?d
 		";
 
@@ -94,23 +114,29 @@ class ModuleStorage_MapperStorage extends Mapper {
 			$iLimit
 		);
 	}
-	
-	
+
+
+	/**
+	 * Построить строку запроса из набора параметров фильтра
+	 * 
+	 * @param array $aFilter	фильтр
+	 * @return string			часть sql запроса (условие WHERE)
+	 */
 	public function BuildFilter($aFilter = array()) {
 		$sFilter = '';
 		/*
 		 * Список доступных фильтров
 		 */
-		if (isset($aFilter ['key'])) {
+		if (isset($aFilter['key'])) {
 			$sFilter .= '
 				AND
-					`key` = "' . $aFilter ['key'] . '"
+					`key` = "' . $aFilter['key'] . '"
 			';
 		}
-		if (isset($aFilter ['instance'])) {
+		if (isset($aFilter['instance'])) {
 			$sFilter .= '
 				AND
-					`instance` = "' . $aFilter ['instance'] . '"
+					`instance` = "' . $aFilter['instance'] . '"
 			';
 		}
 		return $sFilter;

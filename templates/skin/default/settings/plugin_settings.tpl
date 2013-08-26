@@ -32,7 +32,7 @@
 				</div>
 			{/foreach}
 			
-			<input type="submit" value="ok" name="submit_save_settings" class="button button-primary" />
+			<input type="submit" value="Ok" name="submit_save_settings" class="button button-primary" />
 		</form>
 
 	{else}
