@@ -75,7 +75,7 @@
 						<input type="checkbox" name="checked[]" value="1" />
 					</td>
 					<td class="avatar">
-						<a href="{router page='admin'}users/profile/{$oUser->getId()}"><img src="{$oUser->getProfileAvatarPath(48)}" alt="avatar" class="avatar" /></a>
+						<a href="{router page="admin/users/profile/{$oUser->getId()}"}"><img src="{$oUser->getProfileAvatarPath(48)}" alt="avatar" class="avatar" /></a>
 						{if $oUser->isOnline()}
 							<div class="user-is-online"
 								 title="{if $oUser->isOnline()}{$aLang.user_status_online}{else}{$aLang.user_status_offline}{/if}"></div>
@@ -84,7 +84,7 @@
 					<td class="name">
 						<div class="name {if !$oUser->getProfileName()}no-realname{/if}">
 							<p class="username word-wrap">
-								<a href="{router page='admin'}users/profile/{$oUser->getId()}">{$oUser->getLogin()}</a>
+								<a href="{router page="admin/users/profile/{$oUser->getId()}"}">{$oUser->getLogin()}</a>
 								{if $oUser->isAdministrator()}
 									<i class="icon-user" title="Admin"></i>
 								{/if}
@@ -137,7 +137,7 @@
 
 
 	<div class="OnPageSelect">
-		<form action="{router page='admin'}users/ajax-on-page/" method="post" enctype="application/x-www-form-urlencoded" id="admin_onpage">
+		<form action="{router page='admin/users/ajax-on-page'}" method="post" enctype="application/x-www-form-urlencoded" id="admin_onpage">
 			<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
 			{$aLang.plugin.admin.users.on_page}
 			<select name="onpage" class="width-50">

@@ -178,6 +178,9 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 				`date_start`,
 				`date_finish`,
 
+				`add_date`,
+				`edit_date`,
+
 				`reason_for_user`,
 				`comment`
 			)
@@ -185,11 +188,14 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 			(
 				?d,
 				?d,
-				?d,
-				?d,
-				?d,
+				?,
+				?,
+				?,
 
 				?d,
+				?,
+				?,
+
 				?,
 				?,
 
@@ -199,13 +205,16 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 			ON DUPLICATE KEY UPDATE
 				`block_type` = ?d,
 				`user_id` = ?d,
-				`ip` = ?d,
-				`ip_start` = ?d,
-				`ip_finish` = ?d,
+				`ip` = ?,
+				`ip_start` = ?,
+				`ip_finish` = ?,
 
 				`time_type` = ?d,
 				`date_start` = ?,
 				`date_finish` = ?,
+
+				`add_date` = ?,
+				`edit_date` = ?,
 
 				`reason_for_user` = ?,
 				`comment` = ?
@@ -221,6 +230,9 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 			$oBan->getDateStart(),
 			$oBan->getDateFinish(),
 
+			$oBan->getAddDate(),
+			$oBan->getEditDate(),
+
 			$oBan->getReasonForUser(),
 			$oBan->getComment(),
 
@@ -235,8 +247,49 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 			$oBan->getDateStart(),
 			$oBan->getDateFinish(),
 
+			$oBan->getAddDate(),
+			$oBan->getEditDate(),
+
 			$oBan->getReasonForUser(),
 			$oBan->getComment()
+		);
+	}
+
+
+	/**
+	 * Получить список банов по фильтру
+	 *
+	 * @param array $aFilter	Фильтр
+	 * @param array $sOrder		Сортировка
+	 * @param int $iPage		Номер страницы
+	 * @param int $iPerPage		Количество элментов на страницу
+	 * @return array
+	 */
+	public function GetBansByFilter($aFilter, $sOrder, $iPage, $iPerPage) {
+		$sql = "SELECT *
+			FROM
+				`" . Config::Get('db.table.users_ban') . "`
+			WHERE
+				1 = 1
+			ORDER BY
+				{$sOrder}
+			LIMIT ?d, ?d
+		";
+		$aEntities = array();
+		$iTotalCount = 0;
+
+		if ($aData = $this->oDb->selectPage($iTotalCount, $sql,
+			// todo: filter or review: delete WHERE clause and $aFilter
+			($iPage - 1) * $iPerPage,
+			$iPerPage
+		)) {
+			foreach ($aData as $aRes) {
+				$aEntities[] = Engine::GetEntity('PluginAdmin_Users_Ban', $aRes);
+			}
+		}
+		return array(
+			'collection' => $aEntities,
+			'count' => $iTotalCount
 		);
 	}
 

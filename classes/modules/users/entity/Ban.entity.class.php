@@ -24,7 +24,43 @@
  */
 
 class PluginAdmin_ModuleUsers_EntityBan extends Entity {
-	
+
+	/*
+	 * правила валидации данных сущности
+	 */
+	protected $aValidateRules = array (
+		/*
+		 * тип условия блокировки (пользователь, ip или диапазон ip-адресов)
+		 */
+		array ('block_type', 'number', 'min' => 1, 'max' => 4),
+		array ('user_id', 'number', 'min' => 1),
+		array ('ip', 'regexp', 'pattern' => '#^\d++\.\d++\.\d++\.\d++$#iu', 'allowEmpty' => true),				// todo: ipv6
+		array ('ip_start', 'regexp', 'pattern' => '#^\d++\.\d++\.\d++\.\d++$#iu', 'allowEmpty' => true),
+		array ('ip_finish', 'regexp', 'pattern' => '#^\d++\.\d++\.\d++\.\d++$#iu', 'allowEmpty' => true),
+
+		/*
+		 * тип блокировки по времени (постоянный или интервал)
+		 */
+		array ('time_type', 'number', 'min' => 1, 'max' => 2),
+		array ('date_start', 'date', 'format' => array ('yyyy-MM-dd hh:mm:ss', 'yyyy-MM-dd'), 'allowEmpty' => false),
+		array ('date_finish', 'date', 'format' => array ('yyyy-MM-dd hh:mm:ss', 'yyyy-MM-dd'), 'allowEmpty' => false),
+
+		/*
+		 * дата добавления и последнего редактирования бана
+		 */
+		array ('add_date', 'date', 'format' => array ('yyyy-MM-dd hh:mm:ss'), 'allowEmpty' => false),
+		array ('edit_date', 'date', 'format' => array ('yyyy-MM-dd hh:mm:ss'), 'allowEmpty' => false),
+
+		/*
+		 * причина для пользователя
+		 */
+		array ('reason_for_user', 'string', 'min' => 0, 'max' => 1000),
+
+		/*
+		 * комментарий для себя
+		 */
+		array ('comment', 'string', 'min' => 0, 'max' => 500),
+	);
 
 }
 

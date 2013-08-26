@@ -80,6 +80,15 @@ a:hover { color: #058; }
  */
 .stat-performance { display: none; }
 
+
+/**
+	Стили для админки
+*/
+
 .ls-admin {
     color: #676767;
+}
+
+.fS-10 {
+	font-size: 10px;
 }

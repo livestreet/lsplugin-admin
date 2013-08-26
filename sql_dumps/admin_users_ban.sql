@@ -4,13 +4,16 @@ CREATE TABLE `prefix_admin_users_ban` (
 
 	`block_type` INT NOT NULL,
 	`user_id` INT(11),
-	`ip` INT,
-	`ip_start` INT,
-	`ip_finish` INT,
+	`ip` VARCHAR(40),
+	`ip_start` VARCHAR(40),
+	`ip_finish` VARCHAR(40),
 
 	`time_type` INT NOT NULL,
 	`date_start` DATETIME NOT NULL,
 	`date_finish` DATETIME NOT NULL,
+
+	`add_date` DATETIME NOT NULL,
+	`edit_date` DATETIME NOT NULL,
 
 	`reason_for_user` VARCHAR(1000),
 	`comment` VARCHAR(500),
@@ -24,7 +27,10 @@ CREATE TABLE `prefix_admin_users_ban` (
 
 	INDEX `time_type` (`time_type` DESC),
 	INDEX `date_start` (`date_start` DESC),
-	INDEX `date_finish` (`date_finish` DESC)
+	INDEX `date_finish` (`date_finish` DESC),
+
+	INDEX `add_date` (`add_date` DESC),
+	INDEX `edit_date` (`edit_date` DESC)
 )
 
 ENGINE = InnoDB

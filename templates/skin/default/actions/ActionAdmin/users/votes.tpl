@@ -6,7 +6,7 @@
 		{$aLang.plugin.admin.users.votes.title}
 	</h2>
 
-	<div class="mb-20"><a href="{router page='admin'}users/profile/{$oUser->getId()}">{$aLang.plugin.admin.users.votes.back_to_user_profile_page} {$oUser->getLogin()}</a></div>
+	<div class="mb-20"><a href="{router page="admin/users/profile/{$oUser->getId()}"}">{$aLang.plugin.admin.users.votes.back_to_user_profile_page} {$oUser->getLogin()}</a></div>
 
 	<div class="mb-20">
 		{$aLang.plugin.admin.users.votes.votes_for}

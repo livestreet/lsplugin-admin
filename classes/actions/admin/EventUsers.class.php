@@ -436,9 +436,62 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	 */
 	public function EventBansList() {
 		$this->SetTemplateAction('users/bans');
-		$this->SetPaging();
+		$this->SetPaging(1, 'bans.per_page');
 
+		$sFullPagePathToEvent = Router::GetPath('admin/users/bans');
 
+		/*
+		 * получить фильтр, хранящий в себе все параметры (поиска и сортировки)
+		 */
+		$aFilter = getRequest('filter');
+
+		/*
+		 * сортировка
+		 */
+		$sOrder = @$aFilter['order_field'];
+		$sWay = @$aFilter['order_way'];
+
+		/*
+		 * получение списка банов
+		 */
+		$aResult = $this->PluginAdmin_Users_GetBansByFilter(
+			array(),	// todo: review: delete (filter)
+			array($sOrder => $sWay),
+			$this->iPage,
+			$this->iPerPage
+		);
+		$aBans = $aResult['collection'];
+
+		/*
+		 * Формируем постраничность
+		 */
+		$aPaging = $this->Viewer_MakePaging(
+			$aResult['count'],
+			$this->iPage,
+			$this->iPerPage,
+			Config::Get('pagination.pages.count'),
+			$sFullPagePathToEvent,
+			$this->GetPagingAdditionalParamsByArray(
+				array_merge(
+					array(
+						'order_field' => $sOrder,
+						'order_way' => $sWay
+					),
+					array()	// todo: review: delete (search)
+				)
+			)
+		);
+
+		$this->Viewer_Assign('aPaging', $aPaging);
+		$this->Viewer_Assign('aBans', $aBans);
+		$this->Viewer_Assign('sFullPagePathToEvent', $sFullPagePathToEvent);
+
+		/*
+		 * сортировка
+		 */
+		$this->Viewer_Assign('sReverseOrder', $this->PluginAdmin_Users_GetReversedOrderDirection ($sWay));
+		$this->Viewer_Assign('sOrder', $sOrder);
+		$this->Viewer_Assign('sWay', $this->PluginAdmin_Users_GetDefaultOrderDirectionIfIncorrect ($sWay));
 	}
 
 	/**
@@ -475,18 +528,15 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 */
 		$sBanType = getRequest('bantype');
 		if (is_array($sBanType)) $sBanType = array_shift($sBanType);
-
 		/*
 		 * получить временные интервалы для типа бана "period"
 		 */
 		$sPeriodFrom = getRequestStr('period_from');
 		$sPeriodTo = getRequestStr('period_to');
-
 		/*
 		 * получить количество дней бана для типа бана "days"
 		 */
 		$iDaysCount = (int) getRequestStr('days_count');
-
 		/*
 		 * получить причину бана (отображается для пользователя)
 		 */
@@ -520,14 +570,14 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 */
 		if ($sBanType == 'period') {
 			/*
-			 * если дата начала задана - проверить корректность даты
+			 * проверить корректность даты начала
 			 */
 			if (!$sPeriodFrom or !preg_match('#^\d{4}-\d{1,2}-\d{1,2}$#iu', $sPeriodFrom, $aMatches)) {
 				$this->Message_AddError('Period "from" is not correct (must be in YYYY-mm-dd)');
 				return false;
 			}
 			/*
-			 * если дата финиша задана - проверить корректность даты
+			 * проверить корректность даты финиша
 			 */
 			if (!$sPeriodTo or !preg_match('#^\d{4}-\d{1,2}-\d{1,2}$#iu', $sPeriodTo, $aMatches)) {
 				$this->Message_AddError('Period "to" is not correct (must be in YYYY-mm-dd)');
@@ -569,13 +619,13 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 				break;
 			case 'ip':
 				$oEnt->setBlockType(PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_IP);
-				$oEnt->setIp(ip2long($aRuleData['ip']));					// todo: INT
+				$oEnt->setIp($aRuleData['ip']);
 				break;
 			case 'ip_range':
 				$oEnt->setBlockType(PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_IP_RANGE);
 				$aIps = preg_split('#\s*+-\s*+#iu', $aRuleData['ip_range']);
-				$oEnt->setIpStart(ip2long(array_shift($aIps)));				// todo: INT
-				$oEnt->setIpFinish(ip2long(array_shift($aIps)));
+				$oEnt->setIpStart(array_shift($aIps));
+				$oEnt->setIpFinish(array_shift($aIps));
 				break;
 			default:
 				throw new Exception('Admin: error: unknown block rule "' . $oEnt->getBlockType() . '"');
@@ -603,13 +653,23 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 				throw new Exception('Admin: error: unknown blocking time type "' . $sBanType . '"');
 		}
 		/*
+		 * дата создания и редактирования
+		 */
+		$oEnt->setAddDate(date('Y-m-d H:i:s'));
+		$oEnt->setEditDate(date('Y-m-d H:i:s'));
+		/*
 		 * причина бана и комментарий
 		 */
 		$oEnt->setReasonForUser($sBlockingReasonForUser);
 		$oEnt->setComment($sBlockingComment);
 
-		// todo: validation
-
+		/*
+		 * валидация внесенных данных
+		 */
+		if (!$oEnt -> _Validate ()) {
+			$this -> Message_AddError ($oEnt -> _getValidateError ());
+			return false;
+		}
 		$this->PluginAdmin_Users_AddBanRecord($oEnt);
 
 		$this->Message_AddNotice('Ok');
@@ -625,7 +685,9 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	protected function GetUserDataByUserRule($sSign) {
 		$aMatches = array();
 		if (preg_match('#^\d++$#iu', $sSign, $aMatches)) {
-			// this is user id
+			/*
+			 * это id пользователя
+			 */
 			if ($oUser = $this->User_GetUserById($sSign)) {
 				return array(
 					'user' => $oUser,
@@ -634,7 +696,9 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 			}
 
 		} elseif (preg_match('#^[\w-]++$#iu', $sSign, $aMatches)) {
-			// this is user login
+			/*
+			 * это логин пользователя
+			 */
 			if ($oUser = $this->User_GetUserByLogin($sSign)) {
 				return array(
 					'user' => $oUser,
@@ -643,7 +707,9 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 			}
 
 		} elseif (preg_match('#^[\w\.-]++@[\w-]++\.\w++$#iu', $sSign, $aMatches)) {
-			// this is user mail
+			/*
+			 * это почта пользователя
+			 */
 			if ($oUser = $this->User_GetUserByMail($sSign)) {
 				return array(
 					'user' => $oUser,
@@ -651,21 +717,28 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 				);
 			}
 
-		} elseif (preg_match('#^\d++\.\d++\.\d++\.\d++$#iu', $sSign, $aMatches)) {
-			// ip
+		} elseif (preg_match('#^\d++\.\d++\.\d++\.\d++$#iu', $sSign, $aMatches)) {				// todo: ipv6
+			/*
+			 * это ip адрес
+			 */
 			return array(
 				'ip' => $sSign,
 				'type' => 'ip',
 			);
 
 		} elseif (preg_match('#^\d++\.\d++\.\d++\.\d++\s*+-\s*+\d++\.\d++\.\d++\.\d++$#iu', $sSign, $aMatches)) {
-			// ip range
+			/*
+			 * это диапазон ip-адресов
+			 */
 			return array(
 				'ip_range' => $sSign,
 				'type' => 'ip_range',
 			);
 
 		}
+		/*
+		 * правило не распознано
+		 */
 		return false;
 	}
 

@@ -1,7 +1,7 @@
 
 	{if $aSettingsAll and count($aSettingsAll)>0}
   
-		<form action="{router page='admin'}settings/save/{$sConfigName}/" method="post" enctype="application/x-www-form-urlencoded" id="admin_save">
+		<form action="{router page="admin/settings/save/{$sConfigName}"}" method="post" enctype="application/x-www-form-urlencoded" id="admin_save">
 			<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
 
 			{foreach from=$aSettingsAll item=oParameter name=ConfigSettingForCycle}

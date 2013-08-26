@@ -52,7 +52,7 @@
 					</div>
 				</div>
 				<div class="right">
-					<form action="{router page='admin'}users/ajax-edit-rating/" method="post" enctype="application/x-www-form-urlencoded" id="admin_editrating">
+					<form action="{router page='admin/users/ajax-edit-rating'}" method="post" enctype="application/x-www-form-urlencoded" id="admin_editrating">
 						<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
 						<input type="hidden" name="user_id" value="{$oUser->getId()}" />
 						<div class="skill">
@@ -88,8 +88,8 @@
 							<dt>Почта</dt>
 							<dd>
 								<a href="{router page='admin/users/list'}{request_filter
-								name=array('q', 'field')
-								value=array($oUser->getMail(), 'mail')
+								name=array('mail')
+								value=array($oUser->getMail())
 								}">{$oUser->getMail()}</a>
 							</dd>
 						</dl>
@@ -117,11 +117,11 @@
 								<dt>Откуда</dt>
 								<dd>
 									{if $oGeoTarget->getCountryId()}
-										<a href="{router page='people'}country/{$oGeoTarget->getCountryId()}/">{$oUser->getProfileCountry()|escape:'html'}</a>{if $oGeoTarget->getCityId()},{/if}
+										<a href="{router page='people/country'}{$oGeoTarget->getCountryId()}/">{$oUser->getProfileCountry()|escape:'html'}</a>{if $oGeoTarget->getCityId()},{/if}
 									{/if}
 
 									{if $oGeoTarget->getCityId()}
-										<a href="{router page='people'}city/{$oGeoTarget->getCityId()}/">{$oUser->getProfileCity()|escape:'html'}</a>
+										<a href="{router page='people/city'}{$oGeoTarget->getCityId()}/">{$oUser->getProfileCity()|escape:'html'}</a>
 									{/if}
 								</dd>
 							</dl>
@@ -135,8 +135,8 @@
 							<dt>IP</dt>
 							<dd>
 								<a href="{router page='admin/users/list'}{request_filter
-								name=array('q', 'field')
-								value=array($oUser->getIpRegister(), 'ip_register')
+								name=array('ip_register')
+								value=array($oUser->getIpRegister())
 								}">{$oUser->getIpRegister()}</a>
 							</dd>
 						</dl>
@@ -150,14 +150,13 @@
 								<dt>IP</dt>
 								<dd>
 									<a href="{router page='admin/users/list'}{request_filter
-									name=array('q', 'field')
-									value=array($oSession->getIpLast(), 'session_ip_last')
+									name=array('session_ip_last')
+									value=array($oSession->getIpLast())
 									}">{$oSession->getIpLast()}</a>
-
 									<br />
 									<a href="{router page='admin/users/list'}{request_filter
-									name=array('q', 'field')
-									value=array($oSession->getIpLast(), 'session_ip_last')
+									name=array('session_ip_last')
+									value=array($oSession->getIpLast())
 									}" class="button mt-10">Искать с этим IP</a>
 								</dd>
 							</dl>

@@ -60,7 +60,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * @param array 	$aOrder			Сортировка
 	 * @param int 		$iCurrPage		Номер страницы
 	 * @param int 		$iPerPage		Количество элментов на страницу
-	 * @param array 	$aAllowData		Список типо данных для подгрузки к пользователям
+	 * @param array 	$aAllowData		Список типов данных для подгрузки к пользователям
 	 * @return array('collection'=>array,'count'=>int)
 	 */
 	public function GetUsersByFilter($aFilter = array(), $aOrder = array(), $iCurrPage = 1, $iPerPage = PHP_INT_MAX, $aAllowData = null) {
@@ -249,7 +249,7 @@ class PluginAdmin_ModuleUsers extends Module {
 
 
 	/**
-	 * Для списка голосов получить обьект и задать новые универсализированные параметры (заголовок и ссылку на сам обьект)
+	 * Для списка голосов получить объект и задать новые универсализированные параметры (заголовок и ссылку на сам обьект)
 	 *
 	 * @param array $aVotingList	массив голосов
 	 * @throws Exception
@@ -294,9 +294,35 @@ class PluginAdmin_ModuleUsers extends Module {
 	}
 
 
+	/**
+	 * Добавить запись о бане
+	 *
+	 * @param $oBan		объект бана
+	 * @return mixed
+	 */
 	public function AddBanRecord ($oBan) {
 		// todo: cache
 		return $this->oMapper->AddBanRecord ($oBan);
+	}
+
+
+	/**
+	 * Возвращает список банов по фильтру
+	 *
+	 * @param array 	$aFilter		Фильтр														// todo: review: delete
+	 * @param array 	$aOrder			Сортировка
+	 * @param int 		$iPage			Номер страницы
+	 * @param int 		$iPerPage		Количество элментов на страницу
+	 * @return array('collection'=>array,'count'=>int)
+	 */
+	public function GetBansByFilter($aFilter = array(), $aOrder = array(), $iPage = 1, $iPerPage = PHP_INT_MAX) {
+		$sOrder = $this -> GetCorrectSortingOrder(
+			$aOrder,
+			Config::Get('plugin.admin.correct_sorting_bans'),
+			Config::Get('plugin.admin.default_sorting_bans')
+		);
+		$mData = $this -> oMapper -> GetBansByFilter($aFilter, $sOrder, $iPage, $iPerPage);
+		return $mData;
 	}
 
 

@@ -9,19 +9,19 @@
 		
 			<div class="OnePlugin" title="{$oPlugin.property->description->data|strip_tags|escape:'html'}">
 
-				<a href="{router page='admin'}settings/plugin/{$oPlugin.code}/">
+				<a href="{router page='admin/settings/plugin'}{$oPlugin.code}/">
 					<h4 class="{if $oPlugin.is_active}enabled{else}disabled{/if}">{$oPlugin.property->name->data}</h4>
 				</a>
 			
 				<div>
 					{if !empty($oPlugin.property->settings) and $oPlugin.is_active}
-						<a href="{$oPlugin.property->settings}"target="_blank">собственные настройки плагина</a>
+						<a href="{$oPlugin.property->settings}"target="_blank">собственные настройки плагина</a> -
 					{/if}
-					
+
 					{if $oPlugin.is_active}
-						<a href="{router page='admin'}plugin/toggle/?plugin={$oPlugin.code}&action=deactivate&security_ls_key={$LIVESTREET_SECURITY_KEY}" title="{$aLang.plugins_plugin_deactivate}">deactivate</a>
+						<a href="{router page='admin/plugin/toggle'}?plugin={$oPlugin.code}&action=deactivate&security_ls_key={$LIVESTREET_SECURITY_KEY}" title="{$aLang.plugins_plugin_deactivate}">deactivate</a>
 					{else}
-						<a href="{router page='adminconfig'}plugin/toggle/?plugin={$oPlugin.code}&action=activate&security_ls_key={$LIVESTREET_SECURITY_KEY}" title="{$aLang.plugins_plugin_activate}">activate</a>
+						<a href="{router page='admin/plugin/toggle'}?plugin={$oPlugin.code}&action=activate&security_ls_key={$LIVESTREET_SECURITY_KEY}" title="{$aLang.plugins_plugin_activate}">activate</a>
 					{/if}
 				</div>
 				

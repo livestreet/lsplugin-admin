@@ -21,10 +21,10 @@
 					{/if}
 					{if !$bThisSkin}
 						<a
-							href="{router page='admin'}settings/skin/use/{$oSkin->getName()}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
+							href="{router page="admin/settings/skin/use/{$oSkin->getName()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
 							class="button button-primary">{$aLang.plugin.admin.skin.use_skin}</a>
 						<a
-							href="{router page='admin'}settings/skin/preview/{$oSkin->getName()}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
+							href="{router page="admin/settings/skin/preview/{$oSkin->getName()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
 							class="button button-primary">{$aLang.plugin.admin.skin.preview_skin}</a>
 					{/if}
 				</div>
@@ -52,7 +52,7 @@
 								<dt>{$aLang.plugin.admin.skin.themes}:</dt>
 								<dd>
 									{if $bThisSkin}
-										<form action="{router page='admin'}settings/skin/theme/{$oSkin->getName()}"
+										<form action="{router page="admin/settings/skin/theme/{$oSkin->getName()}"}"
 											  enctype="application/x-www-form-urlencoded"
 											  method="post">
 											<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />

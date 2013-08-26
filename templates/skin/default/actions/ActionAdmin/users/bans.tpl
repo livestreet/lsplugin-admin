@@ -5,48 +5,89 @@
 		{$aLang.plugin.admin.bans.title}
 	</h2>
 
-	<div class="top-controls mb-20">
-		<a class="button button-primary" href="{router page='admin/users/bans/add'}">Добавить бан</a>
+	<div class="top-controls mb-20 fl-r">
+		<a class="button" href="{router page='admin/users/bans/add'}">Добавить бан</a>
 	</div>
 
 	<table class="table table-sorting">
 		<thead>
 			<tr>
-				<th class="checked">
-					<label>
-						<input type="checkbox" name="checked[]" value="1" />
-						&darr;																			{* todo: select menu *}
-					</label>
-				</th>
-				<th class="avatar"></th>
 				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
-					sCellClassName='name'
-					sSortingOrder='u.user_login'
-					sLinkHtml=$aLang.plugin.admin.users.table_header.name
+					sCellClassName='block_type'
+					sSortingOrder='block_type'
+					sLinkHtml=$aLang.plugin.admin.bans.table_header.block_type
 					sBaseUrl=$sFullPagePathToEvent
 				}
 				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
-					sCellClassName='birth'
-					sSortingOrder='u.user_profile_birthday'
-					sLinkHtml=$aLang.plugin.admin.users.table_header.birth
+					sCellClassName='user_id'
+					sSortingOrder='user_id'
+					sLinkHtml=$aLang.plugin.admin.bans.table_header.user_id
 					sBaseUrl=$sFullPagePathToEvent
 				}
 				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
-					sCellClassName='visitandreg'
-					sSortingOrder='s.session_date_last'
-					sLinkHtml=$aLang.plugin.admin.users.table_header.reg_and_last_visit
+					sCellClassName='ip'
+					sSortingOrder='ip'
+					sLinkHtml=$aLang.plugin.admin.bans.table_header.ip
 					sBaseUrl=$sFullPagePathToEvent
 				}
 				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
-					sCellClassName='ips'
-					sSortingOrder='s.session_ip_last'
-					sLinkHtml=$aLang.plugin.admin.users.table_header.ip
+					sCellClassName='ip_start'
+					sSortingOrder='ip_start'
+					sLinkHtml=$aLang.plugin.admin.bans.table_header.ip_start
 					sBaseUrl=$sFullPagePathToEvent
 				}
 				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
-					sCellClassName='rating'
-					sSortingOrder='u.user_rating'
-					sLinkHtml=$aLang.plugin.admin.users.table_header.rating_and_skill
+					sCellClassName='ip_finish'
+					sSortingOrder='ip_finish'
+					sLinkHtml=$aLang.plugin.admin.bans.table_header.ip_finish
+					sBaseUrl=$sFullPagePathToEvent
+				}
+
+				{* dates *}
+				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
+					sCellClassName='time_type'
+					sSortingOrder='time_type'
+					sLinkHtml=$aLang.plugin.admin.bans.table_header.time_type
+					sBaseUrl=$sFullPagePathToEvent
+				}
+				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
+					sCellClassName='date_start'
+					sSortingOrder='date_start'
+					sLinkHtml=$aLang.plugin.admin.bans.table_header.date_start
+					sBaseUrl=$sFullPagePathToEvent
+				}
+				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
+					sCellClassName='date_finish'
+					sSortingOrder='date_finish'
+					sLinkHtml=$aLang.plugin.admin.bans.table_header.date_finish
+					sBaseUrl=$sFullPagePathToEvent
+				}
+
+				{* create and edit dates *}
+				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
+					sCellClassName='add_date'
+					sSortingOrder='add_date'
+					sLinkHtml=$aLang.plugin.admin.bans.table_header.add_date
+					sBaseUrl=$sFullPagePathToEvent
+				}
+				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
+					sCellClassName='edit_date'
+					sSortingOrder='edit_date'
+					sLinkHtml=$aLang.plugin.admin.bans.table_header.edit_date
+					sBaseUrl=$sFullPagePathToEvent
+				}
+
+				{* reason and comments *}
+				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
+					sCellClassName='reason_for_user'
+					sSortingOrder='reason_for_user'
+					sLinkHtml=$aLang.plugin.admin.bans.table_header.reason_for_user
+					sBaseUrl=$sFullPagePathToEvent
+				}
+				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
+					sCellClassName='comment'
+					sSortingOrder='comment'
+					sLinkHtml=$aLang.plugin.admin.bans.table_header.comment
 					sBaseUrl=$sFullPagePathToEvent
 				}
 				<th class="controls"></th>
@@ -54,67 +95,86 @@
 		</thead>
 
 		<tbody>
-			{foreach from=$aUsers item=oUser name=UserCycle}
-				{assign var="oSession" value=$oUser->getSession()}
-				<tr class="{if $smarty.foreach.UserCycle.iteration % 2 == 0}second{/if}">
-					<td class="checked">
-						<input type="checkbox" name="checked[]" value="1" />
-					</td>
-					<td class="avatar">
-						<a href="{router page='admin'}users/profile/{$oUser->getId()}"><img src="{$oUser->getProfileAvatarPath(48)}" alt="avatar" class="avatar" /></a>
-						{if $oUser->isOnline()}
-							<div class="user-is-online"
-								 title="{if $oUser->isOnline()}{$aLang.user_status_online}{else}{$aLang.user_status_offline}{/if}"></div>
+			{foreach from=$aBans item=oBan name=BanCycle}
+				{assign var="oSession" value=$oBan->getSession()}
+				<tr class="{if $smarty.foreach.BanCycle.iteration % 2 == 0}second{/if}">
+					<td class="block_type">
+						{if $oBan->getBlockType()==PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_USER_ID}
+							пользователь
+						{elseif $oBan->getBlockType()==PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_IP}
+							ip
+						{elseif $oBan->getBlockType()==PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_IP_RANGE}
+							диапазон ip
 						{/if}
 					</td>
-					<td class="name">
-						<div class="name {if !$oUser->getProfileName()}no-realname{/if}">
-							<p class="username word-wrap">
-								<a href="{router page='admin'}users/profile/{$oUser->getId()}">{$oUser->getLogin()}</a>
-								{if $oUser->isAdministrator()}
-									<i class="icon-user" title="Admin"></i>
-								{/if}
-							</p>
-							{if $oUser->getProfileName()}
-								<p class="realname">{$oUser->getProfileName()}</p>
-							{/if}
-							<p class="mail">{$oUser->getMail()}</p>
-						</div>
-					</td>
-					<td class="birth">
-						{if $oUser->getProfileBirthday()}
-							{date_format date=$oUser->getProfileBirthday() format="j.m.Y" notz=true}
+					<td class="user_id">
+						{if $oBan->getUserId()}
+							<a href="{router page="admin/users/profile/{$oBan->getUserId()}"}">{$oBan->getUserId()}</a>
 						{/if}
 					</td>
-					<td class="visitandreg">
-						<p title="reg date">
-							{date_format date=$oUser->getDateRegister() format="d.m.Y"},
-							<span>{date_format date=$oUser->getDateRegister() format="H:i"}</span>
-						</p>
-						{if $oSession}
-							<p title="date last">
-								{date_format date=$oSession->getDateLast() format="d.m.Y"},
-								<span>{date_format date=$oSession->getDateLast() format="H:i"}</span>
-							</p>
+					<td class="ip fS-10">
+						{if $oBan->getIp()}
+							<a href="{router page='admin/users/list'}{request_filter
+							name=array('session_ip_last')
+							value=array($oBan->getIp())
+							}">{$oBan->getIp()}</a>
 						{/if}
 					</td>
-					<td class="ips">
-						<p title="reg ip">{$oUser->getIpRegister()}</p>
-						{if $oSession}
-							{* <p title="sess ip create">{$oSession->getIpCreate()}</p> *}
-							<p title="sess ip last">{$oSession->getIpLast()}</p>
+					<td class="ip_start fS-10">
+						{if $oBan->getIpStart()}
+							<a href="{router page='admin/users/list'}{request_filter
+							name=array('session_ip_last')
+							value=array($oBan->getIpStart())
+							}">{$oBan->getIpStart()}</a>
 						{/if}
 					</td>
-					<td class="ratings">
-						<p class="rating {if $oUser->getRating() < 0}negative{/if}">
-							{$oUser->getRating()}
-						</p>
-						<p class="skill">
-							{$oUser->getSkill()}
-						</p>
+					<td class="ip_finish fS-10">
+						{if $oBan->getIpFinish()}
+							<a href="{router page='admin/users/list'}{request_filter
+							name=array('session_ip_last')
+							value=array($oBan->getIpFinish())
+							}">{$oBan->getIpFinish()}</a>
+						{/if}
 					</td>
+
+					{* dates *}
+					<td class="time_type">
+						{if $oBan->getTimeType()==PluginAdmin_ModuleUsers::BAN_TIME_TYPE_PERMANENT}
+							постоянный
+						{elseif $oBan->getTimeType()==PluginAdmin_ModuleUsers::BAN_TIME_TYPE_PERIOD}
+							период
+						{/if}
+					</td>
+					<td class="date_start fS-10">
+						{if $oBan->getTimeType()==PluginAdmin_ModuleUsers::BAN_TIME_TYPE_PERIOD}
+							{$oBan->getDateStart()}
+						{/if}
+					</td>
+					<td class="date_finish fS-10">
+						{if $oBan->getTimeType()==PluginAdmin_ModuleUsers::BAN_TIME_TYPE_PERIOD}
+							{$oBan->getDateFinish()}
+						{/if}
+					</td>
+
+					{* create and edit dates *}
+					<td class="add_date fS-10">
+						{$oBan->getAddDate()}
+					</td>
+					<td class="edit_date fS-10">
+						{$oBan->getEditDate()}
+					</td>
+
+					{* reason and comments *}
+					<td class="reason_for_user fS-10">
+						{$oBan->getReasonForUser()|escape:'html'|truncate:100:'...'}
+					</td>
+					<td class="comment fS-10">
+						{$oBan->getComment()|escape:'html'|truncate:100:'...'}
+					</td>
+
 					<td class="controls">
-						{* <p></p>  TODO *}
+						<a class="edit" href="#"><i class="icon-edit"></i></a>
+						<a class="delete" href="#"><i class="icon-remove"></i></a>
 					</td>
 				</tr>
 			{/foreach}
@@ -123,9 +183,9 @@
 
 
 	<div class="OnPageSelect">
-		<form action="{router page='admin'}users/ajax-on-page/" method="post" enctype="application/x-www-form-urlencoded" id="admin_onpage">
+		<form action="{router page='admin/bans/ajax-on-page'}" method="post" enctype="application/x-www-form-urlencoded" id="admin_onpage">
 			<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
-			{$aLang.plugin.admin.users.on_page}
+			{$aLang.plugin.admin.bans.on_page}
 			<select name="onpage" class="width-50">
 				{foreach from=range(5,100,5) item=iVal}
 					<option value="{$iVal}" {if $iVal==$oConfig->GetValue('plugin.admin.user.per_page')}selected="selected"{/if}>{$iVal}</option>
