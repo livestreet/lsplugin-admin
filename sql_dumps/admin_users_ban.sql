@@ -20,8 +20,8 @@ CREATE TABLE `prefix_admin_users_ban` (
 	
 	PRIMARY KEY (`id`),
 	INDEX `block_type` (`block_type` ASC),
-	UNIQUE `user_id` (`user_id` DESC),
-	UNIQUE `ip` (`ip` DESC),
+	INDEX `user_id` (`user_id` DESC),
+	INDEX `ip` (`ip` DESC),
 	INDEX `ip_start` (`ip_start` DESC),
 	INDEX `ip_finish` (`ip_finish` DESC),
 

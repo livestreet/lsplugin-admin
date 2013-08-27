@@ -197,6 +197,14 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 * список банов
 		 */
 		$this->AddEventPreg('#^users$#iu', '#^bans#iu', '#^(page(\d{1,5}))?$#iu', 'Users::EventBansList');
+		/*
+		 * редактировать бан
+		 */
+		$this->AddEventPreg('#^users$#iu', '#^bans#iu', '#^edit$#iu', '#^\d++$#iu', 'Users::EventEditBan');
+		/*
+		 * удалить бан
+		 */
+		$this->AddEventPreg('#^users$#iu', '#^bans#iu', '#^delete$#iu', '#^\d++$#iu', 'Users::EventDeleteBan');
 
 		/*
 		 * аякс обработчики

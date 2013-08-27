@@ -168,6 +168,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 		$sql = 'INSERT INTO
 				`' . Config::Get('db.table.users_ban') . '`
 			(
+				`id`,
 				`block_type`,
 				`user_id`,
 				`ip`,
@@ -186,6 +187,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 			)
 			VALUES
 			(
+				?d,
 				?d,
 				?d,
 				?,
@@ -220,6 +222,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 				`comment` = ?
 		';
 		return $this->oDb->query($sql,
+			$oBan->getId(),
 			$oBan->getBlockType(),
 			$oBan->getUserId(),
 			$oBan->getIp(),
@@ -271,6 +274,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 				`" . Config::Get('db.table.users_ban') . "`
 			WHERE
 				1 = 1
+				{AND `id` = ?d}
 			ORDER BY
 				{$sOrder}
 			LIMIT ?d, ?d
@@ -279,7 +283,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 		$iTotalCount = 0;
 
 		if ($aData = $this->oDb->selectPage($iTotalCount, $sql,
-			// todo: filter or review: delete WHERE clause and $aFilter
+			(isset($aFilter['id']) ? $aFilter['id'] : DBSIMPLE_SKIP),
 			($iPage - 1) * $iPerPage,
 			$iPerPage
 		)) {
@@ -292,6 +296,27 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 			'count' => $iTotalCount
 		);
 	}
+
+
+	/**
+	 * Удалить запись бана по ид
+	 *
+	 * @param $iId			ид бана
+	 * @return array|null
+	 */
+	public function DeleteBanById($iId) {
+		$sql = 'DELETE
+			FROM
+				`' . Config::Get('db.table.users_ban') . '`
+			WHERE
+				`id` = ?d
+			LIMIT 1;
+		';
+		return $this->oDb->query($sql,
+			$iId
+		);
+	}
+
 
 }
 

@@ -111,7 +111,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * @param $sWay			текущий тип сортировки
 	 * @return string		противоположный
 	 */
-	public function GetReversedOrderDirection ($sWay) {
+	public function GetReversedOrderDirection($sWay) {
 		if ($sDefaultWay = $this->GetDefaultOrderDirectionIfIncorrect($sWay) !== $sWay) return $sDefaultWay;
 		return $this -> aSortingOrderWays[(int) ($sWay == $this->sSortingWayByDefault)];
 	}
@@ -123,7 +123,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * @param $sWay			текущий тип сортировки
 	 * @return string		текущий или по-умолчанию (если не корректен)
 	 */
-	public function GetDefaultOrderDirectionIfIncorrect ($sWay) {
+	public function GetDefaultOrderDirectionIfIncorrect($sWay) {
 		if (!in_array($sWay, $this -> aSortingOrderWays)) return $this->sSortingWayByDefault;
 		return $sWay;
 	}
@@ -134,7 +134,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	 *
 	 * @param $iPerPage		количество
 	 */
-	public function ChangeUsersPerPage ($iPerPage) {
+	public function ChangeUsersPerPage($iPerPage) {
 		/*
 		 * установить количество пользователей на странице
 		 */
@@ -153,7 +153,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * @param $oUser		объект пользователя
 	 * @return array		ассоциативный массив голосований за обьекты
 	 */
-	public function GetUserVotingStats ($oUser) {
+	public function GetUserVotingStats($oUser) {
 		$sCacheKey = 'get_user_voting_stats_' . $oUser->getId();
 		if (($aData = $this->Cache_Get($sCacheKey)) === false) {
 			$aData = $this->CalcUserVotingStats($oUser);
@@ -174,7 +174,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * @param $oUser		объект пользователя
 	 * @return array
 	 */
-	protected function CalcUserVotingStats ($oUser) {
+	protected function CalcUserVotingStats($oUser) {
 		/*
 		 * заполнить значениями по-умолчанию
 		 */
@@ -205,7 +205,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * @param int 	$iPerPage		результатов на страницу
 	 * @return mixed				коллекция и количество
 	 */
-	public function GetUserVotingByFilter ($oUser, $aFilter, $aOrder = array(), $iPage = 1, $iPerPage = PHP_INT_MAX) {
+	public function GetUserVotingByFilter($oUser, $aFilter, $aOrder = array(), $iPage = 1, $iPerPage = PHP_INT_MAX) {
 		$sCacheKey = 'get_user_voting_list_' . implode('_', array($oUser->getId(), serialize($aFilter), serialize($aOrder), $iPage, $iPerPage));
 		if (($aData = $this->Cache_Get($sCacheKey)) === false) {
 			$aData = $this->oMapper->GetUserVotingListByFilter(
@@ -236,7 +236,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * @param $aFilter			фильтр
 	 * @return string			строка sql запроса
 	 */
-	protected function BuildFilterForVotingList ($aFilter) {
+	protected function BuildFilterForVotingList($aFilter) {
 		$sWhere = '';
 		if (isset($aFilter['type']) and $aFilter['type']) {
 			$sWhere .= ' AND `target_type` = "' . $aFilter['type'] . '"';
@@ -300,7 +300,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * @param $oBan		объект бана
 	 * @return mixed
 	 */
-	public function AddBanRecord ($oBan) {
+	public function AddBanRecord($oBan) {
 		// todo: cache
 		return $this->oMapper->AddBanRecord ($oBan);
 	}
@@ -309,7 +309,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	/**
 	 * Возвращает список банов по фильтру
 	 *
-	 * @param array 	$aFilter		Фильтр														// todo: review: delete
+	 * @param array 	$aFilter		Фильтр
 	 * @param array 	$aOrder			Сортировка
 	 * @param int 		$iPage			Номер страницы
 	 * @param int 		$iPerPage		Количество элментов на страницу
@@ -351,7 +351,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	 */
 	public function ChangeVotesPerPage($iPerPage) {
 		/*
-		 * установить количество банов на странице
+		 * установить количество голосов на странице
 		 */
 		$aData = array(
 			'votes' => array(
@@ -359,6 +359,38 @@ class PluginAdmin_ModuleUsers extends Module {
 			)
 		);
 		$this->PluginAdmin_Settings_SaveConfigByKey('admin', $aData);
+	}
+
+
+	/**
+	 * Получить объект бана по ид
+	 *
+	 * @param $iId		ид бана
+	 * @return mixed
+	 */
+	public function GetBanById($iId) {
+		$aFilter = array(
+			'id' => $iId,
+		);
+		$sOrder = $this -> GetCorrectSortingOrder(
+			array(),
+			Config::Get('plugin.admin.correct_sorting_bans'),
+			Config::Get('plugin.admin.default_sorting_bans')
+		);
+		$aData = $this->oMapper->GetBansByFilter($aFilter, $sOrder, 1, 1);
+		return ($aData['count'] ? array_shift($aData['collection']) : null);
+	}
+
+
+	/**
+	 * Удалить бан по ид
+	 *
+	 * @param $iId		ид бана
+	 * @return mixed
+	 */
+	public function DeleteBanById($iId) {
+		// todo: cache
+		return $this->oMapper->DeleteBanById($iId);
 	}
 
 

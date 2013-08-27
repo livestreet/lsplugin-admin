@@ -520,6 +520,13 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		$this->Security_ValidateSendForm();
 
 		/*
+		 * проверка ид бана (если было редактирование)
+		 */
+		if ($iBanId = (int) getRequestStr('ban_id') and !$oBan = $this->PluginAdmin_Users_GetBanById($iBanId)) {
+			$this->Message_AddError('Wrong ban id');
+			return false;
+		}
+		/*
 		 * получить идентификацию пользователя (правило поиска)
 		 */
 		$sUserSign = getRequestStr('user_sign');
@@ -531,8 +538,8 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * получить временные интервалы для типа бана "period"
 		 */
-		$sPeriodFrom = getRequestStr('period_from');
-		$sPeriodTo = getRequestStr('period_to');
+		$sPeriodFrom = getRequestStr('date_start');
+		$sPeriodTo = getRequestStr('date_finish');
 		/*
 		 * получить количество дней бана для типа бана "days"
 		 */
@@ -544,7 +551,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * комментарий бана для админа
 		 */
-		$sBlockingComment = getRequestStr('reason_comment');
+		$sBlockingComment = getRequestStr('comment');
 
 
 		/*
@@ -572,14 +579,14 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 			/*
 			 * проверить корректность даты начала
 			 */
-			if (!$sPeriodFrom or !preg_match('#^\d{4}-\d{1,2}-\d{1,2}$#iu', $sPeriodFrom, $aMatches)) {
+			if (!$sPeriodFrom or !preg_match('#^\d{4}-\d{1,2}-\d{1,2}(?: \d{2}:\d{2}:\d{2})?$#iu', $sPeriodFrom, $aMatches)) {
 				$this->Message_AddError('Period "from" is not correct (must be in YYYY-mm-dd)');
 				return false;
 			}
 			/*
 			 * проверить корректность даты финиша
 			 */
-			if (!$sPeriodTo or !preg_match('#^\d{4}-\d{1,2}-\d{1,2}$#iu', $sPeriodTo, $aMatches)) {
+			if (!$sPeriodTo or !preg_match('#^\d{4}-\d{1,2}-\d{1,2}(?: \d{2}:\d{2}:\d{2})?$#iu', $sPeriodTo, $aMatches)) {
 				$this->Message_AddError('Period "to" is not correct (must be in YYYY-mm-dd)');
 				return false;
 			}
@@ -609,6 +616,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 * заполнение сущности
 		 */
 		$oEnt = Engine::GetEntity('PluginAdmin_Users_Ban');
+		$oEnt->setId($iBanId);
 		/*
 		 * тип блокировки
 		 */
@@ -655,7 +663,11 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * дата создания и редактирования
 		 */
-		$oEnt->setAddDate(date('Y-m-d H:i:s'));
+		if (isset($oBan)) {
+			$oEnt->setAddDate($oBan->getAddDate());
+		} else {
+			$oEnt->setAddDate(date('Y-m-d H:i:s'));
+		}
 		$oEnt->setEditDate(date('Y-m-d H:i:s'));
 		/*
 		 * причина бана и комментарий
@@ -672,7 +684,8 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		}
 		$this->PluginAdmin_Users_AddBanRecord($oEnt);
 
-		$this->Message_AddNotice('Ok');
+		$this->Message_AddNotice('Ok', '', true);
+		Router::Location(Router::GetPath('admin') . 'users/bans');
 	}
 
 
@@ -758,6 +771,68 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	public function EventAjaxVotesOnPage () {
 		$this->Viewer_SetResponseAjax('json');
 		$this->PluginAdmin_Users_ChangeVotesPerPage(getRequestStr('onpage'));
+	}
+
+
+	/**
+	 * Редактирование бана
+	 *
+	 * @return string
+	 * @throws Exception
+	 */
+	public function EventEditBan() {
+		$this->SetTemplateAction('users/bans.add');
+
+		if (!$oBan = $this->PluginAdmin_Users_GetBanById((int) $this->GetParam(2))) {
+			$this->Message_AddError('Wrong ban id');
+			return false;
+		}
+		/*
+		 * Получить запись правила
+		 */
+		switch ($oBan->getBlockType()) {
+			case PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_USER_ID:
+				$_REQUEST['user_sign'] = $oBan->getUserId();
+				break;
+			case PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_IP:
+				$_REQUEST['user_sign'] = $oBan->getIp();
+				break;
+			case PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_IP_RANGE:
+				$_REQUEST['user_sign'] = $oBan->getIpStart() . ' - ' . $oBan->getIpFinish();
+				break;
+			default:
+				throw new Exception('Admin: error: wrong block type "' . $oBan->getBlockType() . '"');
+		}
+
+		/*
+		 * Получить временной интервал (количество дней будет превращено в интервал)
+		 */
+		if ($oBan->getTimeType() == PluginAdmin_ModuleUsers::BAN_TIME_TYPE_PERMANENT) {
+			$_REQUEST['bantype'] = 'unlimited';
+		} elseif ($oBan->getTimeType() == PluginAdmin_ModuleUsers::BAN_TIME_TYPE_PERIOD) {
+			$_REQUEST['bantype'] = 'period';
+		}
+		/*
+		 * Остальные данные уже в удобном формате
+		 */
+		$_REQUEST = array_merge ($_REQUEST, $oBan -> _getDataArray ());
+	}
+
+
+	/**
+	 * Удалить запись о бане
+	 *
+	 * @return bool
+	 */
+	public function EventDeleteBan() {
+		$this->Security_ValidateSendForm();
+		if (!$oBan = $this->PluginAdmin_Users_GetBanById((int) $this->GetParam(2))) {
+			$this->Message_AddError('Wrong ban id');
+			return false;
+		}
+		$this->PluginAdmin_Users_DeleteBanById($oBan->getId());
+		$this->Message_AddNotice('Ok', '', true);
+		Router::Location(Router::GetPath('admin') . 'users/bans');
 	}
 
 }

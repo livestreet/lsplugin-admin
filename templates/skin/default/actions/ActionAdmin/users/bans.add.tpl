@@ -6,12 +6,13 @@
 	</h2>
 
 	<div class="top-controls mb-20">
-		<a class="" href="{router page='admin/users/bans'}">{$aLang.plugin.admin.bans.back_to_list}</a>
+		<a href="{router page='admin/users/bans'}">{$aLang.plugin.admin.bans.back_to_list}</a>
 	</div>
 
 	<div class="ban-page">
 		<form action="{router page='admin/users/bans/add'}" method="post" enctype="application/x-www-form-urlencoded">
 			<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
+			<input type="hidden" name="ban_id" value="{$_aRequest.id}" />
 
 			<div class="ban-part-wrapper">
 				<h3>Идентификация пользователя</h3>
@@ -30,7 +31,7 @@
 					<div class="one-param">
 						<label>
 							<input type="radio" name="bantype[]" value="unlimited"
-								   {if in_array('unlimited', (array) $_aRequest.bantype)}checked="checked"{/if} />
+								   {if in_array('unlimited', (array) $_aRequest.bantype) or is_null($_aRequest.bantype)}checked="checked"{/if} />
 							Пожизненно
 						</label>
 						<div class="right-info">
@@ -49,9 +50,9 @@
 						<div class="right-info">
 							Пользователь не сможет получить доступ к сайту на период времени
 							<br />
-							с <input type="text" name="period_from" value="{$_aRequest.period_from}" class="input-text width-100 date-picker-php" placeholder="{date('Y-m-d')}" />
+							с <input type="text" name="date_start" value="{$_aRequest.date_start}" class="input-text width-150 date-picker-php" placeholder="{date('Y-m-d')}" />
 							&nbsp;&nbsp;&nbsp;
-							по <input type="text" name="period_to" value="{$_aRequest.period_to}" class="input-text width-100 date-picker-php" placeholder="2030-01-01" />
+							по <input type="text" name="date_finish" value="{$_aRequest.date_finish}" class="input-text width-150 date-picker-php" placeholder="2030-01-01" />
 							<br />
 							По проишествии указанного времени пользователь автоматически сможет получить доступ к сайту.
 						</div>
@@ -85,7 +86,7 @@
 					<div class="mb-10">
 						Укажите заметку для себя (видна только администраторам на странице списка банов):
 						<br />
-						<input type="text" name="reason_comment" value="{$_aRequest.reason_comment}" class="input-text width-400" placeholder="spammer" />
+						<input type="text" name="comment" value="{$_aRequest.comment}" class="input-text width-400" placeholder="spammer" />
 					</div>
 				</div>
 			</div>
