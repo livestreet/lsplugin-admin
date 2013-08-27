@@ -199,6 +199,7 @@ return array(
 			'reason_for_user' => 'Причина бана',
 			'comment' => 'Комментарий для себя',
 		),
+		'on_page' => 'На странице',
 
 	),
 	

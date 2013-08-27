@@ -326,6 +326,24 @@ class PluginAdmin_ModuleUsers extends Module {
 	}
 
 
+	/**
+	 * Установить количество банов на странице
+	 *
+	 * @param $iPerPage		количество
+	 */
+	public function ChangeBansPerPage($iPerPage) {
+		/*
+		 * установить количество банов на странице
+		 */
+		$aData = array(
+			'bans' => array(
+				'per_page' => $iPerPage,
+			)
+		);
+		$this->PluginAdmin_Settings_SaveConfigByKey('admin', $aData);
+	}
+
+
 }
 
 ?>

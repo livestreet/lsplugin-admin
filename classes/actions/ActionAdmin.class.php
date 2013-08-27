@@ -199,13 +199,20 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		$this->AddEventPreg('#^users$#iu', '#^bans#iu', '#^(page(\d{1,5}))?$#iu', 'Users::EventBansList');
 
 		/*
-		 * изменение количества пользователей на страницу (аякс)
+		 * аякс обработчики
+		 */
+		/*
+		 * изменение количества пользователей на страницу
 		 */
 		$this->AddEventPreg('#^users$#iu', '#^ajax-on-page$#iu', 'Users::EventAjaxUsersOnPage');
 		/*
 		 * изменение рейтинга и силы пользователя
 		 */
 		$this->AddEventPreg('#^users$#iu', '#^ajax-edit-rating$#iu', 'Users::EventAjaxEditUserRatingAndSkill');
+		/*
+		 * изменение количества банов на страницу
+		 */
+		$this->AddEventPreg('#^bans$#iu', '#^ajax-on-page$#iu', 'Users::EventAjaxBansOnPage');
 
 		/*
 		 *

@@ -29,10 +29,10 @@ ls.admin_misc = (function($) {
 	
 	this.selectors = {
 		/*
-			количество пользователей на страницу
+			количество элементов на страницу
 		 */
-		on_page_form_id: '#admin_onpage',
-		on_page_count: '#admin_onpage select',
+		on_page_form_id: '#admin_onpage, #admin_bans_onpage',
+		on_page_count: '#admin_onpage select, #admin_bans_onpage select',
 		/*
 			редактирование рейтинга и силы
 		 */
@@ -63,7 +63,7 @@ ls.admin_misc = (function($) {
 jQuery(document).ready(function($) {
 
 	/*
-		изменение количества пользователей на страницу
+		изменение количества элементов на страницу
 		обработка формы через аякс
 	 */
 	$ (ls.admin_misc.selectors.on_page_form_id).ajaxForm({
@@ -81,7 +81,7 @@ jQuery(document).ready(function($) {
 		}
 	});
 	/*
-		послать запрос при изменении количества пользователей в селекте
+		послать запрос при изменении количества элементов в селекте
 	 */
 	$ (document).on ('change.admin', ls.admin_misc.selectors.on_page_count, function () {
 		$ (ls.admin_misc.selectors.on_page_form_id).submit();
@@ -106,7 +106,7 @@ jQuery(document).ready(function($) {
 
 
 	/*
-		добавление срытого поля для поиска по пользователям (поле имеет имя filter[profile_name])
+		добавление скрытого поля для поиска по пользователям (поле имеет имя filter[profile_name])
 	 */
 	$ (ls.admin_misc.selectors.user_search_form_id).bind('submit.admin', function() {
 		q = $ (ls.admin_misc.selectors.user_search_form_q);

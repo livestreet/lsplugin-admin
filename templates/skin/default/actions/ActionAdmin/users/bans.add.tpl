@@ -25,12 +25,8 @@
 			</div>
 
 			<div class="ban-part-wrapper">
-				<h3>Строк действия</h3>
+				<h3 class="mb-30">Срок действия бана</h3>
 				<div class="block-period mb-20">
-					<div class="mb-10">
-						Время бана:
-					</div>
-
 					<div class="one-param">
 						<label>
 							<input type="radio" name="bantype[]" value="unlimited"
@@ -53,9 +49,9 @@
 						<div class="right-info">
 							Пользователь не сможет получить доступ к сайту на период времени
 							<br />
-							с <input type="text" name="period_from" value="{$_aRequest.period_from}" class="input-text width-100 date-picker" placeholder="{date('Y-m-d')}" />
+							с <input type="text" name="period_from" value="{$_aRequest.period_from}" class="input-text width-100 date-picker-php" placeholder="{date('Y-m-d')}" />
 							&nbsp;&nbsp;&nbsp;
-							по <input type="text" name="period_to" value="{$_aRequest.period_to}" class="input-text width-100 date-picker" placeholder="2030-01-01" />
+							по <input type="text" name="period_to" value="{$_aRequest.period_to}" class="input-text width-100 date-picker-php" placeholder="2030-01-01" />
 							<br />
 							По проишествии указанного времени пользователь автоматически сможет получить доступ к сайту.
 						</div>

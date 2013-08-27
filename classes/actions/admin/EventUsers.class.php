@@ -742,6 +742,15 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		return false;
 	}
 
+
+	/**
+	 * Изменить количество банов на странице
+	 */
+	public function EventAjaxBansOnPage () {
+		$this->Viewer_SetResponseAjax('json');
+		$this->PluginAdmin_Users_ChangeBansPerPage(getRequestStr('onpage'));
+	}
+
 }
 
 ?>
