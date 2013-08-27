@@ -344,6 +344,24 @@ class PluginAdmin_ModuleUsers extends Module {
 	}
 
 
+	/**
+	 * Установить количество голосов на странице
+	 *
+	 * @param $iPerPage		количество
+	 */
+	public function ChangeVotesPerPage($iPerPage) {
+		/*
+		 * установить количество банов на странице
+		 */
+		$aData = array(
+			'votes' => array(
+				'per_page' => $iPerPage,
+			)
+		);
+		$this->PluginAdmin_Settings_SaveConfigByKey('admin', $aData);
+	}
+
+
 }
 
 ?>

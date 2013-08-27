@@ -31,8 +31,8 @@ ls.admin_misc = (function($) {
 		/*
 			количество элементов на страницу
 		 */
-		on_page_form_id: '#admin_onpage, #admin_bans_onpage',
-		on_page_count: '#admin_onpage select, #admin_bans_onpage select',
+		on_page_form_id: '#admin_onpage, #admin_bans_onpage, #admin_votes_onpage',
+		on_page_count: '#admin_onpage select, #admin_bans_onpage select, #admin_votes_onpage select',
 		/*
 			редактирование рейтинга и силы
 		 */

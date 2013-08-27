@@ -213,6 +213,10 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 * изменение количества банов на страницу
 		 */
 		$this->AddEventPreg('#^bans$#iu', '#^ajax-on-page$#iu', 'Users::EventAjaxBansOnPage');
+		/*
+		 * изменение количества голосов на страницу
+		 */
+		$this->AddEventPreg('#^votes$#iu', '#^ajax-on-page$#iu', 'Users::EventAjaxVotesOnPage');
 
 		/*
 		 *

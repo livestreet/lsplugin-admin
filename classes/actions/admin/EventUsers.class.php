@@ -751,6 +751,15 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		$this->PluginAdmin_Users_ChangeBansPerPage(getRequestStr('onpage'));
 	}
 
+
+	/**
+	 * Изменить количество голосов на странице
+	 */
+	public function EventAjaxVotesOnPage () {
+		$this->Viewer_SetResponseAjax('json');
+		$this->PluginAdmin_Users_ChangeVotesPerPage(getRequestStr('onpage'));
+	}
+
 }
 
 ?>

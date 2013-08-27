@@ -181,18 +181,11 @@
 		</tbody>
 	</table>
 
-
-	<div class="OnPageSelect">
-		<form action="{router page='admin/bans/ajax-on-page'}" method="post" enctype="application/x-www-form-urlencoded" id="admin_bans_onpage">
-			<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
-			{$aLang.plugin.admin.bans.on_page}
-			<select name="onpage" class="width-50">
-				{foreach from=range(5,100,5) item=iVal}
-					<option value="{$iVal}" {if $iVal==$oConfig->GetValue('plugin.admin.bans.per_page')}selected="selected"{/if}>{$iVal}</option>
-				{/foreach}
-			</select>
-		</form>
-	</div>
+	{include file="{$aTemplatePathPlugin.admin}/forms/elements_on_page.tpl"
+		sFormActionPath="{router page='admin/bans/ajax-on-page'}"
+		sFormId = 'admin_bans_onpage'
+		iCurrentValue = $oConfig->GetValue('plugin.admin.bans.per_page')
+	}
 
 	{include file="{$aTemplatePathPlugin.admin}/pagination.tpl" aPaging=$aPaging}
 		
