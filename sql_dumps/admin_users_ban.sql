@@ -4,9 +4,9 @@ CREATE TABLE `prefix_admin_users_ban` (
 
 	`block_type` INT NOT NULL,
 	`user_id` INT(11),
-	`ip` VARCHAR(40),
-	`ip_start` VARCHAR(40),
-	`ip_finish` VARCHAR(40),
+	`ip` INT UNSIGNED,					-- todo: review for ipv6
+	`ip_start` INT UNSIGNED,
+	`ip_finish` INT UNSIGNED,
 
 	`time_type` INT NOT NULL,
 	`date_start` DATETIME NOT NULL,

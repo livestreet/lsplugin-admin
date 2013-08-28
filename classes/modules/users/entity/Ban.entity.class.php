@@ -34,9 +34,14 @@ class PluginAdmin_ModuleUsers_EntityBan extends Entity {
 		 */
 		array ('block_type', 'number', 'min' => 1, 'max' => 4),
 		array ('user_id', 'number', 'min' => 1),
+		/*
+		 * todo: для ip нужно что-то придумать т.к. одновременно ipv4 и ipv6 подружить нельзя
+		 */
+		/*
 		array ('ip', 'regexp', 'pattern' => '#^\d++\.\d++\.\d++\.\d++$#iu', 'allowEmpty' => true),				// todo: ipv6
 		array ('ip_start', 'regexp', 'pattern' => '#^\d++\.\d++\.\d++\.\d++$#iu', 'allowEmpty' => true),
 		array ('ip_finish', 'regexp', 'pattern' => '#^\d++\.\d++\.\d++\.\d++$#iu', 'allowEmpty' => true),
+		*/
 
 		/*
 		 * тип блокировки по времени (постоянный или интервал)

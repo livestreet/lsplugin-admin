@@ -199,6 +199,7 @@ return array(
 			'reason_for_user' => 'Причина',
 			'comment' => 'Комментарий для себя',
 		),
+		'you_are_banned' => 'Вам запрещен доступ к сайту с <b>%%date_start%%</b> по <b>%%date_finish%%</b>. Причина: <i>%%reason%%</i>.',
 
 	),
 	

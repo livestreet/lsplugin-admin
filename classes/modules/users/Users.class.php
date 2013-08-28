@@ -394,6 +394,19 @@ class PluginAdmin_ModuleUsers extends Module {
 	}
 
 
+	/**
+	 * Проверить является ли текущий пользователь забаненным
+	 *
+	 * @return object	объект бана
+	 */
+	public function IsThisUserBanned() {
+		// todo: cache
+		$oUserCurrent = $this->User_GetUserCurrent();
+		$mIp = convert_ip2long(func_getIp());
+		$sCurrentDate = date('Y-m-d H:i:s');
+		return $this->oMapper->IsThisUserBanned($oUserCurrent, $mIp, $sCurrentDate);
+	}
+
 }
 
 ?>

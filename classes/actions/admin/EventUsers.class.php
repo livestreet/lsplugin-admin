@@ -627,13 +627,13 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 				break;
 			case 'ip':
 				$oEnt->setBlockType(PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_IP);
-				$oEnt->setIp($aRuleData['ip']);
+				$oEnt->setIp(convert_ip2long($aRuleData['ip']));											// todo: review for ipv6
 				break;
 			case 'ip_range':
 				$oEnt->setBlockType(PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_IP_RANGE);
 				$aIps = preg_split('#\s*+-\s*+#iu', $aRuleData['ip_range']);
-				$oEnt->setIpStart(array_shift($aIps));
-				$oEnt->setIpFinish(array_shift($aIps));
+				$oEnt->setIpStart(convert_ip2long(array_shift($aIps)));										// todo: review for ipv6
+				$oEnt->setIpFinish(convert_ip2long(array_shift($aIps)));
 				break;
 			default:
 				throw new Exception('Admin: error: unknown block rule "' . $oEnt->getBlockType() . '"');
@@ -792,13 +792,13 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 */
 		switch ($oBan->getBlockType()) {
 			case PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_USER_ID:
-				$_REQUEST['user_sign'] = $oBan->getUserId();
+				$_REQUEST['user_sign'] = $this->User_GetUserById($oBan->getUserId())->getLogin();
 				break;
 			case PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_IP:
-				$_REQUEST['user_sign'] = $oBan->getIp();
+				$_REQUEST['user_sign'] = convert_long2ip($oBan->getIp());														// todo: ipv6
 				break;
 			case PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_IP_RANGE:
-				$_REQUEST['user_sign'] = $oBan->getIpStart() . ' - ' . $oBan->getIpFinish();
+				$_REQUEST['user_sign'] = convert_long2ip($oBan->getIpStart()) . ' - ' . convert_long2ip($oBan->getIpFinish());	// todo: ipv6
 				break;
 			default:
 				throw new Exception('Admin: error: wrong block type "' . $oBan->getBlockType() . '"');

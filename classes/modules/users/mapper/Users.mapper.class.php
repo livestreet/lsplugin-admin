@@ -190,9 +190,9 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 				?d,
 				?d,
 				?d,
-				?,
-				?,
-				?,
+				?d,
+				?d,
+				?d,
 
 				?d,
 				?,
@@ -207,9 +207,9 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 			ON DUPLICATE KEY UPDATE
 				`block_type` = ?d,
 				`user_id` = ?d,
-				`ip` = ?,
-				`ip_start` = ?,
-				`ip_finish` = ?,
+				`ip` = ?d,
+				`ip_start` = ?d,
+				`ip_finish` = ?d,
 
 				`time_type` = ?d,
 				`date_start` = ?,
@@ -315,6 +315,84 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 		return $this->oDb->query($sql,
 			$iId
 		);
+	}
+
+
+	/**
+	 * Проверить попадает ли пользователь под одно из правил для бана
+	 *
+	 * @param $oUserCurrent				объект пользователя для проверки
+	 * @param $mIp						представление ip адреса для сравнения
+	 * @param $sCurrentDate				текущая дата в формате DATETIME
+	 * @return Entity|null
+	 */
+	public function IsThisUserBanned($oUserCurrent, $mIp, $sCurrentDate) {
+		$sql = "SELECT *
+			FROM
+				`" . Config::Get('db.table.users_ban') . "`
+			WHERE
+				(
+					(								-- user condition
+						`block_type` = ?d
+						AND
+						`user_id` = ?d
+					)
+					OR
+					(								-- ip
+						`block_type` = ?d
+						AND
+						`ip` = ?d
+					)
+					OR
+					(								-- ip range
+						`block_type` = ?d
+						AND
+						?d BETWEEN `ip_start` AND `ip_finish`
+					)
+				)
+				AND
+				(
+					`time_type` = ?d
+					OR
+					(
+						`time_type` = ?d
+						AND
+						? BETWEEN `date_start` AND `date_finish`
+					)
+				)
+			ORDER BY
+				`id` DESC
+			LIMIT 1
+		";
+		if ($aResult = $this->oDb->selectRow($sql,
+			/*
+			 * поиск по ид текущего пользователя
+			 */
+			PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_USER_ID,
+			($oUserCurrent ? $oUserCurrent->getId() : 0),
+			/*
+			 * поиск по ip
+			 */
+			PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_IP,
+			$mIp,
+			/*
+			 * поиск по диапазону ip адресов
+			 */
+			PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_IP_RANGE,
+			$mIp,
+			/*
+			 * временной интервал - постоянный
+			 */
+			PluginAdmin_ModuleUsers::BAN_TIME_TYPE_PERMANENT,
+			/*
+			 * временной интервал - период
+			 */
+			PluginAdmin_ModuleUsers::BAN_TIME_TYPE_PERIOD,
+			$sCurrentDate
+		)) {
+			return Engine::GetEntity('PluginAdmin_Users_Ban', $aResult);
+		}
+		return null;
 	}
 
 
