@@ -119,24 +119,24 @@
 							{if $oBan->getIp()}
 								<a href="{router page='admin/users/list'}{request_filter
 								name=array('session_ip_last')
-								value=array(long2ip($oBan->getIp()))
-								}">{long2ip($oBan->getIp())}</a>
+								value=array(convert_long2ip($oBan->getIp()))
+								}">{convert_long2ip($oBan->getIp())}</a>
 							{/if}
 						</td>
 						<td class="ip_start fS-10">
 							{if $oBan->getIpStart()}
 								<a href="{router page='admin/users/list'}{request_filter
 								name=array('session_ip_last')
-								value=array(long2ip($oBan->getIpStart()))
-								}">{long2ip($oBan->getIpStart())}</a>
+								value=array(convert_long2ip($oBan->getIpStart()))
+								}">{convert_long2ip($oBan->getIpStart())}</a>
 							{/if}
 						</td>
 						<td class="ip_finish fS-10">
 							{if $oBan->getIpFinish()}
 								<a href="{router page='admin/users/list'}{request_filter
 								name=array('session_ip_last')
-								value=array(long2ip($oBan->getIpFinish()))
-								}">{long2ip($oBan->getIpFinish())}</a>
+								value=array(convert_long2ip($oBan->getIpFinish()))
+								}">{convert_long2ip($oBan->getIpFinish())}</a>
 							{/if}
 						</td>
 
