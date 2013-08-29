@@ -396,6 +396,26 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 	}
 
 
+	/**
+	 * Удалить старые записи банов, дата окончания которых уже прошла
+	 *
+	 * @return array|null
+	 */
+	public function DeleteOldBanRecords() {
+		$sql = 'DELETE
+			FROM
+				`' . Config::Get('db.table.users_ban') . '`
+			WHERE
+				`time_type` = ?d
+				AND
+				`date_finish` < NOW()
+		';
+		return $this->oDb->query($sql,
+			PluginAdmin_ModuleUsers::BAN_TIME_TYPE_PERIOD
+		);
+	}
+
+
 }
 
 ?>

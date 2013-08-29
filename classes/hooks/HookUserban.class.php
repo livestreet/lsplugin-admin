@@ -34,6 +34,10 @@ class PluginAdmin_HookUserban extends Hook {
 
 	public function EngineInitComplete() {
 		/*
+		 * удалить старые записи банов
+		 */
+		$this->CheckOldBanRecords();
+		/*
 		 * если текущий пользователь попадает под условия бана - показать ему сообщение
 		 */
 		$this->CheckUserBan();
@@ -53,6 +57,16 @@ class PluginAdmin_HookUserban extends Hook {
 			)), '403');
 			$this->User_Logout();
 			Router::Action('error');
+		}
+	}
+
+
+	/**
+	 * Удалить старые записи банов
+	 */
+	protected function CheckOldBanRecords() {
+		if (Config::Get('plugin.admin.auto_delete_old_ban_records')) {
+			$this->PluginAdmin_Users_DeleteOldBanRecords();
 		}
 	}
 

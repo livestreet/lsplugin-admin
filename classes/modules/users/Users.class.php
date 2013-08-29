@@ -407,6 +407,15 @@ class PluginAdmin_ModuleUsers extends Module {
 		return $this->oMapper->IsThisUserBanned($oUserCurrent, $mIp, $sCurrentDate);
 	}
 
+
+	/**
+	 * Удалить старые записи банов, дата окончания которых уже прошла
+	 */
+	public function DeleteOldBanRecords() {
+		// todo: cache
+		$this->oMapper->DeleteOldBanRecords();
+	}
+
 }
 
 ?>
