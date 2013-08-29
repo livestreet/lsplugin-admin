@@ -11,7 +11,7 @@
 
 				<a name="p{$iNumOrder}"></a>
 
-				<div class="OneParameterContainer mb20">
+				<div class="OneParameterContainer mb-20">
 					<div class="ParamNum">#{$iNumOrder}</div>
 					<div class="DisplayKey">{$sKey}</div>
 

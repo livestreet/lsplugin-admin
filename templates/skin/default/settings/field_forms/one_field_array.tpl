@@ -6,7 +6,7 @@
 			
 			<div class="js-hidden-array-item-copy" style="display: none;">
 				<div class="js-array-item-value">
-					<input type="text" class="input-text input-width-50" readonly="readonly" value="" data-name-original="{$sInputDataName}" />
+					<input type="text" class="input-text width-50" readonly="readonly" value="" data-name-original="{$sInputDataName}" />
 					<span class="js-remove-previous">X</span>
 				</div>
 			</div>
@@ -14,7 +14,7 @@
 			<div class="js-array-values" data-key="{$sKey}">
 				{foreach from=$oParameter->getValue() item=mValue}
 					<div class="js-array-item-value">
-						<input type="text" name="{$sInputDataName}" class="input-text input-width-50" readonly="readonly" value="{$mValue}" />
+						<input type="text" name="{$sInputDataName}" class="input-text width-50" readonly="readonly" value="{$mValue}" />
 						<span class="js-remove-previous">X</span>
 					</div>
 				{/foreach}

@@ -2,310 +2,310 @@
 /* user listing */
 
 .ls-admin table.table-sorting tbody .checked {
-    width: 30px;
+	width: 30px;
 }
 
 .ls-admin table.table-sorting tbody .avatar {
-    width: 50px;
+	width: 50px;
 }
 
 .ls-admin table.table-sorting tbody .avatar a,
 .ls-admin table.table-sorting tbody .avatar a img {
-    display: block;
+	display: block;
 }
 
 .ls-admin table.table-sorting tbody .name div.name {
-    min-height: 54px;
+	min-height: 54px;
 }
 
 .ls-admin table.table-sorting tbody .name .username a {
-    border-bottom: 1px solid;
+	border-bottom: 1px solid;
 }
 
 .ls-admin table.table-sorting tbody .name .mail {
-    color: #999999;
-    font-size: 11px;
+	color: #999999;
+	font-size: 11px;
 }
 
 .ls-admin table.table-sorting tbody .birth {
-    font-size: 11px;
-    width: 75px;
+	font-size: 11px;
+	width: 75px;
 }
 
 .ls-admin table.table-sorting tbody .visitandreg {
-    font-size: 11px;
-    width: 135px;
+	font-size: 11px;
+	width: 135px;
 }
 
 .ls-admin table.table-sorting tbody .visitandreg span {
-    color: #999999;
+	color: #999999;
 }
 
 .ls-admin table.table-sorting tbody .ips {
-    color: #999999;
-    width: 100px;
+	color: #999999;
+	width: 100px;
 }
 
 .ls-admin table.table-sorting tbody .ratings {
-    font-weight: bold;
-    width: 110px;
+	font-weight: bold;
+	width: 110px;
 }
 
 .ls-admin table.table-sorting tbody .ratings .rating {
-    color: green;
+	color: green;
 }
 
 .ls-admin table.table-sorting tbody .ratings .skill {
-    color: #999999;
+	color: #999999;
 }
 
 .ls-admin table.table-sorting tbody .controls {
-    width: 22px;
+	width: 22px;
 }
 
 /* users online */
 
 .ls-admin .user-is-online {
-    background: none repeat scroll 0 0 #3CD33B;
-    height: 2px;
-    margin-top: 2px;
+	background: none repeat scroll 0 0 #3CD33B;
+	height: 2px;
+	margin-top: 2px;
 }
 
 /* user search */
 
 .ls-admin .UserSearch {
-    background: none repeat scroll 0 0 #F9F9F9;
-    margin: 0 -15px 5px;
-    padding: 20px;
+	background: none repeat scroll 0 0 #F9F9F9;
+	margin: 0 -15px 5px;
+	padding: 20px;
 }
 
 .ls-admin .UserSearch select {
-    vertical-align: top;
+	vertical-align: top;
 }
 
 .ls-admin .OnPageSelect {
-    float: right;
+	float: right;
 }
 
 /* profile */
 
 .ls-admin .profile-info-wrapper {
-    clear: both;
+	clear: both;
 }
 
 .ls-admin .profile-info-wrapper .top-controls {
-    background: none repeat scroll 0 0 #464646;
-    clear: both;
-    color: #FFFFFF;
-    margin: -15px -15px 0;
-    overflow: hidden;
-    padding: 7px;
+	background: none repeat scroll 0 0 #464646;
+	clear: both;
+	color: #FFFFFF;
+	margin: -15px -15px 0;
+	overflow: hidden;
+	padding: 7px;
 }
 
 .ls-admin .profile-info-wrapper .top-controls li {
-    border-right: 1px solid #696969;
-    float: left;
-    margin-right: 7px;
-    padding: 10px 17px 10px 10px;
+	border-right: 1px solid #696969;
+	float: left;
+	margin-right: 7px;
+	padding: 10px 17px 10px 10px;
 }
 
 .ls-admin .profile-info-wrapper .top-controls li a {
-    color: #FFFFFF;
+	color: #FFFFFF;
 }
 
 .ls-admin .profile-info-wrapper .top-controls li.fl-r {
-    border-left: 1px solid #696969;
-    border-right: medium none;
-    padding-left: 17px;
-    padding-right: 10px;
+	border-left: 1px solid #696969;
+	border-right: medium none;
+	padding-left: 17px;
+	padding-right: 10px;
 }
 
 .ls-admin .profile-info-wrapper .inner-data {
-    background: none repeat scroll 0 0 #F9F9F9;
-    margin: 0 -15px;
-    padding: 15px;
+	background: none repeat scroll 0 0 #F9F9F9;
+	margin: 0 -15px;
+	padding: 15px;
 }
 
 .ls-admin .profile-info-wrapper .inner-data .profile-links {
-    clear: both;
-    overflow: hidden;
+	clear: both;
+	overflow: hidden;
 }
 
 .ls-admin .profile-info-wrapper .inner-data .profile-links li {
-    float: left;
-    line-height: 24px;
-    width: 120px;
+	float: left;
+	line-height: 24px;
+	width: 120px;
 }
 
 .ls-admin .profile-info-wrapper .inner-data .profile-links li a {
-    border-bottom: 1px solid;
-    text-decoration: none;
+	border-bottom: 1px solid;
+	text-decoration: none;
 }
 
 .ls-admin .profile-info-wrapper .inner-data .line {
-    border-bottom: 1px solid #FFFFFF;
-    border-top: 1px solid #EEEEEE;
-    margin: 15px 0 20px;
+	border-bottom: 1px solid #FFFFFF;
+	border-top: 1px solid #EEEEEE;
+	margin: 15px 0 20px;
 }
 
 .ls-admin .profile-info-wrapper .inner-data .base-info {
-    clear: both;
-    overflow: hidden;
+	clear: both;
+	overflow: hidden;
 }
 
 .ls-admin .profile-info-wrapper .inner-data .base-info .left {
-    float: left;
-    width: 70%;
+	float: left;
+	width: 70%;
 }
 
 .ls-admin .profile-info-wrapper .inner-data .base-info .left .avatar-wrapper {
-    float: left;
-    margin-right: 20px;
+	float: left;
+	margin-right: 20px;
 }
 
 .ls-admin .profile-info-wrapper .inner-data .base-info .left .avatar-wrapper a,
 .ls-admin .profile-info-wrapper .inner-data .base-info .left .avatar-wrapper a img {
-    display: block;
+	display: block;
 }
 
 .ls-admin .profile-info-wrapper .inner-data .base-info .left .names {
-    overflow: hidden;
+	overflow: hidden;
 }
 
 .ls-admin .profile-info-wrapper .inner-data .base-info .left .names a {
-    color: #555555;
+	color: #555555;
 }
 
 .ls-admin .profile-info-wrapper .inner-data .base-info .left .names .username {
-    font-size: 20px;
-    line-height: 22px;
-    margin-bottom: 5px;
+	font-size: 20px;
+	line-height: 22px;
+	margin-bottom: 5px;
 }
 
 .ls-admin .profile-info-wrapper .inner-data .base-info .left .names .realname {
-    font-size: 16px;
-    line-height: 22px;
-    margin-bottom: 15px;
+	font-size: 16px;
+	line-height: 22px;
+	margin-bottom: 15px;
 }
 
 .ls-admin .profile-info-wrapper .inner-data .base-info .left .names .mail {
-    font-size: 12px;
+	font-size: 12px;
 }
 
 .ls-admin .profile-info-wrapper .inner-data .base-info .left .user-is-online {
-    height: 3px;
+	height: 3px;
 }
 
 .ls-admin .profile-info-wrapper .inner-data .base-info .right {
-    overflow: hidden;
+	overflow: hidden;
 }
 
 .ls-admin .profile-info-wrapper .inner-data .base-info .right .skill {
-    float: left;
+	float: left;
 }
 
 .ls-admin .profile-info-wrapper .inner-data .base-info .right .rating {
-    float: right;
+	float: right;
 }
 
 .ls-admin .profile-info-wrapper .inner-data .base-info .right .user-id {
-    clear: both;
-    font-size: 10px;
-    line-height: 25px;
+	clear: both;
+	font-size: 10px;
+	line-height: 25px;
 }
 
 .ls-admin .profile-info-wrapper .inner-data .more-info {
-    background: none repeat scroll 0 0 #FFFFFF;
-    margin: 15px -15px 0;
-    overflow: hidden;
-    padding: 15px;
+	background: none repeat scroll 0 0 #FFFFFF;
+	margin: 15px -15px 0;
+	overflow: hidden;
+	padding: 15px;
 }
 
 .ls-admin .profile-info-wrapper .inner-data .more-info .right-data {
-    float: right;
-    width: 30%;
+	float: right;
+	width: 30%;
 }
 
 .ls-admin .profile-info-wrapper .inner-data .more-info .right-data .your-note {
-    background: none repeat scroll 0 0 #FFFFD7;
-    padding: 15px;
+	background: none repeat scroll 0 0 #FFFFD7;
+	padding: 15px;
 }
 
 .ls-admin .profile-info-wrapper .inner-data .more-info .right-data .your-note a {
-    color: #A1933A;
+	color: #A1933A;
 }
 
 .ls-admin .profile-info-wrapper .inner-data .more-info .left-data {
-    overflow: hidden;
+	overflow: hidden;
 }
 
 .ls-admin .profile-info-wrapper .inner-data .more-info .left-data .resume dl {
-    clear: both;
-    margin-bottom: 5px;
-    overflow: hidden;
+	clear: both;
+	margin-bottom: 5px;
+	overflow: hidden;
 }
 
 .ls-admin .profile-info-wrapper .inner-data .more-info .left-data .resume dl dt {
-    border-bottom: 1px dotted #EEEEEE;
-    float: left;
-    width: 200px;
+	border-bottom: 1px dotted #EEEEEE;
+	float: left;
+	width: 200px;
 }
 
 .ls-admin .profile-info-wrapper .inner-data .more-info .left-data .resume dl dd {
-    overflow: hidden;
+	overflow: hidden;
 }
 
 .ls-admin .profile-info-wrapper .inner-data .more-info .left-data .line-2 {
-    border-bottom: 1px dotted #AAAAAA;
-    margin: 20px 0;
+	border-bottom: 1px dotted #AAAAAA;
+	margin: 20px 0;
 }
 
 .ls-admin .profile-info-wrapper .inner-data .more-info .left-data .stats {
-    clear: both;
-    overflow: hidden;
+	clear: both;
+	overflow: hidden;
 }
 
 .ls-admin .profile-info-wrapper .inner-data .more-info .left-data .stats .stat-row {
-    float: left;
-    width: 120px;
+	float: left;
+	width: 120px;
 }
 
 .ls-admin .profile-info-wrapper .inner-data .more-info .left-data .stats .stat-row .stat-header {
-    font-weight: bold;
-    margin-bottom: 5px;
+	font-weight: bold;
+	margin-bottom: 5px;
 }
 
 .ls-admin .profile-info-wrapper .inner-data .more-info .left-data .user-fields {
-    clear: both;
-    overflow: hidden;
+	clear: both;
+	overflow: hidden;
 }
 
 .ls-admin .profile-info-wrapper .inner-data .more-info .left-data .user-fields > div {
-    float: left;
-    width: 50%;
+	float: left;
+	width: 50%;
 }
 
 .ls-admin .profile-contact-list li {
-    line-height: 28px;
+	line-height: 28px;
 }
 
 .ls-admin .profile-contact-list li i {
-    margin-right: 10px;
+	margin-right: 10px;
 }
 
 /* change user rating and skill */
 
 .ls-admin .profile-info-wrapper .inner-data .base-info .right form {
-    background: none repeat scroll 0 0 #E1E1E1;
-    border: 1px solid #DDDDDD;
-    padding: 5px;
+	background: none repeat scroll 0 0 #E1E1E1;
+	border: 1px solid #DDDDDD;
+	padding: 5px;
 }
 
 .ls-admin .profile-info-wrapper .inner-data .base-info .right form input[type="submit"] {
-    clear: both;
-    margin-top: 5px;
-    overflow: hidden;
-    width: 100%;
+	clear: both;
+	margin-top: 5px;
+	overflow: hidden;
+	width: 100%;
 }
 
 /* ban lists */
@@ -340,4 +340,13 @@
 	font-size: 18px;
 	margin-bottom: 15px;
 	text-shadow: 0 1px 0 #FFFFFF;
+}
+
+/* checking for correct ban rule */
+
+#admin_bans_checking_msg {
+	color: #008000;
+	display: inline-block;
+	line-height: 28px;
+	vertical-align: top;
 }

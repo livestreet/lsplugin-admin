@@ -835,6 +835,32 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		Router::Location(Router::GetPath('admin') . 'users/bans');
 	}
 
+
+	/**
+	 * Проверить правило бана на корректность
+	 */
+	public function EventAjaxBansCheckUserSign () {
+		$this->Viewer_SetResponseAjax('json');
+		$sResponse = '';
+		if ($sUserSign = getRequestStr('value')) {
+			if (!$aData = $this->GetUserDataByUserRule($sUserSign)) {
+				return $this->Message_AddError($this->Lang('bans.user_sign_check.wrong_rule'));
+			}
+			switch ($aData['type']) {
+				case 'user':
+					$sResponse = $this->Lang('bans.user_sign_check.user', array(
+						'login' => $aData['user']->getLogin(),
+						'id' => $aData['user']->getId(),
+					));
+					break;
+				default:
+					$sResponse = $this->Lang('bans.user_sign_check.' . $aData['type']);
+					break;
+			}
+		}
+		$this->Viewer_AssignAjax('sResponse', $sResponse);
+	}
+
 }
 
 ?>

@@ -50,7 +50,7 @@ class PluginAdmin_HookUserban extends Hook {
 	protected function CheckUserBan() {
 		if ($oBan = $this->PluginAdmin_Users_IsThisUserBanned()) {
 			/*
-			 * корреткный код ответа - 403 (запрещено)
+			 * корректный код ответа - 403 (запрещено)
 			 */
 			header('HTTP/1.1 403');
 			$this->Message_AddError($this->Lang_Get('plugin.admin.bans.you_are_banned', array(

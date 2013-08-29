@@ -225,6 +225,10 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 * изменение количества голосов на страницу
 		 */
 		$this->AddEventPreg('#^votes$#iu', '#^ajax-on-page$#iu', 'Users::EventAjaxVotesOnPage');
+		/*
+		 * проверить правило бана на корректность
+		 */
+		$this->AddEventPreg('#^bans$#iu', '#^ajax-check-user-sign$#iu', 'Users::EventAjaxBansCheckUserSign');
 
 		/*
 		 *
@@ -360,13 +364,14 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 
 
 	/**
-	 * быстрое получение текстовки плагина
+	 * Быстрое получение текстовки плагина без указания префикса
 	 *
 	 * @param $sKey		ключ языкового файла (без префикса plugin.имяплагина.)
+	 * @param $aParams	параметры подстановки значений для передачи в текстовку
 	 * @return mixed	значение
 	 */
-	public function Lang($sKey) {
-		return $this->Lang_Get('plugin.admin.' . $sKey);
+	public function Lang($sKey, $aParams = array()) {
+		return $this->Lang_Get('plugin.admin.' . $sKey, $aParams);
 	}
 	
 	
@@ -374,7 +379,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		$this->Viewer_Assign('oMenuMain', $this->PluginAdmin_Ui_GetMenuMain());
 		$this->Viewer_Assign('oMenuAddition', $this->PluginAdmin_Ui_GetMenuAddition());
 
-		$this->Viewer_AddBlock('right','blocks/block.nav.tpl',array('plugin'=>'admin'));
+		$this->Viewer_AddBlock('right','blocks/block.nav.tpl', array('plugin'=>'admin'));
 
 		$this->PluginAdmin_Ui_HighlightMenus();
 		

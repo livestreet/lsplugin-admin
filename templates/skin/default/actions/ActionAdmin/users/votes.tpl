@@ -2,7 +2,7 @@
 
 {block name='layout_content'}
 
-	<h2 class="title mb20">
+	<h2 class="title mb-20">
 		{$aLang.plugin.admin.users.votes.title}
 	</h2>
 

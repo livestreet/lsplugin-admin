@@ -1,7 +1,7 @@
 {extends file="{$aTemplatePathPlugin.admin}/layout.base.tpl"}
 
 {block name='layout_content'}
-	<h2 class="title mb20">
+	<h2 class="title mb-20">
 		{$aLang.plugin.admin.users.title}
 	</h2>
 

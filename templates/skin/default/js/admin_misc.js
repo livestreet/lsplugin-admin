@@ -45,6 +45,12 @@ ls.admin_misc = (function($) {
 		user_search_form_q: '#admin_user_list_search_form_q',
 		user_search_form_field: '#admin_user_list_search_form_field',
 
+		/*
+			проверка правила для бана
+		 */
+		bans_user_sign: '#admin_bans_user_sign',
+		bans_answer_id: '#admin_bans_checking_msg',
+
 
 		/*
 			для удобства (последняя запятая отсутствует)
@@ -118,6 +124,30 @@ jQuery(document).ready(function($) {
 				value: q.val()
 			})
 		);
+	});
+
+
+	/*
+		проверка данных поля для бана
+	 */
+	$ (ls.admin_misc.selectors.bans_user_sign).bind('blur.admin', function() {
+		sVal = $.trim ($ (this).val());
+		if (sVal == '') return false;
+		$ (ls.admin_misc.selectors.bans_answer_id).html('').addClass('loading');			// todo: прикрутить крутилку (класс "loading")
+		ls.ajax(
+			aRouter ['admin'] + 'bans/ajax-check-user-sign',
+			{
+				value: sVal
+			},
+			function(data) {
+				if (data.bStateError) {
+					ls.msg.notice(data.sMsg, data.sTitle);
+				} else {
+					$ (ls.admin_misc.selectors.bans_answer_id).html('<i class="icon-check"></i>&nbsp;' + data.sResponse).removeClass('loading');
+				}
+			}
+		);
+
 	});
 
 });

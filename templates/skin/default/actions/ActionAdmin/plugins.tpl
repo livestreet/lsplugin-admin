@@ -1,7 +1,7 @@
 {extends file="{$aTemplatePathPlugin.admin}/layout.base.tpl"}
 
 {block name='layout_content'}
-	<h2 class="title mb20">Список плагинов</h2>
+	<h2 class="title mb-20">Список плагинов</h2>
 
 	{if $aPluginsInfo and count($aPluginsInfo)>0}
 	

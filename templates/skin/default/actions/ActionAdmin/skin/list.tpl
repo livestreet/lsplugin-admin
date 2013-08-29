@@ -2,7 +2,7 @@
 
 {block name='layout_content'}
 
-	<h2 class="title mb20">
+	<h2 class="title mb-20">
 		{$aLang.plugin.admin.settings.titles.current_skin}
 	</h2>
 	
@@ -10,7 +10,7 @@
 		{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/skin/skin.tpl" oSkin=$oCurrentSkin}
 	</div>
 	
-	<h2 class="title mb20">
+	<h2 class="title mb-20">
 		{$aLang.plugin.admin.settings.titles.skin_config}
 	</h2>
 	

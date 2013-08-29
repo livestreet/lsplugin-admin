@@ -1,66 +1,66 @@
 
 .SkinList .OneSkin {
-    border-bottom: 1px solid #EEEEEE;
-    margin-bottom: 20px;
-    padding: 10px 0;
+	border-bottom: 1px solid #EEEEEE;
+	margin-bottom: 20px;
+	padding: 10px 0;
 }
 
 .SkinList .OneSkin .Preview {
-    float: left;
-    margin-right: 20px;
+	float: left;
+	margin-right: 20px;
 }
 
 .SkinList .OneSkin .Preview img {
-    background: url("../images/default_skin_preview.png") repeat scroll 0 0 transparent;
-    border-radius: 2px 2px 2px 2px;
-    display: block;
-    height: 138px;
-    width: 200px;
+	background: url("../images/default_skin_preview.png") repeat scroll 0 0 transparent;
+	border-radius: 2px 2px 2px 2px;
+	display: block;
+	height: 138px;
+	width: 200px;
 }
 
 .SkinList .OneSkin {
-    border-bottom: 1px solid #EEEEEE;
-    clear: both;
-    margin-bottom: 20px;
-    overflow: hidden;
-    padding: 10px;
+	border-bottom: 1px solid #EEEEEE;
+	clear: both;
+	margin-bottom: 20px;
+	overflow: hidden;
+	padding: 10px;
 }
 
 .SkinList .OneSkin.second {
-    background: none repeat scroll 0 0 #FBFBFB;
+	background: none repeat scroll 0 0 #FBFBFB;
 }
 
 .SkinList .OneSkin .Description {
-    overflow: hidden;
+	overflow: hidden;
 }
 
 .SkinList .OneSkin .Description h4 {
-    font-size: 18px;
+	font-size: 18px;
 }
 
 .SkinList .OneSkin .Description .Info {
-    margin: 10px 0 0;
+	margin: 10px 0 0;
 }
 
 /* lists */
 
 .SkinList .OneSkin .Description .Info dl {
-    clear: both;
-    overflow: hidden;
-    width: 100%;
+	clear: both;
+	overflow: hidden;
+	width: 100%;
 }
 
 .SkinList .OneSkin .Description .Info dt {
-    float: left;
-    font-weight: bold;
-    text-shadow: 0 1px 0 #FFFFFF;
-    width: 15%;
+	float: left;
+	font-weight: bold;
+	text-shadow: 0 1px 0 #FFFFFF;
+	width: 15%;
 }
 
 .SkinList .OneSkin .Description .Info dd {
-    overflow: hidden;
+	overflow: hidden;
 }
 
 .SkinList .OneSkin .Description .Controls {
-    float: right;
+	float: right;
 }

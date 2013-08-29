@@ -1,7 +1,7 @@
 {extends file="{$aTemplatePathPlugin.admin}/layout.base.tpl"}
 
 {block name='layout_content'}
-	<h2 class="title mb20">
+	<h2 class="title mb-20">
 		{$aLang.plugin.admin.bans.add}
 	</h2>
 
@@ -21,7 +21,8 @@
 						Введите id (1091), логин (userlogin) или почту (user@mail.com) зарегистрированного пользователя или
 						ip-адрес (192.168.0.10) или диапазон ip-адресов (192.168.0.10 - 192.168.0.100) для блокировки:
 					</div>
-					<input type="text" name="user_sign" class="input-text width-250" placeholder="spamuser" value="{$_aRequest.user_sign}" required="" />
+					<input type="text" name="user_sign" class="input-text width-250" placeholder="spamuser" value="{$_aRequest.user_sign}" required="" id="admin_bans_user_sign" />
+					<span id="admin_bans_checking_msg"></span>
 				</div>
 			</div>
 

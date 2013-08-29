@@ -1,7 +1,7 @@
 
 {if $aKeysToShow}
 
-	<div class="mb20">
+	<div class="mb-20">
 
 		Ключи, которые показываются для данного раздела:
 		<div>

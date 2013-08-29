@@ -80,7 +80,7 @@
 					</div>
 				</div>
 				<div class="left-data">
-					<h2 class="title mb20">
+					<h2 class="title mb-20">
 						Досье
 					</h2>
 					<div class="resume">
@@ -168,7 +168,7 @@
 					<div class="line-2"></div>
 
 					<div class="stats">
-						<h2 class="title mb20">
+						<h2 class="title mb-20">
 							Статистика
 						</h2>
 
@@ -208,7 +208,7 @@
 					<div class="line-2"></div>
 
 					<div class="stats">
-						<h2 class="title mb20">
+						<h2 class="title mb-20">
 							Как голосовал
 						</h2>
 
@@ -251,7 +251,7 @@
 
 					<div class="user-fields">
 						<div class="contacts">
-							<h2 class="title mb20">
+							<h2 class="title mb-20">
 								{$aLang.profile_contacts}
 							</h2>
 
@@ -270,7 +270,7 @@
 						</div>
 
 						<div class="social">
-							<h2 class="title mb20">
+							<h2 class="title mb-20">
 								{$aLang.profile_social}
 							</h2>
 

@@ -1,129 +1,119 @@
 
-/* tmp */
+/* helpers */
 
 .OnePlugin {
-    border-bottom: 1px solid #EEEEEE;
-    margin-bottom: 20px;
+	border-bottom: 1px solid #EEEEEE;
+	margin-bottom: 20px;
 }
 
 .OnePlugin h4 {
-    font-size: 18px;
-}
-
-/* misc */
-
-.mb20 {
-    margin-bottom: 20px;
+	font-size: 18px;
 }
 
 h2.title {
-    font-size: 18px;
-}
-
-.input-width-50 {
-    width: 50px;
+	font-size: 18px;
 }
 
 /* parameters list */
 
 .OneParameterContainer {
-    border-color: transparent transparent #EEEEEE;
-    border-style: solid;
-    border-width: 1px;
-    clear: both;
-    overflow: hidden;
-    padding: 10px;
+	border-color: transparent transparent #EEEEEE;
+	border-style: solid;
+	border-width: 1px;
+	clear: both;
+	overflow: hidden;
+	padding: 10px;
 }
 
 .OneParameterContainer .ParamNum {
-    color: #999999;
-    float: right;
-    font-size: 16px;
-    font-weight: bold;
+	color: #999999;
+	float: right;
+	font-size: 16px;
+	font-weight: bold;
 }
 
 .OneParameterContainer .DisplayKey {
-    background: none repeat scroll 0 0 #EEEEEE;
-    border-radius: 2px 2px 2px 2px;
-    float: right;
-    margin: 0 10px;
-    padding: 0 5px;
-    text-shadow: 0 1px 0 #FFFFFF;
+	background: none repeat scroll 0 0 #EEEEEE;
+	border-radius: 2px 2px 2px 2px;
+	float: right;
+	margin: 0 10px;
+	padding: 0 5px;
+	text-shadow: 0 1px 0 #FFFFFF;
 }
 
 /* special array list */
 
 .OneParameterContainer .js-array-values {
-    background: none repeat scroll 0 0 #FAFAFA;
-    border: 1px solid #EEEEEE;
-    border-radius: 2px 2px 2px 2px;
-    clear: both;
-    margin: 5px 0;
-    overflow: hidden;
-    padding: 5px;
+	background: none repeat scroll 0 0 #FAFAFA;
+	border: 1px solid #EEEEEE;
+	border-radius: 2px 2px 2px 2px;
+	clear: both;
+	margin: 5px 0;
+	overflow: hidden;
+	padding: 5px;
 }
 
 .OneParameterContainer .js-array-values .js-remove-previous {
-    color: #990000;
-    cursor: pointer;
-    font-weight: bold;
-    margin-right: 10px;
-    vertical-align: middle;
+	color: #990000;
+	cursor: pointer;
+	font-weight: bold;
+	margin-right: 10px;
+	vertical-align: middle;
 }
 
 .OneParameterContainer .js-array-values .js-array-item-value {
-    float: left;
+	float: left;
 }
 
 .OneParameterContainer .js-array-values .js-array-item-value input {
-    float: left;
+	float: left;
 }
 
 .OneParameterContainer .js-array-values .js-remove-previous {
-    border: 1px solid #DDDDDD;
-    border-radius: 0 5px 5px 0;
-    color: #999999;
-    cursor: pointer;
-    display: block;
-    float: left;
-    font-weight: bold;
-    height: 26px;
-    line-height: 26px;
-    margin-left: -1px;
-    margin-right: 10px;
-    padding: 0 5px;
-    text-shadow: 0 1px 0 #FFFFFF;
-    vertical-align: top;
+	border: 1px solid #DDDDDD;
+	border-radius: 0 5px 5px 0;
+	color: #999999;
+	cursor: pointer;
+	display: block;
+	float: left;
+	font-weight: bold;
+	height: 26px;
+	line-height: 26px;
+	margin-left: -1px;
+	margin-right: 10px;
+	padding: 0 5px;
+	text-shadow: 0 1px 0 #FFFFFF;
+	vertical-align: top;
 }
 
 .OneParameterContainer .js-array-values .js-remove-previous:hover {
-    background: none repeat scroll 0 0 #C45050;
-    border-color: #C45050;
-    color: #FFFFFF;
-    text-shadow: none;
+	background: none repeat scroll 0 0 #C45050;
+	border-color: #C45050;
+	color: #FFFFFF;
+	text-shadow: none;
 }
 
 .OneParameterContainer .js-array-values .js-remove-previous:active {
-    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3) inset;
+	box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3) inset;
 }
 
 .js-array-add-value {
-    font: 18px/26px Arial;
-    vertical-align: top;
+	font: 18px/26px Arial;
+	vertical-align: top;
 }
 
 /* show errors for parameters */
 
 .OneParameterContainer.admin-save-error-border {
-    background: none repeat scroll 0 0 #FFFCFD;
-    border: 1px solid #BB0000;
-    border-radius: 2px 2px 2px 2px;
+	background: none repeat scroll 0 0 #FFFCFD;
+	border: 1px solid #BB0000;
+	border-radius: 2px 2px 2px 2px;
 }
 
 .OneParameterContainer.admin-save-error-border .admin-save-error-wrapper {
-    background: none repeat scroll 0 0 #FFF8F8;
-    color: #990000;
-    margin-top: 5px;
-    padding: 5px;
-    text-shadow: 0 1px 0 #FFFFFF;
+	background: none repeat scroll 0 0 #FFF8F8;
+	color: #990000;
+	margin-top: 5px;
+	padding: 5px;
+	text-shadow: 0 1px 0 #FFFFFF;
 }

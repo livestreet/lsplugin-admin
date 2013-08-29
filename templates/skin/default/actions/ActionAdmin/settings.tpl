@@ -3,7 +3,7 @@
 {block name='layout_content'}
 
 	{if $sConfigName}
-		<h2 class="title mb20">
+		<h2 class="title mb-20">
 			{if $sConfigName==$sAdminSystemConfigId}
 				{$aLang.plugin.admin.settings.titles.main_config}
 			{else}
@@ -13,8 +13,7 @@
 	{/if}
 	
 	{include file="{$aTemplatePathPlugin.admin}settings/keys_to_show.tpl"}
-	
-	
+
 	{include file="{$aTemplatePathPlugin.admin}settings/plugin_settings.tpl"}
 	
 {/block}
