@@ -15,7 +15,7 @@
  * 
  * @link http://www.livestreetcms.com
  * @copyright 2013 OOO "ЛС-СОФТ"
- * @author PSNet <light.feel@gmail.com>
+ * @author Serge Pustovit (PSNet) <light.feel@gmail.com>
  * 
  */
 
@@ -26,17 +26,17 @@
 class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 	
 	public function EventPluginsList() {
-    $aPluginList = $this->GetAllPluginLists();
-    
-    $this->Viewer_Assign('aPluginsInfo', $aPluginList);
-    $this->SetTemplateAction('plugins');
+		$aPluginList = $this->GetAllPluginLists();
+		
+		$this->Viewer_Assign('aPluginsInfo', $aPluginList);
+		$this->SetTemplateAction('plugins');
 	}
 	
-  
-  
-  private function GetAllPluginLists() {
-    return $this->Plugin_GetList(array('order' => 'name'));
-  }
+	
+	
+	private function GetAllPluginLists() {
+		return $this->Plugin_GetList(array('order' => 'name'));
+	}
 
 }
 

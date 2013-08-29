@@ -15,7 +15,7 @@
  * 
  * @link http://www.livestreetcms.com
  * @copyright 2013 OOO "ЛС-СОФТ"
- * @author PSNet <light.feel@gmail.com>
+ * @author Serge Pustovit (PSNet) <light.feel@gmail.com>
  * 
  */
 
@@ -201,9 +201,9 @@ class PluginAdmin_ModuleSkin extends Module {
 	/**
 	 * Получает значение параметра из XML на основе языковой разметки
 	 *
-	 * @param SimpleXMLElement $oXml	XML узел
-	 * @param string           $sProperty	Свойство, которое нужно вернуть
-	 * @param string           $sLang	Название языка
+	 * @param SimpleXMLElement $oXml		XML узел
+	 * @param string						$sProperty	Свойство, которое нужно вернуть
+	 * @param string						$sLang	Название языка
 	 */
 	protected function Xlang($oXml, $sProperty, $sLang) {								// todo: copy from plugin module, todo: reuse from plugin?
 		$sProperty=trim($sProperty);

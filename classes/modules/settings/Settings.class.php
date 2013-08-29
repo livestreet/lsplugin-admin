@@ -15,7 +15,7 @@
  * 
  * @link http://www.livestreetcms.com
  * @copyright 2013 OOO "ЛС-СОФТ"
- * @author PSNet <light.feel@gmail.com>
+ * @author Serge Pustovit (PSNet) <light.feel@gmail.com>
  * 
  */
 
@@ -219,9 +219,9 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 * Получить полное название ключа по имени конфига (имя плагина или ядра),
 	 * вернет для плагинов префикс "plugin.имяплагина." или пустое значение для ядра (без префикса)
 	 *
-	 * @param      $sConfigName		имя конфига
-	 * @param bool $bAddDot			добавлять ли точку в конце (удобно для получения всего конфига)
-	 * @return string				полное представление ключа
+	 * @param			$sConfigName		имя конфига
+	 * @param bool 		$bAddDot			добавлять ли точку в конце (удобно для получения всего конфига)
+	 * @return string						полное представление ключа
 	 */
 	protected function GetRealFullKey($sConfigName, $bAddDot = true) {
 		return $sConfigName == ModuleStorage::DEFAULT_KEY_NAME ? '' : 'plugin.' . $sConfigName .($bAddDot ? '.' : '');
@@ -232,10 +232,10 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 * Превратить ключи языковых констант в текст из языкового файла, на который они указывают
 	 * На основе имени конфига
 	 *
-	 * @param       $sConfigName	имя конфига
-	 * @param       $aParam			параметр в котором указаны ключи текстовок для данного имени конфига
-	 * @param array $aKeys			ключи, которые нужно заполнить текстовками
-	 * @return mixed				параметр с текстовками вместо ключей, указывающих на них
+	 * @param			$sConfigName	имя конфига
+	 * @param			$aParam			параметр в котором указаны ключи текстовок для данного имени конфига
+	 * @param array 	$aKeys			ключи, которые нужно заполнить текстовками
+	 * @return mixed					параметр с текстовками вместо ключей, указывающих на них
 	 */
 	protected function ConvertLangKeysToTexts($sConfigName, $aParam, $aKeys = array('name', 'description')) {
 		foreach($aKeys as $sNamesToExtend) {
@@ -288,10 +288,10 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	/**
 	 * Получение обьектов информации о настройках конфига
 	 *
-	 * @param       $sConfigName				имя конфига
-	 * @param array $aOnlyThisKeysAllowed		список разрешенных ключей для показа из этого конфига
-	 * @param array $aExcludeKeys				список запрещенных ключей для показа из этого конфига
-	 * @return array							настройки конфига
+	 * @param			$sConfigName				имя конфига
+	 * @param array 	$aOnlyThisKeysAllowed		список разрешенных ключей для показа из этого конфига
+	 * @param array 	$aExcludeKeys				список запрещенных ключей для показа из этого конфига
+	 * @return array								настройки конфига
 	 */
 	public function GetConfigSettings($sConfigName, $aOnlyThisKeysAllowed = array(), $aExcludeKeys = array()) {
 		/*
@@ -518,7 +518,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	/**
 	 * Сохранить полученные настройки из кастомной инстанции конфига в хранилище
 	 *
-	 * @param      $sConfigName			имя конфига
+	 * @param			$sConfigName			имя конфига
 	 * @param null $aData				ручное указание данных, вместо получения их временной инстанции конфига
 	 * @return mixed
 	 */
@@ -563,8 +563,8 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 * Cохранения ключей конфига плагина и последующей их автозагрузки как части конфига
 	 *
 	 * @param array $aKeysToSave		ключи из конфига плагина, данные которых нужно сохранить
-	 * @param       $sCallerName		имя плагина
-	 * @param       $sInstance			инстанция хранилища
+	 * @param			 $sCallerName		имя плагина
+	 * @param			 $sInstance			инстанция хранилища
 	 * @return mixed
 	 */
 	public function SavePluginConfig($aKeysToSave = array(), $sCallerName, $sInstance = self::DEFAULT_INSTANCE) {

@@ -15,7 +15,7 @@
  * 
  * @link http://www.livestreetcms.com
  * @copyright 2013 OOO "ЛС-СОФТ"
- * @author PSNet <light.feel@gmail.com>
+ * @author Serge Pustovit (PSNet) <light.feel@gmail.com>
  * 
  */
 
@@ -28,10 +28,10 @@
 class PluginAdmin_HookSettings extends Hook {
 
 	public function RegisterHook() {
-		$this->AddHook('lang_init_start', 'LangInitStart', __CLASS__, PHP_INT_MAX);              // наивысший приоритет, который можно установить
+		$this->AddHook('lang_init_start', 'LangInitStart', __CLASS__, PHP_INT_MAX);			// наивысший приоритет, который можно установить
 
 		$this->AddHook('template_content_begin', 'ContentBegin');
-		$this->AddHook('template_admin_content_begin', 'ContentBegin');   // todo: review: temp hook names (dubplicate)
+		$this->AddHook('template_admin_content_begin', 'ContentBegin');						// todo: review: temp hook names (dubplicate)
 	}
 
 

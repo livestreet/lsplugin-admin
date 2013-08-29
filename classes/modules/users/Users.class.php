@@ -15,7 +15,7 @@
  * 
  * @link http://www.livestreetcms.com
  * @copyright 2013 OOO "ЛС-СОФТ"
- * @author PSNet <light.feel@gmail.com>
+ * @author Serge Pustovit (PSNet) <light.feel@gmail.com>
  * 
  */
 
@@ -82,11 +82,11 @@ class PluginAdmin_ModuleUsers extends Module {
 	/**
 	 * Проверяет корректность сортировки и возращает часть sql запроса для сортировки
 	 *
-	 * @param array $aOrder						поля, по которым нужно сортировать вывод пользователей
-	 * 											(array('login' => 'desc', 'rating' => 'desc'))
-	 * @param array $aCorrectSortingOrderList	список разрешенных сортировок
-	 * @param       $sSortingOrderByDefault		строка сортировки по-умолчанию
-	 * @return string							часть sql запроса
+	 * @param array 	$aOrder						поля, по которым нужно сортировать вывод пользователей
+	 * 												(array('login' => 'desc', 'rating' => 'desc'))
+	 * @param array 	$aCorrectSortingOrderList	список разрешенных сортировок
+	 * @param			$sSortingOrderByDefault		строка сортировки по-умолчанию
+	 * @return string								часть sql запроса
 	 */
 	protected function GetCorrectSortingOrder($aOrder = array (), $aCorrectSortingOrderList = array(), $sSortingOrderByDefault) {
 		$sOrder = '';
@@ -198,12 +198,12 @@ class PluginAdmin_ModuleUsers extends Module {
 	/**
 	 * Получить списки голосований пользователя по фильтру
 	 *
-	 * @param     	$oUser			объект пользователя
-	 * @param     	$aFilter		фильтр
-	 * @param		$aOrder			сортировка
-	 * @param int 	$iPage			номер страницы
-	 * @param int 	$iPerPage		результатов на страницу
-	 * @return mixed				коллекция и количество
+	 * @param		 	$oUser			объект пользователя
+	 * @param		 	$aFilter		фильтр
+	 * @param			$aOrder			сортировка
+	 * @param int 		$iPage			номер страницы
+	 * @param int 		$iPerPage		результатов на страницу
+	 * @return mixed					коллекция и количество
 	 */
 	public function GetUserVotingByFilter($oUser, $aFilter, $aOrder = array(), $iPage = 1, $iPerPage = PHP_INT_MAX) {
 		$sCacheKey = 'get_user_voting_list_' . implode('_', array($oUser->getId(), serialize($aFilter), serialize($aOrder), $iPage, $iPerPage));

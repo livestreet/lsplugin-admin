@@ -15,7 +15,7 @@
  * 
  * @link http://www.livestreetcms.com
  * @copyright 2013 OOO "ЛС-СОФТ"
- * @author PSNet <light.feel@gmail.com>
+ * @author Serge Pustovit (PSNet) <light.feel@gmail.com>
  * 
  */
 
@@ -49,12 +49,18 @@ class PluginAdmin_HookUserban extends Hook {
 	 */
 	protected function CheckUserBan() {
 		if ($oBan = $this->PluginAdmin_Users_IsThisUserBanned()) {
+			/*
+			 * корреткный код ответа - 403 (запрещено)
+			 */
 			header('HTTP/1.1 403');
 			$this->Message_AddError($this->Lang_Get('plugin.admin.bans.you_are_banned', array(
 				'date_start' => $oBan->getDateStart(),
 				'date_finish' => $oBan->getDateFinish(),
 				'reason' => $oBan->getReasonForUser(),
 			)), '403');
+			/*
+			 * независимо от типа блокировки (айпи или сущность пользователя) - авторизация запрещена
+			 */
 			$this->User_Logout();
 			Router::Action('error');
 		}

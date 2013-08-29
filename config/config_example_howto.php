@@ -15,7 +15,7 @@
  * 
  * @link http://www.livestreetcms.com
  * @copyright 2013 OOO "ЛС-СОФТ"
- * @author PSNet <light.feel@gmail.com>
+ * @author Serge Pustovit (PSNet) <light.feel@gmail.com>
  * 
  */
 
@@ -141,8 +141,8 @@ $config['$config_scheme$'] = array(
 			'params' => array(					// параметры, которые будут переданы в валидатор
 				'min' => 2,
 				'max' => 50,
-				//'is' => 30,               	// Конкретное значение длины строки
-				'allowEmpty' => false,      	// Допускать или нет пустое значение
+				//'is' => 30,					// Конкретное значение длины строки
+				'allowEmpty' => false,			// Допускать или нет пустое значение
 			),
 		),
 	),

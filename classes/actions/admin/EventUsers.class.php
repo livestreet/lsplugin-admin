@@ -15,7 +15,7 @@
  * 
  * @link http://www.livestreetcms.com
  * @copyright 2013 OOO "ЛС-СОФТ"
- * @author PSNet <light.feel@gmail.com>
+ * @author Serge Pustovit (PSNet) <light.feel@gmail.com>
  * 
  */
 
@@ -51,8 +51,8 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	/**
 	 * Получить список пользователей по фильтру из формы и доп. фильтру, добавить постраничность и вывести списком с сортировкой
 	 *
-	 * @param       $sFullPagePathToEvent		путь к екшену
-	 * @param array $aAdditionalUsersFilter		дополнительный фильтр поиска по пользователям
+	 * @param			$sFullPagePathToEvent		путь к екшену
+	 * @param array 	$aAdditionalUsersFilter		дополнительный фильтр поиска по пользователям
 	 */
 	protected function GetUsersListByRules($sFullPagePathToEvent, $aAdditionalUsersFilter = array()) {
 		$this->SetTemplateAction('users/list');
@@ -242,8 +242,8 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	/**
 	 * Задать страницу и количество элементов в пагинации
 	 *
-	 * @param int    $iParamNum					номер параметра, в котором нужно искать номер страницы
-	 * @param string $sConfigKeyPerPage			ключ конфига, в котором хранится количество элементов на страницу
+	 * @param int		$iParamNum					номер параметра, в котором нужно искать номер страницы
+	 * @param string 	$sConfigKeyPerPage			ключ конфига, в котором хранится количество элементов на страницу
 	 */
 	protected function SetPaging ($iParamNum = 1, $sConfigKeyPerPage = 'user.per_page') {
 		if (!$this->iPage = intval(preg_replace('#^page(\d+)$#iu', '$1', $this->GetParam ($iParamNum)))) {
@@ -301,7 +301,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 			}
 		}
 		return array(
-			'filter_queries' =>  $aQueries,
+			'filter_queries' =>	$aQueries,
 			'filter_queries_with_original_values' => $aCorrectFieldsWithOriginalValues
 		);
 	}

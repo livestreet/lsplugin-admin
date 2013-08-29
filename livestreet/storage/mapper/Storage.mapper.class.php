@@ -15,7 +15,7 @@
  * 
  * @link http://www.livestreetcms.com
  * @copyright 2013 OOO "ЛС-СОФТ"
- * @author PSNet <light.feel@gmail.com>
+ * @author Serge Pustovit (PSNet) <light.feel@gmail.com>
  * 
  */
 
@@ -24,9 +24,9 @@ class ModuleStorage_MapperStorage extends Mapper {
 	/**
 	 * Получить данные из хранилища по фильтру
 	 * 
-	 * @param null $sFilter			фильтр
-	 * @param int  $iCurrentPage	страница
-	 * @param int  $iPerPage		результатов на страницу
+	 * @param null	$sFilter			фильтр
+	 * @param int	$iCurrentPage		страница
+	 * @param int	$iPerPage			результатов на страницу
 	 * @return array
 	 */
 	public function GetData($sFilter = null, $iCurrentPage = 1, $iPerPage = PHP_INT_MAX) {
@@ -98,8 +98,8 @@ class ModuleStorage_MapperStorage extends Mapper {
 	/**
 	 * Удалить данные из хранилища
 	 * 
-	 * @param null $sFilter		фильтр
-	 * @param int  $iLimit		лимит запроса
+	 * @param null	$sFilter		фильтр
+	 * @param int	$iLimit			лимит запроса
 	 * @return array|null
 	 */
 	public function DeleteData($sFilter = null, $iLimit = 1) {

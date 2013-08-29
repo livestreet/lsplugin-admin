@@ -15,7 +15,7 @@
  * 
  * @link http://www.livestreetcms.com
  * @copyright 2013 OOO "ЛС-СОФТ"
- * @author PSNet <light.feel@gmail.com>
+ * @author Serge Pustovit (PSNet) <light.feel@gmail.com>
  * 
  */
 
@@ -181,9 +181,9 @@ class PluginAdmin_ModuleStorage extends PluginAdmin_Inherits_ModuleStorage {
 	 *		$this->Storage_SaveMyConfig(array('mykey'), $this);
 	 *
 	 *
-	 * @param array $aKeysToSave	ключи из конфига плагина, данные которых нужно сохранить
-	 * @param       $oCaller		контекст, вызывающий метод
-	 * @param       $sInstance		инстанция хранилища
+	 * @param array 	$aKeysToSave	ключи из конфига плагина, данные которых нужно сохранить
+	 * @param			$oCaller		контекст, вызывающий метод
+	 * @param			$sInstance		инстанция хранилища
 	 * @return bool
 	 */
 	public function SaveMyConfig($aKeysToSave = array(), $oCaller, $sInstance = self::DEFAULT_INSTANCE) {

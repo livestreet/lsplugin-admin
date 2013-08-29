@@ -15,7 +15,7 @@
  * 
  * @link http://www.livestreetcms.com
  * @copyright 2013 OOO "ЛС-СОФТ"
- * @author PSNet <light.feel@gmail.com>
+ * @author Serge Pustovit (PSNet) <light.feel@gmail.com>
  * 
  */
 
@@ -115,11 +115,11 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 	/**
 	 * Получить списки голосований пользователя по фильтру
 	 *
-	 * @param     	$iUserId		ид пользователя
-	 * @param     	$sWhere			дополнительное условие WHERE запроса (построенное фильтром)
-	 * @param		$sOrder			сортировка
-	 * @param int 	$iPage			страница
-	 * @param int 	$iPerPage		количество результатов
+	 * @param		 	$iUserId		ид пользователя
+	 * @param		 	$sWhere			дополнительное условие WHERE запроса (построенное фильтром)
+	 * @param			$sOrder			сортировка
+	 * @param int 		$iPage			страница
+	 * @param int 		$iPerPage		количество результатов
 	 * @return array
 	 */
 	public function GetUserVotingListByFilter($iUserId, $sWhere, $sOrder, $iPage = 1, $iPerPage = PHP_INT_MAX) {
