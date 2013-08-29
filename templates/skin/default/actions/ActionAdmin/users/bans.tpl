@@ -6,7 +6,7 @@
 	</h2>
 
 	<div class="top-controls mb-20 fl-r">
-		<a class="button" href="{router page='admin/users/bans/add'}">Добавить бан</a>
+		<a class="button" href="{router page='admin/users/bans/add'}">{$aLang.plugin.admin.bans.add_ban}</a>
 	</div>
 
 	{if $aBans and count($aBans)>0}
@@ -101,11 +101,11 @@
 					<tr class="{if $smarty.foreach.BanCycle.iteration % 2 == 0}second{/if}">
 						<td class="block_type">
 							{if $oBan->getBlockType()==PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_USER_ID}
-								пользователь
+								{$aLang.plugin.admin.bans.list.block_type.user}
 							{elseif $oBan->getBlockType()==PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_IP}
-								ip
+								{$aLang.plugin.admin.bans.list.block_type.ip}
 							{elseif $oBan->getBlockType()==PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_IP_RANGE}
-								диапазон ip
+								{$aLang.plugin.admin.bans.list.block_type.ip_range}
 							{/if}
 						</td>
 						<td class="user_id">
@@ -143,9 +143,9 @@
 						{* dates *}
 						<td class="time_type">
 							{if $oBan->getTimeType()==PluginAdmin_ModuleUsers::BAN_TIME_TYPE_PERMANENT}
-								постоянный
+								{$aLang.plugin.admin.bans.list.time_type.permanent}
 							{elseif $oBan->getTimeType()==PluginAdmin_ModuleUsers::BAN_TIME_TYPE_PERIOD}
-								период
+								{$aLang.plugin.admin.bans.list.time_type.period}
 							{/if}
 						</td>
 						<td class="date_start fS-10">
@@ -179,7 +179,7 @@
 							<a class="edit" href="{router page="admin/users/bans/edit/{$oBan->getId()}"}"><i class="icon-edit"></i></a>
 							<a class="delete question"
 							   href="{router page="admin/users/bans/delete/{$oBan->getId()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
-							   data-question-title="Удалить?"><i class="icon-remove"></i></a>
+							   data-question-title="{$aLang.plugin.admin.delete}?"><i class="icon-remove"></i></a>
 						</td>
 					</tr>
 				{/foreach}
@@ -195,7 +195,7 @@
 		{include file="{$aTemplatePathPlugin.admin}/pagination.tpl" aPaging=$aPaging}
 
 	{else}
-		Забаненых пользователей пока нет
+		{$aLang.plugin.admin.bans.list.no_bans}
 	{/if}
 		
 {/block}

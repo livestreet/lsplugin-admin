@@ -70,6 +70,7 @@ return array(
 	'false' => 'Выключено (false)',
 	'current' => 'текущее',
 	'on_page' => 'На странице',
+	'delete' => 'Удалить',
 	
 	/*
 	 * Уведомления
@@ -208,6 +209,22 @@ return array(
 			'user' => 'Пользователь <b>%%login%%</b> (id = <b>%%id%%</b>)',
 			'ip' => 'IP-адрес',
 			'ip_range' => 'Диапазон IP-адресов',
+		),
+		'add_ban' => 'Добавить бан',
+		/*
+		 * список
+		 */
+		'list' => array(
+			'block_type' => array(
+				'user' => 'пользователь',
+				'ip' => 'ip',
+				'ip_range' => 'диапазон ip',
+			),
+			'time_type' => array(
+				'permanent' => 'постоянный',
+				'period' => 'период',
+			),
+			'no_bans' => 'Забаненых пользователей пока нет',
 		),
 
 	),
