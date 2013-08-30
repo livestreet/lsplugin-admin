@@ -59,6 +59,12 @@ return array(
 			'activation_version_error' => 'Для работы шаблона необходимо ядро LiveStreet версии не ниже %%version%%',
 			'activation_requires_error' => 'Для работы шаблона необходим активированный плагин <b>%%plugin%%</b>',
 		),
+		/*
+		 * Ошибки банов
+		 */
+		'bans' => array(
+			'wrong_ban_id' => 'Неверный id бана',
+		),
 
 	),
 	
@@ -201,12 +207,13 @@ return array(
 			'comment' => 'Комментарий для себя',
 		),
 		'you_are_banned' => 'Вам запрещен доступ к сайту с <b>%%date_start%%</b> по <b>%%date_finish%%</b>. Причина: <i>%%reason%%</i>.',
+		'permanently_banned' => 'Вам запрещен доступ к сайту навсегда. Причина: <i>%%reason%%</i>.',
 		/*
 		 * аякс проверка правила для бана на корректность
 		 */
 		'user_sign_check' => array(
 			'wrong_rule' => 'Правило не распознано',
-			'user' => 'Пользователь <b>%%login%%</b> (id = <b>%%id%%</b>)',
+			'user' => 'Пользователь <b>%%login%%</b> (id = <b>%%id%%</b>, e-mail = <b>%%mail%%</b>)',
 			'ip' => 'IP-адрес',
 			'ip_range' => 'Диапазон IP-адресов',
 		),
@@ -225,6 +232,8 @@ return array(
 				'period' => 'период',
 			),
 			'no_bans' => 'Забаненых пользователей пока нет',
+			'current_date_on_server' => 'Текущая дата и время на сервере',
+			'this_ban_triggered' => 'Данный бан сработал (заблокировал пользователя) %%count%% раз',
 		),
 
 	),

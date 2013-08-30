@@ -34,6 +34,11 @@ class PluginAdmin_ModuleUsers extends Module {
 	const BAN_TIME_TYPE_PERMANENT = 1;
 	const BAN_TIME_TYPE_PERIOD = 2;
 
+	/*
+	 * имя параметра хранилища для сбора статистики по банам
+	 */
+	const BAN_STATS_PARAM_NAME = 'users_bans_stats';
+
 	protected $oMapper = null;
 
 	/*
@@ -414,6 +419,58 @@ class PluginAdmin_ModuleUsers extends Module {
 	public function DeleteOldBanRecords() {
 		// todo: cache
 		$this->oMapper->DeleteOldBanRecords();
+	}
+
+
+	/**
+	 * Добавить запись о срабатывании бана в статистику
+	 *
+	 * @param $oBan
+	 */
+	public function AddBanStat($oBan) {
+		/*
+		 * получить статистику по банам
+		 */
+		$aStats = $this->GetBanStats();
+		/*
+		 * увеличить счетчик статистики на единицу
+		 */
+		$aStats[$oBan->getId()] = (isset($aStats[$oBan->getId()]) ? $aStats[$oBan->getId()] + 1 : 1);
+		/*
+		 * сохранить данные статистики
+		 */
+		$this->Storage_Set(self::BAN_STATS_PARAM_NAME, $aStats, $this);
+	}
+
+
+	/**
+	 * Получить статистику по банам
+	 *
+	 * @return array
+	 */
+	public function GetBanStats() {
+		return (array) $this->Storage_Get(self::BAN_STATS_PARAM_NAME, $this);
+	}
+
+
+	/**
+	 * Удалить статистику бана
+	 *
+	 * @param $oBan		объект бана
+	 */
+	public function DeleteBanStats($oBan) {
+		/*
+		 * получить статистику по банам
+		 */
+		$aStats = $this->GetBanStats();
+		/*
+		 * удалить счетчик статистики бана
+		 */
+		unset($aStats[$oBan->getId()]);
+		/*
+		 * сохранить данные статистики
+		 */
+		$this->Storage_Set(self::BAN_STATS_PARAM_NAME, $aStats, $this);
 	}
 
 }

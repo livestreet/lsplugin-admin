@@ -492,6 +492,11 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		$this->Viewer_Assign('sReverseOrder', $this->PluginAdmin_Users_GetReversedOrderDirection ($sWay));
 		$this->Viewer_Assign('sOrder', $sOrder);
 		$this->Viewer_Assign('sWay', $this->PluginAdmin_Users_GetDefaultOrderDirectionIfIncorrect ($sWay));
+
+		/*
+		 * статистика
+		 */
+		$this->Viewer_Assign('aBansStats', $this->PluginAdmin_Users_GetBanStats());
 	}
 
 	/**
@@ -827,8 +832,14 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	public function EventDeleteBan() {
 		$this->Security_ValidateSendForm();
 		if (!$oBan = $this->PluginAdmin_Users_GetBanById((int) $this->GetParam(2))) {
-			$this->Message_AddError('Wrong ban id');
+			$this->Message_AddError($this->Lang('errors.bans.wrong_ban_id'));
 			return false;
+		}
+		/*
+		 * Удалить статистику бана
+		 */
+		if (Config::Get('plugin.admin.gather_bans_running_stats')) {
+			$this->PluginAdmin_Users_DeleteBanStats($oBan);
 		}
 		$this->PluginAdmin_Users_DeleteBanById($oBan->getId());
 		$this->Message_AddNotice('Ok', '', true);
@@ -851,6 +862,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 					$sResponse = $this->Lang('bans.user_sign_check.user', array(
 						'login' => $aData['user']->getLogin(),
 						'id' => $aData['user']->getId(),
+						'mail' => $aData['user']->getMail(),
 					));
 					break;
 				default:

@@ -519,7 +519,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 * Сохранить полученные настройки из кастомной инстанции конфига в хранилище
 	 *
 	 * @param			$sConfigName			имя конфига
-	 * @param null $aData				ручное указание данных, вместо получения их временной инстанции конфига
+	 * @param null		$aData					ручное указание данных, вместо получения их временной инстанции конфига
 	 * @return mixed
 	 */
 	public function SaveConfigByKey($sConfigName, $aData = null) {
@@ -535,7 +535,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 		if ($aConfigOldData = $this->GetOneParam($this->GetCorrectStorageKey($sConfigName), self::CONFIG_DATA_PARAM_NAME)) {
 			/*
 			 * обьеденить сохраненные ранее настройки с новыми
-			 * это необходимо если настройки разбиты на группы и показываются в разных разделах частями(например, настройки ядра)
+			 * это необходимо если настройки разбиты на группы и показываются в разных разделах частями (например, настройки ядра)
 			 */
 			$aData = array_merge_recursive_distinct($aConfigOldData, $aData);							// dont use "array_merge_recursive"
 		}
@@ -562,9 +562,9 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	/**
 	 * Cохранения ключей конфига плагина и последующей их автозагрузки как части конфига
 	 *
-	 * @param array $aKeysToSave		ключи из конфига плагина, данные которых нужно сохранить
-	 * @param			 $sCallerName		имя плагина
-	 * @param			 $sInstance			инстанция хранилища
+	 * @param array		$aKeysToSave		ключи из конфига плагина, данные которых нужно сохранить
+	 * @param			$sCallerName		имя плагина
+	 * @param			$sInstance			инстанция хранилища
 	 * @return mixed
 	 */
 	public function SavePluginConfig($aKeysToSave = array(), $sCallerName, $sInstance = self::DEFAULT_INSTANCE) {

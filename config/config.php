@@ -49,6 +49,11 @@ $config['admin_save_form_ajax_use'] = true;
 $config['auto_delete_old_ban_records'] = true;
 
 /*
+ * Собирать статистку по срабатываниям банов
+ */
+$config['gather_bans_running_stats'] = true;
+
+/*
  * роутер
  */
 $config['$root$']['router']['page']['admin'] = 'PluginAdmin_ActionAdmin';

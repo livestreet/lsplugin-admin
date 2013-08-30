@@ -48,7 +48,7 @@ class ModuleStorage extends Module {
 	/*
 	 *	Нужно ли данные параметров хранить также сериализированными
 	 */
-	const SERIALIZE_PARAM_VALUES = true;
+	const SERIALIZE_PARAM_VALUES = false;			// TODO: DELETE: DEPRECATED: BUGGY: после смены параметра - очистить записи таблицы хранилища!
 	
 	/*
 	 *	Имя ключа для ядра
@@ -208,10 +208,7 @@ class ModuleStorage extends Module {
 	 */
 	protected function RetrieveParamValueFromSavedValue($mValue) {
 		if (self::SERIALIZE_PARAM_VALUES) {
-			if ($mData = $this->UnpackValue($mValue)) {
-				return $mData;
-			}
-			return null;
+			return $this->UnpackValue($mValue);
 		}
 		return $mValue;
 	}
