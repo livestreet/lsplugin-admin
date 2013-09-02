@@ -262,6 +262,7 @@ return array(
 			),
 		),
 	),
+	/*
 	'path.static.assets' => array(
 		'type' => 'string',
 		'name' => 'config_parameters.path.static.assets.name',
@@ -272,6 +273,8 @@ return array(
 			),
 		),
 	),
+	*/
+	/*
 	'path.static.framework' => array(
 		'type' => 'string',
 		'name' => 'config_parameters.path.static.framework.name',
@@ -282,6 +285,7 @@ return array(
 			),
 		),
 	),
+	*/
 	'path.uploads.root' => array(
 		'type' => 'string',
 		'name' => 'config_parameters.path.uploads.root.name',

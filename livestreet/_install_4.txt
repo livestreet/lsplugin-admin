@@ -4,3 +4,5 @@
 \templates\skin\synio\settings\config\config.php
 
 $config['view']['theme'] = 'default';
+
+(закомментировать эту строку!)

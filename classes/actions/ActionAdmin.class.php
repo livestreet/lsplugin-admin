@@ -38,88 +38,15 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$this->Message_AddError($this->Lang_Get('plugin.admin.errors.you_are_not_admin'), $this->Lang_Get('error'));
 			return Router::Action('error');
 		}
-		
+
 		/*
-		 * обнулить списки скриптов и таблиц стилей
+		 * задать таблицы стилей и жс файлов для админки
 		 */
-		$this->Viewer_ClearStyle(true);
-		
-		$sFrameworkPath = Config::Get('path.framework.frontend.web');
-		$aPluginTemplatePath = Plugin::GetTemplatePath(__CLASS__) . "assets/";
-		
-		$aStyles = array(
-			$sFrameworkPath . "/css/reset.css",
-			$sFrameworkPath . "/css/helpers.css",
-			$sFrameworkPath . "/css/text.css",
-			$sFrameworkPath . "/css/dropdowns.css",
-			$sFrameworkPath . "/css/buttons.css",
-			$sFrameworkPath . "/css/forms.css",
-			$sFrameworkPath . "/css/navs.css",
-			$sFrameworkPath . "/css/modals.css",
-			$sFrameworkPath . "/css/tooltip.css",
-			$sFrameworkPath . "/css/popover.css",
-			$sFrameworkPath . "/css/alerts.css",
-			$sFrameworkPath . "/css/toolbar.css",
-			$sFrameworkPath . "/js/vendor/jquery-ui/css/smoothness/jquery-ui-1.10.2.custom.css",		// todo: review
-			
-			$aPluginTemplatePath . "css/base.css",
-			$aPluginTemplatePath . "css/grid.css",
-			$aPluginTemplatePath . "css/blocks.css",
-			$aPluginTemplatePath . "css/pagination.css",
-			$aPluginTemplatePath . "css/icons.css",
-			$aPluginTemplatePath . "css/navs.css",
-			$aPluginTemplatePath . "css/vendor/jquery.notifier.css",
-			$aPluginTemplatePath . "css/parameters.css",
-			$aPluginTemplatePath . "css/skins.css",
-			$aPluginTemplatePath . "css/users.css",
-			$aPluginTemplatePath . "css/table.css",
-			$aPluginTemplatePath . "css/buttons.css",
-			$aPluginTemplatePath . "css/forms.css",
-		);
-		
-		$aScripts = array(
-			$sFrameworkPath . "/js/vendor/jquery-1.9.1.min.js",
-			$sFrameworkPath . "/js/vendor/jquery-ui/js/jquery-ui-1.10.2.custom.min.js",
-			$sFrameworkPath . "/js/vendor/jquery-ui/js/localization/jquery-ui-datepicker-ru.js",
-			$sFrameworkPath . "/js/vendor/jquery.browser.js",
-			$sFrameworkPath . "/js/vendor/jquery.scrollto.js",
-			$sFrameworkPath . "/js/vendor/jquery.rich-array.min.js",
-			$sFrameworkPath . "/js/vendor/jquery.form.js",
-			$sFrameworkPath . "/js/vendor/jquery.jqplugin.js",
-			$sFrameworkPath . "/js/vendor/jquery.cookie.js",
-			$sFrameworkPath . "/js/vendor/jquery.serializejson.js",
-			$sFrameworkPath . "/js/vendor/jquery.file.js",
-			$sFrameworkPath . "/js/vendor/jcrop/jquery.Jcrop.js",
-			$sFrameworkPath . "/js/vendor/jquery.placeholder.min.js",
-			$sFrameworkPath . "/js/vendor/jquery.charcount.js",
-			$sFrameworkPath . "/js/vendor/jquery.imagesloaded.js",
-			$sFrameworkPath . "/js/vendor/notifier/jquery.notifier.js",
-			$sFrameworkPath . "/js/vendor/markitup/jquery.markitup.js",
-			$sFrameworkPath . "/js/vendor/prettify/prettify.js",
-			$sFrameworkPath . "/js/vendor/prettyphoto/js/jquery.prettyphoto.js",
+		$this->AddJSAndCSSFiles();
 
-			$sFrameworkPath . "/js/core/main.js",
-			$sFrameworkPath . "/js/core/hook.js",
-
-			$sFrameworkPath . "/js/ui/popup.js",
-			$sFrameworkPath . "/js/ui/dropdown.js",
-			$sFrameworkPath . "/js/ui/tooltip.js",
-			$sFrameworkPath . "/js/ui/popover.js",
-			$sFrameworkPath . "/js/ui/tab.js",
-			$sFrameworkPath . "/js/ui/modal.js",
-			$sFrameworkPath . "/js/ui/toolbar.js",
-
-			$sFrameworkPath . "/js/livestreet/init.js",
-			
-			$aPluginTemplatePath . "/js/init.js",
-			$aPluginTemplatePath . "/js/admin_settings_save.js",
-			$aPluginTemplatePath . "/js/admin_settings_array.js",
-			$aPluginTemplatePath . "/js/admin_misc.js",
-		);
-		
-		array_map(array($this, 'Viewer_AppendStyle'), $aStyles);
-		array_map(array($this, 'Viewer_AppendScript'), $aScripts);
-		
+		/*
+		 * получить группы настроек системного конфига
+		 */
 		$this->aCoreSettingsGroups = Config::Get('plugin.admin.core_config_groups');
 		
 		$this->SetDefaultEvent('index');
@@ -415,6 +342,92 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 
 	protected function EventNotFound() {
 		return Router::Action('admin','error',array('404'));
+	}
+
+
+	/**
+	 * Добавить свои файлы JS и CSS для админки
+	 */
+	protected function AddJSAndCSSFiles () {
+		/*
+		 * обнулить списки скриптов и таблиц стилей
+		 */
+		$this->Viewer_ClearStyle (true);
+
+		$sFrameworkPath = Config::Get ('path.framework.frontend.web');
+		$aPluginTemplatePath = Plugin::GetTemplatePath (__CLASS__) . 'assets';
+
+		$aStyles = array (
+			$sFrameworkPath . '/css/reset.css',
+			$sFrameworkPath . '/css/helpers.css',
+			$sFrameworkPath . '/css/text.css',
+			$sFrameworkPath . '/css/dropdowns.css',
+			$sFrameworkPath . '/css/buttons.css',
+			$sFrameworkPath . '/css/forms.css',
+			$sFrameworkPath . '/css/navs.css',
+			$sFrameworkPath . '/css/modals.css',
+			$sFrameworkPath . '/css/tooltip.css',
+			$sFrameworkPath . '/css/popover.css',
+			$sFrameworkPath . '/css/alerts.css',
+			$sFrameworkPath . '/css/toolbar.css',
+			$sFrameworkPath . '/js/vendor/jquery-ui/css/smoothness/jquery-ui-1.10.2.custom.css', 				// todo: review
+
+			$aPluginTemplatePath . '/css/base.css',
+			$aPluginTemplatePath . '/css/grid.css',
+			$aPluginTemplatePath . '/css/blocks.css',
+			$aPluginTemplatePath . '/css/pagination.css',
+			$aPluginTemplatePath . '/css/icons.css',
+			$aPluginTemplatePath . '/css/navs.css',
+			$aPluginTemplatePath . '/css/vendor/jquery.notifier.css',
+			$aPluginTemplatePath . '/css/parameters.css',
+			$aPluginTemplatePath . '/css/skins.css',
+			$aPluginTemplatePath . '/css/users.css',
+			$aPluginTemplatePath . '/css/table.css',
+			$aPluginTemplatePath . '/css/buttons.css',
+			$aPluginTemplatePath . '/css/forms.css',
+		);
+
+		$aScripts = array (
+			$sFrameworkPath . '/js/vendor/jquery-1.9.1.min.js',
+			$sFrameworkPath . '/js/vendor/jquery-ui/js/jquery-ui-1.10.2.custom.min.js',
+			$sFrameworkPath . '/js/vendor/jquery-ui/js/localization/jquery-ui-datepicker-ru.js',
+			$sFrameworkPath . '/js/vendor/jquery.browser.js',
+			$sFrameworkPath . '/js/vendor/jquery.scrollto.js',
+			$sFrameworkPath . '/js/vendor/jquery.rich-array.min.js',
+			$sFrameworkPath . '/js/vendor/jquery.form.js',
+			$sFrameworkPath . '/js/vendor/jquery.jqplugin.js',
+			$sFrameworkPath . '/js/vendor/jquery.cookie.js',
+			$sFrameworkPath . '/js/vendor/jquery.serializejson.js',
+			$sFrameworkPath . '/js/vendor/jquery.file.js',
+			$sFrameworkPath . '/js/vendor/jcrop/jquery.Jcrop.js',
+			$sFrameworkPath . '/js/vendor/jquery.placeholder.min.js',
+			$sFrameworkPath . '/js/vendor/jquery.charcount.js',
+			$sFrameworkPath . '/js/vendor/jquery.imagesloaded.js',
+			$sFrameworkPath . '/js/vendor/notifier/jquery.notifier.js',
+			$sFrameworkPath . '/js/vendor/markitup/jquery.markitup.js',
+			$sFrameworkPath . '/js/vendor/prettify/prettify.js',
+			$sFrameworkPath . '/js/vendor/prettyphoto/js/jquery.prettyphoto.js',
+
+			$sFrameworkPath . '/js/core/main.js',
+			$sFrameworkPath . '/js/core/hook.js',
+
+			$sFrameworkPath . '/js/ui/over.js',
+			$sFrameworkPath . '/js/ui/popup.js',
+			$sFrameworkPath . '/js/ui/dropdown.js',
+			$sFrameworkPath . '/js/ui/tooltip.js',
+			$sFrameworkPath . '/js/ui/popover.js',
+			$sFrameworkPath . '/js/ui/tab.js',
+			$sFrameworkPath . '/js/ui/modal.js',
+			$sFrameworkPath . '/js/ui/toolbar.js',
+
+			$aPluginTemplatePath . '/js/init.js',
+			$aPluginTemplatePath . '/js/admin_settings_save.js',
+			$aPluginTemplatePath . '/js/admin_settings_array.js',
+			$aPluginTemplatePath . '/js/admin_misc.js',
+		);
+
+		array_map (array ($this, 'Viewer_AppendStyle'), $aStyles);
+		array_map (array ($this, 'Viewer_AppendScript'), $aScripts);
 	}
 
 }

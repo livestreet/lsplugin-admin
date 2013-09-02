@@ -48,7 +48,7 @@
 		
 		{else}
 		
-			{* Простой вывод значений массива как есть в виде php array *}
+			{* todo: Простой вывод значений массива как есть в виде php array *}
 			
 			{*
 			<textarea name="{$sInputDataName}" class="input-text input-width-250">{var_export($oParameter->getValue())|escape:'html'}</textarea>
