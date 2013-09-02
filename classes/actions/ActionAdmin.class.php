@@ -35,7 +35,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 
 	public function Init() {
 		if (!$this->oUserCurrent = $this->User_GetIsAdmin(true)) {
-			$this->Message_AddError($this->Lang_Get('plugin.admin.errors.you_are_not_admin'), $this->Lang_Get('error'));
+			$this->Message_AddError($this->Lang('errors.you_are_not_admin'), $this->Lang_Get('error'));
 			return Router::Action('error');
 		}
 
@@ -232,7 +232,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 	 * Построение меню
 	 */
 	private function InitMenu() {
-		$oMenu=$this->PluginAdmin_Ui_GetMenuMain();
+		$oMenu = $this->PluginAdmin_Ui_GetMenuMain();
 		if ($oMenu->GetSections()) {
 			return;
 		}
@@ -341,7 +341,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 
 
 	protected function EventNotFound() {
-		return Router::Action('admin','error',array('404'));
+		return Router::Action('admin', 'error', array('404'));
 	}
 
 

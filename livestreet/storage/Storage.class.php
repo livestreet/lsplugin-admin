@@ -19,10 +19,11 @@
  * 
  */
 
+
 /*
  *	Хранилище "ключ=значение"
  *
- *	Позволяет легко и быстро работать с небольшими обьемами данных,
+ *	Позволяет легко и быстро работать с небольшими объемами данных,
  *	CRUD операции с которыми теперь занимают всего одну строку кода.
  *
  *	Например:
@@ -36,7 +37,7 @@ class ModuleStorage extends Module {
 	protected $oMapperStorage = null;
 				
 	/*
-	 * Группа настроек по-умолчанию
+	 * Группа настроек по-умолчанию (инстанция)
 	 */
 	const DEFAULT_INSTANCE = 'default';
 	
@@ -44,11 +45,6 @@ class ModuleStorage extends Module {
 	 * Префикс полей для кеша
 	 */
 	const CACHE_FIELD_DATA_PREFIX = 'storage_field_data_';
-	
-	/*
-	 *	Нужно ли данные параметров хранить также сериализированными
-	 */
-	const SERIALIZE_PARAM_VALUES = false;			// TODO: DELETE: DEPRECATED: BUGGY: после смены параметра - очистить записи таблицы хранилища!
 	
 	/*
 	 *	Имя ключа для ядра
@@ -62,7 +58,7 @@ class ModuleStorage extends Module {
 
 	/*
 	 *	Кеширование параметров на время работы сессии
-	 *	structure: array('instance' => array('key' => array('param1' => 'value1', 'param2' => 'value2')))
+	 *	структура: array('instance' => array('key' => array('param1' => 'value1', 'param2' => 'value2')))
 	 */
 	protected $aSessionCache = array();
 
@@ -71,11 +67,12 @@ class ModuleStorage extends Module {
 		$this->oMapperStorage = Engine::GetMapper(__CLASS__);
 	}
 	
-	
-	
+
+
 	/*
 	 *
 	 * --- Низкоуровневые обертки для работы с БД ---
+	 *
 	 * Для highload проектов эти обертки можно будет переопределить через плагин чтобы подключить не РСУБД хранилища, такие, например, как Redis
 	 *
 	 */
@@ -121,8 +118,8 @@ class ModuleStorage extends Module {
 			$mData = null;
 			$aResult = $this->oMapperStorage->GetData($sFilter, 1, 1);
 			
-			if ($aResult ['count'] != 0) {
-				$mData = $aResult ['collection']['value'];
+			if ($aResult['count'] != 0) {
+				$mData = $aResult['collection']['value'];
 				$this->Cache_Set($mData, $sCacheKey, array('storage_field_data'), 60 * 60 * 24 * 365);	// 1 year
 			}
 		}
@@ -193,9 +190,6 @@ class ModuleStorage extends Module {
 		if (is_resource($mValue)) {
 			throw new Exception('Storage: your data must be scalar value, not resource!');
 		}
-		if (self::SERIALIZE_PARAM_VALUES) {
-			return $this->PackValue($mValue);
-		}
 		return $mValue;
 	}
 
@@ -207,9 +201,6 @@ class ModuleStorage extends Module {
 	 * @return mixed|null
 	 */
 	protected function RetrieveParamValueFromSavedValue($mValue) {
-		if (self::SERIALIZE_PARAM_VALUES) {
-			return $this->UnpackValue($mValue);
-		}
 		return $mValue;
 	}
 
@@ -267,13 +258,14 @@ class ModuleStorage extends Module {
 		 */
 		if ($sFieldData = $this->GetFieldOne($sKey, $sInstance)) {
 			if ($aData = $this->UnpackValue($sFieldData) and is_array($aData)) {
-				
+				/*
+				 * Восстановить значения параметров ключа
+				 */
+				$aData = array_map(array($this, 'RetrieveParamValueFromSavedValue'), $aData);
 				/*
 				 * Сохранить в кеше сессии распакованные значения
 				 */
-				$aData = array_map(array($this, 'RetrieveParamValueFromSavedValue'), $aData);
 				$this->aSessionCache[$sInstance][$sKey] = $aData;
-				
 				return $aData;
 			}
 		}
@@ -291,12 +283,19 @@ class ModuleStorage extends Module {
 	 * @return mixed
 	 */
 	protected function SetOneParam($sKey, $sParamName, $mValue, $sInstance = self::DEFAULT_INSTANCE) {
+		/*
+		 * подготовить значение перед сохранением
+		 */
 		$mValueChecked = $this->PrepareParamValueBeforeSaving($mValue);
+
+		/*
+		 * объеденить с остальными параметрами ключа
+		 */
 		$aParamsContainer = $this->GetParamsAll($sKey, $sInstance);
-		$aParamsContainer [$sParamName] = $mValueChecked;
+		$aParamsContainer[$sParamName] = $mValueChecked;
 		
 		/*
-		 * Сохранить в кеше сессии
+		 * Сохранить в кеше сессии оригинальное значение
 		 */
 		$this->aSessionCache[$sInstance][$sKey][$sParamName] = $mValue;
 		
@@ -320,8 +319,8 @@ class ModuleStorage extends Module {
 			return $this->aSessionCache[$sInstance][$sKey][$sParamName];
 		}
 		
-		if ($aFieldData = $this->GetParamsAll($sKey, $sInstance) and isset($aFieldData [$sParamName])) {
-			return $aFieldData [$sParamName];
+		if ($aFieldData = $this->GetParamsAll($sKey, $sInstance) and isset($aFieldData[$sParamName])) {
+			return $aFieldData[$sParamName];
 		}
 		return null;
 	}
@@ -342,7 +341,7 @@ class ModuleStorage extends Module {
 		unset($this->aSessionCache[$sInstance][$sKey][$sParamName]);
 		
 		$aParamsContainer = $this->GetParamsAll($sKey, $sInstance);
-		unset($aParamsContainer [$sParamName]);
+		unset($aParamsContainer[$sParamName]);
 		return $this->SetFieldOne($sKey, $this->PackValue($aParamsContainer), $sInstance);
 	}
 
@@ -545,12 +544,14 @@ class ModuleStorage extends Module {
 		return $this->RemoveAllParams($sCallerName, $sInstance);
 	}
 
-	
+
+
 	/*
 	 *
 	 * --- Работа с параметрами только на момент сессии ---
 	 *
 	 */
+
 
 	/**
 	 * Сохранить значение параметра на время сессии (без записи в хранилище)
