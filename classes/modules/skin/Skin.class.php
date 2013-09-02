@@ -28,7 +28,7 @@
 class PluginAdmin_ModuleSkin extends Module {
 
 	/*
-	 * файлы описания и превью шаблона, должны быть в корне папки шаблона
+	 * файлы описания и превью шаблона, которые должны быть в корне папки шаблона
 	 */
 	const SKIN_PREVIEW_FILE = 'template_preview.png';
 	const SKIN_XML_FILE = 'template_info.xml';
@@ -50,7 +50,7 @@ class PluginAdmin_ModuleSkin extends Module {
 	
 	
 	public function Init() {
-		$this->sSkinPath = Config::Get('path.root.server') . '/templates/skin/';
+		$this->sSkinPath = Config::Get('path.application.server') . '/frontend/skin/';
 		$this->sLang = $this->Lang_GetLang();
 	}
 
