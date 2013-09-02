@@ -1,28 +1,32 @@
 {extends file="{$aTemplatePathPlugin.admin}/layout.base.tpl"}
 
+
+{block name='layout_content_toolbar'}
+	<form action="{$sFullPagePathToEvent}" method="get" enctype="application/x-www-form-urlencoded" id="admin_user_list_search_form">
+		{$sSearchValue = array_shift(array_values($aSearchRulesWithOriginalQueries))}			{* need only first field=>value *}
+		{$sSearchField = array_shift(array_keys($aSearchRulesWithOriginalQueries))}
+
+		<input type="text" class="width-200" value="{$sSearchValue}" id="admin_user_list_search_form_q" placeholder="{$aLang.plugin.admin.users.search}" />
+
+		<select class="width-150" id="admin_user_list_search_form_field" >
+			{foreach array_keys($oConfig->GetValue('plugin.admin.user_search_allowed_types')) as $sSearchIn}
+				<option value="{$sSearchIn}" {if $sSearchIn == $sSearchField}selected="selected"{/if}>
+					{$aLang.plugin.admin.users.search_allowed_in.$sSearchIn}
+				</option>
+			{/foreach}
+		</select>
+
+		<button type="submit" class="button button-primary">{$aLang.plugin.admin.users.search}</button>
+	</form>
+{/block}
+
+
+{block name='layout_page_title'}
+	{$aLang.plugin.admin.users.title} <span>1534</span>
+{/block}
+
+
 {block name='layout_content'}
-	<h2 class="title mb-20">
-		{$aLang.plugin.admin.users.title}
-	</h2>
-
-	<div class="UserSearch">
-		<form action="{$sFullPagePathToEvent}" method="get" enctype="application/x-www-form-urlencoded" id="admin_user_list_search_form">
-			{assign var=sSearchValue value=array_shift(array_values($aSearchRulesWithOriginalQueries))}			{* need only first field=>value *}
-			{assign var=sSearchField value=array_shift(array_keys($aSearchRulesWithOriginalQueries))}
-
-			<input type="text" class="input-text width-200" value="{$sSearchValue}" id="admin_user_list_search_form_q" />
-			<select class="width-150" id="admin_user_list_search_form_field" >
-				{foreach from=array_keys($oConfig->GetValue('plugin.admin.user_search_allowed_types')) item=sSearchIn}
-					<option value="{$sSearchIn}" {if $sSearchIn==$sSearchField}selected="selected"{/if}>
-						{$aLang.plugin.admin.users.search_allowed_in.$sSearchIn}
-					</option>
-				{/foreach}
-			</select>
-			<input type="submit" value="{$aLang.plugin.admin.users.search}" class="button button-primary" />
-		</form>
-	</div>
-
-
 	<table class="table table-sorting">
 		<thead>
 			<tr>
@@ -142,5 +146,4 @@
 	}
 
 	{include file="{$aTemplatePathPlugin.admin}/pagination.tpl" aPaging=$aPaging}
-		
 {/block}

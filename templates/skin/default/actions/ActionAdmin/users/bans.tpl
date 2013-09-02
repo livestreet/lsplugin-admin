@@ -1,14 +1,16 @@
 {extends file="{$aTemplatePathPlugin.admin}/layout.base.tpl"}
 
+{block name='layout_content_toolbar'}
+	<a class="button" href="{router page='admin/users/bans/add'}">{$aLang.plugin.admin.bans.add_ban}</a>
+{/block}
+
+
+{block name='layout_page_title'}
+	{$aLang.plugin.admin.bans.title}
+{/block}
+
+
 {block name='layout_content'}
-	<h2 class="title mb-20">
-		{$aLang.plugin.admin.bans.title}
-	</h2>
-
-	<div class="top-controls mb-20 fl-r">
-		<a class="button" href="{router page='admin/users/bans/add'}">{$aLang.plugin.admin.bans.add_ban}</a>
-	</div>
-
 	<div class="ban-list">
 
 		{if $aBans and count($aBans)>0}
@@ -206,7 +208,7 @@
 			{include file="{$aTemplatePathPlugin.admin}/pagination.tpl" aPaging=$aPaging}
 
 		{else}
-			{$aLang.plugin.admin.bans.list.no_bans}
+			{include file='alert.tpl' mAlerts=$aLang.plugin.admin.bans.list.no_bans sAlertStyle='empty'}
 		{/if}
 	</div>
 		

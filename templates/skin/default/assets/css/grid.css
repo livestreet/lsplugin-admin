@@ -19,10 +19,11 @@
     margin-right: 205px;
     min-height: 200px;
     overflow: hidden;
-    padding: 15px;
     position: relative;
 }
 #sidebar         { float: right; width: 200px; position: relative; z-index: 1; }
 #footer          { overflow: hidden; zoom: 1; margin-bottom: 20px; padding: 0 0 50px 16px; font-size: 11px; font-family: Verdana; }
 
 #container.no-sidebar #content { width: 100%; margin-right: 0; }
+
+.content-padding { padding: 15px; }

@@ -34,8 +34,8 @@ a:hover { color: #058; }
 .h5 { font-size: 20px; }
 .h6 { font-size: 18px; }
 
-.page-header		{ color: #333; font-size: 27px; line-height: 1em; font-weight: bold; margin-bottom: 20px; }
-.page-header span	{ color: #aaa; }
+.page-header		{ color: #333; font-size: 27px; line-height: 1em; font-weight: 400; font-family: 'Open Sans'; margin-bottom: 20px; }
+.page-header span	{ color: #999; font-weight: 300; }
 
 
 /**

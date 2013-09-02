@@ -1,0 +1,51 @@
+/**
+ * Forms
+ * 
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+
+/* Input Text */
+textarea,
+select,
+input[type="password"],
+input[type="text"] {
+	vertical-align: top;
+	border-color: #bdbdbd;
+	-webkit-box-shadow: 0 1px 0 #f2f2f2 inset;
+	        box-shadow: 0 1px 0 #f2f2f2 inset;
+}
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus {
+	border-color: #2099ee;
+	-webkit-box-shadow: none;
+	        box-shadow: none;
+}
+
+select,
+input[type="password"],
+input[type="text"] {
+	height: 29px;
+	line-height: 18px;
+}
+
+
+/* Placeholder */
+:-moz-placeholder           { color: #ccc; }
+::-moz-placeholder          { color: #ccc; opacity: 1; }
+::-webkit-input-placeholder { color: #ccc; }
+:-ms-input-placeholder      { color: #ccc; }
+.placeholder                { color: #ccc; } /* Old IE */
+
+/* Toolbar */
+.admin-toolbar {
+	padding: 10px;
+	background: #f8f8f8;
+	border-bottom: 1px solid #ebebeb;
+}
+.admin-toolbar input,
+.admin-toolbar select,
+.admin-toolbar button { margin-right: 5px; }

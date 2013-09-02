@@ -44,8 +44,8 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 */
 		$this->Viewer_ClearStyle(true);
 		
-		$sFrameworkPath = Config::Get('path.static.framework');
-		$aPluginTemplatePath = Plugin::GetTemplatePath(__CLASS__);
+		$sFrameworkPath = Config::Get('path.framework.frontend.web');
+		$aPluginTemplatePath = Plugin::GetTemplatePath(__CLASS__) . "assets/";
 		
 		$aStyles = array(
 			$sFrameworkPath . "/css/reset.css",
@@ -73,6 +73,8 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$aPluginTemplatePath . "css/skins.css",
 			$aPluginTemplatePath . "css/users.css",
 			$aPluginTemplatePath . "css/table.css",
+			$aPluginTemplatePath . "css/buttons.css",
+			$aPluginTemplatePath . "css/forms.css",
 		);
 		
 		$aScripts = array(

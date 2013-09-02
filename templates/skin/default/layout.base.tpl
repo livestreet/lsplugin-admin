@@ -69,26 +69,6 @@
 		ls.registry.set('comment_max_tree', {json var=$oConfig->Get('module.comment.max_tree')});
 		ls.registry.set('block_stream_show_tip', {json var=$oConfig->Get('block.stream.show_tip')});
 	</script>
-
-
-	{**
-	 * Тип сетки сайта
-	 *}
-	{** TODO: review: delete: brokes admin styles, added styles for container in grid.css
-	
-	{if {cfg name='view.grid.type'} == 'fluid'}
-		<style>
-			#container {
-				min-width: {cfg name='view.grid.fluid_min_width'}px;
-				max-width: {cfg name='view.grid.fluid_max_width'}px;
-			}
-		</style>
-	{else}
-		<style>
-			#container { width: {cfg name='view.grid.fixed_width'}px; }
-		</style>
-	{/if}
-	*}
 	
 
 	{block name='layout_head_end'}{/block}
@@ -109,7 +89,6 @@
 			{**
 			 * Шапка сайта
 			 *}
-
 			<header id="header" role="banner">
 				<div class="site-info">
 					<h1 class="site-name"><a href="{cfg name='path.root.web'}/admin">LiveStreet</a></h1>
@@ -125,37 +104,53 @@
 						 role="main"
 						 {if $sMenuItemSelect == 'profile'}itemscope itemtype="http://data-vocabulary.org/Person"{/if}>
 
-						{* {hook run='content_begin'} *}
-						{hook run='admin_content_begin'}        {* todo: review: hook names (temp) *}
-						
-						{block name='layout_content_begin'}{/block}
-
-						{block name='layout_page_title' hide}
-							<h2 class="page-header">{$smarty.block.child}</h2>
-						{/block}
-
-						{* Навигация *}
-						{if $sNav or $sNavContent}
-							<div class="nav-group">
-								{if $sNav}
-									{if in_array($sNav, $aMenuContainers)}
-										{$aMenuFetch.$sNav}
-									{else}
-										{include file="navs/nav.$sNav.tpl"}
-									{/if}
-								{else}
-									{include file="navs/nav.$sNavContent.content.tpl"}
-								{/if}
+						{block name='layout_content_toolbar' hide}
+							<div class="admin-toolbar clearfix">
+								{$smarty.block.child}
 							</div>
-						{/if}
+						{/block}
+						
+						<div class="content-padding">
+							{* {hook run='content_begin'} *}
+							{hook run='admin_content_begin'}        {* todo: review: hook names (temp) *}
+							
+							{block name='layout_content_begin'}{/block}
 
-						{* Системные сообщения *}
-						{include file='system_message.tpl'}
+							{block name='layout_page_title' hide}
+								<h2 class="page-header">{$smarty.block.child}</h2>
+							{/block}
 
-						{block name='layout_content'}{/block}
+							{* Навигация *}
+							{if $sNav or $sNavContent}
+								<div class="nav-group">
+									{if $sNav}
+										{if in_array($sNav, $aMenuContainers)}
+											{$aMenuFetch.$sNav}
+										{else}
+											{include file="navs/nav.$sNav.tpl"}
+										{/if}
+									{else}
+										{include file="navs/nav.$sNavContent.content.tpl"}
+									{/if}
+								</div>
+							{/if}
 
-						{block name='layout_content_end'}{/block}
-						{* {hook run='content_end'} *}
+							{* Системные сообщения *}
+							{if ! $bNoSystemMessages}
+								{if $aMsgError}
+									{include file='alert.tpl' sAlertStyle='error' mAlerts=$aMsgError}
+								{/if}
+
+								{if $aMsgNotice}
+									{include file='alert.tpl' mAlerts=$aMsgNotice}
+								{/if}
+							{/if}
+
+							{block name='layout_content'}{/block}
+
+							{block name='layout_content_end'}{/block}
+							{* {hook run='content_end'} *}
+						</div>
 					</div>
 				</div>
 
