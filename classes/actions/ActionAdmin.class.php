@@ -101,7 +101,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$sFrameworkPath . "/js/core/main.js",
 			$sFrameworkPath . "/js/core/hook.js",
 
-			$sFrameworkPath . "/js/ui/popup.js",
+			$sFrameworkPath . "/js/ui/over.js",
 			$sFrameworkPath . "/js/ui/dropdown.js",
 			$sFrameworkPath . "/js/ui/tooltip.js",
 			$sFrameworkPath . "/js/ui/popover.js",
@@ -109,7 +109,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$sFrameworkPath . "/js/ui/modal.js",
 			$sFrameworkPath . "/js/ui/toolbar.js",
 
-			$sFrameworkPath . "/js/livestreet/init.js",
+			// $sFrameworkPath . "/js/livestreet/init.js",
 			
 			$aPluginTemplatePath . "/js/init.js",
 			$aPluginTemplatePath . "/js/admin_settings_save.js",
