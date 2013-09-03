@@ -1,40 +1,64 @@
 <?php
 /**
- * array_merge_recursive does indeed merge arrays, but it converts values with duplicate
- * keys to arrays rather than overwriting the value in the first array with the duplicate
- * value in the second array, as array_merge does. I.e., with array_merge_recursive,
- * this happens(documented behavior):
+ * LiveStreet CMS
+ * Copyright © 2013 OOO "ЛС-СОФТ"
  *
- * array_merge_recursive(array('key' => 'org value'), array('key' => 'new value'));
- *		 => array('key' => array('org value', 'new value'));
+ * ------------------------------------------------------
  *
- * array_merge_recursive_distinct does not change the datatypes of the values in the arrays.
- * Matching keys' values in the second array overwrite those in the first array, as is the
- * case with array_merge, i.e.:
+ * Official site: www.livestreetcms.com
+ * Contact e-mail: office@livestreetcms.com
  *
- * array_merge_recursive_distinct(array('key' => 'org value'), array('key' => 'new value'));
- *		 => array('key' => array('new value'));
+ * GNU General Public License, version 2:
+ * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  *
- * Parameters are passed by reference, though only for performance reasons. They're not
- * altered by this function.
+ * ------------------------------------------------------
  *
- * @param array $array1
- * @param array $array2
- * @return array
- * @author Daniel <daniel(at) danielsmedegaardbuus(dot) dk>
- * @author Gabriel Sobrinho <gabriel(dot) sobrinho(at) gmail(dot) com>
+ * @link http://www.livestreetcms.com
+ * @copyright 2013 OOO "ЛС-СОФТ"
+ * @author Serge Pustovit (PSNet) <light.feel@gmail.com>
+ *
  */
-function array_merge_recursive_distinct(array &$array1, array &$array2) {
-	$merged = $array1;
 
-	foreach($array2 as $key => &$value) {
-		if (is_array($value) and isset($merged [$key]) and is_array($merged [$key])) {
-			$merged [$key] = array_merge_recursive_distinct($merged [$key], $value);
-		} else {
-			$merged [$key] = $value;
+
+/**
+ * Проверяет чтобы у массива были только строковые ключи (полностью ассоциативный массив)
+ *
+ * @param $aData		массив
+ * @return bool
+ */
+function check_if_array_has_string_keys($aData) {
+	foreach($aData as $mKey => $mVal) {
+		if (!is_string($mKey)) return false;
+	}
+	return true;
+}
+
+
+/**
+ * Объеденяет массивы, указанные в параметрах по особым правилам: ассоциативные массивы объеденяет, а массивы с числовыми ключами - заменяет
+ *
+ * @return array		результирующий массив
+ */
+function array_replace_recursive_distinct() {
+	$aAllArrays = func_get_args();
+	$aOriginal = array_shift($aAllArrays);
+
+	foreach ($aAllArrays as $aCurrentArray) {
+		foreach ($aCurrentArray as $mKey => $mValue) {
+			if (is_array($mValue) and isset($aOriginal[$mKey]) and is_array($aOriginal[$mKey]) and check_if_array_has_string_keys($mValue)) {
+				/*
+				 * заменить или объеденить значения в оригинальном ассоциативном массиве
+				 */
+				$aOriginal[$mKey] = array_replace_recursive_distinct($aOriginal[$mKey], $aCurrentArray[$mKey]);
+			} else {
+				/*
+				 * значение - не массив или ключи массива числовые (нужна замена, а не объеденение)
+				 */
+				$aOriginal[$mKey] = $mValue;
+			}
 		}
 	}
-	return $merged;
+	return $aOriginal;
 }
 
 ?>

@@ -537,7 +537,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 			 * обьеденить сохраненные ранее настройки с новыми
 			 * это необходимо если настройки разбиты на группы и показываются в разных разделах частями (например, настройки ядра)
 			 */
-			$aData = array_merge_recursive_distinct($aConfigOldData, $aData);							// dont use "array_merge_recursive"
+			$aData = array_replace_recursive_distinct($aConfigOldData, $aData);							// dont use "array_merge_recursive"
 		}
 		return $this->SaveConfigData($sConfigName, $aData);
 	}

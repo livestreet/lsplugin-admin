@@ -28,7 +28,7 @@
 				{* Перечисление разрешенных значений массива *}
 				{assign var="aItemsToShow" value=$aValidatorParams['enum']}
 				
-				<select class="js-array-enum input-text input-width-250" data-key="{$sKey}">
+				<select class="js-array-enum input-text width-250" data-key="{$sKey}">
 					{foreach from=$aItemsToShow item=sValue}
 						<option value="{$sValue}" {if in_array($sValue, $oParameter->getValue())}disabled="disabled"{/if}>{$sValue}</option>
 					{/foreach}
@@ -40,7 +40,7 @@
 				
 				{* Поле для ввода значений массива *}
 				
-				<input type="text" class="js-array-input-text input-text input-width-250" data-key="{$sKey}" value="" />
+				<input type="text" class="js-array-input-text input-text width-250" data-key="{$sKey}" value="" />
 				
 			{/if}
 			
@@ -51,7 +51,7 @@
 			{* todo: Простой вывод значений массива как есть в виде php array *}
 			
 			{*
-			<textarea name="{$sInputDataName}" class="input-text input-width-250">{var_export($oParameter->getValue())|escape:'html'}</textarea>
+			<textarea name="{$sInputDataName}" class="input-text width-250">{var_export($oParameter->getValue())|escape:'html'}</textarea>
 			*}
 			Простой вывод значений массива как есть в виде php array - на данный момент не доступно.
 		

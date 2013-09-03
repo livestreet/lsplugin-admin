@@ -56,7 +56,7 @@
 											  enctype="application/x-www-form-urlencoded"
 											  method="post">
 											<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
-											<select name="theme">
+											<select name="theme" class="width-150">
 												{foreach from=$oInfo->themes->children() item=oTheme}
 													<option value="{$oTheme->value}" {if $oConfig->GetValue('view.theme')==$oTheme->value}selected="selected"{/if}>
 														{$oTheme->description->data}
@@ -67,7 +67,9 @@
 										</form>
 									{else}
 										{foreach from=$oInfo->themes->children() item=oTheme}
-											<span title="{$oTheme->description->data|escape:'html'}">{$oTheme->value}</span>{if !$oTheme@last},{/if}
+											<span>{$oTheme->value}</span>
+											<i class="icon-info-sign" title="{$oTheme->description->data|escape:'html'}"></i>
+											{if !$oTheme@last},{/if}
 										{/foreach}
 									{/if}
 								</dd>
