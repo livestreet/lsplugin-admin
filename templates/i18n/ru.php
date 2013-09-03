@@ -64,6 +64,12 @@ return array(
 		 */
 		'bans' => array(
 			'wrong_ban_id' => 'Неверный id бана',
+			'unknown_rule_sign' => 'Неверное правило поиска пользователя',
+			'unknown_ban_timing_rule' => 'Неверный интервал времени бана %%type%%. Должен быть "unlimited", "period" или "days"',
+			'incorrect_period_from' => 'Неверная дата старта (должна быть в формате YYYY-mm-dd)',
+			'incorrect_period_to' => 'Неверная дата финиша (должна быть в формате YYYY-mm-dd)',
+			'period_to_must_be_greater_than_from' => 'Дата финиша должна быть больше даты начала',
+			'incorrect_days_count' => 'Неверно указано количество дней для бана',
 		),
 
 	),

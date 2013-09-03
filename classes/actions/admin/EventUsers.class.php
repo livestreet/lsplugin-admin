@@ -512,6 +512,12 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		if (isPost('submit_add_ban')) {
 			$this->SubmitBan();
 		}
+		/*
+		 * если передан параметр id для бана пользователя
+		 */
+		if ($iUserId = (int) getRequestStr('user_id')) {
+			$_REQUEST['user_sign'] = $iUserId;
+		}
 	}
 
 
@@ -525,10 +531,10 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		$this->Security_ValidateSendForm();
 
 		/*
-		 * проверка ид бана (если было редактирование)
+		 * проверка id бана (если было редактирование)
 		 */
 		if ($iBanId = (int) getRequestStr('ban_id') and !$oBan = $this->PluginAdmin_Users_GetBanById($iBanId)) {
-			$this->Message_AddError('Wrong ban id');
+			$this->Message_AddError($this->Lang('errors.bans.wrong_ban_id'));
 			return false;
 		}
 		/*
@@ -563,14 +569,14 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 * проверить правило бана
 		 */
 		if (!$aRuleData = $this->GetUserDataByUserRule($sUserSign)) {
-			$this->Message_AddError('Unknow rule sign');
+			$this->Message_AddError($this->Lang('errors.bans.unknown_rule_sign'));
 			return false;
 		}
 		/*
 		 * проверить тип бана
 		 */
 		if (!in_array($sBanType, array('unlimited', 'period', 'days'))) {
-			$this->Message_AddError('Unknow ban type "' . $sBanType . '" must be "unlimited", "period" or "days"');
+			$this->Message_AddError($this->Lang('errors.bans.unknown_ban_timing_rule', array('type' => $sBanType)));
 			return false;
 		}
 		/*
@@ -585,21 +591,21 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 			 * проверить корректность даты начала
 			 */
 			if (!$sPeriodFrom or !preg_match('#^\d{4}-\d{1,2}-\d{1,2}(?: \d{2}:\d{2}:\d{2})?$#iu', $sPeriodFrom, $aMatches)) {
-				$this->Message_AddError('Period "from" is not correct (must be in YYYY-mm-dd)');
+				$this->Message_AddError($this->Lang('errors.bans.incorrect_period_from'));
 				return false;
 			}
 			/*
 			 * проверить корректность даты финиша
 			 */
 			if (!$sPeriodTo or !preg_match('#^\d{4}-\d{1,2}-\d{1,2}(?: \d{2}:\d{2}:\d{2})?$#iu', $sPeriodTo, $aMatches)) {
-				$this->Message_AddError('Period "to" is not correct (must be in YYYY-mm-dd)');
+				$this->Message_AddError($this->Lang('errors.bans.incorrect_period_to'));
 				return false;
 			}
 			/*
 			 * проверить чтобы дата финиша была больше даты старта
 			 */
 			if (strtotime($sPeriodTo) <= strtotime($sPeriodFrom)) {
-				$this->Message_AddError('Period "to" must be greater than period "from"');
+				$this->Message_AddError($this->Lang('errors.bans.period_to_must_be_greater_than_from'));
 				return false;
 			}
 		}
@@ -607,7 +613,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 * проверить количество дней
 		 */
 		if ($sBanType == 'days' and !$iDaysCount) {
-			$this->Message_AddError('Days count are incorrect');
+			$this->Message_AddError($this->Lang('errors.bans.incorrect_days_count'));
 			return false;
 		}
 		/*
@@ -789,7 +795,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		$this->SetTemplateAction('users/bans.add');
 
 		if (!$oBan = $this->PluginAdmin_Users_GetBanById((int) $this->GetParam(2))) {
-			$this->Message_AddError('Wrong ban id');
+			$this->Message_AddError($this->Lang('errors.bans.wrong_ban_id'));
 			return false;
 		}
 		/*
@@ -820,7 +826,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * Остальные данные уже в удобном формате
 		 */
-		$_REQUEST = array_merge ($_REQUEST, $oBan -> _getDataArray ());
+		$_REQUEST = array_merge($_REQUEST, $oBan -> _getDataArray ());
 	}
 
 

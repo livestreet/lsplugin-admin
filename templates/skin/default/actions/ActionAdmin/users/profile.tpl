@@ -9,7 +9,7 @@
 				<li><a href="{router page='talk/add'}?talk_users={$oUser->getLogin()}">Сообщение</a></li>
 				<li><a href="#">В администраторы</a></li>
 				<li><a href="#">Удалить контент</a></li>
-				<li><a href="#">Блокировать</a></li>
+				<li><a href="{router page='admin/users/bans/add'}?user_id={$oUser->getId()}">Блокировать</a></li>
 
 				<li class="fl-r"><a class="icon-white icon-chevron-right" href="#"></a></li>
 				<li class="fl-r"><a class="icon-white icon-chevron-left" href="#"></a></li>
