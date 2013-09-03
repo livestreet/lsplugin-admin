@@ -91,7 +91,6 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 			$this->iPage,
 			$this->iPerPage
 		);
-		$aUsers = $aResult['collection'];
 
 		/*
 		 * Формируем постраничность
@@ -114,7 +113,8 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		);
 
 		$this->Viewer_Assign('aPaging', $aPaging);
-		$this->Viewer_Assign('aUsers', $aUsers);
+		$this->Viewer_Assign('aUsers', $aResult['collection']);
+		$this->Viewer_Assign('iUsersTotalCount', $aResult['count']);
 		$this->Viewer_Assign('sFullPagePathToEvent', $sFullPagePathToEvent);
 
 		/*
@@ -460,7 +460,6 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 			$this->iPage,
 			$this->iPerPage
 		);
-		$aBans = $aResult['collection'];
 
 		/*
 		 * Формируем постраничность
@@ -483,7 +482,8 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		);
 
 		$this->Viewer_Assign('aPaging', $aPaging);
-		$this->Viewer_Assign('aBans', $aBans);
+		$this->Viewer_Assign('aBans', $aResult['collection']);
+		$this->Viewer_Assign('iBansTotalCount', $aResult['count']);
 		$this->Viewer_Assign('sFullPagePathToEvent', $sFullPagePathToEvent);
 
 		/*

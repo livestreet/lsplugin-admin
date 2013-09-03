@@ -6,7 +6,7 @@
 
 
 {block name='layout_page_title'}
-	{$aLang.plugin.admin.bans.title}
+	{$aLang.plugin.admin.bans.title} <span>{$iBansTotalCount}</span>
 {/block}
 
 

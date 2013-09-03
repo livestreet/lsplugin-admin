@@ -355,9 +355,15 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		$this->Viewer_ClearStyle (true);
 
 		$sFrameworkPath = Config::Get ('path.framework.frontend.web');
-		$aPluginTemplatePath = Plugin::GetTemplatePath (__CLASS__) . 'assets';
+		$sPluginTemplatePath = Plugin::GetTemplatePath (__CLASS__) . 'assets';
 
+		/*
+		 * набор стилей для админки
+		 */
 		$aStyles = array (
+			/*
+			 * стили, задаваемые фреймворком
+			 */
 			$sFrameworkPath . '/css/reset.css',
 			$sFrameworkPath . '/css/helpers.css',
 			$sFrameworkPath . '/css/text.css',
@@ -370,24 +376,34 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$sFrameworkPath . '/css/popover.css',
 			$sFrameworkPath . '/css/alerts.css',
 			$sFrameworkPath . '/css/toolbar.css',
-			$sFrameworkPath . '/js/vendor/jquery-ui/css/smoothness/jquery-ui-1.10.2.custom.css', 				// todo: review
+			$sFrameworkPath . '/js/vendor/jquery-ui/css/smoothness/jquery-ui-1.10.2.custom.css', 			// todo: review (needed for datepicker)
 
-			$aPluginTemplatePath . '/css/base.css',
-			$aPluginTemplatePath . '/css/grid.css',
-			$aPluginTemplatePath . '/css/blocks.css',
-			$aPluginTemplatePath . '/css/pagination.css',
-			$aPluginTemplatePath . '/css/icons.css',
-			$aPluginTemplatePath . '/css/navs.css',
-			$aPluginTemplatePath . '/css/vendor/jquery.notifier.css',
-			$aPluginTemplatePath . '/css/parameters.css',
-			$aPluginTemplatePath . '/css/skins.css',
-			$aPluginTemplatePath . '/css/users.css',
-			$aPluginTemplatePath . '/css/table.css',
-			$aPluginTemplatePath . '/css/buttons.css',
-			$aPluginTemplatePath . '/css/forms.css',
+			/*
+			 * стили плагина
+			 */
+			$sPluginTemplatePath . '/css/base.css',
+			$sPluginTemplatePath . '/css/grid.css',
+			$sPluginTemplatePath . '/css/blocks.css',
+			$sPluginTemplatePath . '/css/pagination.css',
+			$sPluginTemplatePath . '/css/icons.css',
+			$sPluginTemplatePath . '/css/navs.css',
+			$sPluginTemplatePath . '/css/vendor/jquery.notifier.css',
+			$sPluginTemplatePath . '/css/buttons.css',
+			$sPluginTemplatePath . '/css/forms.css',
+
+			$sPluginTemplatePath . '/css/parameters.css',
+			$sPluginTemplatePath . '/css/skins.css',
+			$sPluginTemplatePath . '/css/users.css',
+			$sPluginTemplatePath . '/css/table.css',
 		);
 
+		/*
+		 * скрипты для админки
+		 */
 		$aScripts = array (
+			/*
+			 * скрипты, задаваемые фреймворком
+			 */
 			$sFrameworkPath . '/js/vendor/jquery-1.9.1.min.js',
 			$sFrameworkPath . '/js/vendor/jquery-ui/js/jquery-ui-1.10.2.custom.min.js',
 			$sFrameworkPath . '/js/vendor/jquery-ui/js/localization/jquery-ui-datepicker-ru.js',
@@ -420,14 +436,17 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$sFrameworkPath . '/js/ui/modal.js',
 			$sFrameworkPath . '/js/ui/toolbar.js',
 
-			$aPluginTemplatePath . '/js/init.js',
-			$aPluginTemplatePath . '/js/admin_settings_save.js',
-			$aPluginTemplatePath . '/js/admin_settings_array.js',
-			$aPluginTemplatePath . '/js/admin_misc.js',
+			/*
+			 * скрипты плагина
+			 */
+			$sPluginTemplatePath . '/js/init.js',
+			$sPluginTemplatePath . '/js/admin_settings_save.js',
+			$sPluginTemplatePath . '/js/admin_settings_array.js',
+			$sPluginTemplatePath . '/js/admin_misc.js',
 		);
 
-		array_map (array ($this, 'Viewer_AppendStyle'), $aStyles);
-		array_map (array ($this, 'Viewer_AppendScript'), $aScripts);
+		array_map(array($this, 'Viewer_AppendStyle'), $aStyles);
+		array_map(array($this, 'Viewer_AppendScript'), $aScripts);
 	}
 
 }

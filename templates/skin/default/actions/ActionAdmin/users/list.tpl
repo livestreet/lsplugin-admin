@@ -8,7 +8,7 @@
 
 		<input type="text" class="width-200" value="{$sSearchValue}" id="admin_user_list_search_form_q" placeholder="{$aLang.plugin.admin.users.search}" />
 
-		<select class="width-150" id="admin_user_list_search_form_field" >
+		<select class="width-150" id="admin_user_list_search_form_field">
 			{foreach array_keys($oConfig->GetValue('plugin.admin.user_search_allowed_types')) as $sSearchIn}
 				<option value="{$sSearchIn}" {if $sSearchIn == $sSearchField}selected="selected"{/if}>
 					{$aLang.plugin.admin.users.search_allowed_in.$sSearchIn}
@@ -22,7 +22,7 @@
 
 
 {block name='layout_page_title'}
-	{$aLang.plugin.admin.users.title} <span>1534</span>
+	{$aLang.plugin.admin.users.title} <span>{$iUsersTotalCount}</span>
 {/block}
 
 

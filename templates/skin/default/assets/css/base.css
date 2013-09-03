@@ -89,6 +89,10 @@ a:hover { color: #058; }
 	color: #676767;
 }
 
-.fS-10 {
+.ls-admin .fS-10 {
 	font-size: 10px;
+}
+
+.ls-admin h2.title {
+    font-size: 22px;
 }
