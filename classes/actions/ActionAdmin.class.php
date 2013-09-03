@@ -225,6 +225,11 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 	 */
 	protected function EventIndex() {
 		$this->SetTemplateAction('index');
+		/*
+		 * получить и сохранить последнюю дату входа в админку
+		 */
+		$this->Viewer_Assign('sLastVisit', $this->Storage_Get('admin_last_visit', $this));
+		$this->Storage_Set('admin_last_visit', date("Y-m-d H:i:s"), $this);
 	}
 
 
@@ -402,7 +407,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 */
 		$aScripts = array (
 			/*
-			 * скрипты, задаваемые фреймворком
+			 кририкпты, задаваемые фреймворком
 			 */
 			$sFrameworkPath . '/js/vendor/jquery-1.9.1.min.js',
 			$sFrameworkPath . '/js/vendor/jquery-ui/js/jquery-ui-1.10.2.custom.min.js',

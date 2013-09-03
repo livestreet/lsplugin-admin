@@ -284,12 +284,12 @@ class ModuleStorage extends Module {
 	 */
 	protected function SetOneParam($sKey, $sParamName, $mValue, $sInstance = self::DEFAULT_INSTANCE) {
 		/*
-		 * подготовить значение перед сохранением
+		 * Подготовить значение перед сохранением
 		 */
 		$mValueChecked = $this->PrepareParamValueBeforeSaving($mValue);
 
 		/*
-		 * объеденить с остальными параметрами ключа
+		 * Объеденить с остальными параметрами ключа
 		 */
 		$aParamsContainer = $this->GetParamsAll($sKey, $sInstance);
 		$aParamsContainer[$sParamName] = $mValueChecked;
@@ -464,7 +464,9 @@ class ModuleStorage extends Module {
 	 * @throws Exception	если не объект
 	 */
 	protected function CheckCaller($oCaller) {
-		if (!is_object($oCaller)) throw new Exception('Storage: caller is not correct. Always use "$this"');
+		if (!is_object($oCaller)) {
+			throw new Exception('Storage: caller is not correct. Always use "$this"');
+		}
 	}
 	
 	
