@@ -31,7 +31,12 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 	 * Имя виртуального метода, который будет пойман в __call для групп системных настроек
 	 */
 	protected $sCallbackMethodToShowSystemSettings = 'EventShowSystemSettings';
-	
+
+	/*
+	 * Ключ хранилища, в котором хранится время последнего входа в админку
+	 */
+	const ADMIN_LAST_VISIT_STORAGE_KEY = 'admin_last_visit';
+
 
 	public function Init() {
 		if (!$this->oUserCurrent = $this->User_GetIsAdmin(true)) {
@@ -226,10 +231,9 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 	protected function EventIndex() {
 		$this->SetTemplateAction('index');
 		/*
-		 * получить и сохранить последнюю дату входа в админку
+		 * получить последнюю дату входа в админку
 		 */
-		$this->Viewer_Assign('sLastVisit', $this->Storage_Get('admin_last_visit', $this));
-		$this->Storage_Set('admin_last_visit', date("Y-m-d H:i:s"), $this);
+		$this->Viewer_Assign('sLastVisit', $this->Storage_Get(self::ADMIN_LAST_VISIT_STORAGE_KEY, $this));
 	}
 
 
@@ -290,8 +294,11 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 	/*
 	 * Хелперы
 	 */
-	
-	
+
+
+	/**
+	 * Делает редирект на страницу, с которой пришел запрос
+	 */
 	public function RedirectToReferer() {
 		return Router::Location(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : Router::GetPath('admin'));
 	}
@@ -316,6 +323,11 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		$this->Viewer_AddBlock('right','blocks/block.nav.tpl', array('plugin'=>'admin'));
 
 		$this->PluginAdmin_Ui_HighlightMenus();
+
+		/*
+		 * записать последнюю дату входа в админку
+		 */
+		$this->Storage_Set(self::ADMIN_LAST_VISIT_STORAGE_KEY, date("Y-m-d H:i:s"), $this);
 		
 		/*
 		 * для редактирования настроек плагинов и системы
