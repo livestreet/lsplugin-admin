@@ -7,7 +7,16 @@
 			<ul>
 				<li><a class="icon-white icon-pencil" href="#"></a></li>
 				<li><a href="{router page='talk/add'}?talk_users={$oUser->getLogin()}">Сообщение</a></li>
-				<li><a href="#">В администраторы</a></li>
+
+				{* разрешить менять права админов у пользователей, кроме самого первого в системе с id = 1 *}
+				{if $oUser->getId()!=1}
+					{if $oUser->isAdministrator()}
+						<li><a class="question" href="{router page="admin/users/site_admins/delete/{$oUser->getId()}"}">Удалить из админов</a></li>
+					{else}
+						<li><a class="question" href="{router page="admin/users/site_admins/add/{$oUser->getId()}"}">В администраторы</a></li>
+					{/if}
+				{/if}
+
 				<li><a href="#">Удалить контент</a></li>
 				<li><a href="{router page='admin/users/bans/add'}?user_id={$oUser->getId()}">Блокировать</a></li>
 

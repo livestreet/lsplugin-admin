@@ -416,6 +416,45 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 	}
 
 
+	/**
+	 * Добавить права админа пользователю
+	 *
+	 * @param $iUserId			ид пользователя
+	 * @return array|null
+	 */
+	public function AddAdmin($iUserId) {
+		$sql = 'INSERT INTO
+				`' . Config::Get('db.table.user_administrator') . '`
+			(
+				`user_id`
+			)
+			VALUES
+			(
+				?d
+			)
+		';
+		return $this->oDb->query($sql, $iUserId);
+	}
+
+
+	/**
+	 * Удалить права админа у пользователя
+	 *
+	 * @param $iUserId			ид пользователя
+	 * @return array|null
+	 */
+	public function DeleteAdmin($iUserId) {
+		$sql = 'DELETE
+			FROM
+				`' . Config::Get('db.table.user_administrator') . '`
+			WHERE
+				`user_id` = ?d
+			LIMIT 1
+		';
+		return $this->oDb->query($sql, $iUserId);
+	}
+
+
 }
 
 ?>

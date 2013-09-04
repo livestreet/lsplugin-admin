@@ -513,7 +513,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 			$this->SubmitBan();
 		}
 		/*
-		 * если передан параметр id для бана пользователя
+		 * если передан параметр id для бана пользователя для передачи значения в поле формы
 		 */
 		if ($iUserId = (int) getRequestStr('user_id')) {
 			$_REQUEST['user_sign'] = $iUserId;
@@ -877,6 +877,36 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 			}
 		}
 		$this->Viewer_AssignAjax('sResponse', $sResponse);
+	}
+
+
+	/**
+	 * Управление администраторами
+	 *
+	 * @return bool
+	 */
+	public function EventManageAdmins() {
+		/*
+		 * тип операции - добавление или удаление
+		 */
+		if (!$sType = $this->GetParam(1) or !in_array($sType, array('add', 'delete'))) {
+			$this->Message_AddError($this->Lang('errors.bans.incorrect_admins_action_type'));
+			return false;
+		}
+		/*
+		 * проверка id пользователя (нельзя удалять права админа у пользователя с id = 1)
+		 */
+		if (!$iUserId = (int) $this->GetParam(2) or !$oUser = $this->User_GetUserById($iUserId) or $iUserId == 1) {
+			$this->Message_AddError($this->Lang('errors.bans.incorrect_user_id'));
+			return false;
+		}
+		if ($sType == 'add') {
+			$this->PluginAdmin_Users_AddAdmin($oUser);
+		} else {
+			$this->PluginAdmin_Users_DeleteAdmin($oUser);
+		}
+		$this->Message_AddNotice('Ok', '', true);
+		$this->RedirectToReferer();
 	}
 
 }

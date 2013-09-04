@@ -473,6 +473,32 @@ class PluginAdmin_ModuleUsers extends Module {
 		$this->Storage_Set(self::BAN_STATS_PARAM_NAME, $aStats, $this);
 	}
 
+
+	/**
+	 * Добавить права админа пользователю
+	 *
+	 * @param $oUser		объект пользователя
+	 * @return mixed
+	 */
+	public function AddAdmin($oUser) {
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array('user_update'));
+		$this->Cache_Delete("user_{$oUser->getId()}");
+		return $this->oMapper->AddAdmin($oUser->getId());
+	}
+
+
+	/**
+	 * Удалить права админа у пользователя
+	 *
+	 * @param $oUser		объект пользователя
+	 * @return mixed
+	 */
+	public function DeleteAdmin($oUser) {
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array('user_update'));
+		$this->Cache_Delete("user_{$oUser->getId()}");
+		return $this->oMapper->DeleteAdmin($oUser->getId());
+	}
+
 }
 
 ?>

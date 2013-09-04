@@ -114,11 +114,11 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		/*
 		 * страница информации о пользователе
 		 */
-		$this->AddEventPreg('#^users$#iu', '#^profile#iu', '#^\d{1,5}$#iu', 'Users::EventUserProfile');
+		$this->AddEventPreg('#^users$#iu', '#^profile$#iu', '#^\d{1,5}$#iu', 'Users::EventUserProfile');
 		/*
 		 * просмотр в постраничном режиме за что именно голосовал пользователь
 		 */
-		$this->AddEventPreg('#^users$#iu', '#^votes#iu', '#^\d{1,5}$#iu', 'Users::EventUserVotesList');
+		$this->AddEventPreg('#^users$#iu', '#^votes$#iu', '#^\d{1,5}$#iu', 'Users::EventUserVotesList');
 		/*
 		 * список админов
 		 */
@@ -126,19 +126,23 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		/*
 		 * добавить бан
 		 */
-		$this->AddEventPreg('#^users$#iu', '#^bans#iu', '#^add$#iu', 'Users::EventAddBan');
+		$this->AddEventPreg('#^users$#iu', '#^bans$#iu', '#^add$#iu', 'Users::EventAddBan');
 		/*
 		 * список банов
 		 */
-		$this->AddEventPreg('#^users$#iu', '#^bans#iu', '#^(page(\d{1,5}))?$#iu', 'Users::EventBansList');
+		$this->AddEventPreg('#^users$#iu', '#^bans$#iu', '#^(page(\d{1,5}))?$#iu', 'Users::EventBansList');
 		/*
 		 * редактировать бан
 		 */
-		$this->AddEventPreg('#^users$#iu', '#^bans#iu', '#^edit$#iu', '#^\d++$#iu', 'Users::EventEditBan');
+		$this->AddEventPreg('#^users$#iu', '#^bans$#iu', '#^edit$#iu', '#^\d++$#iu', 'Users::EventEditBan');
 		/*
 		 * удалить бан
 		 */
-		$this->AddEventPreg('#^users$#iu', '#^bans#iu', '#^delete$#iu', '#^\d++$#iu', 'Users::EventDeleteBan');
+		$this->AddEventPreg('#^users$#iu', '#^bans$#iu', '#^delete$#iu', '#^\d++$#iu', 'Users::EventDeleteBan');
+		/*
+		 * добавить или удалить админа
+		 */
+		$this->AddEventPreg('#^users$#iu', '#^site_admins$#iu', '#^(add|delete$)$#iu', '#^\d++$#iu', 'Users::EventManageAdmins');
 
 		/*
 		 * аякс обработчики

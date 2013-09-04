@@ -70,6 +70,8 @@ return array(
 			'incorrect_period_to' => 'Неверная дата финиша (должна быть в формате YYYY-mm-dd)',
 			'period_to_must_be_greater_than_from' => 'Дата финиша должна быть больше даты начала',
 			'incorrect_days_count' => 'Неверно указано количество дней для бана',
+			'incorrect_user_id' => 'Неверный id пользователя',
+			'incorrect_admins_action_type' => 'Некорректная операция с админами',
 		),
 
 	),
