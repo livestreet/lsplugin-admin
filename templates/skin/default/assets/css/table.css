@@ -96,3 +96,13 @@
 	font: 14px/16px Arial;
 	margin-right: 10px;
 }
+
+/* on page select */
+
+.ls-admin .OnPageSelect {
+	float: right;
+}
+
+.ls-admin .OnPageSelect select {
+  vertical-align: middle;
+}

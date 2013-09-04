@@ -26,4 +26,7 @@
 
 #container.no-sidebar #content { width: 100%; margin-right: 0; }
 
-.content-padding { padding: 15px; }
+.content-padding {
+    overflow: hidden;
+    padding: 15px;
+}
