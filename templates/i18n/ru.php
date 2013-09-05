@@ -72,6 +72,7 @@ return array(
 			'incorrect_days_count' => 'Неверно указано количество дней для бана',
 			'incorrect_user_id' => 'Неверный id пользователя',
 			'incorrect_admins_action_type' => 'Некорректная операция с админами',
+			'delete_admin_rights_first' => 'Этот пользователь - администратор. Удалите права админа у пользователя сначала',
 		),
 
 	),
@@ -159,7 +160,7 @@ return array(
 			'votes_type' => array(
 				'topic' => 'топики',
 				'blog' => 'блоги',
-				'user' => 'пользователей',
+				'user' => 'других пользователей',
 				'comment' => 'комментарии',
 			),
 			/*

@@ -455,6 +455,23 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 	}
 
 
+	/**
+	 * Удалить пользователя (без контента)
+	 *
+	 * @param $iUserId			ид пользователя
+	 * @return array|null
+	 */
+	public function DeleteUser($iUserId) {
+		$sql = 'DELETE
+			FROM
+				`' . Config::Get('db.table.user') . '`
+			WHERE
+				`user_id` = ?d
+			LIMIT 1
+		';
+		return $this->oDb->query($sql, $iUserId);
+	}
+
 }
 
 ?>

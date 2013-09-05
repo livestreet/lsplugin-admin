@@ -499,6 +499,128 @@ class PluginAdmin_ModuleUsers extends Module {
 		return $this->oMapper->DeleteAdmin($oUser->getId());
 	}
 
+
+	/**
+	 * Удалить контент пользователя и самого пользователя
+	 *
+	 * @param $oUser		объект пользователя
+	 * @param $bDeleteUser	удалять ли самого пользователя
+	 */
+	public function PerformUserContentDeletion($oUser, $bDeleteUser = false) {
+		/*
+		 * блокировать пользователя перед удалением данных. Например, если это бот,
+		 * то чтобы не получилось одновременно удаление и набивание им контента на сайте
+		 */
+		$iBanId = $this->BanUserPermanently($oUser);
+		/*
+		 * выполнить непосредственное удаление контента
+		 */
+		$this->DeleteUserContent($oUser);
+		/*
+		 * удаление самого пользователя из сайта
+		 */
+		if ($bDeleteUser) {
+			$this->oMapper->DeleteUser($oUser->getId());
+		}
+		/*
+		 * удалить временную блокировку пользователя
+		 */
+		$this->DeleteBanById($iBanId);
+	}
+
+
+	/**
+	 * Заблокировать пользователя (постоянный бан)
+	 *
+	 * @param $oUser			объект пользователя
+	 * @return bool|mixed
+	 */
+	protected function BanUserPermanently($oUser) {
+		$oEnt = Engine::GetEntity('PluginAdmin_Users_Ban');
+		/*
+		 * тип блокировки
+		 */
+		$oEnt->setBlockType(PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_USER_ID);
+		$oEnt->setUserId($oUser->getId());
+		/*
+		 * тип временного интервала блокировки
+		 */
+		$oEnt->setTimeType(PluginAdmin_ModuleUsers::BAN_TIME_TYPE_PERMANENT);
+		$oEnt->setDateStart('2000-01-01');
+		$oEnt->setDateFinish('2030-01-01');
+		/*
+		 * дата создания и редактирования
+		 */
+		$oEnt->setAddDate(date('Y-m-d H:i:s'));
+		$oEnt->setEditDate(date('Y-m-d H:i:s'));
+		/*
+		 * причина бана и комментарий
+		 */
+		$oEnt->setReasonForUser('admin: auto blocking before deleting content');
+		$oEnt->setComment($oEnt->getReasonForUser());
+
+		/*
+		 * валидация внесенных данных
+		 */
+		if (!$oEnt -> _Validate ()) {
+			$this -> Message_AddError ($oEnt -> _getValidateError ());
+			return false;
+		}
+		return $this->AddBanRecord($oEnt);
+	}
+
+
+	/**
+	 * Удалить весь контент пользователя
+	 *
+	 * @param $oUser		объект пользователя
+	 */
+	protected function DeleteUserContent($oUser) {
+		/*
+		 * вызов хука для удаления контента от плагинов сторонних разработчиков
+		 */
+		$this->Hook_Run('admin_delete_content_before', array('oUser' => $oUser));
+		/*
+		 * сначала удалить блоги и топики чтобы избежать самоблокировок таблиц
+		 */
+		if ($aBlogsId = $this -> Blog_GetBlogsByOwnerId($oUser->getId(), true)) {
+			foreach ($aBlogsId as $iBlogId) {
+				$this->Blog_DeleteBlog($iBlogId);
+			}
+		}
+		/*
+		 * удалить персональный блог
+		 */
+		if ($oBlog = $this->Blog_GetPersonalBlogByUserId($oUser->getId())) {
+			$this->Blog_DeleteBlog($oBlog->GetId());
+		}
+		/*
+		 * удаление личных сообщений
+		 */
+		$aTalks = $this->Talk_GetTalksByFilter(array('user_id' => $oUser->getId()), 1, PHP_INT_MAX);
+		if ($aTalks ['count']) {
+			$aTalksId = array();
+			foreach ($aTalks['collection'] as $oTalk) {
+				$aTalksId[] = $oTalk->getId();
+			}
+			if ($aTalksId) {
+				$this->Talk_DeleteTalkUserByArray($aTalksId, $oUser->getId());
+			}
+		}
+		/*
+		 * удалить голоса пользователя
+		 */
+		$this -> Vote_DeleteVoteByTarget ($oUser->getId(), 'user');
+		/*
+		 * вызов хука для удаления контента от плагинов сторонних разработчиков
+		 */
+		$this->Hook_Run('admin_delete_content_after', array('oUser' => $oUser));
+		/*
+		 * удалить весь кеш - слишком много зависимостей
+		 */
+		$this->Cache_Clean();
+	}
+
 }
 
 ?>

@@ -162,3 +162,8 @@
 .icon-contact-facebook		{ background-position: -160px 0; }
 .icon-contact-odnoklassniki	{ background-position: -180px 0; }
 .icon-contact-www			{ background-position: -200px 0; }
+
+/*
+  special for ls-admin
+*/
+.icon-user-admin               { background-position: -168px 0; }

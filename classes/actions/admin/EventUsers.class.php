@@ -886,6 +886,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	 * @return bool
 	 */
 	public function EventManageAdmins() {
+		$this->Security_ValidateSendForm();
 		/*
 		 * тип операции - добавление или удаление
 		 */
@@ -905,6 +906,43 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		} else {
 			$this->PluginAdmin_Users_DeleteAdmin($oUser);
 		}
+		$this->Message_AddNotice('Ok', '', true);
+		$this->RedirectToReferer();
+	}
+
+
+	/**
+	 * Удалить контент пользователя, который он создал и самого пользователя
+	 *
+	 * @return bool
+	 */
+	public function EventDeleteUserContent() {
+		$this->Security_ValidateSendForm();
+		/*
+		 * тип операции - удаление только контента или вместе с самим пользователем
+		 */
+		if (!$sType = $this->GetParam(0) or !in_array($sType, array('deletecontent', 'deleteuser'))) {
+			$this->Message_AddError($this->Lang('errors.bans.incorrect_admins_action_type'));
+			return false;
+		}
+		/*
+		 * проверка id пользователя (нельзя удалять контент у пользователя с id = 1)
+		 */
+		if (!$iUserId = (int) $this->GetParam(1) or !$oUser = $this->User_GetUserById($iUserId) or $iUserId == 1) {
+			$this->Message_AddError($this->Lang('errors.bans.incorrect_user_id'));
+			return false;
+		}
+		/*
+		 * проверка на администратора
+		 */
+		if ($oUser->isAdministrator()) {
+			$this->Message_AddError($this->Lang('errors.bans.delete_admin_rights_first'));
+			return false;
+		}
+		/*
+		 * удаление контента и пользователя
+		 */
+		$this->PluginAdmin_Users_PerformUserContentDeletion($oUser, ($sType == 'deleteuser' ? true : false));
 		$this->Message_AddNotice('Ok', '', true);
 		$this->RedirectToReferer();
 	}

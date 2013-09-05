@@ -11,13 +11,14 @@
 				{* разрешить менять права админов у пользователей, кроме самого первого в системе с id = 1 *}
 				{if $oUser->getId()!=1}
 					{if $oUser->isAdministrator()}
-						<li><a class="question" href="{router page="admin/users/site_admins/delete/{$oUser->getId()}"}">Удалить из админов</a></li>
+						<li><a class="question" href="{router page="admin/users/site_admins/delete/{$oUser->getId()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}">Удалить из админов</a></li>
 					{else}
-						<li><a class="question" href="{router page="admin/users/site_admins/add/{$oUser->getId()}"}">В администраторы</a></li>
+						<li><a class="question" href="{router page="admin/users/site_admins/add/{$oUser->getId()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}">В администраторы</a></li>
 					{/if}
 				{/if}
 
-				<li><a href="#">Удалить контент</a></li>
+				<li><a class="question" href="{router page="admin/users/deletecontent/{$oUser->getId()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}">Удалить контент</a></li>
+				<li><a class="question" href="{router page="admin/users/deleteuser/{$oUser->getId()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}">Удалить пользователя</a></li>
 				<li><a href="{router page='admin/users/bans/add'}?user_id={$oUser->getId()}">Блокировать</a></li>
 
 				<li class="fl-r"><a class="icon-white icon-chevron-right" href="#"></a></li>
@@ -51,6 +52,9 @@
 					<div class="names {if !$oUser->getProfileName()}no-realname{/if}">
 						<p class="username word-wrap">
 							<a href="{$oUser->getUserWebPath()}">{$oUser->getLogin()}</a>
+							{if $oUser->isAdministrator()}
+								<i class="icon-user-admin" title="Admin"></i>
+							{/if}
 						</p>
 						{if $oUser->getProfileName()}
 							<p class="realname">{$oUser->getProfileName()}</p>

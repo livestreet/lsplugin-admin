@@ -90,7 +90,7 @@
 							<p class="username word-wrap">
 								<a href="{router page="admin/users/profile/{$oUser->getId()}"}">{$oUser->getLogin()}</a>
 								{if $oUser->isAdministrator()}
-									<i class="icon-user" title="Admin"></i>
+									<i class="icon-user-admin" title="Admin"></i>
 								{/if}
 							</p>
 							{if $oUser->getProfileName()}
