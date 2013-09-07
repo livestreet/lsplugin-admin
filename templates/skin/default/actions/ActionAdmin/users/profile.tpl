@@ -8,18 +8,17 @@
 				<li><a class="icon-white icon-pencil" href="#"></a></li>
 				<li><a href="{router page='talk/add'}?talk_users={$oUser->getLogin()}">Сообщение</a></li>
 
-				{* разрешить менять права админов у пользователей, кроме самого первого в системе с id = 1 *}
+				{* разрешить операция для всех пользователей, кроме самого первого в системе с id = 1 *}
 				{if $oUser->getId()!=1}
 					{if $oUser->isAdministrator()}
 						<li><a class="question" href="{router page="admin/users/site_admins/delete/{$oUser->getId()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}">Удалить из админов</a></li>
 					{else}
 						<li><a class="question" href="{router page="admin/users/site_admins/add/{$oUser->getId()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}">В администраторы</a></li>
 					{/if}
+					<li><a class="question" href="{router page="admin/users/deletecontent/{$oUser->getId()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}">Удалить контент</a></li>
+					<li><a class="question" href="{router page="admin/users/deleteuser/{$oUser->getId()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}">Удалить пользователя</a></li>
+					<li><a href="{router page='admin/users/bans/add'}?user_id={$oUser->getId()}">Блокировать</a></li>
 				{/if}
-
-				<li><a class="question" href="{router page="admin/users/deletecontent/{$oUser->getId()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}">Удалить контент</a></li>
-				<li><a class="question" href="{router page="admin/users/deleteuser/{$oUser->getId()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}">Удалить пользователя</a></li>
-				<li><a href="{router page='admin/users/bans/add'}?user_id={$oUser->getId()}">Блокировать</a></li>
 
 				<li class="fl-r"><a class="icon-white icon-chevron-right" href="#"></a></li>
 				<li class="fl-r"><a class="icon-white icon-chevron-left" href="#"></a></li>

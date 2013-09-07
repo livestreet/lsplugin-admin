@@ -241,7 +241,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		/*
 		 * получить последнюю дату входа в админку
 		 */
-		$this->Viewer_Assign('sLastVisit', $this->Storage_Get(self::ADMIN_LAST_VISIT_STORAGE_KEY, $this));
+		$this->Viewer_Assign('sLastVisit', $this->Storage_Get($this->GetAdminLastVisitKeyForUser(), $this));
 	}
 
 
@@ -333,15 +333,25 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		$this->PluginAdmin_Ui_HighlightMenus();
 
 		/*
-		 * записать последнюю дату входа в админку
+		 * записать последнюю дату входа пользователя в админку
 		 */
-		$this->Storage_Set(self::ADMIN_LAST_VISIT_STORAGE_KEY, date("Y-m-d H:i:s"), $this);
+		$this->Storage_Set($this->GetAdminLastVisitKeyForUser(), date("Y-m-d H:i:s"), $this);
 		
 		/*
 		 * для редактирования настроек плагинов и системы
 		 */
 		$this->Viewer_Assign('sAdminSettingsFormSystemId', PluginAdmin_ModuleSettings::ADMIN_SETTINGS_FORM_SYSTEM_ID);
 		$this->Viewer_Assign('sAdminSystemConfigId', ModuleStorage::DEFAULT_KEY_NAME);
+	}
+
+
+	/**
+	 * Возвращает ключ последнего визита для текущего пользователя
+	 *
+	 * @return string
+	 */
+	protected function GetAdminLastVisitKeyForUser() {
+		return self::ADMIN_LAST_VISIT_STORAGE_KEY . '_' . $this->oUserCurrent->getId();
 	}
 
 
