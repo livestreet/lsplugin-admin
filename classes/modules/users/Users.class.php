@@ -39,6 +39,11 @@ class PluginAdmin_ModuleUsers extends Module {
 	 */
 	const BAN_STATS_PARAM_NAME = 'users_bans_stats';
 
+	/*
+	 * Ключ хранилища, в котором хранится время последнего входа в админку и айпи последнего входа
+	 */
+	const ADMIN_LAST_VISIT_DATA_STORAGE_KEY = 'admin_last_visit_data';
+
 	protected $oMapper = null;
 
 	/*
@@ -619,6 +624,51 @@ class PluginAdmin_ModuleUsers extends Module {
 		 * удалить весь кеш - слишком много зависимостей
 		 */
 		$this->Cache_Clean();
+	}
+
+
+	/**
+	 * Возвращает данные последнего входа на основе даты и ip
+	 *
+	 * @return array
+	 */
+	public function GetLastVisitData() {
+		$aData = (array) $this->Storage_Get($this->GetAdminLastVisitKeyForUser(), $this);
+		if (isset($aData['ip'])) {
+			/*
+			 * текущий ip не изменился с момента прошлого входа
+			 */
+			$aData['same_ip'] = func_getIp() == $aData['ip'];
+		}
+		return $aData;
+	}
+
+
+	/**
+	 * Возвращает имя параметра данных последнего визита хранилища для текущего пользователя
+	 *
+	 * @return string
+	 */
+	protected function GetAdminLastVisitKeyForUser() {
+		return self::ADMIN_LAST_VISIT_DATA_STORAGE_KEY . '_' . $this->User_GetUserCurrent()->getId();
+	}
+
+
+	/**
+	 * записать данные последнего входа пользователя в админку
+	 */
+	public function SetLastVisitData() {
+		$aData = array(
+			/*
+			 * дата последнего входа
+			 */
+			'date' => date("Y-m-d H:i:s"),
+			/*
+			 * ip последнего входа
+			 */
+			'ip' => func_getIp(),
+		);
+		$this->Storage_Set($this->GetAdminLastVisitKeyForUser(), $aData, $this);
 	}
 
 }

@@ -32,11 +32,6 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 	 */
 	protected $sCallbackMethodToShowSystemSettings = 'EventShowSystemSettings';
 
-	/*
-	 * Ключ хранилища, в котором хранится время последнего входа в админку
-	 */
-	const ADMIN_LAST_VISIT_STORAGE_KEY = 'admin_last_visit';
-
 
 	public function Init() {
 		if (!$this->oUserCurrent = $this->User_GetIsAdmin(true)) {
@@ -239,9 +234,9 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 	protected function EventIndex() {
 		$this->SetTemplateAction('index');
 		/*
-		 * получить последнюю дату входа в админку
+		 * получить данные последнего входа в админку
 		 */
-		$this->Viewer_Assign('sLastVisit', $this->Storage_Get($this->GetAdminLastVisitKeyForUser(), $this));
+		$this->Viewer_Assign('aLastVisitData', $this->PluginAdmin_Users_GetLastVisitData());
 	}
 
 
@@ -333,25 +328,15 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		$this->PluginAdmin_Ui_HighlightMenus();
 
 		/*
-		 * записать последнюю дату входа пользователя в админку
+		 * записать данные последнего входа пользователя в админку
 		 */
-		$this->Storage_Set($this->GetAdminLastVisitKeyForUser(), date("Y-m-d H:i:s"), $this);
-		
+		$this->PluginAdmin_Users_SetLastVisitData();
+
 		/*
 		 * для редактирования настроек плагинов и системы
 		 */
 		$this->Viewer_Assign('sAdminSettingsFormSystemId', PluginAdmin_ModuleSettings::ADMIN_SETTINGS_FORM_SYSTEM_ID);
 		$this->Viewer_Assign('sAdminSystemConfigId', ModuleStorage::DEFAULT_KEY_NAME);
-	}
-
-
-	/**
-	 * Возвращает ключ последнего визита для текущего пользователя
-	 *
-	 * @return string
-	 */
-	protected function GetAdminLastVisitKeyForUser() {
-		return self::ADMIN_LAST_VISIT_STORAGE_KEY . '_' . $this->oUserCurrent->getId();
 	}
 
 
