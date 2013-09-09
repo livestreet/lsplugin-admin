@@ -973,6 +973,15 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		$this->RedirectToReferer();
 	}
 
+
+	/**
+	 * статистика пользователей
+	 */
+	public function EventShowUserStats() {
+		$this->SetTemplateAction('users/stats');
+
+	}
+
 }
 
 ?>

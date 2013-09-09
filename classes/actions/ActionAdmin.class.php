@@ -139,9 +139,13 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 */
 		$this->AddEventPreg('#^users$#iu', '#^site_admins$#iu', '#^(add|delete$)$#iu', '#^\d++$#iu', 'Users::EventManageAdmins');
 		/*
-		 * удалить контент и пользователя пользователя
+		 * удалить контент пользователя и самого пользователя
 		 */
 		$this->AddEventPreg('#^users$#iu', '#^(deletecontent|deleteuser)$#iu', '#^\d++$#iu', 'Users::EventDeleteUserContent');
+		/*
+		 * статистика пользователей
+		 */
+		$this->AddEventPreg('#^users$#iu', '#^stats$#iu', 'Users::EventShowUserStats');
 
 		/*
 		 * аякс обработчики
