@@ -12,6 +12,14 @@
 
 {block name='layout_content'}
 	<div class="ban-list">
+		<div class="mb-20">
+			<a class="button {if $sBanSelectType=='all'}button-primary{/if}"
+			   href="{router page='admin/users/bans'}">{$aLang.plugin.admin.bans.filter.all}</a>
+			<a class="button {if $sBanSelectType=='permanent'}button-primary{/if}"
+			   href="{router page='admin/users/bans/permanent'}">{$aLang.plugin.admin.bans.filter.permanent}</a>
+			<a class="button {if $sBanSelectType=='period'}button-primary{/if}"
+			   href="{router page='admin/users/bans/period'}">{$aLang.plugin.admin.bans.filter.period}</a>
+		</div>
 
 		{if $aBans and count($aBans)>0}
 			<table class="table table-sorting">

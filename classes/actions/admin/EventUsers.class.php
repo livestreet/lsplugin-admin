@@ -436,9 +436,34 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	 */
 	public function EventBansList() {
 		$this->SetTemplateAction('users/bans');
-		$this->SetPaging(1, 'bans.per_page');
+		$this->SetPaging(2, 'bans.per_page');
 
-		$sFullPagePathToEvent = Router::GetPath('admin/users/bans');
+		/*
+		 * нужный тип банов
+		 */
+		$sBanType = $this->GetParam(1);
+		$aSearchRule = array();
+		if ($sBanType == 'permanent') {
+			/*
+			 * показывать только постоянные баны
+			 */
+			$aSearchRule = array('time_type' => PluginAdmin_ModuleUsers::BAN_TIME_TYPE_PERMANENT);
+		} elseif ($sBanType == 'period') {
+			/*
+			 * показать временные баны
+			 */
+			$aSearchRule = array('time_type' => PluginAdmin_ModuleUsers::BAN_TIME_TYPE_PERIOD);
+		} else {
+			/*
+			 * показывать все баны
+			 */
+			$sBanType = 'all';
+		}
+
+		/*
+		 * полный путь к данному действию (для пагинации и сортировки)
+		 */
+		$sFullPagePathToEvent = Router::GetPath('admin/users/bans/' . $sBanType);
 
 		/*
 		 * получить фильтр, хранящий в себе все параметры (поиска и сортировки)
@@ -455,7 +480,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 * получение списка банов
 		 */
 		$aResult = $this->PluginAdmin_Users_GetBansByFilter(
-			array(),	// todo: review: delete (filter)
+			$aSearchRule,
 			array($sOrder => $sWay),
 			$this->iPage,
 			$this->iPerPage
@@ -476,7 +501,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 						'order_field' => $sOrder,
 						'order_way' => $sWay
 					),
-					array()	// todo: review: delete (search)
+					$aSearchRule
 				)
 			)
 		);
@@ -485,6 +510,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		$this->Viewer_Assign('aBans', $aResult['collection']);
 		$this->Viewer_Assign('iBansTotalCount', $aResult['count']);
 		$this->Viewer_Assign('sFullPagePathToEvent', $sFullPagePathToEvent);
+		$this->Viewer_Assign('sBanSelectType', $sBanType);
 
 		/*
 		 * сортировка

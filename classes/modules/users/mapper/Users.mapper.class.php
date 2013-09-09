@@ -275,6 +275,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 			WHERE
 				1 = 1
 				{AND `id` = ?d}
+				{AND `time_type` = ?d}
 			ORDER BY
 				{$sOrder}
 			LIMIT ?d, ?d
@@ -284,6 +285,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 
 		if ($aData = $this->oDb->selectPage($iTotalCount, $sql,
 			(isset($aFilter['id']) ? $aFilter['id'] : DBSIMPLE_SKIP),
+			(isset($aFilter['time_type']) ? $aFilter['time_type'] : DBSIMPLE_SKIP),
 			($iPage - 1) * $iPerPage,
 			$iPerPage
 		)) {
