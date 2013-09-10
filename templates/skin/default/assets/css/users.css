@@ -377,3 +377,48 @@
 	font-size: 11px;
 	line-height: 28px;
 }
+
+/* users stats */
+
+.ls-admin .users-stats-headline {
+	font-size: 11px;
+	text-align: center;
+}
+
+.ls-admin .users-stats-headline .count {
+	font-size: 20px;
+}
+
+.ls-admin .users-stats {
+	margin: 10px 0;
+}
+
+.ls-admin .users-stats .graph {
+	background: #EBFBFF;
+	height: 100px;
+	margin-bottom: 20px;
+	padding: 20px;
+}
+
+.ls-admin .users-stats .value-in-table {
+	margin-bottom: 20px;
+}
+
+.ls-admin .users-stats .stat-line {
+	clear: both;
+	overflow: hidden;
+}
+
+.ls-admin .users-stats .stat-line .w50p {
+	float: left;
+	width: 50%;
+}
+
+.ls-admin .users-stats h3 {
+	font-size: 22px;
+	margin-bottom: 15px;
+}
+
+.ls-admin .users-stats .stat-line table {
+	border: none;
+}

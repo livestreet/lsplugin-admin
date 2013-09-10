@@ -980,6 +980,10 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	public function EventShowUserStats() {
 		$this->SetTemplateAction('users/stats');
 
+		/*
+		 * получить базовую статистику
+		 */
+		$this->Viewer_Assign('aStats', $this->User_GetStatUsers());
 	}
 
 }

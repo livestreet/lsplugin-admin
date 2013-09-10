@@ -34,7 +34,16 @@ a:hover { color: #058; }
 .h5 { font-size: 20px; }
 .h6 { font-size: 18px; }
 
-.page-header		{ color: #333; font-size: 27px; line-height: 1em; font-weight: 400; font-family: 'Open Sans'; margin-bottom: 20px; }
+
+.page-header {
+    color: #333333;
+    font-family: 'Open Sans';
+    font-size: 27px;
+    font-weight: 400;
+    line-height: 1em;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
 .page-header span	{ color: #999; font-weight: 300; }
 
 
