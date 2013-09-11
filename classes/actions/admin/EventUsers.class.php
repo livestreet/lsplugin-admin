@@ -984,6 +984,10 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 * получить базовую статистику
 		 */
 		$this->Viewer_Assign('aStats', $this->User_GetStatUsers());
+		/*
+		 * получить возрастное распределение
+		 */
+		$this->Viewer_Assign('aBirthdaysStats', $this->PluginAdmin_Users_GetUsersBirthdaysStats());
 	}
 
 }

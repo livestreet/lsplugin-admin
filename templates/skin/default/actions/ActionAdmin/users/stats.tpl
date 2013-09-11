@@ -122,10 +122,37 @@
 
 			</div>
 		</div>
-		<div class="yearsold">
-			<h3>Возрастное распределение</h3>
-			график 2
-		</div>
+		{if $aBirthdaysStats and $aBirthdaysStats.collection and count($aBirthdaysStats.collection)>0}
+			<div class="users-age">
+				<h3>Возрастное распределение</h3>
+				<ul class="age-stats">
+					{foreach from=$aBirthdaysStats.collection item=aAgeRecord name=AgeCycle}
+						{*
+							высота столбика в процентах
+						*}
+						{assign var=iHeight value=$aAgeRecord.count*100/$aBirthdaysStats.max_one_age_users_count}
+						{*
+							смещение каждого столбика и подписи в пикселях относительно соседа на 15px
+						*}
+						{assign var=iOffset value=$smarty.foreach.AgeCycle.index*15}
+						<li class="holder">
+							{*
+								задать высоту и смещение каждого столбика относительно соседа
+							*}
+							<div class="age-item" style="height: {$iHeight}%; left: {$iOffset}px;" title="{$aAgeRecord.count} пользователей"></div>
+							{*
+								сделать подпись к столбику и смещение каждой подписи относительно соседа,
+								каждая вторая запись будет немного светлее чтобы цифры не сливались в кашу
+							*}
+							<div class="years {if $smarty.foreach.AgeCycle.iteration % 2 == 0}second{/if}"
+								 style="left: {$iOffset}px;" title="{$aAgeRecord.count} пользователей">
+								{$aAgeRecord.years_old}
+							</div>
+						</li>
+					{/foreach}
+				</ul>
+			</div>
+		{/if}
 		<div class="countries-n-cities">
 			<h3>Страны и города</h3>
 			вывод стран

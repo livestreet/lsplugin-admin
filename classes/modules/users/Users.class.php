@@ -671,6 +671,28 @@ class PluginAdmin_ModuleUsers extends Module {
 		$this->Storage_Set($this->GetAdminLastVisitKeyForUser(), $aData, $this);
 	}
 
+
+	/**
+	 * Получить статистику пользователей по возрасту
+	 *
+	 * @return mixed
+	 */
+	public function GetUsersBirthdaysStats() {
+		/*
+		 * кешировать здесь нечего - т.к. выборка идет по всей таблице, а данные пользователей меняются очень часто,
+		 * то смысла в кешировании нет, т.к. кеш будет постоянно сбрасываться, только лишние операции
+		 */
+		$aData = $this->oMapper->GetUsersBirthdaysStats();
+		$iMaxOneAgeUsersCount = 0;
+		foreach ($aData as $aItem) {
+			if ($aItem['count'] > $iMaxOneAgeUsersCount) $iMaxOneAgeUsersCount = $aItem['count'];
+		}
+		return array(
+			'collection' => $aData,
+			'max_one_age_users_count' => $iMaxOneAgeUsersCount
+		);
+	}
+
 }
 
 ?>

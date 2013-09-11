@@ -474,6 +474,42 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 		return $this->oDb->query($sql, $iUserId);
 	}
 
+
+	/**
+	 * Получить статистику пользователей по возрасту
+	 *
+	 * @return array|null
+	 */
+	public function GetUsersBirthdaysStats() {
+		$sql = 'SELECT
+				TIMESTAMPDIFF(YEAR, `user_profile_birthday`, NOW()) as years_old,
+				count(*) as count
+			FROM
+				`' . Config::Get('db.table.user') . '`
+			WHERE
+				`user_activate` = 1
+				AND
+				`user_profile_birthday` IS NOT NULL
+				AND
+				`user_id` NOT IN (
+					SELECT
+						`user_id`
+					FROM
+						`' . Config::Get('db.table.users_ban') . '`
+					WHERE
+						`block_type` = ?d
+				)
+			GROUP BY
+				years_old
+			ORDER BY
+				years_old ASC
+		';
+		if ($aResult = $this->oDb->query($sql, PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_USER_ID)) {
+			return $aResult;
+		}
+		return array();
+	}
+
 }
 
 ?>
