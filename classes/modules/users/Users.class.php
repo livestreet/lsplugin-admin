@@ -683,6 +683,9 @@ class PluginAdmin_ModuleUsers extends Module {
 		 * то смысла в кешировании нет, т.к. кеш будет постоянно сбрасываться, только лишние операции
 		 */
 		$aData = $this->oMapper->GetUsersBirthdaysStats();
+		/*
+		 * получить максимальное значение пользователей одного возраста для расчетов при выводе графиков
+		 */
 		$iMaxOneAgeUsersCount = 0;
 		foreach ($aData as $aItem) {
 			if ($aItem['count'] > $iMaxOneAgeUsersCount) $iMaxOneAgeUsersCount = $aItem['count'];
@@ -691,6 +694,37 @@ class PluginAdmin_ModuleUsers extends Module {
 			'collection' => $aData,
 			'max_one_age_users_count' => $iMaxOneAgeUsersCount
 		);
+	}
+
+
+	/**
+	 * Получить статистику стран или городов
+	 *
+	 * @param $sLivingSection	тип разреза: страны или города
+	 * @return mixed
+	 */
+	public function GetUsersLivingStats($sLivingSection) {
+		/*
+		 * кешировать здесь нечего - т.к. выборка идет по всей таблице, а данные пользователей меняются очень часто,
+		 * то смысла в кешировании нет, т.к. кеш будет постоянно сбрасываться, только лишние операции
+		 */
+		return array(
+			'collection' => $this->oMapper->GetUsersLivingStats($this->GetLivingStatsSQLCondition($sLivingSection))
+		);
+	}
+
+
+	/**
+	 * Получение поля таблицы по которому нужно отобрать и сгруппировать данные для показа
+	 *
+	 * @param $sLivingSection	разрез отбора
+	 * @return string
+	 */
+	protected function GetLivingStatsSQLCondition($sLivingSection) {
+		if ($sLivingSection == 'cities') {
+			return 'user_profile_city';
+		}
+		return 'user_profile_country';
 	}
 
 }

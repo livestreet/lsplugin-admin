@@ -975,10 +975,17 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 
 
 	/**
-	 * статистика пользователей
+	 * Статистика пользователей
 	 */
 	public function EventShowUserStats() {
 		$this->SetTemplateAction('users/stats');
+
+		/*
+		 * если не указано показывать статистику по городам - показать по странам
+		 */
+		if (!$sLivingSection = getRequestStr('living_section') or $sLivingSection != 'cities') {
+			$sLivingSection = 'countries';
+		}
 
 		/*
 		 * получить базовую статистику
@@ -988,6 +995,14 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 * получить возрастное распределение
 		 */
 		$this->Viewer_Assign('aBirthdaysStats', $this->PluginAdmin_Users_GetUsersBirthdaysStats());
+		/*
+		 * получить статистику стран или городов
+		 */
+		$this->Viewer_Assign('aLivingStats', $this->PluginAdmin_Users_GetUsersLivingStats($sLivingSection));
+		/*
+		 * тип текущего отображения: страны или города
+		 */
+		$this->Viewer_Assign('sCurrentLivingSection', $sLivingSection);
 	}
 
 }

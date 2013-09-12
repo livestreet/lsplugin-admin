@@ -500,9 +500,46 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 						`block_type` = ?d
 				)
 			GROUP BY
-				years_old
+				`years_old`
 			ORDER BY
-				years_old ASC
+				`years_old` ASC
+		';
+		if ($aResult = $this->oDb->query($sql, PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_USER_ID)) {
+			return $aResult;
+		}
+		return array();
+	}
+
+
+	/**
+	 * Получить статистику пользователей по странам или городам
+	 *
+	 * @param	$sGroupRule		разрез группировки
+	 * @return array|null
+	 */
+	public function GetUsersLivingStats($sGroupRule) {
+		$sql = 'SELECT
+				`' . $sGroupRule . '` as item,
+				count(*) AS count
+			FROM
+				`' . Config::Get('db.table.user') . '`
+			WHERE
+				`user_activate` = 1
+				AND
+				`' . $sGroupRule . '` IS NOT NULL
+				AND
+				`user_id` NOT IN (
+					SELECT
+						`user_id`
+					FROM
+						`' . Config::Get('db.table.users_ban') . '`
+					WHERE
+						`block_type` = ?d
+				)
+			GROUP BY
+				`' . $sGroupRule . '`
+			ORDER BY
+				`count` DESC
 		';
 		if ($aResult = $this->oDb->query($sql, PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_USER_ID)) {
 			return $aResult;

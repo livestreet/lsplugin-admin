@@ -125,6 +125,11 @@
 		{if $aBirthdaysStats and $aBirthdaysStats.collection and count($aBirthdaysStats.collection)>0}
 			<div class="users-age">
 				<h3>Возрастное распределение</h3>
+				{if count($aBirthdaysStats.collection)<100}
+					<div class="mb-20">
+						У вас очень мало пользователей либо сайт ещё слишком молод чтобы показать красивый график.
+					</div>
+				{/if}
 				<ul class="age-stats">
 					{foreach from=$aBirthdaysStats.collection item=aAgeRecord name=AgeCycle}
 						{*
@@ -153,10 +158,54 @@
 				</ul>
 			</div>
 		{/if}
-		<div class="countries-n-cities">
-			<h3>Страны и города</h3>
-			вывод стран
-		</div>
+
+		{if $aLivingStats and $aLivingStats.collection and count($aLivingStats.collection)>0}
+			<div class="countries-n-cities">
+				<h3>
+					{if $sCurrentLivingSection=='countries'}
+						Страны и <a href="{router page='admin/users/stats'}?living_section=cities">города</a>
+					{elseif $sCurrentLivingSection=='cities'}
+						<a href="{router page='admin/users/stats'}">Страны</a> и города
+					{/if}
+				</h3>
+
+				{if count($aLivingStats.collection)<100}
+					<div class="mb-20">
+						У вас очень мало пользователей либо сайт ещё слишком молод чтобы показать красивый график.
+					</div>
+				{/if}
+				<table class="items">
+					<thead></thead>
+					<tbody>
+						{foreach from=$aLivingStats.collection item=aItemRecord name=ItemsCycle}
+							{*
+								длина столбика в процентах
+							*}
+							{assign var=iPercentage value=number_format($aItemRecord.count*100/$aStats.count_all, 2, '.', '')}
+							<tr {if $smarty.foreach.ItemsCycle.iteration % 2 == 0}class="second"{/if}>
+								<td class="item">
+									{$aItemRecord.item}
+								</td>
+								<td class="count">
+									{$aItemRecord.count}
+								</td>
+								<td class="percentage">
+									{$iPercentage} %
+								</td>
+								<td class="diagram">
+									{*
+										задать ширину каждого столбика
+									*}
+									<div class="view-item-wrapper">
+										<div class="view-item" style="width: {$iPercentage}%;" title="{$aItemRecord.count} пользователей"></div>
+									</div>
+								</td>
+							</tr>
+						{/foreach}
+					</tbody>
+				</table>
+			</div>
+		{/if}
 
 	</div>
 
