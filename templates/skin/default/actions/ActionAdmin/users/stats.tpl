@@ -169,7 +169,7 @@
 
 					<a href="{router page='admin/users/stats'}{request_filter
 					name=array('sorting')
-					value=array('top')
+					value=array(null)
 					}" class="button {if $sSorting=='top'}active{/if}">3-2-1 &darr;</a>
 				</div>
 				<h3>
