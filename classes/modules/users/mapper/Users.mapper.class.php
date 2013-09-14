@@ -515,9 +515,10 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 	 * Получить статистику пользователей по странам или городам
 	 *
 	 * @param	$sGroupRule		разрез группировки
+	 * @param	$sOrderBy		сортировка
 	 * @return array|null
 	 */
-	public function GetUsersLivingStats($sGroupRule) {
+	public function GetUsersLivingStats($sGroupRule, $sOrderBy) {
 		$sql = 'SELECT
 				`' . $sGroupRule . '` as item,
 				count(*) AS count
@@ -539,7 +540,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 			GROUP BY
 				`' . $sGroupRule . '`
 			ORDER BY
-				`count` DESC
+				`' . $sOrderBy . '` DESC
 		';
 		if ($aResult = $this->oDb->query($sql, PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_USER_ID)) {
 			return $aResult;

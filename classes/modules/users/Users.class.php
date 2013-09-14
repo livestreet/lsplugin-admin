@@ -701,15 +701,19 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * Получить статистику стран или городов
 	 *
 	 * @param $sLivingSection	тип разреза: страны или города
+	 * @param $sSorting			сортировка
 	 * @return mixed
 	 */
-	public function GetUsersLivingStats($sLivingSection) {
+	public function GetUsersLivingStats($sLivingSection, $sSorting) {
 		/*
 		 * кешировать здесь нечего - т.к. выборка идет по всей таблице, а данные пользователей меняются очень часто,
 		 * то смысла в кешировании нет, т.к. кеш будет постоянно сбрасываться, только лишние операции
 		 */
 		return array(
-			'collection' => $this->oMapper->GetUsersLivingStats($this->GetLivingStatsSQLCondition($sLivingSection))
+			'collection' => $this->oMapper->GetUsersLivingStats(
+				$this->GetLivingStatsSQLGroupCondition($sLivingSection),
+				$this->GetLivingStatsSQLSortingCondition($sSorting)
+			)
 		);
 	}
 
@@ -720,11 +724,31 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * @param $sLivingSection	разрез отбора
 	 * @return string
 	 */
-	protected function GetLivingStatsSQLCondition($sLivingSection) {
+	protected function GetLivingStatsSQLGroupCondition($sLivingSection) {
 		if ($sLivingSection == 'cities') {
 			return 'user_profile_city';
 		}
 		return 'user_profile_country';
+	}
+
+
+	/**
+	 * Поле таблицы для сортировки
+	 *
+	 * @param $sSorting			тип сортировки
+	 * @return string			поле таблицы
+	 */
+	protected function GetLivingStatsSQLSortingCondition($sSorting) {
+		if ($sSorting == 'alphabetic') {
+			/*
+			 * сортировка по полю группировки
+			 */
+			return 'item';
+		}
+		/*
+		 * сортировка по количеству пользователей страны или города
+		 */
+		return 'count';
 	}
 
 }

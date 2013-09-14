@@ -161,11 +161,30 @@
 
 		{if $aLivingStats and $aLivingStats.collection and count($aLivingStats.collection)>0}
 			<div class="countries-n-cities">
+				<div class="fl-r">
+					<a href="{router page='admin/users/stats'}{request_filter
+					name=array('sorting')
+					value=array('alphabetic')
+					}" class="button {if $sSorting=='alphabetic'}active{/if}">A-z &darr;</a>
+
+					<a href="{router page='admin/users/stats'}{request_filter
+					name=array('sorting')
+					value=array('top')
+					}" class="button {if $sSorting=='top'}active{/if}">3-2-1 &darr;</a>
+				</div>
 				<h3>
 					{if $sCurrentLivingSection=='countries'}
-						Страны и <a href="{router page='admin/users/stats'}?living_section=cities">города</a>
+						Страны и
+						<a href="{router page='admin/users/stats'}{request_filter
+						name=array('living_section')
+						value=array('cities')
+						}">города</a>
 					{elseif $sCurrentLivingSection=='cities'}
-						<a href="{router page='admin/users/stats'}">Страны</a> и города
+						<a href="{router page='admin/users/stats'}{request_filter
+						name=array('living_section')
+						value=array(null)
+						}">Страны</a>
+						и города
 					{/if}
 				</h3>
 

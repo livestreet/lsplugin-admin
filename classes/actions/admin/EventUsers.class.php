@@ -981,10 +981,22 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		$this->SetTemplateAction('users/stats');
 
 		/*
+		 * получить фильтр, хранящий в себе все параметры (разрез показа и сортировка)
+		 */
+		$aFilter = getRequest('filter');
+
+		/*
 		 * если не указано показывать статистику по городам - показать по странам
 		 */
-		if (!$sLivingSection = getRequestStr('living_section') or $sLivingSection != 'cities') {
+		if (!$sLivingSection = @$aFilter['living_section'] or $sLivingSection != 'cities') {
 			$sLivingSection = 'countries';
+		}
+
+		/*
+		 * тип сортировки
+		 */
+		if (!$sSorting = @$aFilter['sorting'] or $sSorting != 'alphabetic') {
+			$sSorting = 'top';
 		}
 
 		/*
@@ -998,11 +1010,15 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * получить статистику стран или городов
 		 */
-		$this->Viewer_Assign('aLivingStats', $this->PluginAdmin_Users_GetUsersLivingStats($sLivingSection));
+		$this->Viewer_Assign('aLivingStats', $this->PluginAdmin_Users_GetUsersLivingStats($sLivingSection, $sSorting));
 		/*
 		 * тип текущего отображения: страны или города
 		 */
 		$this->Viewer_Assign('sCurrentLivingSection', $sLivingSection);
+		/*
+		 * тип текущей сортировки: топ или по алфавиту
+		 */
+		$this->Viewer_Assign('sSorting', $sSorting);
 	}
 
 }
