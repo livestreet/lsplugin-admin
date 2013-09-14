@@ -999,6 +999,9 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 			$sSorting = 'top';
 		}
 
+		//print_r ($this->PluginAdmin_Users_GetUsersRegistrationStats()); die ();	// test debug, todo: delete
+
+
 		/*
 		 * получить базовую статистику
 		 */

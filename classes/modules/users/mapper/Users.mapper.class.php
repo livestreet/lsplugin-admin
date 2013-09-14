@@ -483,7 +483,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 	public function GetUsersBirthdaysStats() {
 		$sql = 'SELECT
 				TIMESTAMPDIFF(YEAR, `user_profile_birthday`, NOW()) as years_old,
-				count(*) as count
+				COUNT(*) as count
 			FROM
 				`' . Config::Get('db.table.user') . '`
 			WHERE
@@ -521,7 +521,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 	public function GetUsersLivingStats($sGroupRule, $sOrderBy) {
 		$sql = 'SELECT
 				`' . $sGroupRule . '` as item,
-				count(*) AS count
+				COUNT(*) AS count
 			FROM
 				`' . Config::Get('db.table.user') . '`
 			WHERE
@@ -541,6 +541,40 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 				`' . $sGroupRule . '`
 			ORDER BY
 				`' . $sOrderBy . '` DESC
+		';
+		if ($aResult = $this->oDb->query($sql, PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_USER_ID)) {
+			return $aResult;
+		}
+		return array();
+	}
+
+
+	/**
+	 * Получить статистику регистраций пользователей
+	 *
+	 * @return array|null
+	 */
+	public function GetUsersRegistrationStats() {
+		$sql = 'SELECT
+				DATE_FORMAT(`user_date_register`, "%Y-%m-%d") as registration_date,
+				COUNT(*) as count
+			FROM
+				`' . Config::Get('db.table.user') . '`
+			WHERE
+				`user_activate` = 1
+				AND
+				`user_id` NOT IN (
+					SELECT
+						`user_id`
+					FROM
+						`' . Config::Get('db.table.users_ban') . '`
+					WHERE
+						`block_type` = ?d
+				)
+			GROUP BY
+				`registration_date`
+			ORDER BY
+				`registration_date` ASC
 		';
 		if ($aResult = $this->oDb->query($sql, PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_USER_ID)) {
 			return $aResult;

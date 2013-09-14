@@ -751,6 +751,17 @@ class PluginAdmin_ModuleUsers extends Module {
 		return 'count';
 	}
 
+
+	/**
+	 * Получить статистику регистраций пользователей
+	 *
+	 * @return mixed
+	 */
+	public function GetUsersRegistrationStats() {
+		$aData = $this->oMapper->GetUsersRegistrationStats();
+		return $aData;
+	}
+
 }
 
 ?>
