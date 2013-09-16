@@ -2,19 +2,19 @@
 
 
 {block name='layout_content_toolbar'}
-	<a class="button" href="{router page='admin/users/stats'}{request_filter
+	<a class="button {if $sCurrentGraphPeriod=='yesterday'}active{/if}" href="{router page='admin/users/stats'}{request_filter
 		name=array('graph_period')
 		value=array('yesterday')
 	}">Вчера</a>
-	<a class="button" href="{router page='admin/users/stats'}{request_filter
+	<a class="button {if $sCurrentGraphPeriod=='today'}active{/if}" href="{router page='admin/users/stats'}{request_filter
 		name=array('graph_period')
 		value=array('today')
 	}">Сегодня</a>
-	<a class="button" href="{router page='admin/users/stats'}{request_filter
+	<a class="button {if $sCurrentGraphPeriod=='week'}active{/if}" href="{router page='admin/users/stats'}{request_filter
 		name=array('graph_period')
 		value=array('week')
 	}">Неделя</a>
-	<a class="button" href="{router page='admin/users/stats'}{request_filter
+	<a class="button {if $sCurrentGraphPeriod=='month'}active{/if}" href="{router page='admin/users/stats'}{request_filter
 		name=array('graph_period')
 		value=array('month')
 	}">Месяц</a>
@@ -175,14 +175,14 @@
 			<div class="countries-n-cities">
 				<div class="fl-r">
 					<a href="{router page='admin/users/stats'}{request_filter
-					name=array('sorting')
+					name=array('living_sorting')
 					value=array('alphabetic')
-					}" class="button {if $sSorting=='alphabetic'}active{/if}">A-z &darr;</a>
+					}" class="button {if $sCurrentLivingSorting=='alphabetic'}active{/if}">A-z &darr;</a>
 
 					<a href="{router page='admin/users/stats'}{request_filter
-					name=array('sorting')
+					name=array('living_sorting')
 					value=array(null)
-					}" class="button {if $sSorting=='top'}active{/if}">3-2-1 &darr;</a>
+					}" class="button {if $sCurrentLivingSorting=='top'}active{/if}">3-2-1 &darr;</a>
 				</div>
 				<h3>
 					{if $sCurrentLivingSection=='countries'}

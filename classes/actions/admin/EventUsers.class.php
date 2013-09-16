@@ -977,7 +977,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * тип сортировки
 		 */
-		if (!$sSorting = $this->GetDataFromFilter('sorting') or $sSorting != 'alphabetic') {
+		if (!$sSorting = $this->GetDataFromFilter('living_sorting') or $sSorting != 'alphabetic') {
 			$sSorting = 'top';
 		}
 
@@ -1014,7 +1014,11 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * тип текущей сортировки: топ или по алфавиту
 		 */
-		$this->Viewer_Assign('sSorting', $sSorting);
+		$this->Viewer_Assign('sCurrentLivingSorting', $sSorting);
+		/*
+		 * тип текущего периода
+		 */
+		$this->Viewer_Assign('sCurrentGraphPeriod', $sGraphPeriod);
 	}
 
 
