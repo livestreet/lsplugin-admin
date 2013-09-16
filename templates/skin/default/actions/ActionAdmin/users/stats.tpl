@@ -2,10 +2,22 @@
 
 
 {block name='layout_content_toolbar'}
-	<a class="button" href="#">Вчера</a>
-	<a class="button" href="#">Сегодня</a>
-	<a class="button" href="#">Неделя</a>
-	<a class="button" href="#">Месяц</a>
+	<a class="button" href="{router page='admin/users/stats'}{request_filter
+		name=array('graph_period')
+		value=array('yesterday')
+	}">Вчера</a>
+	<a class="button" href="{router page='admin/users/stats'}{request_filter
+		name=array('graph_period')
+		value=array('today')
+	}">Сегодня</a>
+	<a class="button" href="{router page='admin/users/stats'}{request_filter
+		name=array('graph_period')
+		value=array('week')
+	}">Неделя</a>
+	<a class="button" href="{router page='admin/users/stats'}{request_filter
+		name=array('graph_period')
+		value=array('month')
+	}">Месяц</a>
 
 {/block}
 
@@ -70,7 +82,7 @@
 						</tr>
 						<tr>
 							<td>
-								<hr>
+								<hr>		{* просто временный разделитель *}
 							</td>
 							<td>
 							</td>

@@ -999,7 +999,18 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 			$sSorting = 'top';
 		}
 
-		//print_r ($this->PluginAdmin_Users_GetUsersRegistrationStats()); die ();	// test debug, todo: delete
+		/*
+		 * тип периода для графика регистраций
+		 */
+		if (!$sGraphPeriod = @$aFilter['graph_period'] or !in_array($sGraphPeriod, array('yesterday', 'today', 'week', 'month'))) {
+			$sGraphPeriod = 'month';
+		}
+
+		/*
+		 * статистика по регистрациям
+		 */
+		$aUserRegistrationStats = $this->PluginAdmin_Users_GetUsersRegistrationStats($sGraphPeriod);
+		//print_r ($aUserRegistrationStats); die ();	// test debug, todo: delete
 
 
 		/*
@@ -1023,6 +1034,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 */
 		$this->Viewer_Assign('sSorting', $sSorting);
 	}
+
 
 }
 

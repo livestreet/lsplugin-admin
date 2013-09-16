@@ -552,9 +552,10 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 	/**
 	 * Получить статистику регистраций пользователей
 	 *
+	 * @param $aPeriods			период от и до
 	 * @return array|null
 	 */
-	public function GetUsersRegistrationStats() {
+	public function GetUsersRegistrationStats($aPeriods) {
 		$sql = 'SELECT
 				DATE_FORMAT(`user_date_register`, "%Y-%m-%d") as registration_date,
 				COUNT(*) as count
@@ -562,6 +563,10 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 				`' . Config::Get('db.table.user') . '`
 			WHERE
 				`user_activate` = 1
+				AND
+				`user_date_register` >= ?
+				AND
+				`user_date_register` <= ?
 				AND
 				`user_id` NOT IN (
 					SELECT
@@ -576,7 +581,10 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 			ORDER BY
 				`registration_date` ASC
 		';
-		if ($aResult = $this->oDb->query($sql, PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_USER_ID)) {
+		if ($aResult = $this->oDb->query($sql,
+			$aPeriods['from'],
+			$aPeriods['to'],
+			PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_USER_ID)) {
 			return $aResult;
 		}
 		return array();

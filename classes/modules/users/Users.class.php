@@ -755,11 +755,67 @@ class PluginAdmin_ModuleUsers extends Module {
 	/**
 	 * Получить статистику регистраций пользователей
 	 *
+	 * @param $sPeriod		типа периода
 	 * @return mixed
 	 */
-	public function GetUsersRegistrationStats() {
-		$aData = $this->oMapper->GetUsersRegistrationStats();
-		return $aData;
+	public function GetUsersRegistrationStats($sPeriod) {
+		return $this->oMapper->GetUsersRegistrationStats($this->GetUsersRegistrationStatsGraphPeriod($sPeriod));
+	}
+
+
+	/**
+	 * Получить реальный временной интервал в зависимости от типа периода для статистики регистраций пользователей
+	 *
+	 * @param $sPeriod		тип периода
+	 * @return array		array('from' => '...', 'to' => '...')
+	 */
+	protected function GetUsersRegistrationStatsGraphPeriod($sPeriod) {
+		switch($sPeriod) {
+			/*
+			 * вчера
+			 */
+			case 'yesterday':
+				return array(
+					'from' => date('Y-m-d', mktime(date('H'), date('i'), date('s'), date('n'), date('j') - 1, date('Y'))),
+					'to' => date('Y-m-d')
+				);
+				break;
+			/*
+			 * сегодня
+			 */
+			case 'today':
+				return array(
+					'from' => date('Y-m-d 00:00:00'),
+					'to' => date('Y-m-d 23:59:59'),
+				);
+				break;
+			/*
+			 * неделя
+			 */
+			case 'week':
+				return array(
+					'from' => date('Y-m-d', mktime(date('H'), date('i'), date('s'), date('n'), date('j') - 7, date('Y'))),
+					'to' => date('Y-m-d')
+				);
+				break;
+			/*
+			 * месяц
+			 */
+			case 'month':
+				/*
+				 * используется период по-умолчанию
+				 */
+				//break;
+			/*
+			 * период по-умолчанию
+			 */
+			default:
+				return array(
+					'from' => date('Y-m-d', mktime(date('H'), date('i'), date('s'), date('n') - 1, date('j'), date('Y'))),
+					'to' => date('Y-m-d')
+				);
+				break;
+		}
 	}
 
 }
