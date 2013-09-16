@@ -59,20 +59,15 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		$this->SetPaging();
 
 		/*
-		 * получить фильтр, хранящий в себе все параметры (поиска и сортировки)
-		 */
-		$aFilter = getRequest('filter');
-
-		/*
 		 * сортировка
 		 */
-		$sOrder = @$aFilter['order_field'];
-		$sWay = @$aFilter['order_way'];
+		$sOrder = $this->GetDataFromFilter('order_field');
+		$sWay = $this->GetDataFromFilter('order_way');
 
 		/*
 		 * поиск по полям - отобрать корректные поля для поиска среди кучи других параметров
 		 */
-		$aValidatedSearchRules = $this->GetSearchRule($aFilter);
+		$aValidatedSearchRules = $this->GetSearchRule($this->GetDataFromFilter());
 		/*
 		 * получить правила (фильтр для поиска)
 		 */
@@ -316,13 +311,11 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		$this->SetTemplateAction('users/votes');
 		$this->SetPaging(2, 'votes.per_page');
 
-		$aFilter = getRequest('filter');
-
 		/*
 		 * сортировка
 		 */
-		$sOrder = @$aFilter['order_field'];
-		$sWay = @$aFilter['order_way'];
+		$sOrder = $this->GetDataFromFilter('order_field');
+		$sWay = $this->GetDataFromFilter('order_way');
 
 
 		/*
@@ -334,13 +327,13 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * проверяем корректность типа обьекта, голоса по которому нужно показать
 		 */
-		if (!$sVotingTargetType = @$aFilter['type'] or !in_array($sVotingTargetType, array('topic', 'comment', 'blog', 'user'))) {
+		if (!$sVotingTargetType = $this->GetDataFromFilter('type') or !in_array($sVotingTargetType, array('topic', 'comment', 'blog', 'user'))) {
 			return Router::Action('error');
 		}
 		/*
 		 * проверяем направление голосования
 		 */
-		if ($sVotingDirection = @$aFilter['dir'] and !in_array($sVotingDirection, array('plus', 'minus'))) {
+		if ($sVotingDirection = $this->GetDataFromFilter('dir') and !in_array($sVotingDirection, array('plus', 'minus'))) {
 			return Router::Action('error');
 		}
 		/*
@@ -350,7 +343,6 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 			'type' => $sVotingTargetType,
 			'direction' => $sVotingDirection,
 		);
-
 
 		/*
 		 * получаем данные голосований
@@ -466,15 +458,10 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		$sFullPagePathToEvent = Router::GetPath('admin/users/bans/' . $sBanType);
 
 		/*
-		 * получить фильтр, хранящий в себе все параметры (поиска и сортировки)
-		 */
-		$aFilter = getRequest('filter');
-
-		/*
 		 * сортировка
 		 */
-		$sOrder = @$aFilter['order_field'];
-		$sWay = @$aFilter['order_way'];
+		$sOrder = $this->GetDataFromFilter('order_field');
+		$sWay = $this->GetDataFromFilter('order_way');
 
 		/*
 		 * получение списка банов
@@ -981,35 +968,30 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		$this->SetTemplateAction('users/stats');
 
 		/*
-		 * получить фильтр, хранящий в себе все параметры (разрез показа и сортировка)
-		 */
-		$aFilter = getRequest('filter');
-
-		/*
 		 * если не указано показывать статистику по городам - показать по странам
 		 */
-		if (!$sLivingSection = @$aFilter['living_section'] or $sLivingSection != 'cities') {
+		if (!$sLivingSection = $this->GetDataFromFilter('living_section') or $sLivingSection != 'cities') {
 			$sLivingSection = 'countries';
 		}
 
 		/*
 		 * тип сортировки
 		 */
-		if (!$sSorting = @$aFilter['sorting'] or $sSorting != 'alphabetic') {
+		if (!$sSorting = $this->GetDataFromFilter('sorting') or $sSorting != 'alphabetic') {
 			$sSorting = 'top';
 		}
 
 		/*
 		 * тип периода для графика регистраций
 		 */
-		if (!$sGraphPeriod = @$aFilter['graph_period'] or !in_array($sGraphPeriod, array('yesterday', 'today', 'week', 'month'))) {
+		if (!$sGraphPeriod = $this->GetDataFromFilter('graph_period') or !in_array($sGraphPeriod, array('yesterday', 'today', 'week', 'month'))) {
 			$sGraphPeriod = 'month';
 		}
 
 		/*
 		 * статистика по регистрациям
 		 */
-		$aUserRegistrationStats = $this->PluginAdmin_Users_GetUsersRegistrationStats($sGraphPeriod);
+		//$aUserRegistrationStats = $this->PluginAdmin_Users_GetUsersRegistrationStats($sGraphPeriod);
 		//print_r ($aUserRegistrationStats); die ();	// test debug, todo: delete
 
 
@@ -1033,6 +1015,34 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 * тип текущей сортировки: топ или по алфавиту
 		 */
 		$this->Viewer_Assign('sSorting', $sSorting);
+	}
+
+
+	/**
+	 * Получить значение из фильтра или весь фильтр
+	 *
+	 * @param $sName				имя ключа из массива фильтра или null для получения всего фильтра
+	 * @return mixed|array|null		значение
+	 */
+	protected function GetDataFromFilter($sName = null) {
+		/*
+		 * получить фильтр, хранящий в себе все параметры (разрезы показа, сортировку, поиск и др.)
+		 */
+		if ($aFilter = getRequest('filter') and is_array($aFilter)) {
+			/*
+			 * если нужны все значения фильтра
+			 */
+			if (!$sName) {
+				return $aFilter;
+			}
+			/*
+			 * если нужно выбрать одно значение из фильтра
+			 */
+			if ($sName and isset($aFilter[$sName]) and $aFilter[$sName]) {
+				return $aFilter[$sName];
+			}
+		}
+		return null;
 	}
 
 
