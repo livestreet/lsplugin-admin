@@ -991,9 +991,9 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * статистика по регистрациям
 		 */
-		//$aUserRegistrationStats = $this->PluginAdmin_Users_GetUsersRegistrationStats($sGraphPeriod);
-		//print_r ($aUserRegistrationStats); die ();	// test debug, todo: delete
-
+/*		$aPeriod = $this->PluginAdmin_Users_GetUsersRegistrationStatsGraphPeriod($sGraphPeriod);
+		$aUserRegistrationStats = $this->PluginAdmin_Users_GetUsersRegistrationStats($aPeriod);
+		print_r ($aUserRegistrationStats); die ();	// test debug, todo: delete*/
 
 		/*
 		 * получить базовую статистику

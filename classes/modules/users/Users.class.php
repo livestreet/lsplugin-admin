@@ -755,11 +755,11 @@ class PluginAdmin_ModuleUsers extends Module {
 	/**
 	 * Получить статистику регистраций пользователей
 	 *
-	 * @param $sPeriod		типа периода
+	 * @param $aPeriod		период
 	 * @return mixed
 	 */
-	public function GetUsersRegistrationStats($sPeriod) {
-		return $this->oMapper->GetUsersRegistrationStats($this->GetUsersRegistrationStatsGraphPeriod($sPeriod));
+	public function GetUsersRegistrationStats($aPeriod) {
+		return $this->oMapper->GetUsersRegistrationStats($aPeriod);
 	}
 
 
@@ -769,7 +769,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * @param $sPeriod		тип периода
 	 * @return array		array('from' => '...', 'to' => '...')
 	 */
-	protected function GetUsersRegistrationStatsGraphPeriod($sPeriod) {
+	public function GetUsersRegistrationStatsGraphPeriod($sPeriod) {
 		switch($sPeriod) {
 			/*
 			 * вчера
