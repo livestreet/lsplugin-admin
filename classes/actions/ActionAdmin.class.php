@@ -467,6 +467,11 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$sPluginTemplatePath . '/js/admin_settings_save.js',
 			$sPluginTemplatePath . '/js/admin_settings_array.js',
 			$sPluginTemplatePath . '/js/admin_misc.js',
+
+			/*
+			 * 3rd party vendor
+			 */
+			$sPluginTemplatePath . '/js/vendor/highcharts/highcharts.src.js',
 		);
 
 		array_map(array($this, 'Viewer_AppendStyle'), $aStyles);

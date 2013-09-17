@@ -394,10 +394,7 @@
 }
 
 .ls-admin .users-stats .graph {
-	background: #EBFBFF;
-	height: 100px;
 	margin-bottom: 20px;
-	padding: 20px;
 }
 
 .ls-admin .users-stats .value-in-table {
@@ -508,4 +505,33 @@
 	background: #cfedad;
 	height: 15px;
 	margin: -1px;
+}
+
+/* pie charts for users sex stats and sex indicator */
+
+.ls-admin .users-stats .stat-line .users-sex-pie-stats {
+	float: left;
+	width: 170px;
+}
+
+.ls-admin .users-stats .stat-line .users-sex-table-stats {
+	overflow: hidden;
+}
+
+.ls-admin .users-stats .stat-line .users-sex-table-stats .users-sex-indicator {
+	background: none repeat scroll 0 0 #F5F1FF;
+	border-radius: 5px 5px 5px 5px;
+	display: inline-block;
+	height: 5px;
+	margin-right: 5px;
+	vertical-align: middle;
+	width: 5px;
+}
+
+.ls-admin .users-stats .stat-line .users-sex-table-stats .users-sex-indicator.man {
+	background: none repeat scroll 0 0 #94E3E6;
+}
+
+.ls-admin .users-stats .stat-line .users-sex-table-stats .users-sex-indicator.woman {
+	background: none repeat scroll 0 0 #FACBFF;
 }

@@ -36,7 +36,82 @@
 {block name='layout_content'}
 	<div class="users-stats">
 		<div class="graph">
-			график
+			<div id="admin_users_graph_container"></div>
+			<script>
+				{*
+					TEST, not connected todo:
+				*}
+				jQuery(document).ready(function($) {
+					// docs: api.highcharts.com/highcharts
+					Highcharts.setOptions({
+						lang: {
+							resetZoom: 'Сбросить зум',
+							resetZoomTitle: 'Показать 1 к 1'
+						}
+					});
+					$('#admin_users_graph_container').highcharts({
+						chart: {
+							type: 'areaspline',
+							height: 200,
+							//margin: 0,			// hides axis
+							spacingBottom: 0,
+							spacingLeft: 0,
+							spacingRight: 0,
+							spacingTop: 10,
+							zoomType: 'x'
+						},
+						title: {
+							text: ''
+						},
+						xAxis: {
+							categories: [
+								'12-12-2001',
+								'12-12-2002',
+								'12-12-2003',
+								'12-12-2004',
+								'12-12-2005',
+								'12-12-2006'
+							]
+						},
+						yAxis: {
+							title: {
+								text: ''
+							},
+							gridLineColor: '#f1f1f1',
+							gridLineWidth: 1,
+							allowDecimals: false
+						},
+						tooltip: {
+							animation: false,
+							shadow: false,
+							borderWidth: 0,
+							// .highcharts-tooltip
+							shared: true,
+							valueSuffix: ' пользователей'
+						},
+						credits: {
+							enabled: false
+						},
+						legend: {
+							enabled: false
+						},
+						plotOptions: {
+							areaspline: {
+								fillOpacity: 0.5
+							}
+						},
+						series: [{
+							name: 'Регистрации',
+							color: '#8FCFEa',
+							data: [
+								[0, 29.9],
+								[1, 71.5],
+								[2, 106.4]
+							]
+						}]
+					});
+				});
+			</script>
 		</div>
 		<div class="value-in-table">
 			значения таблицей
@@ -44,40 +119,117 @@
 		<div class="stat-line">
 			<div class="w50p">
 				<h3>Гендерное распределение</h3>
-				<table>
-					<thead></thead>
-					<tbody>
+				{*
+					значения для каждого пола в процентах
+				*}
+				{assign var="iUsersSexOtherPerc" value=number_format(($aStats.count_sex_other*100/$aStats.count_all), 1, '.', '')}
+				{assign var="iUsersSexManPerc" value=number_format(($aStats.count_sex_man*100/$aStats.count_all), 1, '.', '')}
+				{assign var="iUsersSexWomanPerc" value=number_format(($aStats.count_sex_woman*100/$aStats.count_all), 1, '.', '')}
+
+				<div class="users-sex-pie-stats">
+					<div id="admin_users_sex_pie_graph"></div>
+					<script>
+						{*
+							график гендерного распределения пользователей
+						*}
+						jQuery(document).ready(function($) {
+							$('#admin_users_sex_pie_graph').highcharts({
+								chart: {
+									plotBackgroundColor: null,
+									plotBorderWidth: null,
+									plotShadow: false,
+									height: 150,
+									width: 150,
+									//margin: 0,			// hides axis
+									spacingBottom: 0,
+									spacingLeft: 0,
+									spacingRight: 0,
+									spacingTop: 0
+								},
+								title: {
+									text: ''
+								},
+								tooltip: {
+									animation: false,
+									shadow: false,
+									borderWidth: 0
+									// .highcharts-tooltip
+								},
+								credits: {
+									enabled: false
+								},
+								plotOptions: {
+									pie: {
+										allowPointSelect: true,
+										cursor: 'pointer',
+										dataLabels: {
+											enabled: false
+										}
+									}
+								},
+								series: [{
+									type: 'pie',
+									name: '% от всех',
+									data: [
+										{
+											name: 'Пол не указан',
+											y: {$iUsersSexOtherPerc},
+											color: '#F5F1FF'
+										},
+										{
+											name: 'Мужчины',
+											y: {$iUsersSexManPerc},
+											color: '#94E3E6'
+										},
+										{
+											name: 'Женщины',
+											y: {$iUsersSexWomanPerc},
+											color: '#FACBFF'
+										}
+									]
+								}]
+							});
+						});
+					</script>
+				</div>
+				<div class="users-sex-table-stats">
+					<table>
+						<thead></thead>
+						<tbody>
 						<tr>
 							<td>
+								<span class="users-sex-indicator other"></span>
 								Пол не указан
 							</td>
 							<td>
 								{$aStats.count_sex_other}
 							</td>
 							<td>
-								{number_format(($aStats.count_sex_other*100/$aStats.count_all), 1, '.', '')} %
+								{$iUsersSexOtherPerc} %
 							</td>
 						</tr>
 						<tr>
 							<td>
+								<span class="users-sex-indicator man"></span>
 								Мужчины
 							</td>
 							<td>
 								{$aStats.count_sex_man}
 							</td>
 							<td>
-								{number_format(($aStats.count_sex_man*100/$aStats.count_all), 1, '.', '')} %
+								{$iUsersSexManPerc} %
 							</td>
 						</tr>
 						<tr>
 							<td>
+								<span class="users-sex-indicator woman"></span>
 								Женщины
 							</td>
 							<td>
 								{$aStats.count_sex_woman}
 							</td>
 							<td>
-								{number_format(($aStats.count_sex_woman*100/$aStats.count_all), 1, '.', '')} %
+								{$iUsersSexWomanPerc} %
 							</td>
 						</tr>
 						<tr>
@@ -99,8 +251,9 @@
 							<td>
 							</td>
 						</tr>
-					</tbody>
-				</table>
+						</tbody>
+					</table>
+				</div>
 			</div>
 			<div class="w50p">
 				<h3>Активность</h3>
