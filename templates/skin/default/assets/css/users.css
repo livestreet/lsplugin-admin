@@ -386,7 +386,7 @@
 }
 
 .ls-admin .users-stats-headline .count {
-	font-size: 20px;
+	font-size: 23px;
 }
 
 .ls-admin .users-stats {
@@ -398,12 +398,13 @@
 }
 
 .ls-admin .users-stats .value-in-table {
-	margin-bottom: 20px;
+	margin-bottom: 30px;
 }
 
 .ls-admin .users-stats .stat-line {
 	clear: both;
 	overflow: hidden;
+	margin-bottom: 20px;
 }
 
 .ls-admin .users-stats .stat-line .w50p {
@@ -422,7 +423,10 @@
 
 /* users age */
 
-.ls-admin .users-stats .users-age {}
+.ls-admin .users-stats .users-age {
+	margin-bottom: 20px;
+	overflow: hidden;
+}
 
 .ls-admin .users-stats .users-age .age-stats {
 	clear: both;
@@ -534,4 +538,13 @@
 
 .ls-admin .users-stats .stat-line .users-sex-table-stats .users-sex-indicator.woman {
 	background: none repeat scroll 0 0 #FACBFF;
+}
+
+#admin_users_graph_table_stats_data {
+	display: none;
+	margin-top: 5px;
+}
+
+#admin_users_show_graph_stats_in_table {
+	border-bottom: 1px dotted;
 }

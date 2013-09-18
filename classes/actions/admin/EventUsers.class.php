@@ -991,9 +991,22 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * статистика по регистрациям
 		 */
-/*		$aPeriod = $this->PluginAdmin_Users_GetUsersRegistrationStatsGraphPeriod($sGraphPeriod);
+		/*
+		 * получить период дат от и до для названия интервала
+		 */
+		$aPeriod = $this->PluginAdmin_Users_GetUsersRegistrationStatsGraphPeriod($sGraphPeriod);
+		/*
+		 * получить пустой интервал дат для графика
+		 */
+		$aFilledWithZerosPeriods = $this->PluginAdmin_Users_FillDatesRangeForPeriod($aPeriod, $sGraphPeriod);
+		/*
+		 * получить существующие данные о пользователях
+		 */
 		$aUserRegistrationStats = $this->PluginAdmin_Users_GetUsersRegistrationStats($aPeriod);
-		print_r ($aUserRegistrationStats); die ();	// test debug, todo: delete*/
+		/*
+		 * объеденить данные
+		 */
+		$aUserRegistrationStats = $this->PluginAdmin_Users_MixEmptyPeriodsWithData($aFilledWithZerosPeriods, $aUserRegistrationStats);
 
 		/*
 		 * получить базовую статистику
@@ -1016,6 +1029,10 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 */
 		$this->Viewer_Assign('sCurrentLivingSorting', $sSorting);
 		/*
+		 * статистика регистраций
+		 */
+		$this->Viewer_Assign('aUserRegistrationStats', $aUserRegistrationStats);
+		/*
 		 * тип текущего периода
 		 */
 		$this->Viewer_Assign('sCurrentGraphPeriod', $sGraphPeriod);
@@ -1023,7 +1040,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 
 
 	/**
-	 * Получить значение из фильтра или весь фильтр
+	 * Получить значение из фильтра (массива-переменной "filter" из реквеста) или весь фильтр
 	 *
 	 * @param $sName				имя ключа из массива фильтра или null для получения всего фильтра
 	 * @return mixed|array|null		значение

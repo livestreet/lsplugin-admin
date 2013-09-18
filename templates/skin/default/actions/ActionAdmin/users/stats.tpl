@@ -35,12 +35,10 @@
 
 {block name='layout_content'}
 	<div class="users-stats">
+		<h3>Регистрации</h3>
 		<div class="graph">
 			<div id="admin_users_graph_container"></div>
 			<script>
-				{*
-					TEST, not connected todo:
-				*}
 				jQuery(document).ready(function($) {
 					// docs: api.highcharts.com/highcharts
 					Highcharts.setOptions({
@@ -62,16 +60,6 @@
 						},
 						title: {
 							text: ''
-						},
-						xAxis: {
-							categories: [
-								'12-12-2001',
-								'12-12-2002',
-								'12-12-2003',
-								'12-12-2004',
-								'12-12-2005',
-								'12-12-2006'
-							]
 						},
 						yAxis: {
 							title: {
@@ -100,13 +88,20 @@
 								fillOpacity: 0.5
 							}
 						},
+						xAxis: {
+							categories: [
+								{foreach from=$aUserRegistrationStats item=aUserRegData}
+									'{$aUserRegData['registration_date']}'{if !$aUserRegData.last},{/if}
+								{/foreach}
+							]
+						},
 						series: [{
 							name: 'Регистрации',
-							color: '#8FCFEa',
+							color: '#8FCFEA',
 							data: [
-								[0, 29.9],
-								[1, 71.5],
-								[2, 106.4]
+								{foreach from=$aUserRegistrationStats item=aUserRegData name=UsersRegCycle}
+									[{$smarty.foreach.UsersRegCycle.index}, {$aUserRegData['count']}]{if !$aUserRegData.last},{/if}
+								{/foreach}
 							]
 						}]
 					});
@@ -114,7 +109,33 @@
 			</script>
 		</div>
 		<div class="value-in-table">
-			значения таблицей
+			<a href="#" id="admin_users_show_graph_stats_in_table">значения таблицей</a>
+			<div id="admin_users_graph_table_stats_data">
+				<table>
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Дата</th>
+							<th>Количество</th>
+						</tr>
+					</thead>
+					<tbody>
+						{foreach from=$aUserRegistrationStats item=aUserRegData name=UsersRegCycle}
+							<tr>
+								<td>
+									{$smarty.foreach.UsersRegCycle.iteration}
+								</td>
+								<td>
+									{$aUserRegData['registration_date']}
+								</td>
+								<td>
+									{$aUserRegData['count']}
+								</td>
+							</tr>
+						{/foreach}
+					</tbody>
+				</table>
+			</div>
 		</div>
 		<div class="stat-line">
 			<div class="w50p">

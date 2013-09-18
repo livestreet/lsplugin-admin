@@ -818,6 +818,98 @@ class PluginAdmin_ModuleUsers extends Module {
 		}
 	}
 
+
+	/**
+	 * Заполнить пустыми значениями период дат с нужным для каждого периода интервалом
+	 *
+	 * @param $aPeriod			период дат (от и до)
+	 * @param $sGraphPeriod		название периода
+	 * @return array			массив с нулевыми значениями на каждый промежуток интервала в периоде дат
+	 */
+	public function FillDatesRangeForPeriod($aPeriod, $sGraphPeriod) {
+		/*
+		 * интервал прохода по датам
+		 */
+		$iInterval = $this->GetDatesIntervalForGraphPeriod($sGraphPeriod);
+		/*
+		 * дата начала и счетчик
+		 */
+		$iCurrentTime = strtotime($aPeriod['from']);
+		/*
+		 * дата финиша
+		 */
+		$iFinishTime = strtotime($aPeriod['to']);
+		/*
+		 * здесь хранятся даты
+		 */
+		$aData = array();
+		/*
+		 * заполнить пустыми значениями интервалы в периоде
+		 */
+		do {
+			/*
+			 * добавить запись про текущую дату
+			 */
+			$aData[] = array(
+				'registration_date' => date('Y-m-d', $iCurrentTime),
+				'count' => 0
+			);
+			/*
+			 * увеличить интервал
+			 */
+			$iCurrentTime += $iInterval;
+		} while ($iCurrentTime <= $iFinishTime);
+		return $aData;
+	}
+
+
+	/**
+	 * Получить интервал для периода
+	 *
+	 * @param $sGraphPeriod		период
+	 * @return int				интервал в секундах
+	 */
+	protected function GetDatesIntervalForGraphPeriod($sGraphPeriod) {
+		switch ($sGraphPeriod) {
+			case 'yesterday':
+			case 'today':
+				/*
+				 * 30 мин
+				 */
+				return 60*30;
+			case 'week':
+			case 'month':
+			default:
+				/*
+				 * 1 день
+				 */
+				return 60*60*24;
+		}
+	}
+
+
+	/**
+	 * Заполнить реальными данными из запроса период
+	 *
+	 * @param $aFilledWithZerosPeriods		"пустые" данные периода для каждой даты
+	 * @param $aUserRegistrationStats		полученные данные для дат
+	 * @return array						объедененный массив данных
+	 */
+	public function MixEmptyPeriodsWithData($aFilledWithZerosPeriods, $aUserRegistrationStats) {
+		if (!is_array($aFilledWithZerosPeriods) or !is_array($aUserRegistrationStats)) return array();
+		foreach($aFilledWithZerosPeriods as &$aFilledPeriod) {
+			foreach($aUserRegistrationStats as $aUserRegData) {
+				/*
+				 * если есть реальные данные для этой даты
+				 */
+				if ($aFilledPeriod['registration_date'] == $aUserRegData['registration_date']) {
+					$aFilledPeriod['count'] = $aUserRegData['count'];
+				}
+			}
+		}
+		return $aFilledWithZerosPeriods;
+	}
+
 }
 
 ?>
