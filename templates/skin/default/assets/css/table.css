@@ -106,3 +106,13 @@
 .ls-admin .OnPageSelect select {
   vertical-align: middle;
 }
+
+/* alignment */
+
+.ls-admin table .text-left {
+	text-align: left;
+}
+
+.ls-admin table .text-right {
+	text-align: right;
+}

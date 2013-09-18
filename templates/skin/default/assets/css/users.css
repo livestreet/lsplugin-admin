@@ -412,6 +412,10 @@
 	width: 50%;
 }
 
+.ls-admin .users-stats .stat-line .first-block {}
+
+.ls-admin .users-stats .stat-line .second-block {}
+
 .ls-admin .users-stats h3 {
 	font-size: 22px;
 	margin-bottom: 15px;
@@ -520,6 +524,7 @@
 
 .ls-admin .users-stats .stat-line .users-sex-table-stats {
 	overflow: hidden;
+	margin-right: 10px;
 }
 
 .ls-admin .users-stats .stat-line .users-sex-table-stats .users-sex-indicator {

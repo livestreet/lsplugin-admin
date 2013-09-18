@@ -138,7 +138,7 @@
 			</div>
 		</div>
 		<div class="stat-line">
-			<div class="w50p">
+			<div class="w50p first-block">
 				<h3>Гендерное распределение</h3>
 				{*
 					значения для каждого пола в процентах
@@ -222,10 +222,10 @@
 								<span class="users-sex-indicator other"></span>
 								Пол не указан
 							</td>
-							<td>
+							<td class="text-right">
 								{$aStats.count_sex_other}
 							</td>
-							<td>
+							<td class="text-right">
 								{$iUsersSexOtherPerc} %
 							</td>
 						</tr>
@@ -234,10 +234,10 @@
 								<span class="users-sex-indicator man"></span>
 								Мужчины
 							</td>
-							<td>
+							<td class="text-right">
 								{$aStats.count_sex_man}
 							</td>
-							<td>
+							<td class="text-right">
 								{$iUsersSexManPerc} %
 							</td>
 						</tr>
@@ -246,10 +246,10 @@
 								<span class="users-sex-indicator woman"></span>
 								Женщины
 							</td>
-							<td>
+							<td class="text-right">
 								{$aStats.count_sex_woman}
 							</td>
-							<td>
+							<td class="text-right">
 								{$iUsersSexWomanPerc} %
 							</td>
 						</tr>
@@ -257,16 +257,14 @@
 							<td>
 								<hr>		{* просто временный разделитель *}
 							</td>
-							<td>
-							</td>
-							<td>
-							</td>
+							<td></td>
+							<td></td>
 						</tr>
 						<tr>
 							<td>
 								Всего
 							</td>
-							<td>
+							<td class="text-right">
 								{$aStats.count_all}
 							</td>
 							<td>
@@ -276,7 +274,7 @@
 					</table>
 				</div>
 			</div>
-			<div class="w50p">
+			<div class="w50p second-block">
 				<h3>Активность</h3>
 				<table>
 					<thead></thead>
@@ -285,10 +283,10 @@
 							<td>
 								Активные
 							</td>
-							<td>
+							<td class="text-right">
 								{$aStats.count_active}
 							</td>
-							<td>
+							<td class="text-right">
 								{number_format(($aStats.count_active*100/$aStats.count_all), 1, '.', '')} %
 							</td>
 						</tr>
@@ -296,10 +294,10 @@
 							<td>
 								Заблудившиеся
 							</td>
-							<td>
+							<td class="text-right">
 								{$aStats.count_inactive}
 							</td>
-							<td>
+							<td class="text-right">
 								{number_format(($aStats.count_inactive*100/$aStats.count_all), 1, '.', '')} %
 							</td>
 						</tr>
