@@ -414,7 +414,10 @@
 
 .ls-admin .users-stats .stat-line .first-block {}
 
-.ls-admin .users-stats .stat-line .second-block {}
+.ls-admin .users-stats .stat-line .second-block {
+	margin-left: 10%;
+	width: 30%;
+}
 
 .ls-admin .users-stats h3 {
 	font-size: 22px;
