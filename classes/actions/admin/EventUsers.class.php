@@ -998,7 +998,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * получить пустой интервал дат для графика
 		 */
-		$aFilledWithZerosPeriods = $this->PluginAdmin_Users_FillDatesRangeForPeriod($aPeriod, $sGraphPeriod);
+		$aFilledWithZerosPeriods = $this->PluginAdmin_Users_FillDatesRangeForPeriod($aPeriod);
 		/*
 		 * получить существующие данные о пользователях
 		 */
@@ -1007,6 +1007,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 * объеденить данные
 		 */
 		$aUserRegistrationStats = $this->PluginAdmin_Users_MixEmptyPeriodsWithData($aFilledWithZerosPeriods, $aUserRegistrationStats);
+
 
 		/*
 		 * получить базовую статистику

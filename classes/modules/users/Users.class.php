@@ -775,9 +775,19 @@ class PluginAdmin_ModuleUsers extends Module {
 			 * вчера
 			 */
 			case 'yesterday':
+				$iTime = mktime(date('H'), date('i'), date('s'), date('n'), date('j') - 1, date('Y'));
 				return array(
-					'from' => date('Y-m-d', mktime(date('H'), date('i'), date('s'), date('n'), date('j') - 1, date('Y'))),
-					'to' => date('Y-m-d')
+					'from' => date('Y-m-d 00:00:00', $iTime),
+					'to' => date('Y-m-d 23:59:59', $iTime),
+					/*
+					 * Для одноденных периодов нужны интервалы по пол часа, поэтому в формате указаны часы и минуты.
+					 * Убираем ненужные данные (полный 'Y-m-d H:i:00') чтобы подписи влезли, все равно имеем дело с известным интервалом
+					 */
+					'format' => 'H:i',
+					/*
+					 * интервал для периода 30 мин
+					 */
+					'interval' => 60*30
 				);
 				break;
 			/*
@@ -787,6 +797,15 @@ class PluginAdmin_ModuleUsers extends Module {
 				return array(
 					'from' => date('Y-m-d 00:00:00'),
 					'to' => date('Y-m-d 23:59:59'),
+					/*
+					 * Для одноденных периодов нужны интервалы по пол часа, поэтому в формате указаны часы и минуты.
+					 * Убираем ненужные данные (полный 'Y-m-d H:i:00') чтобы подписи влезли, все равно имеем дело с известным интервалом
+					 */
+					'format' => 'H:i',
+					/*
+					 * интервал для периода 30 мин
+					 */
+					'interval' => 60*30
 				);
 				break;
 			/*
@@ -794,8 +813,20 @@ class PluginAdmin_ModuleUsers extends Module {
 			 */
 			case 'week':
 				return array(
-					'from' => date('Y-m-d', mktime(date('H'), date('i'), date('s'), date('n'), date('j') - 7, date('Y'))),
-					'to' => date('Y-m-d')
+					/*
+					 * полных 6 дней назад (включая текущий) либо 7, но не включая текущий (см. выражение "to")
+					 */
+					'from' => date('Y-m-d', mktime(date('H'), date('i'), date('s'), date('n'), date('j') - 6, date('Y'))),
+					'to' => date('Y-m-d'),
+					/*
+					 * Для больших периодов интервал 1 день, поэтому часы и меньшие значения не указаны в формате.
+					 * Убираем ненужные данные (полный 'Y-m-d') чтобы подписи влезли, все равно имеем дело с известным интервалом
+					 */
+					'format' => 'm-d',
+					/*
+					 * интервал для периода 1 день
+					 */
+					'interval' => 60*60*24
 				);
 				break;
 			/*
@@ -812,7 +843,16 @@ class PluginAdmin_ModuleUsers extends Module {
 			default:
 				return array(
 					'from' => date('Y-m-d', mktime(date('H'), date('i'), date('s'), date('n') - 1, date('j'), date('Y'))),
-					'to' => date('Y-m-d')
+					'to' => date('Y-m-d'),
+					/*
+					 * Для больших периодов интервал 1 день, поэтому часы и меньшие значения не указаны в формате.
+					 * Убираем ненужные данные (полный 'Y-m-d') чтобы подписи влезли, все равно имеем дело с известным интервалом
+					 */
+					'format' => 'm-d',
+					/*
+					 * интервал для периода 1 день
+					 */
+					'interval' => 60*60*24
 				);
 				break;
 		}
@@ -822,15 +862,14 @@ class PluginAdmin_ModuleUsers extends Module {
 	/**
 	 * Заполнить пустыми значениями период дат с нужным для каждого периода интервалом
 	 *
-	 * @param $aPeriod			период дат (от и до)
-	 * @param $sGraphPeriod		название периода
+	 * @param $aPeriod			период дат (от и до) и другие данные
 	 * @return array			массив с нулевыми значениями на каждый промежуток интервала в периоде дат
 	 */
-	public function FillDatesRangeForPeriod($aPeriod, $sGraphPeriod) {
+	public function FillDatesRangeForPeriod($aPeriod) {
 		/*
 		 * интервал прохода по датам
 		 */
-		$iInterval = $this->GetDatesIntervalForGraphPeriod($sGraphPeriod);
+		$iInterval = $aPeriod['interval'];
 		/*
 		 * дата начала и счетчик
 		 */
@@ -840,7 +879,7 @@ class PluginAdmin_ModuleUsers extends Module {
 		 */
 		$iFinishTime = strtotime($aPeriod['to']);
 		/*
-		 * здесь хранятся даты
+		 * здесь хранятся даты и количество
 		 */
 		$aData = array();
 		/*
@@ -851,7 +890,10 @@ class PluginAdmin_ModuleUsers extends Module {
 			 * добавить запись про текущую дату
 			 */
 			$aData[] = array(
-				'registration_date' => date('Y-m-d', $iCurrentTime),
+				/*
+				 * формат даты береться из периода, где был задан её формат связанный с интервалом
+				 */
+				'registration_date' => date($aPeriod['format'], $iCurrentTime),
 				'count' => 0
 			);
 			/*
@@ -860,31 +902,6 @@ class PluginAdmin_ModuleUsers extends Module {
 			$iCurrentTime += $iInterval;
 		} while ($iCurrentTime <= $iFinishTime);
 		return $aData;
-	}
-
-
-	/**
-	 * Получить интервал для периода
-	 *
-	 * @param $sGraphPeriod		период
-	 * @return int				интервал в секундах
-	 */
-	protected function GetDatesIntervalForGraphPeriod($sGraphPeriod) {
-		switch ($sGraphPeriod) {
-			case 'yesterday':
-			case 'today':
-				/*
-				 * 30 мин
-				 */
-				return 60*30;
-			case 'week':
-			case 'month':
-			default:
-				/*
-				 * 1 день
-				 */
-				return 60*60*24;
-		}
 	}
 
 

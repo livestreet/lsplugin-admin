@@ -556,8 +556,10 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 	 * @return array|null
 	 */
 	public function GetUsersRegistrationStats($aPeriods) {
+		$sMySQLDateFormat = $this->BuildDateFormatFromPHPToMySQL($aPeriods['format']);
+
 		$sql = 'SELECT
-				DATE_FORMAT(`user_date_register`, "%Y-%m-%d") as registration_date,
+				DATE_FORMAT(`user_date_register`, "' . $sMySQLDateFormat . '") as registration_date,
 				COUNT(*) as count
 			FROM
 				`' . Config::Get('db.table.user') . '`
@@ -588,6 +590,26 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 			return $aResult;
 		}
 		return array();
+	}
+
+
+	/**
+	 * Отконвертировать описание форматирования даты из php в mysql
+	 *
+	 * @param $sFormat		строка форматирования как в php ("Y-m-d")
+	 * @return mixed		строка для мускула ("%Y-%m-%d")
+	 */
+	protected function BuildDateFormatFromPHPToMySQL ($sFormat) {
+		/*
+		 * не использовать литерал \w т.к. он содержит цифры, а их экранировать не нужно!
+		 */
+		$sFormat = preg_replace('#([a-z])#iu', '%$1', $sFormat);
+		/*
+		 * хак: если формат даты содежит часы и минуты,
+		 * то чтобы не округлять даты в бд к получасам (ведь регистрация может быть и в 55 минут) - ставим минуты в 30 как среднее
+		 * и привязываем регистрацию только к часу (т.е. каждая регистрация будет в Х часов 30 минут для однодневных интервалов)
+		 */
+		return str_replace('%i', '30', $sFormat);
 	}
 
 }
