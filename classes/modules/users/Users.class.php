@@ -769,7 +769,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * @param $sPeriod		тип периода
 	 * @return array		array('from' => '...', 'to' => '...')
 	 */
-	public function GetUsersRegistrationStatsGraphPeriod($sPeriod) {
+	public function GetUsersRegistrationStatsGraphPeriod($sPeriod = null) {
 		switch($sPeriod) {
 			/*
 			 * вчера
@@ -891,7 +891,7 @@ class PluginAdmin_ModuleUsers extends Module {
 			 */
 			$aData[] = array(
 				/*
-				 * формат даты береться из периода, где был задан её формат связанный с интервалом
+				 * формат даты берется из периода, где был задан её формат связанный с интервалом
 				 */
 				'registration_date' => date($aPeriod['format'], $iCurrentTime),
 				'count' => 0
@@ -925,6 +925,21 @@ class PluginAdmin_ModuleUsers extends Module {
 			}
 		}
 		return $aFilledWithZerosPeriods;
+	}
+
+
+	/**
+	 * Получить данные периода при ручном выборе дат
+	 *
+	 * @param $sDateStart		дата начала
+	 * @param $sDateFinish		дата финиша
+	 * @return array
+	 */
+	public function SetupCustomPeriod($sDateStart, $sDateFinish) {
+		$aPeriod = $this->GetUsersRegistrationStatsGraphPeriod();
+		$aPeriod['from'] = $sDateStart;
+		$aPeriod['to'] = $sDateFinish;
+		return $aPeriod;
 	}
 
 }

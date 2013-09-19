@@ -989,12 +989,32 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		}
 
 		/*
+		 * если был выбран ручной интервал дат
+		 */
+		if ($sDateStart = $this->GetDataFromFilter('date_start') and $sDateFinish = $this->GetDataFromFilter('date_finish')) {
+			/*
+			 * проверить чтобы дата начала была меньше чем дата конца
+			 */
+			if ($sDateStart > $sDateFinish) {
+				$this->Message_AddError($this->Lang('errors.stats.wrong_date_range'), $this->Lang_Get('error'));
+			} else {
+				/*
+				 * построить данные о периоде
+				 */
+				$aPeriod = $this->Pluginadmin_users_SetupCustomPeriod($sDateStart, $sDateFinish);
+				$sGraphPeriod = 'manual';
+			}
+		}
+
+		/*
 		 * статистика по регистрациям
 		 */
 		/*
-		 * получить период дат от и до для названия интервала
+		 * получить период дат от и до для названия интервала если не был выбран ручной интервал дат
 		 */
-		$aPeriod = $this->PluginAdmin_Users_GetUsersRegistrationStatsGraphPeriod($sGraphPeriod);
+		if ($sGraphPeriod != 'manual') {
+			$aPeriod = $this->PluginAdmin_Users_GetUsersRegistrationStatsGraphPeriod($sGraphPeriod);
+		}
 		/*
 		 * получить пустой интервал дат для графика
 		 */

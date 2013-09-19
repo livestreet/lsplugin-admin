@@ -16,8 +16,22 @@
 	}">Неделя</a>
 	<a class="button {if $sCurrentGraphPeriod=='month'}active{/if}" href="{router page='admin/users/stats'}{request_filter
 		name=array('graph_period')
-		value=array('month')
+		value=array(null)
 	}">Месяц</a>
+	<div class="period-selection">
+		<form action="{router page='admin/users/stats'}" enctype="application/x-www-form-urlencoded" method="get">
+			<input type="text" name="filter[date_start]" value="{$_aRequest.filter.date_start}" class="input-text width-100 date-picker-php" placeholder="{date('Y-m-d')}" />
+			&nbsp;&ndash;&nbsp;
+			<input type="text" name="filter[date_finish]" value="{$_aRequest.filter.date_finish}" class="input-text width-100 date-picker-php" placeholder="{date('Y-m-d')}" />
+			<input type="submit" value="Показать" class="button" />
+			{if $_aRequest.filter.date_start}
+				<a href="{router page='admin/users/stats'}{request_filter
+					name=array('date_start', 'date_finish')
+					value=array(null, null)
+				}" class="remove-custom-period-selection"><i class="icon-remove"></i></a>
+			{/if}
+		</form>
+	</div>
 
 {/block}
 
