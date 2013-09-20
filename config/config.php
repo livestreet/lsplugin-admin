@@ -54,6 +54,21 @@ $config['auto_delete_old_ban_records'] = true;
 $config['gather_bans_running_stats'] = true;
 
 /*
+ * данные для главной страницы админки
+ */
+$config['dashboard'] = array(
+	/*
+	 * лента последней активности на сайте
+	 */
+	'stream' => array(
+		/*
+		 * количество событий по-умолчанию
+		 */
+		'count_default' => 5
+	)
+);
+
+/*
  * роутер
  */
 $config['$root$']['router']['page']['admin'] = 'PluginAdmin_ActionAdmin';

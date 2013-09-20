@@ -1,0 +1,134 @@
+/**
+ * LiveStreet CMS
+ * Copyright © 2013 OOO "ЛС-СОФТ"
+ *
+ * ------------------------------------------------------
+ *
+ * Official site: www.livestreetcms.com
+ * Contact e-mail: office@livestreetcms.com
+ *
+ * GNU General Public License, version 2:
+ * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ *
+ * ------------------------------------------------------
+ *
+ * @link http://www.livestreetcms.com
+ * @copyright 2013 OOO "ЛС-СОФТ"
+ * @author Serge Pustovit (PSNet) <light.feel@gmail.com>
+ *
+ */
+
+/* dashboard */
+
+.ls-admin .dashboard {}
+
+.ls-admin .dashboard .top-base-stat-line {
+	background: #f9f9f9;
+	clear: both;
+	margin: -15px -15px 20px;
+	overflow: hidden;
+	padding: 15px;
+	font-size: 17px;
+}
+
+.ls-admin .dashboard .top-base-stat-line > * {
+	float: left;
+	margin-right: 60px;
+}
+
+.ls-admin .dashboard .graph {
+	margin-bottom: 20px;
+}
+
+.ls-admin .dashboard .graph .graph_wrapper {}
+
+.ls-admin .dashboard .middle-stat-line {
+	margin-bottom: 20px;
+	clear: both;
+	overflow: hidden;
+}
+
+.ls-admin .dashboard .middle-stat-line > * {
+	float: left;
+	overflow: hidden;
+	width: 33%;
+}
+
+.ls-admin .dashboard .footer-stat-info {
+	clear: both;
+	overflow: hidden;
+	margin-bottom: 20px;
+}
+
+.ls-admin .dashboard .footer-stat-info .w50p {
+	float: left;
+	overflow: hidden;
+	width: 49%;
+	border: 1px solid #F1f1f1;
+}
+
+.ls-admin .dashboard .footer-stat-info .w50p h3 {
+	background: #f9f9f9;
+	font-size: 18px;
+	padding: 10px;
+}
+
+.ls-admin .dashboard .footer-stat-info .w50p .content-data {
+	padding: 10px;
+}
+
+/* activity */
+
+#activity-event-list {
+	clear: both;
+	overflow: hidden;
+}
+
+#activity-get-more {
+	border: 1px solid #e5e5e5;
+	border-radius: 2px;
+	padding: 5px;
+	text-align: center;
+	cursor: pointer;
+	background: none repeat scroll 0 0 #f9f9f9;
+}
+
+#activity-event-list .activity-date {
+	color: #999;
+	float: right;
+	font-size: 11px;
+}
+
+#activity-event-list .activity-event {
+	border-bottom: 1px solid #f2f2f2;
+	margin-bottom: 10px;
+	padding-bottom: 10px;
+}
+
+#activity-event-list .activity-event > a {
+	display: block;
+	float: left;
+	margin-right: 10px;
+}
+
+#activity-event-list .activity-event img {
+	display: inline-block;
+	height: auto;
+	width: 24px;
+	vertical-align: middle;
+}
+
+#activity-event-list .activity-event > a img.activity-event-avatar {
+	display: block;
+	height: auto;
+	width: 24px;
+}
+
+#activity-event-list .activity-event .activity-event-info {
+	overflow: hidden;
+}
+
+#activity-event-list .activity-event .activity-event-info time {
+	color: #bbb;
+	font-size: 11px;
+}

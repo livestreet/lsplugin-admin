@@ -87,4 +87,9 @@ jQuery(document).ready(function($) {
 		sQ = $ (this).attr ('data-question-title') ? $ (this).attr ('data-question-title') : 'Ok?';
 		if (!confirm (sQ)) return false;
 	});
+
+	/**
+	 * Activity
+	 */
+	ls.stream.init();
 });

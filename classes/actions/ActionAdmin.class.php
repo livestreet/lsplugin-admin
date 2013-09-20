@@ -83,6 +83,10 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 * Работа с настройками плагинов и движка
 		 */
 		$this->RegisterEventExternal('Settings', 'PluginAdmin_ActionAdmin_EventSettings');
+		/*
+		 * Дашбоард
+		 */
+		$this->RegisterEventExternal('Dashboard', 'PluginAdmin_ActionAdmin_EventDashboard');
 
 
 		/*
@@ -90,7 +94,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 * --- дашборд ---
 		 *
 		 */
-		$this->AddEvent('index', 'EventIndex');
+		$this->AddEvent('index', 'Dashboard::EventIndex');
 		/**
 		 * Обработка ошибок, аналог ActionError
 		 */
@@ -231,17 +235,6 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 	 ************************ РЕАЛИЗАЦИЯ ЭКШЕНА ***************************************
 	 **********************************************************************************
 	 */
-
-	/**
-	 * Дашборд
-	 */
-	protected function EventIndex() {
-		$this->SetTemplateAction('index');
-		/*
-		 * получить данные последнего входа в админку
-		 */
-		$this->Viewer_Assign('aLastVisitData', $this->PluginAdmin_Users_GetLastVisitData());
-	}
 
 
 	/**
@@ -419,6 +412,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$sPluginTemplatePath . '/css/skins.css',
 			$sPluginTemplatePath . '/css/users.css',
 			$sPluginTemplatePath . '/css/table.css',
+			$sPluginTemplatePath . '/css/dashboard.css',
 		);
 
 		/*
@@ -426,7 +420,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 */
 		$aScripts = array (
 			/*
-			 кририкпты, задаваемые фреймворком
+			 * скрипты, задаваемые фреймворком
 			 */
 			$sFrameworkPath . '/js/vendor/jquery-1.9.1.min.js',
 			$sFrameworkPath . '/js/vendor/jquery-ui/js/jquery-ui-1.10.2.custom.min.js',
@@ -459,6 +453,10 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$sFrameworkPath . '/js/ui/tab.js',
 			$sFrameworkPath . '/js/ui/modal.js',
 			$sFrameworkPath . '/js/ui/toolbar.js',
+			/*
+			 * for stream list in dashboard
+			 */
+			Config::Get('path.application.web') . '/frontend/common/js/stream.js',
 
 			/*
 			 * скрипты плагина
