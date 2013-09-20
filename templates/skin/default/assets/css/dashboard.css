@@ -22,6 +22,10 @@
 
 .ls-admin .dashboard {}
 
+.ls-admin .dashboard h3 {
+	font-size: 22px;
+}
+
 .ls-admin .dashboard .top-base-stat-line {
 	background: #f9f9f9;
 	clear: both;
@@ -105,10 +109,12 @@
 	padding-bottom: 10px;
 }
 
-#activity-event-list .activity-event > a {
+#activity-event-list .activity-event > a img.activity-event-avatar {
 	display: block;
 	float: left;
 	margin-right: 10px;
+	height: auto;
+	width: 24px;
 }
 
 #activity-event-list .activity-event img {
@@ -116,12 +122,6 @@
 	height: auto;
 	width: 24px;
 	vertical-align: middle;
-}
-
-#activity-event-list .activity-event > a img.activity-event-avatar {
-	display: block;
-	height: auto;
-	width: 24px;
 }
 
 #activity-event-list .activity-event .activity-event-info {
