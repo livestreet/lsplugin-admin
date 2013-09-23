@@ -6,18 +6,22 @@
 		<div class="top-controls">
 			<ul>
 				<li><a class="icon-white icon-pencil" href="#"></a></li>
-				<li><a href="{router page='talk/add'}?talk_users={$oUser->getLogin()}">Сообщение</a></li>
+				<li><a href="{router page='talk/add'}?talk_users={$oUser->getLogin()}">{$aLang.plugin.admin.users.profile.top_bar.msg}</a></li>
 
 				{* разрешить операция для всех пользователей, кроме самого первого в системе с id = 1 *}
 				{if $oUser->getId()!=1}
 					{if $oUser->isAdministrator()}
-						<li><a class="question" href="{router page="admin/users/site_admins/delete/{$oUser->getId()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}">Удалить из админов</a></li>
+						<li><a class="question" href="{router page="admin/users/site_admins/delete/{$oUser->getId()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
+									>{$aLang.plugin.admin.users.profile.top_bar.admin_delete}</a></li>
 					{else}
-						<li><a class="question" href="{router page="admin/users/site_admins/add/{$oUser->getId()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}">В администраторы</a></li>
+						<li><a class="question" href="{router page="admin/users/site_admins/add/{$oUser->getId()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
+									>{$aLang.plugin.admin.users.profile.top_bar.admin_add}</a></li>
 					{/if}
-					<li><a class="question" href="{router page="admin/users/deletecontent/{$oUser->getId()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}">Удалить контент</a></li>
-					<li><a class="question" href="{router page="admin/users/deleteuser/{$oUser->getId()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}">Удалить пользователя</a></li>
-					<li><a href="{router page='admin/users/bans/add'}?user_id={$oUser->getId()}">Блокировать</a></li>
+					<li><a class="question" href="{router page="admin/users/deletecontent/{$oUser->getId()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
+								>{$aLang.plugin.admin.users.profile.top_bar.content_delete}</a></li>
+					<li><a class="question" href="{router page="admin/users/deleteuser/{$oUser->getId()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
+								>{$aLang.plugin.admin.users.profile.top_bar.user_delete}</a></li>
+					<li><a href="{router page='admin/users/bans/add'}?user_id={$oUser->getId()}">{$aLang.plugin.admin.users.profile.top_bar.ban}</a></li>
 				{/if}
 
 				<li class="fl-r"><a class="icon-white icon-chevron-right" href="#"></a></li>
@@ -27,15 +31,15 @@
 		</div>
 		<div class="inner-data">
 			<ul class="profile-links">
-				<li><a class="profile" href="{$oUser->getUserWebPath()}">Профиль</a></li>
-				<li><a class="publications" href="{$oUser->getUserWebPath()}created/">Публикации</a></li>
-				<li><a class="activity" href="{$oUser->getUserWebPath()}stream/">Активность</a></li>
-				<li><a class="friends" href="{$oUser->getUserWebPath()}friends/">Друзья</a></li>
+				<li><a class="profile" href="{$oUser->getUserWebPath()}">{$aLang.plugin.admin.users.profile.middle_bar.profile}</a></li>
+				<li><a class="publications" href="{$oUser->getUserWebPath()}created/">{$aLang.plugin.admin.users.profile.middle_bar.publications}</a></li>
+				<li><a class="activity" href="{$oUser->getUserWebPath()}stream/">{$aLang.plugin.admin.users.profile.middle_bar.activity}</a></li>
+				<li><a class="friends" href="{$oUser->getUserWebPath()}friends/">{$aLang.plugin.admin.users.profile.middle_bar.friends}</a></li>
 				{*<li><a class="claims" href="#">Жалобы</a></li>*}
 				{*<li><a class="money" href="#">Счет</a></li>*}
-				<li><a class="wall" href="{$oUser->getUserWebPath()}wall/">Стена</a></li>
+				<li><a class="wall" href="{$oUser->getUserWebPath()}wall/">{$aLang.plugin.admin.users.profile.middle_bar.wall}</a></li>
 				{*<li><a class="blogs" href="#">Блоги</a></li>*}
-				<li><a class="favorite" href="{$oUser->getUserWebPath()}favourites/">Избранное</a></li>
+				<li><a class="favorite" href="{$oUser->getUserWebPath()}favourites/">{$aLang.plugin.admin.users.profile.middle_bar.fav}</a></li>
 				{*<li><a class="talk" href="#">Почта</a></li>*}
 				{*<li><a class="roles" href="#">Права</a></li>*}
 			</ul>
@@ -68,11 +72,11 @@
 						<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
 						<input type="hidden" name="user_id" value="{$oUser->getId()}" />
 						<div class="skill">
-							S
+							{$aLang.plugin.admin.users.profile.skill}
 							<input type="text" name="user-skill" class="input-text width-50" value="{$oUser->getSkill()}" />
 						</div>
 						<div class="rating">
-							R
+							{$aLang.plugin.admin.users.profile.rating}
 							<input type="text" name="user-rating" class="input-text width-50" value="{$oUser->getRating()}" />
 						</div>
 						<input type="submit" value="{$aLang.plugin.admin.users.profile.edit_user_rating}" name="submit_edit_rating" class="button button-primary" />
@@ -88,16 +92,17 @@
 						<a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileFotoPath()}" alt="" class="photo" /></a>
 					</div>
 					<div class="your-note">
+						{* todo *}
 						<a href="#">Добавить заметку</a>
 					</div>
 				</div>
 				<div class="left-data">
 					<h2 class="title mb-20">
-						Досье
+						{$aLang.plugin.admin.users.profile.info.resume}
 					</h2>
 					<div class="resume">
 						<dl>
-							<dt>Почта</dt>
+							<dt>{$aLang.plugin.admin.users.profile.info.mail}</dt>
 							<dd>
 								<a href="{router page='admin/users/list'}{request_filter
 								name=array('mail')
@@ -107,7 +112,7 @@
 						</dl>
 						{if $oUser->getProfileSex() != 'other'}
 							<dl>
-								<dt>Пол</dt>
+								<dt>{$aLang.plugin.admin.users.profile.info.sex}</dt>
 								<dd>
 									{if $oUser->getProfileSex() == 'man'}
 										{$aLang.profile_sex_man}
@@ -119,14 +124,14 @@
 						{/if}
 						{if $oUser->getProfileBirthday()}
 							<dl>
-								<dt>Родился</dt>
+								<dt>{$aLang.plugin.admin.users.profile.info.birthday}</dt>
 								<dd>{date_format date=$oUser->getProfileBirthday() format="j F Y" notz=true}</dd>
 							</dl>
 						{/if}
 
 						{if $oGeoTarget}
 							<dl>
-								<dt>Откуда</dt>
+								<dt>{$aLang.plugin.admin.users.profile.info.living}</dt>
 								<dd>
 									{if $oGeoTarget->getCountryId()}
 										<a href="{router page='people/country'}{$oGeoTarget->getCountryId()}/">{$oUser->getProfileCountry()|escape:'html'}</a>{if $oGeoTarget->getCityId()},{/if}
@@ -140,11 +145,11 @@
 						{/if}
 
 						<dl class="mt-20">
-							<dt>Зарегистрирован</dt>
+							<dt>{$aLang.plugin.admin.users.profile.info.reg_date}</dt>
 							<dd>{date_format date=$oUser->getDateRegister()}</dd>
 						</dl>
 						<dl>
-							<dt>IP</dt>
+							<dt>{$aLang.plugin.admin.users.profile.info.ip}</dt>
 							<dd>
 								<a href="{router page='admin/users/list'}{request_filter
 								name=array('ip_register')
@@ -155,11 +160,11 @@
 
 						{if $oSession}
 							<dl class="mt-20">
-								<dt>Последний визит</dt>
+								<dt>{$aLang.plugin.admin.users.profile.info.last_visit}</dt>
 								<dd>{date_format date=$oSession->getDateLast()}</dd>
 							</dl>
 							<dl>
-								<dt>IP</dt>
+								<dt>{$aLang.plugin.admin.users.profile.info.ip}</dt>
 								<dd>
 									<a href="{router page='admin/users/list'}{request_filter
 									name=array('session_ip_last')
@@ -169,7 +174,7 @@
 									<a href="{router page='admin/users/list'}{request_filter
 									name=array('session_ip_last')
 									value=array($oSession->getIpLast())
-									}" class="button mt-10">Искать с этим IP</a>
+									}" class="button mt-10">{$aLang.plugin.admin.users.profile.info.search_this_ip}</a>
 								</dd>
 							</dl>
 						{/if}
@@ -181,36 +186,37 @@
 
 					<div class="stats">
 						<h2 class="title mb-20">
-							Статистика
+							{$aLang.plugin.admin.users.profile.info.stats_title}
 						</h2>
 
 						<div class="stat-row">
-							<div class="stat-header">Создал</div>
+							<div class="stat-header">{$aLang.plugin.admin.users.profile.info.created}</div>
 							<ul>
-								<li><a href="#">{$iCountTopicUser} топиков</a></li>
-								<li><a href="#">{$iCountCommentUser} комментариев</a></li>
-								<li><a href="#">{$iCountBlogsUser} блогов</a></li>
+								{* todo: fill hrefs in links or leave just a text? *}
+								<li><a href="#">{$iCountTopicUser} {$aLang.plugin.admin.users.profile.info.topics}</a></li>
+								<li><a href="#">{$iCountCommentUser} {$aLang.plugin.admin.users.profile.info.comments}</a></li>
+								<li><a href="#">{$iCountBlogsUser} {$aLang.plugin.admin.users.profile.info.blogs}</a></li>
 							</ul>
 						</div>
 						<div class="stat-row">
-							<div class="stat-header">В избранном</div>
+							<div class="stat-header">{$aLang.plugin.admin.users.profile.info.fav}</div>
 							<ul>
-								<li><a href="#">{$iCountTopicFavourite} топиков</a></li>
-								<li><a href="#">{$iCountCommentFavourite} комментариев</a></li>
-							</ul>
-
-						</div>
-						<div class="stat-row">
-							<div class="stat-header">Читает</div>
-							<ul>
-								<li><a href="#">{$iCountBlogReads} блогов</a></li>
+								<li><a href="#">{$iCountTopicFavourite} {$aLang.plugin.admin.users.profile.info.topics}</a></li>
+								<li><a href="#">{$iCountCommentFavourite} {$aLang.plugin.admin.users.profile.info.comments}</a></li>
 							</ul>
 
 						</div>
 						<div class="stat-row">
-							<div class="stat-header">Имеет</div>
+							<div class="stat-header">{$aLang.plugin.admin.users.profile.info.reads}</div>
 							<ul>
-								<li><a href="#">{$iCountFriendsUser} друзей</a></li>
+								<li><a href="#">{$iCountBlogReads} {$aLang.plugin.admin.users.profile.info.blogs}</a></li>
+							</ul>
+
+						</div>
+						<div class="stat-row">
+							<div class="stat-header">{$aLang.plugin.admin.users.profile.info.has}</div>
+							<ul>
+								<li><a href="#">{$iCountFriendsUser} {$aLang.plugin.admin.users.profile.info.friends}</a></li>
 							</ul>
 
 						</div>
@@ -221,11 +227,12 @@
 
 					<div class="stats">
 						<h2 class="title mb-20">
-							Как голосовал
+							{$aLang.plugin.admin.users.profile.info.votings_title}
 						</h2>
 
 						<div class="stat-row">
-							<div class="stat-header"><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=topic">За топики</a></div>
+							<div class="stat-header"><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=topic"
+										>{$aLang.plugin.admin.users.profile.info.for_topics}</a></div>
 							<ul>
 								<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=topic&filter[dir]=plus">{$aUserVotedStat.topic.plus} +</a></li>
 								<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=topic&filter[dir]=minus">{$aUserVotedStat.topic.minus} -</a></li>
@@ -233,7 +240,8 @@
 						</div>
 
 						<div class="stat-row">
-							<div class="stat-header"><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=comment">За комментарии</a></div>
+							<div class="stat-header"><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=comment"
+										>{$aLang.plugin.admin.users.profile.info.for_comments}</a></div>
 							<ul>
 								<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=comment&filter[dir]=plus">{$aUserVotedStat.comment.plus} +</a></li>
 								<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=comment&filter[dir]=minus">{$aUserVotedStat.comment.minus} -</a></li>
@@ -241,7 +249,8 @@
 						</div>
 
 						<div class="stat-row">
-							<div class="stat-header"><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=blog">За блоги</a></div>
+							<div class="stat-header"><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=blog"
+										>{$aLang.plugin.admin.users.profile.info.for_blogs}</a></div>
 							<ul>
 								<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=blog&filter[dir]=plus">{$aUserVotedStat.blog.plus} +</a></li>
 								<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=blog&filter[dir]=minus">{$aUserVotedStat.blog.minus} -</a></li>
@@ -249,7 +258,8 @@
 						</div>
 
 						<div class="stat-row">
-							<div class="stat-header"><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=user">За юзеров</a></div>
+							<div class="stat-header"><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=user"
+										>{$aLang.plugin.admin.users.profile.info.for_users}</a></div>
 							<ul>
 								<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=user&filter[dir]=plus">{$aUserVotedStat.user.plus} +</a></li>
 								<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=user&filter[dir]=minus">{$aUserVotedStat.user.minus} -</a></li>

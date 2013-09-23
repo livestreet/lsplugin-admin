@@ -223,6 +223,10 @@
 	float: right;
 }
 
+.ls-admin .profile-info-wrapper .inner-data .base-info .right input {
+	vertical-align: baseline;
+}
+
 .ls-admin .profile-info-wrapper .inner-data .base-info .right .user-id {
 	clear: both;
 	font-size: 10px;

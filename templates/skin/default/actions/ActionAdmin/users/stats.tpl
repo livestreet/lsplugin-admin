@@ -5,25 +5,25 @@
 	<a class="button {if $sCurrentGraphPeriod=='yesterday'}active{/if}" href="{router page='admin/users/stats'}{request_filter
 		name=array('graph_period')
 		value=array('yesterday')
-	}">Вчера</a>
+	}">{$aLang.plugin.admin.users_stats.period_bar.yesterday}</a>
 	<a class="button {if $sCurrentGraphPeriod=='today'}active{/if}" href="{router page='admin/users/stats'}{request_filter
 		name=array('graph_period')
 		value=array('today')
-	}">Сегодня</a>
+	}">{$aLang.plugin.admin.users_stats.period_bar.today}</a>
 	<a class="button {if $sCurrentGraphPeriod=='week'}active{/if}" href="{router page='admin/users/stats'}{request_filter
 		name=array('graph_period')
 		value=array('week')
-	}">Неделя</a>
+	}">{$aLang.plugin.admin.users_stats.period_bar.week}</a>
 	<a class="button {if $sCurrentGraphPeriod=='month'}active{/if}" href="{router page='admin/users/stats'}{request_filter
 		name=array('graph_period')
 		value=array(null)
-	}">Месяц</a>
+	}">{$aLang.plugin.admin.users_stats.period_bar.default}</a>
 	<div class="period-selection">
 		<form action="{router page='admin/users/stats'}" enctype="application/x-www-form-urlencoded" method="get">
 			<input type="text" name="filter[date_start]" value="{$_aRequest.filter.date_start}" class="input-text width-100 date-picker-php" placeholder="{date('Y-m-d')}" />
 			&nbsp;&ndash;&nbsp;
 			<input type="text" name="filter[date_finish]" value="{$_aRequest.filter.date_finish}" class="input-text width-100 date-picker-php" placeholder="{date('Y-m-d')}" />
-			<input type="submit" value="Показать" class="button" />
+			<input type="submit" value="{$aLang.plugin.admin.show}" class="button" />
 			{if $_aRequest.filter.date_start}
 				<a href="{router page='admin/users/stats'}{request_filter
 					name=array('date_start', 'date_finish')
@@ -41,15 +41,15 @@
 		<div class="count">
 			{number_format($aStats.count_all, 0, '.', ' ')}
 		</div>
-		пользователей
+		{$aLang.plugin.admin.users_stats.users}
 	</div>
-	Статистика
+	{$aLang.plugin.admin.users_stats.title}
 {/block}
 
 
 {block name='layout_content'}
 	<div class="users-stats">
-		<h3>Регистрации</h3>
+		<h3>{$aLang.plugin.admin.users_stats.registrations}</h3>
 		<div class="graph">
 			<div id="admin_users_graph_container"></div>
 			<script>
@@ -57,8 +57,8 @@
 					// docs: api.highcharts.com/highcharts
 					Highcharts.setOptions({
 						lang: {
-							resetZoom: 'Сбросить зум',
-							resetZoomTitle: 'Показать 1 к 1'
+							resetZoom: '{$aLang.plugin.admin.reset_zoom}',
+							resetZoomTitle: '{$aLang.plugin.admin.reset_zoom_tip}'
 						}
 					});
 					$('#admin_users_graph_container').highcharts({
@@ -89,7 +89,7 @@
 							borderWidth: 0,
 							// .highcharts-tooltip
 							shared: true,
-							valueSuffix: ' пользователей'
+							valueSuffix: ' {$aLang.plugin.admin.users_stats.users}'
 						},
 						credits: {
 							enabled: false
@@ -110,7 +110,7 @@
 							]
 						},
 						series: [{
-							name: 'Регистрации',
+							name: '{$aLang.plugin.admin.users_stats.registrations}',
 							color: '#8FCFEA',
 							data: [
 								{foreach from=$aUserRegistrationStats item=aUserRegData name=UsersRegCycle}
@@ -123,14 +123,14 @@
 			</script>
 		</div>
 		<div class="value-in-table">
-			<a href="#" id="admin_users_show_graph_stats_in_table">значения таблицей</a>
+			<a href="#" id="admin_users_show_graph_stats_in_table">{$aLang.plugin.admin.users_stats.values_in_table}</a>
 			<div id="admin_users_graph_table_stats_data">
 				<table>
 					<thead>
 						<tr>
 							<th>#</th>
-							<th>Дата</th>
-							<th>Количество</th>
+							<th>{$aLang.plugin.admin.users_stats.date}</th>
+							<th>{$aLang.plugin.admin.users_stats.count}</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -153,7 +153,7 @@
 		</div>
 		<div class="stat-line">
 			<div class="w50p first-block">
-				<h3>Гендерное распределение</h3>
+				<h3>{$aLang.plugin.admin.users_stats.gender_stats}</h3>
 				{*
 					значения для каждого пола в процентах
 				*}
@@ -204,20 +204,20 @@
 								},
 								series: [{
 									type: 'pie',
-									name: '% от всех',
+									name: '{$aLang.plugin.admin.users_stats.percent_from_all}',
 									data: [
 										{
-											name: 'Пол не указан',
+											name: '{$aLang.plugin.admin.users_stats.sex_other}',
 											y: {$iUsersSexOtherPerc},
 											color: '#F5F1FF'
 										},
 										{
-											name: 'Мужчины',
+											name: '{$aLang.plugin.admin.users_stats.sex_man}',
 											y: {$iUsersSexManPerc},
 											color: '#94E3E6'
 										},
 										{
-											name: 'Женщины',
+											name: '{$aLang.plugin.admin.users_stats.sex_woman}',
 											y: {$iUsersSexWomanPerc},
 											color: '#FACBFF'
 										}
@@ -234,7 +234,7 @@
 						<tr>
 							<td>
 								<span class="users-sex-indicator other"></span>
-								Пол не указан
+								{$aLang.plugin.admin.users_stats.sex_other}
 							</td>
 							<td class="text-right">
 								{$aStats.count_sex_other}
@@ -246,7 +246,7 @@
 						<tr>
 							<td>
 								<span class="users-sex-indicator man"></span>
-								Мужчины
+								{$aLang.plugin.admin.users_stats.sex_man}
 							</td>
 							<td class="text-right">
 								{$aStats.count_sex_man}
@@ -258,7 +258,7 @@
 						<tr>
 							<td>
 								<span class="users-sex-indicator woman"></span>
-								Женщины
+								{$aLang.plugin.admin.users_stats.sex_woman}
 							</td>
 							<td class="text-right">
 								{$aStats.count_sex_woman}
@@ -276,7 +276,7 @@
 						</tr>
 						<tr>
 							<td>
-								Всего
+								{$aLang.plugin.admin.users_stats.total}
 							</td>
 							<td class="text-right">
 								{$aStats.count_all}
@@ -289,13 +289,13 @@
 				</div>
 			</div>
 			<div class="w50p second-block">
-				<h3>Активность</h3>
+				<h3>{$aLang.plugin.admin.users_stats.activity}</h3>
 				<table>
 					<thead></thead>
 					<tbody>
 						<tr>
 							<td>
-								Активные
+								{$aLang.plugin.admin.users_stats.activity_active}
 							</td>
 							<td class="text-right">
 								{$aStats.count_active}
@@ -306,7 +306,7 @@
 						</tr>
 						<tr>
 							<td>
-								Заблудившиеся
+								{$aLang.plugin.admin.users_stats.activity_passive}
 							</td>
 							<td class="text-right">
 								{$aStats.count_inactive}
@@ -323,7 +323,7 @@
 		{if $aBirthdaysStats and $aBirthdaysStats.collection and count($aBirthdaysStats.collection)>0}
 			<div class="users-age">
 				<h3>Возрастное распределение</h3>
-				{if count($aBirthdaysStats.collection)<100}
+				{if count($aBirthdaysStats.collection)<20}
 					<div class="mb-20">
 						У вас очень мало пользователей либо сайт ещё слишком молод чтобы показать красивый график.
 					</div>
@@ -386,7 +386,7 @@
 					{/if}
 				</h3>
 
-				{if count($aLivingStats.collection)<100}
+				{if count($aLivingStats.collection)<20}
 					<div class="mb-20">
 						У вас очень мало пользователей либо сайт ещё слишком молод чтобы показать красивый график.
 					</div>

@@ -2,7 +2,7 @@
 
 {block name='layout_content'}
 	<h2 class="title mb-20">
-		{$aLang.plugin.admin.bans.add}
+		{$aLang.plugin.admin.bans.add.title}
 	</h2>
 
 	<div class="top-controls mb-20">
@@ -15,11 +15,10 @@
 			<input type="hidden" name="ban_id" value="{$_aRequest.id}" />
 
 			<div class="ban-part-wrapper">
-				<h3>Идентификация пользователя</h3>
+				<h3>{$aLang.plugin.admin.bans.add.user_sign}</h3>
 				<div class="usersign mb-20">
 					<div class="mb-10">
-						Введите id (1091), логин (userlogin) или почту (user@mail.com) зарегистрированного пользователя или
-						ip-адрес (192.168.0.10) или диапазон ip-адресов (192.168.0.10 - 192.168.0.100) для блокировки:
+						{$aLang.plugin.admin.bans.add.user_sign_info}:
 					</div>
 					<input type="text" name="user_sign" class="input-text width-250" placeholder="spamuser" value="{$_aRequest.user_sign}" required="" id="admin_bans_user_sign" />
 					<span id="admin_bans_checking_msg"></span>
@@ -27,18 +26,16 @@
 			</div>
 
 			<div class="ban-part-wrapper">
-				<h3 class="mb-30">Срок действия бана</h3>
+				<h3 class="mb-30">{$aLang.plugin.admin.bans.add.ban_time_title}</h3>
 				<div class="block-period mb-20">
 					<div class="one-param">
 						<label>
 							<input type="radio" name="bantype[]" value="unlimited"
 								   {if in_array('unlimited', (array) $_aRequest.bantype) or is_null($_aRequest.bantype)}checked="checked"{/if} />
-							Пожизненно
+							{$aLang.plugin.admin.bans.add.ban_timing.unlimited}
 						</label>
 						<div class="right-info">
-							Пользователь с указанными данными не сможет войти на сайт никогда.
-							Следует применять данный метод в случае если указанный пользователь - бот и рассылает спам.
-							Примечание: у некоторых пользователей айпи адрес не статичен.
+							{$aLang.plugin.admin.bans.add.ban_timing.unlimited_info}
 						</div>
 					</div>
 
@@ -46,16 +43,18 @@
 						<label>
 							<input type="radio" name="bantype[]" value="period"
 								   {if in_array('period', (array) $_aRequest.bantype)}checked="checked"{/if} />
-							На период времени
+							{$aLang.plugin.admin.bans.add.ban_timing.period}
 						</label>
 						<div class="right-info">
-							Пользователь не сможет получить доступ к сайту на период времени
+							{$aLang.plugin.admin.bans.add.ban_timing.period_info}
 							<br />
-							с <input type="text" name="date_start" value="{$_aRequest.date_start}" class="input-text width-150 date-picker-php" placeholder="{date('Y-m-d')}" />
+							{$aLang.plugin.admin.from}
+							<input type="text" name="date_start" value="{$_aRequest.date_start}" class="input-text width-150 date-picker-php" placeholder="{date('Y-m-d')}" />
 							&nbsp;&nbsp;&nbsp;
-							по <input type="text" name="date_finish" value="{$_aRequest.date_finish}" class="input-text width-150 date-picker-php" placeholder="2030-01-01" />
+							{$aLang.plugin.admin.to}
+							<input type="text" name="date_finish" value="{$_aRequest.date_finish}" class="input-text width-150 date-picker-php" placeholder="2030-01-01" />
 							<br />
-							По проишествии указанного времени пользователь автоматически сможет получить доступ к сайту.
+							{$aLang.plugin.admin.bans.add.ban_timing.period_info2}
 						</div>
 					</div>
 
@@ -63,29 +62,30 @@
 						<label>
 							<input type="radio" name="bantype[]" value="days"
 								   {if in_array('days', (array) $_aRequest.bantype)}checked="checked"{/if} />
-							На количество дней
+							{$aLang.plugin.admin.bans.add.ban_timing.days}
 						</label>
 						<div class="right-info">
-							Пользователь не сможет получить доступ к сайту на указанное количество дней начиная с текущего
+							{$aLang.plugin.admin.bans.add.ban_timing.days_info}
 							<br />
-							<input type="text" name="days_count" value="{$_aRequest.days_count}" class="input-text width-100" placeholder="31" /> дней
+							<input type="text" name="days_count" value="{$_aRequest.days_count}" class="input-text width-100" placeholder="31" />
+							{$aLang.plugin.admin.bans.add.ban_timing.days_left}
 							<br />
-							По проишествии указанного времени пользователь автоматически сможет получить доступ к сайту.
+							{$aLang.plugin.admin.bans.add.ban_timing.period_info2}
 						</div>
 					</div>
 				</div>
 			</div>
 
 			<div class="ban-part-wrapper">
-				<h3>Комментарии</h3>
+				<h3>{$aLang.plugin.admin.bans.add.comments}</h3>
 				<div class="blocking-reason mb-20">
 					<div class="mb-10">
-						Укажите причину блокировки, которая будет видна пользователю (если нужно):
+						{$aLang.plugin.admin.bans.add.reason}:
 						<br />
 						<input type="text" name="reason_for_user" value="{$_aRequest.reason_for_user}" class="input-text width-400" placeholder="Slow down, cowboy, spam elsewhere" />
 					</div>
 					<div class="mb-10">
-						Укажите заметку для себя (видна только администраторам на странице списка банов):
+						{$aLang.plugin.admin.bans.add.comment_for_yourself}:
 						<br />
 						<input type="text" name="comment" value="{$_aRequest.comment}" class="input-text width-400" placeholder="spammer" />
 					</div>
