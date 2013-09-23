@@ -31,6 +31,18 @@ class PluginAdmin_ActionAdmin_EventDashboard extends Event {
 		 */
 		$this->GetStreamAll();
 		/*
+		 * получить базовую статистику
+		 */
+		$this->Viewer_Assign('aStats', $this->User_GetStatUsers());
+		/*
+		 * количество топиков всего
+		 */
+		$this->Viewer_Assign('iTotalTopicsCount', $this->Topic_GetCountTopicsByFilter(array('published' => 1)));
+		/*
+		 * количество блогов всего
+		 */
+		$this->Viewer_Assign('iTotalBlogsCount', $this->PluginAdmin_Blogs_GetCountBlogs());
+		/*
 		 * получить данные последнего входа в админку
 		 */
 		$this->Viewer_Assign('aLastVisitData', $this->PluginAdmin_Users_GetLastVisitData());

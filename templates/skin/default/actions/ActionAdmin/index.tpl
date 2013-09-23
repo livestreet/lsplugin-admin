@@ -5,22 +5,46 @@
 	<div class="dashboard">
 		<ul class="top-base-stat-line">
 			<li class="users">
-				<div>323</div>
+				<div>{$aStats.count_all}</div>
 				пользователей
 			</li>
 			<li class="topics">
-				<div>43</div>
+				<div>{$iTotalTopicsCount}</div>
 				топиков
 			</li>
 			<li class="blogs">
-				<div>32</div>
+				<div>{$iTotalBlogsCount}</div>
 				блогов
 			</li>
 		</ul>
 		<div class="graph">
-			<h3>
-				Статистика <span id="admin_dashboard_graph_type_select">Регистрации</span>
-			</h3>
+			{*
+				попап меню с выбором периода и типа графика
+			*}
+			<div class="popup-params-select fl-r">
+				<form action="{router page='admin'}" enctype="application/x-www-form-urlencoded" method="get">
+					<input type="text" name="filter[date_start]" value="{$_aRequest.filter.date_start}" class="input-text width-100 date-picker-php" placeholder="{date('Y-m-d')}" />
+					&nbsp;&ndash;&nbsp;
+					<input type="text" name="filter[date_finish]" value="{$_aRequest.filter.date_finish}" class="input-text width-100 date-picker-php" placeholder="{date('Y-m-d')}" />
+					{if $_aRequest.filter.date_start}
+						<a href="{router page='admin'}{request_filter
+						name=array('date_start', 'date_finish')
+						value=array(null, null)
+						}" class="remove-custom-period-selection"><i class="icon-remove"></i></a>
+					{/if}
+
+					<select id="admin_dashboard_graph_type_select" class="width-150">
+						<option value="registrations">Регистрации</option>
+						<option value="topics">Новые топики</option>
+						<option value="comments">Комментарии</option>
+						<option value="votings">Голосования</option>
+					</select>
+
+					<input type="submit" value="Показать" class="button" />
+				</form>
+			</div>
+
+			<h3>Статистика</h3>
 			<div class="graph_wrapper">
 
 			</div>
