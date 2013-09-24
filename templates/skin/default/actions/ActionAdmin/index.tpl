@@ -23,21 +23,19 @@
 			*}
 			<div class="popup-params-select fl-r">
 				<form action="{router page='admin'}" enctype="application/x-www-form-urlencoded" method="get">
-					<input type="text" name="filter[date_start]" value="{$_aRequest.filter.date_start}" class="input-text width-100 date-picker-php" placeholder="{date('Y-m-d')}" />
-					&nbsp;&ndash;&nbsp;
-					<input type="text" name="filter[date_finish]" value="{$_aRequest.filter.date_finish}" class="input-text width-100 date-picker-php" placeholder="{date('Y-m-d')}" />
-					{if $_aRequest.filter.date_start}
-						<a href="{router page='admin'}{request_filter
-						name=array('date_start', 'date_finish')
-						value=array(null, null)
-						}" class="remove-custom-period-selection"><i class="icon-remove"></i></a>
-					{/if}
-
-					<select id="admin_dashboard_graph_type_select" class="width-150">
-						<option value="registrations">Регистрации</option>
-						<option value="topics">Новые топики</option>
-						<option value="comments">Комментарии</option>
-						<option value="votings">Голосования</option>
+					Отображать:
+					<select name="filter[graph_type]" class="width-150">
+						<option value="regs" {if $sCurrentGraphType=='regs'}selected="selected"{/if}>Регистрации</option>
+						<option value="topics" {if $sCurrentGraphType=='topics'}selected="selected"{/if}>Новые топики</option>
+						<option value="comments" {if $sCurrentGraphType=='comments'}selected="selected"{/if}>Комментарии</option>
+						<option value="votings" {if $sCurrentGraphType=='votings'}selected="selected"{/if}>Голосования</option>
+					</select>
+					Период:
+					<select name="filter[graph_period]" class="width-150">
+						<option value="yesterday" {if $sCurrentGraphPeriod=='yesterday'}selected="selected"{/if}>Вчера</option>
+						<option value="today" {if $sCurrentGraphPeriod=='today'}selected="selected"{/if}>Сегодня</option>
+						<option value="week" {if $sCurrentGraphPeriod=='week'}selected="selected"{/if}>Неделя</option>
+						<option value="month" {if $sCurrentGraphPeriod=='month'}selected="selected"{/if}>Месяц</option>
 					</select>
 
 					<input type="submit" value="Показать" class="button" />
@@ -46,7 +44,11 @@
 
 			<h3>Статистика</h3>
 			<div class="graph_wrapper">
-
+				{include file="{$aTemplatePathPlugin.admin}/graph.tpl"
+					sValueSuffix=$aLang.plugin.admin.users_stats.users
+					aStats=$aDataStats
+					sName=$aLang.plugin.admin.users_stats.registrations
+				}
 			</div>
 		</div>
 		<div class="middle-stat-line">

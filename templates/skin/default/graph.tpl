@@ -61,7 +61,7 @@
 				xAxis: {
 					categories: [
 						{foreach from=$aStats item=aData}
-							'{$aData['registration_date']}'{if !$aData.last},{/if}
+							'{$aData['date']}'{if !$aData.last},{/if}
 						{/foreach}
 					]
 				},

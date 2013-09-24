@@ -52,7 +52,7 @@
 		<div class="graph">
 			{include file="{$aTemplatePathPlugin.admin}/graph.tpl"
 				sValueSuffix=$aLang.plugin.admin.users_stats.users
-				aStats=$aUserRegistrationStats
+				aStats=$aDataStats
 				sName=$aLang.plugin.admin.users_stats.registrations
 			}
 		</div>
@@ -68,13 +68,13 @@
 						</tr>
 					</thead>
 					<tbody>
-						{foreach from=$aUserRegistrationStats item=aUserRegData name=UsersRegCycle}
+						{foreach from=$aDataStats item=aUserRegData name=UsersRegCycle}
 							<tr>
 								<td>
 									{$smarty.foreach.UsersRegCycle.iteration}
 								</td>
 								<td>
-									{$aUserRegData['registration_date']}
+									{$aUserRegData['date']}
 								</td>
 								<td>
 									{$aUserRegData['count']}

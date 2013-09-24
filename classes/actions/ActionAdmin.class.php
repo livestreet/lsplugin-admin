@@ -314,6 +314,34 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 	public function Lang($sKey, $aParams = array()) {
 		return $this->Lang_Get('plugin.admin.' . $sKey, $aParams);
 	}
+
+
+	/**
+	 * Получить значение из фильтра (массива-переменной "filter" из реквеста) или весь фильтр
+	 *
+	 * @param $sName				имя ключа из массива фильтра или null для получения всего фильтра
+	 * @return mixed|array|null		значение
+	 */
+	protected function GetDataFromFilter($sName = null) {
+		/*
+		 * получить фильтр, хранящий в себе все параметры (разрезы показа, сортировку, поиск и др.)
+		 */
+		if ($aFilter = getRequest('filter') and is_array($aFilter)) {
+			/*
+			 * если нужны все значения фильтра
+			 */
+			if (!$sName) {
+				return $aFilter;
+			}
+			/*
+			 * если нужно выбрать одно значение из фильтра
+			 */
+			if ($sName and isset($aFilter[$sName]) and $aFilter[$sName]) {
+				return $aFilter[$sName];
+			}
+		}
+		return null;
+	}
 	
 	
 	public function EventShutdown() {
