@@ -32,7 +32,6 @@
 			{/if}
 		</form>
 	</div>
-
 {/block}
 
 
@@ -51,76 +50,11 @@
 	<div class="users-stats">
 		<h3>{$aLang.plugin.admin.users_stats.registrations}</h3>
 		<div class="graph">
-			<div id="admin_users_graph_container"></div>
-			<script>
-				jQuery(document).ready(function($) {
-					// docs: api.highcharts.com/highcharts
-					Highcharts.setOptions({
-						lang: {
-							resetZoom: '{$aLang.plugin.admin.reset_zoom}',
-							resetZoomTitle: '{$aLang.plugin.admin.reset_zoom_tip}'
-						}
-					});
-					$('#admin_users_graph_container').highcharts({
-						chart: {
-							type: 'areaspline',
-							height: 200,
-							//margin: 0,			// hides axis
-							spacingBottom: 0,
-							spacingLeft: 0,
-							spacingRight: 0,
-							spacingTop: 10,
-							zoomType: 'x'
-						},
-						title: {
-							text: ''
-						},
-						yAxis: {
-							title: {
-								text: ''
-							},
-							gridLineColor: '#f1f1f1',
-							gridLineWidth: 1,
-							allowDecimals: false
-						},
-						tooltip: {
-							animation: false,
-							shadow: false,
-							borderWidth: 0,
-							// .highcharts-tooltip
-							shared: true,
-							valueSuffix: ' {$aLang.plugin.admin.users_stats.users}'
-						},
-						credits: {
-							enabled: false
-						},
-						legend: {
-							enabled: false
-						},
-						plotOptions: {
-							areaspline: {
-								fillOpacity: 0.5
-							}
-						},
-						xAxis: {
-							categories: [
-								{foreach from=$aUserRegistrationStats item=aUserRegData}
-									'{$aUserRegData['registration_date']}'{if !$aUserRegData.last},{/if}
-								{/foreach}
-							]
-						},
-						series: [{
-							name: '{$aLang.plugin.admin.users_stats.registrations}',
-							color: '#8FCFEA',
-							data: [
-								{foreach from=$aUserRegistrationStats item=aUserRegData name=UsersRegCycle}
-									[{$smarty.foreach.UsersRegCycle.index}, {$aUserRegData['count']}]{if !$aUserRegData.last},{/if}
-								{/foreach}
-							]
-						}]
-					});
-				});
-			</script>
+			{include file="{$aTemplatePathPlugin.admin}/graph.tpl"
+				sValueSuffix=$aLang.plugin.admin.users_stats.users
+				aStats=$aUserRegistrationStats
+				sName=$aLang.plugin.admin.users_stats.registrations
+			}
 		</div>
 		<div class="value-in-table">
 			<a href="#" id="admin_users_show_graph_stats_in_table">{$aLang.plugin.admin.users_stats.values_in_table}</a>
@@ -322,10 +256,10 @@
 		</div>
 		{if $aBirthdaysStats and $aBirthdaysStats.collection and count($aBirthdaysStats.collection)>0}
 			<div class="users-age">
-				<h3>Возрастное распределение</h3>
+				<h3>{$aLang.plugin.admin.users_stats.age_stats}</h3>
 				{if count($aBirthdaysStats.collection)<20}
 					<div class="mb-20">
-						У вас очень мало пользователей либо сайт ещё слишком молод чтобы показать красивый график.
+						{$aLang.plugin.admin.users_stats.need_more_data}
 					</div>
 				{/if}
 				<ul class="age-stats">
@@ -348,7 +282,7 @@
 								каждая вторая запись будет немного светлее чтобы цифры не сливались в кашу
 							*}
 							<div class="years {if $smarty.foreach.AgeCycle.iteration % 2 == 0}second{/if}"
-								 style="left: {$iOffset}px;" title="{$aAgeRecord.count} пользователей">
+								 style="left: {$iOffset}px;" title="{$aAgeRecord.count} {$aLang.plugin.admin.users_stats.users}">
 								{$aAgeRecord.years_old}
 							</div>
 						</li>
@@ -372,23 +306,23 @@
 				</div>
 				<h3>
 					{if $sCurrentLivingSection=='countries'}
-						Страны и
+						{$aLang.plugin.admin.users_stats.countries} {$aLang.plugin.admin.users_stats.and_text}
 						<a href="{router page='admin/users/stats'}{request_filter
 						name=array('living_section')
 						value=array('cities')
-						}">города</a>
+						}">{$aLang.plugin.admin.users_stats.cities}</a>
 					{elseif $sCurrentLivingSection=='cities'}
 						<a href="{router page='admin/users/stats'}{request_filter
 						name=array('living_section')
 						value=array(null)
-						}">Страны</a>
-						и города
+						}">{$aLang.plugin.admin.users_stats.countries}</a>
+						{$aLang.plugin.admin.users_stats.and_text} {$aLang.plugin.admin.users_stats.cities}
 					{/if}
 				</h3>
 
 				{if count($aLivingStats.collection)<20}
 					<div class="mb-20">
-						У вас очень мало пользователей либо сайт ещё слишком молод чтобы показать красивый график.
+						{$aLang.plugin.admin.users_stats.need_more_data}
 					</div>
 				{/if}
 				<table class="items">
@@ -414,7 +348,7 @@
 										задать ширину каждого столбика
 									*}
 									<div class="view-item-wrapper">
-										<div class="view-item" style="width: {$iPercentage}%;" title="{$aItemRecord.count} пользователей"></div>
+										<div class="view-item" style="width: {$iPercentage}%;" title="{$aItemRecord.count} {$aLang.plugin.admin.users_stats.users}"></div>
 									</div>
 								</td>
 							</tr>
