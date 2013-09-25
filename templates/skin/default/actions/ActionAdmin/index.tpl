@@ -45,9 +45,9 @@
 			<h3>Статистика</h3>
 			<div class="graph_wrapper">
 				{include file="{$aTemplatePathPlugin.admin}/graph.tpl"
-					sValueSuffix=$aLang.plugin.admin.users_stats.users
+					sValueSuffix=$aLang.plugin.admin.users_stats.graph_suffix.$sCurrentGraphType
 					aStats=$aDataStats
-					sName=$aLang.plugin.admin.users_stats.registrations
+					sName=$aLang.plugin.admin.users_stats.graph_labels.$sCurrentGraphType
 				}
 			</div>
 		</div>

@@ -139,12 +139,9 @@ class PluginAdmin_ActionAdmin_EventDashboard extends Event {
 			case 'topics':
 				return $this->PluginAdmin_Topics_GetTopicsStats($aPeriod);
 			case 'comments':
-				// todo:
-				// todo: текст к графику для каждого типа
-				break;
+				return $this->PluginAdmin_Comments_GetCommentsStats($aPeriod);
 			case 'votings':
-				// todo:
-				break;
+				return $this->PluginAdmin_Votings_GetVotingsStats($aPeriod);
 			default:
 				throw new Exception('admin: error: unknown graph type');
 		}
