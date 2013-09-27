@@ -25,6 +25,29 @@
 
 class PluginAdmin_ModuleStats extends Module {
 
+	/*
+	 *
+	 * тип данных графика для получения
+	 *
+	 */
+
+	/*
+	 * регистрации
+	 */
+	const GRAPH_TYPE_REGS = 'regs';
+	/*
+	 * топики
+	 */
+	const GRAPH_TYPE_TOPICS = 'topics';
+	/*
+	 * комментарии
+	 */
+	const GRAPH_TYPE_COMMENTS = 'comments';
+	/*
+	 * голосование
+	 */
+	const GRAPH_TYPE_VOTINGS = 'votings';
+
 	public function Init() {}
 
 	/**
@@ -33,7 +56,7 @@ class PluginAdmin_ModuleStats extends Module {
 	 * @param $sPeriod		тип периода
 	 * @return array		array('from' => '...', 'to' => '...', 'format' => '...', 'interval' => '...')
 	 */
-	public function GetStatsGraphPeriod($sPeriod = null) {
+	protected function GetStatsGraphPeriod($sPeriod = null) {
 		switch($sPeriod) {
 			/*
 			 * вчера
@@ -129,7 +152,7 @@ class PluginAdmin_ModuleStats extends Module {
 	 * @param $aPeriod			период дат (от и до) и другие данные
 	 * @return array			массив с нулевыми значениями на каждый промежуток интервала в периоде дат
 	 */
-	public function FillDatesRangeForPeriod($aPeriod) {
+	protected function FillDatesRangeForPeriod($aPeriod) {
 		/*
 		 * интервал прохода по датам
 		 */
@@ -176,7 +199,7 @@ class PluginAdmin_ModuleStats extends Module {
 	 * @param $aDataStats					полученные данные для дат
 	 * @return array						объедененный массив данных
 	 */
-	public function MixEmptyPeriodsWithData($aFilledWithZerosPeriods, $aDataStats) {
+	protected function MixEmptyPeriodsWithData($aFilledWithZerosPeriods, $aDataStats) {
 		if (!is_array($aFilledWithZerosPeriods) or !is_array($aDataStats)) return array();
 		foreach($aFilledWithZerosPeriods as &$aFilledPeriod) {
 			foreach($aDataStats as $aData) {
@@ -199,7 +222,7 @@ class PluginAdmin_ModuleStats extends Module {
 	 * @param $sDateFinish		дата финиша
 	 * @return array
 	 */
-	public function SetupCustomPeriod($sDateStart, $sDateFinish) {
+	protected function SetupCustomPeriod($sDateStart, $sDateFinish) {
 		$aPeriod = $this->GetStatsGraphPeriod();
 		$aPeriod['from'] = $sDateStart;
 		$aPeriod['to'] = $sDateFinish;
@@ -224,6 +247,118 @@ class PluginAdmin_ModuleStats extends Module {
 		 * и привязываем действие только к часу (т.е. каждое действие будет в Х часов 30 минут для однодневных интервалов)
 		 */
 		return str_replace('%i', '30', $sFormat);
+	}
+
+
+	/**Получить данные для графика
+	 *
+	 * @param null $sGraphType				тип графика
+	 * @param null $sGraphPeriod			именованный период графика
+	 * @param null $sDateStart				дата начала периода
+	 * @param null $sDateFinish				дата окончания периода
+	 */
+	public function GatherAndBuildDataForGraph($sGraphType = null, $sGraphPeriod = null, $sDateStart = null, $sDateFinish = null) {
+		/*
+		 * тип периода для графика
+		 */
+		if (!in_array($sGraphPeriod, array('yesterday', 'today', 'week', 'month'))) {
+			$sGraphPeriod = 'month';
+		}
+
+		/*
+		 * тип графика
+		 */
+		if (!in_array($sGraphType, array(self::GRAPH_TYPE_REGS, self::GRAPH_TYPE_TOPICS, self::GRAPH_TYPE_COMMENTS, self::GRAPH_TYPE_VOTINGS))) {
+			$sGraphType = self::GRAPH_TYPE_REGS;
+		}
+
+
+		/*
+		 * если разрешено выбирать интервал дат и он был выбран
+		 */
+		if ($sDateStart and $sDateFinish) {
+			// todo: validate
+			/*
+			 * проверить чтобы дата начала была меньше чем дата конца
+			 */
+			if ($sDateStart > $sDateFinish) {
+				$this->Message_AddError($this->Lang('errors.stats.wrong_date_range'), $this->Lang_Get('error'));
+			} else {
+				/*
+				 * построить данные о периоде
+				 */
+				$aPeriod = $this->Pluginadmin_Stats_SetupCustomPeriod($sDateStart, $sDateFinish);
+			}
+		}
+
+		/*
+		 *
+		 * график
+		 *
+		 */
+
+		/*
+		 * получить период дат от и до для названия интервала если не был выбран ручной интервал дат
+		 */
+		if (!isset($aPeriod)) {
+			$aPeriod = $this->GetStatsGraphPeriod($sGraphPeriod);
+		}
+		/*
+		 * получить пустой интервал дат для графика
+		 */
+		$aFilledWithZerosPeriods = $this->FillDatesRangeForPeriod($aPeriod);
+		/*
+		 * получить существующие данные о типе
+		 */
+		$aDataStats = $this->GetStatsDataForGraphCorrespondingOnType($sGraphType, $aPeriod);
+		/*
+		 * объеденить данные
+		 */
+		$aDataStats = $this->MixEmptyPeriodsWithData($aFilledWithZerosPeriods, $aDataStats);
+
+		/*
+		 * статистика регистраций
+		 */
+		$this->Viewer_Assign('aDataStats', $aDataStats);
+		/*
+		 * тип текущего периода
+		 */
+		$this->Viewer_Assign('sCurrentGraphPeriod', $sGraphPeriod);
+		/*
+		 * тип текущего графика
+		 */
+		$this->Viewer_Assign('sCurrentGraphType', $sGraphType);
+	}
+
+
+	/**
+	 * Получить реальные существующие данные о типе на основе периода
+	 *
+	 * @param $sGraphType		тип данных (графика)
+	 * @param $aPeriod			данные периода
+	 * @return mixed			данные
+	 * @throws Exception
+	 */
+	protected function GetStatsDataForGraphCorrespondingOnType($sGraphType, $aPeriod) {
+		switch ($sGraphType) {
+			case self::GRAPH_TYPE_REGS:
+				return $this->PluginAdmin_Users_GetUsersRegistrationStats($aPeriod);
+			case self::GRAPH_TYPE_TOPICS:
+				return $this->PluginAdmin_Topics_GetTopicsStats($aPeriod);
+			case self::GRAPH_TYPE_COMMENTS:
+				return $this->PluginAdmin_Comments_GetCommentsStats($aPeriod);
+			case self::GRAPH_TYPE_VOTINGS:
+				return $this->PluginAdmin_Votings_GetVotingsStats($aPeriod);
+			default:
+				$aData = array('sGraphType' => $sGraphType, 'aPeriod' => $aPeriod);
+				$this->Hook_Run('admin_stats_get_data_corresponding_on_type', $aData);
+				/*
+				 * хук должен вернуть true в значении ключа result передаваемых параметров, иначе это неизвестный тип данных
+				 */
+				if (!isset($aData['result']) or !$aData['result']) {
+					throw new Exception('admin: error: unknown graph type "' . $sGraphType . '" in GetStatsDataForGraphCorrespondingOnType');
+				}
+		}
 	}
 
 }

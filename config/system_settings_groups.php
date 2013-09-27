@@ -46,7 +46,7 @@ $config['core_config_groups'] = array(
 			//'db',
 			'memcache',
 			//'router',
-			//'head',
+			//'head',			// dont allow editing this param - it consists js and css files that need to be able changed by config.php from skins etc
 			//'compress',
 		),
 		/*

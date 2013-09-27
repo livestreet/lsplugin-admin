@@ -984,7 +984,12 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * получить данные для графика
 		 */
-		$this->GetGraphStatsData ();
+		$this->PluginAdmin_Stats_GatherAndBuildDataForGraph(
+			PluginAdmin_ModuleStats::GRAPH_TYPE_REGS,
+			$this->GetDataFromFilter('graph_period'),
+			$this->GetDataFromFilter('date_start'),
+			$this->GetDataFromFilter('date_finish')
+		);
 
 		/*
 		 * получить базовую статистику
@@ -1006,72 +1011,6 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 * тип текущей сортировки: топ или по алфавиту
 		 */
 		$this->Viewer_Assign('sCurrentLivingSorting', $sSorting);
-	}
-
-
-	/**
-	 * Получить данные для построения графика
-	 *
-	 * @return array
-	 */
-	protected function GetGraphStatsData () {
-		/*
-		 * тип периода для графика регистраций
-		 */
-		if (!$sGraphPeriod = $this->GetDataFromFilter('graph_period') or !in_array($sGraphPeriod, array('yesterday', 'today', 'week', 'month'))) {
-			$sGraphPeriod = 'month';
-		}
-
-		/*
-		 * если был выбран ручной интервал дат
-		 */
-		if ($sDateStart = $this->GetDataFromFilter('date_start') and $sDateFinish = $this->GetDataFromFilter('date_finish')) {
-			/*
-			 * проверить чтобы дата начала была меньше чем дата конца
-			 */
-			if ($sDateStart > $sDateFinish) {
-				$this->Message_AddError($this->Lang('errors.stats.wrong_date_range'), $this->Lang_Get('error'));
-			} else {
-				/*
-				 * построить данные о периоде
-				 */
-				$aPeriod = $this->Pluginadmin_Stats_SetupCustomPeriod($sDateStart, $sDateFinish);
-				$sGraphPeriod = 'manual';
-			}
-		}
-
-		/*
-		 *
-		 * статистика по регистрациям
-		 *
-		 */
-		/*
-		 * получить период дат от и до для названия интервала если не был выбран ручной интервал дат
-		 */
-		if ($sGraphPeriod != 'manual') {
-			$aPeriod = $this->PluginAdmin_Stats_GetStatsGraphPeriod($sGraphPeriod);
-		}
-		/*
-		 * получить пустой интервал дат для графика
-		 */
-		$aFilledWithZerosPeriods = $this->PluginAdmin_Stats_FillDatesRangeForPeriod($aPeriod);
-		/*
-		 * получить существующие данные о пользователях
-		 */
-		$aUserRegistrationStats = $this->PluginAdmin_Users_GetUsersRegistrationStats($aPeriod);
-		/*
-		 * объеденить данные
-		 */
-		$aUserRegistrationStats = $this->PluginAdmin_Stats_MixEmptyPeriodsWithData($aFilledWithZerosPeriods, $aUserRegistrationStats);
-
-		/*
-		 * статистика регистраций
-		 */
-		$this->Viewer_Assign('aDataStats', $aUserRegistrationStats);
-		/*
-		 * тип текущего периода
-		 */
-		$this->Viewer_Assign('sCurrentGraphPeriod', $sGraphPeriod);
 	}
 
 

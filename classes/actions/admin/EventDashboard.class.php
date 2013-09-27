@@ -29,7 +29,7 @@ class PluginAdmin_ActionAdmin_EventDashboard extends Event {
 		/*
 		 * данные для графика
 		 */
-		$this->BuildGraph();
+		$this->PluginAdmin_Stats_GatherAndBuildDataForGraph($this->GetDataFromFilter('graph_type'), $this->GetDataFromFilter('graph_period'));
 		/*
 		 * получить события
 		 */
@@ -66,86 +66,6 @@ class PluginAdmin_ActionAdmin_EventDashboard extends Event {
 		}
 	}
 
-
-	/**
-	 * Получить данные для графика
-	 */
-	protected function BuildGraph() {
-		/*
-		 * тип периода для графика
-		 */
-		if (!$sGraphPeriod = $this->GetDataFromFilter('graph_period') or !in_array($sGraphPeriod, array('yesterday', 'today', 'week', 'month'))) {
-			$sGraphPeriod = 'month';
-		}
-
-		/*
-		 * тип графика
-		 */
-		if (!$sGraphType = $this->GetDataFromFilter('graph_type') or !in_array($sGraphType, array('regs', 'topics', 'comments', 'votings'))) {
-			$sGraphType = 'regs';
-		}
-
-		// todo: попробовать универсализировать получение и вынести в модуль статистики и заменить из эвента юзеров
-
-		/*
-		 *
-		 * график
-		 *
-		 */
-		/*
-		 * получить период дат от и до для названия интервала если не был выбран ручной интервал дат
-		 */
-		$aPeriod = $this->PluginAdmin_Stats_GetStatsGraphPeriod($sGraphPeriod);
-		/*
-		 * получить пустой интервал дат для графика
-		 */
-		$aFilledWithZerosPeriods = $this->PluginAdmin_Stats_FillDatesRangeForPeriod($aPeriod);
-		/*
-		 * получить существующие данные о типе
-		 */
-		$aDataStats = $this->GetStatsDataForGraphCorrespondingOnType($sGraphType, $aPeriod);
-		/*
-		 * объеденить данные
-		 */
-		$aDataStats = $this->PluginAdmin_Stats_MixEmptyPeriodsWithData($aFilledWithZerosPeriods, $aDataStats);
-
-		/*
-		 * статистика регистраций
-		 */
-		$this->Viewer_Assign('aDataStats', $aDataStats);
-		/*
-		 * тип текущего периода
-		 */
-		$this->Viewer_Assign('sCurrentGraphPeriod', $sGraphPeriod);
-		/*
-		 * тип текущего графика
-		 */
-		$this->Viewer_Assign('sCurrentGraphType', $sGraphType);
-	}
-
-
-	/**
-	 * Получить реальные существующие данные о типе на основе периода
-	 *
-	 * @param $sGraphType		тип данных (графика)
-	 * @param $aPeriod			данные периода
-	 * @return mixed			данные
-	 * @throws Exception
-	 */
-	protected function GetStatsDataForGraphCorrespondingOnType($sGraphType, $aPeriod) {
-		switch ($sGraphType) {
-			case 'regs':
-				return $this->PluginAdmin_Users_GetUsersRegistrationStats($aPeriod);
-			case 'topics':
-				return $this->PluginAdmin_Topics_GetTopicsStats($aPeriod);
-			case 'comments':
-				return $this->PluginAdmin_Comments_GetCommentsStats($aPeriod);
-			case 'votings':
-				return $this->PluginAdmin_Votings_GetVotingsStats($aPeriod);
-			default:
-				throw new Exception('admin: error: unknown graph type');
-		}
-	}
 
 }
 
