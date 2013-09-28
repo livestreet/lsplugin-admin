@@ -32,7 +32,7 @@ class PluginAdmin_ModuleStats extends Module {
 	 */
 
 	/*
-	 * регистрации
+	 * регистрации пользователей
 	 */
 	const GRAPH_TYPE_REGS = 'regs';
 	/*
@@ -48,7 +48,32 @@ class PluginAdmin_ModuleStats extends Module {
 	 */
 	const GRAPH_TYPE_VOTINGS = 'votings';
 
+	/*
+	 *
+	 * предустановленный временной интервал
+	 *
+	 */
+
+	/*
+	 * вчера
+	 */
+	const GRAPH_TIME_YESTERDAY = 'yesterday';
+	/*
+	 * сегодня
+	 */
+	const GRAPH_TIME_TODAY = 'today';
+	/*
+	 * неделя
+	 */
+	const GRAPH_TIME_WEEK = 'week';
+	/*
+	 * месяц
+	 */
+	const GRAPH_TIME_MONTH = 'month';
+
+
 	public function Init() {}
+
 
 	/**
 	 * Получить реальный временной интервал в зависимости от типа периода для статистики
@@ -61,7 +86,7 @@ class PluginAdmin_ModuleStats extends Module {
 			/*
 			 * вчера
 			 */
-			case 'yesterday':
+			case self::GRAPH_TIME_YESTERDAY:
 				$iTime = mktime(date('H'), date('i'), date('s'), date('n'), date('j') - 1, date('Y'));
 				return array(
 					'from' => date('Y-m-d 00:00:00', $iTime),
@@ -80,7 +105,7 @@ class PluginAdmin_ModuleStats extends Module {
 			/*
 			 * сегодня
 			 */
-			case 'today':
+			case self::GRAPH_TIME_TODAY:
 				return array(
 					'from' => date('Y-m-d 00:00:00'),
 					'to' => date('Y-m-d 23:59:59'),
@@ -98,7 +123,7 @@ class PluginAdmin_ModuleStats extends Module {
 			/*
 			 * неделя
 			 */
-			case 'week':
+			case self::GRAPH_TIME_WEEK:
 				return array(
 					/*
 					 * полных 7 дней назад (не включая текущий)
@@ -119,7 +144,7 @@ class PluginAdmin_ModuleStats extends Module {
 			/*
 			 * месяц
 			 */
-			case 'month':
+			case self::GRAPH_TIME_MONTH:
 				/*
 				 * используется период по-умолчанию
 				 */
@@ -250,23 +275,24 @@ class PluginAdmin_ModuleStats extends Module {
 	}
 
 
-	/**Получить данные для графика
+	/**
+	 * Получить данные для графика
 	 *
-	 * @param null $sGraphType				тип графика
-	 * @param null $sGraphPeriod			именованный период графика
-	 * @param null $sDateStart				дата начала периода
-	 * @param null $sDateFinish				дата окончания периода
+	 * @param null $sGraphType			тип графика
+	 * @param null $sGraphPeriod		именованный период графика
+	 * @param null $sDateStart			дата начала периода
+	 * @param null $sDateFinish			дата окончания периода
 	 */
 	public function GatherAndBuildDataForGraph($sGraphType = null, $sGraphPeriod = null, $sDateStart = null, $sDateFinish = null) {
 		/*
 		 * тип периода для графика
 		 */
-		if (!in_array($sGraphPeriod, array('yesterday', 'today', 'week', 'month'))) {
-			$sGraphPeriod = 'month';
+		if (!in_array($sGraphPeriod, array(self::GRAPH_TIME_YESTERDAY, self::GRAPH_TIME_TODAY, self::GRAPH_TIME_WEEK, self::GRAPH_TIME_MONTH))) {
+			$sGraphPeriod = self::GRAPH_TIME_MONTH;
 		}
 
 		/*
-		 * тип графика
+		 * тип данных для графика
 		 */
 		if (!in_array($sGraphType, array(self::GRAPH_TYPE_REGS, self::GRAPH_TYPE_TOPICS, self::GRAPH_TYPE_COMMENTS, self::GRAPH_TYPE_VOTINGS))) {
 			$sGraphType = self::GRAPH_TYPE_REGS;
@@ -274,7 +300,7 @@ class PluginAdmin_ModuleStats extends Module {
 
 
 		/*
-		 * если разрешено выбирать интервал дат и он был выбран
+		 * если указан интервал дат и он был выбран
 		 */
 		if ($sDateStart and $sDateFinish) {
 			// todo: validate
@@ -287,13 +313,14 @@ class PluginAdmin_ModuleStats extends Module {
 				/*
 				 * построить данные о периоде
 				 */
-				$aPeriod = $this->Pluginadmin_Stats_SetupCustomPeriod($sDateStart, $sDateFinish);
+				$aPeriod = $this->SetupCustomPeriod($sDateStart, $sDateFinish);
+				$sGraphPeriod = null;
 			}
 		}
 
 		/*
 		 *
-		 * график
+		 * рассчет данных
 		 *
 		 */
 
@@ -317,7 +344,7 @@ class PluginAdmin_ModuleStats extends Module {
 		$aDataStats = $this->MixEmptyPeriodsWithData($aFilledWithZerosPeriods, $aDataStats);
 
 		/*
-		 * статистика регистраций
+		 * данные для графика
 		 */
 		$this->Viewer_Assign('aDataStats', $aDataStats);
 		/*
@@ -334,7 +361,7 @@ class PluginAdmin_ModuleStats extends Module {
 	/**
 	 * Получить реальные существующие данные о типе на основе периода
 	 *
-	 * @param $sGraphType		тип данных (графика)
+	 * @param $sGraphType		тип данных для графика
 	 * @param $aPeriod			данные периода
 	 * @return mixed			данные
 	 * @throws Exception

@@ -2,22 +2,26 @@
 
 
 {block name='layout_content_toolbar'}
-	<a class="button {if $sCurrentGraphPeriod=='yesterday'}active{/if}" href="{router page='admin/users/stats'}{request_filter
+	<a class="button {if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::GRAPH_TIME_YESTERDAY}active{/if}" href="{router page='admin/users/stats'}{request_filter
 		name=array('graph_period')
-		value=array('yesterday')
+		value=array(PluginAdmin_ModuleStats::GRAPH_TIME_YESTERDAY)
 	}">{$aLang.plugin.admin.users_stats.period_bar.yesterday}</a>
-	<a class="button {if $sCurrentGraphPeriod=='today'}active{/if}" href="{router page='admin/users/stats'}{request_filter
+
+	<a class="button {if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::GRAPH_TIME_TODAY}active{/if}" href="{router page='admin/users/stats'}{request_filter
 		name=array('graph_period')
-		value=array('today')
+		value=array(PluginAdmin_ModuleStats::GRAPH_TIME_TODAY)
 	}">{$aLang.plugin.admin.users_stats.period_bar.today}</a>
-	<a class="button {if $sCurrentGraphPeriod=='week'}active{/if}" href="{router page='admin/users/stats'}{request_filter
+
+	<a class="button {if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::GRAPH_TIME_WEEK}active{/if}" href="{router page='admin/users/stats'}{request_filter
 		name=array('graph_period')
-		value=array('week')
+		value=array(PluginAdmin_ModuleStats::GRAPH_TIME_WEEK)
 	}">{$aLang.plugin.admin.users_stats.period_bar.week}</a>
-	<a class="button {if $sCurrentGraphPeriod=='month'}active{/if}" href="{router page='admin/users/stats'}{request_filter
+
+	<a class="button {if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::GRAPH_TIME_MONTH}active{/if}" href="{router page='admin/users/stats'}{request_filter
 		name=array('graph_period')
 		value=array(null)
 	}">{$aLang.plugin.admin.users_stats.period_bar.default}</a>
+
 	<div class="period-selection">
 		<form action="{router page='admin/users/stats'}" enctype="application/x-www-form-urlencoded" method="get">
 			<input type="text" name="filter[date_start]" value="{$_aRequest.filter.date_start}" class="input-text width-100 date-picker-php" placeholder="{date('Y-m-d')}" />
