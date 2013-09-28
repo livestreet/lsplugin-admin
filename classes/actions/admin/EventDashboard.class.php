@@ -33,7 +33,7 @@ class PluginAdmin_ActionAdmin_EventDashboard extends Event {
 		/*
 		 * припрост пользователей за сегодня
 		 */
-		//print_r ($this->PluginAdmin_Stats_TodaysUserGrowth()); die ();	// test debug, todo: delete
+		$this->Viewer_Assign('iUserGrowth', $this->PluginAdmin_Stats_TodaysUserGrowth());
 
 		/*
 		 * получить события

@@ -159,3 +159,11 @@
 	color: #bbb;
 	font-size: 11px;
 }
+
+.ls-admin .dashboard .registrations .green {
+	color: #008000;
+}
+
+.ls-admin .dashboard .registrations .red {
+	color: #D30000;
+}

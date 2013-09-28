@@ -8,6 +8,12 @@
 				<div>{$aStats.count_all}</div>
 				пользователей
 			</li>
+			<li class="registrations">
+				<div title="новых пользователей по сравнению со вчерашним днем">
+					{abs($iUserGrowth)} {if $iUserGrowth>0}<span class="green">&uarr;</span>{elseif $iUserGrowth<0}<span class="red">&darr;</span>{/if}
+				</div>
+				регистраций
+			</li>
 			<li class="topics">
 				<div>{$iTotalTopicsCount}</div>
 				топиков
@@ -76,7 +82,10 @@
 				<div class="new-events">
 					<h3>Добавилось</h3>
 					<div class="content-data">
-						список
+						<div class="registrations" title="новых пользователей по сравнению со вчерашним днем">
+							регистраций
+							{abs($iUserGrowth)} {if $iUserGrowth>0}<span class="green">&uarr;</span>{elseif $iUserGrowth<0}<span class="red">&darr;</span>{/if}
+						</div>
 					</div>
 				</div>
 			</div>
