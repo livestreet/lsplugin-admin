@@ -25,6 +25,8 @@
 
 class PluginAdmin_ModuleStats extends Module {
 
+	protected $oMapper = null;
+
 	/*
 	 *
 	 * тип данных графика для получения
@@ -72,7 +74,9 @@ class PluginAdmin_ModuleStats extends Module {
 	const GRAPH_TIME_MONTH = 'month';
 
 
-	public function Init() {}
+	public function Init() {
+		$this->oMapper = Engine::GetMapper(__CLASS__);
+	}
 
 
 	/**
@@ -386,6 +390,16 @@ class PluginAdmin_ModuleStats extends Module {
 					throw new Exception('admin: error: unknown graph type "' . $sGraphType . '" in GetStatsDataForGraphCorrespondingOnType');
 				}
 		}
+	}
+
+
+	/**
+	 * Возвращает прирост пользователей за последний день (на сколько больше зарегистрировалось сегодня чем вчера)
+	 *
+	 * @return int
+	 */
+	public function TodaysUserGrowth() {
+		return $this->oMapper->TodaysUserGrowth();
 	}
 
 }

@@ -31,6 +31,11 @@ class PluginAdmin_ActionAdmin_EventDashboard extends Event {
 		 */
 		$this->PluginAdmin_Stats_GatherAndBuildDataForGraph($this->GetDataFromFilter('graph_type'), $this->GetDataFromFilter('graph_period'));
 		/*
+		 * припрост пользователей за сегодня
+		 */
+		//print_r ($this->PluginAdmin_Stats_TodaysUserGrowth()); die ();	// test debug, todo: delete
+
+		/*
 		 * получить события
 		 */
 		$this->GetStreamAll();
