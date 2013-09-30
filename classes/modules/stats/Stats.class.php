@@ -402,6 +402,21 @@ class PluginAdmin_ModuleStats extends Module {
 		return $this->oMapper->TodaysUserGrowth();
 	}
 
+
+	public function TodaysTopicGrowth() {
+		return $this->oMapper->TodaysTopicGrowth();
+	}
+
+
+	public function TodaysCommentGrowth() {
+		return $this->oMapper->TodaysCommentGrowth();
+	}
+
+
+	public function TodaysBlogGrowth() {
+		return $this->oMapper->TodaysBlogGrowth();
+	}
+
 }
 
 ?>

@@ -31,7 +31,19 @@ class PluginAdmin_ActionAdmin_EventDashboard extends Event {
 		 */
 		$this->PluginAdmin_Stats_GatherAndBuildDataForGraph($this->GetDataFromFilter('graph_type'), $this->GetDataFromFilter('graph_period'));
 		/*
-		 * припрост пользователей за сегодня
+		 * прирост топиков за сегодня
+		 */
+		$this->Viewer_Assign('iTopicGrowth', $this->PluginAdmin_Stats_TodaysTopicGrowth());
+		/*
+		 * прирост комментариев за сегодня
+		 */
+		$this->Viewer_Assign('iCommentGrowth', $this->PluginAdmin_Stats_TodaysCommentGrowth());
+		/*
+		 * прирост блогов за сегодня
+		 */
+		$this->Viewer_Assign('iBlogGrowth', $this->PluginAdmin_Stats_TodaysBlogGrowth());
+		/*
+		 * прирост пользователей за сегодня
 		 */
 		$this->Viewer_Assign('iUserGrowth', $this->PluginAdmin_Stats_TodaysUserGrowth());
 

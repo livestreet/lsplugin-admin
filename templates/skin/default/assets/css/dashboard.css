@@ -58,6 +58,11 @@
 	width: 33%;
 }
 
+.ls-admin .dashboard .top-base-stat-line > * div {
+	font-size: 23px;
+	text-align: center;
+}
+
 .ls-admin .dashboard .footer-stat-info {
 	clear: both;
 	overflow: hidden;
@@ -71,10 +76,14 @@
 	border: 1px solid #F1f1f1;
 }
 
-.ls-admin .dashboard .footer-stat-info .w50p h3 {
+.ls-admin .dashboard .footer-stat-info .w50p .block-header {
 	background: #f9f9f9;
-	font-size: 18px;
 	padding: 10px;
+}
+
+.ls-admin .dashboard .footer-stat-info .w50p .block-header h3 {
+	font-size: 18px;
+	display: inline-block;
 }
 
 .ls-admin .dashboard .footer-stat-info .w50p .content-data {
@@ -160,10 +169,18 @@
 	font-size: 11px;
 }
 
-.ls-admin .dashboard .registrations .green {
+.ls-admin .dashboard .green {
 	color: #008000;
 }
 
-.ls-admin .dashboard .registrations .red {
+.ls-admin .dashboard .red {
 	color: #D30000;
+}
+
+.ls-admin .dashboard .footer-stat-info .w50p .content-data .items-added {
+	border: medium none;
+}
+
+.ls-admin .dashboard .footer-stat-info .w50p .content-data .items-added .growth {
+	font-size: 14px;
 }

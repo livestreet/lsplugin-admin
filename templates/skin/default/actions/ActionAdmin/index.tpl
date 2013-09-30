@@ -72,7 +72,10 @@
 		<div class="footer-stat-info">
 			<div class="w50p">
 				<div class="activity">
-					<h3>Активность</h3>
+					<div class="block-header">
+						<h3>Активность</h3>
+					</div>
+
 					<div class="content-data">
 						{include file='actions/ActionStream/event_list.tpl' sActivityType='all'}
 					</div>
@@ -80,12 +83,65 @@
 			</div>
 			<div class="w50p fl-r">
 				<div class="new-events">
-					<h3>Добавилось</h3>
+					<div class="block-header">
+						<h3>Добавилось</h3>
+						<select name="filter[newly_added_items_period]" class="width-150">
+							<option value="yesterday" {if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::GRAPH_TIME_YESTERDAY}selected="selected"{/if}>Вчера</option>
+							<option value="today" {if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::GRAPH_TIME_TODAY}selected="selected"{/if}>Сегодня</option>
+							<option value="week" {if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::GRAPH_TIME_WEEK}selected="selected"{/if}>Неделя</option>
+							<option value="month" {if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::GRAPH_TIME_MONTH}selected="selected"{/if}>Месяц</option>
+						</select>
+					</div>
 					<div class="content-data">
-						<div class="registrations" title="новых пользователей по сравнению со вчерашним днем">
-							регистраций
-							{abs($iUserGrowth)} {if $iUserGrowth>0}<span class="green">&uarr;</span>{elseif $iUserGrowth<0}<span class="red">&darr;</span>{/if}
-						</div>
+						<table class="items-added">
+							<thead></thead>
+							<tbody>
+								<tr title="новых топиков по сравнению со вчерашним днем">
+									<td class="name">
+										Топиков
+									</td>
+									<td class="growth">
+										{abs($iTopicGrowth)} {if $iTopicGrowth>0}<span class="green">&uarr;</span>{elseif $iTopicGrowth<0}<span class="red">&darr;</span>{/if}
+									</td>
+									<td class="voting-line">
+										{*todo*}
+									</td>
+								</tr>
+								<tr title="новых комментариев по сравнению со вчерашним днем">
+									<td class="name">
+										Комментариев
+									</td>
+									<td class="growth">
+										{abs($iCommentGrowth)} {if $iCommentGrowth>0}<span class="green">&uarr;</span>{elseif $iCommentGrowth<0}<span class="red">&darr;</span>{/if}
+									</td>
+									<td class="voting-line">
+										{*todo*}
+									</td>
+								</tr>
+								<tr title="новых блогов по сравнению со вчерашним днем">
+									<td class="name">
+										Блогов
+									</td>
+									<td class="growth">
+										{abs($iBlogGrowth)} {if $iBlogGrowth>0}<span class="green">&uarr;</span>{elseif $iBlogGrowth<0}<span class="red">&darr;</span>{/if}
+									</td>
+									<td class="voting-line">
+										{*todo*}
+									</td>
+								</tr>
+								<tr title="новых пользователей по сравнению со вчерашним днем">
+									<td class="name">
+										Регистраций
+									</td>
+									<td class="growth">
+										{abs($iUserGrowth)} {if $iUserGrowth>0}<span class="green">&uarr;</span>{elseif $iUserGrowth<0}<span class="red">&darr;</span>{/if}
+									</td>
+									<td class="voting-line">
+										{*todo*}
+									</td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
 				</div>
 			</div>
