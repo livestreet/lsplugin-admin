@@ -371,7 +371,7 @@ return array(
 		 * заголовок графика в зависимости от типа
 		 */
 		'graph_labels' => array(
-			'regs' => 'регистрации',
+			'registrations' => 'регистрации',
 			'topics' => 'топики',
 			'comments' => 'комментарии',
 			'votings' => 'голосования',
@@ -380,7 +380,7 @@ return array(
 		 * суффикс для подписей значений графика
 		 */
 		'graph_suffix' => array(
-			'regs' => 'пользователей',
+			'registrations' => 'пользователей',
 			'topics' => 'топиков',
 			'comments' => 'комментариев',
 			'votings' => 'голосований',

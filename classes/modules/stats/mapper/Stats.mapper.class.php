@@ -23,99 +23,71 @@ class PluginAdmin_ModuleStats_MapperStats extends Mapper {
 
 
 	/**
-	 * Возвращает прирост пользователей за последний день (на сколько больше зарегистрировалось сегодня чем вчера)
+	 * Получить прирост топиков, комментариев, блогов, пользователей за период
 	 *
+	 * @param $aFilter		фильтр
+	 * @param $aPeriod		периоды
 	 * @return int
 	 */
-	public function TodaysUserGrowth() {
-		$sql = "SELECT
+	public function GetGrowthByFilterAndPeriod($aFilter, $aPeriod) {
+		$sWhere = $this->BuildWhereQuery($aFilter['conditions']);
+		$sql = 'SELECT
 			(
 				SELECT COUNT(*) as now_items
 				FROM
-					`" . Config::Get('db.table.user') . "`
+					`' . $aFilter['table'] . '`
 				WHERE
-					`user_activate` = 1
+					' . $sWhere . '
 					AND
-					`user_date_register` BETWEEN CURRENT_DATE AND CURRENT_DATE + INTERVAL 1 DAY
+					`' . $aFilter['period_row_name'] . '` ' . $aPeriod['now_period'] . '
 			) - (
 				SELECT COUNT(*) as prev_items
 				FROM
-					`" . Config::Get('db.table.user') . "`
+					`' . $aFilter['table'] . '`
 				WHERE
-					`user_activate` = 1
+					' . $sWhere . '
 					AND
-					`user_date_register` BETWEEN CURRENT_DATE - INTERVAL 1 DAY AND CURRENT_DATE
+					`' . $aFilter['period_row_name'] . '` ' . $aPeriod['prev_period'] . '
 			) as items_growth
-		";
+		';
 		return (int) $this->oDb->selectCell($sql);
 	}
 
 
-	public function TodaysTopicGrowth() {
-		$sql = "SELECT
-			(
-				SELECT COUNT(*) as now_items
-				FROM
-					`" . Config::Get('db.table.topic') . "`
-				WHERE
-					`topic_publish` = 1
-					AND
-					`topic_date_add` BETWEEN CURRENT_DATE AND CURRENT_DATE + INTERVAL 1 DAY
-			) - (
-				SELECT COUNT(*) as prev_items
-				FROM
-					`" . Config::Get('db.table.topic') . "`
-				WHERE
-					`topic_publish` = 1
-					AND
-					`topic_date_add` BETWEEN CURRENT_DATE - INTERVAL 1 DAY AND CURRENT_DATE
-			) as items_growth
-		";
-		return (int) $this->oDb->selectCell($sql);
+	/**
+	 * Построить условие WHERE sql-запроса для получения прироста
+	 *
+	 * @param $aConditions		массив условий
+	 * @return string			часть sql-строки
+	 */
+	protected function BuildWhereQuery($aConditions) {
+		$sSql = '1 = 1';
+		foreach($aConditions as $sField => $mValue) {
+			$sSql .= ' AND `' . $sField . '`' . $this->GetCorrectSyntaxForValue($mValue);
+		}
+		return $sSql;
 	}
 
 
-	public function TodaysCommentGrowth() {
-		$sql = "SELECT
-			(
-				SELECT COUNT(*) as now_items
-				FROM
-					`" . Config::Get('db.table.comment') . "`
-				WHERE
-					`comment_publish` = 1
-					AND
-					`comment_date` BETWEEN CURRENT_DATE AND CURRENT_DATE + INTERVAL 1 DAY
-			) - (
-				SELECT COUNT(*) as prev_items
-				FROM
-					`" . Config::Get('db.table.comment') . "`
-				WHERE
-					`comment_publish` = 1
-					AND
-					`comment_date` BETWEEN CURRENT_DATE - INTERVAL 1 DAY AND CURRENT_DATE
-			) as items_growth
-		";
-		return (int) $this->oDb->selectCell($sql);
-	}
-
-
-	public function TodaysBlogGrowth() {
-		$sql = "SELECT
-			(
-				SELECT COUNT(*) as now_items
-				FROM
-					`" . Config::Get('db.table.blog') . "`
-				WHERE
-					`blog_date_add` BETWEEN CURRENT_DATE AND CURRENT_DATE + INTERVAL 1 DAY
-			) - (
-				SELECT COUNT(*) as prev_items
-				FROM
-					`" . Config::Get('db.table.blog') . "`
-				WHERE
-					`blog_date_add` BETWEEN CURRENT_DATE - INTERVAL 1 DAY AND CURRENT_DATE
-			) as items_growth
-		";
-		return (int) $this->oDb->selectCell($sql);
+	/**
+	 * Вернуть корректную запись для запроса в зависимости от типа значения
+	 *
+	 * @param $mValue		значение
+	 * @return string		часть sql-запроса WHERE
+	 * @throws Exception	не поддерживаемый тип переменной
+	 */
+	protected function GetCorrectSyntaxForValue($mValue) {
+		switch (gettype($mValue)) {
+			case 'float':
+			case 'integer':
+				return ' = ' . $mValue;
+			case 'string':
+				return ' = "' . $mValue . '"';
+			case 'array':
+				return ' IN ("' . implode('", "', $mValue) . '")';
+			default:
+				throw new Exception('admin: error: unsupported value type in ' . __METHOD__ . ': ' . gettype($mValue));
+		}
 	}
 
 

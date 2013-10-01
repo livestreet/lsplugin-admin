@@ -29,49 +29,53 @@ class PluginAdmin_ModuleStats extends Module {
 
 	/*
 	 *
-	 * тип данных графика для получения
+	 * тип данных для получения
 	 *
 	 */
 
 	/*
 	 * регистрации пользователей
 	 */
-	const GRAPH_TYPE_REGS = 'regs';
+	const DATA_TYPE_REGISTRATIONS = 'registrations';
 	/*
 	 * топики
 	 */
-	const GRAPH_TYPE_TOPICS = 'topics';
+	const DATA_TYPE_TOPICS = 'topics';
 	/*
 	 * комментарии
 	 */
-	const GRAPH_TYPE_COMMENTS = 'comments';
+	const DATA_TYPE_COMMENTS = 'comments';
 	/*
 	 * голосование
 	 */
-	const GRAPH_TYPE_VOTINGS = 'votings';
+	const DATA_TYPE_VOTINGS = 'votings';
+	/*
+	 * блоги
+	 */
+	const DATA_TYPE_BLOGS = 'blogs';
 
 	/*
 	 *
-	 * предустановленный временной интервал
+	 * предустановленные временные интервалы
 	 *
 	 */
 
 	/*
 	 * вчера
 	 */
-	const GRAPH_TIME_YESTERDAY = 'yesterday';
+	const TIME_INTERVAL_YESTERDAY = 'yesterday';
 	/*
 	 * сегодня
 	 */
-	const GRAPH_TIME_TODAY = 'today';
+	const TIME_INTERVAL_TODAY = 'today';
 	/*
 	 * неделя
 	 */
-	const GRAPH_TIME_WEEK = 'week';
+	const TIME_INTERVAL_WEEK = 'week';
 	/*
 	 * месяц
 	 */
-	const GRAPH_TIME_MONTH = 'month';
+	const TIME_INTERVAL_MONTH = 'month';
 
 
 	public function Init() {
@@ -90,7 +94,7 @@ class PluginAdmin_ModuleStats extends Module {
 			/*
 			 * вчера
 			 */
-			case self::GRAPH_TIME_YESTERDAY:
+			case self::TIME_INTERVAL_YESTERDAY:
 				$iTime = mktime(date('H'), date('i'), date('s'), date('n'), date('j') - 1, date('Y'));
 				return array(
 					'from' => date('Y-m-d 00:00:00', $iTime),
@@ -109,7 +113,7 @@ class PluginAdmin_ModuleStats extends Module {
 			/*
 			 * сегодня
 			 */
-			case self::GRAPH_TIME_TODAY:
+			case self::TIME_INTERVAL_TODAY:
 				return array(
 					'from' => date('Y-m-d 00:00:00'),
 					'to' => date('Y-m-d 23:59:59'),
@@ -127,7 +131,7 @@ class PluginAdmin_ModuleStats extends Module {
 			/*
 			 * неделя
 			 */
-			case self::GRAPH_TIME_WEEK:
+			case self::TIME_INTERVAL_WEEK:
 				return array(
 					/*
 					 * полных 7 дней назад (не включая текущий)
@@ -148,7 +152,7 @@ class PluginAdmin_ModuleStats extends Module {
 			/*
 			 * месяц
 			 */
-			case self::GRAPH_TIME_MONTH:
+			case self::TIME_INTERVAL_MONTH:
 				/*
 				 * используется период по-умолчанию
 				 */
@@ -291,15 +295,15 @@ class PluginAdmin_ModuleStats extends Module {
 		/*
 		 * тип периода для графика
 		 */
-		if (!in_array($sGraphPeriod, array(self::GRAPH_TIME_YESTERDAY, self::GRAPH_TIME_TODAY, self::GRAPH_TIME_WEEK, self::GRAPH_TIME_MONTH))) {
-			$sGraphPeriod = self::GRAPH_TIME_MONTH;
+		if (!in_array($sGraphPeriod, array(self::TIME_INTERVAL_YESTERDAY, self::TIME_INTERVAL_TODAY, self::TIME_INTERVAL_WEEK, self::TIME_INTERVAL_MONTH))) {
+			$sGraphPeriod = self::TIME_INTERVAL_MONTH;
 		}
 
 		/*
 		 * тип данных для графика
 		 */
-		if (!in_array($sGraphType, array(self::GRAPH_TYPE_REGS, self::GRAPH_TYPE_TOPICS, self::GRAPH_TYPE_COMMENTS, self::GRAPH_TYPE_VOTINGS))) {
-			$sGraphType = self::GRAPH_TYPE_REGS;
+		if (!in_array($sGraphType, array(self::DATA_TYPE_REGISTRATIONS, self::DATA_TYPE_TOPICS, self::DATA_TYPE_COMMENTS, self::DATA_TYPE_VOTINGS))) {
+			$sGraphType = self::DATA_TYPE_REGISTRATIONS;
 		}
 
 
@@ -372,13 +376,13 @@ class PluginAdmin_ModuleStats extends Module {
 	 */
 	protected function GetStatsDataForGraphCorrespondingOnType($sGraphType, $aPeriod) {
 		switch ($sGraphType) {
-			case self::GRAPH_TYPE_REGS:
+			case self::DATA_TYPE_REGISTRATIONS:
 				return $this->PluginAdmin_Users_GetUsersRegistrationStats($aPeriod);
-			case self::GRAPH_TYPE_TOPICS:
+			case self::DATA_TYPE_TOPICS:
 				return $this->PluginAdmin_Topics_GetTopicsStats($aPeriod);
-			case self::GRAPH_TYPE_COMMENTS:
+			case self::DATA_TYPE_COMMENTS:
 				return $this->PluginAdmin_Comments_GetCommentsStats($aPeriod);
-			case self::GRAPH_TYPE_VOTINGS:
+			case self::DATA_TYPE_VOTINGS:
 				return $this->PluginAdmin_Votings_GetVotingsStats($aPeriod);
 			default:
 				$aData = array('sGraphType' => $sGraphType, 'aPeriod' => $aPeriod);
@@ -387,34 +391,119 @@ class PluginAdmin_ModuleStats extends Module {
 				 * хук должен вернуть true в значении ключа result передаваемых параметров, иначе это неизвестный тип данных
 				 */
 				if (!isset($aData['result']) or !$aData['result']) {
-					throw new Exception('admin: error: unknown graph type "' . $sGraphType . '" in GetStatsDataForGraphCorrespondingOnType');
+					throw new Exception('admin: error: unknown graph type "' . $sGraphType . '" in ' . __METHOD__);
 				}
 		}
 	}
 
 
 	/**
-	 * Возвращает прирост пользователей за последний день (на сколько больше зарегистрировалось сегодня чем вчера)
+	 * Получить прирост объектов за период (на сколько больше зарегистрировалось в текущем периоде чем в прошлом)
 	 *
-	 * @return int
+	 * @param $sType		тип объектов для получения прироста
+	 * @param $sPeriod		тип периода
+	 * @return int			прирост объектов
 	 */
-	public function TodaysUserGrowth() {
-		return $this->oMapper->TodaysUserGrowth();
+	public function GetGrowthByTypeAndPeriod($sType, $sPeriod) {
+		return $this->oMapper->GetGrowthByFilterAndPeriod($this->GetGrowthFilterForType($sType), $this->GetGrowthQueryRuleForPeriod($sPeriod));
 	}
 
 
-	public function TodaysTopicGrowth() {
-		return $this->oMapper->TodaysTopicGrowth();
+	/**
+	 * Получить фильтр для объекта
+	 *
+	 * @param $sType		тип объектов для получения фильтра
+	 * @return array		фильтр
+	 * @throws Exception	при неизвестном типе объекта
+	 */
+	protected function GetGrowthFilterForType($sType) {
+		switch ($sType) {
+			case self::DATA_TYPE_TOPICS:
+				return array(
+					'table' => Config::Get('db.table.topic'),
+					'conditions' => array(
+						'topic_publish' => 1,
+					),
+					'period_row_name' => 'topic_date_add',
+				);
+			case self::DATA_TYPE_COMMENTS:
+				return array(
+					'table' => Config::Get('db.table.comment'),
+					'conditions' => array(
+						'comment_publish' => 1,
+					),
+					'period_row_name' => 'comment_date',
+				);
+			case self::DATA_TYPE_BLOGS:
+				return array(
+					'table' => Config::Get('db.table.blog'),
+					'conditions' => array(
+						'blog_type' => array('open', 'close', 'invite'),
+					),
+					'period_row_name' => 'blog_date_add',
+				);
+			case self::DATA_TYPE_REGISTRATIONS:
+				return array(
+					'table' => Config::Get('db.table.user'),
+					'conditions' => array(
+						'user_activate' => 1,
+					),
+					'period_row_name' => 'user_date_register',
+				);
+			default:
+				throw new Exception('admin: error: unknow type in ' . __METHOD__ . ': ' . $sType);
+		}
 	}
 
 
-	public function TodaysCommentGrowth() {
-		return $this->oMapper->TodaysCommentGrowth();
-	}
-
-
-	public function TodaysBlogGrowth() {
-		return $this->oMapper->TodaysBlogGrowth();
+	/**
+	 * Получить части sql-запросов периода для выбора данных из БД по имени периода
+	 *
+	 * @param $sPeriod			именованое название периода
+	 * @return array			массив с датой "от" и "до"
+	 */
+	protected function GetGrowthQueryRuleForPeriod($sPeriod) {
+		switch ($sPeriod) {
+			/*
+			 * вчера
+			 */
+			case self::TIME_INTERVAL_YESTERDAY:
+				return array(
+					'now_period' => 'BETWEEN CURRENT_DATE - INTERVAL 1 DAY AND CURRENT_DATE',
+					'prev_period' => 'BETWEEN CURRENT_DATE - INTERVAL 2 DAY AND CURRENT_DATE - INTERVAL 1 DAY'
+				);
+			/*
+			 * неделя
+			 */
+			case self::TIME_INTERVAL_WEEK:
+				return array(
+					'now_period' => 'BETWEEN CURRENT_DATE - INTERVAL 1 WEEK AND CURRENT_DATE',
+					'prev_period' => 'BETWEEN CURRENT_DATE - INTERVAL 2 WEEK AND CURRENT_DATE - INTERVAL 1 WEEK'
+				);
+			/*
+			 * месяц
+			 */
+			case self::TIME_INTERVAL_MONTH:
+				return array(
+					'now_period' => 'BETWEEN CURRENT_DATE - INTERVAL 1 MONTH AND CURRENT_DATE',
+					'prev_period' => 'BETWEEN CURRENT_DATE - INTERVAL 2 MONTH AND CURRENT_DATE - INTERVAL 1 MONTH'
+				);
+			/*
+			 * сегодня
+			 */
+			case self::TIME_INTERVAL_TODAY:
+				/*
+				 * использовать период по-умолчанию
+				 */
+			/*
+			 * период по-умолчанию (1 день - сегодня)
+			 */
+			default:
+				return array(
+					'now_period' => 'BETWEEN CURRENT_DATE AND CURRENT_DATE + INTERVAL 1 DAY',
+					'prev_period' => 'BETWEEN CURRENT_DATE - INTERVAL 1 DAY AND CURRENT_DATE'
+				);
+		}
 	}
 
 }

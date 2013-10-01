@@ -9,8 +9,9 @@
 				пользователей
 			</li>
 			<li class="registrations">
-				<div title="новых пользователей по сравнению со вчерашним днем">
-					{abs($iUserGrowth)} {if $iUserGrowth>0}<span class="green">&uarr;</span>{elseif $iUserGrowth<0}<span class="red">&darr;</span>{/if}
+				<div title="новых пользователей по сравнению с прошлым аналогичным периодом">
+					{abs($aDataGrowth.registrations)}
+					{if $aDataGrowth.registrations>0}<span class="green">&uarr;</span>{elseif $aDataGrowth.registrations<0}<span class="red">&darr;</span>{/if}
 				</div>
 				регистраций
 			</li>
@@ -31,17 +32,25 @@
 				<form action="{router page='admin'}" enctype="application/x-www-form-urlencoded" method="get">
 					Отображать:
 					<select name="filter[graph_type]" class="width-150">
-						<option value="regs" {if $sCurrentGraphType==PluginAdmin_ModuleStats::GRAPH_TYPE_REGS}selected="selected"{/if}>Регистрации</option>
-						<option value="topics" {if $sCurrentGraphType==PluginAdmin_ModuleStats::GRAPH_TYPE_TOPICS}selected="selected"{/if}>Новые топики</option>
-						<option value="comments" {if $sCurrentGraphType==PluginAdmin_ModuleStats::GRAPH_TYPE_COMMENTS}selected="selected"{/if}>Комментарии</option>
-						<option value="votings" {if $sCurrentGraphType==PluginAdmin_ModuleStats::GRAPH_TYPE_VOTINGS}selected="selected"{/if}>Голосования</option>
+						<option value="{PluginAdmin_ModuleStats::DATA_TYPE_REGISTRATIONS}"
+								{if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_REGISTRATIONS}selected="selected"{/if}>Регистрации</option>
+						<option value="{PluginAdmin_ModuleStats::DATA_TYPE_TOPICS}"
+								{if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_TOPICS}selected="selected"{/if}>Новые топики</option>
+						<option value="{PluginAdmin_ModuleStats::DATA_TYPE_COMMENTS}"
+								{if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_COMMENTS}selected="selected"{/if}>Комментарии</option>
+						<option value="{PluginAdmin_ModuleStats::DATA_TYPE_VOTINGS}"
+								{if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_VOTINGS}selected="selected"{/if}>Голосования</option>
 					</select>
 					Период:
 					<select name="filter[graph_period]" class="width-150">
-						<option value="yesterday" {if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::GRAPH_TIME_YESTERDAY}selected="selected"{/if}>Вчера</option>
-						<option value="today" {if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::GRAPH_TIME_TODAY}selected="selected"{/if}>Сегодня</option>
-						<option value="week" {if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::GRAPH_TIME_WEEK}selected="selected"{/if}>Неделя</option>
-						<option value="month" {if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::GRAPH_TIME_MONTH}selected="selected"{/if}>Месяц</option>
+						<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_YESTERDAY}"
+								{if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_YESTERDAY}selected="selected"{/if}>Вчера</option>
+						<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_TODAY}"
+								{if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_TODAY}selected="selected"{/if}>Сегодня</option>
+						<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_WEEK}"
+								{if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_WEEK}selected="selected"{/if}>Неделя</option>
+						<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_MONTH}"
+								{if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_MONTH}selected="selected"{/if}>Месяц</option>
 					</select>
 
 					<input type="submit" value="Показать" class="button" />
@@ -85,59 +94,69 @@
 				<div class="new-events">
 					<div class="block-header">
 						<h3>Добавилось</h3>
-						<select name="filter[newly_added_items_period]" class="width-150">
-							<option value="yesterday" {if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::GRAPH_TIME_YESTERDAY}selected="selected"{/if}>Вчера</option>
-							<option value="today" {if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::GRAPH_TIME_TODAY}selected="selected"{/if}>Сегодня</option>
-							<option value="week" {if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::GRAPH_TIME_WEEK}selected="selected"{/if}>Неделя</option>
-							<option value="month" {if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::GRAPH_TIME_MONTH}selected="selected"{/if}>Месяц</option>
-						</select>
+						<form action="" method="get" enctype="application/x-www-form-urlencoded">
+							<select name="filter[newly_added_items_period]" class="width-150" id="admin_index_growth_period_select">
+								<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_TODAY}"
+										{if $_aRequest.filter.newly_added_items_period==PluginAdmin_ModuleStats::TIME_INTERVAL_TODAY}selected="selected"{/if}>Сегодня</option>
+								<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_YESTERDAY}"
+										{if $_aRequest.filter.newly_added_items_period==PluginAdmin_ModuleStats::TIME_INTERVAL_YESTERDAY}selected="selected"{/if}>Вчера</option>
+								<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_WEEK}"
+										{if $_aRequest.filter.newly_added_items_period==PluginAdmin_ModuleStats::TIME_INTERVAL_WEEK}selected="selected"{/if}>Неделя</option>
+								<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_MONTH}"
+										{if $_aRequest.filter.newly_added_items_period==PluginAdmin_ModuleStats::TIME_INTERVAL_MONTH}selected="selected"{/if}>Месяц</option>
+							</select>
+						</form>
 					</div>
 					<div class="content-data">
 						<table class="items-added">
 							<thead></thead>
 							<tbody>
-								<tr title="новых топиков по сравнению со вчерашним днем">
+								<tr title="новых топиков по сравнению с прошлым аналогичным периодом">
 									<td class="name">
 										Топиков
 									</td>
 									<td class="growth">
-										{abs($iTopicGrowth)} {if $iTopicGrowth>0}<span class="green">&uarr;</span>{elseif $iTopicGrowth<0}<span class="red">&darr;</span>{/if}
+										{abs($aDataGrowth.topics)}
+										{if $aDataGrowth.topics>0}<span class="green">&uarr;</span>{elseif $aDataGrowth.topics<0}<span class="red">&darr;</span>{/if}
 									</td>
 									<td class="voting-line">
-										{*todo*}
+										{* todo *}
 									</td>
 								</tr>
-								<tr title="новых комментариев по сравнению со вчерашним днем">
+								<tr title="новых комментариев по сравнению с прошлым аналогичным периодом">
 									<td class="name">
 										Комментариев
 									</td>
 									<td class="growth">
-										{abs($iCommentGrowth)} {if $iCommentGrowth>0}<span class="green">&uarr;</span>{elseif $iCommentGrowth<0}<span class="red">&darr;</span>{/if}
+										{abs($aDataGrowth.comments)}
+										{if $aDataGrowth.comments>0}<span class="green">&uarr;</span>{elseif $aDataGrowth.comments<0}<span class="red">&darr;</span>{/if}
 									</td>
 									<td class="voting-line">
-										{*todo*}
+										{* todo *}
 									</td>
 								</tr>
-								<tr title="новых блогов по сравнению со вчерашним днем">
+								<tr title="новых блогов по сравнению с прошлым аналогичным периодом">
 									<td class="name">
 										Блогов
 									</td>
 									<td class="growth">
-										{abs($iBlogGrowth)} {if $iBlogGrowth>0}<span class="green">&uarr;</span>{elseif $iBlogGrowth<0}<span class="red">&darr;</span>{/if}
+										{abs($aDataGrowth.blogs)}
+										{if $aDataGrowth.blogs>0}<span class="green">&uarr;</span>{elseif $aDataGrowth.blogs<0}<span class="red">&darr;</span>{/if}
 									</td>
 									<td class="voting-line">
-										{*todo*}
+										{* todo *}
 									</td>
 								</tr>
-								<tr title="новых пользователей по сравнению со вчерашним днем">
+								<tr title="новых пользователей по сравнению с прошлым аналогичным периодом">
 									<td class="name">
 										Регистраций
 									</td>
 									<td class="growth">
-										{abs($iUserGrowth)} {if $iUserGrowth>0}<span class="green">&uarr;</span>{elseif $iUserGrowth<0}<span class="red">&darr;</span>{/if}
+										{abs($aDataGrowth.registrations)}
+										{if $aDataGrowth.registrations>0}<span class="green">&uarr;</span>{elseif $aDataGrowth.registrations<0}<span class="red">&darr;</span>{/if}
 									</td>
 									<td class="voting-line">
-										{*todo*}
+										{* todo *}
 									</td>
 								</tr>
 							</tbody>

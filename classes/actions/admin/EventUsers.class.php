@@ -985,7 +985,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 * получить данные для графика
 		 */
 		$this->PluginAdmin_Stats_GatherAndBuildDataForGraph(
-			PluginAdmin_ModuleStats::GRAPH_TYPE_REGS,
+			PluginAdmin_ModuleStats::DATA_TYPE_REGISTRATIONS,
 			$this->GetDataFromFilter('graph_period'),
 			$this->GetDataFromFilter('date_start'),
 			$this->GetDataFromFilter('date_finish')

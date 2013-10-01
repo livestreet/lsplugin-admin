@@ -177,10 +177,17 @@
 	color: #D30000;
 }
 
+/* items added */
+
 .ls-admin .dashboard .footer-stat-info .w50p .content-data .items-added {
 	border: medium none;
 }
 
 .ls-admin .dashboard .footer-stat-info .w50p .content-data .items-added .growth {
 	font-size: 14px;
+}
+
+.ls-admin .dashboard .footer-stat-info .w50p .block-header form {
+	display: inline-block;
+	vertical-align: top;
 }

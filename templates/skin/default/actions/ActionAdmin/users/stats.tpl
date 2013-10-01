@@ -2,22 +2,22 @@
 
 
 {block name='layout_content_toolbar'}
-	<a class="button {if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::GRAPH_TIME_YESTERDAY}active{/if}" href="{router page='admin/users/stats'}{request_filter
+	<a class="button {if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_YESTERDAY}active{/if}" href="{router page='admin/users/stats'}{request_filter
 		name=array('graph_period')
-		value=array(PluginAdmin_ModuleStats::GRAPH_TIME_YESTERDAY)
+		value=array(PluginAdmin_ModuleStats::TIME_INTERVAL_YESTERDAY)
 	}">{$aLang.plugin.admin.users_stats.period_bar.yesterday}</a>
 
-	<a class="button {if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::GRAPH_TIME_TODAY}active{/if}" href="{router page='admin/users/stats'}{request_filter
+	<a class="button {if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_TODAY}active{/if}" href="{router page='admin/users/stats'}{request_filter
 		name=array('graph_period')
-		value=array(PluginAdmin_ModuleStats::GRAPH_TIME_TODAY)
+		value=array(PluginAdmin_ModuleStats::TIME_INTERVAL_TODAY)
 	}">{$aLang.plugin.admin.users_stats.period_bar.today}</a>
 
-	<a class="button {if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::GRAPH_TIME_WEEK}active{/if}" href="{router page='admin/users/stats'}{request_filter
+	<a class="button {if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_WEEK}active{/if}" href="{router page='admin/users/stats'}{request_filter
 		name=array('graph_period')
-		value=array(PluginAdmin_ModuleStats::GRAPH_TIME_WEEK)
+		value=array(PluginAdmin_ModuleStats::TIME_INTERVAL_WEEK)
 	}">{$aLang.plugin.admin.users_stats.period_bar.week}</a>
 
-	<a class="button {if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::GRAPH_TIME_MONTH}active{/if}" href="{router page='admin/users/stats'}{request_filter
+	<a class="button {if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_MONTH}active{/if}" href="{router page='admin/users/stats'}{request_filter
 		name=array('graph_period')
 		value=array(null)
 	}">{$aLang.plugin.admin.users_stats.period_bar.default}</a>

@@ -30,22 +30,21 @@ class PluginAdmin_ActionAdmin_EventDashboard extends Event {
 		 * данные для графика
 		 */
 		$this->PluginAdmin_Stats_GatherAndBuildDataForGraph($this->GetDataFromFilter('graph_type'), $this->GetDataFromFilter('graph_period'));
+
 		/*
-		 * прирост топиков за сегодня
+		 * период для показа прироста новых топиков, комментариев и т.п.
 		 */
-		$this->Viewer_Assign('iTopicGrowth', $this->PluginAdmin_Stats_TodaysTopicGrowth());
+		$sItemsAddedPeriod = $this->GetDataFromFilter('newly_added_items_period');
+
 		/*
-		 * прирост комментариев за сегодня
+		 * получить прирост топиков, комментариев, блогов и пользователей за указанный период
 		 */
-		$this->Viewer_Assign('iCommentGrowth', $this->PluginAdmin_Stats_TodaysCommentGrowth());
-		/*
-		 * прирост блогов за сегодня
-		 */
-		$this->Viewer_Assign('iBlogGrowth', $this->PluginAdmin_Stats_TodaysBlogGrowth());
-		/*
-		 * прирост пользователей за сегодня
-		 */
-		$this->Viewer_Assign('iUserGrowth', $this->PluginAdmin_Stats_TodaysUserGrowth());
+		$this->Viewer_Assign('aDataGrowth', array(
+			PluginAdmin_ModuleStats::DATA_TYPE_TOPICS => $this->PluginAdmin_Stats_GetGrowthByTypeAndPeriod('topics', $sItemsAddedPeriod),
+			PluginAdmin_ModuleStats::DATA_TYPE_COMMENTS => $this->PluginAdmin_Stats_GetGrowthByTypeAndPeriod('comments', $sItemsAddedPeriod),
+			PluginAdmin_ModuleStats::DATA_TYPE_BLOGS => $this->PluginAdmin_Stats_GetGrowthByTypeAndPeriod('blogs', $sItemsAddedPeriod),
+			PluginAdmin_ModuleStats::DATA_TYPE_REGISTRATIONS => $this->PluginAdmin_Stats_GetGrowthByTypeAndPeriod('registrations', $sItemsAddedPeriod),
+		));
 
 		/*
 		 * получить события
