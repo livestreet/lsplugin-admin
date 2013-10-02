@@ -76,12 +76,12 @@
 	border: 1px solid #F1f1f1;
 }
 
-.ls-admin .dashboard .footer-stat-info .w50p .block-header {
+.ls-admin .dashboard .footer-stat-info .w50p .label-header {
 	background: #f9f9f9;
 	padding: 10px;
 }
 
-.ls-admin .dashboard .footer-stat-info .w50p .block-header h3 {
+.ls-admin .dashboard .footer-stat-info .w50p .label-header h3 {
 	font-size: 18px;
 	display: inline-block;
 }
@@ -187,7 +187,43 @@
 	font-size: 14px;
 }
 
-.ls-admin .dashboard .footer-stat-info .w50p .block-header form {
+.ls-admin .dashboard .footer-stat-info .w50p .label-header form {
 	display: inline-block;
 	vertical-align: top;
+}
+
+/* voting line */
+
+.ls-admin .dashboard .footer-stat-info .w50p .content-data .items-added .name {
+	width: 160px;
+}
+
+.ls-admin .dashboard .footer-stat-info .w50p .content-data .items-added .growth {}
+
+.ls-admin .dashboard .footer-stat-info .w50p .content-data .items-added .voting-line {
+	width: 160px;
+}
+
+.ls-admin .dashboard .footer-stat-info .w50p .content-data .items-added .voting-line .votes-graph {
+	background: none repeat scroll 0 0 #BEDDDC;
+	height: 3px;
+	clear: both;
+	overflow: hidden;
+}
+
+.ls-admin .dashboard .footer-stat-info .w50p .content-data .items-added .voting-line .votes-graph > * {
+	height: 100%;
+	float: left;
+}
+
+.ls-admin .dashboard .footer-stat-info .w50p .content-data .items-added .voting-line .votes-graph .plus {
+	background: #17A553;
+}
+
+.ls-admin .dashboard .footer-stat-info .w50p .content-data .items-added .voting-line .votes-graph .minus {
+	background: #ff1313;
+}
+
+.ls-admin .dashboard .footer-stat-info .w50p .content-data .items-added .voting-line .votes-graph .abstained {
+	background: #c9c9c9;
 }

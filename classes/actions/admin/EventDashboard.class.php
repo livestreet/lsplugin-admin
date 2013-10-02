@@ -37,13 +37,21 @@ class PluginAdmin_ActionAdmin_EventDashboard extends Event {
 		$sItemsAddedPeriod = $this->GetDataFromFilter('newly_added_items_period');
 
 		/*
-		 * получить прирост топиков, комментариев, блогов и пользователей за указанный период
+		 * получить прирост и линейку голосов топиков, комментариев, блогов и пользователей за указанный период
 		 */
 		$this->Viewer_Assign('aDataGrowth', array(
-			PluginAdmin_ModuleStats::DATA_TYPE_TOPICS => $this->PluginAdmin_Stats_GetGrowthByTypeAndPeriod('topics', $sItemsAddedPeriod),
-			PluginAdmin_ModuleStats::DATA_TYPE_COMMENTS => $this->PluginAdmin_Stats_GetGrowthByTypeAndPeriod('comments', $sItemsAddedPeriod),
-			PluginAdmin_ModuleStats::DATA_TYPE_BLOGS => $this->PluginAdmin_Stats_GetGrowthByTypeAndPeriod('blogs', $sItemsAddedPeriod),
-			PluginAdmin_ModuleStats::DATA_TYPE_REGISTRATIONS => $this->PluginAdmin_Stats_GetGrowthByTypeAndPeriod('registrations', $sItemsAddedPeriod),
+			PluginAdmin_ModuleStats::DATA_TYPE_TOPICS => $this->PluginAdmin_Stats_GetGrowthAndVotingsByTypeAndPeriod(PluginAdmin_ModuleStats::DATA_TYPE_TOPICS, $sItemsAddedPeriod),
+			PluginAdmin_ModuleStats::DATA_TYPE_COMMENTS => $this->PluginAdmin_Stats_GetGrowthAndVotingsByTypeAndPeriod(PluginAdmin_ModuleStats::DATA_TYPE_COMMENTS, $sItemsAddedPeriod),
+			PluginAdmin_ModuleStats::DATA_TYPE_BLOGS => $this->PluginAdmin_Stats_GetGrowthAndVotingsByTypeAndPeriod(PluginAdmin_ModuleStats::DATA_TYPE_BLOGS, $sItemsAddedPeriod),
+			PluginAdmin_ModuleStats::DATA_TYPE_REGISTRATIONS => $this->PluginAdmin_Stats_GetGrowthAndVotingsByTypeAndPeriod(PluginAdmin_ModuleStats::DATA_TYPE_REGISTRATIONS, $sItemsAddedPeriod),
+		));
+
+		/*
+		 * получить прирост пользователей за месяц (для отображения в шапке шаблона, без линейки голосов)
+		 */
+		$this->Viewer_Assign('iUserGrowth', $this->PluginAdmin_Stats_GetGrowthAndVotingsByTypeAndPeriod(
+			PluginAdmin_ModuleStats::DATA_TYPE_REGISTRATIONS, PluginAdmin_ModuleStats::TIME_INTERVAL_WEEK,
+			false
 		));
 
 		/*

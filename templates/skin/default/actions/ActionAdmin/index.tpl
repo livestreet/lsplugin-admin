@@ -9,9 +9,9 @@
 				пользователей
 			</li>
 			<li class="registrations">
-				<div title="новых пользователей по сравнению с прошлым аналогичным периодом">
-					{abs($aDataGrowth.registrations)}
-					{if $aDataGrowth.registrations>0}<span class="green">&uarr;</span>{elseif $aDataGrowth.registrations<0}<span class="red">&darr;</span>{/if}
+				<div title="новых пользователей по сравнению с прошлой неделей">
+					{abs($iUserGrowth)}
+					{if $iUserGrowth>0}<span class="green">&uarr;</span>{elseif $iUserGrowth<0}<span class="red">&darr;</span>{/if}
 				</div>
 				регистраций
 			</li>
@@ -43,10 +43,10 @@
 					</select>
 					Период:
 					<select name="filter[graph_period]" class="width-150">
-						<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_YESTERDAY}"
-								{if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_YESTERDAY}selected="selected"{/if}>Вчера</option>
 						<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_TODAY}"
 								{if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_TODAY}selected="selected"{/if}>Сегодня</option>
+						<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_YESTERDAY}"
+								{if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_YESTERDAY}selected="selected"{/if}>Вчера</option>
 						<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_WEEK}"
 								{if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_WEEK}selected="selected"{/if}>Неделя</option>
 						<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_MONTH}"
@@ -81,7 +81,7 @@
 		<div class="footer-stat-info">
 			<div class="w50p">
 				<div class="activity">
-					<div class="block-header">
+					<div class="label-header">
 						<h3>Активность</h3>
 					</div>
 
@@ -92,7 +92,7 @@
 			</div>
 			<div class="w50p fl-r">
 				<div class="new-events">
-					<div class="block-header">
+					<div class="label-header">
 						<h3>Добавилось</h3>
 						<form action="" method="get" enctype="application/x-www-form-urlencoded">
 							<select name="filter[newly_added_items_period]" class="width-150" id="admin_index_growth_period_select">
@@ -116,11 +116,20 @@
 										Топиков
 									</td>
 									<td class="growth">
-										{abs($aDataGrowth.topics)}
-										{if $aDataGrowth.topics>0}<span class="green">&uarr;</span>{elseif $aDataGrowth.topics<0}<span class="red">&darr;</span>{/if}
+										{abs($aDataGrowth.topics.count)}
+										{if $aDataGrowth.topics.count>0}
+											<span class="green">&uarr;</span>
+										{elseif $aDataGrowth.topics.count<0}
+											<span class="red">&darr;</span>
+										{/if}
 									</td>
 									<td class="voting-line">
 										{* todo *}
+
+										p: {$aDataGrowth.topics.votings.plus},
+										m: {$aDataGrowth.topics.votings.minus},
+										a: {$aDataGrowth.topics.votings.abstained},
+										t: {$aDataGrowth.topics.votings.total_votes}
 									</td>
 								</tr>
 								<tr title="новых комментариев по сравнению с прошлым аналогичным периодом">
@@ -128,11 +137,15 @@
 										Комментариев
 									</td>
 									<td class="growth">
-										{abs($aDataGrowth.comments)}
-										{if $aDataGrowth.comments>0}<span class="green">&uarr;</span>{elseif $aDataGrowth.comments<0}<span class="red">&darr;</span>{/if}
+										{abs($aDataGrowth.comments.count)}
+										{if $aDataGrowth.comments.count>0}
+											<span class="green">&uarr;</span>
+										{elseif $aDataGrowth.comments.count<0}
+											<span class="red">&darr;</span>
+										{/if}
 									</td>
 									<td class="voting-line">
-										{* todo *}
+										{include file="{$aTemplatePathPlugin.admin}/actions/ActionAdmin/index/new_items_voting_stats.tpl" sDataType='comments'}
 									</td>
 								</tr>
 								<tr title="новых блогов по сравнению с прошлым аналогичным периодом">
@@ -140,11 +153,20 @@
 										Блогов
 									</td>
 									<td class="growth">
-										{abs($aDataGrowth.blogs)}
-										{if $aDataGrowth.blogs>0}<span class="green">&uarr;</span>{elseif $aDataGrowth.blogs<0}<span class="red">&darr;</span>{/if}
+										{abs($aDataGrowth.blogs.count)}
+										{if $aDataGrowth.blogs.count>0}
+											<span class="green">&uarr;</span>
+										{elseif $aDataGrowth.blogs.count<0}
+											<span class="red">&darr;</span>
+										{/if}
 									</td>
 									<td class="voting-line">
 										{* todo *}
+
+										p: {$aDataGrowth.blogs.votings.plus},
+										m: {$aDataGrowth.blogs.votings.minus},
+										a: {$aDataGrowth.blogs.votings.abstained},
+										t: {$aDataGrowth.blogs.votings.total_votes}
 									</td>
 								</tr>
 								<tr title="новых пользователей по сравнению с прошлым аналогичным периодом">
@@ -152,11 +174,20 @@
 										Регистраций
 									</td>
 									<td class="growth">
-										{abs($aDataGrowth.registrations)}
-										{if $aDataGrowth.registrations>0}<span class="green">&uarr;</span>{elseif $aDataGrowth.registrations<0}<span class="red">&darr;</span>{/if}
+										{abs($aDataGrowth.registrations.count)}
+										{if $aDataGrowth.registrations.count>0}
+											<span class="green">&uarr;</span>
+										{elseif $aDataGrowth.registrations.count<0}
+											<span class="red">&darr;</span>
+										{/if}
 									</td>
 									<td class="voting-line">
 										{* todo *}
+
+										p: {$aDataGrowth.registrations.votings.plus},
+										m: {$aDataGrowth.registrations.votings.minus},
+										a: {$aDataGrowth.registrations.votings.abstained},
+										t: {$aDataGrowth.registrations.votings.total_votes}
 									</td>
 								</tr>
 							</tbody>

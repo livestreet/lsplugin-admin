@@ -402,10 +402,50 @@ class PluginAdmin_ModuleStats extends Module {
 	 *
 	 * @param $sType		тип объектов для получения прироста
 	 * @param $sPeriod		тип периода
-	 * @return int			прирост объектов
+	 * @param $bGatherVotes	нужно ли собирать голоса
+	 * @return array		array('count' => прирост объектов, 'votings' => данные голосований)
 	 */
-	public function GetGrowthByTypeAndPeriod($sType, $sPeriod) {
-		return $this->oMapper->GetGrowthByFilterAndPeriod($this->GetGrowthFilterForType($sType), $this->GetGrowthQueryRuleForPeriod($sPeriod));
+	public function GetGrowthAndVotingsByTypeAndPeriod($sType, $sPeriod, $bGatherVotes = true) {
+		$aGrowthFilter = $this->GetGrowthFilterForType ($sType);
+		$aPeriod = $this->GetGrowthQueryRuleForPeriod ($sPeriod);
+
+		return array(
+			/*
+			 * прирост
+			 */
+			'count' => $this->oMapper->GetGrowthByFilterAndPeriod($aGrowthFilter, $aPeriod),
+			/*
+			 * данные голосований (количество и направление)
+			 */
+			'votings' => $bGatherVotes ? $this->GetVotingsForTypeAndPeriod($aGrowthFilter, $aPeriod) : null
+		);
+	}
+
+
+	/**
+	 * Получить статистику голосов за обьекты указаного типа в периоде
+	 *
+	 * @param $aGrowthFilter	фильтр
+	 * @param $aPeriod			период
+	 * @return array			массив (сколько плюсов, минусов и воздержалось)
+	 */
+	protected function GetVotingsForTypeAndPeriod($aGrowthFilter, $aPeriod) {
+		$aResult = $this->oMapper->GetVotingsForTypeAndPeriod($aGrowthFilter, $aPeriod);
+		/*
+		 * заполнить значениями по-умолчанию
+		 */
+		$aVotingStats = array(
+			'plus' => 0, 'minus' => 0, 'abstained' => 0
+		);
+		/*
+		 * собрать данные в удобном виде
+		 */
+		foreach ($aResult as $aData) {
+			$aVotingStats[$aData['vote_direction'] == '1' ? 'plus' : ($aData['vote_direction'] == '-1' ? 'minus' : 'abstained')] = $aData['count'];
+		}
+		$aVotingStats['total_votes'] = array_sum($aVotingStats);
+
+		return $aVotingStats;
 	}
 
 
@@ -425,6 +465,11 @@ class PluginAdmin_ModuleStats extends Module {
 						'topic_publish' => 1,
 					),
 					'period_row_name' => 'topic_date_add',
+					/*
+					 * для отображения линейки голосов за объект
+					 */
+					'target_type' => 'topic',
+					'join_table_primary_key' => 'topic_id',
 				);
 			case self::DATA_TYPE_COMMENTS:
 				return array(
@@ -433,6 +478,11 @@ class PluginAdmin_ModuleStats extends Module {
 						'comment_publish' => 1,
 					),
 					'period_row_name' => 'comment_date',
+					/*
+					 * для отображения линейки голосов за объект
+					 */
+					'target_type' => 'comment',
+					'join_table_primary_key' => 'comment_id',
 				);
 			case self::DATA_TYPE_BLOGS:
 				return array(
@@ -441,6 +491,11 @@ class PluginAdmin_ModuleStats extends Module {
 						'blog_type' => array('open', 'close', 'invite'),
 					),
 					'period_row_name' => 'blog_date_add',
+					/*
+					 * для отображения линейки голосов за объект
+					 */
+					'target_type' => 'blog',
+					'join_table_primary_key' => 'blog_id',
 				);
 			case self::DATA_TYPE_REGISTRATIONS:
 				return array(
@@ -449,6 +504,11 @@ class PluginAdmin_ModuleStats extends Module {
 						'user_activate' => 1,
 					),
 					'period_row_name' => 'user_date_register',
+					/*
+					 * для отображения линейки голосов за объект
+					 */
+					'target_type' => 'user',
+					'join_table_primary_key' => 'user_id',
 				);
 			default:
 				throw new Exception('admin: error: unknow type in ' . __METHOD__ . ': ' . $sType);
@@ -505,6 +565,7 @@ class PluginAdmin_ModuleStats extends Module {
 				);
 		}
 	}
+
 
 }
 

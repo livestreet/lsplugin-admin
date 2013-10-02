@@ -91,6 +91,39 @@ class PluginAdmin_ModuleStats_MapperStats extends Mapper {
 	}
 
 
+	/**
+	 * Получить статистику голосов за обьекты указаного типа в периоде
+	 *
+	 * @param $aFilter		фильтр
+	 * @param $aPeriod		период
+	 * @return array
+	 */
+	public function GetVotingsForTypeAndPeriod($aFilter, $aPeriod) {
+		$sWhere = $this->BuildWhereQuery($aFilter['conditions']);
+		$sql = 'SELECT
+				`vote_direction`,
+				COUNT(*) as count
+			FROM
+				`' . Config::Get('db.table.vote') . '` as v,
+				`' . $aFilter['table'] . '` as o
+			WHERE
+				' . $sWhere . '
+				AND
+				v.`target_type` = "' . $aFilter['target_type'] . '"
+				AND
+				v.`target_id` = o.`' . $aFilter['join_table_primary_key'] . '`
+				AND
+				`' . $aFilter['period_row_name'] . '` ' . $aPeriod['now_period'] . '
+			GROUP BY
+				v.`target_type`, v.`vote_direction`
+		';
+		if ($aResult = $this->oDb->select($sql)) {
+			return $aResult;
+		}
+		return array();
+	}
+
+
 }
 
 ?>
