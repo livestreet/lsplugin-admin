@@ -205,25 +205,45 @@
 }
 
 .ls-admin .dashboard .footer-stat-info .w50p .content-data .items-added .voting-line .votes-graph {
-	background: none repeat scroll 0 0 #BEDDDC;
 	height: 3px;
 	clear: both;
-	overflow: hidden;
 }
 
 .ls-admin .dashboard .footer-stat-info .w50p .content-data .items-added .voting-line .votes-graph > * {
 	height: 100%;
 	float: left;
+	position: relative;
 }
 
 .ls-admin .dashboard .footer-stat-info .w50p .content-data .items-added .voting-line .votes-graph .plus {
 	background: #17A553;
+	color: #17A553;
 }
 
 .ls-admin .dashboard .footer-stat-info .w50p .content-data .items-added .voting-line .votes-graph .minus {
 	background: #ff1313;
+	color: #FF1313;
 }
 
 .ls-admin .dashboard .footer-stat-info .w50p .content-data .items-added .voting-line .votes-graph .abstained {
 	background: #c9c9c9;
+	color: #C9C9C9;
+}
+
+.ls-admin .dashboard .footer-stat-info .w50p .content-data .items-added .voting-line .votes-graph .inner-value {
+	font-size: 10px;
+	position: absolute;
+	top: -16px;
+}
+
+.ls-admin .dashboard .footer-stat-info .w50p .content-data .items-added .voting-line .votes-graph *:nth-child(1) .inner-value {
+	left: 0%;
+}
+
+.ls-admin .dashboard .footer-stat-info .w50p .content-data .items-added .voting-line .votes-graph *:nth-child(2) .inner-value {
+	left: 43%;
+}
+
+.ls-admin .dashboard .footer-stat-info .w50p .content-data .items-added .voting-line .votes-graph *:nth-child(3) .inner-value {
+	right: 0%;
 }

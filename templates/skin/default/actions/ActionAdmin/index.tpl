@@ -116,20 +116,10 @@
 										Топиков
 									</td>
 									<td class="growth">
-										{abs($aDataGrowth.topics.count)}
-										{if $aDataGrowth.topics.count>0}
-											<span class="green">&uarr;</span>
-										{elseif $aDataGrowth.topics.count<0}
-											<span class="red">&darr;</span>
-										{/if}
+										{include file="{$aTemplatePathPlugin.admin}/actions/ActionAdmin/index/new_items_growth.tpl" sDataType='topics'}
 									</td>
 									<td class="voting-line">
-										{* todo *}
-
-										p: {$aDataGrowth.topics.votings.plus},
-										m: {$aDataGrowth.topics.votings.minus},
-										a: {$aDataGrowth.topics.votings.abstained},
-										t: {$aDataGrowth.topics.votings.total_votes}
+										{include file="{$aTemplatePathPlugin.admin}/actions/ActionAdmin/index/new_items_voting_stats.tpl" sDataType='topics'}
 									</td>
 								</tr>
 								<tr title="новых комментариев по сравнению с прошлым аналогичным периодом">
@@ -137,12 +127,7 @@
 										Комментариев
 									</td>
 									<td class="growth">
-										{abs($aDataGrowth.comments.count)}
-										{if $aDataGrowth.comments.count>0}
-											<span class="green">&uarr;</span>
-										{elseif $aDataGrowth.comments.count<0}
-											<span class="red">&darr;</span>
-										{/if}
+										{include file="{$aTemplatePathPlugin.admin}/actions/ActionAdmin/index/new_items_growth.tpl" sDataType='comments'}
 									</td>
 									<td class="voting-line">
 										{include file="{$aTemplatePathPlugin.admin}/actions/ActionAdmin/index/new_items_voting_stats.tpl" sDataType='comments'}
@@ -153,20 +138,10 @@
 										Блогов
 									</td>
 									<td class="growth">
-										{abs($aDataGrowth.blogs.count)}
-										{if $aDataGrowth.blogs.count>0}
-											<span class="green">&uarr;</span>
-										{elseif $aDataGrowth.blogs.count<0}
-											<span class="red">&darr;</span>
-										{/if}
+										{include file="{$aTemplatePathPlugin.admin}/actions/ActionAdmin/index/new_items_growth.tpl" sDataType='blogs'}
 									</td>
 									<td class="voting-line">
-										{* todo *}
-
-										p: {$aDataGrowth.blogs.votings.plus},
-										m: {$aDataGrowth.blogs.votings.minus},
-										a: {$aDataGrowth.blogs.votings.abstained},
-										t: {$aDataGrowth.blogs.votings.total_votes}
+										{include file="{$aTemplatePathPlugin.admin}/actions/ActionAdmin/index/new_items_voting_stats.tpl" sDataType='blogs'}
 									</td>
 								</tr>
 								<tr title="новых пользователей по сравнению с прошлым аналогичным периодом">
@@ -174,20 +149,10 @@
 										Регистраций
 									</td>
 									<td class="growth">
-										{abs($aDataGrowth.registrations.count)}
-										{if $aDataGrowth.registrations.count>0}
-											<span class="green">&uarr;</span>
-										{elseif $aDataGrowth.registrations.count<0}
-											<span class="red">&darr;</span>
-										{/if}
+										{include file="{$aTemplatePathPlugin.admin}/actions/ActionAdmin/index/new_items_growth.tpl" sDataType='registrations'}
 									</td>
 									<td class="voting-line">
-										{* todo *}
-
-										p: {$aDataGrowth.registrations.votings.plus},
-										m: {$aDataGrowth.registrations.votings.minus},
-										a: {$aDataGrowth.registrations.votings.abstained},
-										t: {$aDataGrowth.registrations.votings.total_votes}
+										{include file="{$aTemplatePathPlugin.admin}/actions/ActionAdmin/index/new_items_voting_stats.tpl" sDataType='registrations'}
 									</td>
 								</tr>
 							</tbody>
@@ -197,7 +162,9 @@
 			</div>
 		</div>
 		<div class="info">
-			{* данные о последнем входе пользователя в админку *}
+			{*
+				данные о последнем входе пользователя в админку
+			*}
 			{if $aLastVisitData.date}
 				Последний раз заходили в админку {date_format date=$aLastVisitData.date format="j F Y в H:i"}.
 				{if !$aLastVisitData.same_ip}
