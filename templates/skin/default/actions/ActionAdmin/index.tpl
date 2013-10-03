@@ -6,22 +6,22 @@
 		<ul class="top-base-stat-line">
 			<li class="users">
 				<div>{$aStats.count_all}</div>
-				пользователей
+				{$aLang.plugin.admin.index.users}
 			</li>
 			<li class="registrations">
-				<div title="новых пользователей по сравнению с прошлой неделей">
+				<div title="{$aLang.plugin.admin.index.new_users_for_week}">
 					{abs($iUserGrowth)}
 					{if $iUserGrowth>0}<span class="green">&uarr;</span>{elseif $iUserGrowth<0}<span class="red">&darr;</span>{/if}
 				</div>
-				регистраций
+				{$aLang.plugin.admin.index.registrations}
 			</li>
 			<li class="topics">
 				<div>{$iTotalTopicsCount}</div>
-				топиков
+				{$aLang.plugin.admin.index.topics}
 			</li>
 			<li class="blogs">
 				<div>{$iTotalBlogsCount}</div>
-				блогов
+				{$aLang.plugin.admin.index.blogs}
 			</li>
 		</ul>
 		<div class="graph">
@@ -30,34 +30,34 @@
 			*}
 			<div class="popup-params-select fl-r">
 				<form action="{router page='admin'}" enctype="application/x-www-form-urlencoded" method="get">
-					Отображать:
+					{$aLang.plugin.admin.index.show_type}:
 					<select name="filter[graph_type]" class="width-150">
 						<option value="{PluginAdmin_ModuleStats::DATA_TYPE_REGISTRATIONS}"
-								{if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_REGISTRATIONS}selected="selected"{/if}>Регистрации</option>
+								{if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_REGISTRATIONS}selected="selected"{/if}>{$aLang.plugin.admin.index.show_users}</option>
 						<option value="{PluginAdmin_ModuleStats::DATA_TYPE_TOPICS}"
-								{if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_TOPICS}selected="selected"{/if}>Новые топики</option>
+								{if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_TOPICS}selected="selected"{/if}>{$aLang.plugin.admin.index.show_topics}</option>
 						<option value="{PluginAdmin_ModuleStats::DATA_TYPE_COMMENTS}"
-								{if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_COMMENTS}selected="selected"{/if}>Комментарии</option>
+								{if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_COMMENTS}selected="selected"{/if}>{$aLang.plugin.admin.index.show_comments}</option>
 						<option value="{PluginAdmin_ModuleStats::DATA_TYPE_VOTINGS}"
-								{if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_VOTINGS}selected="selected"{/if}>Голосования</option>
+								{if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_VOTINGS}selected="selected"{/if}>{$aLang.plugin.admin.index.show_votings}</option>
 					</select>
-					Период:
+					{$aLang.plugin.admin.index.show_period}:
 					<select name="filter[graph_period]" class="width-150">
 						<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_TODAY}"
-								{if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_TODAY}selected="selected"{/if}>Сегодня</option>
+								{if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_TODAY}selected="selected"{/if}>{$aLang.plugin.admin.index.period_bar.today}</option>
 						<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_YESTERDAY}"
-								{if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_YESTERDAY}selected="selected"{/if}>Вчера</option>
+								{if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_YESTERDAY}selected="selected"{/if}>{$aLang.plugin.admin.index.period_bar.yesterday}</option>
 						<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_WEEK}"
-								{if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_WEEK}selected="selected"{/if}>Неделя</option>
+								{if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_WEEK}selected="selected"{/if}>{$aLang.plugin.admin.index.period_bar.week}</option>
 						<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_MONTH}"
-								{if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_MONTH}selected="selected"{/if}>Месяц</option>
+								{if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_MONTH}selected="selected"{/if}>{$aLang.plugin.admin.index.period_bar.month}</option>
 					</select>
 
-					<input type="submit" value="Показать" class="button" />
+					<input type="submit" value="{$aLang.plugin.admin.index.show_button}" class="button" />
 				</form>
 			</div>
 
-			<h3>Статистика</h3>
+			<h3>{$aLang.plugin.admin.index.title}</h3>
 			<div class="graph_wrapper">
 				{include file="{$aTemplatePathPlugin.admin}/graph.tpl"
 					sValueSuffix=$aLang.plugin.admin.users_stats.graph_suffix.$sCurrentGraphType
@@ -82,7 +82,7 @@
 			<div class="w50p">
 				<div class="activity">
 					<div class="label-header">
-						<h3>Активность</h3>
+						<h3>{$aLang.plugin.admin.index.activity}</h3>
 					</div>
 
 					<div class="content-data">
@@ -93,17 +93,17 @@
 			<div class="w50p fl-r">
 				<div class="new-events">
 					<div class="label-header">
-						<h3>Добавилось</h3>
+						<h3>{$aLang.plugin.admin.index.new_items}</h3>
 						<form action="" method="get" enctype="application/x-www-form-urlencoded">
 							<select name="filter[newly_added_items_period]" class="width-150" id="admin_index_growth_period_select">
 								<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_TODAY}"
-										{if $_aRequest.filter.newly_added_items_period==PluginAdmin_ModuleStats::TIME_INTERVAL_TODAY}selected="selected"{/if}>Сегодня</option>
+										{if $_aRequest.filter.newly_added_items_period==PluginAdmin_ModuleStats::TIME_INTERVAL_TODAY}selected="selected"{/if}>{$aLang.plugin.admin.index.period_bar.today}</option>
 								<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_YESTERDAY}"
-										{if $_aRequest.filter.newly_added_items_period==PluginAdmin_ModuleStats::TIME_INTERVAL_YESTERDAY}selected="selected"{/if}>Вчера</option>
+										{if $_aRequest.filter.newly_added_items_period==PluginAdmin_ModuleStats::TIME_INTERVAL_YESTERDAY}selected="selected"{/if}>{$aLang.plugin.admin.index.period_bar.yesterday}</option>
 								<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_WEEK}"
-										{if $_aRequest.filter.newly_added_items_period==PluginAdmin_ModuleStats::TIME_INTERVAL_WEEK}selected="selected"{/if}>Неделя</option>
+										{if $_aRequest.filter.newly_added_items_period==PluginAdmin_ModuleStats::TIME_INTERVAL_WEEK}selected="selected"{/if}>{$aLang.plugin.admin.index.period_bar.week}</option>
 								<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_MONTH}"
-										{if $_aRequest.filter.newly_added_items_period==PluginAdmin_ModuleStats::TIME_INTERVAL_MONTH}selected="selected"{/if}>Месяц</option>
+										{if $_aRequest.filter.newly_added_items_period==PluginAdmin_ModuleStats::TIME_INTERVAL_MONTH}selected="selected"{/if}>{$aLang.plugin.admin.index.period_bar.month}</option>
 							</select>
 						</form>
 					</div>
@@ -111,9 +111,9 @@
 						<table class="items-added">
 							<thead></thead>
 							<tbody>
-								<tr title="новых топиков по сравнению с прошлым аналогичным периодом">
+								<tr title="{$aLang.plugin.admin.index.new_topics_info}">
 									<td class="name">
-										Топиков
+										{$aLang.plugin.admin.index.new_topics}
 									</td>
 									<td class="growth">
 										{include file="{$aTemplatePathPlugin.admin}/actions/ActionAdmin/index/new_items_growth.tpl" sDataType='topics'}
@@ -122,9 +122,9 @@
 										{include file="{$aTemplatePathPlugin.admin}/actions/ActionAdmin/index/new_items_voting_stats.tpl" sDataType='topics'}
 									</td>
 								</tr>
-								<tr title="новых комментариев по сравнению с прошлым аналогичным периодом">
+								<tr title="{$aLang.plugin.admin.index.new_comments_info}">
 									<td class="name">
-										Комментариев
+										{$aLang.plugin.admin.index.new_comments}
 									</td>
 									<td class="growth">
 										{include file="{$aTemplatePathPlugin.admin}/actions/ActionAdmin/index/new_items_growth.tpl" sDataType='comments'}
@@ -133,9 +133,9 @@
 										{include file="{$aTemplatePathPlugin.admin}/actions/ActionAdmin/index/new_items_voting_stats.tpl" sDataType='comments'}
 									</td>
 								</tr>
-								<tr title="новых блогов по сравнению с прошлым аналогичным периодом">
+								<tr title="{$aLang.plugin.admin.index.new_blogs_info}">
 									<td class="name">
-										Блогов
+										{$aLang.plugin.admin.index.new_blogs}
 									</td>
 									<td class="growth">
 										{include file="{$aTemplatePathPlugin.admin}/actions/ActionAdmin/index/new_items_growth.tpl" sDataType='blogs'}
@@ -144,9 +144,9 @@
 										{include file="{$aTemplatePathPlugin.admin}/actions/ActionAdmin/index/new_items_voting_stats.tpl" sDataType='blogs'}
 									</td>
 								</tr>
-								<tr title="новых пользователей по сравнению с прошлым аналогичным периодом">
+								<tr title="{$aLang.plugin.admin.index.new_users_info}">
 									<td class="name">
-										Регистраций
+										{$aLang.plugin.admin.index.new_users}
 									</td>
 									<td class="growth">
 										{include file="{$aTemplatePathPlugin.admin}/actions/ActionAdmin/index/new_items_growth.tpl" sDataType='registrations'}
