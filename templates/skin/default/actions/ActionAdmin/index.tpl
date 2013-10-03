@@ -10,8 +10,8 @@
 			</li>
 			<li class="registrations">
 				<div title="{$aLang.plugin.admin.index.new_users_for_week}">
-					{abs($iUserGrowth)}
-					{if $iUserGrowth>0}<span class="green">&uarr;</span>{elseif $iUserGrowth<0}<span class="red">&darr;</span>{/if}
+					{abs($aUserGrowth.count)}
+					{if $aUserGrowth.count>0}<span class="green">&uarr;</span>{elseif $aUserGrowth.count<0}<span class="red">&darr;</span>{/if}
 				</div>
 				{$aLang.plugin.admin.index.registrations}
 			</li>

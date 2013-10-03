@@ -49,8 +49,9 @@ class PluginAdmin_ActionAdmin_EventDashboard extends Event {
 		/*
 		 * получить прирост пользователей за месяц (для отображения в шапке шаблона, без линейки голосов)
 		 */
-		$this->Viewer_Assign('iUserGrowth', $this->PluginAdmin_Stats_GetGrowthAndVotingsByTypeAndPeriod(
-			PluginAdmin_ModuleStats::DATA_TYPE_REGISTRATIONS, PluginAdmin_ModuleStats::TIME_INTERVAL_WEEK,
+		$this->Viewer_Assign('aUserGrowth', $this->PluginAdmin_Stats_GetGrowthAndVotingsByTypeAndPeriod(
+			PluginAdmin_ModuleStats::DATA_TYPE_REGISTRATIONS,
+			PluginAdmin_ModuleStats::TIME_INTERVAL_WEEK,
 			false
 		));
 
