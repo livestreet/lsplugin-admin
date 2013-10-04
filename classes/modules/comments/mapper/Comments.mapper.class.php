@@ -54,6 +54,22 @@ class PluginAdmin_ModuleComments_MapperComments extends Mapper {
 		return array();
 	}
 
+
+	/**
+	 * Получить количество всех опубликованных комментариев
+	 *
+	 * @return int
+	 */
+	public function GetCountCommentsTotal() {
+		$sql = 'SELECT COUNT(*) as count
+			FROM
+				`' . Config::Get('db.table.comment') . '`
+			WHERE
+				`comment_publish` = 1
+		';
+		return (int) $this->oDb->selectCell($sql);
+	}
+
 }
 
 ?>

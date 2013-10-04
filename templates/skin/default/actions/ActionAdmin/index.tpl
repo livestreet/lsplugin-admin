@@ -23,6 +23,10 @@
 				<div>{$iTotalBlogsCount}</div>
 				{$aLang.plugin.admin.index.blogs}
 			</li>
+			<li class="comments">
+				<div>{$iCommentsTotal}</div>
+				{$aLang.plugin.admin.index.comments}
+			</li>
 		</ul>
 		<div class="graph">
 			{*
@@ -42,7 +46,7 @@
 								{if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_VOTINGS}selected="selected"{/if}>{$aLang.plugin.admin.index.show_votings}</option>
 					</select>
 					{$aLang.plugin.admin.index.show_period}:
-					<select name="filter[graph_period]" class="width-150">
+					<select name="filter[graph_period]" class="width-100">
 						<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_TODAY}"
 								{if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_TODAY}selected="selected"{/if}>{$aLang.plugin.admin.index.period_bar.today}</option>
 						<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_YESTERDAY}"
@@ -53,7 +57,19 @@
 								{if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_MONTH}selected="selected"{/if}>{$aLang.plugin.admin.index.period_bar.month}</option>
 					</select>
 
-					<input type="submit" value="{$aLang.plugin.admin.index.show_button}" class="button" />
+					<div class="period-selection">
+						<input type="text" name="filter[date_start]" value="{$_aRequest.filter.date_start}" class="input-text width-100 date-picker-php" placeholder="{date('Y-m-d')}" />
+						&nbsp;&ndash;&nbsp;
+						<input type="text" name="filter[date_finish]" value="{$_aRequest.filter.date_finish}" class="input-text width-100 date-picker-php" placeholder="{date('Y-m-d')}" />
+						{if $_aRequest.filter.date_start}
+							<a href="{router page='admin'}{request_filter
+							name=array('date_start', 'date_finish')
+							value=array(null, null)
+							}" class="remove-custom-period-selection"><i class="icon-remove"></i></a>
+						{/if}
+					</div>
+
+					<input type="submit" value="{$aLang.plugin.admin.show}" class="button" />
 				</form>
 			</div>
 

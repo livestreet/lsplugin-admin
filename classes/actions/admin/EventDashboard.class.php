@@ -29,7 +29,12 @@ class PluginAdmin_ActionAdmin_EventDashboard extends Event {
 		/*
 		 * данные для графика
 		 */
-		$this->PluginAdmin_Stats_GatherAndBuildDataForGraph($this->GetDataFromFilter('graph_type'), $this->GetDataFromFilter('graph_period'));
+		$this->PluginAdmin_Stats_GatherAndBuildDataForGraph(
+			$this->GetDataFromFilter('graph_type'),
+			$this->GetDataFromFilter('graph_period'),
+			$this->GetDataFromFilter('date_start'),
+			$this->GetDataFromFilter('date_finish')
+		);
 
 		/*
 		 * период для показа прироста новых топиков, комментариев и т.п.
@@ -54,6 +59,11 @@ class PluginAdmin_ActionAdmin_EventDashboard extends Event {
 			PluginAdmin_ModuleStats::TIME_INTERVAL_WEEK,
 			false
 		));
+
+		/*
+		 * количество комментариев всего
+		 */
+		$this->Viewer_Assign('iCommentsTotal', $this->PluginAdmin_Comments_GetCountCommentsTotal());
 
 		/*
 		 * получить события

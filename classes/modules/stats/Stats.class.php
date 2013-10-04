@@ -257,8 +257,17 @@ class PluginAdmin_ModuleStats extends Module {
 	 */
 	protected function SetupCustomPeriod($sDateStart, $sDateFinish) {
 		$aPeriod = $this->GetStatsGraphPeriod();
-		$aPeriod['from'] = $sDateStart;
-		$aPeriod['to'] = $sDateFinish;
+		/*
+		 * самое начало суток
+		 */
+		$aPeriod['from'] = date('Y-m-d 00:00:00', strtotime($sDateStart));
+		/*
+		 * верхний предел должен быть указан с точностью до секунды и максимальным по времени
+		 * т.к. если регистрация в последнем дне выбранного периода была не в 0 часов, 0 минут и 0 секунд - то она не будет учтена,
+		 * т.к. мускульный формат date будет сконвертирован в datetime с постфиксом 00:00:00
+		 * поэтому нужно указать макс. время суток вручную
+		 */
+		$aPeriod['to'] = date('Y-m-d 23:59:59', strtotime($sDateFinish));
 		return $aPeriod;
 	}
 

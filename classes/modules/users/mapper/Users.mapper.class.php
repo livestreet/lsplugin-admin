@@ -368,7 +368,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 		";
 		if ($aResult = $this->oDb->selectRow($sql,
 			/*
-			 * поиск по ид текущего пользователя
+			 * поиск по id текущего пользователя
 			 */
 			PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_USER_ID,
 			($oUserCurrent ? $oUserCurrent->getId() : 0),

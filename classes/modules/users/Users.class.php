@@ -74,8 +74,8 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * @return array('collection'=>array,'count'=>int)
 	 */
 	public function GetUsersByFilter($aFilter = array(), $aOrder = array(), $iCurrPage = 1, $iPerPage = PHP_INT_MAX, $aAllowData = null) {
-		if (is_null ($aAllowData)) {
-			$aAllowData = array ('session');
+		if (is_null($aAllowData)) {
+			$aAllowData = array('session');
 		}
 		$sOrder = $this -> GetCorrectSortingOrder(
 			$aOrder,
@@ -297,7 +297,7 @@ class PluginAdmin_ModuleUsers extends Module {
 					}
 					break;
 				default:
-					throw new Exception('Admin: error: unsupported target type: "' . $oVote->getTargetType() . '"');
+					throw new Exception('Admin: error: unsupported target type: "' . $oVote->getTargetType() . '" in ' . __METHOD__);
 					break;
 			}
 		}
@@ -373,7 +373,7 @@ class PluginAdmin_ModuleUsers extends Module {
 
 
 	/**
-	 * Получить объект бана по ид
+	 * Получить объект бана по id
 	 *
 	 * @param $iId		ид бана
 	 * @return mixed
@@ -393,7 +393,7 @@ class PluginAdmin_ModuleUsers extends Module {
 
 
 	/**
-	 * Удалить бан по ид
+	 * Удалить бан по id
 	 *
 	 * @param $iId		ид бана
 	 * @return mixed
@@ -410,7 +410,9 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * @return object	объект бана
 	 */
 	public function IsThisUserBanned() {
-		// todo: cache
+		/*
+		 * кешированию не подлежит
+		 */
 		$oUserCurrent = $this->User_GetUserCurrent();
 		$mIp = convert_ip2long(func_getIp());
 		$sCurrentDate = date('Y-m-d H:i:s');

@@ -39,6 +39,16 @@ class PluginAdmin_ModuleComments extends Module {
 		return $this->oMapper->GetCommentsStats($aPeriod, $this->PluginAdmin_Stats_BuildDateFormatFromPHPToMySQL($aPeriod['format']));
 	}
 
+
+	/**
+	 * Получить количество всех опубликованных комментариев
+	 *
+	 * @return int
+	 */
+	public function GetCountCommentsTotal() {
+		return $this->oMapper->GetCountCommentsTotal();
+	}
+
 }
 
 ?>
