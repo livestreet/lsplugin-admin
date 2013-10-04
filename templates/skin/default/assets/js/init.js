@@ -23,8 +23,15 @@ jQuery(document).ready(function($) {
 	/**
 	 * Popovers
 	 */
-	$(document).popover({ selector: '.js-popover-default' });
+	$('.js-popover-default').tooltip({
+		useAttrTitle: false,
+		trigger: 'click',
+		classes: 'tooltip-light'
+	});
 
+	$('[data-type=tab]').tab();
+	
+	$('.js-alert').alert();
 
 	/**
 	 * Modals
