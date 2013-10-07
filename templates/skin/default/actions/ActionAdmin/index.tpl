@@ -14,7 +14,7 @@
 					{if $aUserGrowth.growth>0}
 						<span class="green" title="{$aLang.plugin.admin.index.new_users_for_week}: {$aUserGrowth.growth}">&uarr;</span>
 					{elseif $aUserGrowth.growth<0}
-						<span class="red" title="{$aLang.plugin.admin.index.less_users_for_week}: {$aUserGrowth.growth}">&darr;</span>
+						<span class="red" title="{$aLang.plugin.admin.index.less_users_for_week}: {abs($aUserGrowth.growth)}">&darr;</span>
 					{/if}
 				</div>
 				{$aLang.plugin.admin.index.registrations}
@@ -114,7 +114,8 @@
 				<div class="new-events">
 					<div class="label-header">
 						<h3>{$aLang.plugin.admin.index.new_items}</h3>
-						<form action="" method="get" enctype="application/x-www-form-urlencoded">
+						<form action="" method="get" enctype="application/x-www-form-urlencoded" id="admin_index_growth_block_form">
+							<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
 							<select name="filter[newly_added_items_period]" class="width-150" id="admin_index_growth_period_select">
 								<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_TODAY}"
 										{if $_aRequest.filter.newly_added_items_period==PluginAdmin_ModuleStats::TIME_INTERVAL_TODAY}selected="selected"{/if}>{$aLang.plugin.admin.index.period_bar.today}</option>
@@ -127,56 +128,8 @@
 							</select>
 						</form>
 					</div>
-					<div class="content-data">
-						<table class="items-added">
-							<thead></thead>
-							<tbody>
-								<tr>
-									<td class="name">
-										{$aLang.plugin.admin.index.new_topics}
-									</td>
-									<td class="growth" title="{$aLang.plugin.admin.index.new_topics_info}">
-										{include file="{$aTemplatePathPlugin.admin}/actions/ActionAdmin/index/new_items_growth.tpl" sDataType='topics'}
-									</td>
-									<td class="voting-line">
-										{include file="{$aTemplatePathPlugin.admin}/actions/ActionAdmin/index/new_items_voting_stats.tpl" sDataType='topics'}
-									</td>
-								</tr>
-								<tr>
-									<td class="name">
-										{$aLang.plugin.admin.index.new_comments}
-									</td>
-									<td class="growth" title="{$aLang.plugin.admin.index.new_comments_info}">
-										{include file="{$aTemplatePathPlugin.admin}/actions/ActionAdmin/index/new_items_growth.tpl" sDataType='comments'}
-									</td>
-									<td class="voting-line">
-										{include file="{$aTemplatePathPlugin.admin}/actions/ActionAdmin/index/new_items_voting_stats.tpl" sDataType='comments'}
-									</td>
-								</tr>
-								<tr>
-									<td class="name">
-										{$aLang.plugin.admin.index.new_blogs}
-									</td>
-									<td class="growth" title="{$aLang.plugin.admin.index.new_blogs_info}">
-										{include file="{$aTemplatePathPlugin.admin}/actions/ActionAdmin/index/new_items_growth.tpl" sDataType='blogs'}
-									</td>
-									<td class="voting-line">
-										{include file="{$aTemplatePathPlugin.admin}/actions/ActionAdmin/index/new_items_voting_stats.tpl" sDataType='blogs'}
-									</td>
-								</tr>
-								<tr>
-									<td class="name">
-										{$aLang.plugin.admin.index.new_users}
-									</td>
-									<td class="growth" title="{$aLang.plugin.admin.index.new_users_info}">
-										{include file="{$aTemplatePathPlugin.admin}/actions/ActionAdmin/index/new_items_growth.tpl" sDataType='registrations'}
-									</td>
-									<td class="voting-line">
-										{include file="{$aTemplatePathPlugin.admin}/actions/ActionAdmin/index/new_items_voting_stats.tpl" sDataType='registrations'}
-									</td>
-								</tr>
-							</tbody>
-						</table>
+					<div class="content-data" id="admin_index_new_items_block">
+						{include file="{$aTemplatePathPlugin.admin}/actions/ActionAdmin/index/new_items_table.tpl"}
 					</div>
 				</div>
 			</div>

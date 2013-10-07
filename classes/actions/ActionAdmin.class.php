@@ -95,6 +95,10 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 *
 		 */
 		$this->AddEvent('index', 'Dashboard::EventIndex');
+		/*
+		 * аякс смена периода в блоке новых объектов
+		 */
+		$this->AddEvent('ajax-get-new-items-block', 'Dashboard::EventAjaxGetNewItemsBlock');
 		/**
 		 * Обработка ошибок, аналог ActionError
 		 */

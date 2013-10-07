@@ -407,16 +407,16 @@ class PluginAdmin_ModuleStats extends Module {
 
 
 	/**
-	 * Получить прирост объектов за период (на сколько больше зарегистрировалось в текущем периоде чем в прошлом)
+	 * Получить количество объектов в прошлом и текущем периоде, прирост объектов за период (на сколько больше зарегистрировалось в текущем периоде чем в прошлом)
 	 *
 	 * @param $sType		тип объектов для получения прироста
 	 * @param $sPeriod		тип периода
 	 * @param $bGatherVotes	нужно ли собирать голоса
 	 * @return array		array('count' => прирост объектов, 'votings' => данные голосований)
 	 */
-	public function GetGrowthAndVotingsByTypeAndPeriod($sType, $sPeriod, $bGatherVotes = true) {
-		$aGrowthFilter = $this->GetGrowthFilterForType ($sType);
-		$aPeriod = $this->GetGrowthQueryRuleForPeriod ($sPeriod);
+	public function GetGrowthAndVotingsByTypeAndPeriod($sType, $sPeriod = null, $bGatherVotes = true) {
+		$aGrowthFilter = $this->GetGrowthFilterForType($sType);
+		$aPeriod = $this->GetGrowthQueryRuleForPeriod($sPeriod);
 
 		/*
 		 * получить значение количества объектов в прошлом и текущем периоде

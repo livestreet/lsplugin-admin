@@ -61,6 +61,8 @@ ls.admin_misc = (function($) {
 			переключатель периода прироста объектов на главной
 		 */
 		index_items_growth_period_select_id: '#admin_index_growth_period_select',
+		index_items_new_block_id: '#admin_index_new_items_block',
+		index_items_new_form_id: '#admin_index_growth_block_form',
 
 
 		/*
@@ -175,6 +177,27 @@ jQuery(document).ready(function($) {
 	 */
 	$ (ls.admin_misc.selectors.index_items_growth_period_select_id).bind('change.admin', function(){
 		$ (this).closest('form').submit();
+	});
+
+	/*
+		отслеживание отправки формы при изменении периода отображения новых элементов на главной странице админки
+	 */
+	$(ls.admin_misc.selectors.index_items_new_form_id).ajaxForm({
+		url: aRouter ['admin'] + 'ajax-get-new-items-block',
+		dataType: 'json',
+		beforeSend: function() {
+			$ (ls.admin_misc.selectors.index_items_new_block_id).addClass('loading');
+		},
+		success: function(data) {
+			if (data.bStateError) {
+				ls.msg.error(data.sMsgTitle,data.sMsg);
+			} else {
+				$ (ls.admin_misc.selectors.index_items_new_block_id).html(data.sText);
+			}
+		},
+		complete: function(xhr) {
+			$ (ls.admin_misc.selectors.index_items_new_block_id).removeClass('loading');
+		}
 	});
 
 });
