@@ -418,11 +418,24 @@ class PluginAdmin_ModuleStats extends Module {
 		$aGrowthFilter = $this->GetGrowthFilterForType ($sType);
 		$aPeriod = $this->GetGrowthQueryRuleForPeriod ($sPeriod);
 
+		/*
+		 * получить значение количества объектов в прошлом и текущем периоде
+		 */
+		$aDataGrowth = $this->oMapper->GetGrowthByFilterAndPeriod($aGrowthFilter, $aPeriod);
+
 		return array(
+			/*
+			 * количество объектов в прошлом периоде
+			 */
+			'prev_items' => $aDataGrowth['prev_items'],
+			/*
+			 * объектов в текущем периоде
+			 */
+			'now_items' => $aDataGrowth['now_items'],
 			/*
 			 * прирост
 			 */
-			'count' => $this->oMapper->GetGrowthByFilterAndPeriod($aGrowthFilter, $aPeriod),
+			'growth' => $aDataGrowth['now_items'] - $aDataGrowth['prev_items'],
 			/*
 			 * данные голосований (количество и направление)
 			 */

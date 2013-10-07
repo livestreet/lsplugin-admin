@@ -30,6 +30,10 @@ class PluginAdmin extends Plugin {
 
 	public function Activate() {
 		/*
+		 * проверить необходимый минимум для запуска плагина
+		 */
+		if (!$this->CheckDependencies()) return false;
+		/*
 		 * дамп таблицы для банов пользователя
 		 */
 		if (!$this -> isTableExists ('prefix_admin_users_ban')) {
@@ -64,6 +68,23 @@ class PluginAdmin extends Plugin {
 			'ModuleValidate_EntityValidatorArray',
 		)
 	);
+
+
+	/**
+	 * Проверка зависимостей плагина
+	 *
+	 * @return bool
+	 */
+	protected function CheckDependencies() {
+		/*
+		 * плагин ни под чем другим не запустится
+		 */
+		if (!defined('LS_VERSION_FRAMEWORK')) {
+			Engine::getInstance()->Message_AddError('This plugin needs to be run in original LiveStreet CMS Framework', 'Error', true);
+			return false;
+		}
+		return true;
+	}
 
 }
 
