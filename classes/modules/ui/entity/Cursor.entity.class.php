@@ -126,7 +126,7 @@ class PluginAdmin_ModuleUi_EntityCursor extends Entity {
 					$this->SetActiveItem($oEntity);
 					return $this;
 				}
-				$aMenuItems = $oMenu->GetItems();
+				$aMenuItems = $oMenuSection->GetItems();
 				foreach($aMenuItems as $oMenuItem){
 					if (!$oMenuItem->GetActive()){
 						continue;
