@@ -42,13 +42,23 @@
 
 
 	<script>
-		var DIR_WEB_ROOT 			= '{cfg name="path.root.web"}',
-			DIR_STATIC_SKIN 		= '{cfg name="path.static.skin"}',
-			DIR_STATIC_FRAMEWORK 	= '{cfg name="path.static.framework"}',
-			LIVESTREET_SECURITY_KEY = '{$LIVESTREET_SECURITY_KEY}',
-			SESSION_ID				= '{$_sPhpSessionId}',
-			LANGUAGE				= '{$oConfig->GetValue('lang.current')}',
-			WYSIWYG					= {if $oConfig->GetValue('view.wysiwyg')}true{else}false{/if};
+        var		PATH_ROOT 					= '{cfg name="path.root.web"}',
+                PATH_SKIN		 			= '{cfg name="path.skin.web"}',
+                PATH_FRAMEWORK_FRONTEND		= '{cfg name="path.framework.frontend.web"}',
+                PATH_FRAMEWORK_LIBS_VENDOR	= '{cfg name="path.framework.libs_vendor.web"}',
+                /**
+                 * Для совместимости с прошлыми версиями. БУДУТ УДАЛЕНЫ
+                 */
+                DIR_WEB_ROOT 				= '{cfg name="path.root.web"}',
+                DIR_STATIC_SKIN 			= '{cfg name="path.skin.web"}',
+                DIR_STATIC_FRAMEWORK 		= '{cfg name="path.framework.frontend.web"}',
+                DIR_ENGINE_LIBS	 			= '{cfg name="path.framework.web"}/libs',
+
+                LIVESTREET_SECURITY_KEY = '{$LIVESTREET_SECURITY_KEY}',
+                SESSION_ID				= '{$_sPhpSessionId}',
+                SESSION_NAME			= '{$_sPhpSessionName}',
+                LANGUAGE				= '{$oConfig->GetValue('lang.current')}',
+                WYSIWYG					= {if $oConfig->GetValue('view.wysiwyg')}true{else}false{/if};
 
 		var aRouter = [];
 		{foreach from=$aRouter key=sPage item=sPath}
