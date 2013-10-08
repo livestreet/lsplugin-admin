@@ -253,6 +253,35 @@
 								{number_format(($aStats.count_inactive*100/$aStats.count_all), 1, '.', '')} %
 							</td>
 						</tr>
+						<tr>
+							<td>
+								<hr>		{* просто временный разделитель *}
+							</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>
+								{$aLang.plugin.admin.users_stats.good_users}
+							</td>
+							<td class="text-right">
+								{$aGoodAndBadUsers.good_users}
+							</td>
+							<td class="text-right">
+								{number_format(($aGoodAndBadUsers.good_users*100/$aGoodAndBadUsers.total), 1, '.', '')} %
+							</td>
+						</tr>
+						<tr>
+							<td>
+								{$aLang.plugin.admin.users_stats.bad_users}
+							</td>
+							<td class="text-right">
+								{$aGoodAndBadUsers.bad_users}
+							</td>
+							<td class="text-right">
+								{number_format(($aGoodAndBadUsers.bad_users*100/$aGoodAndBadUsers.total), 1, '.', '')} %
+							</td>
+						</tr>
 					</tbody>
 				</table>
 
