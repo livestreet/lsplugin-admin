@@ -22,17 +22,16 @@
 class PluginAdmin_HookProperty extends Hook {
 
 	public function RegisterHook() {
-		$this->AddHook('init_action_admin','InitActionAdmin');
+		$this->AddHook('init_action_admin', 'InitActionAdmin');
 	}
 	
 	
-
 	public function InitActionAdmin() {
-		$aTypes=$this->Property_GetTargetTypes();
+		$aTypes = $this->Property_GetTargetTypes();
 		$oMenu = $this->PluginAdmin_Ui_GetMenuMain();
 
-		$oSection=Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Дополнительные поля')->SetName('properties')->SetUrl('properties');
-		foreach($aTypes as $sKey=>$aParams) {
+		$oSection = Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Дополнительные поля')->SetName('properties')->SetUrl('properties');
+		foreach($aTypes as $sKey => $aParams) {
 			$oSection->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption(isset($aParams['name']) ? $aParams['name'] : $sKey)->SetUrl($sKey));
 		}
 		$oMenu->AddSection($oSection);
