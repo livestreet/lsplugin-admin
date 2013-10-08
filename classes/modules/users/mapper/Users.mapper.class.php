@@ -593,6 +593,36 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 	}
 
 
+	/**
+	 * Получить количество пользователей с позитивным и негативным рейтингом
+	 *
+	 * @return array
+	 */
+	public function GetCountGoodAndBadUsers() {
+		$sql = 'SELECT
+			(
+				SELECT COUNT(*)
+				FROM
+					`' . Config::Get('db.table.user') . '`
+				WHERE
+					`user_activate` = 1
+					AND
+					`user_rating` >= 0
+			) as good_users,
+			(
+				SELECT COUNT(*)
+				FROM
+					`' . Config::Get('db.table.user') . '`
+				WHERE
+					`user_activate` = 1
+					AND
+					`user_rating` < 0
+			) as bad_users
+		';
+		return (array) $this->oDb->selectRow($sql);
+	}
+
+
 }
 
 ?>

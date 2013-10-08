@@ -569,8 +569,8 @@ class PluginAdmin_ModuleUsers extends Module {
 		/*
 		 * валидация внесенных данных
 		 */
-		if (!$oEnt -> _Validate ()) {
-			$this -> Message_AddError ($oEnt -> _getValidateError ());
+		if (!$oEnt -> _Validate()) {
+			$this -> Message_AddError($oEnt -> _getValidateError ());
 			return false;
 		}
 		return $this->AddBanRecord($oEnt);
@@ -617,7 +617,7 @@ class PluginAdmin_ModuleUsers extends Module {
 		/*
 		 * удалить голоса пользователя
 		 */
-		$this -> Vote_DeleteVoteByTarget ($oUser->getId(), 'user');
+		$this -> Vote_DeleteVoteByTarget($oUser->getId(), 'user');
 		/*
 		 * вызов хука для удаления контента от плагинов сторонних разработчиков
 		 */
@@ -762,6 +762,18 @@ class PluginAdmin_ModuleUsers extends Module {
 	 */
 	public function GetUsersRegistrationStats($aPeriod) {
 		return $this->oMapper->GetUsersRegistrationStats($aPeriod, $this->PluginAdmin_Stats_BuildDateFormatFromPHPToMySQL($aPeriod['format']));
+	}
+
+
+	/**
+	 * Получить количество пользователей с позитивным и негативным рейтингом
+	 *
+	 * @return array
+	 */
+	public function GetCountGoodAndBadUsers() {
+		$aData = $this->oMapper->GetCountGoodAndBadUsers();
+		$aData['total'] = $aData['good_users'] + $aData['bad_users'];
+		return $aData;
 	}
 
 }
