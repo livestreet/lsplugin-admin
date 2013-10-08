@@ -735,22 +735,22 @@ class PluginAdmin_ModuleUsers extends Module {
 
 
 	/**
-	 * Поле таблицы для сортировки в зависимости от типа сортировки
+	 * Поле таблицы для сортировки и направление в зависимости от типа сортировки
 	 *
 	 * @param $sSorting			тип сортировки
-	 * @return string			поле таблицы
+	 * @return string			поле таблицы и направление сортировки
 	 */
 	protected function GetLivingStatsSQLSortingCondition($sSorting) {
 		if ($sSorting == 'alphabetic') {
 			/*
 			 * сортировка по полю группировки
 			 */
-			return 'item';
+			return array('field' => 'item', 'way' => 'ASC');
 		}
 		/*
 		 * сортировка по количеству пользователей страны или города
 		 */
-		return 'count';
+		return array('field' => 'count', 'way' => 'DESC');
 	}
 
 

@@ -74,11 +74,11 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		/*
 		 * Работа с пользователями
 		 */
-		$this->RegisterEventExternal('Users','PluginAdmin_ActionAdmin_EventUsers');
+		$this->RegisterEventExternal('Users', 'PluginAdmin_ActionAdmin_EventUsers');
 		/*
 		 * Встраивание интерфейса плагина в админку
 		 */
-		$this->RegisterEventExternal('Plugin','PluginAdmin_ActionAdmin_EventPlugin');
+		$this->RegisterEventExternal('Plugin', 'PluginAdmin_ActionAdmin_EventPlugin');
 		/*
 		 * Список плагинов
 		 */
@@ -92,10 +92,15 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 */
 		$this->RegisterEventExternal('Dashboard', 'PluginAdmin_ActionAdmin_EventDashboard');
 
+		/*
+		 *
+		 * --- Модуль свойств ----
+		 *
+		 */
+		$this->AddEventPreg('#^properties$#i', '#^\w+$#i', '#^$#i', 'Property::EventPropertiesTarget');
+		$this->AddEventPreg('#^properties$#i', '#^\w+$#i', '#^update$#i', '#^\d{1,5}$#i', 'Property::EventPropertyUpdate');
+		$this->AddEventPreg('#^properties$#i', '#^\w+$#i', '#^create$#i', '#^$#i', 'Property::EventPropertyCreate');
 
-		$this->AddEventPreg('#^properties$#i','#^\w+$#i','#^$#i','Property::EventPropertiesTarget');
-		$this->AddEventPreg('#^properties$#i','#^\w+$#i','#^update$#i','#^\d{1,5}$#i','Property::EventPropertyUpdate');
-		$this->AddEventPreg('#^properties$#i','#^\w+$#i','#^create$#i','#^$#i','Property::EventPropertyCreate');
 		/*
 		 *
 		 * --- дашборд ---

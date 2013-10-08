@@ -345,7 +345,7 @@
 					<a href="{router page='admin/users/stats'}{request_filter
 					name=array('living_sorting')
 					value=array('alphabetic')
-					}" class="button {if $sCurrentLivingSorting=='alphabetic'}active{/if}">A-z &darr;</a>
+					}" class="button {if $sCurrentLivingSorting=='alphabetic'}active{/if}">A-z</a>
 
 					<a href="{router page='admin/users/stats'}{request_filter
 					name=array('living_sorting')
