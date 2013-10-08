@@ -491,6 +491,9 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 				AND
 				`user_profile_birthday` IS NOT NULL
 				AND
+				-- trick: dont show users that are not correctly set theirs birthday date in profiles
+				`user_profile_birthday` <= CURRENT_DATE - INTERVAL ' . Config::Get('plugin.admin.min_years_diff_between_current_date_and_users_birthday_to_show_users_age_stats') . ' YEAR
+				AND
 				`user_id` NOT IN (
 					SELECT
 						`user_id`
