@@ -92,8 +92,7 @@
 						<a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileFotoPath()}" alt="" class="photo" /></a>
 					</div>
 					<div class="your-note">
-						{* todo *}
-						<a href="#">Добавить заметку</a>
+						{include file="blocks/block.userNote.tpl" oUserProfile=$oUser oUserNote=$oUser->getUserNote()}
 					</div>
 				</div>
 				<div class="left-data">

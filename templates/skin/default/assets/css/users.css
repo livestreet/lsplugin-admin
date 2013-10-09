@@ -245,15 +245,6 @@
 	width: 30%;
 }
 
-.ls-admin .profile-info-wrapper .inner-data .more-info .right-data .your-note {
-	background: none repeat scroll 0 0 #FFFFD7;
-	padding: 15px;
-}
-
-.ls-admin .profile-info-wrapper .inner-data .more-info .right-data .your-note a {
-	color: #A1933A;
-}
-
 .ls-admin .profile-info-wrapper .inner-data .more-info .left-data {
 	overflow: hidden;
 }

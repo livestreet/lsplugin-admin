@@ -513,6 +513,10 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			 * for stream list in dashboard
 			 */
 			Config::Get('path.application.web') . '/frontend/common/js/stream.js',
+			/*
+			 * for managing user note
+			 */
+			Config::Get('path.application.web') . '/frontend/common/js/usernote.js',
 
 			/*
 			 * скрипты плагина
