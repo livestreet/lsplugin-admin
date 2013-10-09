@@ -130,6 +130,10 @@ jQuery(document).ready(function($) {
 	$ (ls.admin_misc.selectors.user_search_form_id).bind('submit.admin', function() {
 		q = $ (ls.admin_misc.selectors.user_search_form_q);
 		field = $ (ls.admin_misc.selectors.user_search_form_field);
+		/*
+			запретить поиск с пустым условием
+		 */
+		if ($.trim(q.val()) == '') return false;
 		$ (ls.admin_misc.selectors.user_search_form_id).prepend(
 			$ ('<input />', {
 				type: 'hidden',

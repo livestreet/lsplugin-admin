@@ -16,6 +16,16 @@
 			{/foreach}
 		</select>
 
+		{*
+			кнопка отключения фильтра поиска
+		*}
+		{if $_aRequest.filter.$sSearchField}
+			<a href="{router page='admin/users/list'}{request_filter
+				name=array($sSearchField)
+				value=array(null)
+			}" class="remove-custom-period-selection"><i class="icon-remove"></i></a>
+		{/if}
+
 		<button type="submit" class="button button-primary">{$aLang.plugin.admin.users.search}</button>
 	</form>
 {/block}
