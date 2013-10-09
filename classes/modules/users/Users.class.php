@@ -312,7 +312,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	 */
 	public function AddBanRecord($oBan) {
 		// todo: cache
-		return $this->oMapper->AddBanRecord ($oBan);
+		return $this->oMapper->AddBanRecord($oBan);
 	}
 
 
@@ -599,7 +599,7 @@ class PluginAdmin_ModuleUsers extends Module {
 		 * удалить персональный блог
 		 */
 		if ($oBlog = $this->Blog_GetPersonalBlogByUserId($oUser->getId())) {
-			$this->Blog_DeleteBlog($oBlog->GetId());
+			$this->Blog_DeleteBlog($oBlog);
 		}
 		/*
 		 * удаление личных сообщений
@@ -617,7 +617,7 @@ class PluginAdmin_ModuleUsers extends Module {
 		/*
 		 * удалить голоса пользователя
 		 */
-		$this -> Vote_DeleteVoteByTarget($oUser->getId(), 'user');
+		$this->Vote_DeleteVoteByTarget($oUser->getId(), 'user');
 		/*
 		 * вызов хука для удаления контента от плагинов сторонних разработчиков
 		 */
