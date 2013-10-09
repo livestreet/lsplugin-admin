@@ -78,6 +78,11 @@ $config['dashboard'] = array(
 $config['min_years_diff_between_current_date_and_users_birthday_to_show_users_age_stats'] = 7;		// лет
 
 /*
+ * список значений количества элементов на страницу в выпадающем списке
+ */
+$config['values_for_select_elements_on_page'] = array(10, 30, 100);		// range(5, 100, 5)
+
+/*
  * роутер
  */
 $config['$root$']['router']['page']['admin'] = 'PluginAdmin_ActionAdmin';
