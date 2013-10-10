@@ -317,21 +317,27 @@ class PluginAdmin_ModuleStats extends Module {
 
 
 		/*
-		 * если указан интервал дат и он был выбран
+		 * если указан интервал дат
 		 */
 		if ($sDateStart and $sDateFinish) {
-			// todo: validate
 			/*
-			 * проверить чтобы дата начала была меньше чем дата конца
+			 * валидация дат
 			 */
-			if ($sDateStart > $sDateFinish) {
-				$this->Message_AddError($this->Lang('errors.stats.wrong_date_range'), $this->Lang_Get('error'));
+			if (!$this->ValidateStartAndFinishGraphDates($sDateStart, $sDateFinish)) {
+				$this->Message_AddError($this->Lang('errors.stats.wrong_dates'), $this->Lang_Get('error'));
 			} else {
 				/*
-				 * построить данные о периоде
+				 * проверить чтобы дата начала была меньше чем дата конца
 				 */
-				$aPeriod = $this->SetupCustomPeriod($sDateStart, $sDateFinish);
-				$sGraphPeriod = null;
+				if ($sDateStart > $sDateFinish) {
+					$this->Message_AddError($this->Lang('errors.stats.wrong_date_range'), $this->Lang_Get('error'));
+				} else {
+					/*
+					 * построить данные о периоде
+					 */
+					$aPeriod = $this->SetupCustomPeriod($sDateStart, $sDateFinish);
+					$sGraphPeriod = null;
+				}
 			}
 		}
 
@@ -372,6 +378,22 @@ class PluginAdmin_ModuleStats extends Module {
 		 * тип текущего графика
 		 */
 		$this->Viewer_Assign('sCurrentGraphType', $sGraphType);
+	}
+
+
+	/**
+	 * Проверить корректность дат начала и конца ручного выбранного периода для графика
+	 *
+	 * @param $sDateStart		дата начала
+	 * @param $sDateFinish		дата финиша
+	 * @return bool				корректность дат
+	 */
+	protected function ValidateStartAndFinishGraphDates($sDateStart, $sDateFinish) {
+		/*
+		 * параметры для валидатора дат: формат даты мускула date и datetime
+		 */
+		$aDateValidatorParams = array('format' => array ('yyyy-MM-dd hh:mm:ss', 'yyyy-MM-dd'), 'allowEmpty' => false);
+		return $this->Validate_Validate('date', $sDateStart, $aDateValidatorParams) and $this->Validate_Validate('date', $sDateFinish, $aDateValidatorParams);
 	}
 
 

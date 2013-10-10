@@ -383,6 +383,9 @@
 							{assign var=iPercentage value=number_format($aItemRecord.count*100/$aStats.count_all, 2, '.', '')}
 							<tr {if $smarty.foreach.ItemsCycle.iteration % 2 == 0}class="second"{/if}>
 								<td class="item">
+									{*
+										страна или город
+									*}
 									{$aItemRecord.item}
 								</td>
 								<td class="count">
