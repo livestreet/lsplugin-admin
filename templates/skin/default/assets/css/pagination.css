@@ -4,21 +4,56 @@
  * @template pagination.tpl
  */
 
-.pagination ul 					{ overflow: hidden; zoom: 1; line-height: 1em; }
-.pagination ul li 				{ float: left; margin-right: 5px; }
-.pagination ul li span,
-.pagination ul li span, .pagination ul li a {
-    background: none repeat scroll 0 0 #EEEEEE;
-    border: 1px solid transparent;
-    color: #333333;
-    float: left;
-    padding: 7px 10px;
-    text-shadow: 0 1px 0 #FFFFFF;
+.pagination {
+	border-top: 1px solid #ebebeb;
+	border-bottom: 1px solid #ebebeb;
+	font: 16px/1em "Open Sans", sans-serif;
 }
-.pagination ul li a:hover 		{ background: #ddd; }
-.pagination ul li.active span {
-    background: none repeat scroll 0 0 #FFFFFF;
-    border: 1px solid #479FFA;
-    color: #555555;
+.pagination,
+.pagination a { color: #777; }
+
+/* Clearfix */
+.pagination:before,
+.pagination:after { content: ""; display: table; line-height: 0; }
+.pagination:after { clear: both; }
+
+/* List */
+.pagination-list { margin-left: 250px; margin-right: 250px; text-align: center; }
+
+/* Item */
+.pagination-item { display: inline-block; vertical-align: middle; }
+.pagination-item span,
+.pagination-item a { float: left; padding: 13px 16px; border: 1px solid transparent; }
+.pagination-item a:hover { background: #fafafa; }
+.pagination-item.active span { 
+	border-color: #8fcefb; 
+	color: #000; 
+	-webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
+	-moz-box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
+	box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
 }
-.pagination ul li i 			{ opacity: .5; filter: alpha(opacity=50); }
+
+/* Prev/Next */
+.pagination-item-prev a,
+.pagination-item-next a { color: #000; }
+.pagination-item-prev span,
+.pagination-item-prev a { padding-right: 30px; } 
+.pagination-item-next span,
+.pagination-item-next a { padding-left: 30px; }
+.pagination-item-prev { border-right: 1px solid #ebebeb; float: left; }
+.pagination-item-next { border-left: 1px solid #ebebeb; float: right; }
+
+/* Icon */
+.pagination-item i { 
+	display: inline-block; 
+	width: 10px; 
+	height: 15px; 
+	background-repeat: no-repeat;
+	opacity: .4; 
+	vertical-align: top;
+	position: relative;
+	top: 1px;
+}
+.pagination-item a i { opacity: 1; }
+.pagination-item-prev i { background-image: url(../images/icons/pagination-prev.png); margin-right: 20px; }
+.pagination-item-next i { background-image: url(../images/icons/pagination-next.png); margin-left: 20px; }

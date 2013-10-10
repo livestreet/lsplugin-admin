@@ -62,9 +62,7 @@ a:hover { color: #058; }
  *
  * @template layout.base.tpl
  */
-#footer a { color: #6c6c6c; text-decoration: none; border-bottom: 1px solid #c5c5c5; display: inline-block; line-height: 13px; }
-#footer a:hover { border-color: #FFAEAE; color: #f00; }
-
+#footer ul { float: left; width: 33%; }
 #footer ul li { margin-bottom: 5px; }
 
 

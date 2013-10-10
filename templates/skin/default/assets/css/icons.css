@@ -166,4 +166,7 @@
 /*
   special for ls-admin
 */
-.icon-user-admin               { background-position: -168px 0; }
+.icon-user-admin               { width: 15px; height: 15px; background-image: url(../images/icons/user-admin.png); }
+
+.icon-sort-asc { width: 5px; height: 9px; background-image: url(../images/icons/sort-asc.png); }
+.icon-sort-desc { width: 5px; height: 9px; background-image: url(../images/icons/sort-desc.png); }

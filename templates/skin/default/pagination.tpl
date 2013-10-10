@@ -1,39 +1,43 @@
 {**
  * Пагинация
+ *
+ * @styles assets/css/pagination.css
  *}
 
-{if $aPaging and $aPaging.iCountPage>1} 
-	<div class="pagination">
-		<ul>
-			{if $aPaging.iCurrentPage>1}
-				<li><a href="{$aPaging.sBaseUrl}/{$aPaging.sGetParams}" title="{$aLang.paging_first}">&lt;&lt;</a></li>
-			{/if}
+{if $aPaging and $aPaging.iCountPage > 1} 
+	{strip}
+		<div class="pagination">
+			<div class="pagination-item pagination-item-prev">
+				{if $aPaging.iPrevPage}
+					<a href="{$aPaging.sBaseUrl}{if $aPaging.iPrevPage>1}/page{$aPaging.iPrevPage}{/if}/{$aPaging.sGetParams}" class="js-paging-prev-page">
+						<i></i>{$aLang.plugin.admin.pagination.prev}
+					</a>
+				{else}
+					<span><i></i>{$aLang.plugin.admin.pagination.prev}</span>
+				{/if}
+			</div>
+
 			
-			
-			{if $aPaging.iPrevPage}
-				<li><a href="{$aPaging.sBaseUrl}{if $aPaging.iPrevPage>1}/page{$aPaging.iPrevPage}{/if}/{$aPaging.sGetParams}" class="js-paging-prev-page" title="{$aLang.paging_previos}">&lt;</a></li>
-			{/if}
-			
-			
-			{foreach from=$aPaging.aPagesLeft item=iPage}
-				<li><a href="{$aPaging.sBaseUrl}{if $iPage>1}/page{$iPage}{/if}/{$aPaging.sGetParams}">{$iPage}</a></li>
-			{/foreach}
-			
-			<li class="active"><span>{$aPaging.iCurrentPage}</span></li>
-			
-			{foreach from=$aPaging.aPagesRight item=iPage}
-				<li><a href="{$aPaging.sBaseUrl}{if $iPage>1}/page{$iPage}{/if}/{$aPaging.sGetParams}">{$iPage}</a></li>
-			{/foreach}
-			
-			
-			{if $aPaging.iNextPage}
-				<li><a href="{$aPaging.sBaseUrl}/page{$aPaging.iNextPage}/{$aPaging.sGetParams}" class="js-paging-next-page" title="{$aLang.paging_next}">&gt;</a></li>
-			{/if}
-			
-			
-			{if $aPaging.iCurrentPage<$aPaging.iCountPage}
-				<li><a href="{$aPaging.sBaseUrl}/page{$aPaging.iCountPage}/{$aPaging.sGetParams}" title="{$aLang.paging_last}">&gt;&gt;</a></li>
-			{/if}
-		</ul>
-	</div>
+			<div class="pagination-item pagination-item-next">
+				{if $aPaging.iNextPage}
+					<a href="{$aPaging.sBaseUrl}/page{$aPaging.iNextPage}/{$aPaging.sGetParams}" class="js-paging-next-page">{$aLang.plugin.admin.pagination.next}<i></i></a>
+				{else}
+					<span>{$aLang.plugin.admin.pagination.next}<i></i></span>
+				{/if}
+			</div>
+
+
+			<ul class="pagination-list">
+				{foreach from=$aPaging.aPagesLeft item=iPage}
+					<li class="pagination-item"><a href="{$aPaging.sBaseUrl}{if $iPage>1}/page{$iPage}{/if}/{$aPaging.sGetParams}">{$iPage}</a></li>
+				{/foreach}
+				
+				<li class="pagination-item active"><span>{$aPaging.iCurrentPage}</span></li>
+				
+				{foreach from=$aPaging.aPagesRight item=iPage}
+					<li class="pagination-item"><a href="{$aPaging.sBaseUrl}{if $iPage>1}/page{$iPage}{/if}/{$aPaging.sGetParams}">{$iPage}</a></li>
+				{/foreach}
+			</ul>
+		</div>
+	{/strip}
 {/if}

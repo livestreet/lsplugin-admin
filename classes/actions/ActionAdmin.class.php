@@ -452,15 +452,18 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$sPluginTemplatePath . '/css/pagination.css',
 			$sPluginTemplatePath . '/css/icons.css',
 			$sPluginTemplatePath . '/css/navs.css',
-			$sPluginTemplatePath . '/css/vendor/jquery.notifier.css',
 			$sPluginTemplatePath . '/css/buttons.css',
 			$sPluginTemplatePath . '/css/forms.css',
-
 			$sPluginTemplatePath . '/css/parameters.css',
 			$sPluginTemplatePath . '/css/skins.css',
 			$sPluginTemplatePath . '/css/users.css',
 			$sPluginTemplatePath . '/css/table.css',
 			$sPluginTemplatePath . '/css/dashboard.css',
+			$sPluginTemplatePath . '/css/dropdowns.css',
+			$sPluginTemplatePath . '/css/helpers.css',
+			
+			$sPluginTemplatePath . '/css/vendor/jquery.notifier.css',
+			$sPluginTemplatePath . '/css/vendor/icheck/skins/livestreet/minimal.css',
 		);
 
 		/*
@@ -531,6 +534,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			 * 3rd party vendor
 			 */
 			$sPluginTemplatePath . '/js/vendor/highcharts/highcharts.src.js',
+			$sPluginTemplatePath . '/js/vendor/icheck/jquery.icheck.js',
 		);
 
 		array_map(array($this, 'Viewer_AppendStyle'), $aStyles);
