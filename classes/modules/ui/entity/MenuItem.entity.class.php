@@ -24,21 +24,23 @@ class PluginAdmin_ModuleUi_EntityMenuItem extends Entity {
 		$oMenuSection = $this->GetSection();
 		$oMenu = $oMenuSection->GetMenu();
 		$aUrl = array_filter(array_map(
-			'urlencode',
-			array_merge(
-				$oMenu->GetUrlPrefix(),
-				array($oMenuSection->GetUrl()),
-				array($this->GetUrl())
-			)
-		));
+								 'urlencode',
+								 array_merge(
+									 $oMenu->GetUrlPrefix(),
+									 explode('/',$oMenuSection->GetUrl()),
+									 array($this->GetUrl())
+								 )
+							 ));
 		return $aUrl;
 	}
 	
-	public function GetUrlFull(){
+	public function GetUrlFull($bAbsolute=true){
 		if ((string) @$this->_aData['url_full']) {
-			return Router::GetPath((string)@$this->_aData['url_full']);
+			$sUrl=(string)@$this->_aData['url_full'];
+		} else {
+			$sUrl=join('/',$this->GetUrlArray());
 		}
-		return Router::GetPath(join('/',$this->GetUrlArray()));
+		return $bAbsolute ? Router::GetPath($sUrl) : $sUrl;
 	}
 	
 	public function GetActive(){

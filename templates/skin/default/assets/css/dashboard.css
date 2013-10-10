@@ -192,6 +192,10 @@
 	vertical-align: top;
 }
 
+#admin_index_new_items_block.loading > * {
+	opacity: 0.12;
+}
+
 /* voting line */
 
 .ls-admin .dashboard .footer-stat-info .w50p .content-data .items-added .name {

@@ -10,12 +10,12 @@ class PluginAdmin_ModuleUi_EntityMenuSection extends Entity {
 	public function GetUrlArray(){
 		$oMenu = $this->GetMenu();
 		$aUrl = array_filter(array_map(
-			'urlencode',
-			array_merge(
-				$oMenu->GetUrlPrefix(),
-				array($this->GetUrl())
-			)
-		));
+								 'urlencode',
+								 array_merge(
+									 $oMenu->GetUrlPrefix(),
+									 explode('/',$this->GetUrl())
+								 )
+							 ));
 		return $aUrl;
 	}
 	

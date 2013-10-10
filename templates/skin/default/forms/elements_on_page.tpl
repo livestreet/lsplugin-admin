@@ -15,7 +15,7 @@
 		<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
 		{$aLang.plugin.admin.on_page}
 		<select name="onpage" class="width-50">
-			{foreach from=range(5,100,5) item=iVal}
+			{foreach from=$oConfig->GetValue('plugin.admin.values_for_select_elements_on_page') item=iVal}
 				<option value="{$iVal}" {if $iVal==$iCurrentValue}selected="selected"{/if}>{$iVal}</option>
 			{/foreach}
 		</select>

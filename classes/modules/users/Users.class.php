@@ -312,7 +312,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	 */
 	public function AddBanRecord($oBan) {
 		// todo: cache
-		return $this->oMapper->AddBanRecord ($oBan);
+		return $this->oMapper->AddBanRecord($oBan);
 	}
 
 
@@ -569,8 +569,8 @@ class PluginAdmin_ModuleUsers extends Module {
 		/*
 		 * валидация внесенных данных
 		 */
-		if (!$oEnt -> _Validate ()) {
-			$this -> Message_AddError ($oEnt -> _getValidateError ());
+		if (!$oEnt -> _Validate()) {
+			$this -> Message_AddError($oEnt -> _getValidateError ());
 			return false;
 		}
 		return $this->AddBanRecord($oEnt);
@@ -599,7 +599,7 @@ class PluginAdmin_ModuleUsers extends Module {
 		 * удалить персональный блог
 		 */
 		if ($oBlog = $this->Blog_GetPersonalBlogByUserId($oUser->getId())) {
-			$this->Blog_DeleteBlog($oBlog->GetId());
+			$this->Blog_DeleteBlog($oBlog);
 		}
 		/*
 		 * удаление личных сообщений
@@ -617,7 +617,7 @@ class PluginAdmin_ModuleUsers extends Module {
 		/*
 		 * удалить голоса пользователя
 		 */
-		$this -> Vote_DeleteVoteByTarget ($oUser->getId(), 'user');
+		$this->Vote_DeleteVoteByTarget($oUser->getId(), 'user');
 		/*
 		 * вызов хука для удаления контента от плагинов сторонних разработчиков
 		 */
@@ -735,22 +735,22 @@ class PluginAdmin_ModuleUsers extends Module {
 
 
 	/**
-	 * Поле таблицы для сортировки в зависимости от типа сортировки
+	 * Поле таблицы для сортировки и направление в зависимости от типа сортировки
 	 *
 	 * @param $sSorting			тип сортировки
-	 * @return string			поле таблицы
+	 * @return string			поле таблицы и направление сортировки
 	 */
 	protected function GetLivingStatsSQLSortingCondition($sSorting) {
 		if ($sSorting == 'alphabetic') {
 			/*
 			 * сортировка по полю группировки
 			 */
-			return 'item';
+			return array('field' => 'item', 'way' => 'ASC');
 		}
 		/*
 		 * сортировка по количеству пользователей страны или города
 		 */
-		return 'count';
+		return array('field' => 'count', 'way' => 'DESC');
 	}
 
 
@@ -762,6 +762,18 @@ class PluginAdmin_ModuleUsers extends Module {
 	 */
 	public function GetUsersRegistrationStats($aPeriod) {
 		return $this->oMapper->GetUsersRegistrationStats($aPeriod, $this->PluginAdmin_Stats_BuildDateFormatFromPHPToMySQL($aPeriod['format']));
+	}
+
+
+	/**
+	 * Получить количество пользователей с позитивным и негативным рейтингом
+	 *
+	 * @return array
+	 */
+	public function GetCountGoodAndBadUsers() {
+		$aData = $this->oMapper->GetCountGoodAndBadUsers();
+		$aData['total'] = $aData['good_users'] + $aData['bad_users'];
+		return $aData;
 	}
 
 }

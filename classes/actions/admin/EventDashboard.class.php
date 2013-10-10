@@ -42,7 +42,7 @@ class PluginAdmin_ActionAdmin_EventDashboard extends Event {
 		$sItemsAddedPeriod = $this->GetDataFromFilter('newly_added_items_period');
 
 		/*
-		 * получить прирост и линейку голосов топиков, комментариев, блогов и пользователей за указанный период
+		 * получить прирост и линейку голосов топиков, комментариев, блогов и пользователей за указанный период (период по-умолчанию)
 		 */
 		$this->Viewer_Assign('aDataGrowth', array(
 			PluginAdmin_ModuleStats::DATA_TYPE_TOPICS => $this->PluginAdmin_Stats_GetGrowthAndVotingsByTypeAndPeriod(PluginAdmin_ModuleStats::DATA_TYPE_TOPICS, $sItemsAddedPeriod),
@@ -99,6 +99,30 @@ class PluginAdmin_ActionAdmin_EventDashboard extends Event {
 			$oEvenLast = end($aEvents);
 			$this->Viewer_Assign('iStreamLastId', $oEvenLast->getId());
 		}
+	}
+
+
+	/**
+	 * Получить обработанный блок для показа при смене периода через аякс для новых объектов
+	 */
+	public function EventAjaxGetNewItemsBlock() {
+		$this->Viewer_SetResponseAjax('json');
+		/*
+		 * период для показа прироста новых топиков, комментариев и т.п.
+		 */
+		$sItemsAddedPeriod = $this->GetDataFromFilter('newly_added_items_period');
+
+		$oViewer = $this->Viewer_GetLocalViewer();
+		/*
+		 * получить прирост и линейку голосов топиков, комментариев, блогов и пользователей за указанный период
+		 */
+		$oViewer->Assign('aDataGrowth', array(
+			PluginAdmin_ModuleStats::DATA_TYPE_TOPICS => $this->PluginAdmin_Stats_GetGrowthAndVotingsByTypeAndPeriod(PluginAdmin_ModuleStats::DATA_TYPE_TOPICS, $sItemsAddedPeriod),
+			PluginAdmin_ModuleStats::DATA_TYPE_COMMENTS => $this->PluginAdmin_Stats_GetGrowthAndVotingsByTypeAndPeriod(PluginAdmin_ModuleStats::DATA_TYPE_COMMENTS, $sItemsAddedPeriod),
+			PluginAdmin_ModuleStats::DATA_TYPE_BLOGS => $this->PluginAdmin_Stats_GetGrowthAndVotingsByTypeAndPeriod(PluginAdmin_ModuleStats::DATA_TYPE_BLOGS, $sItemsAddedPeriod),
+			PluginAdmin_ModuleStats::DATA_TYPE_REGISTRATIONS => $this->PluginAdmin_Stats_GetGrowthAndVotingsByTypeAndPeriod(PluginAdmin_ModuleStats::DATA_TYPE_REGISTRATIONS, $sItemsAddedPeriod),
+		));
+		$this->Viewer_AssignAjax('sText', $oViewer->Fetch(Plugin::GetTemplatePath(__CLASS__) . 'actions/ActionAdmin/index/new_items_table.tpl'));
 	}
 
 

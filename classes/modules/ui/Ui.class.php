@@ -43,21 +43,18 @@ class PluginAdmin_ModuleUi extends Module {
 	public function GetCursor() {
 		return $this->oCursor;
 	}
-	
-	
-	
+
+
+
 	public function HighlightMenus($oCursor = null){
 		if (is_null($oCursor)){
 			$oCursor = $this->oCursor;
 		}
-		$aEventParams = Router::GetParams();
-		$aUrlParams = array_merge(
-			array(Router::GetAction(), Router::GetActionEvent()),
-			$aEventParams
-		);
+		$aUrlParams=explode('/',trim(str_replace(Config::Get('path.root.web'),'',Router::GetPathWebCurrent()),'/'));
 		$aMenus = $oCursor->GetMenus();
 		foreach($aMenus as $sName => $oMenu){
 			$aMenuSections = $oMenu->GetSections();
+
 			foreach($aMenuSections as $oMenuSection){
 				$oMenuSection->SetActive(false);
 				if (count($aUrlParams) < count($aSectionUrlParams = $oMenuSection->GetUrlArray())){
@@ -68,11 +65,15 @@ class PluginAdmin_ModuleUi extends Module {
 						continue;
 					}
 				}
+				if ($oMenuSection->getUrl()=='') {
+					continue;
+				}
+
 				$oMenuSection->SetActive(true);
 				$aMenuItems = $oMenuSection->GetItems();
 				foreach($aMenuItems as $oMenuItem){
 					$oMenuItem->SetActive(false);
-					if (count($aUrlParams) < count($aItemUrlParams = $oMenuItem->GetUrlArray())){
+					if (count($aUrlParams) < count($aItemUrlParams = explode('/',$oMenuItem->GetUrlFull(false)))){
 						continue;
 					}else{
 						$aSlice = array_slice($aUrlParams, 0, count($aItemUrlParams));

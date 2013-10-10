@@ -38,10 +38,12 @@ class PluginAdmin_ModuleMain_EntityAdminUrl extends Entity {
 	 * Возвращает полный URL до необходимой страницы плагина
 	 *
 	 * @param string $sPath
+	 * @param string $sPlugin
 	 *
 	 * @return string
 	 */
-	public function get($sPath=null) {
-		return Router::GetPath("admin/plugin/{$this->sPlugin}".($sPath ? '/'.$sPath : ''));
+	public function get($sPath=null,$sPlugin=null) {
+		$sPlugin=$sPlugin ? $sPlugin : $this->sPlugin;
+		return Router::GetPath("admin/plugin/{$sPlugin}".($sPath ? '/'.$sPath : ''));
 	}
 }

@@ -52,6 +52,9 @@
 
 {block name='layout_content'}
 	<div class="users-stats">
+		{*
+			график
+		*}
 		<h3>{$aLang.plugin.admin.users_stats.registrations}</h3>
 		<div class="graph">
 			{include file="{$aTemplatePathPlugin.admin}/graph.tpl"
@@ -60,6 +63,9 @@
 				sName=$aLang.plugin.admin.users_stats.registrations
 			}
 		</div>
+		{*
+			значения таблицей
+		*}
 		<div class="value-in-table">
 			<a href="#" id="admin_users_show_graph_stats_in_table">{$aLang.plugin.admin.users_stats.values_in_table}</a>
 			<div id="admin_users_graph_table_stats_data">
@@ -89,6 +95,9 @@
 				</table>
 			</div>
 		</div>
+		{*
+			круговая диаграмма гендерного распределения и активность
+		*}
 		<div class="stat-line">
 			<div class="w50p first-block">
 				<h3>{$aLang.plugin.admin.users_stats.gender_stats}</h3>
@@ -253,11 +262,43 @@
 								{number_format(($aStats.count_inactive*100/$aStats.count_all), 1, '.', '')} %
 							</td>
 						</tr>
+						<tr>
+							<td>
+								<hr>		{* просто временный разделитель *}
+							</td>
+							<td></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>
+								{$aLang.plugin.admin.users_stats.good_users}
+							</td>
+							<td class="text-right">
+								{$aGoodAndBadUsers.good_users}
+							</td>
+							<td class="text-right">
+								{number_format(($aGoodAndBadUsers.good_users*100/$aGoodAndBadUsers.total), 1, '.', '')} %
+							</td>
+						</tr>
+						<tr>
+							<td>
+								{$aLang.plugin.admin.users_stats.bad_users}
+							</td>
+							<td class="text-right">
+								{$aGoodAndBadUsers.bad_users}
+							</td>
+							<td class="text-right">
+								{number_format(($aGoodAndBadUsers.bad_users*100/$aGoodAndBadUsers.total), 1, '.', '')} %
+							</td>
+						</tr>
 					</tbody>
 				</table>
 
 			</div>
 		</div>
+		{*
+			возрастное распределение
+		*}
 		{if $aBirthdaysStats and $aBirthdaysStats.collection and count($aBirthdaysStats.collection)>0}
 			<div class="users-age">
 				<h3>{$aLang.plugin.admin.users_stats.age_stats}</h3>
@@ -295,13 +336,16 @@
 			</div>
 		{/if}
 
+		{*
+			статистика по странам и городам
+		*}
 		{if $aLivingStats and $aLivingStats.collection and count($aLivingStats.collection)>0}
 			<div class="countries-n-cities">
 				<div class="fl-r">
 					<a href="{router page='admin/users/stats'}{request_filter
 					name=array('living_sorting')
 					value=array('alphabetic')
-					}" class="button {if $sCurrentLivingSorting=='alphabetic'}active{/if}">A-z &darr;</a>
+					}" class="button {if $sCurrentLivingSorting=='alphabetic'}active{/if}">A-z</a>
 
 					<a href="{router page='admin/users/stats'}{request_filter
 					name=array('living_sorting')

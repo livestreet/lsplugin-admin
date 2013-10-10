@@ -68,13 +68,17 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 */
 
 		/*
+		 * Модуль "Property"
+		 */
+		$this->RegisterEventExternal('Property', 'PluginAdmin_ActionAdmin_EventProperty');
+		/*
 		 * Работа с пользователями
 		 */
-		$this->RegisterEventExternal('Users','PluginAdmin_ActionAdmin_EventUsers');
+		$this->RegisterEventExternal('Users', 'PluginAdmin_ActionAdmin_EventUsers');
 		/*
 		 * Встраивание интерфейса плагина в админку
 		 */
-		$this->RegisterEventExternal('Plugin','PluginAdmin_ActionAdmin_EventPlugin');
+		$this->RegisterEventExternal('Plugin', 'PluginAdmin_ActionAdmin_EventPlugin');
 		/*
 		 * Список плагинов
 		 */
@@ -88,6 +92,14 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 */
 		$this->RegisterEventExternal('Dashboard', 'PluginAdmin_ActionAdmin_EventDashboard');
 
+		/*
+		 *
+		 * --- Модуль свойств ----
+		 *
+		 */
+		$this->AddEventPreg('#^properties$#i', '#^\w+$#i', '#^$#i', 'Property::EventPropertiesTarget');
+		$this->AddEventPreg('#^properties$#i', '#^\w+$#i', '#^update$#i', '#^\d{1,5}$#i', 'Property::EventPropertyUpdate');
+		$this->AddEventPreg('#^properties$#i', '#^\w+$#i', '#^create$#i', '#^$#i', 'Property::EventPropertyCreate');
 
 		/*
 		 *
@@ -95,6 +107,10 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 *
 		 */
 		$this->AddEvent('index', 'Dashboard::EventIndex');
+		/*
+		 * аякс смена периода в блоке новых объектов
+		 */
+		$this->AddEvent('ajax-get-new-items-block', 'Dashboard::EventAjaxGetNewItemsBlock');
 		/**
 		 * Обработка ошибок, аналог ActionError
 		 */
@@ -350,7 +366,10 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 
 		$this->Viewer_AddBlock('right','blocks/block.nav.tpl', array('plugin'=>'admin'));
 
-		$this->PluginAdmin_Ui_HighlightMenus();
+		if (Router::GetActionEvent()!='error') {
+			$this->PluginAdmin_Ui_HighlightMenus();
+		}
+
 
 		/*
 		 * записать данные последнего входа пользователя в админку
@@ -473,6 +492,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$sFrameworkPath . '/js/vendor/markitup/jquery.markitup.js',
 			$sFrameworkPath . '/js/vendor/prettify/prettify.js',
 			$sFrameworkPath . '/js/vendor/prettyphoto/js/jquery.prettyphoto.js',
+			$sFrameworkPath . '/js/vendor/parsley/parsley.js',
 
 			$sFrameworkPath . '/js/core/main.js',
 			$sFrameworkPath . '/js/core/hook.js',
@@ -496,6 +516,10 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			 * for stream list in dashboard
 			 */
 			Config::Get('path.application.web') . '/frontend/common/js/stream.js',
+			/*
+			 * for managing user note
+			 */
+			Config::Get('path.application.web') . '/frontend/common/js/usernote.js',
 
 			/*
 			 * скрипты плагина
@@ -504,6 +528,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$sPluginTemplatePath . '/js/admin_settings_save.js',
 			$sPluginTemplatePath . '/js/admin_settings_array.js',
 			$sPluginTemplatePath . '/js/admin_misc.js',
+			$sPluginTemplatePath . '/js/more.js',
 
 			/*
 			 * 3rd party vendor

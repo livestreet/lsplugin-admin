@@ -660,7 +660,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 				$oEnt->setIpFinish(convert_ip2long(array_shift($aIps)));
 				break;
 			default:
-				throw new Exception('Admin: error: unknown block rule "' . $oEnt->getBlockType() . '"');
+				throw new Exception('Admin: error: unknown block rule "' . $oEnt->getBlockType() . '" in ' . __METHOD__);
 		}
 		/*
 		 * тип временного интервала блокировки
@@ -682,7 +682,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 				$oEnt->setDateFinish(date('Y-m-d', mktime(date("H"), date("i"), date("s"), date("n"), date("j") + $iDaysCount, date("Y"))));
 				break;
 			default:
-				throw new Exception('Admin: error: unknown blocking time type "' . $sBanType . '"');
+				throw new Exception('Admin: error: unknown blocking time type "' . $sBanType . '" in ' . __METHOD__);
 		}
 		/*
 		 * дата создания и редактирования
@@ -825,7 +825,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 				$_REQUEST['user_sign'] = convert_long2ip($oBan->getIpStart()) . ' - ' . convert_long2ip($oBan->getIpFinish());	// todo: ipv6
 				break;
 			default:
-				throw new Exception('Admin: error: wrong block type "' . $oBan->getBlockType() . '"');
+				throw new Exception('Admin: error: wrong block type "' . $oBan->getBlockType() . '" in ' . __METHOD__);
 		}
 
 		/*
@@ -844,7 +844,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 
 
 	/**
-	 * Удалить запись о бане
+	 * Удалить запись бана
 	 *
 	 * @return bool
 	 */
@@ -991,6 +991,10 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 			$this->GetDataFromFilter('date_finish')
 		);
 
+		/*
+		 * получить количество хороших и не очень пользователей
+		 */
+		$this->Viewer_Assign('aGoodAndBadUsers', $this->PluginAdmin_Users_GetCountGoodAndBadUsers());
 		/*
 		 * получить базовую статистику
 		 */

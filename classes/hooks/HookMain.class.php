@@ -27,22 +27,21 @@
 class PluginAdmin_HookMain extends Hook {
 
 	public function RegisterHook() {
-		$this->AddHook('init_action','InitAction');
+		$this->AddHook('engine_init_complete', 'AddAdminPath');
 	}
 	
 	
-
-	public function InitAction() {
-		$aPlugins=Engine::getInstance()->GetPlugins();
+	public function AddAdminPath() {
+		$aPlugins = Engine::getInstance()->GetPlugins();
 
 		$aTemplateWebPathPlugin=array();
 		$aTemplatePathPlugin=array();
-		foreach($aPlugins as $k=>$oPlugin) {
-			$aTemplateWebPathPlugin[$k]=$this->PluginAdmin_Main_GetPluginTemplateWebPath($oPlugin);
-			$aTemplatePathPlugin[$k]=$this->PluginAdmin_Main_GetPluginTemplatePath($oPlugin);
+		foreach($aPlugins as $k => $oPlugin) {
+			$aTemplateWebPathPlugin[$k] = $this->PluginAdmin_Main_GetPluginTemplateWebPath($oPlugin);
+			$aTemplatePathPlugin[$k] = $this->PluginAdmin_Main_GetPluginTemplatePath($oPlugin);
 		}
-		$this->Viewer_Assign("aAdminTemplateWebPathPlugin",$aTemplateWebPathPlugin);
-		$this->Viewer_Assign("aAdminTemplatePathPlugin",$aTemplatePathPlugin);
+		$this->Viewer_Assign('aAdminTemplateWebPathPlugin', $aTemplateWebPathPlugin);
+		$this->Viewer_Assign('aAdminTemplatePathPlugin', $aTemplatePathPlugin);
 	}
 	
 }

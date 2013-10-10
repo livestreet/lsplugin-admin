@@ -33,24 +33,25 @@ class PluginAdmin_ModuleStats_MapperStats extends Mapper {
 		$sWhere = $this->BuildWhereQuery($aFilter['conditions']);
 		$sql = 'SELECT
 			(
-				SELECT COUNT(*) as now_items
+				SELECT COUNT(*)
 				FROM
 					`' . $aFilter['table'] . '`
 				WHERE
 					' . $sWhere . '
 					AND
 					`' . $aFilter['period_row_name'] . '` ' . $aPeriod['now_period'] . '
-			) - (
-				SELECT COUNT(*) as prev_items
+			) as now_items,
+			(
+				SELECT COUNT(*)
 				FROM
 					`' . $aFilter['table'] . '`
 				WHERE
 					' . $sWhere . '
 					AND
 					`' . $aFilter['period_row_name'] . '` ' . $aPeriod['prev_period'] . '
-			) as items_growth
+			) as prev_items
 		';
-		return (int) $this->oDb->selectCell($sql);
+		return (array) $this->oDb->selectRow($sql);
 	}
 
 

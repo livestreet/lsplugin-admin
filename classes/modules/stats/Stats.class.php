@@ -407,22 +407,35 @@ class PluginAdmin_ModuleStats extends Module {
 
 
 	/**
-	 * Получить прирост объектов за период (на сколько больше зарегистрировалось в текущем периоде чем в прошлом)
+	 * Получить количество объектов в прошлом и текущем периоде, прирост объектов за период (на сколько больше зарегистрировалось в текущем периоде чем в прошлом)
 	 *
 	 * @param $sType		тип объектов для получения прироста
 	 * @param $sPeriod		тип периода
 	 * @param $bGatherVotes	нужно ли собирать голоса
 	 * @return array		array('count' => прирост объектов, 'votings' => данные голосований)
 	 */
-	public function GetGrowthAndVotingsByTypeAndPeriod($sType, $sPeriod, $bGatherVotes = true) {
-		$aGrowthFilter = $this->GetGrowthFilterForType ($sType);
-		$aPeriod = $this->GetGrowthQueryRuleForPeriod ($sPeriod);
+	public function GetGrowthAndVotingsByTypeAndPeriod($sType, $sPeriod = null, $bGatherVotes = true) {
+		$aGrowthFilter = $this->GetGrowthFilterForType($sType);
+		$aPeriod = $this->GetGrowthQueryRuleForPeriod($sPeriod);
+
+		/*
+		 * получить значение количества объектов в прошлом и текущем периоде
+		 */
+		$aDataGrowth = $this->oMapper->GetGrowthByFilterAndPeriod($aGrowthFilter, $aPeriod);
 
 		return array(
 			/*
+			 * количество объектов в прошлом периоде
+			 */
+			'prev_items' => $aDataGrowth['prev_items'],
+			/*
+			 * объектов в текущем периоде
+			 */
+			'now_items' => $aDataGrowth['now_items'],
+			/*
 			 * прирост
 			 */
-			'count' => $this->oMapper->GetGrowthByFilterAndPeriod($aGrowthFilter, $aPeriod),
+			'growth' => $aDataGrowth['now_items'] - $aDataGrowth['prev_items'],
 			/*
 			 * данные голосований (количество и направление)
 			 */

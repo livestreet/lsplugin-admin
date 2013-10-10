@@ -491,6 +491,9 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 				AND
 				`user_profile_birthday` IS NOT NULL
 				AND
+				-- trick: dont show users that are not correctly set theirs birthday date in profiles
+				`user_profile_birthday` <= CURRENT_DATE - INTERVAL ' . Config::Get('plugin.admin.min_years_diff_between_current_date_and_users_birthday_to_show_users_age_stats') . ' YEAR
+				AND
 				`user_id` NOT IN (
 					SELECT
 						`user_id`
@@ -515,10 +518,10 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 	 * Получить статистику пользователей по странам или городам
 	 *
 	 * @param	$sGroupRule		разрез группировки
-	 * @param	$sOrderBy		сортировка
+	 * @param	$aOrderBy		сортировка и направление
 	 * @return array|null
 	 */
-	public function GetUsersLivingStats($sGroupRule, $sOrderBy) {
+	public function GetUsersLivingStats($sGroupRule, $aOrderBy) {
 		$sql = 'SELECT
 				`' . $sGroupRule . '` as item,
 				COUNT(*) AS count
@@ -540,7 +543,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 			GROUP BY
 				`' . $sGroupRule . '`
 			ORDER BY
-				`' . $sOrderBy . '` DESC
+				`' . $aOrderBy['field'] . '` ' . $aOrderBy['way'] . '
 		';
 		if ($aResult = $this->oDb->query($sql, PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_USER_ID)) {
 			return $aResult;
@@ -590,6 +593,36 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 			return $aResult;
 		}
 		return array();
+	}
+
+
+	/**
+	 * Получить количество пользователей с позитивным и негативным рейтингом
+	 *
+	 * @return array
+	 */
+	public function GetCountGoodAndBadUsers() {
+		$sql = 'SELECT
+			(
+				SELECT COUNT(*)
+				FROM
+					`' . Config::Get('db.table.user') . '`
+				WHERE
+					`user_activate` = 1
+					AND
+					`user_rating` >= 0
+			) as good_users,
+			(
+				SELECT COUNT(*)
+				FROM
+					`' . Config::Get('db.table.user') . '`
+				WHERE
+					`user_activate` = 1
+					AND
+					`user_rating` < 0
+			) as bad_users
+		';
+		return (array) $this->oDb->selectRow($sql);
 	}
 
 
