@@ -1,4 +1,4 @@
-{extends file="{$aTemplatePathPlugin.admin}/layout.base.tpl"}
+{extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
 
 {block name='layout_content_toolbar'}
 	<div class="fl-r">
@@ -202,7 +202,7 @@
 				</tbody>
 			</table>
 
-			{include file="{$aTemplatePathPlugin.admin}/forms/elements_on_page.tpl"
+			{include file="{$aTemplatePathPlugin.admin}forms/elements_on_page.tpl"
 				sFormActionPath="{router page='admin/bans/ajax-on-page'}"
 				sFormId = 'admin_bans_onpage'
 				iCurrentValue = $oConfig->GetValue('plugin.admin.bans.per_page')
@@ -213,7 +213,7 @@
 				<b>{date("Y-m-d H:i:s")}</b>
 			</div>
 
-			{include file="{$aTemplatePathPlugin.admin}/pagination.tpl" aPaging=$aPaging}
+			{include file="{$aTemplatePathPlugin.admin}pagination.tpl" aPaging=$aPaging}
 
 		{else}
 			{include file='alert.tpl' mAlerts=$aLang.plugin.admin.bans.list.no_bans sAlertStyle='empty'}

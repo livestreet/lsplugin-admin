@@ -1,4 +1,4 @@
-{extends file="{$aTemplatePathPlugin.admin}/layout.base.tpl"}
+{extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
 
 
 {block name='layout_content_toolbar'}
@@ -57,7 +57,7 @@
 		*}
 		<h3>{$aLang.plugin.admin.users_stats.registrations}</h3>
 		<div class="graph">
-			{include file="{$aTemplatePathPlugin.admin}/graph.tpl"
+			{include file="{$aTemplatePathPlugin.admin}graph.tpl"
 				sValueSuffix=$aLang.plugin.admin.users_stats.users
 				aStats=$aDataStats
 				sName=$aLang.plugin.admin.users_stats.registrations

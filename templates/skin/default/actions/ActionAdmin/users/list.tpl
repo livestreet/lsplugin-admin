@@ -1,4 +1,4 @@
-{extends file="{$aTemplatePathPlugin.admin}/layouts/layout.base.tpl"}
+{extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
 
 
 {block name='layout_content_toolbar'}
@@ -163,12 +163,12 @@
 	</table>
 
 	{*
-	{include file="{$aTemplatePathPlugin.admin}/forms/elements_on_page.tpl"
+	{include file="{$aTemplatePathPlugin.admin}forms/elements_on_page.tpl"
 		sFormActionPath="{router page='admin/users/ajax-on-page'}"
 		sFormId = 'admin_onpage'
 		iCurrentValue = $oConfig->GetValue('plugin.admin.user.per_page')
 	}
 	*}
 
-	{include file="{$aTemplatePathPlugin.admin}/pagination.tpl" aPaging=$aPaging}
+	{include file="{$aTemplatePathPlugin.admin}pagination.tpl" aPaging=$aPaging}
 {/block}

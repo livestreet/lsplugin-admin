@@ -1,4 +1,4 @@
-{extends file="{$aTemplatePathPlugin.admin}/layouts/layout.base.tpl"}
+{extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
 
 {block name='layout_content'}
 
@@ -79,7 +79,7 @@
 
 			<h3>{$aLang.plugin.admin.index.title}</h3>
 			<div class="graph_wrapper">
-				{include file="{$aTemplatePathPlugin.admin}/graph.tpl"
+				{include file="{$aTemplatePathPlugin.admin}graph.tpl"
 					sValueSuffix=$aLang.plugin.admin.users_stats.graph_suffix.$sCurrentGraphType
 					aStats=$aDataStats
 					sName=$aLang.plugin.admin.users_stats.graph_labels.$sCurrentGraphType
@@ -129,7 +129,7 @@
 						</form>
 					</div>
 					<div class="content-data" id="admin_index_new_items_block">
-						{include file="{$aTemplatePathPlugin.admin}/actions/ActionAdmin/index/new_items_table.tpl"}
+						{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table.tpl"}
 					</div>
 				</div>
 			</div>
