@@ -481,6 +481,13 @@ return array(
 	
 	),	// /config_parameters
 
+	/**
+	 * Пагинация
+	 */
+	'pagination' => array(
+		'prev' => 'Предыдущая',
+		'next' => 'Следующая',
+	),	
 );
 
 ?>

@@ -1,7 +1,12 @@
-{extends file="{$aTemplatePathPlugin.admin}/layout.base.tpl"}
+{extends file="{$aTemplatePathPlugin.admin}/layouts/layout.base.tpl"}
+
+
+{block name='layout_page_title'}
+	{$aLang.plugin.admin.skin.title}
+{/block}
+
 
 {block name='layout_content'}
-
 	<h2 class="title mb-20">
 		{$aLang.plugin.admin.settings.titles.current_skin}
 	</h2>
@@ -19,5 +24,4 @@
 			{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/skin/skin.tpl"}
 		{/foreach}
 	</div>
-	
 {/block}

@@ -13,16 +13,19 @@
 #header          { padding: 20px 0 20px 16px; position: relative; }
 #nav             { margin-bottom: 15px; overflow: hidden; }
 #wrapper         { margin-bottom: 70px; }
-#content-wrapper { float: left; width: 100%; margin-right: -205px; }
+#content-wrapper { float: left; width: 100%; margin-right: -255px; }
 #content {
     background: none repeat scroll 0 0 #FFFFFF;
-    margin-right: 205px;
-    min-height: 200px;
+    margin-right: 255px;
+    min-height: 250px;
     overflow: hidden;
     position: relative;
+    -webkit-box-shadow: 0 66px 40px -44px rgba(0, 0, 0, 0.1);
+       -moz-box-shadow: 0 66px 40px -44px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 66px 40px -44px rgba(0, 0, 0, 0.1);
 }
-#sidebar         { float: right; width: 200px; position: relative; z-index: 1; }
-#footer          { overflow: hidden; zoom: 1; margin-bottom: 20px; padding: 0 0 50px 16px; font-size: 11px; font-family: Verdana; }
+#sidebar         { float: right; width: 250px; position: relative; z-index: 1; }
+#footer          { overflow: hidden; zoom: 1; margin-right: 255px; margin-bottom: 20px; padding: 65px 15px 50px 16px; }
 
 #container.no-sidebar #content { width: 100%; margin-right: 0; }
 

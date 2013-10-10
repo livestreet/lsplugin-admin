@@ -18,101 +18,63 @@
  *
  */
 
-/* base table settings */
+/**
+ * Base
+ */
+.table { width: 100%; margin-bottom: 20px; }
 
-.ls-admin table {
-	border: 1px solid #EEEEEE;
-	margin-bottom: 20px;
-	width: 100%;
-}
-
-.ls-admin table thead {
-	background: none repeat scroll 0 0 #FAFAFA;
-}
-
-.ls-admin table thead th,
-.ls-admin table tbody td {
-	padding: 5px;
-}
-
-.ls-admin table tbody tr.second {
-	background: none repeat scroll 0 0 #FCFCFC;
-}
-
-/* sorting table */
-
-.ls-admin table.table-sorting thead {
-	background: none repeat scroll 0 0 transparent;
-	border-bottom: 1px solid #EEEEEE;
-}
-
-.ls-admin table.table-sorting thead th {
-	font-size: 11px;
+/* Header */
+.table th { 
+	padding: 8px 20px 7px 10px;
+	border: 1px solid #ebebeb;
+	text-align: left;
+	font-size: 12px;
 	font-weight: normal;
-	text-align: left;
+	position: relative;
 }
+.table th .link-dotted { color: #777; border-color: #777; border: none; }
+.table th.active .link-dotted { color: #333; border-color: #333; }
+.table th i { vertical-align: middle; margin-left: 3px; position: absolute; top: 12px; right: 10px; }
 
-.ls-admin table.table-sorting thead th a {
-	border-bottom: 1px dotted;
-}
+/* Body */
+.table td { padding: 15px 10px; border-top: 1px solid #ebebeb; vertical-align: top; }
+.table tr:hover td { background: #fff9e2; }
 
-.ls-admin table.table-sorting {
-	border: medium none;
-}
+/* Select */
+.table .cell-check { width: 17px; padding-right: 10px; }
+.table tbody .cell-check { padding-left: 11px; }
+.table tbody .cell-check > [class^="icheckbox"] { margin-top: 11px; }
 
-.ls-admin table.table-sorting tbody tr.second {
-	background: none repeat scroll 0 0 transparent;
-}
 
-.ls-admin table.table-sorting tbody tr {
-	border-bottom: 1px solid #EEEEEE;
-}
+/**
+ * Table Users
+ */
+.table-users { margin-bottom: 0; }
 
-.ls-admin table.table-sorting tbody tr:hover {
-	background: none repeat scroll 0 0 #FFF9E2;
-}
+/* User */
+.table-users .cell-user-wrapper { position: relative; padding-left: 50px; line-height: 1em; min-height: 40px; }
+.table-users .cell-user-wrapper .cell-user-avatar { position: absolute; top: 0; left: 0; width: 40px; height: 42px; }
+.table-users .cell-user-wrapper .cell-user-avatar img { width: 40px; height: 40px; }
+.table-users .cell-user-wrapper .cell-user-login { font-weight: bold; position: relative; top: -2px; word-break: break-all; }
+.table-users .cell-user-wrapper .cell-user-login a { line-height: 1em; }
+.table-users .cell-user-wrapper .cell-user-name,
+.table-users .cell-user-wrapper .cell-user-mail { padding-top: 4px; }
+.table-users .cell-user-wrapper .cell-user-mail { color: #888; font-size: 11px; }
 
-/* active */
+.table-users .cell-user-wrapper.user-is-online .cell-user-avatar { border-bottom: 2px solid #4ed851; }
 
-.ls-admin table.table-sorting thead .active {
-	background: none repeat scroll 0 0 #EEEEEE;
-	background: -moz-linear-gradient(top,	rgba(255,255,255,1) 0%, rgba(249,251,255,1) 50%, rgba(232,245,255,1) 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(50%,rgba(249,251,255,1)), color-stop(100%,rgba(232,245,255,1)));
-	background: -webkit-linear-gradient(top,	rgba(255,255,255,1) 0%,rgba(249,251,255,1) 50%,rgba(232,245,255,1) 100%);
-	background: -o-linear-gradient(top,	rgba(255,255,255,1) 0%,rgba(249,251,255,1) 50%,rgba(232,245,255,1) 100%);
-	background: -ms-linear-gradient(top,	rgba(255,255,255,1) 0%,rgba(249,251,255,1) 50%,rgba(232,245,255,1) 100%);
-	background: linear-gradient(to bottom,	rgba(255,255,255,1) 0%,rgba(249,251,255,1) 50%,rgba(232,245,255,1) 100%);
-	border-bottom: 1px solid #479FFA;
-}
+/* Birth */
+.table-users .cell-birth { width: 70px; }
 
-.ls-admin table.table-sorting thead .current-way {
-	display: none;
-}
+/* Signup */
+.table-users .cell-signup { width: 160px; }
 
-.ls-admin table.table-sorting thead .active .current-way {
-	color: #0088CC;
-	display: inline-block;
-	float: right;
-	font: 14px/16px Arial;
-	margin-right: 10px;
-}
+/* IP */
+.table-users .cell-ip { width: 70px; }
 
-/* on page select */
+/* Rating */
+.table-users .cell-rating { width: 100px; }
+.table-users .cell-rating .user-rating { font-weight: bold; color: #44B13A; float: left; }
+.table-users .cell-rating .user-rating.user-rating-negative { color: #f30000; }
 
-.ls-admin .OnPageSelect {
-	float: right;
-}
-
-.ls-admin .OnPageSelect select {
-  vertical-align: middle;
-}
-
-/* alignment */
-
-.ls-admin table .text-left {
-	text-align: left;
-}
-
-.ls-admin table .text-right {
-	text-align: right;
-}
+.table-users .cell-rating .dropdown-circle { float: right; position: relative; top: -1px; }

@@ -91,7 +91,7 @@
 			 *}
 			<header id="header" role="banner">
 				<div class="site-info">
-					<h1 class="site-name"><a href="{cfg name='path.root.web'}/admin">LiveStreet</a></h1>
+					<h1 class="site-name"><a href="{cfg name='path.root.web'}/admin">{cfg name="view.name"}</a></h1>
 				</div>
 			</header>
 
@@ -152,6 +152,28 @@
 							{* {hook run='content_end'} *}
 						</div>
 					</div>
+
+
+					{* Подвал *}
+					<footer id="footer">
+						{block name='layout_footer_begin'}{/block}
+
+						<ul>
+							<li>&copy; 2008-2013 LiveStreet CMS</li>
+						</ul>
+
+						<ul>
+							<li><a href="#" class="link-border"><span>Каталог расширений</a></span></li>
+							<li><a href="#" class="link-border"><span>Сообщество</a></span></li>
+							<li><a href="#" class="link-border"><span>Работа</a></span></li>
+						</ul>
+
+						<ul class="fl-r ta-r">
+							<li><a href="{cfg name='path.root.web'}" class="link-border"><span>Перейти на сайт</a></span></li>
+						</ul>
+
+						{block name='layout_footer_end'}{/block}
+					</footer>
 				</div>
 
 
@@ -162,20 +184,6 @@
 					</aside>
 				{/if}
 			</div> {* /wrapper *}
-
-
-			{* Подвал *}
-			<footer id="footer">
-				{block name='layout_footer_begin'}{/block}
-
-				<ul>
-					<li><a href="#">Каталог расширений</a></li>
-					<li><a href="#">Сообщество</a></li>
-					<li><a href="#">Работа</a></li>
-				</ul>
-
-				{block name='layout_footer_end'}{/block}
-			</footer>
 		</div> {* /container *}
 	{/block}
 

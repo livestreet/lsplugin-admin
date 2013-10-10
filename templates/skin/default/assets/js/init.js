@@ -59,15 +59,20 @@ jQuery(document).ready(function($) {
 	/**
 	 * Dropdowns
 	 */
-	$('.js-dropdown-default').dropdown();
+	$('.js-dropdown').dropdown({
+	    position: {
+	        my: "right+10 top+10",
+	        at: "right bottom",
+	        collision: "flipfit flip"
+		},
+		body: true
+	});
 
 
 	/**
 	 * Tooltips
 	 */
-	$(document).tooltip({
-		selector: '.js-tooltip'
-	});
+	$('.js-tooltip').tooltip();
 
 
 	/**
@@ -99,4 +104,22 @@ jQuery(document).ready(function($) {
 	 * Activity
 	 */
 	ls.stream.init();
+
+	/**
+	 * Custom checkboxes and radios
+	 */
+	$('input').iCheck({
+		labelHover: false,
+		cursor: true,
+		checkboxClass: 'icheckbox_minimal',
+		radioClass: 'iradio_minimal'
+	});
+
+	/* Выделение всех чексбоксов */
+	$('.js-check-all').on('ifChanged', function () {
+		var checkAll = $(this);
+		var checkboxes = $( '.' + checkAll.data('checkboxes-class') );
+
+		if ( checkAll.is(':checked') ) checkboxes.iCheck('check'); else checkboxes.iCheck('uncheck');
+	});
 });

@@ -57,9 +57,12 @@ a.button { padding-top: 5px; }
 .button.disabled:hover,
 .button[disabled],
 .button[disabled]:hover {
-	border-color: #ccc;
-	background: #eee;
-	color: #999;
+	border-color: #ddd;
+	background: #f8f8f8;
+	color: #aaa;
+	-webkit-box-shadow: none;
+	   -moz-box-shadow: none;
+	        box-shadow: none;
 }
 
 .button.disabled:active,
@@ -67,6 +70,7 @@ a.button { padding-top: 5px; }
 	-webkit-box-shadow: none;
 	   -moz-box-shadow: none;
 	        box-shadow: none;
+	text-shadow: none;
 }
 
 
