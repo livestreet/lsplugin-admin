@@ -373,7 +373,7 @@
 						{$aLang.plugin.admin.users_stats.need_more_data}
 					</div>
 				{/if}
-				<table class="items">
+				<table class="table items">
 					<thead></thead>
 					<tbody>
 						{foreach from=$aLivingStats.collection item=aItemRecord name=ItemsCycle}
