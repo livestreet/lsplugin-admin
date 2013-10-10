@@ -34,7 +34,13 @@
 }
 .table th .link-dotted { color: #777; border-color: #777; border: none; }
 .table th.active .link-dotted { color: #333; border-color: #333; }
-.table th i { vertical-align: middle; margin-left: 3px; position: absolute; top: 12px; right: 10px; }
+/*.table th i { vertical-align: middle; margin-left: 3px; position: absolute; top: 12px; right: 10px; }*/
+
+/* temp */
+.table th i {
+	margin-left: 3px;
+	vertical-align: middle;
+}
 
 /* Body */
 .table td { padding: 15px 10px; border-top: 1px solid #ebebeb; vertical-align: top; }

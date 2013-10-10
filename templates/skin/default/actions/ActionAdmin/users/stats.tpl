@@ -69,7 +69,7 @@
 		<div class="value-in-table">
 			<a href="#" id="admin_users_show_graph_stats_in_table">{$aLang.plugin.admin.users_stats.values_in_table}</a>
 			<div id="admin_users_graph_table_stats_data">
-				<table>
+				<table class="table">
 					<thead>
 						<tr>
 							<th>#</th>
@@ -175,69 +175,69 @@
 					</script>
 				</div>
 				<div class="users-sex-table-stats">
-					<table>
+					<table class="table">
 						<thead></thead>
 						<tbody>
-						<tr>
-							<td>
-								<span class="users-sex-indicator other"></span>
-								{$aLang.plugin.admin.users_stats.sex_other}
-							</td>
-							<td class="text-right">
-								{$aStats.count_sex_other}
-							</td>
-							<td class="text-right">
-								{$iUsersSexOtherPerc} %
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<span class="users-sex-indicator man"></span>
-								{$aLang.plugin.admin.users_stats.sex_man}
-							</td>
-							<td class="text-right">
-								{$aStats.count_sex_man}
-							</td>
-							<td class="text-right">
-								{$iUsersSexManPerc} %
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<span class="users-sex-indicator woman"></span>
-								{$aLang.plugin.admin.users_stats.sex_woman}
-							</td>
-							<td class="text-right">
-								{$aStats.count_sex_woman}
-							</td>
-							<td class="text-right">
-								{$iUsersSexWomanPerc} %
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<hr>		{* просто временный разделитель *}
-							</td>
-							<td></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>
-								{$aLang.plugin.admin.users_stats.total}
-							</td>
-							<td class="text-right">
-								{$aStats.count_all}
-							</td>
-							<td>
-							</td>
-						</tr>
+							<tr>
+								<td>
+									<span class="users-sex-indicator other"></span>
+									{$aLang.plugin.admin.users_stats.sex_other}
+								</td>
+								<td class="text-right">
+									{$aStats.count_sex_other}
+								</td>
+								<td class="text-right">
+									{$iUsersSexOtherPerc} %
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="users-sex-indicator man"></span>
+									{$aLang.plugin.admin.users_stats.sex_man}
+								</td>
+								<td class="text-right">
+									{$aStats.count_sex_man}
+								</td>
+								<td class="text-right">
+									{$iUsersSexManPerc} %
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<span class="users-sex-indicator woman"></span>
+									{$aLang.plugin.admin.users_stats.sex_woman}
+								</td>
+								<td class="text-right">
+									{$aStats.count_sex_woman}
+								</td>
+								<td class="text-right">
+									{$iUsersSexWomanPerc} %
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<hr>		{* просто временный разделитель *}
+								</td>
+								<td></td>
+								<td></td>
+							</tr>
+							<tr>
+								<td>
+									{$aLang.plugin.admin.users_stats.total}
+								</td>
+								<td class="text-right">
+									{$aStats.count_all}
+								</td>
+								<td>
+								</td>
+							</tr>
 						</tbody>
 					</table>
 				</div>
 			</div>
 			<div class="w50p second-block">
 				<h3>{$aLang.plugin.admin.users_stats.activity}</h3>
-				<table>
+				<table class="table">
 					<thead></thead>
 					<tbody>
 						<tr>
@@ -341,6 +341,9 @@
 		*}
 		{if $aLivingStats and $aLivingStats.collection and count($aLivingStats.collection)>0}
 			<div class="countries-n-cities">
+				{*
+					кнопки управления
+				*}
 				<div class="fl-r">
 					<a href="{router page='admin/users/stats'}{request_filter
 					name=array('living_sorting')
@@ -384,7 +387,7 @@
 							<tr {if $smarty.foreach.ItemsCycle.iteration % 2 == 0}class="second"{/if}>
 								<td class="item">
 									{*
-										страна или город
+										название страны или города
 									*}
 									{$aItemRecord.item}
 								</td>
