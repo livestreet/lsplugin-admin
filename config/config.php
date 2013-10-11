@@ -83,6 +83,11 @@ $config['min_years_diff_between_current_date_and_users_birthday_to_show_users_ag
 $config['values_for_select_elements_on_page'] = array(10, 30, 100);		// range(5, 100, 5)
 
 /*
+ * макс. количество точек на графике (фильтрует подписи по оси х)
+ */
+$config['max_points_on_graph'] = 10;
+
+/*
  * роутер
  */
 $config['$root$']['router']['page']['admin'] = 'PluginAdmin_ActionAdmin';

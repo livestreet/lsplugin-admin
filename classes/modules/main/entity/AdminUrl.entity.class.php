@@ -46,4 +46,16 @@ class PluginAdmin_ModuleMain_EntityAdminUrl extends Entity {
 		$sPlugin=$sPlugin ? $sPlugin : $this->sPlugin;
 		return Router::GetPath("admin/plugin/{$sPlugin}".($sPath ? '/'.$sPath : ''));
 	}
+
+	/**
+	 * Возвращает текущий плагин
+	 *
+	 * @return null|string
+	 */
+	public function getPlugin() {
+		return $this->sPlugin;
+	}
+
 }
+
+?>

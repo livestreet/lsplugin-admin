@@ -152,9 +152,7 @@
 						<div class="dropdown-circle js-dropdown" data-dropdown-target="dropdown-user-menu-{$oUser->getId()}"></div>
 
 						<ul class="dropdown-menu" id="dropdown-user-menu-{$oUser->getId()}">
-							<li><a href="#">Item</a></li>
-							<li><a href="#">Item</a></li>
-							<li><a href="#">Item</a></li>
+							{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/user_operations.tpl"}
 						</ul>
 					</td>
 				</tr>

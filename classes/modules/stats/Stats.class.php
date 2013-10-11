@@ -365,6 +365,10 @@ class PluginAdmin_ModuleStats extends Module {
 		 * объеденить данные
 		 */
 		$aDataStats = $this->MixEmptyPeriodsWithData($aFilledWithZerosPeriods, $aDataStats);
+		/*
+		 * убрать лишние подписи к графику (если их слишком много)
+		 */
+		$aDataStats = $this->HideLabelsOfAxisIfGraphDataHasTooManyPoints($aDataStats);
 
 		/*
 		 * данные для графика
@@ -394,6 +398,34 @@ class PluginAdmin_ModuleStats extends Module {
 		 */
 		$aDateValidatorParams = array('format' => array ('yyyy-MM-dd hh:mm:ss', 'yyyy-MM-dd'), 'allowEmpty' => false);
 		return $this->Validate_Validate('date', $sDateStart, $aDateValidatorParams) and $this->Validate_Validate('date', $sDateFinish, $aDateValidatorParams);
+	}
+
+
+	/**
+	 * Если записей графика слишком много (они просто не влезают в подписи к графику), то уменьшить часть подписей
+	 *
+	 * @param $aDataStats		собранные данные графика
+	 * @return mixed			данные, где часть подписей может быть убрана
+	 */
+	protected function HideLabelsOfAxisIfGraphDataHasTooManyPoints($aDataStats) {
+		/*
+		 * если точек больше, чем нужно - уменьшить часть подписей
+		 */
+		if (count($aDataStats) > Config::Get('plugin.admin.max_points_on_graph')) {
+			/*
+			 * подсчитать во сколько раз больше точек, чем нужно
+			 */
+			$iPointsOverflowTimes = (int) round(count($aDataStats) / Config::Get('plugin.admin.max_points_on_graph'));
+			/*
+			 * оставить каждую $iPointsOverflowTimes-нную подпись из графика
+			 */
+			foreach($aDataStats as $iKey => &$aValueData) {
+				if ($iKey % $iPointsOverflowTimes != 0) {
+					$aValueData['date'] = '';
+				}
+			}
+		}
+		return $aDataStats;
 	}
 
 

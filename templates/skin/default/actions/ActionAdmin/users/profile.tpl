@@ -6,23 +6,8 @@
 		<div class="top-controls">
 			<ul>
 				<li><a class="icon-white icon-pencil" href="#"></a></li>
-				<li><a href="{router page='talk/add'}?talk_users={$oUser->getLogin()}">{$aLang.plugin.admin.users.profile.top_bar.msg}</a></li>
 
-				{* разрешить операция для всех пользователей, кроме самого первого в системе с id = 1 *}
-				{if $oUser->getId()!=1}
-					{if $oUser->isAdministrator()}
-						<li><a class="question" href="{router page="admin/users/site_admins/delete/{$oUser->getId()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
-									>{$aLang.plugin.admin.users.profile.top_bar.admin_delete}</a></li>
-					{else}
-						<li><a class="question" href="{router page="admin/users/site_admins/add/{$oUser->getId()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
-									>{$aLang.plugin.admin.users.profile.top_bar.admin_add}</a></li>
-					{/if}
-					<li><a class="question" href="{router page="admin/users/deletecontent/{$oUser->getId()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
-								>{$aLang.plugin.admin.users.profile.top_bar.content_delete}</a></li>
-					<li><a class="question" href="{router page="admin/users/deleteuser/{$oUser->getId()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
-								>{$aLang.plugin.admin.users.profile.top_bar.user_delete}</a></li>
-					<li><a href="{router page='admin/users/bans/add'}?user_id={$oUser->getId()}">{$aLang.plugin.admin.users.profile.top_bar.ban}</a></li>
-				{/if}
+				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/user_operations.tpl"}
 
 				<li class="fl-r"><a class="icon-white icon-chevron-right" href="#"></a></li>
 				<li class="fl-r"><a class="icon-white icon-chevron-left" href="#"></a></li>
@@ -68,6 +53,9 @@
 					</div>
 				</div>
 				<div class="right">
+					{*
+						редактирование рейтинга и силы
+					*}
 					<form action="{router page='admin/users/ajax-edit-rating'}" method="post" enctype="application/x-www-form-urlencoded" id="admin_editrating">
 						<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
 						<input type="hidden" name="user_id" value="{$oUser->getId()}" />
@@ -104,8 +92,8 @@
 							<dt>{$aLang.plugin.admin.users.profile.info.mail}</dt>
 							<dd>
 								<a href="{router page='admin/users/list'}{request_filter
-								name=array('mail')
-								value=array($oUser->getMail())
+									name=array('mail')
+									value=array($oUser->getMail())
 								}">{$oUser->getMail()}</a>
 							</dd>
 						</dl>
@@ -151,8 +139,8 @@
 							<dt>{$aLang.plugin.admin.users.profile.info.ip}</dt>
 							<dd>
 								<a href="{router page='admin/users/list'}{request_filter
-								name=array('ip_register')
-								value=array($oUser->getIpRegister())
+									name=array('ip_register')
+									value=array($oUser->getIpRegister())
 								}">{$oUser->getIpRegister()}</a>
 							</dd>
 						</dl>
@@ -166,13 +154,13 @@
 								<dt>{$aLang.plugin.admin.users.profile.info.ip}</dt>
 								<dd>
 									<a href="{router page='admin/users/list'}{request_filter
-									name=array('session_ip_last')
-									value=array($oSession->getIpLast())
+										name=array('session_ip_last')
+										value=array($oSession->getIpLast())
 									}">{$oSession->getIpLast()}</a>
 									<br />
 									<a href="{router page='admin/users/list'}{request_filter
-									name=array('session_ip_last')
-									value=array($oSession->getIpLast())
+										name=array('session_ip_last')
+										value=array($oSession->getIpLast())
 									}" class="button mt-10">{$aLang.plugin.admin.users.profile.info.search_this_ip}</a>
 								</dd>
 							</dl>

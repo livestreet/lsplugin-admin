@@ -181,6 +181,7 @@
 
 .ls-admin .dashboard .footer-stat-info .w50p .content-data .items-added {
 	border: medium none;
+	width: 100%;
 }
 
 .ls-admin .dashboard .footer-stat-info .w50p .content-data .items-added .growth {
