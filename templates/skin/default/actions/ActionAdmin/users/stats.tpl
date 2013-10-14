@@ -376,10 +376,22 @@
 						{$aLang.plugin.admin.users_stats.need_more_data}
 					</div>
 				{/if}
+				{*
+					получить массив со списком объектов для короткого представления
+				*}
+				{assign var=aShortViewLivingStats value=array_splice($aLivingStats.collection, $oConfig->GetValue('plugin.admin.max_items_in_living_users_stats'))}
+				{*
+					теперь в этом массиве остались данные для полного представления (see array_splice)
+				*}
+				{assign var=aFullViewLivingStats value=$aLivingStats.collection}
+
+				{*
+					вывод данных для полного отображения
+				*}
 				<table class="table items">
 					<thead></thead>
 					<tbody>
-						{foreach from=$aLivingStats.collection item=aItemRecord name=ItemsCycle}
+						{foreach from=$aFullViewLivingStats item=aItemRecord name=ItemsCycle}
 							{*
 								длина столбика в процентах
 							*}
@@ -409,6 +421,32 @@
 						{/foreach}
 					</tbody>
 				</table>
+
+				{*
+					вывод данных для короткого отображения
+				*}
+				{if $aShortViewLivingStats and count($aShortViewLivingStats) > 0}
+					<script>
+						var iTotalUsersCount = {$aStats.count_all};
+					</script>
+					<table class="table items">
+						<thead></thead>
+						<tbody>
+							<tr>
+								<td class="item">
+									<select id="admin_users_stats_living_stats_short_view_select" class="width-150">
+										{foreach from=$aShortViewLivingStats item=aItemRecord}
+											<option value="{$aItemRecord.count}">{$aItemRecord.item}</option>
+										{/foreach}
+									</select>
+								</td>
+								<td class="count" id="admin_users_stats_living_stats_short_view_count"></td>
+								<td class="percentage" id="admin_users_stats_living_stats_short_view_percentage"></td>
+								<td class="diagram"></td>
+							</tr>
+						</tbody>
+					</table>
+				{/if}
 			</div>
 		{/if}
 

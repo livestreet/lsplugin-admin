@@ -88,6 +88,12 @@ $config['values_for_select_elements_on_page'] = array(10, 30, 100);		// range(5,
 $config['max_points_on_graph'] = 10;
 
 /*
+ * максимальное количество элементов при показе статистики проживаний пользователей
+ * все остальные элементы будут спрятаны в селект
+ */
+$config['max_items_in_living_users_stats'] = 20;
+
+/*
  * роутер
  */
 $config['$root$']['router']['page']['admin'] = 'PluginAdmin_ActionAdmin';
