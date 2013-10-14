@@ -40,12 +40,3 @@ input[type="text"] {
 ::-webkit-input-placeholder { color: #ccc; }
 :-ms-input-placeholder      { color: #ccc; }
 .placeholder                { color: #ccc; } /* Old IE */
-
-/* Toolbar */
-.admin-toolbar {
-    background: none repeat scroll 0 0 #F8F8F8;
-    padding: 15px;
-}
-.admin-toolbar input,
-.admin-toolbar select,
-.admin-toolbar button { margin-right: 10px; }

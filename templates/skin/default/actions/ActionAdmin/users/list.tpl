@@ -1,3 +1,7 @@
+{**
+ * Список пользователей
+ *}
+
 {extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
 
 
@@ -16,9 +20,9 @@
 			{/foreach}
 		</select>
 
-		{*
-			кнопка отключения фильтра поиска
-		*}
+		{**
+		 * Кнопка отключения фильтра поиска
+		 *}
 		{if $_aRequest.filter.$sSearchField}
 			<a href="{router page='admin/users/list'}{request_filter
 				name=array($sSearchField)
@@ -87,8 +91,8 @@
 
 					{* Пользователь *}
 					<td class="cell-user">
-						<div class="cell-user-wrapper {if $oUser->isOnline()}user-is-online{/if}">
-							<a href="{router page="admin/users/profile/{$oUser->getId()}"}" class="cell-user-avatar">
+						<div class="cell-user-wrapper">
+							<a href="{router page="admin/users/profile/{$oUser->getId()}"}" class="cell-user-avatar {if $oUser->isOnline()}user-is-online{/if}">
 								<img src="{$oUser->getProfileAvatarPath(48)}" 
 									 alt="avatar" 
 									 title="{if $oUser->isOnline()}{$aLang.user_status_online}{else}{$aLang.user_status_offline}{/if}" />

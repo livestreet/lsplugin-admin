@@ -448,6 +448,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			 */
 			$sPluginTemplatePath . '/css/base.css',
 			$sPluginTemplatePath . '/css/grid.css',
+			$sPluginTemplatePath . '/css/common.css',
 			$sPluginTemplatePath . '/css/blocks.css',
 			$sPluginTemplatePath . '/css/pagination.css',
 			$sPluginTemplatePath . '/css/icons.css',
@@ -461,6 +462,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$sPluginTemplatePath . '/css/dashboard.css',
 			$sPluginTemplatePath . '/css/dropdowns.css',
 			$sPluginTemplatePath . '/css/helpers.css',
+			$sPluginTemplatePath . '/css/user.css',
 			
 			$sPluginTemplatePath . '/css/vendor/jquery.notifier.css',
 			$sPluginTemplatePath . '/css/vendor/icheck/skins/livestreet/minimal.css',

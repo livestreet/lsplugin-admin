@@ -20,6 +20,7 @@
 }
 
 .icon-nav-main-home { width: 19px; height: 19px; background: url(../images/icons/nav-main-home.png) no-repeat; }
+.icon-rating { width: 22px; height: 21px; background-image: url(../images/icons/user-rating.png); }
 
 
 .icon-white { background-image: url(../images/icons/icons-white.png); }

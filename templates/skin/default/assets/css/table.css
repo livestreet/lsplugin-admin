@@ -59,15 +59,13 @@
 
 /* User */
 .table-users .cell-user-wrapper { position: relative; padding-left: 50px; line-height: 1em; min-height: 40px; }
-.table-users .cell-user-wrapper .cell-user-avatar { position: absolute; top: 0; left: 0; width: 40px; height: 42px; }
+.table-users .cell-user-wrapper .cell-user-avatar { position: absolute; top: 0; left: 0; width: 40px; height: 40px; }
 .table-users .cell-user-wrapper .cell-user-avatar img { width: 40px; height: 40px; }
 .table-users .cell-user-wrapper .cell-user-login { font-weight: bold; position: relative; top: -2px; word-break: break-all; }
 .table-users .cell-user-wrapper .cell-user-login a { line-height: 1em; }
 .table-users .cell-user-wrapper .cell-user-name,
 .table-users .cell-user-wrapper .cell-user-mail { padding-top: 4px; }
 .table-users .cell-user-wrapper .cell-user-mail { color: #888; font-size: 11px; }
-
-.table-users .cell-user-wrapper.user-is-online .cell-user-avatar { border-bottom: 2px solid #4ed851; }
 
 /* Birth */
 .table-users .cell-birth { width: 70px; }

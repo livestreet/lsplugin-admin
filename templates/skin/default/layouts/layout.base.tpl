@@ -114,11 +114,13 @@
 						 role="main"
 						 {if $sMenuItemSelect == 'profile'}itemscope itemtype="http://data-vocabulary.org/Person"{/if}>
 
-						{block name='layout_content_toolbar' hide}
-							<div class="admin-toolbar clearfix">
+						{block name='layout_content_actionbar' hide}
+							<div class="actionbar {block name='layout_content_actionbar_class'}{/block} clearfix">
 								{$smarty.block.child}
 							</div>
 						{/block}
+
+						{block name='layout_content_before'}{/block}
 						
 						<div class="content-padding">
 							{* {hook run='content_begin'} *}
