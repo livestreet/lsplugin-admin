@@ -84,7 +84,7 @@
 									{$smarty.foreach.UsersRegCycle.iteration}
 								</td>
 								<td>
-									{$aUserRegData['date']}
+									{$aUserRegData['original_date']}
 								</td>
 								<td>
 									{$aUserRegData['count']}

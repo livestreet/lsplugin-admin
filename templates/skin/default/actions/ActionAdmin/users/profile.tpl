@@ -58,6 +58,9 @@
 					<i class="icon-rating" title="{$aLang.plugin.admin.users.profile.rating}"></i>
 					<input type="text" name="user-rating" class="input-text width-50" value="{$oUser->getRating()}" title="{$aLang.plugin.admin.users.profile.rating}" />
 
+					{* пока оно нужно т.к. сила будет установлена в 0, если этого поля не будет в реквесте *}
+					<input type="hidden" name="user-skill" class="input-text width-50" value="{$oUser->getSkill()}" />
+
 					<button type="submit" name="submit_edit_rating" class="button">{$aLang.plugin.admin.save}</button>
 				</form>
 			</div>

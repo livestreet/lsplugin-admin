@@ -214,6 +214,10 @@ class PluginAdmin_ModuleStats extends Module {
 				 * формат даты берется из периода, где был задан её формат связанный с интервалом
 				 */
 				'date' => date($aPeriod['format'], $iCurrentTime),
+				/*
+				 * копия даты, которая будет отображаться в таблице к графику (т.к. даты из ключа 'date' могут быть потерты для подписей)
+				 */
+				'original_date' => date($aPeriod['format'], $iCurrentTime),
 				'count' => 0
 			);
 			/*
