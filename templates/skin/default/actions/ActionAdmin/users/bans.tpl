@@ -1,6 +1,6 @@
 {extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
 
-{block name='layout_content_toolbar'}
+{block name='layout_content_actionbar'}
 	<div class="fl-r">
 		<a class="button {if $sBanSelectType=='all'}active{/if}"
 		   href="{router page='admin/users/bans'}">{$aLang.plugin.admin.bans.filter.all}</a>

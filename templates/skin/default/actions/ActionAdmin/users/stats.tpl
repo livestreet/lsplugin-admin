@@ -1,7 +1,7 @@
 {extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
 
 
-{block name='layout_content_toolbar'}
+{block name='layout_content_actionbar'}
 	<a class="button {if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_YESTERDAY}active{/if}" href="{router page='admin/users/stats'}{request_filter
 		name=array('graph_period')
 		value=array(PluginAdmin_ModuleStats::TIME_INTERVAL_YESTERDAY)

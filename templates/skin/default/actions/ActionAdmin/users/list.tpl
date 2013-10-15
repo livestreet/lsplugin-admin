@@ -5,7 +5,7 @@
 {extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
 
 
-{block name='layout_content_toolbar'}
+{block name='layout_content_actionbar'}
 	<form action="{$sFullPagePathToEvent}" method="get" enctype="application/x-www-form-urlencoded" id="admin_user_list_search_form">
 		{$sSearchValue = array_shift(array_values($aSearchRulesWithOriginalQueries))}			{* need only first field=>value *}
 		{$sSearchField = array_shift(array_keys($aSearchRulesWithOriginalQueries))}
