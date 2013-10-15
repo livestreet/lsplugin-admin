@@ -28,7 +28,7 @@
 				{$aLang.plugin.admin.index.blogs}
 			</li>
 			<li class="comments">
-				<div>{$iCommentsTotal}</div>
+				<div>{$iTotalCommentsCount}</div>
 				{$aLang.plugin.admin.index.comments}
 			</li>
 		</ul>
@@ -101,6 +101,31 @@
 		<div class="footer-stat-info">
 			<div class="w50p">
 				<div class="activity">
+					{*
+						настройка отображения ленты активности
+					*}
+					<div class="stream-controls fl-r">
+						<div class="dropdown-circle js-dropdown" data-dropdown-target="dropdown-user-stats-stream-menu"></div>
+
+						<ul class="dropdown-menu" id="dropdown-user-stats-stream-menu">
+							<form action="{router page='admin/ajax-get-index-activity'}" method="post" enctype="application/x-www-form-urlencoded" id="admin_index_activity">
+								<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
+								<input type="hidden" name="iLastId" value="{$iStreamLastId}" />
+								<input type="hidden" name="sDateLast" value="{$sDateLast}" />
+
+								{foreach from=array_keys($aEventTypes) item=sEventType}
+									<label>
+										<input type="checkbox" name="filter[{$sEventType}]" checked="checked" value="1" />
+										{$aLang.plugin.admin.index.activity_type.$sEventType}
+									</label>
+								{/foreach}
+
+								<button type="submit" name="submit_edit_rating" class="button">{$aLang.plugin.admin.save}</button>
+							</form>
+
+						</ul>
+					</div>
+
 					<div class="label-header">
 						<h3>{$aLang.plugin.admin.index.activity}</h3>
 					</div>

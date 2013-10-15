@@ -230,7 +230,53 @@ jQuery(document).ready(function($) {
 	 */
 	if ($ (ls.admin_misc.selectors.users_stats_living_stats_short_view_select).length == 1) {
 		ls.admin_misc.ShowShortViewLivingSelectData($ (ls.admin_misc.selectors.users_stats_living_stats_short_view_select).val());
-	}
+	};
 
+
+	/*
+		аякс обработка нажатия на кнопки статистики пользователей по странам и городам
+	 */
+/*	$ (document).on ('click.admin', '#admin_users_stats_living .js-ajax-load', function() {
+		sHref = $ (this).attr('href').replace(PATH_ROOT, '');
+		console.log(sHref);
+
+		return false;
+	});*/
+
+
+	/*
+	 	todo: activity
+	 */
+	$ ('#admin_index_activity').ajaxForm({
+		dataType: 'json',
+		beforeSend: function() {
+			//$ (ls.admin_misc.selectors.index_items_new_block_id).addClass('loading');
+		},
+		success: function(data) {
+			if (data.bStateError) {
+				ls.msg.error(data.sMsgTitle,data.sMsg);
+			} else {
+				//$ (ls.admin_misc.selectors.index_items_new_block_id).html(data.sText);
+				if (data.events_count) {
+					//$('#activity-event-list').append(data.result);
+					$('#activity-event-list').html(data.result);
+					$('#activity-last-id').attr('value', data.iStreamLastId);
+				}
+
+				$oGetMoreButton = $ ('#activity-get-more');
+
+				if ( ! data.events_count) {
+					$oGetMoreButton.hide();
+				}
+
+				$oGetMoreButton.removeClass('loading');
+
+				//this.isBusy = false;
+			}
+		},
+		complete: function(xhr) {
+			//$ (ls.admin_misc.selectors.index_items_new_block_id).removeClass('loading');
+		}
+	});
 
 });

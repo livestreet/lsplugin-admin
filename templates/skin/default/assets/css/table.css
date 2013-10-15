@@ -79,6 +79,12 @@
 /* Rating */
 .table-users .cell-rating { width: 100px; }
 .table-users .cell-rating .user-rating { font-weight: bold; color: #44B13A; float: left; }
+.table-users .cell-rating .user-skill {
+    clear: both;
+    color: #999999;
+    float: left;
+    font-weight: bold;
+}
 .table-users .cell-rating .user-rating.user-rating-negative { color: #f30000; }
 
 .table-users .cell-rating .dropdown-circle { float: right; position: relative; top: -1px; }

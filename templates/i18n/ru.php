@@ -397,18 +397,22 @@ return array(
 	 */
 	'index' => array(
 		'title' => 'Статистика',
+
 		'users' => 'пользователей',
 		'registrations' => 'регистраций',
 		'topics' => 'топиков',
 		'blogs' => 'блогов',
 		'comments' => 'комментариев',
+
 		'new_users_for_week' => 'больше новых пользователей по сравнению с прошлой неделей на',
 		'less_users_for_week' => 'меньше новых пользователей по сравнению с прошлой неделей на',
+
 		'show_type' => 'Отображать',
 		'show_users' => 'Регистрации',
 		'show_topics' => 'Новые топики',
 		'show_comments' => 'Комментарии',
 		'show_votings' => 'Голосования',
+
 		'show_period' => 'Период',
 		'period_bar' => array(
 			'today' => 'Сегодня',
@@ -416,7 +420,21 @@ return array(
 			'week' => 'Неделя',
 			'month' => 'Месяц',
 		),
+
 		'activity' => 'Активность',
+		'activity_type' => array(
+			'add_wall' => 'Записи на стене',
+			'add_topic' => 'Новые топики',
+			'add_comment' => 'Новые комментарии',
+			'add_blog' => 'Новые блоги',
+			'vote_topic' => 'Голосование за топик',
+			'vote_comment' => 'Голосование за комментарий',
+			'vote_blog' => 'Голосование за блог',
+			'vote_user' => 'Голосование за пользователя',
+			'add_friend' => 'Добавление в друзья',
+			'join_blog' => 'Вход в блог',
+		),
+
 		'new_items' => 'Добавилось',
 		'new_topics' => 'Топиков',
 		'new_comments' => 'Комментариев',

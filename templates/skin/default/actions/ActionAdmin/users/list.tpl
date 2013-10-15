@@ -152,6 +152,9 @@
 						<p class="user-rating {if $oUser->getRating() < 0}user-rating-negative{/if}">
 							{$oUser->getRating()}
 						</p>
+						<p class="user-skill">
+							{$oUser->getSkill()}
+						</p>
 
 						<div class="dropdown-circle js-dropdown" data-dropdown-target="dropdown-user-menu-{$oUser->getId()}"></div>
 
