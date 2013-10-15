@@ -228,6 +228,9 @@ jQuery(document).ready(function($) {
 	/*
 		инит текущим значением селекта проживания
 	 */
-	ls.admin_misc.ShowShortViewLivingSelectData($ (ls.admin_misc.selectors.users_stats_living_stats_short_view_select).val());
+	if ($ (ls.admin_misc.selectors.users_stats_living_stats_short_view_select).length == 1) {
+		ls.admin_misc.ShowShortViewLivingSelectData($ (ls.admin_misc.selectors.users_stats_living_stats_short_view_select).val());
+	}
+
 
 });
