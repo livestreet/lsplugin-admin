@@ -27,6 +27,8 @@
 				 sFieldClasses = 'width-250'
 				 sFieldNote    = $aLang.plugin.admin.bans.add.user_sign_info
 				 sFieldLabel   = $aLang.plugin.admin.bans.add.user_sign}
+		{* индикатор ajax-проверки правила *}
+		<span id="admin_bans_checking_msg"></span>
 
 
 		<label class="mb-15">{$aLang.plugin.admin.bans.add.ban_time_title}</label>

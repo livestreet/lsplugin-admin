@@ -28,6 +28,11 @@
 		<table class="table table-sorting">
 			<thead>
 				<tr>
+					{*
+						что это?
+						кто расскажет как делать такую сортировку?
+						З.Ы. все поля нужно будет вернуть
+					*}
 					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 						sCellClassName='block_login'
 						sSortingOrder='block_login'

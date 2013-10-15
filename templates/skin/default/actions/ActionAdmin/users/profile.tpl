@@ -261,6 +261,7 @@
 		{$aUserFieldContactValues = $oUser->getUserFieldValues(true,array('contact'))}
 		{$aUserFieldSocialValues = $oUser->getUserFieldValues(true,array('social'))}
 
+		{* todo: review *}
 		{if $aUserFieldContactValues && $aUserFieldSocialValues}
 			<div class="user-info-block user-info-block-contacts">
 				<h2 class="user-info-heading">{$aLang.profile_contacts}</h2>
