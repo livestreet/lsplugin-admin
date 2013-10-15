@@ -48,6 +48,7 @@
 
 /* Select */
 .table .cell-check { width: 17px; padding-right: 10px; }
+.table .cell-check > [class^="icheckbox"] { margin: 0; }
 .table tbody .cell-check { padding-left: 11px; }
 .table tbody .cell-check > [class^="icheckbox"] { margin-top: 11px; }
 

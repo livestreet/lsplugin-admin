@@ -33,10 +33,10 @@ input[type="text"] {
 	line-height: 18px;
 }
 
+/**
+ * Form field
+ */
 
-/* Placeholder */
-:-moz-placeholder           { color: #ccc; }
-::-moz-placeholder          { color: #ccc; opacity: 1; }
-::-webkit-input-placeholder { color: #ccc; }
-:-ms-input-placeholder      { color: #ccc; }
-.placeholder                { color: #ccc; } /* Old IE */
+.form-field-inline.form-field-option { background: #fafafa; padding: 10px; }
+.form-field-inline.form-field-option .form-field-label  { width: 165px; padding-top: 0; }
+.form-field-inline.form-field-option .form-field-holder { padding-left: 180px; }

@@ -2,14 +2,15 @@
 ----------------------------------- */
 .icheckbox_minimal,
 .iradio_minimal {
-    display: block;
-    margin: 0;
+    display: inline-block;
+    margin: 0 3px 0 0;
     padding: 0;
     width: 17px;
     height: 17px;
     background: url(minimal.png) no-repeat;
     border: none;
     cursor: pointer;
+    vertical-align: top;
 }
 
 .icheckbox_minimal {

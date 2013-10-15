@@ -1,5 +1,7 @@
 {**
  * Страница пользователя
+ *
+ * @styles user.css
  *}
 
 {extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
@@ -189,31 +191,31 @@
 				<div class="user-info-block-stats-header">{$aLang.plugin.admin.users.profile.info.created}</div>
 				<ul>
 					{* todo: fill hrefs in links or leave just a text? *}
-					<li><a href="#">{$iCountTopicUser} {$aLang.plugin.admin.users.profile.info.topics}</a></li>
-					<li><a href="#">{$iCountCommentUser} {$aLang.plugin.admin.users.profile.info.comments}</a></li>
-					<li><a href="#">{$iCountBlogsUser} {$aLang.plugin.admin.users.profile.info.blogs}</a></li>
+					<li><a href="#" class="link-border"><span>{$iCountTopicUser} {$aLang.plugin.admin.users.profile.info.topics}</span></a></li>
+					<li><a href="#" class="link-border"><span>{$iCountCommentUser} {$aLang.plugin.admin.users.profile.info.comments}</span></a></li>
+					<li><a href="#" class="link-border"><span>{$iCountBlogsUser} {$aLang.plugin.admin.users.profile.info.blogs}</span></a></li>
 				</ul>
 			</div>
 
 			<div class="user-info-block-stats-row">
 				<div class="user-info-block-stats-header">{$aLang.plugin.admin.users.profile.info.fav}</div>
 				<ul>
-					<li><a href="#">{$iCountTopicFavourite} {$aLang.plugin.admin.users.profile.info.topics}</a></li>
-					<li><a href="#">{$iCountCommentFavourite} {$aLang.plugin.admin.users.profile.info.comments}</a></li>
+					<li><a href="#" class="link-border"><span>{$iCountTopicFavourite} {$aLang.plugin.admin.users.profile.info.topics}</span></a></li>
+					<li><a href="#" class="link-border"><span>{$iCountCommentFavourite} {$aLang.plugin.admin.users.profile.info.comments}</span></a></li>
 				</ul>
 			</div>
 
 			<div class="user-info-block-stats-row">
 				<div class="user-info-block-stats-header">{$aLang.plugin.admin.users.profile.info.reads}</div>
 				<ul>
-					<li><a href="#">{$iCountBlogReads} {$aLang.plugin.admin.users.profile.info.blogs}</a></li>
+					<li><a href="#" class="link-border"><span>{$iCountBlogReads} {$aLang.plugin.admin.users.profile.info.blogs}</span></a></li>
 				</ul>
 			</div>
 
 			<div class="user-info-block-stats-row">
 				<div class="user-info-block-stats-header">{$aLang.plugin.admin.users.profile.info.has}</div>
 				<ul>
-					<li><a href="#">{$iCountFriendsUser} {$aLang.plugin.admin.users.profile.info.friends}</a></li>
+					<li><a href="#" class="link-border"><span>{$iCountFriendsUser} {$aLang.plugin.admin.users.profile.info.friends}</span></a></li>
 				</ul>
 			</div>
 		</div>
@@ -225,72 +227,68 @@
 			<div class="user-info-block-stats-row">
 				<div class="user-info-block-stats-header"><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=topic">{$aLang.plugin.admin.users.profile.info.for_topics}</a></div>
 				<ul>
-					<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=topic&filter[dir]=plus">{$aUserVotedStat.topic.plus} +</a></li>
-					<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=topic&filter[dir]=minus">{$aUserVotedStat.topic.minus} -</a></li>
+					<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=topic&filter[dir]=plus">{$aUserVotedStat.topic.plus}</a> +</li>
+					<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=topic&filter[dir]=minus">{$aUserVotedStat.topic.minus}</a> -</li>
 				</ul>
 			</div>
 
 			<div class="user-info-block-stats-row">
 				<div class="user-info-block-stats-header"><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=comment">{$aLang.plugin.admin.users.profile.info.for_comments}</a></div>
 				<ul>
-					<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=comment&filter[dir]=plus">{$aUserVotedStat.comment.plus} +</a></li>
-					<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=comment&filter[dir]=minus">{$aUserVotedStat.comment.minus} -</a></li>
+					<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=comment&filter[dir]=plus">{$aUserVotedStat.comment.plus}</a> +</li>
+					<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=comment&filter[dir]=minus">{$aUserVotedStat.comment.minus}</a> -</li>
 				</ul>
 			</div>
 
 			<div class="user-info-block-stats-row">
 				<div class="user-info-block-stats-header"><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=blog">{$aLang.plugin.admin.users.profile.info.for_blogs}</a></div>
 				<ul>
-					<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=blog&filter[dir]=plus">{$aUserVotedStat.blog.plus} +</a></li>
-					<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=blog&filter[dir]=minus">{$aUserVotedStat.blog.minus} -</a></li>
+					<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=blog&filter[dir]=plus">{$aUserVotedStat.blog.plus}</a> +</li>
+					<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=blog&filter[dir]=minus">{$aUserVotedStat.blog.minus}</a> -</li>
 				</ul>
 			</div>
 
 			<div class="user-info-block-stats-row">
 				<div class="user-info-block-stats-header"><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=user">{$aLang.plugin.admin.users.profile.info.for_users}</a></div>
 				<ul>
-					<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=user&filter[dir]=plus">{$aUserVotedStat.user.plus} +</a></li>
-					<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=user&filter[dir]=minus">{$aUserVotedStat.user.minus} -</a></li>
+					<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=user&filter[dir]=plus">{$aUserVotedStat.user.plus}</a> +</li>
+					<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=user&filter[dir]=minus">{$aUserVotedStat.user.minus}</a> -</li>
 				</ul>
 			</div>
 		</div>
 
 		{* Contacts *}
-		<div class="user-info-block user-info-block-contacts">
-			<div class="contacts">
+		{$aUserFieldContactValues = $oUser->getUserFieldValues(true,array('contact'))}
+		{$aUserFieldSocialValues = $oUser->getUserFieldValues(true,array('social'))}
+
+		{if $aUserFieldContactValues && $aUserFieldSocialValues}
+			<div class="user-info-block user-info-block-contacts">
 				<h2 class="user-info-heading">{$aLang.profile_contacts}</h2>
+				
+				<div class="clearfix">
+					{if $aUserFieldContactValues}
+						<ul class="user-contact-list">
+							{foreach $aUserFieldContactValues as $oField}
+								<li>
+									<i class="icon-contact icon-contact-{$oField->getName()}" title="{$oField->getName()}"></i>
+									{$oField->getValue(true,true)}
+								</li>
+							{/foreach}
+						</ul>
+					{/if}
 
-				{$aUserFieldContactValues = $oUser->getUserFieldValues(true,array('contact'))}
-
-				{if $aUserFieldContactValues}
-					<ul class="profile-contact-list">
-						{foreach from=$aUserFieldContactValues item=oField}
-							<li>
-								<i class="icon-contact icon-contact-{$oField->getName()}" title="{$oField->getName()}"></i>
-								{$oField->getValue(true,true)}
-							</li>
-						{/foreach}
-					</ul>
-				{/if}
+					{if $aUserFieldSocialValues}
+						<ul class="user-contact-list">
+							{foreach $aUserFieldSocialValues as $oField}
+								<li>
+									<i class="icon-contact icon-contact-{$oField->getName()}" title="{$oField->getName()}"></i>
+									{$oField->getValue(true,true)}
+								</li>
+							{/foreach}
+						</ul>
+					{/if}
+				</div>
 			</div>
-
-			<div class="social">
-				<h2 class="user-info-heading"> {$aLang.profile_social} </h2>
-
-				{$aUserFieldContactValues = $oUser->getUserFieldValues(true,array('social'))}
-
-				{if $aUserFieldContactValues}
-					<ul class="profile-contact-list">
-						{foreach from=$aUserFieldContactValues item=oField}
-							<li>
-								<i class="icon-contact icon-contact-{$oField->getName()}" title="{$oField->getName()}"></i>
-								{$oField->getValue(true,true)}
-							</li>
-						{/foreach}
-					</ul>
-				{/if}
-
-			</div>
-		</div>
+		{/if}
 	</div>
 {/block}
