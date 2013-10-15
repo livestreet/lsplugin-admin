@@ -30,7 +30,7 @@
 /**
  * Brief info
  */
-.user-brief { position: relative; }
+.user-brief { position: relative; color: #6c6c6c; }
 
 .user-brief-body { padding-left: 123px; padding-right: 100px; min-height: 100px; }
 .user-brief-aside { position: absolute; top: 0; right: 0; padding-top: 3px; }
@@ -43,7 +43,7 @@
 .user-brief .user-login { font: normal 25px/1em "Open Sans", sans-serif; color: #000; position: relative; top: -3px; margin-bottom: 5px; }
 .user-brief .user-login i { vertical-align: baseline; }
 
-.user-brief .user-name { font: normal 18px/1em "Open Sans", sans-serif; color: #6c6c6c; margin-bottom: 10px; }
+.user-brief .user-name { font: normal 18px/1em "Open Sans", sans-serif; margin-bottom: 10px; }
 
 .user-brief .user-mail { margin-bottom: 3px; }
 .user-brief .user-mail .link-border { font-family: Verdana; color: #9b9b9b; border-color: #dadada; }
@@ -57,6 +57,7 @@
  */
 .user-info-body { margin-right: 270px; font-family: Verdana; }
 .user-info-body .dotted-list-item-value {  }
+.user-info-body .link-border { color: #3f67b9; }
 
 .user-info-aside { width: 250px; float: right; }
 
@@ -83,5 +84,10 @@
 .user-info-block-stats { overflow: hidden; font-family: Verdana; }
 .user-info-block-stats-row { float: left; width: 25%; }
 .user-info-block-stats-row li { margin-bottom: 3px; }
-.user-info-block-stats-row li a { text-decoration: underline; }
 .user-info-block-stats-header { font-weight: bold; margin-bottom: 3px; }
+
+/**
+ * Contact list
+ */
+.user-contact-list { width: 45%; margin-right: 5%; float: left; }
+.user-contact-list li { margin-bottom: 10px; }
