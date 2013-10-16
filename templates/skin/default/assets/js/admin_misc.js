@@ -226,11 +226,14 @@ jQuery(document).ready(function($) {
 		ls.admin_misc.ShowShortViewLivingSelectData($ (this).val());
 	});
 	/*
-		инит текущим значением селекта проживания
+		инит текущим значением селекта проживания для отображения короткого вида
 	 */
 	if ($ (ls.admin_misc.selectors.users_stats_living_stats_short_view_select).length == 1) {
 		ls.admin_misc.ShowShortViewLivingSelectData($ (ls.admin_misc.selectors.users_stats_living_stats_short_view_select).val());
 	};
+
+
+
 
 
 	/*
@@ -277,6 +280,43 @@ jQuery(document).ready(function($) {
 		complete: function(xhr) {
 			//$ (ls.admin_misc.selectors.index_items_new_block_id).removeClass('loading');
 		}
+	});
+	$ ('#activity-get-more').bind('click.admin', function() {
+		//if (this.isBusy) return;
+
+		$oGetMoreButton = $(this);
+		$oLastId = $('#activity-last-id');
+		iLastId = $oLastId.val();
+
+		if ( ! iLastId ) return;
+
+		$oGetMoreButton.addClass('loading');
+		//this.isBusy = true;
+
+/*		var params = {
+			'iLastId':   iLastId
+		};*/
+
+/*		var params = $.extend({}, {
+			'iLastId': iLastId
+		}, $('#admin_index_activity').serialize().split('='));*/
+
+		var url = aRouter['admin'] + 'ajax-get-index-activity-more/?' + $('#admin_index_activity').serialize() + '&iLastId=' + iLastId;
+
+		ls.ajax.load(url, {}, function(data) {
+			if ( ! data.bStateError && data.events_count ) {
+				$('#activity-event-list').append(data.result);
+				$oLastId.attr('value', data.iStreamLastId);
+			}
+
+			if ( ! data.events_count) {
+				$oGetMoreButton.hide();
+			}
+
+			$oGetMoreButton.removeClass('loading');
+
+			//this.isBusy = false;
+		}.bind(this));
 	});
 
 });

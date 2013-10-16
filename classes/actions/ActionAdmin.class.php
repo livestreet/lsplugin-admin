@@ -112,9 +112,13 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 */
 		$this->AddEvent('ajax-get-new-items-block', 'Dashboard::EventAjaxGetNewItemsBlock');
 		/*
-		 * аякс отображение активности
+		 * аякс смена отображения активности (настройка событий)
 		 */
 		$this->AddEvent('ajax-get-index-activity', 'Dashboard::EventAjaxGetIndexActivity');
+		/*
+		 * аякс отображения активности ленты дальше
+		 */
+		$this->AddEvent('ajax-get-index-activity-more', 'Dashboard::EventAjaxGetIndexActivityMore');
 		/**
 		 * Обработка ошибок, аналог ActionError
 		 */
@@ -521,11 +525,11 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			/*
 			 * for stream list in dashboard
 			 */
-			Config::Get('path.application.web') . '/frontend/common/js/stream.js',
+			//Config::Get('path.application.web') . '/frontend/common/js/stream.js',
 			/*
 			 * for managing user note
 			 */
-			Config::Get('path.application.web') . '/frontend/common/js/usernote.js',
+			//Config::Get('path.application.web') . '/frontend/common/js/usernote.js',
 
 			/*
 			 * скрипты плагина

@@ -103,7 +103,10 @@ jQuery(document).ready(function($) {
 	/**
 	 * Activity
 	 */
-	ls.stream.init();
+	/*
+		не нужна, своя активность в админке
+	 */
+	//ls.stream.init();
 
 	/**
 	 * Custom checkboxes and radios

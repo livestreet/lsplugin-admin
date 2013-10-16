@@ -110,8 +110,6 @@
 						<ul class="dropdown-menu" id="dropdown-user-stats-stream-menu">
 							<form action="{router page='admin/ajax-get-index-activity'}" method="post" enctype="application/x-www-form-urlencoded" id="admin_index_activity">
 								<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
-								<input type="hidden" name="iLastId" value="{$iStreamLastId}" />
-								<input type="hidden" name="sDateLast" value="{$sDateLast}" />
 
 								{foreach from=array_keys($aEventTypes) item=sEventType}
 									<label>
@@ -120,9 +118,8 @@
 									</label>
 								{/foreach}
 
-								<button type="submit" name="submit_edit_rating" class="button">{$aLang.plugin.admin.save}</button>
+								<button type="submit" name="submit_change_activity_settings" class="button">{$aLang.plugin.admin.save}</button>
 							</form>
-
 						</ul>
 					</div>
 
@@ -131,6 +128,13 @@
 					</div>
 
 					<div class="content-data">
+						<script>
+							/*
+							 хак для использования файла активности. в конце там приварено присваивание в жс активности, но он нам не нужен
+							 */
+							ls = ls || {};
+							ls.stream = ls.stream || {};
+						</script>
 						{include file='actions/ActionStream/event_list.tpl' sActivityType='all'}
 					</div>
 				</div>
