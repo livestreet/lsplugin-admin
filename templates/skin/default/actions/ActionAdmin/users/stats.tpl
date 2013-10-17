@@ -1,42 +1,10 @@
+{**
+ * Статистика
+ *
+ * @styles stats.css
+ *}
+
 {extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
-
-
-{block name='layout_content_actionbar'}
-	<a class="button {if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_YESTERDAY}active{/if}" href="{router page='admin/users/stats'}{request_filter
-		name=array('graph_period')
-		value=array(PluginAdmin_ModuleStats::TIME_INTERVAL_YESTERDAY)
-	}">{$aLang.plugin.admin.users_stats.period_bar.yesterday}</a>
-
-	<a class="button {if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_TODAY}active{/if}" href="{router page='admin/users/stats'}{request_filter
-		name=array('graph_period')
-		value=array(PluginAdmin_ModuleStats::TIME_INTERVAL_TODAY)
-	}">{$aLang.plugin.admin.users_stats.period_bar.today}</a>
-
-	<a class="button {if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_WEEK}active{/if}" href="{router page='admin/users/stats'}{request_filter
-		name=array('graph_period')
-		value=array(PluginAdmin_ModuleStats::TIME_INTERVAL_WEEK)
-	}">{$aLang.plugin.admin.users_stats.period_bar.week}</a>
-
-	<a class="button {if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_MONTH}active{/if}" href="{router page='admin/users/stats'}{request_filter
-		name=array('graph_period')
-		value=array(null)
-	}">{$aLang.plugin.admin.users_stats.period_bar.default}</a>
-
-	<div class="period-selection">
-		<form action="{router page='admin/users/stats'}" enctype="application/x-www-form-urlencoded" method="get">
-			<input type="text" name="filter[date_start]" value="{$_aRequest.filter.date_start}" class="input-text width-100 date-picker-php" placeholder="{date('Y-m-d')}" />
-			&nbsp;&ndash;&nbsp;
-			<input type="text" name="filter[date_finish]" value="{$_aRequest.filter.date_finish}" class="input-text width-100 date-picker-php" placeholder="{date('Y-m-d')}" />
-			<input type="submit" value="{$aLang.plugin.admin.show}" class="button" />
-			{if $_aRequest.filter.date_start}
-				<a href="{router page='admin/users/stats'}{request_filter
-					name=array('date_start', 'date_finish')
-					value=array(null, null)
-				}" class="remove-custom-period-selection"><i class="icon-remove"></i></a>
-			{/if}
-		</form>
-	</div>
-{/block}
 
 
 {block name='layout_page_title'}
@@ -56,13 +24,14 @@
 			график
 		*}
 		<h3>{$aLang.plugin.admin.users_stats.registrations}</h3>
-		<div class="graph">
-			{include file="{$aTemplatePathPlugin.admin}graph.tpl"
-				sValueSuffix=$aLang.plugin.admin.users_stats.users
-				aStats=$aDataStats
-				sName=$aLang.plugin.admin.users_stats.registrations
-			}
-		</div>
+
+		{include file="{$aTemplatePathPlugin.admin}graph.tpl"
+			sValueSuffix = $aLang.plugin.admin.users_stats.users
+			aStats       = $aDataStats
+			sName        = $aLang.plugin.admin.users_stats.registrations
+			sUrl         = {router page='admin/users/stats'}
+		}
+
 		{*
 			значения таблицей
 		*}

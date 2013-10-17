@@ -1,0 +1,19 @@
+/**
+ * Статистика
+ *
+ * @template actions/ActionAdmin/users/profile.tpl
+ * 
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+.graph {
+	-webkit-box-shadow: 0 3px 15px rgba(0, 0, 0, .2);
+	-moz-box-shadow: 0 3px 15px rgba(0, 0, 0, .2);
+	box-shadow: 0 3px 15px rgba(0, 0, 0, .2);
+	margin-bottom: 15px;
+}
+
+.graph-header { padding: 20px; }
+.graph-body { padding: 20px; }
