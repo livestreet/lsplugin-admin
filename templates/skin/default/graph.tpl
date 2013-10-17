@@ -9,25 +9,36 @@
  * $aStats - массив с данными для графика ($aUserRegistrationStats)
  * $sName - имя графика ($aLang.plugin.admin.users_stats.registrations)
  * $sUrl - URL для сабмита формы
+ * $bShowGraphTypeSelect - показывать ли селект выбора типа графика
  *
  *}
 
 <div class="graph">
 	<header class="graph-header">
 		<form action="{$sUrl}" enctype="application/x-www-form-urlencoded" method="get" id="dropdown-menu-graph-settings">
-			<select name="filter[graph_type]" class="width-150">
-				<option value="{PluginAdmin_ModuleStats::DATA_TYPE_REGISTRATIONS}"
-						{if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_REGISTRATIONS}selected="selected"{/if}>{$aLang.plugin.admin.index.show_users}</option>
-				<option value="{PluginAdmin_ModuleStats::DATA_TYPE_TOPICS}"
-						{if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_TOPICS}selected="selected"{/if}>{$aLang.plugin.admin.index.show_topics}</option>
-				<option value="{PluginAdmin_ModuleStats::DATA_TYPE_COMMENTS}"
-						{if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_COMMENTS}selected="selected"{/if}>{$aLang.plugin.admin.index.show_comments}</option>
-				<option value="{PluginAdmin_ModuleStats::DATA_TYPE_VOTINGS}"
-						{if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_VOTINGS}selected="selected"{/if}>{$aLang.plugin.admin.index.show_votings}</option>
-			</select>
+			{*
+				нужно ли отображать селект с типами графика для выбора
+				tip: установка данной переменной также требует прием значения данного селекта на бекенде для показа данных по типу
+			*}
+			{if $bShowGraphTypeSelect}
+				<select name="filter[graph_type]" class="width-150">
+					<option value="{PluginAdmin_ModuleStats::DATA_TYPE_REGISTRATIONS}"
+							{if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_REGISTRATIONS}selected="selected"{/if}>{$aLang.plugin.admin.index.show_users}</option>
+					<option value="{PluginAdmin_ModuleStats::DATA_TYPE_TOPICS}"
+							{if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_TOPICS}selected="selected"{/if}>{$aLang.plugin.admin.index.show_topics}</option>
+					<option value="{PluginAdmin_ModuleStats::DATA_TYPE_COMMENTS}"
+							{if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_COMMENTS}selected="selected"{/if}>{$aLang.plugin.admin.index.show_comments}</option>
+					<option value="{PluginAdmin_ModuleStats::DATA_TYPE_VOTINGS}"
+							{if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_VOTINGS}selected="selected"{/if}>{$aLang.plugin.admin.index.show_votings}</option>
+				</select>
+			{/if}
+
 
 			&nbsp;
 
+			{*
+				предустановленный временной период отображения
+			*}
 			<select name="filter[graph_period]" class="width-100">
 				<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_TODAY}"
 						{if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_TODAY}selected="selected"{/if}>{$aLang.plugin.admin.index.period_bar.today}</option>
@@ -39,15 +50,19 @@
 						{if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_MONTH}selected="selected"{/if}>{$aLang.plugin.admin.index.period_bar.month}</option>
 			</select>
 
+
 			&nbsp;&nbsp;&nbsp;
 
-			<input type="text" name="filter[date_start]" value="{$_aRequest.filter.date_start}" class="input-text width-100 date-picker-php" placeholder="С числа" />
+			{*
+				ручной выбор дат периода
+			*}
+			<input type="text" name="filter[date_start]" value="{$_aRequest.filter.date_start}" class="input-text width-100 date-picker-php" placeholder="{$aLang.plugin.admin.from}" />
 			&nbsp;&ndash;&nbsp;
-			<input type="text" name="filter[date_finish]" value="{$_aRequest.filter.date_finish}" class="input-text width-100 date-picker-php" placeholder="По число" />
+			<input type="text" name="filter[date_finish]" value="{$_aRequest.filter.date_finish}" class="input-text width-100 date-picker-php" placeholder="{$aLang.plugin.admin.to}" />
 			{if $_aRequest.filter.date_start}
 				<a href="{router page='admin'}{request_filter
-				name=array('date_start', 'date_finish')
-				value=array(null, null)
+					name=array('date_start', 'date_finish')
+					value=array(null, null)
 				}" class="remove-custom-period-selection"><i class="icon-remove"></i></a>
 			{/if}
 

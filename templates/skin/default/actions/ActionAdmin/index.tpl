@@ -39,7 +39,8 @@
 			sValueSuffix=$aLang.plugin.admin.users_stats.graph_suffix.$sCurrentGraphType
 			aStats=$aDataStats
 			sName=$aLang.plugin.admin.users_stats.graph_labels.$sCurrentGraphType
-			sUrl = {router page='admin'}
+			sUrl={router page='admin'}
+			bShowGraphTypeSelect=true
 		}
 
 
