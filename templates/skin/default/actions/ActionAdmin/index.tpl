@@ -32,60 +32,17 @@
 				{$aLang.plugin.admin.index.comments}
 			</li>
 		</ul>
-		<div class="graph">
-			{*
-				попап меню с выбором периода и типа графика
-			*}
-			<div class="popup-params-select fl-r">
-				<form action="{router page='admin'}" enctype="application/x-www-form-urlencoded" method="get">
-					{$aLang.plugin.admin.index.show_type}:
-					<select name="filter[graph_type]" class="width-150">
-						<option value="{PluginAdmin_ModuleStats::DATA_TYPE_REGISTRATIONS}"
-								{if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_REGISTRATIONS}selected="selected"{/if}>{$aLang.plugin.admin.index.show_users}</option>
-						<option value="{PluginAdmin_ModuleStats::DATA_TYPE_TOPICS}"
-								{if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_TOPICS}selected="selected"{/if}>{$aLang.plugin.admin.index.show_topics}</option>
-						<option value="{PluginAdmin_ModuleStats::DATA_TYPE_COMMENTS}"
-								{if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_COMMENTS}selected="selected"{/if}>{$aLang.plugin.admin.index.show_comments}</option>
-						<option value="{PluginAdmin_ModuleStats::DATA_TYPE_VOTINGS}"
-								{if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_VOTINGS}selected="selected"{/if}>{$aLang.plugin.admin.index.show_votings}</option>
-					</select>
-					{$aLang.plugin.admin.index.show_period}:
-					<select name="filter[graph_period]" class="width-100">
-						<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_TODAY}"
-								{if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_TODAY}selected="selected"{/if}>{$aLang.plugin.admin.index.period_bar.today}</option>
-						<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_YESTERDAY}"
-								{if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_YESTERDAY}selected="selected"{/if}>{$aLang.plugin.admin.index.period_bar.yesterday}</option>
-						<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_WEEK}"
-								{if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_WEEK}selected="selected"{/if}>{$aLang.plugin.admin.index.period_bar.week}</option>
-						<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_MONTH}"
-								{if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_MONTH}selected="selected"{/if}>{$aLang.plugin.admin.index.period_bar.month}</option>
-					</select>
 
-					<div class="period-selection">
-						<input type="text" name="filter[date_start]" value="{$_aRequest.filter.date_start}" class="input-text width-100 date-picker-php" placeholder="{date('Y-m-d')}" />
-						&nbsp;&ndash;&nbsp;
-						<input type="text" name="filter[date_finish]" value="{$_aRequest.filter.date_finish}" class="input-text width-100 date-picker-php" placeholder="{date('Y-m-d')}" />
-						{if $_aRequest.filter.date_start}
-							<a href="{router page='admin'}{request_filter
-							name=array('date_start', 'date_finish')
-							value=array(null, null)
-							}" class="remove-custom-period-selection"><i class="icon-remove"></i></a>
-						{/if}
-					</div>
 
-					<input type="submit" value="{$aLang.plugin.admin.show}" class="button" />
-				</form>
-			</div>
+		<h3>{$aLang.plugin.admin.index.title}</h3>
+		{include file="{$aTemplatePathPlugin.admin}graph.tpl"
+			sValueSuffix=$aLang.plugin.admin.users_stats.graph_suffix.$sCurrentGraphType
+			aStats=$aDataStats
+			sName=$aLang.plugin.admin.users_stats.graph_labels.$sCurrentGraphType
+			sUrl = {router page='admin'}
+		}
 
-			<h3>{$aLang.plugin.admin.index.title}</h3>
-			<div class="graph_wrapper">
-				{include file="{$aTemplatePathPlugin.admin}graph.tpl"
-					sValueSuffix=$aLang.plugin.admin.users_stats.graph_suffix.$sCurrentGraphType
-					aStats=$aDataStats
-					sName=$aLang.plugin.admin.users_stats.graph_labels.$sCurrentGraphType
-				}
-			</div>
-		</div>
+
 		<div class="middle-stat-line">
 			<div class="plugins">
 				<div class="title">Плагины</div>

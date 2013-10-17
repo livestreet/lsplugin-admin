@@ -471,6 +471,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$sPluginTemplatePath . '/css/dropdowns.css',
 			$sPluginTemplatePath . '/css/helpers.css',
 			$sPluginTemplatePath . '/css/user.css',
+			$sPluginTemplatePath . '/css/stats.css',
 			
 			$sPluginTemplatePath . '/css/vendor/jquery.notifier.css',
 			$sPluginTemplatePath . '/css/vendor/icheck/skins/livestreet/minimal.css',
