@@ -117,7 +117,7 @@ class PluginAdmin_ActionAdmin_EventDashboard extends Event {
 
 
 	/**
-	 * Получить последнюю активность
+	 * Получить всю последнюю активность
 	 */
 	protected function GetStreamAll() {
 		$aEvents = $this->Stream_ReadAll(Config::Get('plugin.admin.dashboard.stream.count_default'));
@@ -131,70 +131,68 @@ class PluginAdmin_ActionAdmin_EventDashboard extends Event {
 
 
 	/**
-	 * аякс получение последней активности по фильтру
+	 * Аякс получение последней активности по фильтру (первая порция после смены фильтра)
 	 */
 	public function EventAjaxGetIndexActivity() {
-		$this->Viewer_SetResponseAjax('json');
-		/*
-		 * список событий, которые нужно показать
-		 */
-		$aEventsToShow = array_keys($this->GetDataFromFilter());
-		/*
-		 * прочитать нужные события
-		 */
-		$aEvents = $this->Stream_ReadEvents($aEventsToShow, null, Config::Get('plugin.admin.dashboard.stream.count_default'));
-		$oViewer = $this->Viewer_GetLocalViewer();
-		/*
-		 * отключить ли кнопку "ещё" (есть ли ещё события)
-		 */
-		$oViewer->Assign('bDisableGetMoreButton', $this->Stream_GetCount($aEventsToShow) < Config::Get('plugin.admin.dashboard.stream.count_default'));
-		$oViewer->Assign('aStreamEvents', $aEvents);
-		/*
-		 * ид последнего события
-		 */
-		if (count($aEvents)) {
-			$oEvenLast = end($aEvents);
-			$this->Viewer_AssignAjax('iStreamLastId', $oEvenLast->getId());
-		}
-
-		$this->Viewer_AssignAjax('result', $oViewer->Fetch('actions/ActionStream/events.tpl'));
-		$this->Viewer_AssignAjax('events_count', count($aEvents));
+		$this->ProcessAjaxStreamContentLoading();
 	}
 
 
+	/**
+	 * Аякс загрузка следующей порции активности на основе фильтра
+	 */
 	public function EventAjaxGetIndexActivityMore() {
+		$this->ProcessAjaxStreamContentLoading(true);
+	}
+
+
+	/**
+	 * Выполнить загрузку данных для ленты активности
+	 *
+	 * @param bool $bUseFromIdValue		использовать ли смещение
+	 * @return bool
+	 */
+	protected function ProcessAjaxStreamContentLoading ($bUseFromIdValue = false) {
 		$this->Viewer_SetResponseAjax('json');
 		/*
-		 * список событий, которые нужно показать
+		 * получить фильтр со списком событий, которые нужно показать
 		 */
-		$aEventsToShow = array_keys($this->GetDataFromFilter());//////////////todo: how to get filter?
+		if (!$aFilterData = $this->GetDataFromFilter()) {
+			$this->Message_AddError($this->Lang('errors.index.empty_activity_filter'), $this->Lang_Get ('error'));
+			return false;
+		}
 		/*
-		 * ид последнего, ранее показанного события
+		 * нужно ли использовать ид последнего, ранее показанного события
 		 */
-		if (!$iFromId = getRequestStr('iLastId')) {
-			$this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
-			return;
+		$iFromId = null;
+		if ($bUseFromIdValue and !$iFromId = getRequestStr ('iLastId')) {
+			$this->Message_AddError ($this->Lang_Get ('system_error'), $this->Lang_Get ('error'));
+			return false;
 		}
 		/*
 		 * прочитать нужные события
 		 */
-		$aEvents = $this->Stream_ReadEvents($aEventsToShow, null, Config::Get('plugin.admin.dashboard.stream.count_default'), $iFromId);
-		$oViewer = $this->Viewer_GetLocalViewer();
+		$aEvents = $this->Stream_ReadEvents(array_keys($aFilterData), null, Config::Get ('plugin.admin.dashboard.stream.count_default'), $iFromId);
 		/*
-		 * отключить ли кнопку "ещё" (есть ли ещё события)
+		 * получить ленту с событиями в виде хтмл-кода
 		 */
-		$oViewer->Assign('bDisableGetMoreButton', $this->Stream_GetCount($aEventsToShow) < Config::Get('plugin.admin.dashboard.stream.count_default'));
+		$oViewer = $this->Viewer_GetLocalViewer();
 		$oViewer->Assign('aStreamEvents', $aEvents);
+		$this->Viewer_AssignAjax('result', $oViewer->Fetch('actions/ActionStream/events.tpl'));
 		/*
-		 * ид последнего события
+		 * установить ид последнего события
 		 */
 		if (count($aEvents)) {
 			$oEvenLast = end($aEvents);
 			$this->Viewer_AssignAjax('iStreamLastId', $oEvenLast->getId());
+		} else {
+			$this->Message_AddError($this->Lang('notices.index.no_results'));
 		}
-
-		$this->Viewer_AssignAjax('result', $oViewer->Fetch('actions/ActionStream/events.tpl'));
 		$this->Viewer_AssignAjax('events_count', count($aEvents));
+		/*
+		 * отключить ли кнопку "показать ещё события"
+		 */
+		$this->Viewer_AssignAjax('bDisableGetMoreButton', count($aEvents) < Config::Get('plugin.admin.dashboard.stream.count_default'));
 	}
 
 

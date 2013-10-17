@@ -525,11 +525,11 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			/*
 			 * for stream list in dashboard
 			 */
-			//Config::Get('path.application.web') . '/frontend/common/js/stream.js',
+			//Config::Get('path.application.web') . '/frontend/common/js/stream.js',	// не нужна, в адмике своя активность todo: delete
 			/*
 			 * for managing user note
 			 */
-			//Config::Get('path.application.web') . '/frontend/common/js/usernote.js',
+			//Config::Get('path.application.web') . '/frontend/common/js/usernote.js',	// todo: review
 
 			/*
 			 * скрипты плагина
@@ -538,6 +538,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$sPluginTemplatePath . '/js/admin_settings_save.js',
 			$sPluginTemplatePath . '/js/admin_settings_array.js',
 			$sPluginTemplatePath . '/js/admin_misc.js',
+			$sPluginTemplatePath . '/js/admin_stream.js',
 			$sPluginTemplatePath . '/js/more.js',
 
 			/*

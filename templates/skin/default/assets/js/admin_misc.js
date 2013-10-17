@@ -237,6 +237,7 @@ jQuery(document).ready(function($) {
 
 
 	/*
+		todo:
 		аякс обработка нажатия на кнопки статистики пользователей по странам и городам
 	 */
 /*	$ (document).on ('click.admin', '#admin_users_stats_living .js-ajax-load', function() {
@@ -246,77 +247,5 @@ jQuery(document).ready(function($) {
 		return false;
 	});*/
 
-
-	/*
-	 	todo: activity
-	 */
-	$ ('#admin_index_activity').ajaxForm({
-		dataType: 'json',
-		beforeSend: function() {
-			//$ (ls.admin_misc.selectors.index_items_new_block_id).addClass('loading');
-		},
-		success: function(data) {
-			if (data.bStateError) {
-				ls.msg.error(data.sMsgTitle,data.sMsg);
-			} else {
-				//$ (ls.admin_misc.selectors.index_items_new_block_id).html(data.sText);
-				if (data.events_count) {
-					//$('#activity-event-list').append(data.result);
-					$('#activity-event-list').html(data.result);
-					$('#activity-last-id').attr('value', data.iStreamLastId);
-				}
-
-				$oGetMoreButton = $ ('#activity-get-more');
-
-				if ( ! data.events_count) {
-					$oGetMoreButton.hide();
-				}
-
-				$oGetMoreButton.removeClass('loading');
-
-				//this.isBusy = false;
-			}
-		},
-		complete: function(xhr) {
-			//$ (ls.admin_misc.selectors.index_items_new_block_id).removeClass('loading');
-		}
-	});
-	$ ('#activity-get-more').bind('click.admin', function() {
-		//if (this.isBusy) return;
-
-		$oGetMoreButton = $(this);
-		$oLastId = $('#activity-last-id');
-		iLastId = $oLastId.val();
-
-		if ( ! iLastId ) return;
-
-		$oGetMoreButton.addClass('loading');
-		//this.isBusy = true;
-
-/*		var params = {
-			'iLastId':   iLastId
-		};*/
-
-/*		var params = $.extend({}, {
-			'iLastId': iLastId
-		}, $('#admin_index_activity').serialize().split('='));*/
-
-		var url = aRouter['admin'] + 'ajax-get-index-activity-more/?' + $('#admin_index_activity').serialize() + '&iLastId=' + iLastId;
-
-		ls.ajax.load(url, {}, function(data) {
-			if ( ! data.bStateError && data.events_count ) {
-				$('#activity-event-list').append(data.result);
-				$oLastId.attr('value', data.iStreamLastId);
-			}
-
-			if ( ! data.events_count) {
-				$oGetMoreButton.hide();
-			}
-
-			$oGetMoreButton.removeClass('loading');
-
-			//this.isBusy = false;
-		}.bind(this));
-	});
 
 });

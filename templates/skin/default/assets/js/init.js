@@ -104,7 +104,7 @@ jQuery(document).ready(function($) {
 	 * Activity
 	 */
 	/*
-		не нужна, своя активность в админке
+		не нужна, в админке своя активность
 	 */
 	//ls.stream.init();
 
