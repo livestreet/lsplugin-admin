@@ -965,31 +965,38 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	 * Статистика пользователей
 	 */
 	public function EventShowUserStats() {
+		/*
+		 * дело в том, что данный метод может вызываться и через обычную загрузку страницы так и через аякс для подгрузки нужных данных
+		 * это сделано для того, чтобы не дублировать (пусть и небольшую) часть кода для подгрузки данных через аякс
+		 */
+		if (isAjaxRequest()) {
+			$this->GetAjaxAnswerForUsersStats ();
+			return false;
+		}
+
 		$this->SetTemplateAction('users/stats');
 
 		/*
-		 * если не указано показывать статистику по городам - показать по странам
+		 * получить статистику по проживанию
 		 */
-		if (!$sLivingSection = $this->GetDataFromFilter('living_section') or $sLivingSection != 'cities') {
-			$sLivingSection = 'countries';
-		}
-
+		$aLivingStatsData = $this->GetLivingStats ();
 		/*
-		 * тип сортировки места жительства
+		 * получить статистику стран или городов
 		 */
-		if (!$sSorting = $this->GetDataFromFilter('living_sorting') or $sSorting != 'alphabetic') {
-			$sSorting = 'top';
-		}
-
+		$this->Viewer_Assign ('aLivingStats', $aLivingStatsData['aLivingStats']);
 		/*
-		 * получить данные для графика
+		 * тип текущего отображения: страны или города
 		 */
-		$this->PluginAdmin_Stats_GatherAndBuildDataForGraph(
-			PluginAdmin_ModuleStats::DATA_TYPE_REGISTRATIONS,
-			$this->GetDataFromFilter('graph_period'),
-			$this->GetDataFromFilter('date_start'),
-			$this->GetDataFromFilter('date_finish')
-		);
+		$this->Viewer_Assign ('sCurrentLivingSection', $aLivingStatsData['sCurrentLivingSection']);
+		/*
+		 * тип текущей сортировки: топ или по алфавиту
+		 */
+		$this->Viewer_Assign ('sCurrentLivingSorting', $aLivingStatsData['sCurrentLivingSorting']);
+		
+		/*
+		 * получить график
+		 */
+		$this->GetGraphStats ();
 
 		/*
 		 * получить количество хороших и не очень пользователей
@@ -1003,18 +1010,102 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 * получить возрастное распределение
 		 */
 		$this->Viewer_Assign('aBirthdaysStats', $this->PluginAdmin_Users_GetUsersBirthdaysStats());
+	}
+
+
+	/**
+	 * Получить статистику по проживанию пользователей
+	 */
+	protected function GetLivingStats () {
 		/*
-		 * получить статистику стран или городов
+		 * если не указано показывать статистику по городам - показать по странам
 		 */
-		$this->Viewer_Assign('aLivingStats', $this->PluginAdmin_Users_GetUsersLivingStats($sLivingSection, $sSorting));
+		if (!$sLivingSection = $this->GetDataFromFilter ('living_section') or $sLivingSection != 'cities') {
+			$sLivingSection = 'countries';
+		}
+
 		/*
-		 * тип текущего отображения: страны или города
+		 * тип сортировки места жительства
 		 */
-		$this->Viewer_Assign('sCurrentLivingSection', $sLivingSection);
+		if (!$sSorting = $this->GetDataFromFilter ('living_sorting') or $sSorting != 'alphabetic') {
+			$sSorting = 'top';
+		}
+		
+		return array(
+			/*
+			 * получить статистику стран или городов
+			 */
+			'aLivingStats' => $this->PluginAdmin_Users_GetUsersLivingStats ($sLivingSection, $sSorting),
+			/*
+			 * тип текущего отображения: страны или города
+			 */
+			'sCurrentLivingSection' => $sLivingSection,
+			/*
+			 * тип текущей сортировки: топ или по алфавиту
+			 */
+			'sCurrentLivingSorting' => $sSorting
+		);
+	}
+
+
+	/**
+	 * Получить данные графика
+	 */
+	protected function GetGraphStats () {
 		/*
-		 * тип текущей сортировки: топ или по алфавиту
+		 * получить данные для графика
 		 */
-		$this->Viewer_Assign('sCurrentLivingSorting', $sSorting);
+		$this->PluginAdmin_Stats_GatherAndBuildDataForGraph (
+			PluginAdmin_ModuleStats::DATA_TYPE_REGISTRATIONS,
+			$this->GetDataFromFilter ('graph_period'),
+			$this->GetDataFromFilter ('date_start'),
+			$this->GetDataFromFilter ('date_finish')
+		);
+	}
+
+
+	protected function GetAjaxAnswerForUsersStats () {
+		$this->Viewer_SetResponseAjax ('json');
+		/*
+		 * если нужно вывести только нужные данные
+		 */
+		if (getRequestStr('get_short_answer')) {
+			/*
+			 * пока поддерживается только данные проживаний
+			 */
+			if (getRequestStr('request_type') == 'living_stats') {
+				/*
+				 * получить статистику по проживанию
+				 */
+				$aLivingStatsData = $this->GetLivingStats();
+				$oViewer = $this->Viewer_GetLocalViewer();
+				/*
+				 * получить статистику стран или городов
+				 */
+				$oViewer->Assign('aLivingStats', $aLivingStatsData['aLivingStats']);
+				/*
+				 * тип текущего отображения: страны или города
+				 */
+				$oViewer->Assign('sCurrentLivingSection', $aLivingStatsData['sCurrentLivingSection']);
+				/*
+				 * тип текущей сортировки: топ или по алфавиту
+				 */
+				$oViewer->Assign('sCurrentLivingSorting', $aLivingStatsData['sCurrentLivingSorting']);
+				/*
+				 * настроить смарти, todo: вынести путь к плагинам куда-то в модуль (используется также в хуке на ланг_инит_старт)
+				 */
+				$oViewer->AddSmartyPluginsDir(Plugin::GetPath(__CLASS__) . 'include/smarty/');
+				/*
+				 * для расчетов нужно количество всех пользователей, берем их уже из кеша
+				 */
+				$aStats = $this->User_GetStatUsers();
+				$oViewer->Assign('iTotalUsersCount', $aStats['count_all']);
+				/*
+				 * вернуть скомпилированный шаблон
+				 */
+				$this->Viewer_AssignAjax('result', $oViewer->Fetch(Plugin::GetTemplatePath(__CLASS__) . 'actions/ActionAdmin/users/living_stats.tpl'));
+			}
+		}
 	}
 
 

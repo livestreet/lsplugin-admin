@@ -310,7 +310,7 @@
 			статистика по странам и городам
 		*}
 		<div id="admin_users_stats_living">
-			{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/living_stats.tpl"}
+			{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/living_stats.tpl" iTotalUsersCount=$aStats.count_all}
 		</div>
 
 	</div>

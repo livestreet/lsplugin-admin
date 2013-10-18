@@ -58,7 +58,7 @@
 					{*
 						длина столбика в процентах
 					*}
-					{assign var=iPercentage value=number_format($aItemRecord.count*100/$aStats.count_all, 2, '.', '')}
+					{assign var=iPercentage value=number_format($aItemRecord.count*100/$iTotalUsersCount, 2, '.', '')}
 					<tr {if $smarty.foreach.ItemsCycle.iteration % 2 == 0}class="second"{/if}>
 						<td class="item">
 							{*
@@ -84,14 +84,16 @@
 				{/foreach}
 			</tbody>
 		</table>
-
+		{*
+			нужно для пересчета процентного соотношения представления стран или городов в коротком виде (в селекте)
+		*}
+		<script>
+			var iTotalUsersCount = {$iTotalUsersCount};
+		</script>
 		{*
 			вывод данных для короткого отображения
 		*}
 		{if $aShortViewLivingStats and count($aShortViewLivingStats) > 0}
-			<script>
-				var iTotalUsersCount = {$aStats.count_all};
-			</script>
 			<table class="table items">
 				<thead></thead>
 				<tbody>

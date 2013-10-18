@@ -64,13 +64,6 @@ ls.admin_misc = (function($) {
 		index_items_new_block_id: '#admin_index_new_items_block',
 		index_items_new_form_id: '#admin_index_growth_block_form',
 
-		/*
-			просмотр короткой статистики по проживанию пользователей на странице статистики пользователей (селект)
-		 */
-		users_stats_living_stats_short_view_select: '#admin_users_stats_living_stats_short_view_select',
-		users_stats_living_stats_short_view_count: '#admin_users_stats_living_stats_short_view_count',
-		users_stats_living_stats_short_view_percentage: '#admin_users_stats_living_stats_short_view_percentage',
-
 
 		/*
 			для удобства (последняя запятая отсутствует)
@@ -78,13 +71,6 @@ ls.admin_misc = (function($) {
 		last_element: 'without_comma'
 	};
 
-	// ---
-
-	this.ShowShortViewLivingSelectData = function(iCount) {
-		$ (this.selectors.users_stats_living_stats_short_view_count).text(iCount);
-		$ (this.selectors.users_stats_living_stats_short_view_percentage).text((iCount*100/iTotalUsersCount).toFixed(2) + ' %');
-	};
-	
 	// ---
 
 	return this;
@@ -217,35 +203,6 @@ jQuery(document).ready(function($) {
 			$ (ls.admin_misc.selectors.index_items_new_block_id).removeClass('loading');
 		}
 	});
-
-
-	/*
-		смена элемента в селекте проживания на странице статистики пользователей
-	 */
-	$ (ls.admin_misc.selectors.users_stats_living_stats_short_view_select).bind('change.admin', function() {
-		ls.admin_misc.ShowShortViewLivingSelectData($ (this).val());
-	});
-	/*
-		инит текущим значением селекта проживания для отображения короткого вида
-	 */
-	if ($ (ls.admin_misc.selectors.users_stats_living_stats_short_view_select).length == 1) {
-		ls.admin_misc.ShowShortViewLivingSelectData($ (ls.admin_misc.selectors.users_stats_living_stats_short_view_select).val());
-	};
-
-
-
-
-
-	/*
-		todo:
-		аякс обработка нажатия на кнопки статистики пользователей по странам и городам
-	 */
-/*	$ (document).on ('click.admin', '#admin_users_stats_living .js-ajax-load', function() {
-		sHref = $ (this).attr('href').replace(PATH_ROOT, '');
-		console.log(sHref);
-
-		return false;
-	});*/
 
 
 });

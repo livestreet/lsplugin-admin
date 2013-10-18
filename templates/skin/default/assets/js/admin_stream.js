@@ -107,7 +107,7 @@ jQuery(document).ready(function($) {
 			/*
 				если нет ошибки и есть данные
 			 */
-			if (!data.bStateError && data.events_count ) {
+			if (!data.bStateError && data.events_count) {
 				$(ls.admin_stream.selectors.admin_index_activity_event_list).append(data.result);
 				oLastId.attr('value', data.iStreamLastId);
 			}
