@@ -41,6 +41,7 @@
 			sName=$aLang.plugin.admin.users_stats.graph_labels.$sCurrentGraphType
 			sUrl={router page='admin'}
 			bShowGraphTypeSelect=true
+			bShowCustomPeriodFields=true
 		}
 
 
