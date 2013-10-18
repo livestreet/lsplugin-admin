@@ -64,7 +64,7 @@ ls.admin_users_stats_living = (function($) {
 	 * @param iTotalUsersCount		всего пользователей
 	 * @constructor
 	 */
-	this.InitSelectDefaultValue = function(iTotalUsersCount) {
+	this.InitSelectDefaultValue = function() {
 		if ($ (this.selectors.users_stats_living_stats_short_view_select).length == 1) {
 			this.ShowShortViewLivingSelectData($ (this.selectors.users_stats_living_stats_short_view_select).val(), iTotalUsersCount);
 		}
@@ -89,7 +89,7 @@ jQuery(document).ready(function($) {
 	/*
 	 	инит текущим значением селекта проживания для отображения короткого вида
 	 */
-	ls.admin_users_stats_living.InitSelectDefaultValue(iTotalUsersCount);
+	ls.admin_users_stats_living.InitSelectDefaultValue();
 
 
 
@@ -117,7 +117,7 @@ jQuery(document).ready(function($) {
 					 	вывести данные в блок
 					 */
 					$ ('#admin_users_stats_living').html(data.result);
-					ls.admin_users_stats_living.InitSelectDefaultValue(iTotalUsersCount);
+					ls.admin_users_stats_living.InitSelectDefaultValue();
 				}
 
 				$ ('#admin_users_stats_living').removeClass('loading');
