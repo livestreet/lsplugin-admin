@@ -171,3 +171,6 @@
 
 .icon-sort-asc { width: 5px; height: 9px; background-image: url(../images/icons/sort-asc.png); }
 .icon-sort-desc { width: 5px; height: 9px; background-image: url(../images/icons/sort-desc.png); }
+
+.icon-stats-up { width: 8px; height: 7px; background-image: url(../images/icons/stats-up.png); }
+.icon-stats-down { width: 8px; height: 7px; background-image: url(../images/icons/stats-down.png); }

@@ -44,3 +44,25 @@
 	background: linear-gradient(to bottom, rgba(252,252,252,1) 0%, rgba(246,246,246,1) 82%, rgba(245,245,245,1) 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fcfcfc', endColorstr='#f5f5f5', GradientType=0 );
  }
+
+
+ /**
+  * Block Home
+  */
+ .block-home { border: 1px solid #f2f2f2; }
+
+ .block-home .block-header { border: none; background: #f9f9f9; padding: 13px 13px; }
+ .block-home .dropdown-circle { position: absolute; top: 11px; right: 11px; }
+ .block-home .block-title { font-size: 18px; }
+
+ .block-home .block-content { background: #fff; }
+
+ .block-home .block-footer { padding: 0 10px 10px; background: #fff; border: none; }
+
+ /**
+  * Home Stats
+  *
+  * @file blocks/block.home.stats.tpl
+  */
+ .block-type-home-stats .block-header { overflow: hidden; }
+ .block-type-home-stats .block-header select { position: absolute; top: 7px; right: 7px; }

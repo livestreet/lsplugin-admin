@@ -8,13 +8,12 @@
 
 
 {block name='layout_page_title'}
-	<div class="fl-r users-stats-headline">
-		<div class="count">
-			{number_format($aStats.count_all, 0, '.', ' ')}
-		</div>
-		{$aLang.plugin.admin.users_stats.users}
-	</div>
 	{$aLang.plugin.admin.users_stats.title}
+{/block}
+
+
+{block name='layout_content_actionbar'}
+	{include file="{$aTemplatePathPlugin.admin}stats.brief.tpl"}
 {/block}
 
 

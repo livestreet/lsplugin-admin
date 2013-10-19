@@ -9,11 +9,53 @@
  */
 
 .graph {
-	-webkit-box-shadow: 0 3px 15px rgba(0, 0, 0, .2);
-	-moz-box-shadow: 0 3px 15px rgba(0, 0, 0, .2);
-	box-shadow: 0 3px 15px rgba(0, 0, 0, .2);
+	-webkit-box-shadow: 0 3px 15px rgba(0, 0, 0, .1);
+	-moz-box-shadow: 0 3px 15px rgba(0, 0, 0, .1);
+	box-shadow: 0 3px 15px rgba(0, 0, 0, .1);
 	margin-bottom: 15px;
 }
 
 .graph-header { padding: 20px; }
 .graph-body { padding: 20px; }
+
+/**
+ * Stats brief
+ */
+.stats-brief li { 
+	min-width: 100px; 
+	float: left; 
+	padding: 5px 20px 0;
+	border-left: 1px solid #ddd;
+	text-align: center;
+}
+.stats-brief li:first-child { border: none; padding-left: 0; }
+.stats-brief li h3 { font-weight: 300; font-size: 31px; line-height: 1em; margin-bottom: 3px; color: #333; }
+.stats-brief li p { font-size: 11px; color: #a2a2a2; }
+.stats-brief li i { vertical-align: middle; position: relative; top: -2px; cursor: help; }
+
+/**
+ * Stats notifications
+ */
+.stats-notifications { overflow: hidden; margin-bottom: 30px; }
+.stats-notifications li { 
+	width: 33.333%;
+	min-height: 65px;
+	position: relative; 
+	padding-left: 80px; 
+	float: left; 
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	        box-sizing: border-box;
+	border-left: 1px solid #dedede;
+}
+.stats-notifications li:first-child { border: none; }
+.stats-notifications li figure { position: absolute; top: 0; left: 5px; width: 65px; height: 65px; background: #eee; }
+
+.stats-notifications li h3 { line-height: 1em; margin: 6px 0 3px; }
+.stats-notifications li h3 .link-border { color: #777; border-color: #c5c5c5; font-size: 9px; }
+.stats-notifications li h3 .link-border span { font-size: 20px; font-weight: 600; }
+.stats-notifications li h3 .link-border:hover { color: #333; border-color: #aaa; }
+
+.stats-notifications li p { font-family: Verdana; }
+.stats-notifications li p .link-border { color: #6d82a0; border-color: #c6ced9; }
+.stats-notifications li p .link-border:hover { color: #333; border-color: #ccc; }

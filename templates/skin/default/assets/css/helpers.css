@@ -11,3 +11,11 @@
  */
 .link-border { font-size: 8px; text-decoration: none; border-bottom: 1px solid #bcceea; color: #1a67bd; }
 .link-border span { font-size: 13px; line-height: normal; }
+
+/**
+ * Paddings
+ */
+.p5  { padding: 5px; }
+.p10 { padding: 10px; }
+.p15 { padding: 15px; }
+.p20 { padding: 20px; }
