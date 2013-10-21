@@ -75,10 +75,10 @@
 .table-users .cell-signup { width: 160px; }
 
 /* IP */
-.table-users .cell-ip { width: 70px; }
+.table-users .cell-ip { width: 75px; }
 
 /* Rating */
-.table-users .cell-rating { width: 100px; }
+.table-users .cell-rating { width: 110px; }
 .table-users .cell-rating .user-rating { font-weight: bold; color: #44B13A; float: left; }
 .table-users .cell-rating .user-skill {
     clear: both;

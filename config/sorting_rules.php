@@ -20,7 +20,7 @@
  */
 
 /*
- *	Разрешенные списки имен полей для сортировки, а также поиска по ним
+ *	Разрешенные списки имен полей для сортировки, поиска по ним и сортировок по-умолчанию
  */
 
 
@@ -31,17 +31,17 @@
  * (при изменении необходимы правки в маппере модуля юзеров плагина - изменить присваивание на LIKE)
  */
 $config ['user_search_allowed_types'] = array(
-	'id' => array('search_as_part_of_string'=>false),
-	'mail' => array('search_as_part_of_string'=>true),
-	'password' => array('search_as_part_of_string'=>false),
-	'ip_register' => array('search_as_part_of_string'=>true),
-	'activate' => array('search_as_part_of_string'=>false),
-	'activate_key' => array('search_as_part_of_string'=>false),
-	'profile_sex' => array('search_as_part_of_string'=>false),
-	'login' => array('search_as_part_of_string'=>true),
-	'profile_name' => array('search_as_part_of_string'=>true),
-	'session_ip_last' => array('search_as_part_of_string'=>true),
-	'admins_only' => array('search_as_part_of_string'=>false),
+	'id' => array('search_as_part_of_string' => false),
+	'mail' => array('search_as_part_of_string' => true),
+	'password' => array('search_as_part_of_string' => false),
+	'ip_register' => array('search_as_part_of_string' => true),
+	'activate' => array('search_as_part_of_string' => false),
+	'activate_key' => array('search_as_part_of_string' => false),
+	'profile_sex' => array('search_as_part_of_string' => false),
+	'login' => array('search_as_part_of_string' => true),
+	'profile_name' => array('search_as_part_of_string' => true),
+	'session_ip_last' => array('search_as_part_of_string' => true),
+	'admins_only' => array('search_as_part_of_string' => false),
 );
 
 
@@ -51,7 +51,9 @@ $config ['user_search_allowed_types'] = array(
 $config ['correct_sorting_order_for_users'] = array(
 	'u.user_id',
 	'u.user_login',
+	'u.user_mail',
 	'u.user_date_register',
+	'u.user_ip_register',
 	'u.user_rating',
 	'u.user_skill',
 	'u.user_profile_name',

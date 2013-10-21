@@ -67,6 +67,17 @@ jQuery(document).ready(function($) {
 		},
 		body: true
 	});
+	/*
+		используется для списка сортировок столбца таблицы
+	 */
+	$('.js-dropdown-left-bottom').dropdown({
+		position: {
+			my: "left-10 top+10",
+			at: "left bottom",
+			collision: "flipfit flip"
+		},
+		body: true
+	});
 
 
 	/**

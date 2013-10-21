@@ -35,86 +35,86 @@
 					*}
 					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 						sCellClassName='block_login'
-						sSortingOrder='block_login'
-						sLinkHtml="Пользователь / IP"
+						mSortingOrder='block_login'
+						mLinkHtml="Пользователь / IP"
 						sBaseUrl=$sFullPagePathToEvent
 					} {* TODO: i18n *}
 					{*include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 						sCellClassName='block_type'
-						sSortingOrder='block_type'
-						sLinkHtml=$aLang.plugin.admin.bans.table_header.block_type
+						mSortingOrder='block_type'
+						mLinkHtml=$aLang.plugin.admin.bans.table_header.block_type
 						sBaseUrl=$sFullPagePathToEvent
 					*}
 					{*include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 						sCellClassName='user_id'
-						sSortingOrder='user_id'
-						sLinkHtml=$aLang.plugin.admin.bans.table_header.user_id
+						mSortingOrder='user_id'
+						mLinkHtml=$aLang.plugin.admin.bans.table_header.user_id
 						sBaseUrl=$sFullPagePathToEvent
 					*}
 					{*include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 						sCellClassName='ip'
-						sSortingOrder='ip'
-						sLinkHtml=$aLang.plugin.admin.bans.table_header.ip
+						mSortingOrder='ip'
+						mLinkHtml=$aLang.plugin.admin.bans.table_header.ip
 						sBaseUrl=$sFullPagePathToEvent
 					*}
 					{*include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 						sCellClassName='ip_start'
-						sSortingOrder='ip_start'
-						sLinkHtml=$aLang.plugin.admin.bans.table_header.ip_start
+						mSortingOrder='ip_start'
+						mLinkHtml=$aLang.plugin.admin.bans.table_header.ip_start
 						sBaseUrl=$sFullPagePathToEvent
 					*}
 					{*include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 						sCellClassName='ip_finish'
-						sSortingOrder='ip_finish'
-						sLinkHtml=$aLang.plugin.admin.bans.table_header.ip_finish
+						mSortingOrder='ip_finish'
+						mLinkHtml=$aLang.plugin.admin.bans.table_header.ip_finish
 						sBaseUrl=$sFullPagePathToEvent
 					*}
 
 					{* dates *}
 					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 						sCellClassName='time_type'
-						sSortingOrder='time_type'
-						sLinkHtml=$aLang.plugin.admin.bans.table_header.time_type
+						mSortingOrder='time_type'
+						mLinkHtml=$aLang.plugin.admin.bans.table_header.time_type
 						sBaseUrl=$sFullPagePathToEvent
 					}
 					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 						sCellClassName='date_start'
-						sSortingOrder='date_start'
-						sLinkHtml=$aLang.plugin.admin.bans.table_header.date_start
+						mSortingOrder='date_start'
+						mLinkHtml=$aLang.plugin.admin.bans.table_header.date_start
 						sBaseUrl=$sFullPagePathToEvent
 					}
 					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 						sCellClassName='date_finish'
-						sSortingOrder='date_finish'
-						sLinkHtml=$aLang.plugin.admin.bans.table_header.date_finish
+						mSortingOrder='date_finish'
+						mLinkHtml=$aLang.plugin.admin.bans.table_header.date_finish
 						sBaseUrl=$sFullPagePathToEvent
 					}
 
 					{* create and edit dates *}
 					{*include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 						sCellClassName='add_date'
-						sSortingOrder='add_date'
-						sLinkHtml=$aLang.plugin.admin.bans.table_header.add_date
+						mSortingOrder='add_date'
+						mLinkHtml=$aLang.plugin.admin.bans.table_header.add_date
 						sBaseUrl=$sFullPagePathToEvent
 					*}
 					{*include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 						sCellClassName='edit_date'
-						sSortingOrder='edit_date'
-						sLinkHtml=$aLang.plugin.admin.bans.table_header.edit_date
+						mSortingOrder='edit_date'
+						mLinkHtml=$aLang.plugin.admin.bans.table_header.edit_date
 						sBaseUrl=$sFullPagePathToEvent
 					*}
 
 					{* reason and comments *}
 					{*include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 						sCellClassName='reason_for_user'
-						sSortingOrder='reason_for_user'
-						sLinkHtml=$aLang.plugin.admin.bans.table_header.reason_for_user
+						mSortingOrder='reason_for_user'
+						mLinkHtml=$aLang.plugin.admin.bans.table_header.reason_for_user
 						sBaseUrl=$sFullPagePathToEvent
 					*}
 					{*include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 						sCellClassName='comment'
-						sSortingOrder='comment'
-						sLinkHtml=$aLang.plugin.admin.bans.table_header.comment
+						mSortingOrder='comment'
+						mLinkHtml=$aLang.plugin.admin.bans.table_header.comment
 						sBaseUrl=$sFullPagePathToEvent
 					*}
 					<th class="width-50"></th>

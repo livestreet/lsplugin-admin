@@ -1,4 +1,4 @@
-{**
+{*
  * Список пользователей
  *}
 
@@ -20,7 +20,7 @@
 			{/foreach}
 		</select>
 
-		{**
+		{*
 		 * Кнопка отключения фильтра поиска
 		 *}
 		{if $_aRequest.filter.$sSearchField}
@@ -49,32 +49,41 @@
 				</th>
 				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 					sCellClassName='user'
-					sSortingOrder='u.user_login'
-					sLinkHtml=$aLang.plugin.admin.users.table_header.name
+					mSortingOrder=array('u.user_id', 'u.user_login', 'u.user_profile_name', 'u.user_mail')
+					mLinkHtml=array(
+						$aLang.plugin.admin.users.table_header.id,
+						$aLang.plugin.admin.users.table_header.login,
+						$aLang.plugin.admin.users.table_header.profile_name,
+						$aLang.plugin.admin.users.table_header.mail
+					)
+					sDropDownHtml=$aLang.plugin.admin.users.table_header.name
 					sBaseUrl=$sFullPagePathToEvent
 				}
 				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 					sCellClassName='birth'
-					sSortingOrder='u.user_profile_birthday'
-					sLinkHtml=$aLang.plugin.admin.users.table_header.birth
+					mSortingOrder='u.user_profile_birthday'
+					mLinkHtml=$aLang.plugin.admin.users.table_header.birth
 					sBaseUrl=$sFullPagePathToEvent
 				}
 				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 					sCellClassName='signup'
-					sSortingOrder='s.session_date_last'
-					sLinkHtml=$aLang.plugin.admin.users.table_header.reg_and_last_visit
+					mSortingOrder=array('u.user_date_register', 's.session_date_last')
+					mLinkHtml=array($aLang.plugin.admin.users.table_header.reg, $aLang.plugin.admin.users.table_header.last_visit)
+					sDropDownHtml=$aLang.plugin.admin.users.table_header.reg_and_last_visit
 					sBaseUrl=$sFullPagePathToEvent
 				}
 				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 					sCellClassName='ip'
-					sSortingOrder='s.session_ip_last'
-					sLinkHtml=$aLang.plugin.admin.users.table_header.ip
+					mSortingOrder=array('u.user_ip_register', 's.session_ip_last')
+					mLinkHtml=array($aLang.plugin.admin.users.table_header.user_ip_register, $aLang.plugin.admin.users.table_header.session_ip_last)
+					sDropDownHtml=$aLang.plugin.admin.users.table_header.ip
 					sBaseUrl=$sFullPagePathToEvent
 				}
 				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 					sCellClassName='rating'
-					sSortingOrder='u.user_rating'
-					sLinkHtml=$aLang.plugin.admin.users.table_header.rating_and_skill
+					mSortingOrder=array('u.user_rating', 'u.user_skill')
+					mLinkHtml=array($aLang.plugin.admin.users.table_header.user_rating, $aLang.plugin.admin.users.table_header.user_skill)
+					sDropDownHtml=$aLang.plugin.admin.users.table_header.rating_and_skill
 					sBaseUrl=$sFullPagePathToEvent
 				}
 			</tr>
@@ -89,7 +98,9 @@
 						<input type="checkbox" name="checked[]" class="js-user-list-item" value="1" />
 					</td>
 
-					{* Пользователь *}
+					{*
+						Пользователь
+					*}
 					<td class="cell-user">
 						<div class="cell-user-wrapper">
 							<a href="{router page="admin/users/profile/{$oUser->getId()}"}" class="cell-user-avatar {if $oUser->isOnline()}user-is-online{/if}">
@@ -99,22 +110,25 @@
 							</a>
 
 							<p class="cell-user-login word-wrap">
-								<a href="{router page="admin/users/profile/{$oUser->getId()}"}" class="link-border"><span>{$oUser->getLogin()}</span></a>
+								<a href="{router page="admin/users/profile/{$oUser->getId()}"}" class="link-border"
+								   title="{$aLang.plugin.admin.users.table_header.login}"><span>{$oUser->getLogin()}</span></a>
 
 								{if $oUser->isAdministrator()}
-									<i class="icon-user-admin" title="Admin"></i>
+									<i class="icon-user-admin" title="{$aLang.plugin.admin.users.admin}"></i>
 								{/if}
 							</p>
 
 							{if $oUser->getProfileName()}
-								<p class="cell-user-name">{$oUser->getProfileName()}</p>
+								<p class="cell-user-name" title="{$aLang.plugin.admin.users.table_header.profile_name}">{$oUser->getProfileName()}</p>
 							{/if}
 
-							<p class="cell-user-mail">{$oUser->getMail()}</p>
+							<p class="cell-user-mail" title="{$aLang.plugin.admin.users.table_header.mail}">{$oUser->getMail()}</p>
 						</div>
 					</td>
 
-					{* Дата рождения *}
+					{*
+						Дата рождения
+					*}
 					<td class="cell-birth">
 						{if $oUser->getProfileBirthday()}
 							{date_format date=$oUser->getProfileBirthday() format="j.m.Y" notz=true}
@@ -123,36 +137,42 @@
 						{/if}
 					</td>
 
-					{* Дата регистрации и дата последнего входа *}
+					{*
+						Дата регистрации и дата последнего входа
+					*}
 					<td class="cell-signup">
-						<p title="reg date">
+						<p title="{$aLang.plugin.admin.users.table_header.reg}">
 							{date_format date=$oUser->getDateRegister() format="d.m.Y"},
 							<span>{date_format date=$oUser->getDateRegister() format="H:i"}</span>
 						</p>
 
 						{if $oSession}
-							<p title="date last">
+							<p title="{$aLang.plugin.admin.users.table_header.last_visit}">
 								{date_format date=$oSession->getDateLast() format="d.m.Y"},
 								<span>{date_format date=$oSession->getDateLast() format="H:i"}</span>
 							</p>
 						{/if}
 					</td>
 
-					{* IP *}
+					{*
+						IP
+					*}
 					<td class="cell-ip">
-						<p title="reg ip">{$oUser->getIpRegister()}</p>
+						<p title="{$aLang.plugin.admin.users.table_header.user_ip_register}">{$oUser->getIpRegister()}</p>
 						{if $oSession}
 							{* <p title="sess ip create">{$oSession->getIpCreate()}</p> *}
-							<p title="sess ip last">{$oSession->getIpLast()}</p>
+							<p title="{$aLang.plugin.admin.users.table_header.session_ip_last}">{$oSession->getIpLast()}</p>
 						{/if}
 					</td>
 
-					{* Рейтинг *}
+					{*
+						Рейтинг и сила
+					*}
 					<td class="cell-rating">
-						<p class="user-rating {if $oUser->getRating() < 0}user-rating-negative{/if}">
+						<p class="user-rating {if $oUser->getRating() < 0}user-rating-negative{/if}" title="{$aLang.plugin.admin.users.table_header.user_rating}">
 							{$oUser->getRating()}
 						</p>
-						<p class="user-skill">
+						<p class="user-skill" title="{$aLang.plugin.admin.users.table_header.user_skill}">
 							{$oUser->getSkill()}
 						</p>
 
@@ -168,6 +188,8 @@
 	</table>
 
 	{*
+		Предлагаю вернуть - что, зря делали?
+
 	{include file="{$aTemplatePathPlugin.admin}forms/elements_on_page.tpl"
 		sFormActionPath="{router page='admin/users/ajax-on-page'}"
 		sFormId = 'admin_onpage'

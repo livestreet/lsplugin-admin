@@ -20,32 +20,32 @@
 				<tr>
 					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 						sCellClassName='targetid'
-						sSortingOrder='target_id'
-						sLinkHtml=$aLang.plugin.admin.users.votes.table_header.target_id
+						mSortingOrder='target_id'
+						mLinkHtml=$aLang.plugin.admin.users.votes.table_header.target_id
 						sBaseUrl="{router page="admin/users/votes/{$oUser->getId()}"}"
 					}
 					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 						sCellClassName='vote_direction'
-						sSortingOrder='vote_direction'
-						sLinkHtml=$aLang.plugin.admin.users.votes.table_header.vote_direction
+						mSortingOrder='vote_direction'
+						mLinkHtml=$aLang.plugin.admin.users.votes.table_header.vote_direction
 						sBaseUrl="{router page="admin/users/votes/{$oUser->getId()}"}"
 					}
 					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 						sCellClassName='vote_value'
-						sSortingOrder='vote_value'
-						sLinkHtml=$aLang.plugin.admin.users.votes.table_header.vote_value
+						mSortingOrder='vote_value'
+						mLinkHtml=$aLang.plugin.admin.users.votes.table_header.vote_value
 						sBaseUrl="{router page="admin/users/votes/{$oUser->getId()}"}"
 					}
 					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 						sCellClassName='vote_date'
-						sSortingOrder='vote_date'
-						sLinkHtml=$aLang.plugin.admin.users.votes.table_header.vote_date
+						mSortingOrder='vote_date'
+						mLinkHtml=$aLang.plugin.admin.users.votes.table_header.vote_date
 						sBaseUrl="{router page="admin/users/votes/{$oUser->getId()}"}"
 					}
 					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 						sCellClassName='vote_ip'
-						sSortingOrder='vote_ip'
-						sLinkHtml=$aLang.plugin.admin.users.votes.table_header.vote_ip
+						mSortingOrder='vote_ip'
+						mLinkHtml=$aLang.plugin.admin.users.votes.table_header.vote_ip
 						sBaseUrl="{router page="admin/users/votes/{$oUser->getId()}"}"
 					}
 					<th>
