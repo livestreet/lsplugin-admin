@@ -292,7 +292,7 @@ class PluginAdmin_ModuleUsers extends Module {
 						 * пока только для топиков
 						 */
 						if ($oComment->getTargetType() == 'topic') {
-							$oVote->setTargetFullUrl($oComment->getTarget()->getUrl() . 'comment' . $oComment->getId());
+							$oVote->setTargetFullUrl($oComment->getTarget()->getUrl() . '#comment' . $oComment->getId());
 						}
 					}
 					break;
