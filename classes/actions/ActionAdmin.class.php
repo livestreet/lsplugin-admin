@@ -524,10 +524,6 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$sFrameworkPath . '/js/ui/modal.js',
 			$sFrameworkPath . '/js/ui/toolbar.js',
 			/*
-			 * for stream list in dashboard
-			 */
-			//Config::Get('path.application.web') . '/frontend/common/js/stream.js',	// не нужна, в адмике своя активность todo: delete
-			/*
 			 * for managing user note
 			 */
 			//Config::Get('path.application.web') . '/frontend/common/js/usernote.js',	// todo: review
