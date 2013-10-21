@@ -61,13 +61,13 @@ class PluginAdmin_ActionAdmin_EventDashboard extends Event {
 		));
 
 		/*
-		 * получить события
+		 * получить все события
 		 */
 		$this->GetStreamAll();
 		/*
 		 * получить список всех событий для отображения фильтра
 		 */
-		$this->Viewer_Assign('aEventTypes', $this->Stream_getEventTypes());
+		$this->Viewer_Assign('aEventTypes', array_keys($this->Stream_getEventTypes()));
 
 		/*
 		 * получить базовую статистику
@@ -186,6 +186,9 @@ class PluginAdmin_ActionAdmin_EventDashboard extends Event {
 			$oEvenLast = end($aEvents);
 			$this->Viewer_AssignAjax('iStreamLastId', $oEvenLast->getId());
 		} else {
+			/*
+			 * сообщить что по выбранному фильтру нет данных
+			 */
 			$this->Message_AddError($this->Lang('notices.index.no_results'));
 		}
 		$this->Viewer_AssignAjax('events_count', count($aEvents));

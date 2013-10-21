@@ -35,6 +35,14 @@ ls.admin_users_stats_living = (function($) {
 		users_stats_living_stats_short_view_select: '#admin_users_stats_living_stats_short_view_select',
 		users_stats_living_stats_short_view_count: '#admin_users_stats_living_stats_short_view_count',
 		users_stats_living_stats_short_view_percentage: '#admin_users_stats_living_stats_short_view_percentage',
+		/*
+			контейнер для данных
+		 */
+		admin_users_stats_living: '#admin_users_stats_living',
+		/*
+			кнопки
+		 */
+		admin_users_stats_living_buttons: '#admin_users_stats_living .js-ajax-load',
 
 		/*
 			для удобства (последняя запятая отсутствует)
@@ -61,7 +69,6 @@ ls.admin_users_stats_living = (function($) {
 	/**
 	 * Установить значение для выбранного элемента селекта по-умолчанию
 	 *
-	 * @param iTotalUsersCount		всего пользователей
 	 * @constructor
 	 */
 	this.InitSelectDefaultValue = function() {
@@ -92,15 +99,11 @@ jQuery(document).ready(function($) {
 	ls.admin_users_stats_living.InitSelectDefaultValue();
 
 
-
-
-
 	/*
-	 	todo:
 	 	аякс обработка нажатия на кнопки статистики пользователей по странам и городам
 	 */
-	$ (document).on ('click.admin', '#admin_users_stats_living .js-ajax-load', function() {
-		$ ('#admin_users_stats_living').addClass('loading');
+	$ (document).on ('click.admin', ls.admin_users_stats_living.selectors.admin_users_stats_living_buttons, function() {
+		$ (ls.admin_users_stats_living.selectors.admin_users_stats_living).addClass('loading');
 
 		ls.ajax.load(
 			$ (this).attr('href'),
@@ -112,15 +115,18 @@ jQuery(document).ready(function($) {
 				/*
 				 	если нет ошибки и есть данные
 				 */
-				if (!data.bStateError) {
+				if (!data.bStateError && data.result) {
 					/*
 					 	вывести данные в блок
 					 */
-					$ ('#admin_users_stats_living').html(data.result);
+					$ (ls.admin_users_stats_living.selectors.admin_users_stats_living).html(data.result);
+					/*
+						показать для короткого вида данных (в селекте) значение по-умолчанию
+					 */
 					ls.admin_users_stats_living.InitSelectDefaultValue();
 				}
 
-				$ ('#admin_users_stats_living').removeClass('loading');
+				$ (ls.admin_users_stats_living.selectors.admin_users_stats_living).removeClass('loading');
 			}.bind(this),
 			{
 				type: 'POST',

@@ -22,7 +22,7 @@
 				<input type="checkbox" class="js-check-all" data-checkboxes-class="js-index-activity-filter" checked="checked" />
 			</div>
 
-			{foreach from=array_keys($aEventTypes) item=sEventType}
+			{foreach from=$aEventTypes item=sEventType}
 				<label>
 					<input type="checkbox" name="filter[{$sEventType}]" checked="checked" value="1" class="js-index-activity-filter" />
 					{$aLang.plugin.admin.index.activity_type.$sEventType}
