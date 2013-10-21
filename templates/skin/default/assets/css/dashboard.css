@@ -179,18 +179,13 @@
 
 /* items added */
 
-.ls-admin .dashboard .footer-stat-info .w50p .content-data .items-added {
+#admin_index_new_items_block .items-added {
 	border: medium none;
 	width: 100%;
 }
 
-.ls-admin .dashboard .footer-stat-info .w50p .content-data .items-added .growth {
+#admin_index_new_items_block .items-added .growth {
 	font-size: 14px;
-}
-
-.ls-admin .dashboard .footer-stat-info .w50p .label-header form {
-	display: inline-block;
-	vertical-align: top;
 }
 
 #admin_index_new_items_block.loading > * {
@@ -199,56 +194,56 @@
 
 /* voting line */
 
-.ls-admin .dashboard .footer-stat-info .w50p .content-data .items-added .name {
+#admin_index_new_items_block .items-added .name {
 	width: 160px;
 }
 
-.ls-admin .dashboard .footer-stat-info .w50p .content-data .items-added .growth {}
+#admin_index_new_items_block .items-added .growth {}
 
-.ls-admin .dashboard .footer-stat-info .w50p .content-data .items-added .voting-line {
+#admin_index_new_items_block .items-added .voting-line {
 	width: 160px;
 }
 
-.ls-admin .dashboard .footer-stat-info .w50p .content-data .items-added .voting-line .votes-graph {
+#admin_index_new_items_block .items-added .voting-line .votes-graph {
 	height: 3px;
 	clear: both;
 }
 
-.ls-admin .dashboard .footer-stat-info .w50p .content-data .items-added .voting-line .votes-graph > * {
+#admin_index_new_items_block .items-added .voting-line .votes-graph > * {
 	height: 100%;
 	float: left;
 	position: relative;
 }
 
-.ls-admin .dashboard .footer-stat-info .w50p .content-data .items-added .voting-line .votes-graph .plus {
+#admin_index_new_items_block .items-added .voting-line .votes-graph .plus {
 	background: #17A553;
 	color: #17A553;
 }
 
-.ls-admin .dashboard .footer-stat-info .w50p .content-data .items-added .voting-line .votes-graph .minus {
+#admin_index_new_items_block .items-added .voting-line .votes-graph .minus {
 	background: #ff1313;
 	color: #FF1313;
 }
 
-.ls-admin .dashboard .footer-stat-info .w50p .content-data .items-added .voting-line .votes-graph .abstained {
+#admin_index_new_items_block .items-added .voting-line .votes-graph .abstained {
 	background: #c9c9c9;
 	color: #C9C9C9;
 }
 
-.ls-admin .dashboard .footer-stat-info .w50p .content-data .items-added .voting-line .votes-graph .inner-value {
+#admin_index_new_items_block .items-added .voting-line .votes-graph .inner-value {
 	font-size: 10px;
 	position: absolute;
 	top: -16px;
 }
 
-.ls-admin .dashboard .footer-stat-info .w50p .content-data .items-added .voting-line .votes-graph *:nth-child(1) .inner-value {
+#admin_index_new_items_block .items-added .voting-line .votes-graph *:nth-child(1) .inner-value {
 	left: 0%;
 }
 
-.ls-admin .dashboard .footer-stat-info .w50p .content-data .items-added .voting-line .votes-graph *:nth-child(2) .inner-value {
+#admin_index_new_items_block .items-added .voting-line .votes-graph *:nth-child(2) .inner-value {
 	left: 43%;
 }
 
-.ls-admin .dashboard .footer-stat-info .w50p .content-data .items-added .voting-line .votes-graph *:nth-child(3) .inner-value {
+#admin_index_new_items_block .items-added .voting-line .votes-graph *:nth-child(3) .inner-value {
 	right: 0%;
 }

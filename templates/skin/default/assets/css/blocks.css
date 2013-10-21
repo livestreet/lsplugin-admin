@@ -10,7 +10,11 @@
 
 .block .text           { font-size: 13px; line-height: 18px; }
 .block .max-height-200 { overflow: auto; max-height: 200px; position: relative; }
-.block .loading        { min-height: 100px; background-image: url(../images/loader.gif); background-position: 50% 45px; }
+
+{*  не работает, используется общий .loading
+  .block .loading        { min-height: 100px; background-image: url(../images/loader.gif); background-position: 50% 45px; }
+*}
+
 .block .search-form    { padding: 0; margin-bottom: 20px; }
 
 /* Header */

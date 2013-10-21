@@ -6,22 +6,27 @@
 
 <ul class="stats-brief">
 	<li>
-		<h3>{$aStats.count_all}</h3>
+		<h3>{number_format($aStats.count_all, 0, '.', ' ')}</h3>
 		<p>{$aLang.plugin.admin.index.users}</p>
 	</li>
-	
-	<li>
-		<h3>
-			{abs($aUserGrowth.now_items)}
 
-			{if $aUserGrowth.growth > 0}
-				<i class="icon-stats-up" title="{$aLang.plugin.admin.index.new_users_for_week}: {$aUserGrowth.growth}"></i>
-			{elseif $aUserGrowth.growth < 0}
-				<i class="icon-stats-down" title="{$aLang.plugin.admin.index.less_users_for_week}: {abs($aUserGrowth.growth)}"></i>
-			{/if}
-		</h3>
-		<p>{$aLang.plugin.admin.index.registrations}</p>
-	</li>
+	{*
+		прирост пользователей за неделю
+	*}
+	{if $aUserGrowth}
+		<li>
+			<h3>
+				{abs($aUserGrowth.now_items)}
+
+				{if $aUserGrowth.growth > 0}
+					<i class="icon-stats-up" title="{$aLang.plugin.admin.index.new_users_for_week}: {$aUserGrowth.growth}"></i>
+				{elseif $aUserGrowth.growth < 0}
+					<i class="icon-stats-down" title="{$aLang.plugin.admin.index.less_users_for_week}: {abs($aUserGrowth.growth)}"></i>
+				{/if}
+			</h3>
+			<p>{$aLang.plugin.admin.index.registrations}</p>
+		</li>
+	{/if}
 
 	{if $iTotalTopicsCount}
 		<li>
