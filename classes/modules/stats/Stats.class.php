@@ -328,13 +328,13 @@ class PluginAdmin_ModuleStats extends Module {
 			 * валидация дат
 			 */
 			if (!$this->ValidateStartAndFinishGraphDates($sDateStart, $sDateFinish)) {
-				$this->Message_AddError($this->Lang('errors.stats.wrong_dates'), $this->Lang_Get('error'));
+				$this->Message_AddError($this->Lang_Get('plugin.admin.errors.stats.wrong_dates'), $this->Lang_Get('error'));
 			} else {
 				/*
 				 * проверить чтобы дата начала была меньше чем дата конца
 				 */
 				if ($sDateStart > $sDateFinish) {
-					$this->Message_AddError($this->Lang('errors.stats.wrong_date_range'), $this->Lang_Get('error'));
+					$this->Message_AddError($this->Lang_Get('plugin.admin.errors.stats.wrong_date_range'), $this->Lang_Get('error'));
 				} else {
 					/*
 					 * построить данные о периоде

@@ -62,9 +62,9 @@
 				&nbsp;&ndash;&nbsp;
 				<input type="text" name="filter[date_finish]" value="{$_aRequest.filter.date_finish}" class="input-text width-100 date-picker-php" placeholder="{$aLang.plugin.admin.to}" />
 				{if $_aRequest.filter.date_start}
-					<a href="{router page='admin'}{request_filter
-					name=array('date_start', 'date_finish')
-					value=array(null, null)
+					<a href="{$sUrl}{request_filter
+						name=array('date_start', 'date_finish')
+						value=array(null, null)
 					}" class="remove-custom-period-selection"><i class="icon-remove"></i></a>
 				{/if}
 
