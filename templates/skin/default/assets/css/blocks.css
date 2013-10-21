@@ -11,7 +11,7 @@
 .block .text           { font-size: 13px; line-height: 18px; }
 .block .max-height-200 { overflow: auto; max-height: 200px; position: relative; }
 
-{*  не работает, используется общий .loading
+{*  РЅРµ СЂР°Р±РѕС‚Р°РµС‚, РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ РѕР±С‰РёР№ .loading
   .block .loading        { min-height: 100px; background-image: url(../images/loader.gif); background-position: 50% 45px; }
 *}
 
