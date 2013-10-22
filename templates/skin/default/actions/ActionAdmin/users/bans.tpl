@@ -29,16 +29,23 @@
 			<thead>
 				<tr>
 					{*
-						что это?
-						кто расскажет как делать такую сортировку?
-						З.Ы. все поля нужно будет вернуть
+						правило бана
 					*}
 					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
-						sCellClassName='block_login'
-						mSortingOrder='block_login'
-						mLinkHtml="Пользователь / IP"
+						sCellClassName='block_rule'
+						mSortingOrder=array('block_type', 'user_id', 'ip', 'ip_start', 'ip_finish', 'add_date', 'edit_date')
+						mLinkHtml=array(
+							$aLang.plugin.admin.bans.table_header.block_type,
+							$aLang.plugin.admin.bans.table_header.user_id,
+							$aLang.plugin.admin.bans.table_header.ip,
+							$aLang.plugin.admin.bans.table_header.ip_start,
+							$aLang.plugin.admin.bans.table_header.ip_finish,
+							$aLang.plugin.admin.bans.table_header.add_date,
+							$aLang.plugin.admin.bans.table_header.edit_date
+						)
+						sDropDownHtml=$aLang.plugin.admin.bans.table_header.block_rule
 						sBaseUrl=$sFullPagePathToEvent
-					} {* TODO: i18n *}
+					}
 					{*include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 						sCellClassName='block_type'
 						mSortingOrder='block_type'
@@ -70,7 +77,9 @@
 						sBaseUrl=$sFullPagePathToEvent
 					*}
 
-					{* dates *}
+					{*
+						Тип временного интервала для бана и даты начала и конца
+					*}
 					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 						sCellClassName='time_type'
 						mSortingOrder='time_type'
@@ -90,7 +99,9 @@
 						sBaseUrl=$sFullPagePathToEvent
 					}
 
-					{* create and edit dates *}
+					{*
+						Дата создания и редактирования
+					*}
 					{*include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 						sCellClassName='add_date'
 						mSortingOrder='add_date'
@@ -104,7 +115,9 @@
 						sBaseUrl=$sFullPagePathToEvent
 					*}
 
-					{* reason and comments *}
+					{*
+						Причина и комментарий для себя
+					*}
 					{*include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 						sCellClassName='reason_for_user'
 						mSortingOrder='reason_for_user'
@@ -128,14 +141,42 @@
 					<tr class="{if $smarty.foreach.BanCycle.iteration % 2 == 0}second{/if}">
 						<td>
 							{if $oBan->getBlockType()==PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_USER_ID}
+								{*
+									пользователь
+								*}
+								{$aLang.plugin.admin.bans.list.block_type.user}:
 								{if $oBan->getUserId()}
-									<a href="{router page="admin/users/profile/{$oBan->getUserId()}"}">username</a> {* TODO: Сделать вывод логина *}
+									<a href="{router page="admin/users/profile/{$oBan->getUserId()}"}">#{$oBan->getUserId()}</a> {* TODO: Сделать вывод логина *}
 								{/if}
 							{elseif $oBan->getBlockType()==PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_IP}
-								{convert_long2ip($oBan->getIp())}
+								{*
+									IP
+								*}
+								{$aLang.plugin.admin.bans.list.block_type.ip}:
+								{if $oBan->getIp()}
+									<a href="{router page='admin/users/list'}{request_filter
+										name=array('session_ip_last')
+										value=array(convert_long2ip($oBan->getIp()))
+									}">{convert_long2ip($oBan->getIp())}</a>
+								{/if}
 							{elseif $oBan->getBlockType()==PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_IP_RANGE}
-								{convert_long2ip($oBan->getIpStart())}<br />
-								{convert_long2ip($oBan->getIpFinish())}
+								{*
+									Диапазон IP
+								*}
+								{$aLang.plugin.admin.bans.list.block_type.ip_range}:
+								{if $oBan->getIpStart()}
+									<a href="{router page='admin/users/list'}{request_filter
+										name=array('session_ip_last')
+										value=array(convert_long2ip($oBan->getIpStart()))
+									}">{convert_long2ip($oBan->getIpStart())}</a>
+								{/if}
+								&mdash;
+								{if $oBan->getIpFinish()}
+									<a href="{router page='admin/users/list'}{request_filter
+										name=array('session_ip_last')
+										value=array(convert_long2ip($oBan->getIpFinish()))
+									}">{convert_long2ip($oBan->getIpFinish())}</a>
+								{/if}
 							{/if}
 						</td>
 						{*<td>
@@ -223,6 +264,9 @@
 							<a class="delete question"
 							   href="{router page="admin/users/bans/delete/{$oBan->getId()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
 							   data-question-title="{$aLang.plugin.admin.delete}?"><i class="icon-remove"></i></a>
+							{*
+								вывод статистики сколько раз данный бан сработал
+							*}
 							{if isset($aBansStats[$oBan->getId()])}
 								<i class="icon-info-sign"
 								   title="{$aLang.plugin.admin.bans.list.this_ban_triggered|ls_lang:"count%%`$aBansStats[$oBan->getId()]`"}"></i>

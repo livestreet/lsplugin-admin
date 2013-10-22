@@ -326,6 +326,7 @@ return array(
 		 * заголовок таблицы списка банов
 		 */
 		'table_header' => array(
+			'block_rule' => 'Пользователь / IP',
 			'block_type' => 'Тип блокировки',
 			'user_id' => 'id юзера',
 			'ip' => 'ip',
