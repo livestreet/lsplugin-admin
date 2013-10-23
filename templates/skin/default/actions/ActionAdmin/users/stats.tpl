@@ -290,7 +290,7 @@
 							{*
 								задать высоту и смещение каждого столбика относительно соседа
 							*}
-							<div class="age-item" style="height: {$iHeight}%; left: {$iOffset}px;" title="{$aAgeRecord.count} пользователей"></div>
+							<div class="age-item" style="height: {$iHeight}%; left: {$iOffset}px;" title="{$aAgeRecord.count} {$aLang.plugin.admin.users_stats.users}"></div>
 							{*
 								сделать подпись к столбику и смещение каждой подписи относительно соседа,
 								каждая вторая запись будет немного светлее чтобы цифры не сливались в кашу
