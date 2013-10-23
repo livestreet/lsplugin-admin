@@ -2,7 +2,7 @@
 
 {block name='field_holder' prepend}
 	{strip}
-		<textarea id="{$sFieldName}" 
+		<textarea id="{if $sFieldId}{$sFieldId}{else}{$sFieldName}{/if}" 
 				  name="{$sFieldName}" 
 				  class="{if $sFieldClasses}{$sFieldClasses}{else}width-full{/if}" 
 				  rows="{$iFieldRows}"

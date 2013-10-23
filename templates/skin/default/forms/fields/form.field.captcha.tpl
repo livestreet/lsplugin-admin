@@ -14,7 +14,7 @@
             <span style="background-image: url({cfg name='path.framework.libs_vendor.web'}/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId});" class="form-auth-captcha js-form-auth-captcha"></span>
         {/if}
         <input type="text"
-               id="{$sFieldName}"
+               id="{if $sFieldId}{$sFieldId}{else}{$sFieldName}{/if}"
                name="{$sFieldName}"
                value="{if $sFieldValue}{$sFieldValue}{else}{if $_aRequest[$sFieldName]}{$_aRequest[$sFieldName]}{/if}{/if}"
                class="{if $sFieldClasses}{$sFieldClasses}{else}width-150{/if} js-input-{$sFieldName}"

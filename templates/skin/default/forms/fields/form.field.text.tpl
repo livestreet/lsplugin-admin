@@ -6,7 +6,7 @@
 
 {block name='field_holder' prepend}
 	<input type="{if $sFieldType}{$sFieldType}{else}text{/if}"
-		   id="{$sFieldName}" 
+		   id="{if $sFieldId}{$sFieldId}{else}{$sFieldName}{/if}" 
 		   name="{$sFieldName}" 
 		   value="{if isset($sFieldValue)}{$sFieldValue}{else}{if isset($_aRequest[$sFieldName])}{$_aRequest[$sFieldName]}{/if}{/if}" 
 		   class="{if $sFieldClasses}{$sFieldClasses}{else}width-full{/if} js-input-{$sFieldName}"
