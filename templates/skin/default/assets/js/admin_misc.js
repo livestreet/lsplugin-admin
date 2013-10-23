@@ -147,11 +147,12 @@ jQuery(document).ready(function($) {
 	/*
 		проверка данных поля для бана
 	 */
-	$ (ls.admin_misc.selectors.bans_user_sign).bind('blur.admin', function() {
-		sVal = $.trim ($ (this).val());
+	$ (ls.admin_misc.selectors.bans_user_sign).bind('change.admin', function() {
+		var sVal = $.trim ($ (this).val());
 		if (sVal == '') return false;
-		$ (ls.admin_misc.selectors.bans_answer_id).html('').addClass('loading');			// todo: прикрутить крутилку (класс "loading")
-		ls.ajax(
+		$ (this).addClass('loading');
+		$ (ls.admin_misc.selectors.bans_answer_id).html('');
+		ls.ajax.load(
 			aRouter ['admin'] + 'bans/ajax-check-user-sign',
 			{
 				value: sVal
@@ -160,8 +161,9 @@ jQuery(document).ready(function($) {
 				if (data.bStateError) {
 					ls.msg.notice(data.sMsg, data.sTitle);
 				} else {
-					$ (ls.admin_misc.selectors.bans_answer_id).html('<i class="icon-check"></i>&nbsp;' + data.sResponse).removeClass('loading');
+					$ (ls.admin_misc.selectors.bans_answer_id).html('<i class="icon-check"></i>&nbsp;' + data.sResponse);
 				}
+				$ (ls.admin_misc.selectors.bans_user_sign).removeClass('loading');
 			}
 		);
 	});
