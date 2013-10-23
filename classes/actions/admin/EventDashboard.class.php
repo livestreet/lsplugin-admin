@@ -178,7 +178,7 @@ class PluginAdmin_ActionAdmin_EventDashboard extends Event {
 		 */
 		$oViewer = $this->Viewer_GetLocalViewer();
 		$oViewer->Assign('aStreamEvents', $aEvents);
-		$this->Viewer_AssignAjax('result', $oViewer->Fetch('actions/ActionStream/events.tpl'));
+		$this->Viewer_AssignAjax('result', $oViewer->Fetch(Plugin::GetTemplatePath(__CLASS__) . 'actions/ActionAdmin/index/stream/events.tpl'));
 		/*
 		 * установить ид последнего события
 		 */

@@ -29,7 +29,7 @@
 				</label>
 			{/foreach}
 
-			<br>
+			<br />
 
 			<button type="submit" name="submit_change_activity_settings" class="button button-primary">{$aLang.plugin.admin.save}</button>
 		</form>
@@ -37,13 +37,5 @@
 {/block}
 
 {block name='block_content'}
-	<script>
-		/*
-		 	хак для использования файла активности. в конце там приварено присваивание в жс активности, но он нам не нужен
-		 */
-		ls = ls || {};
-		ls.stream = ls.stream || {};
-	</script>
-
-	{include file='actions/ActionStream/event_list.tpl' sActivityType='all'}
+	{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/stream/event_list.tpl"}
 {/block}
