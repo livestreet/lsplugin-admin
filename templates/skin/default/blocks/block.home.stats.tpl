@@ -31,7 +31,3 @@
 		{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table.tpl"}
 	</div>
 {/block}
-
-{block name='block_footer'}
-	{* <button class="button width-full">More</button> *}
-{/block}

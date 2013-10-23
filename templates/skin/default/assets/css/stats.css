@@ -12,7 +12,7 @@
 	-webkit-box-shadow: 0 3px 15px rgba(0, 0, 0, .1);
 	-moz-box-shadow: 0 3px 15px rgba(0, 0, 0, .1);
 	box-shadow: 0 3px 15px rgba(0, 0, 0, .1);
-	margin-bottom: 15px;
+	margin-bottom: 40px;
 }
 
 .graph-header { padding: 20px; }
@@ -36,26 +36,43 @@
 /**
  * Stats notifications
  */
-.stats-notifications { overflow: hidden; margin-bottom: 30px; }
+.stats-notifications { overflow: hidden; margin-bottom: 35px; }
+
+/* Item */
 .stats-notifications li { 
 	width: 33.333%;
 	min-height: 65px;
 	position: relative; 
-	padding-left: 80px; 
+	padding-left: 85px; 
 	float: left; 
+	overflow: hidden;
 	-webkit-box-sizing: border-box;
 	   -moz-box-sizing: border-box;
 	        box-sizing: border-box;
 	border-left: 1px solid #dedede;
+	white-space: nowrap;
 }
-.stats-notifications li:first-child { border: none; }
-.stats-notifications li figure { position: absolute; top: 0; left: 5px; width: 65px; height: 65px; background: #eee; }
+.stats-notifications li:first-child { border-left: none; }
 
-.stats-notifications li h3 { line-height: 1em; margin: 6px 0 3px; }
+/* Title */
+.stats-notifications li h3 { line-height: 1em; margin: 7px 0 3px; }
 .stats-notifications li h3 .link-border { color: #777; border-color: #c5c5c5; font-size: 9px; }
 .stats-notifications li h3 .link-border span { font-size: 20px; font-weight: 600; }
 .stats-notifications li h3 .link-border:hover { color: #333; border-color: #aaa; }
 
+/* Notification */
 .stats-notifications li p { font-family: Verdana; }
 .stats-notifications li p .link-border { color: #6d82a0; border-color: #c6ced9; }
 .stats-notifications li p .link-border:hover { color: #333; border-color: #ccc; }
+
+/* Image */
+[class^="stats-notifications"] .stats-notifications-image    { position: absolute; top: 0; left: 10px; width: 65px; height: 65px; background-repeat: no-repeat; }
+.stats-notifications-item-plugins .stats-notifications-image { background-image: url(../images/icons/stats-notifications-plugins.png); }
+.stats-notifications-item-users .stats-notifications-image   { background-image: url(../images/icons/stats-notifications-users.png); }
+.stats-notifications-item-support .stats-notifications-image { background-image: url(../images/icons/stats-notifications-support.png); }
+
+/* Responsive */
+@media (max-width: 999px)  {
+  .stats-notifications li { width: 100%; border-left: none; border-top: 1px solid #dedede; margin-top: 5px; }
+  .stats-notifications li:first-child { border-top: none; margin-top: 0; }
+}

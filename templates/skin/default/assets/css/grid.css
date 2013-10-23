@@ -7,7 +7,7 @@
 #container {
     margin: 0 auto 20px;
     max-width: 1100px;
-    min-width: 976px;
+    /*min-width: 976px;*/
     padding: 0 50px;
 }
 #header          { padding: 20px 0 20px 16px; position: relative; }
@@ -29,7 +29,11 @@
 
 #container.no-sidebar #content { width: 100%; margin-right: 0; }
 
-.content-padding {
-    overflow: hidden;
-    padding: 15px;
+.content-padding { overflow: hidden; padding: 15px; }
+
+/* Responsive */
+@media (max-width: 999px)  {
+  #sidebar         { width: 100%; float: static; }
+  #content-wrapper,
+  #content         { margin-right: 0; }
 }

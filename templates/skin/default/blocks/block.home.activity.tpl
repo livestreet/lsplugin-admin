@@ -11,7 +11,7 @@
 {block name='block_class'}block-home{/block}
 
 {block name='block_header_end'}
-	<div class="dropdown-circle js-dropdown" data-dropdown-target="dropdown-user-stats-stream-menu"></div>
+	<button class="button button-icon js-dropdown" data-dropdown-target="dropdown-user-stats-stream-menu"><i class="icon-settings-14"></i></button>
 
 	<div class="dropdown-menu p15" id="dropdown-user-stats-stream-menu">
 		<form action="{router page='admin/ajax-get-index-activity'}" method="post" enctype="application/x-www-form-urlencoded" id="admin_index_activity_form">
@@ -46,8 +46,4 @@
 	</script>
 
 	{include file='actions/ActionStream/event_list.tpl' sActivityType='all'}
-{/block}
-
-{block name='block_footer'}
-	{* <button class="button width-full">More</button> *}
 {/block}
