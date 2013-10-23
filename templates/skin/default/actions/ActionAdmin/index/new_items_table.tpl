@@ -1,3 +1,6 @@
+{*
+	Таблица новых объектов за период
+*}
 <table class="table table-stats">
 	<tbody>
 		<tr>
@@ -8,7 +11,7 @@
 				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_growth.tpl" sDataType='topics'}
 			</td>
 			<td class="voting-line">
-				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_voting_stats.tpl" sDataType='topics'}
+				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_rating_stats.tpl" sDataType='topics'}
 			</td>
 		</tr>
 		<tr>
@@ -19,7 +22,7 @@
 				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_growth.tpl" sDataType='comments'}
 			</td>
 			<td class="voting-line">
-				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_voting_stats.tpl" sDataType='comments'}
+				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_rating_stats.tpl" sDataType='comments'}
 			</td>
 		</tr>
 		<tr>
@@ -30,7 +33,7 @@
 				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_growth.tpl" sDataType='blogs'}
 			</td>
 			<td class="voting-line">
-				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_voting_stats.tpl" sDataType='blogs'}
+				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_rating_stats.tpl" sDataType='blogs'}
 			</td>
 		</tr>
 		<tr>
@@ -41,7 +44,7 @@
 				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_growth.tpl" sDataType='registrations'}
 			</td>
 			<td class="voting-line">
-				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_voting_stats.tpl" sDataType='registrations'}
+				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_rating_stats.tpl" sDataType='registrations'}
 			</td>
 		</tr>
 	</tbody>

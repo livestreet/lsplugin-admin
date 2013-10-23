@@ -467,12 +467,13 @@ class PluginAdmin_ModuleStats extends Module {
 	/**
 	 * Получить количество объектов в прошлом и текущем периоде, прирост объектов за период (на сколько больше зарегистрировалось в текущем периоде чем в прошлом)
 	 *
-	 * @param $sType		тип объектов для получения прироста
-	 * @param $sPeriod		тип периода
-	 * @param $bGatherVotes	нужно ли собирать голоса
-	 * @return array		array('count' => прирост объектов, 'votings' => данные голосований)
+	 * @param $sType			тип объектов для получения прироста
+	 * @param $sPeriod			тип периода
+	 * @param $bGatherVotes		нужно ли собирать голоса
+	 * @param $bGatherRatings	нужно ли собирать рейтинги объектов
+	 * @return array			array('count' => прирост объектов, 'votings' => данные голосований)
 	 */
-	public function GetGrowthAndVotingsByTypeAndPeriod($sType, $sPeriod = null, $bGatherVotes = true) {
+	public function GetGrowthAndVotingsByTypeAndPeriod($sType, $sPeriod = null, $bGatherVotes = true, $bGatherRatings = true) {
 		$aGrowthFilter = $this->GetGrowthFilterForType($sType);
 		$aPeriod = $this->GetGrowthQueryRuleForPeriod($sPeriod);
 
@@ -497,7 +498,15 @@ class PluginAdmin_ModuleStats extends Module {
 			/*
 			 * данные голосований (количество и направление)
 			 */
-			'votings' => $bGatherVotes ? $this->GetVotingsForTypeAndPeriod($aGrowthFilter, $aPeriod) : null
+			/*
+			 * todo: а голосования нужны или нет?
+			 * сравнить набор передаваемых параметров этому методу (GetGrowthAndVotingsByTypeAndPeriod)
+			 */
+			'votings' => $bGatherVotes ? $this->GetVotingsForTypeAndPeriod($aGrowthFilter, $aPeriod) : null,
+			/*
+			 * рейтинги объектов
+			 */
+			'ratings' => $bGatherRatings ? $this->GetRatingsForTypeAndPeriod($aGrowthFilter, $aPeriod) : null
 		);
 	}
 
@@ -526,6 +535,20 @@ class PluginAdmin_ModuleStats extends Module {
 		$aVotingStats['total_votes'] = array_sum($aVotingStats);
 
 		return $aVotingStats;
+	}
+
+
+	/**
+	 * Получить статистику рейтингов за обьекты указаного типа в периоде
+	 *
+	 * @param $aGrowthFilter	фильтр
+	 * @param $aPeriod			период
+	 * @return array			массив (сколько положительных, отрицательных и нейтральных рейтингов у объектов)
+	 */
+	protected function GetRatingsForTypeAndPeriod($aGrowthFilter, $aPeriod) {
+		$aRatingStats = $this->oMapper->GetRatingsForTypeAndPeriod($aGrowthFilter, $aPeriod);
+		$aRatingStats['total_objects'] = array_sum($aRatingStats);
+		return $aRatingStats;
 	}
 
 

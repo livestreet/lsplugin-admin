@@ -125,6 +125,54 @@ class PluginAdmin_ModuleStats_MapperStats extends Mapper {
 	}
 
 
+	/**
+	 * Получить статистику рейтингов за обьекты указаного типа в периоде
+	 *
+	 * @param $aFilter		фильтр
+	 * @param $aPeriod		период
+	 * @return array
+	 */
+	public function GetRatingsForTypeAndPeriod($aFilter, $aPeriod) {
+		$sWhere = $this->BuildWhereQuery($aFilter['conditions']);
+		$sql = 'SELECT
+			(
+				SELECT COUNT(*)
+				FROM
+					`' . $aFilter['table'] . '`
+				WHERE
+					' . $sWhere . '
+					AND
+					`' . $aFilter['target_type'] . '_rating` > 0
+					AND
+					`' . $aFilter['period_row_name'] . '` ' . $aPeriod['now_period'] . '
+			) as positive,
+			(
+				SELECT COUNT(*)
+				FROM
+					`' . $aFilter['table'] . '`
+				WHERE
+					' . $sWhere . '
+					AND
+					`' . $aFilter['target_type'] . '_rating` < 0
+					AND
+					`' . $aFilter['period_row_name'] . '` ' . $aPeriod['now_period'] . '
+			) as negative,
+			(
+				SELECT COUNT(*)
+				FROM
+					`' . $aFilter['table'] . '`
+				WHERE
+					' . $sWhere . '
+					AND
+					`' . $aFilter['target_type'] . '_rating` = 0
+					AND
+					`' . $aFilter['period_row_name'] . '` ' . $aPeriod['now_period'] . '
+			) as neutral
+		';
+		return (array) $this->oDb->selectRow($sql);
+	}
+
+
 }
 
 ?>
