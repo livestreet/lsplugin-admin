@@ -5,12 +5,12 @@
  *
  * Необходимые переменные:
  *
- * $sValueSuffix - суфикс для вывода тултипа ($aLang.plugin.admin.users_stats.users)
- * $aStats - массив с данными для графика ($aUserRegistrationStats)
- * $sName - имя графика ($aLang.plugin.admin.users_stats.registrations)
- * $sUrl - URL для сабмита формы
- * $bShowGraphTypeSelect - показывать ли селект выбора типа графика
- * $bShowCustomPeriodFields - показывать ли поля для ручного выбора дат
+ * 		$sValueSuffix - суфикс для вывода тултипа ($aLang.plugin.admin.users_stats.users)
+ * 		$aStats - массив с данными для графика ($aUserRegistrationStats)
+ * 		$sName - имя графика ($aLang.plugin.admin.users_stats.registrations)
+ * 		$sUrl - URL для сабмита формы
+ * 		$bShowGraphTypeSelect - показывать ли селект выбора типа графика
+ * 		$bShowCustomPeriodFields - показывать ли поля для ручного выбора дат
  *
  *}
 
@@ -137,7 +137,13 @@
 					{foreach from=$aStats item=aData}
 						'{$aData['date']}'{if !$aData.last},{/if}
 					{/foreach}
-				]
+				],
+				labels: {
+					/*
+						отключить перенос подписей на несколько строк, если они не влезают (установить в 1 строку)
+					 */
+					staggerLines: 1
+				}
 			},
 			series: [{
 				name: '{$sName}',
