@@ -107,12 +107,17 @@
 
 /* voting line */
 
-#admin_index_new_items_block .table-stats .name {
-	width: 160px;
+#admin_index_new_items_block .name {
+	width: 140px;
+	vertical-align: middle;
+}
+
+#admin_index_new_items_block .growth {
+	vertical-align: middle;
 }
 
 #admin_index_new_items_block .graph-line {
-	width: 140px;
+	width: 150px;
 }
 
 #admin_index_new_items_block .graph-line .ratings-graph {
@@ -157,4 +162,22 @@
 
 #admin_index_new_items_block .graph-line .ratings-graph *:nth-child(3) .inner-value {
 	right: 0;
+}
+
+/* stats line table */
+
+table.stats-line-table {
+	margin: 0;
+}
+
+table.stats-line-table td {
+	padding: 0 !important;
+}
+
+table.stats-line-table .info-tip {
+	width: 25px;
+}
+
+table.stats-line-table .line-block {
+	vertical-align: middle;
 }

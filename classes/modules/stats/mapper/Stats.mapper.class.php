@@ -126,7 +126,7 @@ class PluginAdmin_ModuleStats_MapperStats extends Mapper {
 
 
 	/**
-	 * Получить статистику рейтингов за обьекты указаного типа в периоде
+	 * Получить статистику рейтинга обьектов указаного типа в периоде
 	 *
 	 * @param $aFilter		фильтр
 	 * @param $aPeriod		период

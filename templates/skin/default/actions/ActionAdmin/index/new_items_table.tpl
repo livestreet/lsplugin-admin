@@ -8,10 +8,20 @@
 				{$aLang.plugin.admin.index.new_topics}
 			</td>
 			<td class="growth" title="{$aLang.plugin.admin.index.new_topics_info}">
-				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_growth.tpl" sDataType='topics'}
+				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_growth.tpl" sObjectsType='topics'}
 			</td>
 			<td class="graph-line">
-				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_rating_stats.tpl" sDataType='topics'}
+				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_line_stats.tpl"
+					sObjectsType='topics'
+					sDataType='ratings'
+					sGraphLineTitle='рейтинг объектов в периоде'
+				}
+
+				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_line_stats.tpl"
+					sObjectsType='topics'
+					sDataType='votings'
+					sGraphLineTitle='голоса за объекты в периоде'
+				}
 			</td>
 		</tr>
 		<tr>
@@ -19,10 +29,20 @@
 				{$aLang.plugin.admin.index.new_comments}
 			</td>
 			<td class="growth" title="{$aLang.plugin.admin.index.new_comments_info}">
-				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_growth.tpl" sDataType='comments'}
+				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_growth.tpl" sObjectsType='comments'}
 			</td>
 			<td class="graph-line">
-				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_rating_stats.tpl" sDataType='comments'}
+				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_line_stats.tpl"
+					sObjectsType='comments'
+					sDataType='ratings'
+					sGraphLineTitle='рейтинг объектов в периоде'
+				}
+
+				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_line_stats.tpl"
+					sObjectsType='comments'
+					sDataType='votings'
+					sGraphLineTitle='голоса за объекты в периоде'
+				}
 			</td>
 		</tr>
 		<tr>
@@ -30,10 +50,20 @@
 				{$aLang.plugin.admin.index.new_blogs}
 			</td>
 			<td class="growth" title="{$aLang.plugin.admin.index.new_blogs_info}">
-				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_growth.tpl" sDataType='blogs'}
+				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_growth.tpl" sObjectsType='blogs'}
 			</td>
 			<td class="graph-line">
-				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_rating_stats.tpl" sDataType='blogs'}
+				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_line_stats.tpl"
+					sObjectsType='blogs'
+					sDataType='ratings'
+					sGraphLineTitle='рейтинг объектов в периоде'
+				}
+
+				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_line_stats.tpl"
+					sObjectsType='blogs'
+					sDataType='votings'
+					sGraphLineTitle='голоса за объекты в периоде'
+				}
 			</td>
 		</tr>
 		<tr>
@@ -41,10 +71,20 @@
 				{$aLang.plugin.admin.index.new_users}
 			</td>
 			<td class="growth" title="{$aLang.plugin.admin.index.new_users_info}">
-				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_growth.tpl" sDataType='registrations'}
+				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_growth.tpl" sObjectsType='registrations'}
 			</td>
 			<td class="graph-line">
-				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_rating_stats.tpl" sDataType='registrations'}
+				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_line_stats.tpl"
+					sObjectsType='registrations'
+					sDataType='ratings'
+					sGraphLineTitle='рейтинг объектов в периоде'
+				}
+
+				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_line_stats.tpl"
+					sObjectsType='registrations'
+					sDataType='votings'
+					sGraphLineTitle='голоса за объекты в периоде'
+				}
 			</td>
 		</tr>
 	</tbody>

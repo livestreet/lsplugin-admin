@@ -42,7 +42,7 @@ class PluginAdmin_ActionAdmin_EventDashboard extends Event {
 		$sItemsAddedPeriod = $this->GetDataFromFilter('newly_added_items_period');
 
 		/*
-		 * получить прирост и линейку голосов топиков, комментариев, блогов и пользователей за указанный период (период по-умолчанию)
+		 * получить прирост, линейку голосов и рейтингов топиков, комментариев, блогов и пользователей за указанный период (период по-умолчанию)
 		 */
 		$this->Viewer_Assign('aDataGrowth', array(
 			PluginAdmin_ModuleStats::DATA_TYPE_TOPICS => $this->PluginAdmin_Stats_GetGrowthAndVotingsByTypeAndPeriod(PluginAdmin_ModuleStats::DATA_TYPE_TOPICS, $sItemsAddedPeriod),
@@ -52,11 +52,12 @@ class PluginAdmin_ActionAdmin_EventDashboard extends Event {
 		));
 
 		/*
-		 * получить прирост пользователей за месяц (для отображения в шапке шаблона, без линейки голосов)
+		 * получить прирост пользователей за месяц (для отображения в шапке шаблона, без линейки голосов и рейтингов)
 		 */
 		$this->Viewer_Assign('aUserGrowth', $this->PluginAdmin_Stats_GetGrowthAndVotingsByTypeAndPeriod(
 			PluginAdmin_ModuleStats::DATA_TYPE_REGISTRATIONS,
 			PluginAdmin_ModuleStats::TIME_INTERVAL_WEEK,
+			false,
 			false
 		));
 
@@ -104,7 +105,7 @@ class PluginAdmin_ActionAdmin_EventDashboard extends Event {
 
 		$oViewer = $this->Viewer_GetLocalViewer();
 		/*
-		 * получить прирост и линейку голосов топиков, комментариев, блогов и пользователей за указанный период
+		 * получить прирост, линейку голосов и рейтингов топиков, комментариев, блогов и пользователей за указанный период
 		 */
 		$oViewer->Assign('aDataGrowth', array(
 			PluginAdmin_ModuleStats::DATA_TYPE_TOPICS => $this->PluginAdmin_Stats_GetGrowthAndVotingsByTypeAndPeriod(PluginAdmin_ModuleStats::DATA_TYPE_TOPICS, $sItemsAddedPeriod),
