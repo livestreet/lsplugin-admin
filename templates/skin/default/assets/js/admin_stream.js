@@ -36,6 +36,7 @@ ls.admin_stream = (function($) {
 		admin_index_activity_event_list: '#activity-event-list',
 		admin_index_activity_last_id: '#activity-last-id',
 		admin_index_activity_get_more_button: '#activity-get-more',
+		admin_index_activity_dropdown_menu_trigger: '#dropdown-admin-index-stream-menu-trigger',
 
 		/*
 			для удобства (последняя запятая отсутствует)
@@ -61,6 +62,10 @@ jQuery(document).ready(function($) {
 		beforeSend: function() {
 			$ (ls.admin_stream.selectors.admin_index_activity_get_more_button).show().addClass('loading');
 			$ (ls.admin_stream.selectors.admin_index_activity_event_list).addClass('loading');
+			/*
+			 	спрятать дропдаун
+			 */
+			$ (ls.admin_stream.selectors.admin_index_activity_dropdown_menu_trigger).dropdown('hide');
 		},
 		success: function(data) {
 			if (data.bStateError) {

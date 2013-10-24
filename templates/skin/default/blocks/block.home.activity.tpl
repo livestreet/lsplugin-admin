@@ -11,9 +11,11 @@
 {block name='block_class'}block-home{/block}
 
 {block name='block_header_end'}
-	<button class="button button-icon js-dropdown" data-dropdown-target="dropdown-user-stats-stream-menu"><i class="icon-settings-14"></i></button>
+	<button class="button button-icon js-dropdown" data-dropdown-target="dropdown-admin-index-stream-menu" id="dropdown-admin-index-stream-menu-trigger">
+		<i class="icon-settings-14"></i>
+	</button>
 
-	<div class="dropdown-menu p15" id="dropdown-user-stats-stream-menu">
+	<div class="dropdown-menu p15" id="dropdown-admin-index-stream-menu">
 		<form action="{router page='admin/ajax-get-index-activity'}" method="post" enctype="application/x-www-form-urlencoded" id="admin_index_activity_form">
 			<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
 
