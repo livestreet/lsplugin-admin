@@ -214,10 +214,6 @@ class PluginAdmin_ModuleStats extends Module {
 				 * формат даты берется из периода, где был задан её формат связанный с интервалом
 				 */
 				'date' => date($aPeriod['format'], $iCurrentTime),
-				/*
-				 * копия даты, которая будет отображаться в таблице к графику (т.к. даты из ключа 'date' могут быть потерты для подписей)
-				 */
-				'original_date' => date($aPeriod['format'], $iCurrentTime),
 				'count' => 0
 			);
 			/*
@@ -321,7 +317,7 @@ class PluginAdmin_ModuleStats extends Module {
 
 
 		/*
-		 * если указан интервал дат
+		 * если указан ручной интервал дат
 		 */
 		if ($sDateStart and $sDateFinish) {
 			/*
@@ -370,10 +366,14 @@ class PluginAdmin_ModuleStats extends Module {
 		 */
 		$aDataStats = $this->MixEmptyPeriodsWithData($aFilledWithZerosPeriods, $aDataStats);
 		/*
-		 * убрать лишние подписи к графику (если их слишком много)
+		 * получить шаг каждой показываемой подписи к графику (чтобы убрать лишние, если их слишком много)
 		 */
-		$aDataStats = $this->HideLabelsOfAxisIfGraphDataHasTooManyPoints($aDataStats);
+		$iPointsStepForLabels = $this->GetPointsStepForLabels($aDataStats);
 
+		/*
+		 * шаг каждой отображаемой подписи
+		 */
+		$this->Viewer_Assign('iPointsStepForLabels', $iPointsStepForLabels);
 		/*
 		 * данные для графика
 		 */
@@ -406,30 +406,25 @@ class PluginAdmin_ModuleStats extends Module {
 
 
 	/**
-	 * Если записей графика слишком много (они просто не влезают в подписи к графику), то уменьшить часть подписей
+	 * Получить шаг для подписей графика (если записей графика слишком много, то они просто не влезают в подписи к графику и нужно посчитать какую каждую подпись следует выводить)
 	 *
 	 * @param $aDataStats		собранные данные графика
-	 * @return mixed			данные, где часть подписей может быть убрана
+	 * @return int				шаг для вывода подписей точек графика
 	 */
-	protected function HideLabelsOfAxisIfGraphDataHasTooManyPoints($aDataStats) {
+	protected function GetPointsStepForLabels($aDataStats) {
 		/*
-		 * если точек больше, чем нужно - уменьшить часть подписей
+		 * если точек больше, чем нужно
 		 */
 		if (count($aDataStats) > Config::Get('plugin.admin.max_points_on_graph')) {
 			/*
 			 * подсчитать во сколько раз больше точек, чем нужно
 			 */
-			$iPointsOverflowTimes = (int) round(count($aDataStats) / Config::Get('plugin.admin.max_points_on_graph'));
-			/*
-			 * оставить каждую $iPointsOverflowTimes-нную подпись из графика
-			 */
-			foreach($aDataStats as $iKey => &$aValueData) {
-				if ($iKey % $iPointsOverflowTimes != 0) {
-					$aValueData['date'] = '';
-				}
-			}
+			return (int) round(count($aDataStats) / Config::Get('plugin.admin.max_points_on_graph'));
 		}
-		return $aDataStats;
+		/*
+		 * выводить каждую точку
+		 */
+		return 1;
 	}
 
 
