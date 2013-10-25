@@ -15,9 +15,7 @@
 			<option value="varchar" {if $_aRequest.property.type=='varchar'}selected="selected"{/if}>Строка</option>
 			<option value="text" {if $_aRequest.property.type=='text'}selected="selected"{/if}>Текст</option>
 			<option value="checkbox" {if $_aRequest.property.type=='checkbox'}selected="selected"{/if}>Чекбокс</option>
-			{*
-			<option value="select">Селект</option>
-			*}
+			<option value="select" {if $_aRequest.property.type=='select'}selected="selected"{/if}>Селект/Поле выбора</option>
 			<option value="tags" {if $_aRequest.property.type=='tags'}selected="selected"{/if}>Теги</option>
 			<option value="video_link" {if $_aRequest.property.type=='video_link'}selected="selected"{/if}>Ссылка на видео</option>
 		</select>

@@ -60,6 +60,44 @@ class PluginAdmin_ActionAdmin_EventProperty extends Event {
 			$oProperty->setParamsRaw(getRequest('param'));
 			if ($oProperty->_Validate()) {
 				if ($oProperty->Update()) {
+					/**
+					 * Дополнительная обработка, например, сохранение значений селекта
+					 */
+					if ($oProperty->getType()==ModuleProperty::PROPERTY_TYPE_SELECT) {
+						$aItems=getRequest('items');
+						if (isset($aItems['value']) and is_array($aItems['value'])) {
+							/**
+							 * Текущие элементы (для удаления)
+							 */
+							$aSelectItems=$this->Property_GetSelectItemsByFilter(array('property_id'=>$oProperty->getId(),'#index-from-primary'));
+							$aSelectItemsUse=array();
+							foreach($aItems['value'] as $k=>$v) {
+								if (isset($aItems['sort'][$k]) and isset($aItems['id'][$k])) {
+									if ($aItems['id'][$k]) {
+										if ($oSelect=$this->Property_GetSelectByFilter(array('property_id'=>$oProperty->getId(),'id'=>(int)$aItems['id'][$k]))) {
+											$oSelect->setValue(htmlspecialchars((string)$aItems['value'][$k]));
+											$oSelect->setSort((int)$aItems['sort'][$k]);
+											$oSelect->Update();
+											$aSelectItemsUse[]=$oSelect->getId();
+										}
+									} else {
+										$oSelect=Engine::GetEntity('ModuleProperty_EntitySelect');
+										$oSelect->setPropertyId($oProperty->getId());
+										$oSelect->setTargetType($oProperty->getTargetType());
+										$oSelect->setValue(htmlspecialchars((string)$aItems['value'][$k]));
+										$oSelect->setSort((int)$aItems['sort'][$k]);
+										$oSelect->Add();
+									}
+								}
+							}
+							$aSelectItems=array_keys($aSelectItems);
+							foreach($aSelectItems as $iId) {
+								if (!in_array($iId,$aSelectItemsUse) and $oSelect=$this->Property_GetSelectById($iId)) {
+									$oSelect->Delete();
+								}
+							}
+						}
+					}
 					$this->Message_AddNotice('Обновление прошло успешно',$this->Lang_Get('attention'),true);
 					Router::Location($oProperty->getUrlAdminUpdate());
 				} else {

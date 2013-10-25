@@ -538,6 +538,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$sPluginTemplatePath . '/js/admin_stream.js',
 			$sPluginTemplatePath . '/js/admin_users_stats_living.js',
 			$sPluginTemplatePath . '/js/more.js',
+			$sPluginTemplatePath . '/js/property.js',
 
 			/*
 			 * 3rd party vendor
