@@ -165,7 +165,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		/*
 		 * добавить или удалить админа
 		 */
-		$this->AddEventPreg('#^users$#iu', '#^site_admins$#iu', '#^(add|delete$)$#iu', '#^\d++$#iu', 'Users::EventManageAdmins');
+		$this->AddEventPreg('#^users$#iu', '#^manageadmins$#iu', '#^(add|delete$)$#iu', '#^\d++$#iu', 'Users::EventManageAdmins');
 		/*
 		 * удалить контент пользователя и самого пользователя
 		 */
