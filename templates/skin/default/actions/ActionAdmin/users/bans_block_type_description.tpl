@@ -14,7 +14,8 @@
 	*}
 	{$aLang.plugin.admin.bans.list.block_type.user}:
 	{if $oBan->getUserId()}
-		<a href="{router page="admin/users/profile/{$oBan->getUserId()}"}">{$LS->User_GetUserById($oBan->getUserId())->getLogin()}</a>
+		{assign var=oBannedUser value=$LS->User_GetUserById($oBan->getUserId())}
+		<a href="{router page="admin/users/profile/{$oBan->getUserId()}"}">{if $oBannedUser}{$oBannedUser->getLogin()}{else}#{$oBan->getUserId()}{/if}</a>
 	{/if}
 {elseif $oBan->getBlockType()==PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_IP}
 	{*
