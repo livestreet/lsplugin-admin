@@ -867,6 +867,24 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 
 
 	/**
+	 * Показать страницу информации о бане
+	 *
+	 * @return bool
+	 */
+	public function EventViewBanInfo() {
+		$this->SetTemplateAction('users/bans.view');
+		/*
+		 * есть ли такой бан
+		 */
+		if (!$oBan = $this->PluginAdmin_Users_GetBanById((int) $this->GetParam(2))) {
+			$this->Message_AddError($this->Lang('errors.bans.wrong_ban_id'));
+			return false;
+		}
+		$this->Viewer_Assign('oBan', $oBan);
+	}
+
+
+	/**
 	 * Проверить правило бана на корректность
 	 */
 	public function EventAjaxBansCheckUserSign () {

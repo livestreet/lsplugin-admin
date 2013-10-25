@@ -103,7 +103,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 
 		/*
 		 *
-		 * --- дашборд ---
+		 * --- Дашборд ---
 		 *
 		 */
 		$this->AddEvent('index', 'Dashboard::EventIndex');
@@ -119,7 +119,8 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 * аякс отображения активности ленты дальше
 		 */
 		$this->AddEvent('ajax-get-index-activity-more', 'Dashboard::EventAjaxGetIndexActivityMore');
-		/**
+
+		/*
 		 * Обработка ошибок, аналог ActionError
 		 */
 		$this->AddEvent('error', 'EventError');
@@ -146,6 +147,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 * список админов
 		 */
 		$this->AddEventPreg('#^users$#iu', '#^admins$#iu', '#^(page(\d{1,5}))?$#iu', 'Users::EventAdminsList');
+
 		/*
 		 * добавить бан
 		 */
@@ -162,6 +164,11 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 * удалить бан
 		 */
 		$this->AddEventPreg('#^users$#iu', '#^bans$#iu', '#^delete$#iu', '#^\d++$#iu', 'Users::EventDeleteBan');
+		/*
+		 * показать страницу информации о бане
+		 */
+		$this->AddEventPreg('#^users$#iu', '#^bans$#iu', '#^view$#iu', '#^\d++$#iu', 'Users::EventViewBanInfo');
+
 		/*
 		 * добавить или удалить админа
 		 */

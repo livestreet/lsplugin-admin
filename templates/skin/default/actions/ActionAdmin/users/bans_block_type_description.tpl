@@ -1,0 +1,48 @@
+{*
+
+	Описание типа блока бана с выводом информации
+
+	Передаваемые переменные:
+
+		$oBan - объект бана
+
+*}
+
+{if $oBan->getBlockType()==PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_USER_ID}
+	{*
+		пользователь
+	*}
+	{$aLang.plugin.admin.bans.list.block_type.user}:
+	{if $oBan->getUserId()}
+		<a href="{router page="admin/users/profile/{$oBan->getUserId()}"}">{$LS->User_GetUserById($oBan->getUserId())->getLogin()}</a>
+	{/if}
+{elseif $oBan->getBlockType()==PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_IP}
+	{*
+		IP
+	*}
+	{$aLang.plugin.admin.bans.list.block_type.ip}:
+	{if $oBan->getIp()}
+		<a href="{router page='admin/users/list'}{request_filter
+		name=array('session_ip_last')
+		value=array(convert_long2ip($oBan->getIp()))
+		}">{convert_long2ip($oBan->getIp())}</a>
+	{/if}
+{elseif $oBan->getBlockType()==PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_IP_RANGE}
+	{*
+		Диапазон IP
+	*}
+	{$aLang.plugin.admin.bans.list.block_type.ip_range}:
+	{if $oBan->getIpStart()}
+		<a href="{router page='admin/users/list'}{request_filter
+		name=array('session_ip_last')
+		value=array(convert_long2ip($oBan->getIpStart()))
+		}">{convert_long2ip($oBan->getIpStart())}</a>
+	{/if}
+	&mdash;
+	{if $oBan->getIpFinish()}
+		<a href="{router page='admin/users/list'}{request_filter
+		name=array('session_ip_last')
+		value=array(convert_long2ip($oBan->getIpFinish()))
+		}">{convert_long2ip($oBan->getIpFinish())}</a>
+	{/if}
+{/if}
