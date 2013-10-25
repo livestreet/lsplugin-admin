@@ -421,6 +421,27 @@ class PluginAdmin_ModuleUsers extends Module {
 
 
 	/**
+	 * Проверить является ли указанный пользователь забаненным по его сущности, айпи последнего захода или айпи регистрации
+	 *
+	 * @param $oUser	объект пользователя
+	 * @return mixed
+	 */
+	public function GetUserBannedByUser($oUser) {
+		/*
+		 * кешированию не подлежит
+		 */
+		if ($oSession = $oUser->getSession()) {
+			$mIp = $oSession->getIpLast();
+		} else {
+			$mIp = $oUser->getIpRegister();
+		}
+		$mIp = convert_ip2long($mIp);
+		$sCurrentDate = date('Y-m-d H:i:s');
+		return $this->oMapper->IsThisUserBanned($oUser, $mIp, $sCurrentDate);
+	}
+
+
+	/**
 	 * Удалить старые записи банов, дата окончания которых уже прошла
 	 */
 	public function DeleteOldBanRecords() {

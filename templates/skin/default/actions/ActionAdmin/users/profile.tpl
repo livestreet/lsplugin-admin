@@ -65,6 +65,10 @@
 
 					<button type="submit" name="submit_edit_rating" class="button">{$aLang.plugin.admin.save}</button>
 				</form>
+				<div class="get-user-baneed">
+					{* для вывода информации бана *}
+					{hook run='admin_user_profile_brief_aside' oUser=$oUser}        {* todo: review: hook names (temp) *}
+				</div>
 			</div>
 		</div>
 	</header>

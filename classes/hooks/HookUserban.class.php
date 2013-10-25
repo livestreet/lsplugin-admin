@@ -28,10 +28,20 @@
 class PluginAdmin_HookUserban extends Hook {
 
 	public function RegisterHook() {
+		/*
+		 * обработка старых банов, сообщение текущему пользователю что он под баном
+		 */
 		$this->AddHook('engine_init_complete', 'EngineInitComplete', __CLASS__, -PHP_INT_MAX);	// наименьший приоритет, который можно установить
+		/*
+		 * чтобы в профиле указать забанен пользователь или нет
+		 */
+		$this->AddHook('template_admin_user_profile_brief_aside', 'AdminUserProfileBriefAside');
 	}
 
 
+	/**
+	 * Обработка старых банов, сообщение текущему пользователю что он под баном
+	 */
 	public function EngineInitComplete() {
 		/*
 		 * удалить старые записи банов
@@ -45,12 +55,12 @@ class PluginAdmin_HookUserban extends Hook {
 
 
 	/**
-	 * Проверка бана
+	 * Проверка бана текущего пользователя
 	 */
 	protected function CheckUserBan() {
 		if ($oBan = $this->PluginAdmin_Users_IsThisUserBanned()) {
 			/*
-			 * пополнить статистику вызовов
+			 * пополнить статистику срабатываний
 			 */
 			$this->AddBanStats($oBan);
 			/*
@@ -111,6 +121,22 @@ class PluginAdmin_HookUserban extends Hook {
 	protected function AddBanStats($oBan) {
 		if (Config::Get('plugin.admin.gather_bans_running_stats')) {
 			$this->PluginAdmin_Users_AddBanStat($oBan);
+		}
+	}
+
+
+	/**
+	 * Сообщение в профиле пользователя что он забанен (видно только админам, возможно этот метод будет добавлен в профиль на сайте)
+	 *
+	 * @param $aVars	передаваемые параметры
+	 * @return mixed
+	 */
+	public function AdminUserProfileBriefAside($aVars) {
+		if ($oUserCurrent = $this->User_GetUserCurrent() and $oUserCurrent->isAdministrator()) {
+			if ($oBan = $this->PluginAdmin_Users_GetUserBannedByUser($aVars['oUser'])) {
+				$this->Viewer_Assign('oBan', $oBan);
+				return $this->Viewer_Fetch(Plugin::GetTemplatePath(__CLASS__) . 'actions/ActionAdmin/users/profile_user_banned_msg.tpl');
+			}
 		}
 	}
 

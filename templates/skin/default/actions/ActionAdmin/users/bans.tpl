@@ -130,7 +130,9 @@
 						mLinkHtml=$aLang.plugin.admin.bans.table_header.comment
 						sBaseUrl=$sFullPagePathToEvent
 					*}
-					<th class="width-50"></th>
+					<th class="width-50">
+						{$aLang.plugin.admin.controls}
+					</th>
 				</tr>
 			</thead>
 
