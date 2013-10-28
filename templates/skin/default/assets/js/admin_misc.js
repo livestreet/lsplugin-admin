@@ -131,9 +131,17 @@ jQuery(document).ready(function($) {
 		q = $ (ls.admin_misc.selectors.user_search_form_q);
 		field = $ (ls.admin_misc.selectors.user_search_form_field);
 		/*
+			список разрешенных типов поиска, по которым можно искать без указания искомого значения
+		 */
+		aAllowedSearchTypes = ['profile_sex', 'admins_only'];
+		/*
+			флаг, который указывает что для данного поиска разрешено не указывать поисковый запрос
+		 */
+		bAllowEmptyRequest = $.inArray(field.val(), aAllowedSearchTypes) !== -1;
+		/*
 			запретить поиск с пустым условием
 		 */
-		if ($.trim(q.val()) == '') return false;
+		if ($.trim(q.val()) == '' && !bAllowEmptyRequest) return false;
 		$ (ls.admin_misc.selectors.user_search_form_id).prepend(
 			$ ('<input />', {
 				type: 'hidden',
@@ -184,7 +192,6 @@ jQuery(document).ready(function($) {
 	$ (ls.admin_misc.selectors.index_items_growth_period_select_id).bind('change.admin', function(){
 		$ (this).closest('form').submit();
 	});
-
 	/*
 		отслеживание отправки формы при изменении периода отображения новых элементов на главной странице админки
 	 */

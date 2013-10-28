@@ -15,7 +15,7 @@
 
 	{if aVotingList and count($aVotingList)>0}
 
-		<table class="table table-sorting">
+		<table class="table">
 			<thead>
 				<tr>
 					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"

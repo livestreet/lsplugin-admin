@@ -25,7 +25,7 @@
 	</div>
 
 	{if $aBans and count($aBans)>0}
-		<table class="table table-sorting">
+		<table class="table">
 			<thead>
 				<tr>
 					<th>

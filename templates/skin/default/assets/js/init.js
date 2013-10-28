@@ -112,14 +112,6 @@ jQuery(document).ready(function($) {
 	});
 
 	/**
-	 * Activity
-	 */
-	/*
-		не нужна, в админке своя активность
-	 */
-	//ls.stream.init();
-
-	/**
 	 * Custom checkboxes and radios
 	 */
 	$('input').iCheck({
