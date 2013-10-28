@@ -228,6 +228,8 @@
 		<div class="user-info-block user-info-block-stats">
 			<h2 class="user-info-heading">{$aLang.plugin.admin.users.profile.info.votings_title}</h2>
 
+			{* TODO: perfom cycle through list *}
+
 			<div class="user-info-block-stats-row">
 				<div class="user-info-block-stats-header"><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=topic">{$aLang.plugin.admin.users.profile.info.for_topics}</a></div>
 				<ul>
@@ -265,7 +267,6 @@
 		{$aUserFieldContactValues = $oUser->getUserFieldValues(true,array('contact'))}
 		{$aUserFieldSocialValues = $oUser->getUserFieldValues(true,array('social'))}
 
-		{* todo: review *}
 		{if $aUserFieldContactValues || $aUserFieldSocialValues}
 			<div class="user-info-block user-info-block-contacts">
 				<h2 class="user-info-heading">{$aLang.profile_contacts}</h2>

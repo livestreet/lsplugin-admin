@@ -381,6 +381,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		$this->Viewer_Assign('aVotingList', $aResult ['collection']);
 		$this->Viewer_Assign('oUser', $oUser);
 		$this->Viewer_Assign('sVotingTargetType', $sVotingTargetType);
+		$this->Viewer_Assign('sVotingDirection', $sVotingDirection);
 
 
 		/*
