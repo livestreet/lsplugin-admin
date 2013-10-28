@@ -690,10 +690,11 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 */
 		if (isset($oBan)) {
 			$oEnt->setAddDate($oBan->getAddDate());
+			$oEnt->setEditDate(date('Y-m-d H:i:s'));
 		} else {
 			$oEnt->setAddDate(date('Y-m-d H:i:s'));
 		}
-		$oEnt->setEditDate(date('Y-m-d H:i:s'));
+
 		/*
 		 * причина бана и комментарий
 		 */
