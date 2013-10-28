@@ -116,6 +116,10 @@
 								{if $oUser->isAdministrator()}
 									<i class="icon-user-admin" title="{$aLang.plugin.admin.users.admin}"></i>
 								{/if}
+
+								{if $LS->PluginAdmin_Users_GetUserBannedByUser($oUser)}
+									<i class="icon-lock" title="{$aLang.plugin.admin.users.banned}"></i>
+								{/if}
 							</p>
 
 							{if $oUser->getProfileName()}
