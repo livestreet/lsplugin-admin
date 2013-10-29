@@ -40,3 +40,5 @@ input[type="text"] {
 .form-field-inline.form-field-option { background: #fafafa; padding: 10px; }
 .form-field-inline.form-field-option .form-field-label  { width: 165px; padding-top: 0; }
 .form-field-inline.form-field-option .form-field-holder { padding-left: 180px; }
+
+.select-multiple { height: 150px; }
