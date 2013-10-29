@@ -67,7 +67,7 @@
 				</form>
 				<div class="get-user-baneed">
 					{* для вывода информации бана *}
-					{hook run='admin_user_profile_brief_aside' oUser=$oUser}        {* todo: review: hook names (temp) *}
+					{hook run='admin_user_profile_brief_aside' oUserProfile=$oUser}        {* todo: review: hook names *}
 				</div>
 			</div>
 		</div>

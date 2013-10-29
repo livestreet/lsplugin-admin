@@ -29,6 +29,11 @@ if (!class_exists('Plugin')) {
 
 class PluginAdmin extends Plugin {
 
+	/**
+	 * Активация плагина
+	 *
+	 * @return bool
+	 */
 	public function Activate() {
 		/*
 		 * проверить необходимый минимум для запуска плагина
@@ -42,11 +47,19 @@ class PluginAdmin extends Plugin {
 		}
 		return true;
 	}
-	
-	
+
+
+	/**
+	 * Инициализация плагина
+	 */
 	public function Init() {}
-	
-	
+
+
+	/**
+	 * Массив в записями о наследовании плагином части функционала
+	 *
+	 * @var array
+	 */
 	protected $aInherits = array(
 		'module' => array(
 			/*
@@ -67,6 +80,10 @@ class PluginAdmin extends Plugin {
 			 * Добавляем новый тип валидатора - Array
 			 */
 			'ModuleValidate_EntityValidatorArray',
+			/*
+			 * Для добавления информации о бане пользователя
+			 */
+			'ModuleUser_EntityUser'
 		)
 	);
 

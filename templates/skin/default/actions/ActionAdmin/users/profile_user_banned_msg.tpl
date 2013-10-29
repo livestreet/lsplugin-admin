@@ -5,7 +5,7 @@
 
 <div class="mt-10">
 	<a href="{router page="admin/users/bans/view/{$oBan->getId()}"}">
-		{$aLang.plugin.admin.bans.user_is_banned}:
+		{$aLang.plugin.admin.bans.user_is_banned}
 		<br />
 		"{$oBan->getReasonForUser()}"
 		<br />
