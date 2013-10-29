@@ -25,10 +25,10 @@
 		<h3>{$aLang.plugin.admin.users_stats.registrations}</h3>
 
 		{include file="{$aTemplatePathPlugin.admin}graph.tpl"
-			sValueSuffix = $aLang.plugin.admin.users_stats.users
-			aStats       = $aDataStats
-			sName        = $aLang.plugin.admin.users_stats.registrations
-			sUrl         = {router page='admin/users/stats'}
+			sValueSuffix=$aLang.plugin.admin.users_stats.users
+			aStats=$aDataStats
+			sName=$aLang.plugin.admin.users_stats.registrations
+			sUrl="{router page='admin/users/stats'}"
 			bShowCustomPeriodFields=true
 		}
 
@@ -73,9 +73,9 @@
 				{*
 					значения для каждого пола в процентах
 				*}
-				{assign var="iUsersSexOtherPerc" value=number_format(($aStats.count_sex_other*100/$aStats.count_all), 1, '.', '')}
-				{assign var="iUsersSexManPerc" value=number_format(($aStats.count_sex_man*100/$aStats.count_all), 1, '.', '')}
-				{assign var="iUsersSexWomanPerc" value=number_format(($aStats.count_sex_woman*100/$aStats.count_all), 1, '.', '')}
+				{assign var="iUsersSexOtherPerc" value=number_format($aStats.count_sex_other*100/$aStats.count_all, 1, '.', '')}
+				{assign var="iUsersSexManPerc" value=number_format($aStats.count_sex_man*100/$aStats.count_all, 1, '.', '')}
+				{assign var="iUsersSexWomanPerc" value=number_format($aStats.count_sex_woman*100/$aStats.count_all, 1, '.', '')}
 
 				<div class="users-sex-pie-stats">
 					<div id="admin_users_sex_pie_graph"></div>
@@ -217,7 +217,7 @@
 								{$aStats.count_active}
 							</td>
 							<td class="text-right">
-								{number_format(($aStats.count_active*100/$aStats.count_all), 1, '.', '')} %
+								{number_format($aStats.count_active*100/$aStats.count_all, 1, '.', '')} %
 							</td>
 						</tr>
 						<tr>
@@ -228,7 +228,7 @@
 								{$aStats.count_inactive}
 							</td>
 							<td class="text-right">
-								{number_format(($aStats.count_inactive*100/$aStats.count_all), 1, '.', '')} %
+								{number_format($aStats.count_inactive*100/$aStats.count_all, 1, '.', '')} %
 							</td>
 						</tr>
 						<tr>
@@ -246,7 +246,7 @@
 								{$aGoodAndBadUsers.good_users}
 							</td>
 							<td class="text-right">
-								{number_format(($aGoodAndBadUsers.good_users*100/$aGoodAndBadUsers.total), 1, '.', '')} %
+								{number_format($aGoodAndBadUsers.good_users*100/$aGoodAndBadUsers.total, 1, '.', '')} %
 							</td>
 						</tr>
 						<tr>
@@ -257,7 +257,7 @@
 								{$aGoodAndBadUsers.bad_users}
 							</td>
 							<td class="text-right">
-								{number_format(($aGoodAndBadUsers.bad_users*100/$aGoodAndBadUsers.total), 1, '.', '')} %
+								{number_format($aGoodAndBadUsers.bad_users*100/$aGoodAndBadUsers.total, 1, '.', '')} %
 							</td>
 						</tr>
 					</tbody>
@@ -281,7 +281,7 @@
 						{*
 							высота столбика в процентах
 						*}
-						{assign var=iHeight value=$aAgeRecord.count*100/$aBirthdaysStats.max_one_age_users_count}
+						{assign var=iHeight value=number_format($aAgeRecord.count*100/$aBirthdaysStats.max_one_age_users_count, 2, '.', '')}
 						{*
 							смещение каждого столбика и подписи в пикселях относительно соседа на 15px
 						*}
