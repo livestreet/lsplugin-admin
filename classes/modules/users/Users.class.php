@@ -537,7 +537,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	public function PerformUserContentDeletion($oUser, $bDeleteUser = false) {
 		/*
 		 * блокировать пользователя перед удалением данных. Например, если это бот,
-		 * то чтобы не получилось одновременно удаление и набивание им контента на сайте
+		 * то чтобы не получилось одновременно удаление его данных и набивание им контента на сайте
 		 */
 		$iBanId = $this->BanUserPermanently($oUser);
 		/*
@@ -548,7 +548,7 @@ class PluginAdmin_ModuleUsers extends Module {
 		 * удаление самого пользователя из сайта
 		 */
 		if ($bDeleteUser) {
-			$this->oMapper->DeleteUser($oUser->getId());
+			$this->DeleteUser($oUser);
 		}
 		/*
 		 * удалить временную блокировку пользователя
@@ -580,7 +580,7 @@ class PluginAdmin_ModuleUsers extends Module {
 		 * дата создания и редактирования
 		 */
 		$oEnt->setAddDate(date('Y-m-d H:i:s'));
-		$oEnt->setEditDate(date('Y-m-d H:i:s'));
+		$oEnt->setEditDate($oEnt->getAddDate());
 		/*
 		 * причина бана и комментарий
 		 */
@@ -605,9 +605,30 @@ class PluginAdmin_ModuleUsers extends Module {
 	 */
 	protected function DeleteUserContent($oUser) {
 		/*
-		 * вызов хука для удаления контента от плагинов сторонних разработчиков
+		 * вызов хука для удаления контента от плагинов сторонних разработчиков ПЕРЕД удалением внутренних данных
 		 */
 		$this->Hook_Run('admin_delete_content_before', array('oUser' => $oUser));
+		/*
+		 * удаление контента формируемого и управляемого движком
+		 */
+		$this->DeleteInternalUserContent($oUser);
+		/*
+		 * вызов хука для удаления контента от плагинов сторонних разработчиков ПОСЛЕ удаления внутренних данных
+		 */
+		$this->Hook_Run('admin_delete_content_after', array('oUser' => $oUser));
+		/*
+		 * удалить весь кеш - слишком много зависимостей
+		 */
+		$this->Cache_Clean();
+	}
+
+
+	/**
+	 * Удалить весь контент пользователя, который обрабатывается и управляется движком (все блоги, топики, сообщения и т.п.)
+	 *
+	 * @param $oUser	объект пользователя
+	 */
+	protected function DeleteInternalUserContent($oUser) {
 		/*
 		 * сначала удалить блоги и топики чтобы избежать самоблокировок таблиц
 		 */
@@ -639,14 +660,17 @@ class PluginAdmin_ModuleUsers extends Module {
 		 * удалить голоса пользователя
 		 */
 		$this->Vote_DeleteVoteByTarget($oUser->getId(), 'user');
-		/*
-		 * вызов хука для удаления контента от плагинов сторонних разработчиков
-		 */
-		$this->Hook_Run('admin_delete_content_after', array('oUser' => $oUser));
-		/*
-		 * удалить весь кеш - слишком много зависимостей
-		 */
-		$this->Cache_Clean();
+	}
+
+
+	/**
+	 * Удалить самого пользователя из БД
+	 *
+	 * @param $oUser	объект пользователя
+	 * @return mixed
+	 */
+	protected function DeleteUser($oUser) {
+		return $this->oMapper->DeleteUser($oUser->getId());
 	}
 
 
