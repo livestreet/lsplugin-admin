@@ -94,6 +94,9 @@ class PluginAdmin_ActionAdmin_EventProperty extends Event {
 							foreach($aSelectItems as $iId) {
 								if (!in_array($iId,$aSelectItemsUse) and $oSelect=$this->Property_GetSelectById($iId)) {
 									$oSelect->Delete();
+									/**
+									 * TODO: Нужно пройтись по всем элементам с этим значением и удалить его
+									 */
 								}
 							}
 						}
