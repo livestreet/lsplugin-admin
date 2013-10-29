@@ -191,15 +191,10 @@
 		</tbody>
 	</table>
 
-	{*
-		Предлагаю вернуть - что, зря делали?
-
 	{include file="{$aTemplatePathPlugin.admin}forms/elements_on_page.tpl"
 		sFormActionPath="{router page='admin/users/ajax-on-page'}"
-		sFormId = 'admin_onpage'
 		iCurrentValue = $oConfig->GetValue('plugin.admin.user.per_page')
 	}
-	*}
 
 	{include file="{$aTemplatePathPlugin.admin}pagination.tpl" aPaging=$aPaging}
 {/block}

@@ -240,13 +240,10 @@
 			</tbody>
 		</table>
 		
-		{*
 		{include file="{$aTemplatePathPlugin.admin}forms/elements_on_page.tpl"
 			sFormActionPath="{router page='admin/bans/ajax-on-page'}"
-			sFormId = 'admin_bans_onpage'
 			iCurrentValue = $oConfig->GetValue('plugin.admin.bans.per_page')
 		}
-		*}
 
 		{include file="{$aTemplatePathPlugin.admin}pagination.tpl" aPaging=$aPaging}
 	{else}

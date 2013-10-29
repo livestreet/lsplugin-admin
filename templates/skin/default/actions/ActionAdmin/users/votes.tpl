@@ -96,7 +96,6 @@
 
 	{include file="{$aTemplatePathPlugin.admin}forms/elements_on_page.tpl"
 		sFormActionPath="{router page='admin/votes/ajax-on-page'}"
-		sFormId = 'admin_votes_onpage'
 		iCurrentValue = $oConfig->GetValue('plugin.admin.votes.per_page')
 	}
 

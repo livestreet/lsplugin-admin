@@ -205,3 +205,14 @@
 .ls-admin .period-selection .remove-custom-period-selection {
 	vertical-align: middle;
 }
+
+/* on page select */
+
+.ls-admin .on-page-select {
+	float: right;
+}
+
+.ls-admin .on-page-select select {
+	vertical-align: middle;
+	width: 60px;
+}

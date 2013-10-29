@@ -648,12 +648,12 @@ class PluginAdmin_ModuleUsers extends Module {
 		 */
 		$aTalks = $this->Talk_GetTalksByFilter(array('user_id' => $oUser->getId()), 1, PHP_INT_MAX);
 		if ($aTalks ['count']) {
-			$aTalksId = array();
+			$aTalkIds = array();
 			foreach ($aTalks['collection'] as $oTalk) {
-				$aTalksId[] = $oTalk->getId();
+				$aTalkIds[] = $oTalk->getId();
 			}
-			if ($aTalksId) {
-				$this->Talk_DeleteTalkUserByArray($aTalksId, $oUser->getId());
+			if ($aTalkIds) {
+				$this->Talk_DeleteTalkUserByArray($aTalkIds, $oUser->getId());
 			}
 		}
 		/*

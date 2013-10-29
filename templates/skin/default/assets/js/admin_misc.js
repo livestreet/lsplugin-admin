@@ -30,9 +30,10 @@ ls.admin_misc = (function($) {
 	this.selectors = {
 		/*
 			количество элементов на страницу
+			(можно указать несколько селекторов через запятую, если нужно несколько форм на одной странице, в противном случае можно использовать всегда #admin_onpage)
 		 */
-		on_page_form_id: '#admin_onpage, #admin_bans_onpage, #admin_votes_onpage',
-		on_page_count: '#admin_onpage select, #admin_bans_onpage select, #admin_votes_onpage select',
+		on_page_form_id: '#admin_onpage',
+		on_page_count: '#admin_onpage select',
 		/*
 			редактирование рейтинга и силы
 		 */
