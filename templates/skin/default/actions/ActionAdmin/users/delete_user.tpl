@@ -19,8 +19,8 @@
 		{include file="{$aTemplatePathPlugin.admin}/forms/fields/form.field.hidden.tpl" sFieldName='user_id' sFieldValue=$oUser->getId()}
 
 		{include file="{$aTemplatePathPlugin.admin}/forms/fields/form.field.checkbox.tpl"
-			sFieldLabel='delete user?'
-			sFieldName='user_id'
+			sFieldLabel=$aLang.plugin.admin.users.deleteuser.delete_user_itself
+			sFieldName='delete_user'
 			sFieldValue=1
 			bFieldChecked=true
 		}

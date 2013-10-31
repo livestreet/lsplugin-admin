@@ -300,6 +300,7 @@ return array(
 		'deleteuser' => array(
 			'title' => 'Удаление пользователя',
 			'back_to_profile' => '&larr; Вернуться в профиль пользователя',
+			'delete_user_itself' => 'Удалить самого пользователя?'
 		),
 
 
