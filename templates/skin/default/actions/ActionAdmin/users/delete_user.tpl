@@ -25,11 +25,9 @@
 			bFieldChecked=true
 		}
 
-
 		{*
 			Кнопки
 		*}
 		{include file="{$aTemplatePathPlugin.admin}/forms/fields/form.field.button.tpl" sFieldName='submit_delete_user_contents' sFieldStyle='primary question' sFieldText=$aLang.plugin.admin.delete}
 	</form>
-
 {/block}

@@ -551,6 +551,10 @@ class PluginAdmin_ModuleUsers extends Module {
 			$this->DeleteUser($oUser);
 		}
 		/*
+		 * удалить весь кеш - слишком много зависимостей
+		 */
+		$this->Cache_Clean();
+		/*
 		 * удалить временную блокировку пользователя
 		 */
 		$this->DeleteBanById($iBanId);
@@ -616,10 +620,6 @@ class PluginAdmin_ModuleUsers extends Module {
 		 * вызов хука для удаления контента от плагинов сторонних разработчиков ПОСЛЕ удаления внутренних данных
 		 */
 		$this->Hook_Run('admin_delete_content_after', array('oUser' => $oUser));
-		/*
-		 * удалить весь кеш - слишком много зависимостей
-		 */
-		$this->Cache_Clean();
 	}
 
 
@@ -630,24 +630,56 @@ class PluginAdmin_ModuleUsers extends Module {
 	 */
 	protected function DeleteInternalUserContent($oUser) {
 		/*
-		 * сначала удалить блоги и топики чтобы избежать самоблокировок таблиц
+		 *
+		 * удалить блоги пользователя и все дочерние элементы блога
+		 *
+		 */
+		/*
+		 * получить ид всех блогов пользователя (кроме персонального)
 		 */
 		if ($aBlogsId = $this -> Blog_GetBlogsByOwnerId($oUser->getId(), true)) {
 			foreach ($aBlogsId as $iBlogId) {
+				/*
+				 * удалить блог
+				 * 		его топики (связанные данные топиков:
+				 * 			контент топика
+				 * 			комментарии к топику (
+				 * 				удаляются из избранного,
+				 * 				прямого эфира
+				 * 				голоса за них
+				 * 			)
+				 * 			из избранного
+				 * 			из прочитанного
+				 * 			голосование к топику
+				 * 			теги
+				 * 			фото у топика-фотосета
+				 * 		)
+				 * 		связи пользователей блога
+				 *		голосование за блог
+				 * 		уменьшение счетчика в категории блога
+				 */
 				$this->Blog_DeleteBlog($iBlogId);
 			}
 		}
+
 		/*
 		 * удалить персональный блог
 		 */
 		if ($oBlog = $this->Blog_GetPersonalBlogByUserId($oUser->getId())) {
+			/*
+			 * удаляет все тоже самое что и из предыдущего списка
+			 */
 			$this->Blog_DeleteBlog($oBlog);
 		}
+
 		/*
 		 * удаление личных сообщений
 		 */
 		$aTalks = $this->Talk_GetTalksByFilter(array('user_id' => $oUser->getId()), 1, PHP_INT_MAX);
 		if ($aTalks ['count']) {
+			/*
+			 * получить ид всех личных сообщений
+			 */
 			$aTalkIds = array();
 			foreach ($aTalks['collection'] as $oTalk) {
 				$aTalkIds[] = $oTalk->getId();
@@ -656,21 +688,136 @@ class PluginAdmin_ModuleUsers extends Module {
 				$this->Talk_DeleteTalkUserByArray($aTalkIds, $oUser->getId());
 			}
 		}
+
 		/*
 		 * удалить голоса пользователя
 		 */
 		$this->Vote_DeleteVoteByTarget($oUser->getId(), 'user');
+
+		/*
+		 * todo: review: если будут проблемы с удалением объектов выше - можно весь процесс удаления перевести на модуль удаления (как в вызовах ниже)
+		 */
+
+		/*
+		 *
+		 * Удаление каждого типа контента по очереди через модуль удаления контента
+		 *
+		 */
+
+		/*
+		 * удалить избранное пользователя
+		 */
+		$this->PluginAdmin_Deletecontent_DeleteUserFavourite($oUser);
+		/*
+		 * удалить избранные теги пользователя
+		 */
+		$this->PluginAdmin_Deletecontent_DeleteUserFavouriteTag($oUser);
+
+		/*
+		 * удалить друзей пользователя
+		 */
+		$this->PluginAdmin_Deletecontent_DeleteUsersFriends($oUser);
+		/*
+		 * удалить пользователя как друга у других пользователей
+		 */
+		$this->PluginAdmin_Deletecontent_DeleteUserIsFriendForOtherUsers($oUser);
+
+		/*
+		 * удалить гео-данные пользователя (запись с указанием его страны, области и города)
+		 */
+		$this->PluginAdmin_Deletecontent_DeleteUserGeoTargets($oUser);
+
+		/*
+		 * удалить записи про инвайты: кого пригласил этот пользователь
+		 */
+		$this->PluginAdmin_Deletecontent_DeleteUserInviteFrom($oUser);
+		/*
+		 * удалить записи про инвайты: кем был приглашен этот пользователь
+		 */
+		$this->PluginAdmin_Deletecontent_DeleteUserInviteTo($oUser);
+
+		/*
+		 * удалить записи рассылки уведомлений
+		 */
+		$this->PluginAdmin_Deletecontent_DeleteUserNotifyTask($oUser);
+
+		/*
+		 * удалить напоминания про пароль
+		 */
+		$this->PluginAdmin_Deletecontent_DeleteUserReminder($oUser);
+
+		/*
+		 * удалить события активности пользователя
+		 */
+		$this->PluginAdmin_Deletecontent_DeleteUserStreamEvents($oUser);
+		/*
+		 * удалить подписку активности пользователя
+		 */
+		$this->PluginAdmin_Deletecontent_DeleteUserStreamSubscribe($oUser);
+		/*
+		 * удалить опции типов на что подписался в активности пользователь
+		 */
+		$this->PluginAdmin_Deletecontent_DeleteUserStreamUserType($oUser);
+
+		/*
+		 * удалить подписку пользователя на разные события
+		 */
+		$this->PluginAdmin_Deletecontent_DeleteUserSubscribe($oUser);
+
+		/*
+		 * удалить подписку фида пользователя
+		 */
+		$this->PluginAdmin_Deletecontent_DeleteUserFeedSubscribe($oUser);
+
+		/*
+		 * удалить смену почты пользователя
+		 */
+		$this->PluginAdmin_Deletecontent_DeleteUserChangeMail($oUser);
+
+		/*
+		 * удалить данные произвольных полей профиля пользователя
+		 */
+		$this->PluginAdmin_Deletecontent_DeleteUserFieldValue($oUser);
+
+		/*
+		 * удалить заметки пользователя о других пользователях
+		 */
+		$this->PluginAdmin_Deletecontent_DeleteUserOwnNotes($oUser);
+		/*
+		 * удалить заметки других пользователей об этом пользователе
+		 */
+		$this->PluginAdmin_Deletecontent_DeleteUserNotesFromOtherUsers($oUser);
+
+		/*
+		 * удалить стену пользователя
+		 */
+		$this->PluginAdmin_Deletecontent_DeleteUserWall($oUser);
+
+		/*
+		 * todo: комментарии внутри топиков с дочерними ветками
+		 *
+		 * здесь нужно придумать схему
+		 */
+
 	}
 
 
 	/**
-	 * Удалить самого пользователя из БД
+	 * Удалить запись пользователя из БД
 	 *
 	 * @param $oUser	объект пользователя
 	 * @return mixed
 	 */
 	protected function DeleteUser($oUser) {
+		/*
+		 * todo: переделать через модуль удаления
+		 */
 		return $this->oMapper->DeleteUser($oUser->getId());
+
+		/*
+		 * todo: сессия
+		 * после удаления пользователя
+		 */
 	}
 
 
