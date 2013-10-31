@@ -945,26 +945,48 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 
 
 	/**
-	 * Удалить контент пользователя, который он создал и самого пользователя
+	 * Удалить созданный пользователем контент и самого пользователя
 	 *
 	 * @return bool
 	 */
 	public function EventDeleteUserContent() {
-		$this->Security_ValidateSendForm();
-		/*
-		 * тип операции - удаление только контента или вместе с самим пользователем
-		 */
-		if (!$sType = $this->GetParam(0) or !in_array($sType, array('deletecontent', 'deleteuser'))) {
-			$this->Message_AddError($this->Lang('errors.bans.incorrect_admins_action_type'));
-			return false;
-		}
+		$this->SetTemplateAction('users/delete_user');
 		/*
 		 * проверка id пользователя (нельзя удалять контент у пользователя с id = 1)
 		 */
-		if (!$iUserId = (int) $this->GetParam(1) or !$oUser = $this->User_GetUserById($iUserId) or $iUserId == 1) {
+		if (!$iUserId = (int) getRequestStr('user_id') or !$oUser = $this->User_GetUserById($iUserId) or $iUserId == 1) {
 			$this->Message_AddError($this->Lang('errors.bans.incorrect_user_id'));
-			return false;
+			return $this->EventError();
 		}
+
+		/*
+		 * если была нажата кнопка подтверждения - начать процесс удаления
+		 */
+		if (isPost('submit_delete_user_contents')) {
+			if ($this->SubmitDeleteUser($oUser)) {
+				$this->Message_AddNotice('Ok', '', true);
+			}
+		}
+		/*
+		 * для формы с настройками
+		 */
+		$this->Viewer_Assign('oUser', $oUser);
+	}
+
+
+	/**
+	 * Хендлер сабмита формы удаление пользователя
+	 *
+	 * @param $oUser			объект пользователя
+	 * @return bool
+	 */
+	protected function SubmitDeleteUser($oUser) {
+		$this->Security_ValidateSendForm();
+		/*
+		 * флаг удаления самого пользователя
+		 */
+		$bAlsoDeleteUser = getRequestStr('delete_user');
+
 		/*
 		 * проверка на администратора
 		 */
@@ -975,9 +997,8 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * удаление контента и пользователя
 		 */
-		$this->PluginAdmin_Users_PerformUserContentDeletion($oUser, ($sType == 'deleteuser' ? true : false));
-		$this->Message_AddNotice('Ok', '', true);
-		$this->RedirectToReferer();
+		$this->PluginAdmin_Users_PerformUserContentDeletion($oUser, $bAlsoDeleteUser);
+		return true;
 	}
 
 

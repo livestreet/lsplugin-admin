@@ -36,7 +36,7 @@
 					{$oUser->getLogin()}
 
 					{if $oUser->isAdministrator()}
-						<i class="icon-user-admin" title="Admin"></i>
+						<i class="icon-user-admin" title="{$aLang.plugin.admin.users.admin}"></i>
 					{/if}
 				</h3>
 

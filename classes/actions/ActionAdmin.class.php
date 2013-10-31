@@ -172,11 +172,11 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		/*
 		 * добавить или удалить админа
 		 */
-		$this->AddEventPreg('#^users$#iu', '#^manageadmins$#iu', '#^(add|delete$)$#iu', '#^\d++$#iu', 'Users::EventManageAdmins');
+		$this->AddEventPreg('#^users$#iu', '#^manageadmins$#iu', '#^(?:add|delete)$#iu', '#^\d++$#iu', 'Users::EventManageAdmins');
 		/*
 		 * удалить контент пользователя и самого пользователя
 		 */
-		$this->AddEventPreg('#^users$#iu', '#^(deletecontent|deleteuser)$#iu', '#^\d++$#iu', 'Users::EventDeleteUserContent');
+		$this->AddEventPreg('#^users$#iu', '#^deleteuser$#iu', 'Users::EventDeleteUserContent');
 		/*
 		 * статистика пользователей
 		 */
