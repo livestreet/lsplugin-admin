@@ -541,6 +541,11 @@ class PluginAdmin_ModuleUsers extends Module {
 		 */
 		$iBanId = $this->BanUserPermanently($oUser);
 		/*
+		 * отключить проверку внешних связей
+		 * (каждая таблица будет чиститься вручную)
+		 */
+		$this->PluginAdmin_Deletecontent_DisableForeignKeysChecking();
+		/*
 		 * выполнить непосредственное удаление контента
 		 */
 		$this->DeleteUserContent($oUser);
@@ -550,6 +555,10 @@ class PluginAdmin_ModuleUsers extends Module {
 		if ($bDeleteUser) {
 			$this->DeleteUser($oUser);
 		}
+		/*
+		 * включить проверку внешних связей
+		 */
+		$this->PluginAdmin_Deletecontent_EnableForeignKeysChecking();
 		/*
 		 * удалить весь кеш - слишком много зависимостей
 		 */
@@ -618,6 +627,7 @@ class PluginAdmin_ModuleUsers extends Module {
 		$this->DeleteInternalUserContent($oUser);
 		/*
 		 * вызов хука для удаления контента от плагинов сторонних разработчиков ПОСЛЕ удаления внутренних данных
+		 * (запись пользователя в таблице prefix_user ещё существует)
 		 */
 		$this->Hook_Run('admin_delete_content_after', array('oUser' => $oUser));
 	}
@@ -690,7 +700,7 @@ class PluginAdmin_ModuleUsers extends Module {
 		}
 
 		/*
-		 * удалить голоса пользователя
+		 * удалить голоса за профиль пользователя
 		 */
 		$this->Vote_DeleteVoteByTarget($oUser->getId(), 'user');
 
@@ -760,7 +770,7 @@ class PluginAdmin_ModuleUsers extends Module {
 		$this->PluginAdmin_Deletecontent_DeleteUserStreamUserType($oUser);
 
 		/*
-		 * удалить подписку пользователя на разные события
+		 * удалить подписку пользователя на разные события (оповещения)
 		 */
 		$this->PluginAdmin_Deletecontent_DeleteUserSubscribe($oUser);
 
@@ -794,11 +804,44 @@ class PluginAdmin_ModuleUsers extends Module {
 		$this->PluginAdmin_Deletecontent_DeleteUserWall($oUser);
 
 		/*
-		 * todo: комментарии внутри топиков с дочерними ветками
+		 * удалить комментарии пользователя и все дочерние ответы на них
+		 */
+		$this->DeleteUserCommentsTree($oUser);
+	}
+
+
+	/**
+	 * Удалить комментарии пользователя и все дочерние комментарии к ним
+	 *
+	 * @param $oUser	объект пользователя
+	 */
+	protected function DeleteUserCommentsTree($oUser) {
+		/*
+		 * удаление комментариев - процесс весьма сложный т.к. на комментарий могут быть ответы,
+		 * поэтому комментарии нужно удалять вместе со всеми дочерними комментариями
 		 *
-		 * здесь нужно придумать схему
+		 * Как это работает:
+		 * здесь будет удалены сначала прямые комментарии пользователя,
+		 * а потом циклом, пока не закончатся, будут удаляться комментарии у которых pid не существует в БД
+		 * (это нормально т.к. проверка ключей должна быть отключена)
 		 */
 
+		/*
+		 * первое - удалить все комментарии пользователя
+		 * (они не все были удалены ранее т.к. часть из них может находится в топиках других пользователей)
+		 */
+		$this->PluginAdmin_Deletecontent_DeleteUserOwnComments($oUser);
+
+		/*
+		 * теперь в таблице комментариев могут быть ответы у которых comment_pid указывает на несуществующий комментарий этого пользователя.
+		 * порция за порцией, удалять дочерние комментарии от верхнего уровня к нижнему (к самому дальнему ответу)
+		 */
+		$this->PluginAdmin_Deletecontent_DeleteAllCommentsWithBrokenChains();
+
+		/*
+		 * теперь нужно очистить таблицу прямого эфира - там могут быть записи, указывающие на несуществующие комментарии, которые только что были удалены
+		 */
+		$this->PluginAdmin_Deletecontent_DeleteOnlineCommentsNotExists();
 	}
 
 
@@ -810,14 +853,13 @@ class PluginAdmin_ModuleUsers extends Module {
 	 */
 	protected function DeleteUser($oUser) {
 		/*
-		 * todo: переделать через модуль удаления
+		 * удалить пользователя
 		 */
-		return $this->oMapper->DeleteUser($oUser->getId());
-
+		$this->PluginAdmin_Deletecontent_DeleteUserItself($oUser);
 		/*
-		 * todo: сессия
-		 * после удаления пользователя
+		 * удалить сессию пользователя
 		 */
+		$this->PluginAdmin_Deletecontent_DeleteUserSession($oUser);
 	}
 
 

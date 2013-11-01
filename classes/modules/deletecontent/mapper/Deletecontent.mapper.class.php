@@ -27,7 +27,7 @@ class PluginAdmin_ModuleDeletecontent_MapperDeletecontent extends Mapper {
 	 * @param $aFilter		фильтр
 	 * @return array|null
 	 */
-	public function DeleteUserContentByFilter($aFilter) {
+	public function DeleteContentByFilter($aFilter) {
 		$sWhere = $this->BuildWhereQuery($aFilter[PluginAdmin_ModuleDeletecontent::FILTER_CONDITIONS]);
 		$sSql = 'DELETE
 			FROM
@@ -35,12 +35,6 @@ class PluginAdmin_ModuleDeletecontent_MapperDeletecontent extends Mapper {
 			WHERE
 				' . $sWhere . '
 		';
-		/*
-		 * если тип таблиц ИнноДБ - отключить проверку внешних связей
-		 */
-		if (Config::Get('db.tables.engine') == 'InnoDB') {
-			$sSql = $this->DisableForeignKeysChecking($sSql);
-		}
 		return $this->oDb->query($sSql);
 	}
 
@@ -48,6 +42,7 @@ class PluginAdmin_ModuleDeletecontent_MapperDeletecontent extends Mapper {
 	/*
 	 * todo: использовать данный метод и в модуле статистики (и удалить оттуда ручное экранирование значений)
 	 * т.е. заменить данным методом аналогичный там и удалить один лишний
+	 * НЕ УДАЛЯТЬ ОТТУДА, пересмотреть нужен ли там массив т.к. данный метод его НЕ поддерживает
 	 *
 	 * + можно вообще вынести его в общий какой-то модуль чтобы не дублировать
 	 */
@@ -70,15 +65,65 @@ class PluginAdmin_ModuleDeletecontent_MapperDeletecontent extends Mapper {
 
 
 	/**
-	 * Отключает проверку внешних ключей для InnoDB добавляя к запросу ещё один перед основным
-	 * Данное отключение действует строго на транзакцию т.е. после запроса к следующему запросу они будут включены по-умолчанию,
-	 * поэтому нет надобности их включать
+	 * Установить флаг проверки внешних связей (для таблиц типа InnoDB).
+	 * Данное изменение действует в пределах сессии подключения к БД.
+	 * После того как соединение с БД закроется, в новой сессии будет установлено значение по-умолчанию
 	 *
-	 * @param $sSql		запрос к бд
-	 * @return string	запрос к бд с добавленным впереди него отключением проверки связей
+	 * @param $iValue		значение флага
+	 * @return array|null
 	 */
-	protected function DisableForeignKeysChecking($sSql) {
-		return 'SET foreign_key_checks = 0; ' . $sSql;
+	public function SetForeignKeysChecking($iValue) {
+		$sSql = 'SET foreign_key_checks = ?d';
+		return $this->oDb->query($sSql, $iValue);
+	}
+
+
+	/**
+	 * Удаляет комментарии у которых указаны несуществующие родительские ид комментариев в comment_pid
+	 *
+	 * @return int		количество удаленных комментариев
+	 */
+	public function DeleteCommentsWithBrokenParentLinks() {
+		/*
+		 * в данном запросе специально создается подзапрос чтобы создать временную таблицу
+		 * т.к. в противном случае можно получить ошибку 1093 "You can't specify target table 'prefix_comment' for update in FROM clause"
+		 */
+		$sSql = 'DELETE
+			FROM
+				`' . Config::Get('db.table.comment') . '`
+			WHERE
+				`comment_pid` IS NOT NULL
+				AND
+				`comment_pid` NOT IN (
+					SELECT `comment_id`
+					FROM (
+						SELECT `comment_id`
+						FROM
+							`' . Config::Get('db.table.comment') . '`
+					) as tmptable
+				)
+		';
+		return (int) $this->oDb->query($sSql);
+	}
+
+
+	/**
+	 * Удаляет записи из прямого эфира, которые ссылаются на несуществующие комментарии
+	 *
+	 * @return int		количество удаленных комментариев
+	 */
+	public function DeleteOnlineCommentsNotExists() {
+		$sSql = 'DELETE
+			FROM
+				`' . Config::Get('db.table.comment_online') . '`
+			WHERE
+				`comment_id` NOT IN (
+					SELECT `comment_id`
+					FROM
+						`' . Config::Get('db.table.comment') . '`
+				)
+		';
+		return (int) $this->oDb->query($sSql);
 	}
 
 }

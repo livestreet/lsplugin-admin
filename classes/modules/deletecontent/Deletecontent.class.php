@@ -53,8 +53,8 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 	 * @param $aFilter	фильтр
 	 * @return mixed
 	 */
-	protected function DeleteUserContentByFilter($aFilter) {
-		return $this->oMapper->DeleteUserContentByFilter($aFilter);
+	protected function DeleteContentByFilter($aFilter) {
+		return $this->oMapper->DeleteContentByFilter($aFilter);
 	}
 
 
@@ -83,7 +83,7 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 			 */
 			self::FILTER_TABLE => Config::Get('db.table.wall')
 		);
-		return $this->DeleteUserContentByFilter($aFilter);
+		return $this->DeleteContentByFilter($aFilter);
 	}
 
 
@@ -100,7 +100,7 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 			),
 			self::FILTER_TABLE => Config::Get('db.table.favourite')
 		);
-		return $this->DeleteUserContentByFilter($aFilter);
+		return $this->DeleteContentByFilter($aFilter);
 	}
 
 
@@ -117,7 +117,7 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 			),
 			self::FILTER_TABLE => Config::Get('db.table.favourite_tag')
 		);
-		return $this->DeleteUserContentByFilter($aFilter);
+		return $this->DeleteContentByFilter($aFilter);
 	}
 
 
@@ -134,7 +134,7 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 			),
 			self::FILTER_TABLE => Config::Get('db.table.friend')
 		);
-		return $this->DeleteUserContentByFilter($aFilter);
+		return $this->DeleteContentByFilter($aFilter);
 	}
 
 
@@ -151,7 +151,7 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 			),
 			self::FILTER_TABLE => Config::Get('db.table.friend')
 		);
-		return $this->DeleteUserContentByFilter($aFilter);
+		return $this->DeleteContentByFilter($aFilter);
 	}
 
 
@@ -169,7 +169,7 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 			),
 			self::FILTER_TABLE => Config::Get('db.table.geo_target')
 		);
-		return $this->DeleteUserContentByFilter($aFilter);
+		return $this->DeleteContentByFilter($aFilter);
 	}
 
 
@@ -186,7 +186,7 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 			),
 			self::FILTER_TABLE => Config::Get('db.table.invite')
 		);
-		return $this->DeleteUserContentByFilter($aFilter);
+		return $this->DeleteContentByFilter($aFilter);
 	}
 
 
@@ -203,7 +203,7 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 			),
 			self::FILTER_TABLE => Config::Get('db.table.invite')
 		);
-		return $this->DeleteUserContentByFilter($aFilter);
+		return $this->DeleteContentByFilter($aFilter);
 	}
 
 
@@ -223,7 +223,7 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 			),
 			self::FILTER_TABLE => Config::Get('db.table.notify_task')
 		);
-		return $this->DeleteUserContentByFilter($aFilter);
+		return $this->DeleteContentByFilter($aFilter);
 	}
 
 
@@ -240,7 +240,7 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 			),
 			self::FILTER_TABLE => Config::Get('db.table.reminder')
 		);
-		return $this->DeleteUserContentByFilter($aFilter);
+		return $this->DeleteContentByFilter($aFilter);
 	}
 
 
@@ -257,7 +257,7 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 			),
 			self::FILTER_TABLE => Config::Get('db.table.stream_event')
 		);
-		return $this->DeleteUserContentByFilter($aFilter);
+		return $this->DeleteContentByFilter($aFilter);
 	}
 
 
@@ -274,7 +274,7 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 			),
 			self::FILTER_TABLE => Config::Get('db.table.stream_subscribe')
 		);
-		return $this->DeleteUserContentByFilter($aFilter);
+		return $this->DeleteContentByFilter($aFilter);
 	}
 
 
@@ -291,7 +291,7 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 			),
 			self::FILTER_TABLE => Config::Get('db.table.stream_user_type')
 		);
-		return $this->DeleteUserContentByFilter($aFilter);
+		return $this->DeleteContentByFilter($aFilter);
 	}
 
 
@@ -308,7 +308,7 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 			),
 			self::FILTER_TABLE => Config::Get('db.table.subscribe')
 		);
-		return $this->DeleteUserContentByFilter($aFilter);
+		return $this->DeleteContentByFilter($aFilter);
 	}
 
 
@@ -325,7 +325,7 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 			),
 			self::FILTER_TABLE => Config::Get('db.table.userfeed_subscribe')
 		);
-		return $this->DeleteUserContentByFilter($aFilter);
+		return $this->DeleteContentByFilter($aFilter);
 	}
 
 
@@ -342,7 +342,7 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 			),
 			self::FILTER_TABLE => Config::Get('db.table.user_changemail')
 		);
-		return $this->DeleteUserContentByFilter($aFilter);
+		return $this->DeleteContentByFilter($aFilter);
 	}
 
 
@@ -359,7 +359,7 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 			),
 			self::FILTER_TABLE => Config::Get('db.table.user_field_value')
 		);
-		return $this->DeleteUserContentByFilter($aFilter);
+		return $this->DeleteContentByFilter($aFilter);
 	}
 
 
@@ -376,7 +376,7 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 			),
 			self::FILTER_TABLE => Config::Get('db.table.user_note')
 		);
-		return $this->DeleteUserContentByFilter($aFilter);
+		return $this->DeleteContentByFilter($aFilter);
 	}
 
 
@@ -393,7 +393,119 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 			),
 			self::FILTER_TABLE => Config::Get('db.table.user_note')
 		);
-		return $this->DeleteUserContentByFilter($aFilter);
+		return $this->DeleteContentByFilter($aFilter);
+	}
+
+
+	/**
+	 * Удаление пользователя
+	 *
+	 * @param $oUser	объект пользователя
+	 * @return bool
+	 */
+	public function DeleteUserItself($oUser) {
+		$aFilter = array(
+			self::FILTER_CONDITIONS => array(
+				'user_id' => $oUser->getId(),
+			),
+			self::FILTER_TABLE => Config::Get('db.table.user')
+		);
+		return $this->DeleteContentByFilter($aFilter);
+	}
+
+
+	/**
+	 * Удаление сессии пользователя
+	 *
+	 * @param $oUser	объект пользователя
+	 * @return bool
+	 */
+	public function DeleteUserSession($oUser) {
+		$aFilter = array(
+			self::FILTER_CONDITIONS => array(
+				'user_id' => $oUser->getId(),
+			),
+			self::FILTER_TABLE => Config::Get('db.table.session')
+		);
+		return $this->DeleteContentByFilter($aFilter);
+	}
+
+
+	/**
+	 * Удаление комментариев пользователя
+	 *
+	 * @param $oUser	объект пользователя
+	 * @return bool
+	 */
+	public function DeleteUserOwnComments($oUser) {
+		$aFilter = array(
+			self::FILTER_CONDITIONS => array(
+				'user_id' => $oUser->getId(),
+			),
+			self::FILTER_TABLE => Config::Get('db.table.comment')
+		);
+		return $this->DeleteContentByFilter($aFilter);
+	}
+
+
+	/**
+	 * Удаляет комментарии у которых указаны несуществующие родительские ид комментариев в comment_pid
+	 * (выполнять пока возвращает результат чтобы удалить всю поврежденную цепочку)
+	 *
+	 * @return int		количество удаленных комментариев
+	 */
+	protected function DeleteCommentsWithBrokenParentLinks() {
+		return $this->oMapper->DeleteCommentsWithBrokenParentLinks();
+	}
+
+
+	/**
+	 * Удаляет все комментарии у которых повреждена цепочка связи "родитель-ребенок".
+	 * Работает через цикл, порция за порцией, будут удаляться дочерние (поврежденные) комментарии от верхнего уровня к нижнему
+	 */
+	public function DeleteAllCommentsWithBrokenChains() {
+		while ($this->DeleteCommentsWithBrokenParentLinks());
+	}
+
+
+	/**
+	 * Удаляет записи из прямого эфира, которые ссылаются на несуществующие комментарии
+	 *
+	 * @return bool
+	 */
+	public function DeleteOnlineCommentsNotExists() {
+		return $this->oMapper->DeleteOnlineCommentsNotExists();
+	}
+
+
+	/**
+	 * Установить новое значение для флага проверки внешних связей с предварительной проверкой установленного типа таблиц
+	 *
+	 * @param $iValue		значение флага
+	 */
+	protected function ChangeForeignKeysCheckingTo($iValue) {
+		/*
+		 * только если тип таблиц InnoDB
+		 */
+		if (Config::Get('db.tables.engine') == 'InnoDB') {
+			$this->oMapper->SetForeignKeysChecking($iValue);
+		}
+	}
+
+
+	/**
+	 * Выключить проверку внешних ключей
+	 */
+	public function DisableForeignKeysChecking() {
+		$this->ChangeForeignKeysCheckingTo(0);
+	}
+
+
+	/**
+	 * Включить проверку внешних ключей
+	 */
+	public function EnableForeignKeysChecking() {
+		$this->ChangeForeignKeysCheckingTo(1);
 	}
 
 }

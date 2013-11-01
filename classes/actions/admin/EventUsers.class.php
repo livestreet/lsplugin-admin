@@ -998,7 +998,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * удаление контента и пользователя
 		 */
-		//$this->PluginAdmin_Users_PerformUserContentDeletion($oUser, $bAlsoDeleteUser);
+		$this->PluginAdmin_Users_PerformUserContentDeletion($oUser, $bAlsoDeleteUser);
 		return true;
 	}
 
