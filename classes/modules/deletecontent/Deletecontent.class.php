@@ -449,6 +449,23 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 
 
 	/**
+	 * Удаление голосов пользователя за другие объекты
+	 *
+	 * @param $oUser	объект пользователя
+	 * @return bool
+	 */
+	public function DeleteUserVotes($oUser) {
+		$aFilter = array(
+			self::FILTER_CONDITIONS => array(
+				'user_voter_id' => $oUser->getId(),
+			),
+			self::FILTER_TABLE => Config::Get('db.table.vote')
+		);
+		return $this->DeleteContentByFilter($aFilter);
+	}
+
+
+	/**
 	 * Удаляет комментарии у которых указаны несуществующие родительские ид комментариев в comment_pid
 	 * (выполнять пока возвращает результат чтобы удалить всю поврежденную цепочку)
 	 *

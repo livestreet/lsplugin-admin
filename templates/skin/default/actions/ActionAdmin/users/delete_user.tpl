@@ -18,6 +18,10 @@
 		{include file="{$aTemplatePathPlugin.admin}/forms/fields/form.field.hidden.security_key.tpl"}
 		{include file="{$aTemplatePathPlugin.admin}/forms/fields/form.field.hidden.tpl" sFieldName='user_id' sFieldValue=$oUser->getId()}
 
+		<div class="info mb-20">
+			{$aLang.plugin.admin.users.deleteuser.delete_user_info}
+		</div>
+
 		{include file="{$aTemplatePathPlugin.admin}/forms/fields/form.field.checkbox.tpl"
 			sFieldLabel=$aLang.plugin.admin.users.deleteuser.delete_user_itself
 			sFieldName='delete_user'
