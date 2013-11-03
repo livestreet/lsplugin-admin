@@ -54,7 +54,7 @@ class PluginAdmin_ModuleUsers_EntityBan extends Entity {
 		 * дата добавления и последнего редактирования бана
 		 */
 		array ('add_date', 'date', 'format' => array ('yyyy-MM-dd hh:mm:ss'), 'allowEmpty' => false),
-		array ('edit_date', 'date', 'format' => array ('yyyy-MM-dd hh:mm:ss'), 'allowEmpty' => false),
+		array ('edit_date', 'date', 'format' => array ('yyyy-MM-dd hh:mm:ss'), 'allowEmpty' => true),
 
 		/*
 		 * причина для пользователя

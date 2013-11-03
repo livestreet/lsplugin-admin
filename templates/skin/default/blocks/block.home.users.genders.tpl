@@ -14,9 +14,9 @@
 	{**
 	 * Значения для каждого пола в процентах
 	 *}
-	{assign var="iUsersSexOtherPerc" value=number_format(($aStats.count_sex_other*100/$aStats.count_all), 1, '.', '')}
-	{assign var="iUsersSexManPerc" value=number_format(($aStats.count_sex_man*100/$aStats.count_all), 1, '.', '')}
-	{assign var="iUsersSexWomanPerc" value=number_format(($aStats.count_sex_woman*100/$aStats.count_all), 1, '.', '')}
+	{assign var="iUsersSexOtherPerc" value=number_format($aStats.count_sex_other*100/$aStats.count_all, 1, '.', '')}
+	{assign var="iUsersSexManPerc" value=number_format($aStats.count_sex_man*100/$aStats.count_all, 1, '.', '')}
+	{assign var="iUsersSexWomanPerc" value=number_format($aStats.count_sex_woman*100/$aStats.count_all, 1, '.', '')}
 
 	<div id="admin_users_sex_pie_graph"></div>
 	

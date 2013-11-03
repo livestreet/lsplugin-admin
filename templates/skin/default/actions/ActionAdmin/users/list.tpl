@@ -116,6 +116,10 @@
 								{if $oUser->isAdministrator()}
 									<i class="icon-user-admin" title="{$aLang.plugin.admin.users.admin}"></i>
 								{/if}
+
+								{if $oUser->getBanned()}
+									<i class="icon-lock" title="{$aLang.plugin.admin.users.banned}"></i>
+								{/if}
 							</p>
 
 							{if $oUser->getProfileName()}
@@ -187,15 +191,10 @@
 		</tbody>
 	</table>
 
-	{*
-		Предлагаю вернуть - что, зря делали?
-
 	{include file="{$aTemplatePathPlugin.admin}forms/elements_on_page.tpl"
 		sFormActionPath="{router page='admin/users/ajax-on-page'}"
-		sFormId = 'admin_onpage'
 		iCurrentValue = $oConfig->GetValue('plugin.admin.user.per_page')
 	}
-	*}
 
 	{include file="{$aTemplatePathPlugin.admin}pagination.tpl" aPaging=$aPaging}
 {/block}

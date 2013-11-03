@@ -36,7 +36,7 @@
 					{$oUser->getLogin()}
 
 					{if $oUser->isAdministrator()}
-						<i class="icon-user-admin" title="Admin"></i>
+						<i class="icon-user-admin" title="{$aLang.plugin.admin.users.admin}"></i>
 					{/if}
 				</h3>
 
@@ -67,7 +67,7 @@
 				</form>
 				<div class="get-user-baneed">
 					{* для вывода информации бана *}
-					{hook run='admin_user_profile_brief_aside' oUser=$oUser}        {* todo: review: hook names (temp) *}
+					{hook run='admin_user_profile_brief_aside' oUserProfile=$oUser}        {* todo: review: hook names *}
 				</div>
 			</div>
 		</div>
@@ -228,44 +228,32 @@
 		<div class="user-info-block user-info-block-stats">
 			<h2 class="user-info-heading">{$aLang.plugin.admin.users.profile.info.votings_title}</h2>
 
-			<div class="user-info-block-stats-row">
-				<div class="user-info-block-stats-header"><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=topic">{$aLang.plugin.admin.users.profile.info.for_topics}</a></div>
-				<ul>
-					<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=topic&filter[dir]=plus">{$aUserVotedStat.topic.plus}</a> +</li>
-					<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=topic&filter[dir]=minus">{$aUserVotedStat.topic.minus}</a> -</li>
-				</ul>
-			</div>
+			{*
+				Как голосовал пользователь
+			*}
 
-			<div class="user-info-block-stats-row">
-				<div class="user-info-block-stats-header"><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=comment">{$aLang.plugin.admin.users.profile.info.for_comments}</a></div>
-				<ul>
-					<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=comment&filter[dir]=plus">{$aUserVotedStat.comment.plus}</a> +</li>
-					<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=comment&filter[dir]=minus">{$aUserVotedStat.comment.minus}</a> -</li>
-				</ul>
-			</div>
+			{foreach from=array('topic', 'comment', 'blog', 'user') item=sType}
+				<div class="user-info-block-stats-row">
+					<div class="user-info-block-stats-header">
+						<a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]={$sType}">{$aLang.plugin.admin.users.profile.info.votings[$sType]}</a>
+					</div>
+					<ul>
+						{if $aUserVotedStat[$sType]['plus']}
+							<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]={$sType}&filter[dir]=plus">{$aUserVotedStat[$sType]['plus']}</a> +</li>
+						{/if}
+						{if $aUserVotedStat[$sType]['minus']}
+							<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]={$sType}&filter[dir]=minus">{$aUserVotedStat[$sType]['minus']}</a> -</li>
+						{/if}
+					</ul>
+				</div>
+			{/foreach}
 
-			<div class="user-info-block-stats-row">
-				<div class="user-info-block-stats-header"><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=blog">{$aLang.plugin.admin.users.profile.info.for_blogs}</a></div>
-				<ul>
-					<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=blog&filter[dir]=plus">{$aUserVotedStat.blog.plus}</a> +</li>
-					<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=blog&filter[dir]=minus">{$aUserVotedStat.blog.minus}</a> -</li>
-				</ul>
-			</div>
-
-			<div class="user-info-block-stats-row">
-				<div class="user-info-block-stats-header"><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=user">{$aLang.plugin.admin.users.profile.info.for_users}</a></div>
-				<ul>
-					<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=user&filter[dir]=plus">{$aUserVotedStat.user.plus}</a> +</li>
-					<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]=user&filter[dir]=minus">{$aUserVotedStat.user.minus}</a> -</li>
-				</ul>
-			</div>
 		</div>
 
 		{* Contacts *}
 		{$aUserFieldContactValues = $oUser->getUserFieldValues(true,array('contact'))}
 		{$aUserFieldSocialValues = $oUser->getUserFieldValues(true,array('social'))}
 
-		{* todo: review *}
 		{if $aUserFieldContactValues || $aUserFieldSocialValues}
 			<div class="user-info-block user-info-block-contacts">
 				<h2 class="user-info-heading">{$aLang.profile_contacts}</h2>

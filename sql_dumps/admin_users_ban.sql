@@ -13,7 +13,7 @@ CREATE TABLE `prefix_admin_users_ban` (
 	`date_finish` DATETIME NOT NULL,
 
 	`add_date` DATETIME NOT NULL,
-	`edit_date` DATETIME NOT NULL,
+	`edit_date` DATETIME,
 
 	`reason_for_user` VARCHAR(1000),
 	`comment` VARCHAR(500),

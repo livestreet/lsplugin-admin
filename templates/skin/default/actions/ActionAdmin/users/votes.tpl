@@ -1,21 +1,31 @@
 {extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
 
-{block name='layout_content'}
+{block name='layout_page_title'}
+	{$aLang.plugin.admin.users.votes.title} {$aLang.plugin.admin.users.votes.votes_type.$sVotingTargetType}
+{/block}
 
-	<h2 class="title mb-20">
-		{$aLang.plugin.admin.users.votes.title}
-	</h2>
-
-	<div class="mb-20"><a href="{router page="admin/users/profile/{$oUser->getId()}"}">{$aLang.plugin.admin.users.votes.back_to_user_profile_page} {$oUser->getLogin()}</a></div>
-
-	<div class="mb-20">
-		{$aLang.plugin.admin.users.votes.votes_for}
-		{$aLang.plugin.admin.users.votes.votes_type.$sVotingTargetType}
+{block name='layout_content_actionbar'}
+	<div class="fl-r">
+		<a class="button {if $sVotingDirection==''}active{/if}" href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]={$sVotingTargetType}">
+			{$aLang.plugin.admin.users.votes.voting_list.all}
+		</a>
+		<a class="button {if $sVotingDirection=='plus'}active{/if}" href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]={$sVotingTargetType}&filter[dir]=plus">
+			{$aLang.plugin.admin.users.votes.voting_list.plus}
+		</a>
+		<a class="button {if $sVotingDirection=='minus'}active{/if}" href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]={$sVotingTargetType}&filter[dir]=minus">
+			{$aLang.plugin.admin.users.votes.voting_list.minus}
+		</a>
 	</div>
+
+	<a href="{router page="admin/users/profile/{$oUser->getId()}"}" class="button">{$aLang.plugin.admin.users.votes.back_to_user_profile_page} {$oUser->getLogin()}</a>
+{/block}
+
+
+{block name='layout_content'}
 
 	{if aVotingList and count($aVotingList)>0}
 
-		<table class="table table-sorting">
+		<table class="table">
 			<thead>
 				<tr>
 					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
@@ -86,7 +96,6 @@
 
 	{include file="{$aTemplatePathPlugin.admin}forms/elements_on_page.tpl"
 		sFormActionPath="{router page='admin/votes/ajax-on-page'}"
-		sFormId = 'admin_votes_onpage'
 		iCurrentValue = $oConfig->GetValue('plugin.admin.votes.per_page')
 	}
 
