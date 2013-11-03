@@ -41,3 +41,7 @@
 {block name='block_content'}
 	{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/stream/event_list.tpl"}
 {/block}
+
+{block name='block_footer'}
+	<button class="button width-full" id="activity-get-more">{$aLang.stream_get_more}</button>
+{/block}

@@ -44,7 +44,7 @@
 
 /* Body */
 .table td { padding: 15px 10px; border-top: 1px solid #ebebeb; vertical-align: top; }
-.table tr:hover td { background: #fff9e2; }
+.table tr:hover td { background: #ffffd7; }
 
 /* Select */
 .table .cell-check { width: 17px; padding-right: 10px; }
