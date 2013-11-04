@@ -2,9 +2,9 @@
 <li><a href="{router page='talk/add'}?talk_users={$oUser->getLogin()}">{$aLang.plugin.admin.users.profile.top_bar.msg}</a></li>
 
 {*
-	разрешить операции для всех пользователей, кроме самого первого в системе с id = 1
+	разрешить операции для всех пользователей, кроме спец. списка в конфиге
 *}
-{if $oUser->getId()!=1}
+{if !in_array($oUser->getId(), $oConfig->GetValue('plugin.admin.block_deleting_user_id'))}
 	{if $oUser->isAdministrator()}
 		<li><a class="question" href="{router page="admin/users/manageadmins/delete/{$oUser->getId()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
 					>{$aLang.plugin.admin.users.profile.top_bar.admin_delete}</a></li>

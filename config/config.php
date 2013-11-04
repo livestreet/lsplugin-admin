@@ -94,6 +94,12 @@ $config['max_points_on_graph'] = 10;
 $config['max_items_in_living_users_stats'] = 20;
 
 /*
+ * ид пользователей, которых нельзя удалять из сайта
+ * значение по-умолчанию - 1 (это автоматически создаваемый при установке движка пользователь "admin")
+ */
+$config['block_deleting_user_id'] = array(1);
+
+/*
  * роутер
  */
 $config['$root$']['router']['page']['admin'] = 'PluginAdmin_ActionAdmin';

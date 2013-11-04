@@ -536,6 +536,10 @@ class PluginAdmin_ModuleUsers extends Module {
 	 */
 	public function PerformUserContentDeletion($oUser, $bDeleteUser = false) {
 		/*
+		 * отключить ограничение по времени для обработки
+		 */
+		set_time_limit(0);
+		/*
 		 * блокировать пользователя перед удалением данных. Например, если это бот,
 		 * то чтобы не получилось одновременно удаление его данных и набивание им контента на сайте
 		 */
@@ -548,7 +552,7 @@ class PluginAdmin_ModuleUsers extends Module {
 		/*
 		 * выполнить непосредственное удаление контента
 		 */
-		$this->DeleteUserContent($oUser);
+		$this->DeleteUserContent($oUser, $bDeleteUser);
 		/*
 		 * удаление самого пользователя из сайта
 		 */
@@ -615,8 +619,9 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * Удалить весь контент пользователя
 	 *
 	 * @param $oUser		объект пользователя
+	 * @param $bDeleteUser	флаг удаления пользователя (нужен для удаления личного блога)
 	 */
-	protected function DeleteUserContent($oUser) {
+	protected function DeleteUserContent($oUser, $bDeleteUser) {
 		/*
 		 * вызов хука для удаления контента от плагинов сторонних разработчиков ПЕРЕД удалением внутренних данных
 		 */
@@ -624,7 +629,7 @@ class PluginAdmin_ModuleUsers extends Module {
 		/*
 		 * удаление контента формируемого и управляемого движком
 		 */
-		$this->DeleteInternalUserContent($oUser);
+		$this->DeleteInternalUserContent($oUser, $bDeleteUser);
 		/*
 		 * вызов хука для удаления контента от плагинов сторонних разработчиков ПОСЛЕ удаления внутренних данных
 		 * (запись пользователя в таблице prefix_user ещё существует)
@@ -636,9 +641,10 @@ class PluginAdmin_ModuleUsers extends Module {
 	/**
 	 * Удалить весь контент пользователя, который обрабатывается и управляется движком (все блоги, топики, сообщения и т.п.)
 	 *
-	 * @param $oUser	объект пользователя
+	 * @param $oUser		объект пользователя
+	 * @param $bDeleteUser	флаг удаления пользователя (нужен для удаления личного блога)
 	 */
-	protected function DeleteInternalUserContent($oUser) {
+	protected function DeleteInternalUserContent($oUser, $bDeleteUser) {
 		/*
 		 *
 		 * удалить блоги пользователя и все дочерние элементы блога
@@ -673,9 +679,9 @@ class PluginAdmin_ModuleUsers extends Module {
 		}
 
 		/*
-		 * удалить персональный блог
+		 * удалить персональный блог (только если удаляется и сам пользователь)
 		 */
-		if ($oBlog = $this->Blog_GetPersonalBlogByUserId($oUser->getId())) {
+		if ($bDeleteUser and $oBlog = $this->Blog_GetPersonalBlogByUserId($oUser->getId())) {
 			/*
 			 * удаляет все тоже самое что и из предыдущего списка
 			 */
@@ -811,10 +817,13 @@ class PluginAdmin_ModuleUsers extends Module {
 		$this->PluginAdmin_Deletecontent_DeleteUserWall($oUser);
 
 
-
 		/*
-		 * todo: для nested set у комментариев это не сработает - для такого режима нужно пересчитывать всю ветку справа
-		 * либо попробовать запустить $this->Comment_RestoreTree();
+		 *
+		 * Удаление комментариев
+		 *
+		 * Комментарии - не линейная структура, поэтому процесс удаления будет состоять из удаления комментариев пользователя,
+		 * очистки оставшихся дочерних комментариев (ответов) и перестроения структуры дерева (если используется "nested set").
+		 * И удаляения записей голосований и избранного для удаленных веток комментариев
 		 *
 		 */
 
@@ -822,6 +831,19 @@ class PluginAdmin_ModuleUsers extends Module {
 		 * удалить комментарии пользователя и все дочерние ответы на них
 		 */
 		$this->DeleteUserCommentsTree($oUser);
+
+		/*
+		 * для структуры "nested set" комментариев нужно пересчитать дерево комментариев (всю цепочку справа от первой удаляемой ветви)
+		 * todo: данный механизм не протестирован до конца
+		 */
+		if (Config::Get('module.comment.use_nested')) {
+			$this->Comment_RestoreTree();
+		}
+
+		/*
+		 * todo: очистить таблицы голосований и избранного от записей указывающих на несуществующие комментарии, целые ветки которых были удалены
+		 */
+
 	}
 
 

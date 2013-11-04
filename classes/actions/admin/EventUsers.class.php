@@ -952,9 +952,9 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	public function EventDeleteUserContent() {
 		$this->SetTemplateAction('users/delete_user');
 		/*
-		 * проверка id пользователя (нельзя удалять контент у пользователя с id = 1)
+		 * проверка id пользователя (нельзя удалять контент у пользователей из спец. списка в конфиге)
 		 */
-		if (!$iUserId = (int) getRequestStr('user_id') or !$oUser = $this->User_GetUserById($iUserId) or $iUserId == 1) {
+		if (!$iUserId = (int) getRequestStr('user_id') or in_array($iUserId, Config::Get('plugin.admin.block_deleting_user_id')) or !$oUser = $this->User_GetUserById($iUserId)) {
 			$this->Message_AddError($this->Lang('errors.bans.incorrect_user_id'));
 			return $this->EventError();
 		}
