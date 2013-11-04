@@ -10,7 +10,7 @@
 
 		
 		{* Дата группы событий *}
-		{if {date_format date=$oStreamEvent->getDateAdded() format="j F Y"} != $sDateLast}
+		{*if {date_format date=$oStreamEvent->getDateAdded() format="j F Y"} != $sDateLast}
 			{$sDateLast = {date_format date=$oStreamEvent->getDateAdded() format="j F Y"}}
 			
 			<li class="activity-date">
@@ -20,7 +20,7 @@
 					{date_format date=$oStreamEvent->getDateAdded() format="j F Y"}
 				{/if}
 			</li>
-		{/if}
+		{/if*}
 
 
 		<li class="activity-event activity-event-type-{$oStreamEvent->getEventType()}">
@@ -31,7 +31,7 @@
 			
 			<p class="activity-event-info">
 				{* Логин *}
-				<a href="{$oUser->getUserWebPath()}"><strong>{$oUser->getLogin()}</strong></a> ·
+				<a href="{$oUser->getUserWebPath()}" class="activity-event-username">{$oUser->getLogin()}</a> ·
 
 				{* Дата *}
 				<time datetime="{date_format date=$oStreamEvent->getDateAdded() format='c'}"
@@ -68,10 +68,8 @@
 				{$sTextEvent = $oTarget->getText()}
 
 				{if trim($sTextEvent)}
-					<div class="activity-event-text">
-						<div class="text">
-							{$sTextEvent}
-						</div>
+					<div class="activity-event-text text">
+						{$sTextEvent}
 					</div>
 				{/if}
 			{elseif $oStreamEvent->getEventType() == 'add_blog'}
@@ -167,10 +165,8 @@
 				{$sTextEvent = $oTarget->getText()}
 
 				{if trim($sTextEvent)}
-					<div class="activity-event-text">
-						<div class="text">
-							{$sTextEvent}
-						</div>
+					<div class="activity-event-text text">
+						{$sTextEvent}
 					</div>
 				{/if}
 			{else}

@@ -11,9 +11,9 @@
 .block .text           { font-size: 13px; line-height: 18px; }
 .block .max-height-200 { overflow: auto; max-height: 200px; position: relative; }
 
-{*  не работает, используется общий .loading
+/*  не работает, используется общий .loading
   .block .loading        { min-height: 100px; background-image: url(../images/loader.gif); background-position: 50% 45px; }
-*}
+*/
 
 .block .search-form    { padding: 0; margin-bottom: 20px; }
 
@@ -56,12 +56,13 @@
  .block-home { border: 1px solid #f2f2f2; }
 
  .block-home .block-header { border: none; background: #f9f9f9; padding: 13px 13px; }
- .block-home .button { position: absolute; top: 7px; right: 7px; }
+ .block-home .block-header .button { position: absolute; top: 7px; right: 7px; }
  .block-home .block-title { font-size: 18px; }
 
  .block-home .block-content { background: #fff; }
 
  .block-home .block-footer { padding: 0 10px 10px; background: #fff; border: none; }
+
 
  /**
   * Home Stats
@@ -74,5 +75,48 @@
  .block-type-home-stats .block-content { padding: 0 10px; }
 
  .table.table-stats { margin-bottom: 0; }
- .table.table-stats td { padding: 13px 13px 13px 3px; font-family: Verdana; }
+ .table.table-stats td { padding: 13px 13px 13px 3px; font-family: Verdana; vertical-align: middle; }
+ .table.table-stats tr:hover td { background-color: transparent; }
  .table.table-stats tr:first-child td { border: none; }
+
+
+ /**
+  * Activity
+  *
+  * @file blocks/block.home.activity.tpl
+  */
+.block-type-home-activity .block-content { padding: 0 10px; }
+
+.activity-event-list { margin: 0 0 20px; }
+.activity-date       { font-size: 15px; font-weight: bold; margin-top: 35px; padding-bottom: 5px; border-bottom: 1px solid #eee; }
+
+.activity-event                { min-height: 30px; border-top: 1px solid #f2f2f2; padding: 15px 0 15px 40px; position: relative; font-size: 11px; font-family: Verdana; }
+.activity-event:first-child    { border: none; }
+.activity-event-avatar         { position: absolute; top: 15px; left: 0; width: 30px; height: 30px; }
+.activity-event-date           { color: #999; }
+.activity-event-info           { line-height: 1em; margin-bottom: 4px; }
+.activity-event-username       { font-weight: bold; color: #6d82a0; text-decoration: underline; }
+.activity-event-username:hover { color: #f00; }
+
+.activity-event-text           { padding: 5px 10px; background: #f7f4ec; margin-top: 10px; font-size: 11px; position: relative; }
+.activity-event-text.text      { font-size: 11px; }
+.activity-event-text:before    { content: ""; width: 0; height: 0; border: 6px solid transparent; border-bottom-color: #f7f4ec; position: absolute; top: -12px; left: 5px; }
+.activity-event-text:after     { content: ""; width: 0; height: 0; border: 6px solid #fff; position: absolute; top: -12px; left: -1px; }
+
+
+ /**
+  * Gender stats
+  *
+  * @file blocks/block.home.users.genders.tpl
+  */
+.block-type-home-users-genders .highcharts-container { margin: 0 auto 20px; }
+
+.table.chart-pie-legend { margin: 0; font-family: Verdana; }
+.table.chart-pie-legend td { border-top: none; padding-top: 5px; padding-bottom: 5px; vertical-align: middle; }
+.table.chart-pie-legend .cell-color { width: 5px; padding-right: 0; }
+.table.chart-pie-legend tr:hover td { background-color: transparent; }
+
+.chart-pie-legend-color { display: inline-block; border-radius: 50%; width: 6px; height: 6px; position: relative; top: -1px; }
+.chart-pie-legend-color-grey { background: #eae4f9; }
+.chart-pie-legend-color-blue { background: #94e3f6; }
+.chart-pie-legend-color-purple { background: #f4a6fc; }

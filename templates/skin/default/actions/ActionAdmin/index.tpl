@@ -12,7 +12,7 @@
 	{**
 	 * График
 	 *}
-	{include file="{$aTemplatePathPlugin.admin}graph.tpl"
+	{include file="{$aTemplatePathPlugin.admin}charts/graph.tpl"
 		sValueSuffix=$aLang.plugin.admin.users_stats.graph_suffix.$sCurrentGraphType
 		aStats=$aDataStats
 		sName=$aLang.plugin.admin.users_stats.graph_labels.$sCurrentGraphType
