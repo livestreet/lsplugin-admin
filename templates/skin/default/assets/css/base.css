@@ -123,10 +123,6 @@ h1, h2, h3, h4, h5, h6 { font-family: "Open Sans"; }
 	Стили для админки
 */
 
-.ls-admin {
-	color: #676767;
-}
-
 .ls-admin .fS-10 {
 	font-size: 10px;
 }

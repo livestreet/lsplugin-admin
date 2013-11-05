@@ -1,85 +1,18 @@
 /**
- * LiveStreet CMS
- * Copyright © 2013 OOO "ЛС-СОФТ"
+ * Статистика
  *
- * ------------------------------------------------------
- *
- * Official site: www.livestreetcms.com
- * Contact e-mail: office@livestreetcms.com
- *
- * GNU General Public License, version 2:
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- *
- * ------------------------------------------------------
- *
- * @link http://www.livestreetcms.com
- * @copyright 2013 OOO "ЛС-СОФТ"
- * @author Serge Pustovit (PSNet) <light.feel@gmail.com>
- *
+ * @template actions/ActionAdmin/users/profile.tpl
+ * 
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
 
-.SkinList .OneSkin {
-	border-bottom: 1px solid #EEEEEE;
-	margin-bottom: 20px;
-	padding: 10px 0;
-}
-
-.SkinList .OneSkin .Preview {
-	float: left;
-	margin-right: 20px;
-}
-
-.SkinList .OneSkin .Preview img {
-	background: url("../images/default_skin_preview.png") repeat scroll 0 0 transparent;
-	border-radius: 2px 2px 2px 2px;
-	display: block;
-	height: 138px;
-	width: 200px;
-}
-
-.SkinList .OneSkin {
-	border-bottom: 1px solid #EEEEEE;
-	clear: both;
-	margin-bottom: 20px;
-	overflow: hidden;
-	padding: 10px;
-}
-
-.SkinList .OneSkin.second {
-	background: none repeat scroll 0 0 #FBFBFB;
-}
-
-.SkinList .OneSkin .Description {
-	overflow: hidden;
-}
-
-.SkinList .OneSkin .Description h4 {
-	font-size: 18px;
-}
-
-.SkinList .OneSkin .Description .Info {
-	margin: 10px 0 0;
-}
-
-/* lists */
-
-.SkinList .OneSkin .Description .Info dl {
-	clear: both;
-	overflow: hidden;
-	width: 100%;
-}
-
-.SkinList .OneSkin .Description .Info dt {
-	float: left;
-	font-weight: bold;
-	text-shadow: 0 1px 0 #FFFFFF;
-	width: 15%;
-}
-
-.SkinList .OneSkin .Description .Info dd {
-	overflow: hidden;
-}
-
-.SkinList .OneSkin .Description .Controls {
-	float: right;
-}
+.skin-list { margin-bottom: 50px; }
+.skin-list:last-child { margin-bottom: 0; }
+.skin-list-item { background: #fafafa; padding: 15px 15px 15px 240px; min-height: 138px; position: relative; }
+.skin-list-item-image { width: 200px; height: 138px; background: #eee; position: absolute; top: 15px; left: 15px; }
+.skin-list-item-title { font-size: 26px; line-height: 1em; margin-bottom: 15px; font-weight: 300; }
+.skin-list-item-info dl { overflow: hidden; margin-bottom: 5px; }
+.skin-list-item-info dt { float: left; width: 140px;  }
+.skin-list-item-info dd { margin-left: 150px; }
