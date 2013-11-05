@@ -126,6 +126,73 @@ class PluginAdmin_ModuleDeletecontent_MapperDeletecontent extends Mapper {
 		return (int) $this->oDb->query($sSql);
 	}
 
+
+	/**
+	 * Удаляет записи голосований, указывающие на несуществующие комментарии
+	 *
+	 * @return int		количество удаленных комментариев
+	 */
+	public function DeleteVotingsTargetingCommentsNotExists() {
+		$sSql = 'DELETE
+			FROM
+				`' . Config::Get('db.table.vote') . '`
+			WHERE
+				`target_type` = "comment"
+				AND
+				`target_id` NOT IN (
+					SELECT `comment_id`
+					FROM
+						`' . Config::Get('db.table.comment') . '`
+				)
+		';
+		return (int) $this->oDb->query($sSql);
+	}
+
+
+	/**
+	 * Удаляет записи избранного, указывающие на несуществующие комментарии
+	 *
+	 * @return int		количество удаленных комментариев
+	 */
+	public function DeleteFavouriteTargetingCommentsNotExists() {
+		$sSql = 'DELETE
+			FROM
+				`' . Config::Get('db.table.favourite') . '`
+			WHERE
+				`target_type` = "comment"
+				AND
+				`target_id` NOT IN (
+					SELECT `comment_id`
+					FROM
+						`' . Config::Get('db.table.comment') . '`
+				)
+		';
+		return (int) $this->oDb->query($sSql);
+	}
+
+
+	/**
+	 * Удаляет записи избранного, указывающие на несуществующие комментарии
+	 *
+	 * @return int		количество удаленных комментариев
+	 */
+	public function DeleteFavouriteTagsTargetingCommentsNotExists() {
+		$sSql = 'DELETE
+			FROM
+				`' . Config::Get('db.table.favourite_tag') . '`
+			WHERE
+				`target_type` = "comment"
+				AND
+				`target_id` NOT IN (
+					SELECT `comment_id`
+					FROM
+						`' . Config::Get('db.table.comment') . '`
+				)
+		';
+		return (int) $this->oDb->query($sSql);
+	}
+
+
 }
 
 ?>

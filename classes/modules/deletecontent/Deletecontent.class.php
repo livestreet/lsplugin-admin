@@ -525,6 +525,36 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 		$this->ChangeForeignKeysCheckingTo(1);
 	}
 
+
+	/**
+	 * Удаляет записи голосований, указывающие на несуществующие комментарии
+	 *
+	 * @return bool
+	 */
+	public function DeleteVotingsTargetingCommentsNotExists() {
+		return $this->oMapper->DeleteVotingsTargetingCommentsNotExists();
+	}
+
+
+	/**
+	 * Удаляет записи избранного, указывающие на несуществующие комментарии
+	 *
+	 * @return bool
+	 */
+	public function DeleteFavouriteTargetingCommentsNotExists() {
+		return $this->oMapper->DeleteFavouriteTargetingCommentsNotExists();
+	}
+
+
+	/**
+	 * Удаляет записи тегов избранного, указывающие на несуществующие комментарии
+	 *
+	 * @return bool
+	 */
+	public function DeleteFavouriteTagsTargetingCommentsNotExists() {
+		return $this->oMapper->DeleteFavouriteTagsTargetingCommentsNotExists();
+	}
+
 }
 
 ?>

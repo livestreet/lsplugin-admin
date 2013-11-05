@@ -833,17 +833,9 @@ class PluginAdmin_ModuleUsers extends Module {
 		$this->DeleteUserCommentsTree($oUser);
 
 		/*
-		 * для структуры "nested set" комментариев нужно пересчитать дерево комментариев (всю цепочку справа от первой удаляемой ветви)
-		 * todo: данный механизм не протестирован до конца
+		 * очистить другие таблицы от записей, указывающих на удаленные комментарии
 		 */
-		if (Config::Get('module.comment.use_nested')) {
-			$this->Comment_RestoreTree();
-		}
-
-		/*
-		 * todo: очистить таблицы голосований и избранного от записей указывающих на несуществующие комментарии, целые ветки которых были удалены
-		 */
-
+		$this->CleanUpAfterCommentsDeleting();
 	}
 
 
@@ -860,7 +852,7 @@ class PluginAdmin_ModuleUsers extends Module {
 		 * Как это работает:
 		 * здесь будет удалены сначала прямые комментарии пользователя,
 		 * а потом циклом, пока не закончатся, будут удаляться комментарии у которых pid не существует в БД
-		 * (это нормально т.к. проверка ключей должна быть отключена)
+		 * (это нормально т.к. проверка ключей должна быть отключена на момент удаления)
 		 */
 
 		/*
@@ -879,6 +871,35 @@ class PluginAdmin_ModuleUsers extends Module {
 		 * теперь нужно очистить таблицу прямого эфира - там могут быть записи, указывающие на несуществующие комментарии, которые только что были удалены
 		 */
 		$this->PluginAdmin_Deletecontent_DeleteOnlineCommentsNotExists();
+	}
+
+
+	/**
+	 * Произвести очистку после удаления комментариев
+	 */
+	protected function CleanUpAfterCommentsDeleting() {
+		/*
+		 * для структуры "nested set" комментариев нужно пересчитать дерево комментариев (всю цепочку справа от первой удаляемой ветви)
+		 * todo: данный механизм не протестирован до конца
+		 */
+		if (Config::Get('module.comment.use_nested')) {
+			$this->Comment_RestoreTree();
+		}
+
+		/*
+		 * очистить таблицы голосований от записей, указывающих на несуществующие комментарии, целые ветки которых были удалены
+		 */
+		$this->PluginAdmin_Deletecontent_DeleteVotingsTargetingCommentsNotExists();
+
+		/*
+		 *  очистить таблицы избранного от записей, указывающих на несуществующие комментарии, целые ветки которых были удалены
+		 */
+		$this->PluginAdmin_Deletecontent_DeleteFavouriteTargetingCommentsNotExists();
+
+		/*
+		 *  очистить таблицы тегов избранного от записей, указывающих на несуществующие комментарии, целые ветки которых были удалены
+		 */
+		$this->PluginAdmin_Deletecontent_DeleteFavouriteTagsTargetingCommentsNotExists();
 	}
 
 

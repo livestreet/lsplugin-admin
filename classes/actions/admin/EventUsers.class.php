@@ -1106,7 +1106,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	}
 
 
-	protected function GetAjaxAnswerForUsersStats () {
+	protected function GetAjaxAnswerForUsersStats() {
 		$this->Viewer_SetResponseAjax ('json');
 		/*
 		 * если нужно вывести только нужные данные
@@ -1124,7 +1124,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 				/*
 				 * получить статистику стран или городов
 				 */
-				$oViewer->Assign('aData', $aLivingStatsData['aLivingStats']);
+				$oViewer->Assign('aLivingStats', $aLivingStatsData['aLivingStats']);
 				/*
 				 * тип текущего отображения: страны или города
 				 */
@@ -1141,7 +1141,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 				 * для расчетов нужно количество всех пользователей, берем их уже из кеша
 				 */
 				$aStats = $this->User_GetStatUsers();
-				$oViewer->Assign('iTotal', $aStats['count_all']);
+				$oViewer->Assign('iTotalUsersCount', $aStats['count_all']);
 				/*
 				 * вернуть скомпилированный шаблон
 				 */
