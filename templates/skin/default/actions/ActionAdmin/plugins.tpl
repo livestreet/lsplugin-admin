@@ -1,47 +1,58 @@
 {extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
 
+{block name='layout_page_title'}
+	Список плагинов
+{/block}
+
 {block name='layout_content'}
-	<h2 class="title mb-20">Список плагинов</h2>
+	{if $aPluginsInfo and count($aPluginsInfo) > 0}
+		<table class="table table-plugins">
+			<tbody>
+				{foreach from=$aPluginsInfo item=oPlugin}
+					<tr class="plugin-list-item {if $oPlugin.is_active}active{/if}">
+						<td>
+							<h4 class="plugin-list-item-title">
+								<a href="{router page='admin/settings/plugin'}{$oPlugin.code}/">{$oPlugin.property->name->data}</a>
+							</h4>
 
-	{if $aPluginsInfo and count($aPluginsInfo)>0}
-	
-		{foreach from=$aPluginsInfo item=oPlugin}
-		
-			<div class="OnePlugin" title="{$oPlugin.property->description->data|strip_tags|escape:'html'}">
+							<p>{$oPlugin.property->description->data|strip_tags|escape:'html'}</p>
+							
 
-				<a href="{router page='admin/settings/plugin'}{$oPlugin.code}/">
-					<h4 class="{if $oPlugin.is_active}enabled{else}disabled{/if}">{$oPlugin.property->name->data}</h4>
-				</a>
-			
-				<div>
-					{if !empty($oPlugin.property->settings) and $oPlugin.is_active}
-						<a href="{$oPlugin.property->settings}"target="_blank">собственные настройки плагина</a> -
-					{/if}
+						</td>
 
-					{if $oPlugin.is_active}
-						<a href="{router page='admin/plugin/toggle'}?plugin={$oPlugin.code}&action=deactivate&security_ls_key={$LIVESTREET_SECURITY_KEY}" title="{$aLang.plugins_plugin_deactivate}">deactivate</a>
-					{else}
-						<a href="{router page='admin/plugin/toggle'}?plugin={$oPlugin.code}&action=activate&security_ls_key={$LIVESTREET_SECURITY_KEY}" title="{$aLang.plugins_plugin_activate}">activate</a>
-					{/if}
-				</div>
-				
+						<td><h4 class="plugin-list-item-title">{$oPlugin.property->version}</h4></td>
 
-				<div>
-					Folder: /plugins/{$oPlugin.code}/
-					<br />
-					Author: {$oPlugin.property->author->data}
-					<br />
-					{$oPlugin.property->homepage}
-					<br />
-					Version: {$oPlugin.property->version}
-					
-				</div>
-			</div>
-			
-		{/foreach}
+						<td>
+							Folder: /plugins/{$oPlugin.code}/
+							<br />
+							Author: {$oPlugin.property->author->data}
+							<br />
+							{$oPlugin.property->homepage}
+						</td>
+
+						<td class="ta-r">
+							{strip}
+								{if $oPlugin.is_active}
+									<a href="{router page='admin/plugin/toggle'}?plugin={$oPlugin.code}&action=deactivate&security_ls_key={$LIVESTREET_SECURITY_KEY}" 
+									   title="{$aLang.plugins_plugin_deactivate}"
+									   class="button">Deactivate</a>
+								{else}
+									<a href="{router page='admin/plugin/toggle'}?plugin={$oPlugin.code}&action=activate&security_ls_key={$LIVESTREET_SECURITY_KEY}" 
+									   title="{$aLang.plugins_plugin_activate}"
+									   class="button button-primary">Activate</a>
+								{/if}
+
+								{if ! empty($oPlugin.property->settings) and $oPlugin.is_active}
+									<br>
+									<a href="{$oPlugin.property->settings}" class="button" target="_blank">Настройки</a>
+								{/if}
+							{/strip}
+						</td>
+					</tr>
+				{/foreach}
+			</tbody>
+		</table>
 	{else}
-		no plugins
+		{include file="{$aTemplatePathPlugin.admin}alert.tpl" mAlerts="No plugins" sAlertStyle='empty'}
 	{/if}
-	
-
 {/block}

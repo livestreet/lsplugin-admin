@@ -89,3 +89,11 @@
 .table-users .cell-rating .user-rating.user-rating-negative { color: #f30000; }
 
 .table-users .cell-rating .dropdown-circle { float: right; position: relative; top: -1px; }
+
+
+/**
+ * Plugins
+ */
+.table-plugins .button { margin-bottom: 7px; }
+.plugin-list-item.active td { background: #D8F1FF; }
+.plugin-list-item-title { font-size: 23px; font-weight: 300; line-height: 1.2em; margin-bottom: 7px; }
