@@ -20,28 +20,6 @@
 			{/block}
 
 			<table class="table chart-bar-h-data">
-				{$iPercentage = number_format( ( $iTotal - count($aData.collection) ) * 100 / $iTotal, 2, '.', '' )}
-				
-				<tr>
-					<td class="chart-bar-h-label" title="{$aDataItem.count} {$aLang.plugin.admin.users_stats.users}">
-						Не указано {* TODO: i18n *}
-					</td>
-					
-					<td class="chart-bar-h-count">
-						{$iTotal - count($aData.collection)}
-					</td>
-					
-					<td class="chart-bar-h-percentages percent" title="{$aDataItem.count} {$aLang.plugin.admin.users_stats.users}">
-						{$iPercentage}%
-					</td>
-
-					<td>
-						<div class="chart-bar-h-bar" title="{$aDataItem.count} {$aLang.plugin.admin.users_stats.users}">
-							<div class="chart-bar-h-bar-value" style="width: {$iPercentage}%;"></div>
-						</div>
-					</td>
-				</tr>
-
 				{foreach $aData.collection as $aDataItem}
 					{$iPercentage = number_format($aDataItem.count * 100 / $iTotal, 2, '.', '')}
 
