@@ -21,7 +21,7 @@
 			<ul class="chart-bar-v">
 				{foreach $aData.collection as $aDataItem}
 					{* Высота столбика в процентах *}
-					{$iPercentage = $aDataItem.count * 100 / $aData.max_one_age_users_count}
+					{$iPercentage = number_format($aDataItem.count * 100 / $aData.max_one_age_users_count, 2, '.', '')}
 
 					<li class="chart-bar-v-item">
 						<div class="chart-bar-v-bar" style="height: {$iPercentage}%;" title="{$aDataItem.count} {$aLang.plugin.admin.users_stats.users}"></div>
