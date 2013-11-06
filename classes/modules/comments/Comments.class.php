@@ -49,6 +49,44 @@ class PluginAdmin_ModuleComments extends Module {
 		return $this->oMapper->GetCountCommentsTotal();
 	}
 
+
+	/**
+	 * Корректно удалить комментарий и все его ответы и связанные с ним данные (избранное, теги избранного и голоса)
+	 *
+	 * @param $oComment		объект комментария
+	 */
+	public function DeleteComment($oComment) {
+		/*
+		 * отключить ограничение по времени для обработки
+		 */
+		set_time_limit(0);
+		/*
+		 * отключить проверку внешних связей
+		 * (каждая таблица будет чиститься вручную)
+		 */
+		$this->PluginAdmin_Deletecontent_DisableForeignKeysChecking();
+		/*
+		 * удалить сам комментарий
+		 */
+		$this->PluginAdmin_Deletecontent_DeleteComment($oComment);
+		/*
+		 * теперь в таблице комментариев могут быть ответы у которых comment_pid указывает на этот несуществующий комментарий
+		 * очистка таблицы прямого эфира - там могут быть записи, указывающие на несуществующие комментарии, которые только что были удалены
+		 */
+		$this->PluginAdmin_Deletecontent_DeleteBrokenChainsFromCommentsTreeAndOnlineCommentsAndCleanUpOtherTables();
+		/*
+		 * включить проверку внешних связей
+		 */
+		$this->PluginAdmin_Deletecontent_EnableForeignKeysChecking();
+		/*
+		 * todo: найти родителя и если это "топик" - уменьшить к-во комментариев
+		 */
+		/*
+		 * удалить весь кеш - слишком много зависимостей
+		 */
+		$this->Cache_Clean();
+	}
+
 }
 
 ?>

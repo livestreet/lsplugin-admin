@@ -20,6 +20,7 @@
  */
 
 class PluginAdmin_ActionAdmin extends ActionPlugin {
+
 	protected $oUserCurrent = null;
 	
 	/*
@@ -34,6 +35,9 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 
 
 	public function Init() {
+		/*
+		 * проверка авторизации админа
+		 */
 		if (!$this->oUserCurrent = $this->User_GetIsAdmin(true)) {
 			$this->Message_AddError($this->Lang('errors.you_are_not_admin'), $this->Lang_Get('error'));
 			return Router::Action('error');
@@ -48,7 +52,10 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 * получить группы настроек системного конфига
 		 */
 		$this->aCoreSettingsGroups = Config::Get('plugin.admin.core_config_groups');
-		
+
+		/*
+		 * по-умолчанию показывать главную страницу
+		 */
 		$this->SetDefaultEvent('index');
 
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('plugin.admin.title'));
@@ -91,6 +98,10 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 * Дашбоард
 		 */
 		$this->RegisterEventExternal('Dashboard', 'PluginAdmin_ActionAdmin_EventDashboard');
+		/*
+		 * Комментарии
+		 */
+		$this->RegisterEventExternal('Comments', 'PluginAdmin_ActionAdmin_EventComments');
 
 		/*
 		 *
@@ -205,6 +216,16 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 * проверить правило бана на корректность
 		 */
 		$this->AddEventPreg('#^bans$#iu', '#^ajax-check-user-sign$#iu', 'Users::EventAjaxBansCheckUserSign');
+
+		/*
+		 *
+		 * --- Комментарии ---
+		 *
+		 */
+		/*
+		 * показать форму полного удаления комментария
+		 */
+		$this->AddEventPreg('#^comments$#iu', '#^delete$#iu', 'Comments::EventFullCommentDelete');
 
 		/*
 		 *

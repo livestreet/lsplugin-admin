@@ -466,6 +466,30 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 
 
 	/**
+	 * Удаление комментария
+	 *
+	 * @param $oComment	объект комментария
+	 * @return bool
+	 */
+	public function DeleteComment($oComment) {
+		$aFilter = array(
+			self::FILTER_CONDITIONS => array(
+				'comment_id' => $oComment->getId(),
+			),
+			self::FILTER_TABLE => Config::Get('db.table.comment')
+		);
+		return $this->DeleteContentByFilter($aFilter);
+	}
+
+
+	/*
+	 *
+	 * --- Хелперы ---
+	 *
+	 */
+
+
+	/**
 	 * Удаляет комментарии у которых указаны несуществующие родительские ид комментариев в comment_pid
 	 * (выполнять пока возвращает результат чтобы удалить всю поврежденную цепочку)
 	 *
@@ -480,7 +504,7 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 	 * Удаляет все комментарии у которых повреждена цепочка связи "родитель-ребенок".
 	 * Работает через цикл, порция за порцией, будут удаляться дочерние (поврежденные) комментарии от верхнего уровня к нижнему
 	 */
-	public function DeleteAllCommentsWithBrokenChains() {
+	protected function DeleteAllCommentsWithBrokenChains() {
 		while ($this->DeleteCommentsWithBrokenParentLinks());
 	}
 
@@ -490,7 +514,7 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 	 *
 	 * @return bool
 	 */
-	public function DeleteOnlineCommentsNotExists() {
+	protected function DeleteOnlineCommentsNotExists() {
 		return $this->oMapper->DeleteOnlineCommentsNotExists();
 	}
 
@@ -531,7 +555,7 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 	 *
 	 * @return bool
 	 */
-	public function DeleteVotingsTargetingCommentsNotExists() {
+	protected function DeleteVotingsTargetingCommentsNotExists() {
 		return $this->oMapper->DeleteVotingsTargetingCommentsNotExists();
 	}
 
@@ -541,7 +565,7 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 	 *
 	 * @return bool
 	 */
-	public function DeleteFavouriteTargetingCommentsNotExists() {
+	protected function DeleteFavouriteTargetingCommentsNotExists() {
 		return $this->oMapper->DeleteFavouriteTargetingCommentsNotExists();
 	}
 
@@ -551,8 +575,59 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 	 *
 	 * @return bool
 	 */
-	public function DeleteFavouriteTagsTargetingCommentsNotExists() {
+	protected function DeleteFavouriteTagsTargetingCommentsNotExists() {
 		return $this->oMapper->DeleteFavouriteTagsTargetingCommentsNotExists();
+	}
+
+
+	/**
+	 * Произвести очистку голосований, избранного и тегов избранного после удаления комментариев
+	 */
+	protected function CleanUpOtherTablesAfterCommentsDeleting() {
+		/*
+		 * для структуры "nested set" комментариев нужно пересчитать дерево комментариев (всю цепочку справа от первой удаляемой ветви)
+		 * todo: данный момент не протестирован до конца
+		 */
+		if (Config::Get('module.comment.use_nested')) {
+			$this->Comment_RestoreTree();
+		}
+
+		/*
+		 * очистить таблицы голосований от записей, указывающих на несуществующие комментарии, целые ветки которых были удалены
+		 */
+		$this->DeleteVotingsTargetingCommentsNotExists();
+
+		/*
+		 *  очистить таблицы избранного от записей, указывающих на несуществующие комментарии, целые ветки которых были удалены
+		 */
+		$this->DeleteFavouriteTargetingCommentsNotExists();
+
+		/*
+		 *  очистить таблицы тегов избранного от записей, указывающих на несуществующие комментарии, целые ветки которых были удалены
+		 */
+		$this->DeleteFavouriteTagsTargetingCommentsNotExists();
+	}
+
+
+	/**
+	 * Удаление ветвей комментариев, которые являются ответами на несуществующие комментарии, очистка прямого эфира от несуществующих записей и данных связанных таблиц
+	 */
+	public function DeleteBrokenChainsFromCommentsTreeAndOnlineCommentsAndCleanUpOtherTables() {
+		/*
+		 * удалить в таблице комментариев ответы у которых comment_pid указывает на несуществующий комментарий,
+		 * удаление дочерних комментариев от верхнего уровня к нижнему (к самому дальнему ответу)
+		 */
+		$this->DeleteAllCommentsWithBrokenChains();
+
+		/*
+		 * очистка таблицы прямого эфира - там могут быть записи, указывающие на несуществующие комментарии
+		 */
+		$this->DeleteOnlineCommentsNotExists();
+
+		/*
+		 * очистить другие таблицы от записей, указывающих на удаленные комментарии
+		 */
+		$this->CleanUpOtherTablesAfterCommentsDeleting();
 	}
 
 }

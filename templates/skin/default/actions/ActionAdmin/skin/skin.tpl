@@ -2,7 +2,7 @@
  * Шаблон
  *}
 
-<div class="skin-list-item {if $smarty.foreach.SkinForCycle.iteration % 2 == 0}even{/if}">
+<div class="skin-list-item {if $oSkin@iteration % 2 == 0}even{/if}">
 	<img src="{$oSkin->getPreview()}" class="skin-list-item-image" />
 
 	<div class="skin-list-item-content">
