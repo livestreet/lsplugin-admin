@@ -9,18 +9,26 @@
  *}
 
 {if $aData and $aData.collection and count($aData.collection) > 0}
-	{* получить массив со списком объектов для короткого представления *}
+	{*
+		получить массив со списком объектов для короткого представления (в селекте)
+	*}
 	{$aShortViewLivingStats = array_splice($aData.collection, $oConfig->GetValue('plugin.admin.max_items_in_living_users_stats'))}
+	{*
+		получить массив со списком объектов для полного вида (графиком)
+	*}
+	{$aNormalViewLivingStats = $aData.collection}
 
-	{**
-	 * Нужно для пересчета процентного соотношения представления стран или городов в коротком виде (в селекте)
-	 *}
+	{*
+		нужно для пересчета процентного соотношения представления стран или городов в коротком виде (в селекте)
+	*}
 	<script>
 		var iTotalUsersCount = {$iTotal};
 	</script>
 
 	<div class="chart-bar-h clearfix chart-bar-location">
-		{* кнопки управления *}
+		{*
+			кнопки управления сортировкой
+		*}
 		<div class="chart-bar-location-sort">
 			<a href="{router page='admin/users/stats'}{request_filter
 				name=array('living_sorting')
@@ -33,6 +41,9 @@
 			}" class="js-ajax-load button {if $sCurrentLivingSorting=='top'}active{/if}">3-2-1 &darr;</a>
 		</div>
 
+		{*
+			кнопки управления типом отображаемых данных (страны или города)
+		*}
 		<h3 class="page-sub-header">
 			{if $sCurrentLivingSection == 'countries'}
 				{$aLang.plugin.admin.users_stats.countries} {$aLang.plugin.admin.users_stats.and_text}
@@ -50,11 +61,17 @@
 		</h3>
 
 		<table class="table chart-bar-h-data">
-			{foreach $aData.collection as $aDataItem}
+			{*
+				вывод данных в полном виде (графиком)
+			*}
+			{foreach $aNormalViewLivingStats as $aDataItem}
 				{$iPercentage = number_format($aDataItem.count * 100 / $iTotal, 2, '.', '')}
 
 				<tr>
 					<td class="chart-bar-h-label" title="{$aDataItem.count} {$aLang.plugin.admin.users_stats.users}">
+						{*
+							название страны или города
+						*}
 						{$aDataItem.item}
 					</td>
 					
@@ -74,9 +91,9 @@
 				</tr>
 			{/foreach}
 
-			{**
-			 * Вывод данных для короткого отображения
-			 *}
+			{*
+				вывод данных для короткого отображения (в селекте)
+			*}
 			{if $aShortViewLivingStats and count($aShortViewLivingStats) > 0}
 				<tr class="chart-bar-location-custom">
 					<td class="chart-bar-h-label">

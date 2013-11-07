@@ -183,6 +183,7 @@ jQuery(document).ready(function($) {
 	 */
 	$ (ls.admin_misc.selectors.graph_stats_table_data_button).bind('click.admin', function(){
 		$ (ls.admin_misc.selectors.graph_stats_table_data_id).slideToggle(200);
+		$ (this).toggleClass('active');
 		return false;
 	});
 

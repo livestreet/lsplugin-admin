@@ -98,10 +98,6 @@
 	margin-top: 5px;
 }
 
-#admin_users_show_graph_stats_in_table {
-	border-bottom: 1px dotted;
-}
-
 /* manual date selection */
 
 .ls-admin .period-selection {
