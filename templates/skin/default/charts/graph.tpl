@@ -18,7 +18,7 @@
 <div class="graph-wrapper">
 	<div class="graph">
 		<header class="graph-header">
-			<form action="{$sUrl}" enctype="application/x-www-form-urlencoded" method="get" id="dropdown-menu-graph-settings">
+			<form action="{$sUrl}" enctype="application/x-www-form-urlencoded" method="get">
 				{*
 					нужно ли отображать селект с типами графика для выбора
 					tip: установка данной переменной также требует прием значения данного селекта на бекенде для показа данных по типу
@@ -26,16 +26,16 @@
 				{if $bShowGraphTypeSelect}
 					<select name="filter[graph_type]" class="width-150">
 						<option value="{PluginAdmin_ModuleStats::DATA_TYPE_REGISTRATIONS}" {if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_REGISTRATIONS}selected="selected"{/if}>
-							{$aLang.plugin.admin.index.graph_type[PluginAdmin_ModuleStats::DATA_TYPE_REGISTRATIONS]}
+							{$aLang.plugin.admin.graph.graph_type[PluginAdmin_ModuleStats::DATA_TYPE_REGISTRATIONS]}
 						</option>
 						<option value="{PluginAdmin_ModuleStats::DATA_TYPE_TOPICS}" {if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_TOPICS}selected="selected"{/if}>
-							{$aLang.plugin.admin.index.graph_type[PluginAdmin_ModuleStats::DATA_TYPE_TOPICS]}
+							{$aLang.plugin.admin.graph.graph_type[PluginAdmin_ModuleStats::DATA_TYPE_TOPICS]}
 						</option>
 						<option value="{PluginAdmin_ModuleStats::DATA_TYPE_COMMENTS}" {if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_COMMENTS}selected="selected"{/if}>
-							{$aLang.plugin.admin.index.graph_type[PluginAdmin_ModuleStats::DATA_TYPE_COMMENTS]}
+							{$aLang.plugin.admin.graph.graph_type[PluginAdmin_ModuleStats::DATA_TYPE_COMMENTS]}
 						</option>
 						<option value="{PluginAdmin_ModuleStats::DATA_TYPE_VOTINGS}" {if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_VOTINGS}selected="selected"{/if}>
-							{$aLang.plugin.admin.index.graph_type[PluginAdmin_ModuleStats::DATA_TYPE_VOTINGS]}
+							{$aLang.plugin.admin.graph.graph_type[PluginAdmin_ModuleStats::DATA_TYPE_VOTINGS]}
 						</option>
 					</select>
 
@@ -46,21 +46,10 @@
 				{*
 					предустановленный временной период отображения
 				*}
-				<select name="filter[graph_period]" class="width-100">
-					<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_TODAY}" {if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_TODAY}selected="selected"{/if}>
-						{$aLang.plugin.admin.index.period_bar.today}
-					</option>
-					<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_YESTERDAY}" {if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_YESTERDAY}selected="selected"{/if}>
-						{$aLang.plugin.admin.index.period_bar.yesterday}
-					</option>
-					<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_WEEK}" {if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_WEEK}selected="selected"{/if}>
-						{$aLang.plugin.admin.index.period_bar.week}
-					</option>
-					<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_MONTH}" {if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_MONTH}selected="selected"{/if}>
-						{$aLang.plugin.admin.index.period_bar.month}
-					</option>
-				</select>
-
+				{include file="{$aTemplatePathPlugin.admin}forms/preset_interval.tpl"
+					sName='filter[graph_period]'
+					sCurrentPeriod=$sCurrentGraphPeriod
+				}
 
 				&nbsp;&nbsp;&nbsp;
 
@@ -177,22 +166,21 @@
 	</div>
 
 
-	{**
+	{*
 	 * Показать значения графика в таблице
-	 * TODO: Унифицировать
 	 *}
 
 	{if $bShowTable}
 		<div class="graph-table">
-			<button type="button" class="button" id="admin_show_graph_data_in_table">{$aLang.plugin.admin.users_stats.values_in_table}</button>
+			<button type="button" class="button" id="admin_show_graph_data_in_table">{$aLang.plugin.admin.graph.values_in_table}</button>
 
 			<div id="admin_graph_table_data">
 				<table class="table">
 					<thead>
 						<tr>
 							<th>#</th>
-							<th>{$aLang.plugin.admin.users_stats.date}</th>
-							<th>{$aLang.plugin.admin.users_stats.count}</th>
+							<th>{$aLang.plugin.admin.graph.date}</th>
+							<th>{$aLang.plugin.admin.graph.count}</th>
 						</tr>
 					</thead>
 					<tbody>

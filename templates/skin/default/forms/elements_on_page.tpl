@@ -19,7 +19,11 @@
 
 <div class="on-page-select">
 	<form action="{$sFormActionPath}" method="post" enctype="application/x-www-form-urlencoded" id="{$sFormId}">
-		<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
+		{*
+			Скрытые поля
+		*}
+		{include file="{$aTemplatePathPlugin.admin}/forms/fields/form.field.hidden.security_key.tpl"}
+
 		{$aLang.plugin.admin.on_page}
 		<select name="onpage" class="width-75">
 			{foreach from=$oConfig->GetValue('plugin.admin.values_for_select_elements_on_page') item=iVal}

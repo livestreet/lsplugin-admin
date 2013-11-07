@@ -31,9 +31,7 @@
 				</label>
 			{/foreach}
 
-			<br />
-
-			<button type="submit" name="submit_change_activity_settings" class="button button-primary">{$aLang.plugin.admin.save}</button>
+			<button type="submit" name="submit_change_activity_settings" class="button button-primary mt-20">{$aLang.plugin.admin.save}</button>
 		</form>
 	</div>
 {/block}

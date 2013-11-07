@@ -12,17 +12,16 @@
 
 {block name='block_header_end'}
 	<form action="" method="get" enctype="application/x-www-form-urlencoded" id="admin_index_growth_block_form">
-		<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
-		<select name="filter[newly_added_items_period]" class="width-150" id="admin_index_growth_period_select">
-			<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_TODAY}"
-					{if $_aRequest.filter.newly_added_items_period==PluginAdmin_ModuleStats::TIME_INTERVAL_TODAY}selected="selected"{/if}>{$aLang.plugin.admin.index.period_bar.today}</option>
-			<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_YESTERDAY}"
-					{if $_aRequest.filter.newly_added_items_period==PluginAdmin_ModuleStats::TIME_INTERVAL_YESTERDAY}selected="selected"{/if}>{$aLang.plugin.admin.index.period_bar.yesterday}</option>
-			<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_WEEK}"
-					{if $_aRequest.filter.newly_added_items_period==PluginAdmin_ModuleStats::TIME_INTERVAL_WEEK}selected="selected"{/if}>{$aLang.plugin.admin.index.period_bar.week}</option>
-			<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_MONTH}"
-					{if $_aRequest.filter.newly_added_items_period==PluginAdmin_ModuleStats::TIME_INTERVAL_MONTH}selected="selected"{/if}>{$aLang.plugin.admin.index.period_bar.month}</option>
-		</select>
+		{*
+			Скрытые поля
+		*}
+		{include file="{$aTemplatePathPlugin.admin}/forms/fields/form.field.hidden.security_key.tpl"}
+
+		{include file="{$aTemplatePathPlugin.admin}forms/preset_interval.tpl"
+			sName='filter[newly_added_items_period]'
+			sId='admin_index_growth_period_select'
+			sCurrentPeriod=$_aRequest.filter.newly_added_items_period
+		}
 	</form>
 {/block}
 
