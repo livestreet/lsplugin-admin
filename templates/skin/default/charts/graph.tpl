@@ -8,10 +8,10 @@
  * 		$sValueSuffix - суфикс для вывода тултипа ($aLang.plugin.admin.users_stats.users)
  * 		$aStats - массив с данными для графика ($aUserRegistrationStats)
  * 		$sName - имя графика ($aLang.plugin.admin.users_stats.registrations)
- * 		$sUrl - URL для сабмита формы
+ * 		$sUrl - URL для сабмита формы ({router page='admin'})
  * 		$bShowGraphTypeSelect - показывать ли селект выбора типа графика
  * 		$bShowCustomPeriodFields - показывать ли поля для ручного выбора дат
- * 		$bShowTable - показывать таблицу или нет
+ * 		$bShowTable - показывать таблицу с данными графика или нет
  *
  *}
 
@@ -25,16 +25,20 @@
 				*}
 				{if $bShowGraphTypeSelect}
 					<select name="filter[graph_type]" class="width-150">
-						<option value="{PluginAdmin_ModuleStats::DATA_TYPE_REGISTRATIONS}"
-								{if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_REGISTRATIONS}selected="selected"{/if}>{$aLang.plugin.admin.index.show_users}</option>
-						<option value="{PluginAdmin_ModuleStats::DATA_TYPE_TOPICS}"
-								{if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_TOPICS}selected="selected"{/if}>{$aLang.plugin.admin.index.show_topics}</option>
-						<option value="{PluginAdmin_ModuleStats::DATA_TYPE_COMMENTS}"
-								{if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_COMMENTS}selected="selected"{/if}>{$aLang.plugin.admin.index.show_comments}</option>
-						<option value="{PluginAdmin_ModuleStats::DATA_TYPE_VOTINGS}"
-								{if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_VOTINGS}selected="selected"{/if}>{$aLang.plugin.admin.index.show_votings}</option>
+						<option value="{PluginAdmin_ModuleStats::DATA_TYPE_REGISTRATIONS}" {if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_REGISTRATIONS}selected="selected"{/if}>
+							{$aLang.plugin.admin.index.graph_type[PluginAdmin_ModuleStats::DATA_TYPE_REGISTRATIONS]}
+						</option>
+						<option value="{PluginAdmin_ModuleStats::DATA_TYPE_TOPICS}" {if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_TOPICS}selected="selected"{/if}>
+							{$aLang.plugin.admin.index.graph_type[PluginAdmin_ModuleStats::DATA_TYPE_TOPICS]}
+						</option>
+						<option value="{PluginAdmin_ModuleStats::DATA_TYPE_COMMENTS}" {if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_COMMENTS}selected="selected"{/if}>
+							{$aLang.plugin.admin.index.graph_type[PluginAdmin_ModuleStats::DATA_TYPE_COMMENTS]}
+						</option>
+						<option value="{PluginAdmin_ModuleStats::DATA_TYPE_VOTINGS}" {if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_VOTINGS}selected="selected"{/if}>
+							{$aLang.plugin.admin.index.graph_type[PluginAdmin_ModuleStats::DATA_TYPE_VOTINGS]}
+						</option>
 					</select>
-				
+
 					&nbsp;
 				{/if}
 
@@ -43,14 +47,18 @@
 					предустановленный временной период отображения
 				*}
 				<select name="filter[graph_period]" class="width-100">
-					<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_TODAY}"
-							{if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_TODAY}selected="selected"{/if}>{$aLang.plugin.admin.index.period_bar.today}</option>
-					<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_YESTERDAY}"
-							{if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_YESTERDAY}selected="selected"{/if}>{$aLang.plugin.admin.index.period_bar.yesterday}</option>
-					<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_WEEK}"
-							{if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_WEEK}selected="selected"{/if}>{$aLang.plugin.admin.index.period_bar.week}</option>
-					<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_MONTH}"
-							{if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_MONTH}selected="selected"{/if}>{$aLang.plugin.admin.index.period_bar.month}</option>
+					<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_TODAY}" {if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_TODAY}selected="selected"{/if}>
+						{$aLang.plugin.admin.index.period_bar.today}
+					</option>
+					<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_YESTERDAY}" {if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_YESTERDAY}selected="selected"{/if}>
+						{$aLang.plugin.admin.index.period_bar.yesterday}
+					</option>
+					<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_WEEK}" {if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_WEEK}selected="selected"{/if}>
+						{$aLang.plugin.admin.index.period_bar.week}
+					</option>
+					<option value="{PluginAdmin_ModuleStats::TIME_INTERVAL_MONTH}" {if $sCurrentGraphPeriod==PluginAdmin_ModuleStats::TIME_INTERVAL_MONTH}selected="selected"{/if}>
+						{$aLang.plugin.admin.index.period_bar.month}
+					</option>
 				</select>
 
 
@@ -84,7 +92,9 @@
 
 		<script>
 			jQuery(document).ready(function($) {
-				// docs: api.highcharts.com/highcharts
+				{*
+					docs: api.highcharts.com/highcharts
+				*}
 				Highcharts.setOptions({
 					lang: {
 						resetZoom: '{$aLang.plugin.admin.reset_zoom}',
@@ -95,7 +105,10 @@
 					chart: {
 						type: 'areaspline',
 						height: 200,
-						//margin: 0,			// hides axis
+						{*
+							прячет оси, не использовать
+						*}
+						//margin: 0,
 						spacingBottom: 0,
 						spacingLeft: 0,
 						spacingRight: 0,
@@ -139,13 +152,13 @@
 							{/foreach}
 						],
 						labels: {
-							/*
+							{*
 								отключить перенос подписей на несколько строк, если они не влезают (установить в 1 строку)
-							 */
+							*}
 							staggerLines: 1,
-							/*
+							{*
 								оставить каждую n-нную подпись для точки графика, если их больше, чем может уместиться
-							 */
+							*}
 							step: {$iPointsStepForLabels}
 						}
 					},
@@ -165,15 +178,15 @@
 
 
 	{**
-	 * Значения таблицей
+	 * Показать значения графика в таблице
 	 * TODO: Унифицировать
 	 *}
 
 	{if $bShowTable}
 		<div class="graph-table">
-			<button type="button" class="button" id="admin_users_show_graph_stats_in_table">{$aLang.plugin.admin.users_stats.values_in_table}</button>
+			<button type="button" class="button" id="admin_show_graph_data_in_table">{$aLang.plugin.admin.users_stats.values_in_table}</button>
 
-			<div id="admin_users_graph_table_stats_data">
+			<div id="admin_graph_table_data">
 				<table class="table">
 					<thead>
 						<tr>

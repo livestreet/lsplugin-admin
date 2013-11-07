@@ -93,9 +93,8 @@
 	background: none repeat scroll 0 0 #FACBFF;
 }
 
-#admin_users_graph_table_stats_data {
+#admin_graph_table_data {
 	display: none;
-	margin-top: 5px;
 }
 
 /* manual date selection */

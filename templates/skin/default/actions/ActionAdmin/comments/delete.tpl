@@ -2,7 +2,7 @@
 
 
 {block name='layout_page_title'}
-	{*$aLang.plugin.admin.users.deleteuser.title*}GOTTA DELETE? #{$oComment->getId()} ({$oComment->getText()|truncate:10:'...'|escape:'html'}
+	{$aLang.plugin.admin.comments.delete.title} #{$oComment->getId()} ({$oComment->getText()|truncate:15:'...'|escape:'html'})?
 {/block}
 
 
@@ -14,10 +14,9 @@
 		{include file="{$aTemplatePathPlugin.admin}/forms/fields/form.field.hidden.security_key.tpl"}
 		{include file="{$aTemplatePathPlugin.admin}/forms/fields/form.field.hidden.tpl" sFieldName='id' sFieldValue=$oComment->getId()}
 
-		{*todo: add description *}
-{*		<div class="info mb-20">
-			{$aLang.plugin.admin.users.deleteuser.delete_user_info}
-		</div>*}
+		<div class="info mb-20">
+			{$aLang.plugin.admin.comments.delete.delete_info}
+		</div>
 
 		{*
 			Кнопки

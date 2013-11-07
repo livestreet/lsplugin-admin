@@ -55,8 +55,8 @@ ls.admin_misc = (function($) {
 		/*
 			табличный вывод данных графика
 		 */
-		graph_stats_table_data_id: '#admin_users_graph_table_stats_data',
-		graph_stats_table_data_button: '#admin_users_show_graph_stats_in_table',
+		graph_table_data_id: '#admin_graph_table_data',
+		graph_table_data_button: '#admin_show_graph_data_in_table',
 
 		/*
 			переключатель периода прироста объектов на главной
@@ -179,10 +179,10 @@ jQuery(document).ready(function($) {
 
 
 	/*
-		скрытие/показ данных таблицы статистики для графика
+		скрыть/показать данные для графика в таблице под ним
 	 */
-	$ (ls.admin_misc.selectors.graph_stats_table_data_button).bind('click.admin', function(){
-		$ (ls.admin_misc.selectors.graph_stats_table_data_id).slideToggle(200);
+	$ (ls.admin_misc.selectors.graph_table_data_button).bind('click.admin', function() {
+		$ (ls.admin_misc.selectors.graph_table_data_id).slideToggle(200);
 		$ (this).toggleClass('active');
 		return false;
 	});
