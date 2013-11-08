@@ -41,6 +41,11 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 	 */
 	const FILTER_TABLE = 'table';
 
+	/*
+	 * ключ фильтра связанного поля для запроса (используется при чистки других таблиц, ссылающихся на таблицу комментариев)
+	 */
+	const FILTER_CONNECTED_FIELD = 'field';
+
 
 	public function Init() {
 		$this->oMapper = Engine::GetMapper(__CLASS__);
@@ -484,7 +489,7 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 
 	/*
 	 *
-	 * --- Хелперы ---
+	 * --- Чистка таблицы комментариев ---
 	 *
 	 */
 
@@ -509,44 +514,35 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 	}
 
 
+	/*
+	 *
+	 * --- Удаление записей в других таблицах, которые ссылаются на таблицу комментариев ---
+	 *
+	 */
+
+	/**
+	 * Удаление по фильтру записей в таблицах, которые ссылаются на таблицу комментариев, где нет нет таких комментариев
+	 *
+	 * @param $aFilter	фильтр
+	 * @return mixed
+	 */
+	protected function DeleteReferenceToCommentsNotExists($aFilter) {
+		return $this->oMapper->DeleteReferenceToCommentsNotExists($aFilter);
+	}
+
+
 	/**
 	 * Удаляет записи из прямого эфира, которые ссылаются на несуществующие комментарии
 	 *
 	 * @return bool
 	 */
 	protected function DeleteOnlineCommentsNotExists() {
-		return $this->oMapper->DeleteOnlineCommentsNotExists();
-	}
-
-
-	/**
-	 * Установить новое значение для флага проверки внешних связей с предварительной проверкой установленного типа таблиц
-	 *
-	 * @param $iValue		значение флага
-	 */
-	protected function ChangeForeignKeysCheckingTo($iValue) {
-		/*
-		 * только если тип таблиц InnoDB
-		 */
-		if (Config::Get('db.tables.engine') == 'InnoDB') {
-			$this->oMapper->SetForeignKeysChecking($iValue);
-		}
-	}
-
-
-	/**
-	 * Выключить проверку внешних ключей
-	 */
-	public function DisableForeignKeysChecking() {
-		$this->ChangeForeignKeysCheckingTo(0);
-	}
-
-
-	/**
-	 * Включить проверку внешних ключей
-	 */
-	public function EnableForeignKeysChecking() {
-		$this->ChangeForeignKeysCheckingTo(1);
+		$aFilter = array(
+			self::FILTER_CONDITIONS => array(),
+			self::FILTER_TABLE => Config::Get('db.table.comment_online'),
+			self::FILTER_CONNECTED_FIELD => 'comment_id'
+		);
+		return $this->DeleteReferenceToCommentsNotExists($aFilter);
 	}
 
 
@@ -556,7 +552,14 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 	 * @return bool
 	 */
 	protected function DeleteVotingsTargetingCommentsNotExists() {
-		return $this->oMapper->DeleteVotingsTargetingCommentsNotExists();
+		$aFilter = array(
+			self::FILTER_CONDITIONS => array(
+				'target_type' => 'comment',
+			),
+			self::FILTER_TABLE => Config::Get('db.table.vote'),
+			self::FILTER_CONNECTED_FIELD => 'target_id'
+		);
+		return $this->DeleteReferenceToCommentsNotExists($aFilter);
 	}
 
 
@@ -566,8 +569,16 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 	 * @return bool
 	 */
 	protected function DeleteFavouriteTargetingCommentsNotExists() {
-		return $this->oMapper->DeleteFavouriteTargetingCommentsNotExists();
+		$aFilter = array(
+			self::FILTER_CONDITIONS => array(
+				'target_type' => 'comment',
+			),
+			self::FILTER_TABLE => Config::Get('db.table.favourite'),
+			self::FILTER_CONNECTED_FIELD => 'target_id'
+		);
+		return $this->DeleteReferenceToCommentsNotExists($aFilter);
 	}
+
 
 
 	/**
@@ -576,7 +587,14 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 	 * @return bool
 	 */
 	protected function DeleteFavouriteTagsTargetingCommentsNotExists() {
-		return $this->oMapper->DeleteFavouriteTagsTargetingCommentsNotExists();
+		$aFilter = array(
+			self::FILTER_CONDITIONS => array(
+				'target_type' => 'comment',
+			),
+			self::FILTER_TABLE => Config::Get('db.table.favourite_tag'),
+			self::FILTER_CONNECTED_FIELD => 'target_id'
+		);
+		return $this->DeleteReferenceToCommentsNotExists($aFilter);
 	}
 
 
@@ -629,6 +647,44 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 		 */
 		$this->CleanUpOtherTablesAfterCommentsDeleting();
 	}
+
+
+	/*
+	 *
+	 * --- Работа с флагом проверки внешних ключей ---
+	 *
+	 */
+
+	/**
+	 * Установить новое значение для флага проверки внешних связей с предварительной проверкой установленного типа таблиц
+	 *
+	 * @param $iValue		значение флага
+	 */
+	protected function ChangeForeignKeysCheckingTo($iValue) {
+		/*
+		 * только если тип таблиц InnoDB
+		 */
+		if (Config::Get('db.tables.engine') == 'InnoDB') {
+			$this->oMapper->SetForeignKeysChecking($iValue);
+		}
+	}
+
+
+	/**
+	 * Выключить проверку внешних ключей
+	 */
+	public function DisableForeignKeysChecking() {
+		$this->ChangeForeignKeysCheckingTo(0);
+	}
+
+
+	/**
+	 * Включить проверку внешних ключей
+	 */
+	public function EnableForeignKeysChecking() {
+		$this->ChangeForeignKeysCheckingTo(1);
+	}
+
 
 }
 
