@@ -93,6 +93,23 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 
 
 	/**
+	 * Удаление записей пользователя на других стенах
+	 *
+	 * @param $oUser	объект пользователя
+	 * @return bool
+	 */
+	public function DeleteUserWroteOnWalls($oUser) {
+		$aFilter = array(
+			self::FILTER_CONDITIONS => array(
+				'user_id' => $oUser->getId(),
+			),
+			self::FILTER_TABLE => Config::Get('db.table.wall')
+		);
+		return $this->DeleteContentByFilter($aFilter);
+	}
+
+
+	/**
 	 * Удаление избранного пользователя
 	 *
 	 * @param $oUser	объект пользователя
@@ -250,7 +267,7 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 
 
 	/**
-	 * Удаление событий активности пользователя
+	 * Удаление событий активности, созданной пользователем
 	 *
 	 * @param $oUser	объект пользователя
 	 * @return bool
@@ -265,9 +282,14 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 		return $this->DeleteContentByFilter($aFilter);
 	}
 
+	/*
+	 * todo: стрим нужно чистить также как с таблицей комментариев
+	 * там может остаться куча мусора
+	 */
+
 
 	/**
-	 * Удаление подписки активности пользователя
+	 * Удаление подписки активности пользователя на других пользователей
 	 *
 	 * @param $oUser	объект пользователя
 	 * @return bool
@@ -276,6 +298,23 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 		$aFilter = array(
 			self::FILTER_CONDITIONS => array(
 				'user_id' => $oUser->getId(),
+			),
+			self::FILTER_TABLE => Config::Get('db.table.stream_subscribe')
+		);
+		return $this->DeleteContentByFilter($aFilter);
+	}
+
+
+	/**
+	 * Удаление подписки активности других пользователей на этого пользователя
+	 *
+	 * @param $oUser	объект пользователя
+	 * @return bool
+	 */
+	public function DeleteUserStreamSubscribeTarget($oUser) {
+		$aFilter = array(
+			self::FILTER_CONDITIONS => array(
+				'target_user_id' => $oUser->getId(),
 			),
 			self::FILTER_TABLE => Config::Get('db.table.stream_subscribe')
 		);
@@ -327,6 +366,24 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 		$aFilter = array(
 			self::FILTER_CONDITIONS => array(
 				'user_id' => $oUser->getId(),
+			),
+			self::FILTER_TABLE => Config::Get('db.table.userfeed_subscribe')
+		);
+		return $this->DeleteContentByFilter($aFilter);
+	}
+
+
+	/**
+	 * Удаление подписки фида других пользователей на этого пользователя
+	 *
+	 * @param $oUser	объект пользователя
+	 * @return bool
+	 */
+	public function DeleteUserFeedSubscribeTarget($oUser) {
+		$aFilter = array(
+			self::FILTER_CONDITIONS => array(
+				'target_id' => $oUser->getId(),
+				'subscribe_type' => ModuleUserfeed::SUBSCRIBE_TYPE_USER
 			),
 			self::FILTER_TABLE => Config::Get('db.table.userfeed_subscribe')
 		);
@@ -580,7 +637,6 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 	}
 
 
-
 	/**
 	 * Удаляет записи тегов избранного, указывающие на несуществующие комментарии
 	 *
@@ -592,6 +648,23 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 				'target_type' => 'comment',
 			),
 			self::FILTER_TABLE => Config::Get('db.table.favourite_tag'),
+			self::FILTER_CONNECTED_FIELD => 'target_id'
+		);
+		return $this->DeleteReferenceToCommentsNotExists($aFilter);
+	}
+
+
+	/**
+	 * Удаляет записи активности типа "добавление комментариев", указывающие на несуществующие комментарии
+	 *
+	 * @return bool
+	 */
+	protected function DeleteStreamCommentEventsTargetingCommentsNotExists() {
+		$aFilter = array(
+			self::FILTER_CONDITIONS => array(
+				'event_type' => 'add_comment',
+			),
+			self::FILTER_TABLE => Config::Get('db.table.stream_event'),
 			self::FILTER_CONNECTED_FIELD => 'target_id'
 		);
 		return $this->DeleteReferenceToCommentsNotExists($aFilter);
@@ -624,6 +697,11 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 		 *  очистить таблицы тегов избранного от записей, указывающих на несуществующие комментарии, целые ветки которых были удалены
 		 */
 		$this->DeleteFavouriteTagsTargetingCommentsNotExists();
+
+		/*
+		 * очистить таблицу активности (стрима) от записей типа "добавление комментария", которые ссылаются на удаленные комментарии
+		 */
+		$this->DeleteStreamCommentEventsTargetingCommentsNotExists();
 	}
 
 

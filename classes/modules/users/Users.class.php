@@ -769,9 +769,13 @@ class PluginAdmin_ModuleUsers extends Module {
 		 */
 		$this->PluginAdmin_Deletecontent_DeleteUserStreamEvents($oUser);
 		/*
-		 * удалить подписку активности пользователя
+		 * удалить подписку активности пользователя на других пользователей
 		 */
 		$this->PluginAdmin_Deletecontent_DeleteUserStreamSubscribe($oUser);
+		/*
+		 * удалить подписку активности других пользователей на этого пользователя
+		 */
+		$this->PluginAdmin_Deletecontent_DeleteUserStreamSubscribeTarget($oUser);
 		/*
 		 * удалить опции типов на что подписался в активности пользователь
 		 */
@@ -786,6 +790,10 @@ class PluginAdmin_ModuleUsers extends Module {
 		 * удалить подписку фида пользователя
 		 */
 		$this->PluginAdmin_Deletecontent_DeleteUserFeedSubscribe($oUser);
+		/*
+		 * удалить подписку фида других пользователей на этого пользователя
+		 */
+		$this->PluginAdmin_Deletecontent_DeleteUserFeedSubscribeTarget($oUser);
 
 		/*
 		 * удалить смену почты пользователя
@@ -815,6 +823,10 @@ class PluginAdmin_ModuleUsers extends Module {
 		 * удалить стену пользователя
 		 */
 		$this->PluginAdmin_Deletecontent_DeleteUserWall($oUser);
+		/*
+		 * удалить записи пользователя на других стенах
+		 */
+		$this->PluginAdmin_Deletecontent_DeleteUserWroteOnWalls($oUser);
 
 
 		/*
