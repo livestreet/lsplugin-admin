@@ -843,6 +843,14 @@ class PluginAdmin_ModuleUsers extends Module {
 		 * удалить комментарии пользователя и все дочерние ответы на них и связанные с ними данные
 		 */
 		$this->DeleteUserCommentsTree($oUser);
+
+
+		/*
+		 *
+		 * Очистка активности (стрима) от ссылок на записи, которых больше нет
+		 *
+		 */
+		$this->PluginAdmin_Deletecontent_CleanStreamForEventsNotExists();
 	}
 
 

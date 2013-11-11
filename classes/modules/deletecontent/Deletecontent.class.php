@@ -46,6 +46,16 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 	 */
 	const FILTER_CONNECTED_FIELD = 'field';
 
+	/*
+	 * ключ фильтра имени ид связанного поля для субзапроса получения данных из другой таблицы
+	 */
+	const FILTER_SUBQUERY_FIELD = 'subquery_field';
+
+	/*
+	 * ключ фильтра имени таблицы для субзапроса получения данных из другой таблицы
+	 */
+	const FILTER_SUBQUERY_TABLE = 'subquery_table';
+
 
 	public function Init() {
 		$this->oMapper = Engine::GetMapper(__CLASS__);
@@ -578,13 +588,13 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 	 */
 
 	/**
-	 * Удаление по фильтру записей в таблицах, которые ссылаются на таблицу комментариев, где нет нет таких комментариев
+	 * Удаление по фильтру записей в таблицах, которые ссылаются на несуществующие данные из другой таблицы
 	 *
 	 * @param $aFilter	фильтр
 	 * @return mixed
 	 */
-	protected function DeleteReferenceToCommentsNotExists($aFilter) {
-		return $this->oMapper->DeleteReferenceToCommentsNotExists($aFilter);
+	protected function DeleteReferencesToOtherTableRecordsNotExists($aFilter) {
+		return $this->oMapper->DeleteReferencesToOtherTableRecordsNotExists($aFilter);
 	}
 
 
@@ -597,9 +607,12 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 		$aFilter = array(
 			self::FILTER_CONDITIONS => array(),
 			self::FILTER_TABLE => Config::Get('db.table.comment_online'),
-			self::FILTER_CONNECTED_FIELD => 'comment_id'
+			self::FILTER_CONNECTED_FIELD => 'comment_id',
+
+			self::FILTER_SUBQUERY_FIELD => 'comment_id',
+			self::FILTER_SUBQUERY_TABLE => Config::Get('db.table.comment'),
 		);
-		return $this->DeleteReferenceToCommentsNotExists($aFilter);
+		return $this->DeleteReferencesToOtherTableRecordsNotExists($aFilter);
 	}
 
 
@@ -614,9 +627,12 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 				'target_type' => 'comment',
 			),
 			self::FILTER_TABLE => Config::Get('db.table.vote'),
-			self::FILTER_CONNECTED_FIELD => 'target_id'
+			self::FILTER_CONNECTED_FIELD => 'target_id',
+
+			self::FILTER_SUBQUERY_FIELD => 'comment_id',
+			self::FILTER_SUBQUERY_TABLE => Config::Get('db.table.comment'),
 		);
-		return $this->DeleteReferenceToCommentsNotExists($aFilter);
+		return $this->DeleteReferencesToOtherTableRecordsNotExists($aFilter);
 	}
 
 
@@ -631,9 +647,12 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 				'target_type' => 'comment',
 			),
 			self::FILTER_TABLE => Config::Get('db.table.favourite'),
-			self::FILTER_CONNECTED_FIELD => 'target_id'
+			self::FILTER_CONNECTED_FIELD => 'target_id',
+
+			self::FILTER_SUBQUERY_FIELD => 'comment_id',
+			self::FILTER_SUBQUERY_TABLE => Config::Get('db.table.comment'),
 		);
-		return $this->DeleteReferenceToCommentsNotExists($aFilter);
+		return $this->DeleteReferencesToOtherTableRecordsNotExists($aFilter);
 	}
 
 
@@ -648,26 +667,12 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 				'target_type' => 'comment',
 			),
 			self::FILTER_TABLE => Config::Get('db.table.favourite_tag'),
-			self::FILTER_CONNECTED_FIELD => 'target_id'
-		);
-		return $this->DeleteReferenceToCommentsNotExists($aFilter);
-	}
+			self::FILTER_CONNECTED_FIELD => 'target_id',
 
-
-	/**
-	 * Удаляет записи активности типа "добавление комментариев", указывающие на несуществующие комментарии
-	 *
-	 * @return bool
-	 */
-	protected function DeleteStreamCommentEventsTargetingCommentsNotExists() {
-		$aFilter = array(
-			self::FILTER_CONDITIONS => array(
-				'event_type' => 'add_comment',
-			),
-			self::FILTER_TABLE => Config::Get('db.table.stream_event'),
-			self::FILTER_CONNECTED_FIELD => 'target_id'
+			self::FILTER_SUBQUERY_FIELD => 'comment_id',
+			self::FILTER_SUBQUERY_TABLE => Config::Get('db.table.comment'),
 		);
-		return $this->DeleteReferenceToCommentsNotExists($aFilter);
+		return $this->DeleteReferencesToOtherTableRecordsNotExists($aFilter);
 	}
 
 
@@ -763,6 +768,258 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 		$this->ChangeForeignKeysCheckingTo(1);
 	}
 
+
+	/*
+	 *
+	 * --- Очистка активности (стрима) от записей, указывающих на несуществующие данные ---
+	 *
+	 */
+
+	/**
+	 * Удаляет записи активности типа "добавление записи на стену", указывающие на несуществующие стены
+	 *
+	 * @return bool
+	 */
+	protected function DeleteStreamWallEventsTargetingWallsNotExists() {
+		$aFilter = array(
+			self::FILTER_CONDITIONS => array(
+				'event_type' => 'add_wall',
+			),
+			self::FILTER_TABLE => Config::Get('db.table.stream_event'),
+			self::FILTER_CONNECTED_FIELD => 'target_id',
+
+			self::FILTER_SUBQUERY_FIELD => 'id',
+			self::FILTER_SUBQUERY_TABLE => Config::Get('db.table.wall'),
+		);
+		return $this->DeleteReferencesToOtherTableRecordsNotExists($aFilter);
+	}
+
+
+	/**
+	 * Удаляет записи активности типа "добавление топика", указывающие на несуществующие топики
+	 *
+	 * @return bool
+	 */
+	protected function DeleteStreamTopicEventsTargetingTopicsNotExists() {
+		$aFilter = array(
+			self::FILTER_CONDITIONS => array(
+				'event_type' => 'add_topic',
+			),
+			self::FILTER_TABLE => Config::Get('db.table.stream_event'),
+			self::FILTER_CONNECTED_FIELD => 'target_id',
+
+			self::FILTER_SUBQUERY_FIELD => 'topic_id',
+			self::FILTER_SUBQUERY_TABLE => Config::Get('db.table.topic'),
+		);
+		return $this->DeleteReferencesToOtherTableRecordsNotExists($aFilter);
+	}
+
+
+	/**
+	 * Удаляет записи активности типа "добавление комментариев", указывающие на несуществующие комментарии
+	 *
+	 * @return bool
+	 */
+	protected function DeleteStreamCommentEventsTargetingCommentsNotExists() {
+		$aFilter = array(
+			self::FILTER_CONDITIONS => array(
+				'event_type' => 'add_comment',
+			),
+			self::FILTER_TABLE => Config::Get('db.table.stream_event'),
+			self::FILTER_CONNECTED_FIELD => 'target_id',
+
+			self::FILTER_SUBQUERY_FIELD => 'comment_id',
+			self::FILTER_SUBQUERY_TABLE => Config::Get('db.table.comment'),
+		);
+		return $this->DeleteReferencesToOtherTableRecordsNotExists($aFilter);
+	}
+
+
+	/**
+	 * Удаляет записи активности типа "добавление блога", указывающие на несуществующие блоги
+	 *
+	 * @return bool
+	 */
+	protected function DeleteStreamBlogEventsTargetingBlogsNotExists() {
+		$aFilter = array(
+			self::FILTER_CONDITIONS => array(
+				'event_type' => 'add_blog',
+			),
+			self::FILTER_TABLE => Config::Get('db.table.stream_event'),
+			self::FILTER_CONNECTED_FIELD => 'target_id',
+
+			self::FILTER_SUBQUERY_FIELD => 'blog_id',
+			self::FILTER_SUBQUERY_TABLE => Config::Get('db.table.blog'),
+		);
+		return $this->DeleteReferencesToOtherTableRecordsNotExists($aFilter);
+	}
+
+
+	/**
+	 * Удаляет записи активности типа "голосование за топик", указывающие на несуществующие топики
+	 *
+	 * @return bool
+	 */
+	protected function DeleteStreamVoteTopicEventsTargetingTopicsNotExists() {
+		$aFilter = array(
+			self::FILTER_CONDITIONS => array(
+				'event_type' => 'vote_topic',
+			),
+			self::FILTER_TABLE => Config::Get('db.table.stream_event'),
+			self::FILTER_CONNECTED_FIELD => 'target_id',
+
+			self::FILTER_SUBQUERY_FIELD => 'topic_id',
+			self::FILTER_SUBQUERY_TABLE => Config::Get('db.table.topic'),
+		);
+		return $this->DeleteReferencesToOtherTableRecordsNotExists($aFilter);
+	}
+
+
+	/**
+	 * Удаляет записи активности типа "голосование за комментарий", указывающие на несуществующие комментарии
+	 *
+	 * @return bool
+	 */
+	protected function DeleteStreamVoteCommentEventsTargetingCommentsNotExists() {
+		$aFilter = array(
+			self::FILTER_CONDITIONS => array(
+				'event_type' => 'vote_comment',
+			),
+			self::FILTER_TABLE => Config::Get('db.table.stream_event'),
+			self::FILTER_CONNECTED_FIELD => 'target_id',
+
+			self::FILTER_SUBQUERY_FIELD => 'comment_id',
+			self::FILTER_SUBQUERY_TABLE => Config::Get('db.table.comment'),
+		);
+		return $this->DeleteReferencesToOtherTableRecordsNotExists($aFilter);
+	}
+
+
+	/**
+	 * Удаляет записи активности типа "голосование за блог", указывающие на несуществующие блоги
+	 *
+	 * @return bool
+	 */
+	protected function DeleteStreamVoteBlogEventsTargetingBlogsNotExists() {
+		$aFilter = array(
+			self::FILTER_CONDITIONS => array(
+				'event_type' => 'vote_blog',
+			),
+			self::FILTER_TABLE => Config::Get('db.table.stream_event'),
+			self::FILTER_CONNECTED_FIELD => 'target_id',
+
+			self::FILTER_SUBQUERY_FIELD => 'blog_id',
+			self::FILTER_SUBQUERY_TABLE => Config::Get('db.table.blog'),
+		);
+		return $this->DeleteReferencesToOtherTableRecordsNotExists($aFilter);
+	}
+
+
+	/**
+	 * Удаляет записи активности типа "голосование за пользователя", указывающие на несуществующих пользователей
+	 *
+	 * @return bool
+	 */
+	protected function DeleteStreamVoteUserEventsTargetingUsersNotExists() {
+		$aFilter = array(
+			self::FILTER_CONDITIONS => array(
+				'event_type' => 'vote_user',
+			),
+			self::FILTER_TABLE => Config::Get('db.table.stream_event'),
+			self::FILTER_CONNECTED_FIELD => 'target_id',
+
+			self::FILTER_SUBQUERY_FIELD => 'user_id',
+			self::FILTER_SUBQUERY_TABLE => Config::Get('db.table.user'),
+		);
+		return $this->DeleteReferencesToOtherTableRecordsNotExists($aFilter);
+	}
+
+
+	/**
+	 * Удаляет записи активности типа "добавление друга", указывающие на несуществующих пользователей
+	 *
+	 * @return bool
+	 */
+	protected function DeleteStreamAddFriendEventsTargetingUsersNotExists() {
+		$aFilter = array(
+			self::FILTER_CONDITIONS => array(
+				'event_type' => 'add_friend',
+			),
+			self::FILTER_TABLE => Config::Get('db.table.stream_event'),
+			self::FILTER_CONNECTED_FIELD => 'target_id',
+
+			self::FILTER_SUBQUERY_FIELD => 'user_id',
+			self::FILTER_SUBQUERY_TABLE => Config::Get('db.table.user'),
+		);
+		return $this->DeleteReferencesToOtherTableRecordsNotExists($aFilter);
+	}
+
+
+	/**
+	 * Удаляет записи активности типа "вход в блог", указывающие на несуществующие блоги
+	 *
+	 * @return bool
+	 */
+	protected function DeleteStreamJoinBlogEventsTargetingBlogsNotExists() {
+		$aFilter = array(
+			self::FILTER_CONDITIONS => array(
+				'event_type' => 'join_blog',
+			),
+			self::FILTER_TABLE => Config::Get('db.table.stream_event'),
+			self::FILTER_CONNECTED_FIELD => 'target_id',
+
+			self::FILTER_SUBQUERY_FIELD => 'blog_id',
+			self::FILTER_SUBQUERY_TABLE => Config::Get('db.table.blog'),
+		);
+		return $this->DeleteReferencesToOtherTableRecordsNotExists($aFilter);
+	}
+
+
+	/**
+	 * Выполняет очистку активности (стрима) от записей, которые указывают на несуществующие объекты
+	 */
+	public function CleanStreamForEventsNotExists() {
+		/*
+		 * Удаляет записи активности типа "добавление записи на стену", указывающие на несуществующие стены
+		 */
+		$this->DeleteStreamWallEventsTargetingWallsNotExists();
+		/*
+		 * Удаляет записи активности типа "добавление топика", указывающие на несуществующие топики
+		 */
+		$this->DeleteStreamTopicEventsTargetingTopicsNotExists();
+		/*
+		 * Удаляет записи активности типа "добавление комментариев", указывающие на несуществующие комментарии
+		 */
+		$this->DeleteStreamCommentEventsTargetingCommentsNotExists();
+		/*
+		 * Удаляет записи активности типа "добавление блога", указывающие на несуществующие блоги
+		 */
+		$this->DeleteStreamBlogEventsTargetingBlogsNotExists();
+		/*
+		 * Удаляет записи активности типа "голосование за топик", указывающие на несуществующие топики
+		 */
+		$this->DeleteStreamVoteTopicEventsTargetingTopicsNotExists();
+		/*
+		 * Удаляет записи активности типа "голосование за комментарий", указывающие на несуществующие комментарии
+		 */
+		$this->DeleteStreamVoteCommentEventsTargetingCommentsNotExists();
+		/*
+		 * Удаляет записи активности типа "голосование за блог", указывающие на несуществующие блоги
+		 */
+		$this->DeleteStreamVoteBlogEventsTargetingBlogsNotExists();
+		/*
+		 * Удаляет записи активности типа "голосование за пользователя", указывающие на несуществующих пользователей
+		 */
+		$this->DeleteStreamVoteUserEventsTargetingUsersNotExists();
+		/*
+		 * Удаляет записи активности типа "добавление друга", указывающие на несуществующих пользователей
+		 */
+		$this->DeleteStreamAddFriendEventsTargetingUsersNotExists();
+		/*
+		 * Удаляет записи активности типа "вход в блог", указывающие на несуществующие блоги
+		 */
+		$this->DeleteStreamJoinBlogEventsTargetingBlogsNotExists();
+	}
 
 }
 

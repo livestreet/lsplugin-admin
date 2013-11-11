@@ -108,12 +108,12 @@ class PluginAdmin_ModuleDeletecontent_MapperDeletecontent extends Mapper {
 
 
 	/**
-	 * Удаление данных из БД по фильтру
+	 * Удаление данных, ссылающихся на несуществующие данные из другой таблицы, по фильтру
 	 *
 	 * @param $aFilter		фильтр
 	 * @return array|null
 	 */
-	public function DeleteReferenceToCommentsNotExists($aFilter) {
+	public function DeleteReferencesToOtherTableRecordsNotExists($aFilter) {
 		$sWhere = $this->BuildWhereQuery($aFilter[PluginAdmin_ModuleDeletecontent::FILTER_CONDITIONS]);
 		$sSql = 'DELETE
 			FROM
@@ -122,9 +122,9 @@ class PluginAdmin_ModuleDeletecontent_MapperDeletecontent extends Mapper {
 				' . $sWhere . '
 				AND
 				`' . $aFilter[PluginAdmin_ModuleDeletecontent::FILTER_CONNECTED_FIELD] . '` NOT IN (
-					SELECT `comment_id`
+					SELECT `' . $aFilter[PluginAdmin_ModuleDeletecontent::FILTER_SUBQUERY_FIELD] . '`
 					FROM
-						`' . Config::Get('db.table.comment') . '`
+						`' . $aFilter[PluginAdmin_ModuleDeletecontent::FILTER_SUBQUERY_TABLE] . '`
 				)
 		';
 		return $this->oDb->query($sSql);
