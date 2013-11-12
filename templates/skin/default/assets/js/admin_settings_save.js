@@ -31,7 +31,7 @@ ls.admin_settings_save = (function($) {
 	
 	this.selectors = {
 		FormId: '#admin_save',
-		OneParameterContainer: '.OneParameterContainer',
+		OneParameterContainer: '.js-settings-field',
 		OneParameterErrorWrapper: '.' + this.styleClass.ErrorMsgContainer
 	};
 	
