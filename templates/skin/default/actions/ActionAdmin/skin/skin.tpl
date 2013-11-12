@@ -24,9 +24,9 @@
 			{/if}
 
 			{if ! $bThisSkin}
-				<a href="{router page="admin/settings/skin/use/{$oSkin->getName()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
+				<a href="{router page="admin/settings/skins/use/{$oSkin->getName()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
 				   class="button button-primary">{$aLang.plugin.admin.skin.use_skin}</a>
-				<a href="{router page="admin/settings/skin/preview/{$oSkin->getName()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
+				<a href="{router page="admin/settings/skins/preview/{$oSkin->getName()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
 				   class="button button-primary">{$aLang.plugin.admin.skin.preview_skin}</a>
 			{/if}
 		</div>
@@ -55,7 +55,10 @@
 						<dt>{$aLang.plugin.admin.skin.themes}:</dt>
 						<dd>
 							{if $bThisSkin}
-								<form action="{router page="admin/settings/skin/theme/{$oSkin->getName()}"}"
+								{*
+									для текущего шаблона можно менять список тем
+								*}
+								<form action="{router page="admin/settings/skins/theme/{$oSkin->getName()}"}"
 									  enctype="application/x-www-form-urlencoded"
 									  method="post">
 									<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
@@ -71,6 +74,9 @@
 									<button type="submit" class="button">{$aLang.plugin.admin.skin.change_theme}</button>
 								</form>
 							{else}
+								{*
+									для неактивного шаблона нужно только вывести список тем, т.к. включить их для неактивного шаблона нельзя
+								*}
 								{foreach from=$oInfo->themes->children() item=oTheme}
 									<span>{$oTheme->value}</span>
 									<i class="icon-info-sign" title="{$oTheme->description->data|escape:'html'}"></i>

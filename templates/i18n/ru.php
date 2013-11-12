@@ -79,6 +79,7 @@ return array(
 		'skin'=>array(
 			'activation_version_error' => 'Для работы шаблона необходимо ядро LiveStreet версии не ниже %%version%%',
 			'activation_requires_error' => 'Для работы шаблона необходим активированный плагин <b>%%plugin%%</b>',
+			'unknown_skin' => 'Неизвестный шаблон',
 		),
 		/*
 		 * Ошибки банов
@@ -132,6 +133,7 @@ return array(
 	 * Шаблоны
 	 */
 	'skin' => array(
+		'title' => 'Шаблоны',
 		'use_skin' => 'Включить',
 		'preview_skin' => 'Предпросмотр',
 		'current_skin' => 'Включен сейчас',

@@ -257,13 +257,13 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 */
 		$this->AddEventPreg('#^settings$#iu', '#^save$#iu', 'Settings::EventSaveConfig');
 		/*
-		 * Управление темами шаблонов
+		 * Изменение темы текущего шаблона
 		 */
-		$this->AddEventPreg('#^settings$#iu', '#^skin$#iu', '#^theme$#iu', 'Settings::EventProcessSkinTheme');
+		$this->AddEventPreg('#^settings$#iu', '#^skins$#iu', '#^theme$#iu', 'Settings::EventChangeSkinTheme');
 		/*
-		 * Управление шаблонами
+		 * Список шаблонов
 		 */
-		$this->AddEventPreg('#^settings$#iu', '#^skin$#iu', 'Settings::EventProcessSkin');
+		$this->AddEventPreg('#^settings$#iu', '#^skins$#iu', 'Settings::EventSkins');
 
 		/*
 		 *
@@ -318,7 +318,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			->AddSection(
 				Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Настройки')->SetName('settings')->SetUrl('settings')
 				
-				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Шаблоны')->SetUrl('skin'))
+				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Шаблоны')->SetUrl('skins'))
 				
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Внешний вид сайта')->SetUrl('view'))
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Интерфейс')->SetUrl('interface'))

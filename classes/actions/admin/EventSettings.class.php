@@ -32,18 +32,22 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 	 */
 	public function EventShow() {
 		/*
-		 * Корректно ли имя конфига
+		 * корректно ли имя конфига
 		 */
 		if (!$sConfigName = $this->getParam(1) or !is_string($sConfigName)) {
 			$this->Message_AddError($this->Lang_Get('plugin.admin.errors.wrong_config_name'), $this->Lang_Get('error'));
 			return false;
 		}
-		
+		/*
+		 * активирован ли этот плагин
+		 */
 		if (!$this->PluginAdmin_Settings_CheckPluginNameIsActive($sConfigName)) {
 			$this->Message_AddError($this->Lang_Get('plugin.admin.errors.plugin_need_to_be_activated'), $this->Lang_Get('error'));
 			return false;
 		}
-
+		/*
+		 * получить набор настроек
+		 */
 		$aSettingsAll = $this->PluginAdmin_Settings_GetConfigSettings($sConfigName);
 		
 		$this->Viewer_Assign('aSettingsAll', $aSettingsAll);
@@ -53,57 +57,86 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 
 
 	/**
-	 * Сохранить настройки
+	 * Сохранить настройки (запрос может быть выполнен обычным способом так и через аякс, в зависимости от настройки соответствующего параметра в конфиге плагина)
 	 *
 	 * @return mixed
 	 */
 	public function EventSaveConfig() {
+		/*
+		 * получить тип ответа на запрос сохранения настроек
+		 */
 		if ($bAjax = isAjaxRequest()) {
 			$this->Viewer_SetResponseAjax('json');
 		}
 		
 		$this->Security_ValidateSendForm();
-
+		/*
+		 * если была нажата кнопка
+		 */
 		if (isPost('submit_save_settings')) {
-			if ($this->SaveSettings() and !$bAjax) {
+			/*
+			 * успешно ли сохранение настроек
+			 */
+			$bResult = $this->SaveSettings();
+			/*
+			 * если успешно и это обычный запрос - написать "ок"
+			 */
+			if ($bResult and !$bAjax) {
 				$this->Message_AddNotice('Ok', '', true);
 			}
+			/*
+			 * если это аякс - загрузить весь набор ошибок для показа на форме
+			 */
 			if ($bAjax) {
+				/*
+				 * через специальный метод админки
+				 */
 				$this->Viewer_AssignAjax('aParamErrors', $this->Message_GetParamsErrors());
 			}
 		}
-		
+		/*
+		 * если это обычный запрос - сделать редирект
+		 */
 		if (!$bAjax) {
 			return $this->RedirectToReferer();
 		}
 	}
-	
-	
+
+
+	/**
+	 * Выполнить сохранение настроек
+	 *
+	 * @return bool
+	 */
 	protected function SaveSettings() {
 		/*
-		 * Корректно ли имя конфига
+		 * корректно ли имя конфига
 		 */
 		if (!$sConfigName = $this->getParam(1) or !is_string($sConfigName)) {
 			$this->Message_AddError($this->Lang_Get('plugin.admin.errors.wrong_config_name'), $this->Lang_Get('error'));
 			return false;
 		}
-		
+		/*
+		 * является ли набор настроек настройками движка или это активированный плагин
+		 */
 		if ($sConfigName != ModuleStorage::DEFAULT_KEY_NAME and !$this->PluginAdmin_Settings_CheckPluginNameIsActive($sConfigName)) {
 			$this->Message_AddError($this->Lang_Get('plugin.admin.errors.plugin_need_to_be_activated'), $this->Lang_Get('error'));
 			return false;
 		}
-
 		/*
-		 * Получение всех параметров, их валидация и сверка с описанием структуры и запись в отдельную инстанцию конфига
+		 * получение всех параметров, их валидация и сверка с описанием структуры и запись в отдельную инстанцию конфига
 		 */
-		if ($this->PluginAdmin_Settings_ParsePOSTDataIntoSeparateConfigInstance($sConfigName)) {
+		if (!$this->PluginAdmin_Settings_ParsePOSTDataIntoSeparateConfigInstance($sConfigName)) {
 			/*
-			 * Сохранить все настройки плагина в БД
+			 * список ошибок уже создан с помощью специального метода модуля Message при проверке и будет передан пользователю вызывающим методом
 			 */
-			$this->PluginAdmin_Settings_SaveConfigByKey($sConfigName);
-			return true;
+			return false;
 		}
-		return false;
+		/*
+		 * сохранить все настройки плагина в БД
+		 */
+		$this->PluginAdmin_Settings_SaveConfigByKey($sConfigName);
+		return true;
 	}
 
 
@@ -133,8 +166,8 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 	 */
 	protected function GetGroupsListAndShowSettings($sGroupName) {
 		return $this->ShowSystemSettings(
-			$this->aCoreSettingsGroups [$sGroupName]['allowed'],
-			$this->aCoreSettingsGroups [$sGroupName]['exclude']
+			$this->aCoreSettingsGroups[$sGroupName]['allowed'],
+			$this->aCoreSettingsGroups[$sGroupName]['exclude']
 		);
 	}
 
@@ -159,65 +192,92 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 			/*
 			 * если такая группа настроек существует
 			 */
-			if (isset($this->aCoreSettingsGroups [$sGroupName])) {
+			if (isset($this->aCoreSettingsGroups[$sGroupName])) {
 				return $this->GetGroupsListAndShowSettings($sGroupName);
 			}
-			throw new Exception('Admin: error: there is no settings group name as "' . $sGroupName . '"');			// this msg will be never shown
+			/*
+			 * это сообщение не будет никогда показано при текущих настройках, но пусть будет для отладки
+			 */
+			throw new Exception('Admin: error: there is no settings group name as "' . $sGroupName . '"');
 		}
+		/*
+		 * это обращение к ядру
+		 */
 		return parent::__call($sName, $aArgs);
 	}
 	
 	
 	/*
-	 *	Работа с шаблонами
+	 *
+	 * --- Работа с шаблонами ---
+	 *
 	 */
-	public function EventProcessSkin() {
+
+	/**
+	 * Показать список шаблонов
+	 *
+	 * @return mixed
+	 */
+	public function EventSkins() {
 		$this->SetTemplateAction('skin/list');
 
 		/*
-		 * получить список скинов и отдельно - текущий скин
+		 * получить список шаблонов и отдельно - текущий скин
 		 */
 		$aSkinsData = $this->PluginAdmin_Skin_GetSkinList(array(
 			'separate_current_skin' => true,
 			'delete_current_skin_from_list' => true
 		));
+		/*
+		 * список шаблонов
+		 */
 		$aSkinList = $aSkinsData['skins'];
+		/*
+		 * текущий скин
+		 */
 		$oCurrentSkin = $aSkinsData['current'];
 
 		/*
 		 * проверка разрешенных действий и корректности имени шаблона
 		 */
 		if ($sAction = $this->getParam(1) and in_array($sAction, array('use', 'preview', 'turnoffpreview'))) {
-			if ($sSkinName = $this->getParam(2) and isset($aSkinList [$sSkinName])) {
+			/*
+			 * указан и есть ли такой шаблон
+			 */
+			if ($sSkinName = $this->getParam(2) and isset($aSkinList[$sSkinName])) {
 				$this->Security_ValidateSendForm();
-
+				/*
+				 * выполнить нужную операцию
+				 */
 				$sMethodName = ucfirst($sAction) . 'Skin';
 				$this->{$sMethodName}($sSkinName);
 
 				return $this->RedirectToReferer();
 			} else {
-				$this->Message_AddError('Incorrect skin name');
+				$this->Message_AddError($this->Lang('errors.skin.unknown_skin'));
 			}
 		}
 		$this->Viewer_Assign('aSkins', $aSkinList);
 		$this->Viewer_Assign('oCurrentSkin', $oCurrentSkin);
-		return $aSkinsData;
 	}
 
 
 	/**
 	 * Изменить тему активного шаблона
 	 */
-	public function EventProcessSkinTheme() {
+	public function EventChangeSkinTheme() {
 		$this->Security_ValidateSendForm();
 		/*
 		 * получить имя нужной темы
 		 */
 		$sTheme = getRequestStr('theme');
 		/*
-		 * получить список шаблонов
+		 * получить список шаблонов и отдельно - текущий скин
 		 */
-		$aSkinsData = $this->EventProcessSkin();
+		$aSkinsData = $this->PluginAdmin_Skin_GetSkinList(array(
+			'separate_current_skin' => true,
+			'delete_current_skin_from_list' => true
+		));
 		/*
 		 * получить описание темы из xml файла
 		 */
@@ -225,7 +285,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 		/*
 		 * проверить есть ли такая тема текущего шаблона
 		 */
-		if ($oInfo and in_array($sTheme, $this->PluginAdmin_Skin_GetSkinThemesByInfo ($oInfo))) {
+		if ($oInfo and in_array($sTheme, $this->PluginAdmin_Skin_GetSkinThemesByInfo($oInfo))) {
 			if ($this->PluginAdmin_Skin_ChangeTheme($sTheme)) {
 				$this->Message_AddNotice($this->Lang('notices.theme_changed'), '', true);
 			}

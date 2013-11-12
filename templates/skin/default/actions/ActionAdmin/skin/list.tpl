@@ -2,7 +2,7 @@
 
 
 {block name='layout_page_title'}
-	Шаблоны
+	{$aLang.plugin.admin.skin.title}
 {/block}
 
 
