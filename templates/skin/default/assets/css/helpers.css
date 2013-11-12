@@ -23,3 +23,10 @@
 .width-75 {
 	width: 75px;
 }
+
+/*
+	Loader
+*/
+.ls-admin .loading > * {
+	opacity: 0.15;
+}

@@ -129,4 +129,11 @@ jQuery(document).ready(function($) {
 		}.bind(this));
 	});
 
+	/*
+		добавлять класс "нажатия" кнопке открывающей дропдаун
+	 */
+	$ (ls.admin_stream.selectors.admin_index_activity_dropdown_menu_trigger).on('dropdownbeforeshow.admin, dropdownafterhide.admin', function() {
+		$ (this).toggleClass('active');
+	});
+
 });

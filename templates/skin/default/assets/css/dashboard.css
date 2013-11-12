@@ -18,15 +18,7 @@
  *
  */
 
-/* dashboard */
-
-
 /* items added */
-
-#admin_index_new_items_block.loading > * {
-	opacity: 0.12;
-}
-
 /* voting line */
 
 #admin_index_new_items_block .name {
