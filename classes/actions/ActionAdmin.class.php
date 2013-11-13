@@ -95,6 +95,10 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 */
 		$this->RegisterEventExternal('Settings', 'PluginAdmin_ActionAdmin_EventSettings');
 		/*
+		 * Работа с шаблонами
+		 */
+		$this->RegisterEventExternal('Skin', 'PluginAdmin_ActionAdmin_EventSkin');
+		/*
 		 * Дашбоард
 		 */
 		$this->RegisterEventExternal('Dashboard', 'PluginAdmin_ActionAdmin_EventDashboard');
@@ -289,11 +293,11 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		/*
 		 * Изменение темы текущего шаблона
 		 */
-		$this->AddEventPreg('#^settings$#iu', '#^skins$#iu', '#^theme$#iu', 'Settings::EventChangeSkinTheme');
+		$this->AddEventPreg('#^settings$#iu', '#^skins$#iu', '#^theme$#iu', 'Skin::EventChangeSkinTheme');
 		/*
 		 * Список шаблонов
 		 */
-		$this->AddEventPreg('#^settings$#iu', '#^skins$#iu', 'Settings::EventSkins');
+		$this->AddEventPreg('#^settings$#iu', '#^skins$#iu', 'Skin::EventSkins');
 
 		/*
 		 *

@@ -21,7 +21,7 @@
 
 /*
  *
- * Работа с настройками
+ * Работа с настройками плагинов и движка
  *
  */
 
@@ -29,7 +29,6 @@ class PluginAdmin_HookSettings extends Hook {
 
 	public function RegisterHook() {
 		$this->AddHook('lang_init_start', 'LangInitStart', __CLASS__, PHP_INT_MAX);			// наивысший приоритет, который можно установить
-		$this->AddHook('engine_init_complete', 'EngineInitComplete');
 	}
 
 
@@ -52,30 +51,6 @@ class PluginAdmin_HookSettings extends Hook {
 		$this->Viewer_AddSmartyPluginsDir(Plugin::GetPath(__CLASS__) . 'include/smarty/');
 	}
 	
-	
-	public function EngineInitComplete() {
-		/*
-		 * показать сообщение о предпросмотре шаблона с ссылкой для выключения
-		 */
-		if ($this->PluginAdmin_Skin_GetPreviewSkinName()) {
-			$this->ShowPreviewSkinMessage();
-		}
-	}
-
-
-	/**
-	 * Показать сообщение что включен режим предпросмотра шаблона
-	 *
-	 * @return mixed
-	 */
-	protected function ShowPreviewSkinMessage() {
-		/*
-		 * ключ безопасности ещё не передан, поэтому создадим его вручную
-		 */
-		$this->Security_SetSessionKey();
-		$this->Message_AddNotice($this->Viewer_Fetch(Plugin::GetTemplatePath(__CLASS__) . 'actions/ActionAdmin/skin/preview_skin_message.tpl'));
-	}
-
 }
 
 ?>
