@@ -120,7 +120,7 @@ class PluginAdmin_ModuleSkin extends Module {
 	 * @param $sSkinName				имя шаблона
 	 * @return null|SimpleXMLElement	обьект данных
 	 */
-	protected function GetSkinXmlObject ($sSkinName) {
+	protected function GetSkinXmlObject($sSkinName) {
 		$sSkinXmlFile = $this->GetSkinXmlFile($sSkinName);
 		if (file_exists($sSkinXmlFile)) {
 			return $this->GetSkinXmlData($sSkinXmlFile);
@@ -135,7 +135,7 @@ class PluginAdmin_ModuleSkin extends Module {
 	 * @param $sSkinName				имя шаблона
 	 * @return string|null				путь к изображению
 	 */
-	protected function GetSkinPreviewImage ($sSkinName){
+	protected function GetSkinPreviewImage($sSkinName){
 		$sSkinPreviewFile = $this->GetSkinPreviewFile($sSkinName);
 		if (file_exists($sSkinPreviewFile)) {
 			return $this->GetWebPath($sSkinPreviewFile);
@@ -239,7 +239,7 @@ class PluginAdmin_ModuleSkin extends Module {
 	 * @param $sSkinName	имя шаблона
 	 * @return bool
 	 */
-	protected function CheckSkinDependencies ($sSkinName) {
+	protected function CheckSkinDependencies($sSkinName) {
 		/*
 		 * если нет файла описания шаблона - просто нечего сверять
 		 */

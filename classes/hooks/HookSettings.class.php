@@ -28,7 +28,11 @@
 class PluginAdmin_HookSettings extends Hook {
 
 	public function RegisterHook() {
-		$this->AddHook('lang_init_start', 'LangInitStart', __CLASS__, PHP_INT_MAX);			// наивысший приоритет, который можно установить
+		/*
+		 * tip: наивысший приоритет, который можно установить,
+		 * важно чтобы никакой другой обработчик этого хука (lang_init_start), в котором устанавливаются значения в конфиге не имел приоритет выше чем этот
+		 */
+		$this->AddHook('lang_init_start', 'LangInitStart', __CLASS__, PHP_INT_MAX);
 	}
 
 
@@ -41,10 +45,6 @@ class PluginAdmin_HookSettings extends Hook {
 		 * присоеденить схему главного конфига и текстовки
 		 */
 		$this->PluginAdmin_Settings_AddSchemeAndLangToRootConfig();
-		/*
-		 * показать превью шаблона, если он был выбран в админке
-		 */
-		$this->PluginAdmin_Skin_LoadPreviewTemplate();
 		/*
 		 * добавить директорию с плагинами для Smarty
 		 */

@@ -28,7 +28,20 @@
 class PluginAdmin_HookSkin extends Hook {
 
 	public function RegisterHook() {
+		/*
+		 * tip: наивысший приоритет, который можно установить, но меньший чем у загрузки настроек (HookSettings.class.php),
+		 * чтобы настройки загрузились первыми и не перекрыли собой, например, предпросмотр шаблона
+		 */
+		$this->AddHook('lang_init_start', 'LangInitStart', __CLASS__, PHP_INT_MAX - 100);
 		$this->AddHook('engine_init_complete', 'EngineInitComplete');
+	}
+
+
+	public function LangInitStart() {
+		/*
+		 * показать предпросмотр шаблона, если он был выбран в админке
+		 */
+		$this->PluginAdmin_Skin_LoadPreviewTemplate();
 	}
 
 
@@ -43,7 +56,7 @@ class PluginAdmin_HookSkin extends Hook {
 
 
 	/**
-	 * Показать сообщение что включен режим предпросмотра шаблона
+	 * Показать сообщение что включен режим предпросмотра шаблона с ссылкой для выключения
 	 *
 	 * @return mixed
 	 */
