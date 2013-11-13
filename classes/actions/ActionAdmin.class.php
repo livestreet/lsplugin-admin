@@ -103,6 +103,13 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 */
 		$this->RegisterEventExternal('Comments', 'PluginAdmin_ActionAdmin_EventComments');
 
+
+		/*
+		 *
+		 * --- Эвенты ---
+		 *
+		 */
+
 		/*
 		 *
 		 * --- Модуль свойств ----
@@ -160,6 +167,12 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		$this->AddEventPreg('#^users$#iu', '#^admins$#iu', '#^(page(\d{1,5}))?$#iu', 'Users::EventAdminsList');
 
 		/*
+		 *
+		 * --- Баны ---
+		 *
+		 */
+
+		/*
 		 * добавить бан
 		 */
 		$this->AddEventPreg('#^users$#iu', '#^bans$#iu', '#^add$#iu', 'Users::EventAddBan');
@@ -181,6 +194,12 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		$this->AddEventPreg('#^users$#iu', '#^bans$#iu', '#^view$#iu', '#^\d++$#iu', 'Users::EventViewBanInfo');
 
 		/*
+		 *
+		 * --- Операции над пользователями ---
+		 *
+		 */
+
+		/*
 		 * добавить или удалить админа
 		 */
 		$this->AddEventPreg('#^users$#iu', '#^manageadmins$#iu', '#^(?:add|delete)$#iu', '#^\d++$#iu', 'Users::EventManageAdmins');
@@ -194,8 +213,11 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		$this->AddEventPreg('#^users$#iu', '#^stats$#iu', 'Users::EventShowUserStats');
 
 		/*
-		 * аякс обработчики
+		 *
+		 * --- Аякс обработчики для раздела пользователей ---
+		 *
 		 */
+
 		/*
 		 * изменение количества пользователей на страницу
 		 */
@@ -234,13 +256,14 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 */
 
 		/*
-		 * показать страницу собственных настроек плагина
+		 * показать страницу настроек плагина, управление которыми осуществляет сам плагин
 		 */
 		$this->AddEventPreg('#^plugin$#i', '#^[\w-]+$#i', 'Plugin::EventPlugin');
 		/*
 		 * список плагинов
 		 */
 		$this->AddEventPreg('#^plugins$#iu', '#^(?:list)?$#iu', 'Plugins::EventPluginsList');
+
 
 		/*
 		 *
@@ -249,13 +272,20 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 */
 
 		/*
-		 * Настройки плагина
+		 * Показать настройки плагина
 		 */
 		$this->AddEventPreg('#^settings$#iu', '#^plugin$#iu', 'Settings::EventShow');
 		/*
-		 * Сохранить настройки
+		 * Сохранить настройки (плагина или движка)
 		 */
 		$this->AddEventPreg('#^settings$#iu', '#^save$#iu', 'Settings::EventSaveConfig');
+
+		/*
+		 *
+		 * --- Шаблоны ---
+		 *
+		 */
+
 		/*
 		 * Изменение темы текущего шаблона
 		 */
@@ -273,7 +303,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 
 		/*
 		 * для каждой группы настроек добавим виртуальный эвент и будем ловить их через __call()
-		 * чтобы не плодить полупустых методов, так компактнее и удобнее
+		 * чтобы не плодить полупустых методов, так компактнее и удобнее.
 		 * todo: нужно что-то ещё с меню придумать чтобы полностью автоматизировать процесс создания групп
 		 * пока в меню нужно прописывать вручную пункты групп
 		 */

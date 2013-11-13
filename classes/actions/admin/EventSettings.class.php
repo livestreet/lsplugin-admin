@@ -286,6 +286,9 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 		 * проверить есть ли такая тема текущего шаблона
 		 */
 		if ($oInfo and in_array($sTheme, $this->PluginAdmin_Skin_GetSkinThemesByInfo($oInfo))) {
+			/*
+			 * установить тему
+			 */
 			if ($this->PluginAdmin_Skin_ChangeTheme($sTheme)) {
 				$this->Message_AddNotice($this->Lang('notices.theme_changed'), '', true);
 			}

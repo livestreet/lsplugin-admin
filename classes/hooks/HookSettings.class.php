@@ -29,9 +29,7 @@ class PluginAdmin_HookSettings extends Hook {
 
 	public function RegisterHook() {
 		$this->AddHook('lang_init_start', 'LangInitStart', __CLASS__, PHP_INT_MAX);			// наивысший приоритет, который можно установить
-
-		$this->AddHook('template_content_begin', 'ContentBegin');
-		$this->AddHook('template_admin_content_begin', 'ContentBegin');						// todo: review: temp hook names (dubplicate)
+		$this->AddHook('engine_init_complete', 'EngineInitComplete');
 	}
 
 
@@ -55,19 +53,27 @@ class PluginAdmin_HookSettings extends Hook {
 	}
 	
 	
-	public function ContentBegin() {
+	public function EngineInitComplete() {
 		/*
 		 * показать сообщение о предпросмотре шаблона с ссылкой для выключения
 		 */
 		if ($this->PluginAdmin_Skin_GetPreviewSkinName()) {
-			return $this->ShowPreviewSkinMessage();
+			$this->ShowPreviewSkinMessage();
 		}
-		return false;
 	}
-	
-	
-	public function ShowPreviewSkinMessage() {
-		return $this->Viewer_Fetch(Plugin::GetTemplatePath(__CLASS__) . 'actions/ActionAdmin/skin/preview_skin_message.tpl');
+
+
+	/**
+	 * Показать сообщение что включен режим предпросмотра шаблона
+	 *
+	 * @return mixed
+	 */
+	protected function ShowPreviewSkinMessage() {
+		/*
+		 * ключ безопасности ещё не передан, поэтому создадим его вручную
+		 */
+		$this->Security_SetSessionKey();
+		$this->Message_AddNotice($this->Viewer_Fetch(Plugin::GetTemplatePath(__CLASS__) . 'actions/ActionAdmin/skin/preview_skin_message.tpl'));
 	}
 
 }
