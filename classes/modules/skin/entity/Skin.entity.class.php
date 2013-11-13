@@ -24,7 +24,47 @@
  */
 
 class PluginAdmin_ModuleSkin_EntitySkin extends Entity {
-	
+
+	/**
+	 * Включен ли этот шаблон сейчас для предпросмотра
+	 *
+	 * @return bool
+	 */
+	public function getInPreview() {
+		return $this->getName() == $this->PluginAdmin_Skin_GetPreviewSkinName();
+	}
+
+
+	/**
+	 * Включен ли сейчас этот шаблон (независимо от предпросмотра другого шаблона)
+	 *
+	 * @return bool
+	 */
+	public function getIsCurrent() {
+		return $this->getName() == $this->PluginAdmin_Skin_GetOriginalSkinName();
+	}
+
+
+	/**
+	 * Получить название шаблона как оно указано в описании, в противном случае - системное имя шаблона (имя директории)
+	 *
+	 * @return mixed
+	 */
+	public function getViewName() {
+		/*
+		 * если есть xml файл описания для шаблона
+		 */
+		if ($oInfo = $this->getInfo()) {
+			/*
+			 * получить запись с учетом языка сайта
+			 */
+			return $oInfo->name->data;
+		}
+		/*
+		 * вернуть системное имя шаблона
+		 */
+		return $this->getName();
+	}
 
 }
 

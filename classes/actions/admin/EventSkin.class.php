@@ -127,9 +127,10 @@ class PluginAdmin_ActionAdmin_EventSkin extends Event {
 	 * @param $sSkinName	имя шаблона
 	 */
 	private function PreviewSkin($sSkinName) {
-		if ($this->PluginAdmin_Skin_PreviewSkin($sSkinName)) {
-			$this->Message_AddNotice($this->Lang('notices.template_preview_set'), '', true);
-		}
+		/*
+		 * уведомление вместе с ссылкой для выключения будет выводиться при предпросмотре через хуки
+		 */
+		$this->PluginAdmin_Skin_PreviewSkin($sSkinName);
 	}
 
 

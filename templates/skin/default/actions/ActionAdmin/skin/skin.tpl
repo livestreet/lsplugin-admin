@@ -6,30 +6,27 @@
 	<img src="{$oSkin->getPreview()}" class="skin-list-item-image" />
 
 	<div class="skin-list-item-content">
-		{$oInfo = $oSkin->getInfo()}
-
-		{if $oInfo}
-			{$sName = $oInfo->name->data}
-		{else}
-			{$sName = $oSkin->getName()}
-		{/if}
-
-		<h4 class="skin-list-item-title">{$sName}</h4>
+		<h4 class="skin-list-item-title">{$oSkin->getViewName()|escape:'html'}</h4>
 
 		<div class="mb-15">
-			{$bThisSkin = false}
-
-			{if $oCurrentSkin->getName() == $oSkin->getName()}
-				{$bThisSkin = true}
-			{/if}
-
-			{if ! $bThisSkin}
+			{if !$oSkin->getIsCurrent()}
 				<a href="{router page="admin/settings/skins/use/{$oSkin->getName()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
 				   class="button button-primary">{$aLang.plugin.admin.skin.use_skin}</a>
-				<a href="{router page="admin/settings/skins/preview/{$oSkin->getName()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
-				   class="button button-primary">{$aLang.plugin.admin.skin.preview_skin}</a>
+
+				{*
+					чтобы можно было назад "отжать" кнопку
+				*}
+				{if $oSkin->getInPreview()}
+					<a href="{router page="admin/settings/skins/turnoffpreview/{$oSkin->getName()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
+					   class="button button-primary active">{$aLang.plugin.admin.skin.preview_skin}</a>
+				{else}
+					<a href="{router page="admin/settings/skins/preview/{$oSkin->getName()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
+					   class="button button-primary">{$aLang.plugin.admin.skin.preview_skin}</a>
+				{/if}
 			{/if}
 		</div>
+
+		{$oInfo = $oSkin->getInfo()}
 
 		{if $oInfo}
 			<div class="skin-list-item-info">
@@ -54,7 +51,7 @@
 					<dl>
 						<dt>{$aLang.plugin.admin.skin.themes}:</dt>
 						<dd>
-							{if $bThisSkin}
+							{if $oSkin->getIsCurrent()}
 								{*
 									для текущего шаблона можно менять список тем
 								*}

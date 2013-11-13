@@ -158,25 +158,25 @@ class PluginAdmin_ModuleSkin extends Module {
 			/*
 			 * имя шаблона
 			 */
-			$aSkinInfo ['name'] = $sSkinName;
+			$aSkinInfo['name'] = $sSkinName;
 			/*
 			 * информация о шаблоне
 			 */
-			$aSkinInfo ['info'] = $this->GetSkinXmlObject($sSkinName);
+			$aSkinInfo['info'] = $this->GetSkinXmlObject($sSkinName);
 			/*
 			 * превью шаблона
 			 */
-			$aSkinInfo ['preview'] = $this->GetSkinPreviewImage($sSkinName);
+			$aSkinInfo['preview'] = $this->GetSkinPreviewImage($sSkinName);
 			/*
 			 * получить обьект шаблона, ключ массива - имя папки шаблона
 			 */
-			$aSkins [$sSkinName] = Engine::GetEntity('PluginAdmin_Skin', $aSkinInfo);
+			$aSkins[$sSkinName] = Engine::GetEntity('PluginAdmin_Skin', $aSkinInfo);
 		}
 		
 		/*
 		 * сортировка списка шаблонов
 		 */
-		if (isset($aFilter ['order']) and $aFilter ['order'] == 'name') {
+		if (isset($aFilter['order']) and $aFilter['order'] == 'name') {
 			//natsort($aSkins);//todo:
 		}
 
@@ -184,10 +184,10 @@ class PluginAdmin_ModuleSkin extends Module {
 		 * фильтр: отдельно вернуть данные текущего скина
 		 * trick: фильтр меняет формат возвращаемых данных
 		 */
-		if (isset($aFilter ['separate_current_skin'])) {
-			$aCurrentSkinData = $aSkins [$this->GetOriginalSkinName()];
-			if (isset($aFilter ['delete_current_skin_from_list'])) {
-				unset($aSkins [$this->GetOriginalSkinName()]);
+		if (isset($aFilter['separate_current_skin'])) {
+			$aCurrentSkinData = $aSkins[$this->GetOriginalSkinName()];
+			if (isset($aFilter['delete_current_skin_from_list'])) {
+				unset($aSkins[$this->GetOriginalSkinName()]);
 			}
 			return array(
 				'skins' => $aSkins,
