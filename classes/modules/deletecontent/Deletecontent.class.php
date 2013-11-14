@@ -1021,6 +1021,67 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 		$this->DeleteStreamJoinBlogEventsTargetingBlogsNotExists();
 	}
 
+
+	/*
+	 *
+	 * --- Методы очистки верхнего уровня ---
+	 *
+	 */
+
+	/**
+	 * Выполнить весь процесс ремонта (очистки) структуры комментариев
+	 */
+	public function PerformRepairCommentsStructure() {
+		/*
+		 * отключить ограничение по времени для обработки
+		 */
+		set_time_limit(0);
+		/*
+		 * отключить проверку внешних связей
+		 */
+		$this->PluginAdmin_Deletecontent_DisableForeignKeysChecking();
+		/*
+		 * в таблице комментариев могут быть ответы у которых comment_pid указывает на несуществующий комментарий,
+		 * очистка таблицы прямого эфира - там могут быть записи, указывающие на несуществующие комментарии
+		 */
+		$this->PluginAdmin_Deletecontent_DeleteBrokenChainsFromCommentsTreeAndOnlineCommentsAndCleanUpOtherTables();
+		/*
+		 * включить проверку внешних связей
+		 */
+		$this->PluginAdmin_Deletecontent_EnableForeignKeysChecking();
+		/*
+		 * удалить весь кеш - слишком много зависимостей
+		 */
+		$this->Cache_Clean();
+	}
+
+
+	/**
+	 * Выполнить весь процесс очистки активности (стрима) от записей, которые повреждены
+	 */
+	public function PerformCleanStreamEventsRecords() {
+		/*
+		 * отключить ограничение по времени для обработки
+		 */
+		set_time_limit(0);
+		/*
+		 * отключить проверку внешних связей
+		 */
+		$this->PluginAdmin_Deletecontent_DisableForeignKeysChecking();
+		/*
+		 * Очистка активности (стрима) от ссылок на записи, которых больше нет
+		 */
+		$this->PluginAdmin_Deletecontent_CleanStreamForEventsNotExists();
+		/*
+		 * включить проверку внешних связей
+		 */
+		$this->PluginAdmin_Deletecontent_EnableForeignKeysChecking();
+		/*
+		 * удалить весь кеш - слишком много зависимостей
+		 */
+		$this->Cache_Clean();
+	}
+
 }
 
 ?>

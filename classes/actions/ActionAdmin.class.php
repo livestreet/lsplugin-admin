@@ -106,6 +106,10 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 * Комментарии
 		 */
 		$this->RegisterEventExternal('Comments', 'PluginAdmin_ActionAdmin_EventComments');
+		/*
+		 * Утилиты
+		 */
+		$this->RegisterEventExternal('Utils', 'PluginAdmin_ActionAdmin_EventUtils');
 
 
 		/*
@@ -301,6 +305,16 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 
 		/*
 		 *
+		 * --- Утилиты ---
+		 *
+		 */
+		/*
+		 * Проверка таблиц БД
+		 */
+		$this->AddEventPreg('#^utils$#iu', '#^tables$#iu', 'Utils::EventCheckTables');
+
+		/*
+		 *
 		 * --- Системные настройки ---
 		 *
 		 */
@@ -372,6 +386,11 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Таблицы БД')->SetUrl('db'))
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Правила блоков')->SetUrl('blocksrule'))
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Обработка JS и CSS')->SetUrl('compress'))
+			)	// /AddSection
+			->AddSection(
+				Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Утилиты')->SetName('utils')->SetUrl('utils')
+
+					->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Проверка таблиц')->SetUrl('tables'))
 			)	// /AddSection
 		;
 	}

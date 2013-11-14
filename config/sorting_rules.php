@@ -114,7 +114,6 @@ $config ['correct_sorting_bans'] = array(
  */
 $config ['default_sorting_bans'] = '`edit_date` DESC';
 
-
 return $config;
 
 ?>
