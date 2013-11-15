@@ -21,7 +21,9 @@
 {/block}
 
 
-{* User menu *}
+{*
+	Меню
+*}
 {block name='layout_content_before'}
 	<header class="user-header">
 		<div class="user-brief clearfix">
@@ -49,9 +51,9 @@
 				<p class="user-id">{$aLang.plugin.admin.users.profile.user_no}{$oUser->getId()}</p>
 			</div>
 
-			{**
-			 * Редактирование рейтинга
-			 *}
+			{*
+				Редактирование рейтинга
+			*}
 			<div class="user-brief-aside">
 				<form action="{router page='admin/users/ajax-edit-rating'}" method="post" enctype="application/x-www-form-urlencoded" id="admin_editrating">
 					<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
@@ -104,7 +106,9 @@
 
 
 	<div class="user-info-body">
-		{* Basic info *}
+		{*
+			Базовая информация
+		*}
 		<div class="user-info-block user-info-block-resume">
 			<h2 class="user-info-heading">{$aLang.plugin.admin.users.profile.info.resume}</h2>
 
@@ -187,7 +191,9 @@
 			{/if}
 		</div>
 
-		{* Stats *}
+		{*
+			Статистика
+		*}
 		<div class="user-info-block user-info-block-stats">
 			<h2 class="user-info-heading">{$aLang.plugin.admin.users.profile.info.stats_title}</h2>
 
@@ -224,13 +230,11 @@
 			</div>
 		</div>
 
-		{* Vote stats *}
+		{*
+			Как голосовал пользователь
+		*}
 		<div class="user-info-block user-info-block-stats">
 			<h2 class="user-info-heading">{$aLang.plugin.admin.users.profile.info.votings_title}</h2>
-
-			{*
-				Как голосовал пользователь
-			*}
 
 			{foreach from=array('topic', 'comment', 'blog', 'user') item=sType}
 				<div class="user-info-block-stats-row">
@@ -238,19 +242,23 @@
 						<a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]={$sType}">{$aLang.plugin.admin.users.profile.info.votings[$sType]}</a>
 					</div>
 					<ul>
-						{if $aUserVotedStat[$sType]['plus']}
-							<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]={$sType}&filter[dir]=plus">{$aUserVotedStat[$sType]['plus']}</a> +</li>
-						{/if}
-						{if $aUserVotedStat[$sType]['minus']}
-							<li><a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]={$sType}&filter[dir]=minus">{$aUserVotedStat[$sType]['minus']}</a> -</li>
-						{/if}
+						{foreach from=array('plus', 'minus', 'abstain') item=sVoteDir}
+							{if $aUserVotedStat[$sType][$sVoteDir]}
+								<li>
+									<a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]={$sType}&filter[dir]={$sVoteDir}">{$aUserVotedStat[$sType][$sVoteDir]}</a>
+									{$aLang.plugin.admin.users.profile.info.votings_direction[$sVoteDir]}
+								</li>
+							{/if}
+						{/foreach}
 					</ul>
 				</div>
 			{/foreach}
 
 		</div>
 
-		{* Contacts *}
+		{*
+			Контакты
+		*}
 		{$aUserFieldContactValues = $oUser->getUserFieldValues(true,array('contact'))}
 		{$aUserFieldSocialValues = $oUser->getUserFieldValues(true,array('social'))}
 

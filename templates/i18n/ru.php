@@ -244,6 +244,7 @@ return array(
 				'all' => 'Все',
 				'plus' => 'Положительные',
 				'minus' => 'Отрицательные',
+				'abstain' => 'Нейтральные',
 			),
 		),
 		/*
@@ -297,6 +298,11 @@ return array(
 					'comment' => 'За комментарии',
 					'blog' => 'За блоги',
 					'user' => 'За юзеров',
+				),
+				'votings_direction' => array(
+					'plus' => '+',
+					'minus' => '-',
+					'abstain' => '0',
 				),
 			),
 

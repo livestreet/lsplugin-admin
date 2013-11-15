@@ -129,7 +129,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	/**
 	 * Изменить количество пользователей на странице
 	 */
-	public function EventAjaxUsersOnPage () {
+	public function EventAjaxUsersOnPage() {
 		$this->Viewer_SetResponseAjax('json');
 		$this->PluginAdmin_Users_ChangeUsersPerPage(getRequestStr('onpage'));
 	}
@@ -140,7 +140,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	 *
 	 * @return string
 	 */
-	public function EventUserProfile () {
+	public function EventUserProfile() {
 		$this->SetTemplateAction('users/profile');
 		/*
 		 * проверяем корректность id пользователя
@@ -225,7 +225,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * подсчитать за что, как и сколько раз голосовал пользователь
 		 */
-		$aVotedStats = $this->PluginAdmin_Users_GetUserVotingStats ($oUser);
+		$aVotedStats = $this->PluginAdmin_Users_GetUserVotingStats($oUser);
 
 
 		$this->Viewer_Assign('aUserVotedStat', $aVotedStats);
@@ -321,7 +321,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * проверяем корректность id пользователя
 		 */
-		if (!$iUserId = (int) $this->GetParam(1) or !$oUser = $this->User_GetUserById($iUserId)) {
+		if (!$oUser = $this->User_GetUserById((int) $this->GetParam(1))) {
 			return Router::Action('error');
 		}
 		/*
@@ -333,7 +333,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * проверяем направление голосования
 		 */
-		if ($sVotingDirection = $this->GetDataFromFilter('dir') and !in_array($sVotingDirection, array('plus', 'minus'))) {
+		if ($sVotingDirection = $this->GetDataFromFilter('dir') and !in_array($sVotingDirection, array('plus', 'minus', 'abstain'))) {
 			return Router::Action('error');
 		}
 		/*

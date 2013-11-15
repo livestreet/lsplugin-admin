@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin>
+<skin>
 	<name>
 		<lang name="default">Synio</lang>
 	</name>
@@ -30,4 +30,4 @@
 			</description>
 		</item>
 	</themes>
-</plugin>
+</skin>

@@ -15,6 +15,9 @@
 		<a class="button {if $sVotingDirection=='minus'}active{/if}" href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]={$sVotingTargetType}&filter[dir]=minus">
 			{$aLang.plugin.admin.users.votes.voting_list.minus}
 		</a>
+		<a class="button {if $sVotingDirection=='abstain'}active{/if}" href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]={$sVotingTargetType}&filter[dir]=abstain">
+			{$aLang.plugin.admin.users.votes.voting_list.abstain}
+		</a>
 	</div>
 
 	<a href="{router page="admin/users/profile/{$oUser->getId()}"}" class="button">{$aLang.plugin.admin.users.votes.back_to_user_profile_page} {$oUser->getLogin()}</a>

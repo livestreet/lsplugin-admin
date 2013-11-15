@@ -182,6 +182,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * Рассчитать статистику голосования пользователя
 	 *
 	 * @param $oUser		объект пользователя
+	 * @throws Exception
 	 * @return array
 	 */
 	protected function CalcUserVotingStats($oUser) {
@@ -189,17 +190,29 @@ class PluginAdmin_ModuleUsers extends Module {
 		 * заполнить значениями по-умолчанию
 		 */
 		$aVotingStats = array(
-			'topic' => array('plus' => 0, 'minus' => 0),
-			'comment' => array('plus' => 0, 'minus' => 0),
-			'blog' => array('plus' => 0, 'minus' => 0),
-			'user' => array('plus' => 0, 'minus' => 0),
+			'topic' => array('plus' => 0, 'minus' => 0, 'abstain' => 0),
+			'comment' => array('plus' => 0, 'minus' => 0, 'abstain' => 0),
+			'blog' => array('plus' => 0, 'minus' => 0, 'abstain' => 0),
+			'user' => array('plus' => 0, 'minus' => 0, 'abstain' => 0),
 		);
 		$aResult = $this->oMapper->GetUserVotingStats ($oUser->getId());
 		/*
 		 * собрать данные в удобном виде
 		 */
 		foreach ($aResult as $aData) {
-			$aVotingStats[$aData['target_type']][$aData['vote_direction'] == '1' ? 'plus' : 'minus'] = $aData['count'];
+			switch ($aData['vote_direction']) {
+				case 1:
+					$aVotingStats[$aData['target_type']]['plus'] = $aData['count'];
+					break;
+				case -1:
+					$aVotingStats[$aData['target_type']]['minus'] = $aData['count'];
+					break;
+				case 0:
+					$aVotingStats[$aData['target_type']]['abstain'] = $aData['count'];
+					break;
+				default:
+					throw new Exception('admin: error: unknown voting direction in ' . __METHOD__);
+			}
 		}
 		return $aVotingStats;
 	}

@@ -182,7 +182,7 @@ class PluginAdmin_ModuleSkin extends Module {
 
 		/*
 		 * фильтр: отдельно вернуть данные текущего скина
-		 * trick: фильтр меняет формат возвращаемых данных
+		 * tip: фильтр меняет формат возвращаемых данных
 		 */
 		if (isset($aFilter['separate_current_skin'])) {
 			$aCurrentSkinData = $aSkins[$this->GetOriginalSkinName()];
