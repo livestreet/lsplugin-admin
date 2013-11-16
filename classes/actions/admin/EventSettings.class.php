@@ -93,6 +93,8 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 				 */
 				$this->Viewer_AssignAjax('aParamErrors', $this->Message_GetParamsErrors());
 			}
+		} else {
+			$this->Message_AddError($this->Lang_Get('plugin.admin.errors.request_was_not_sent'), $this->Lang_Get('error'));
 		}
 		/*
 		 * если это обычный запрос - сделать редирект

@@ -1,5 +1,9 @@
+{*
+	Вывод настроек
+*}
+
 {if $aSettingsAll and count($aSettingsAll) > 0}
-	<form action="{router page="admin/settings/save/{$sConfigName}"}" method="post" enctype="application/x-www-form-urlencoded" id="admin_save">
+	<form action="{router page="admin/settings/save/{$sConfigName}"}" method="post" enctype="application/x-www-form-urlencoded" id="admin_settings_save">
 		<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
 
 		{foreach $aSettingsAll as $oParameter}
@@ -28,7 +32,7 @@
 			</div>
 		{/foreach}
 		
-		<button type="submit" name="submit_save_settings" class="button button-primary">{$aLang.plugin.admin.save}</button>
+		<button type="submit" name="submit_save_settings" class="button button-primary" id="admin_settings_submit">{$aLang.plugin.admin.save}</button>
 	</form>
 {else}
 	{include file="{$aTemplatePathPlugin.admin}alert.tpl" mAlerts=$aLang.plugin.admin.settings.no_settings_for_this_plugin sAlertStyle='info'}

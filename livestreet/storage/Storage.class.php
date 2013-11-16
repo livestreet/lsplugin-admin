@@ -66,7 +66,6 @@ class ModuleStorage extends Module {
 	public function Init() {
 		$this->oMapperStorage = Engine::GetMapper(__CLASS__);
 	}
-	
 
 
 	/*
@@ -76,7 +75,6 @@ class ModuleStorage extends Module {
 	 * Для highload проектов эти обертки можно будет переопределить через плагин чтобы подключить не РСУБД хранилища, такие, например, как Redis
 	 *
 	 */
-
 
 	/**
 	 * Записать в БД строку одного ключа
@@ -169,15 +167,13 @@ class ModuleStorage extends Module {
 		}
 		return $mData;
 	}
-	
-	
+
 	
 	/*
 	 *
 	 * --- Обработка значений параметров ---
 	 *
 	 */
-
 
 	/**
 	 * Подготовка значения параметра перед сохранением
@@ -228,15 +224,37 @@ class ModuleStorage extends Module {
 		}
 		return null;
 	}
-	
-	
+
+
+	/**
+	 * Получить массив используемых значений параметров ключа по "сырым" данным из БД
+	 *
+	 * @param 			$sKey			ключ
+	 * @param 			$sFieldData		"сырые" (серилизированные) данные ключа
+	 * @param 			$sInstance		инстанция
+	 * @return array					данные
+	 */
+	protected function GetParamsValuesFromRawData($sKey, $sFieldData, $sInstance = self::DEFAULT_INSTANCE) {
+		if ($aData = $this->UnpackValue($sFieldData) and is_array ($aData)) {
+			/*
+			 * Восстановить значения параметров ключа
+			 */
+			$aData = array_map(array($this, 'RetrieveParamValueFromSavedValue'), $aData);
+			/*
+			 * Сохранить в кеше сессии распакованные значения
+			 */
+			$this->aSessionCache[$sInstance][$sKey] = $aData;
+			return $aData;
+		}
+		return array();
+	}
+
 				
 	/*
 	 *
 	 * --- Высокоуровневые обертки для работы непосредственно с параметрами каждого ключа ---
 	 *
 	 */
-
 
 	/**
 	 * Получить список всех параметров ключа
@@ -257,17 +275,7 @@ class ModuleStorage extends Module {
 		 * Если есть запись для ключа и она не повреждена и корректна
 		 */
 		if ($sFieldData = $this->GetFieldOne($sKey, $sInstance)) {
-			if ($aData = $this->UnpackValue($sFieldData) and is_array($aData)) {
-				/*
-				 * Восстановить значения параметров ключа
-				 */
-				$aData = array_map(array($this, 'RetrieveParamValueFromSavedValue'), $aData);
-				/*
-				 * Сохранить в кеше сессии распакованные значения
-				 */
-				$this->aSessionCache[$sInstance][$sKey] = $aData;
-				return $aData;
-			}
+			return $this->GetParamsValuesFromRawData($sKey, $sFieldData, $sInstance);
 		}
 		return array();
 	}
@@ -605,7 +613,7 @@ class ModuleStorage extends Module {
 		$sCallerName = $this->GetKeyForCaller($oCaller);
 		$this->ResetSessionCache($sCallerName, $sInstance);
 	}
-	
+
 }
 
 ?>

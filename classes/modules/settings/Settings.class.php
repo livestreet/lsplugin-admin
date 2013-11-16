@@ -90,10 +90,26 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 * Начать загрузку всех конфигов в системе
 	 */
 	public function AutoLoadConfigs() {
+		/*
+		 * получить данные в сыром виде для всех записей хранилища
+		 */
 		$aData = $this->GetFieldsAll();
-		if ($aData ['count']) {
-			foreach($aData ['collection'] as $aFieldData) {
-				$this->LoadConfig($aFieldData ['key']);
+		if ($aData['count']) {
+			/*
+			 * для каждой записи хранилища выполнить загрузку данных
+			 */
+			foreach($aData['collection'] as $aFieldData) {
+				/*
+				 * tip: фактически, к хранилищу используется всего один запрос для получения данных (см. выше GetFieldsAll),
+				 * метод ниже распакует для каждого ключа все его параметры в сессионное хранилище.
+				 * это позволит увеличить быстродействие хранилища по максимуму при загрузке конфигов.
+				 * tip 2: в некоторых случаях, с админкой сайт будет работать быстрее, если установлено много плагинов, использующих хранилище
+				 */
+				$this->GetParamsValuesFromRawData($aFieldData['key'], $aFieldData['value']);
+				/*
+				 * начать загрузку
+				 */
+				$this->LoadConfig($aFieldData['key']);
 			}
 		}
 	}
@@ -107,6 +123,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	private function LoadConfig($sKey) {
 		/*
 		 * Получить конфиг текущего ключа (если существует)
+		 * tip: данный метод вернет данные из сессионного хранилища без запроса к БД т.к. они были туда помещены в AutoLoadConfigs
 		 */
 		if ($aConfigData = $this->GetOneParam($sKey, self::CONFIG_DATA_PARAM_NAME)) {
 			if ($sKey == ModuleStorage::DEFAULT_KEY_NAME) {
@@ -174,7 +191,9 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	
 	
 	/*
-	 *	Хелперы
+	 *
+	 *	--- Хелперы ---
+	 *
 	 */
 
 
