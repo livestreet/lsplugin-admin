@@ -52,18 +52,9 @@
 		{include file="{$aTemplatePathPlugin.admin}blocks/block.home.stats.tpl"}
 	</div>
 
+	{*
+		Данные о последнем входе пользователя в админку
+	*}
+	{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/last_join_info.tpl"}
 
-	{**
-	 * Данные о последнем входе пользователя в админку
-	 *}
-	{if $aLastVisitData.date}
-		{$sAlertMsg = "Последний раз заходили в админку {date_format date=$aLastVisitData.date format="j F Y в H:i"}."}
-		{if ! $aLastVisitData.same_ip}
-			{$sAlertMsg = $sAlertMsg|cat:"<br>Предыдущий вход был выполнен из другого ip - <b>{$aLastVisitData.ip}</b>, текущий ip - <b>{func_getIp()}</b>."}
-		{/if}
-
-		{include file="{$aTemplatePathPlugin.admin}alert.tpl" mAlerts=$sAlertMsg}
-	{else}
-		{include file="{$aTemplatePathPlugin.admin}alert.tpl" mAlerts="Это ваше первое знакомство с админкой для LiveStreet CMS. Будем надеятся что она вам понравится и работа с ней будет удобной." sAlertStyle='info' bAlertClose=true}
-	{/if}
 {/block}

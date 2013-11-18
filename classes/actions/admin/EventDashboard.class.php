@@ -89,7 +89,7 @@ class PluginAdmin_ActionAdmin_EventDashboard extends Event {
 		/*
 		 * получить данные последнего входа в админку
 		 */
-		$this->Viewer_Assign('aLastVisitData', $this->PluginAdmin_Users_GetLastVisitData());
+		$this->GetLastVisitMessageAndCompareIp();
 	}
 
 
@@ -197,6 +197,23 @@ class PluginAdmin_ActionAdmin_EventDashboard extends Event {
 		 * отключить ли кнопку "показать ещё события"
 		 */
 		$this->Viewer_AssignAjax('bDisableGetMoreButton', count($aEvents) < Config::Get('plugin.admin.dashboard.stream.count_default'));
+	}
+
+
+	/**
+	 * Получить данные последнего входа в админку
+	 */
+	protected function GetLastVisitMessageAndCompareIp () {
+		$aLastVisitData = $this->PluginAdmin_Users_GetLastVisitData ();
+		/*
+		 * если это первый вход - сделать приветствие
+		 */
+		if (!$aLastVisitData) {
+			$this->Message_AddNotice($this->Lang('hello.first_run'));
+		} elseif (!$aLastVisitData['same_ip']) {
+			$this->Message_AddNotice($this->Lang('hello.last_visit_ip_not_match_current', array('last_ip' => $aLastVisitData['ip'], 'current_ip' => func_getIp())));
+		}
+		$this->Viewer_Assign ('aLastVisitData', $aLastVisitData);
 	}
 
 
