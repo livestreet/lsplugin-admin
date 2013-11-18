@@ -3,7 +3,11 @@
  *}
 
 <div class="skin-list-item {if $oSkin@iteration % 2 == 0}even{/if}">
-	<img src="{$oSkin->getPreview()}" class="skin-list-item-image" />
+	{$sPreviewImg=$oSkin->getPreview()}
+	{if !$sPreviewImg}
+		{$sPreviewImg="{$aTemplateWebPathPlugin.admin}assets/images/default_skin_preview.png"}
+	{/if}
+	<img src="{$sPreviewImg}" class="skin-list-item-image" />
 
 	<div class="skin-list-item-content">
 		<h4 class="skin-list-item-title">{$oSkin->getViewName()|escape:'html'}</h4>

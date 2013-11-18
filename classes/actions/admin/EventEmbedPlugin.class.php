@@ -19,21 +19,26 @@
  * 
  */
 
-class PluginAdmin_ActionAdmin_EventPlugin extends Event {
+/*
+ * Интеграция интерфейса плагина в админку
+ */
+
+class PluginAdmin_ActionAdmin_EventEmbedPlugin extends Event {
 	
-	/*
-		Интегрирует настройки плагина в админку и запускает класс "PluginИмяплагина_ActionAdmin",
-		который должен быть унаследован от PluginAdmin_ActionPlugin
-	*/
-	public function EventPlugin() {
-		$aParams=$this->GetParams();
-		$sPlugin=strtolower(array_shift($aParams));
+	/**
+	 * Интегрирует настройки плагина в админку и запускает класс "PluginИмяплагина_ActionAdmin", который должен быть унаследован от PluginAdmin_ActionPlugin
+	 *
+	 * @return string
+	 */
+	public function EventShowEmbedPlugin() {
+		$aParams = $this->GetParams();
+		$sPlugin = strtolower(array_shift($aParams));
 		/**
 		 * Проверяем плагин на активность
 		 */
-		$aPluginsActive=Engine::getInstance()->GetPlugins();
+		$aPluginsActive = Engine::getInstance()->GetPlugins();
 		if (array_key_exists($sPlugin,$aPluginsActive)) {
-			$sActionClass='Plugin'.func_camelize($sPlugin).'_ActionAdmin';
+			$sActionClass = 'Plugin'.func_camelize($sPlugin).'_ActionAdmin';
 			if ($this->IsInstanceClass($sActionClass,'PluginAdmin_ActionPlugin')) {
 				/**
 				 * Переопределяем конфиг роутинга и делаем редирект на экшен плагина
@@ -53,8 +58,7 @@ class PluginAdmin_ActionAdmin_EventPlugin extends Event {
 		}
 		return $this->EventNotFound();
 	}
-	
-	
+
 
 	protected function IsInstanceClass($sClass,$sParent) {
 		if (!class_exists($sClass)) {

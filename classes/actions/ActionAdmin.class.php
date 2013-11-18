@@ -85,9 +85,9 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		/*
 		 * Встраивание интерфейса плагина в админку
 		 */
-		$this->RegisterEventExternal('Plugin', 'PluginAdmin_ActionAdmin_EventPlugin');
+		$this->RegisterEventExternal('EmbedPlugin', 'PluginAdmin_ActionAdmin_EventEmbedPlugin');
 		/*
-		 * Список плагинов
+		 * Работа со списком плагинов
 		 */
 		$this->RegisterEventExternal('Plugins', 'PluginAdmin_ActionAdmin_EventPlugins');
 		/*
@@ -264,13 +264,17 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 */
 
 		/*
-		 * показать страницу настроек плагина, управление которыми осуществляет сам плагин
+		 * показать страницу настроек плагина в админке, управление которыми осуществляет сам плагин
 		 */
-		$this->AddEventPreg('#^plugin$#i', '#^[\w-]+$#i', 'Plugin::EventPlugin');
+		$this->AddEventPreg('#^plugin$#i', '#^[\w-]+$#i', 'EmbedPlugin::EventShowEmbedPlugin');
 		/*
 		 * список плагинов
 		 */
 		$this->AddEventPreg('#^plugins$#iu', '#^(?:list)?$#iu', 'Plugins::EventPluginsList');
+		/*
+		 * активация/деактивация плагина
+		 */
+		$this->AddEventPreg('#^plugins$#iu', '#^toggle$#iu', 'Plugins::EventTogglePlugin');
 
 
 		/*
@@ -397,7 +401,9 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 	
 	
 	/*
-	 * Хелперы
+	 *
+	 * --- Хелперы ---
+	 *
 	 */
 
 
