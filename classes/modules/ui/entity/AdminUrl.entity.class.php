@@ -18,7 +18,7 @@
  * 
  */
 
-class PluginAdmin_ModuleMain_EntityAdminUrl extends Entity {
+class PluginAdmin_ModuleUi_EntityAdminUrl extends Entity {
 	/**
 	 * Текущий плагин
 	 *
