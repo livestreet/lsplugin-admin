@@ -140,24 +140,6 @@ class PluginAdmin_ModuleUsers extends Module {
 
 
 	/**
-	 * Установить количество пользователей на странице
-	 *
-	 * @param $iPerPage		количество
-	 */
-	public function ChangeUsersPerPage($iPerPage) {
-		/*
-		 * установить количество пользователей на странице
-		 */
-		$aData = array(
-			'user' => array(
-				'per_page' => $iPerPage,
-			)
-		);
-		$this->PluginAdmin_Settings_SaveConfigByKey('admin', $aData);
-	}
-
-
-	/**
 	 * Получить статистическую информацию о том, за что, как и сколько раз голосовал пользователь
 	 *
 	 * @param $oUser		объект пользователя
@@ -317,35 +299,28 @@ class PluginAdmin_ModuleUsers extends Module {
 	}
 
 
-	/**
-	 * Добавить запись о бане
+	/*
 	 *
-	 * @param $oBan		объект бана
-	 * @return mixed
+	 * --- Изменение количества элементов на страницу ---
+	 *
 	 */
-	public function AddBanRecord($oBan) {
-		// todo: cache
-		return $this->oMapper->AddBanRecord($oBan);
-	}
 
 
 	/**
-	 * Возвращает список банов по фильтру
+	 * Установить количество пользователей на странице
 	 *
-	 * @param array 	$aFilter		Фильтр
-	 * @param array 	$aOrder			Сортировка
-	 * @param int 		$iPage			Номер страницы
-	 * @param int 		$iPerPage		Количество элментов на страницу
-	 * @return array('collection'=>array,'count'=>int)
+	 * @param $iPerPage		количество
 	 */
-	public function GetBansByFilter($aFilter = array(), $aOrder = array(), $iPage = 1, $iPerPage = PHP_INT_MAX) {
-		$sOrder = $this -> GetCorrectSortingOrder(
-			$aOrder,
-			Config::Get('plugin.admin.correct_sorting_bans'),
-			Config::Get('plugin.admin.default_sorting_bans')
+	public function ChangeUsersPerPage($iPerPage) {
+		/*
+		 * установить количество пользователей на странице
+		 */
+		$aData = array(
+			'user' => array(
+				'per_page' => $iPerPage,
+			)
 		);
-		$mData = $this -> oMapper -> GetBansByFilter($aFilter, $sOrder, $iPage, $iPerPage);
-		return $mData;
+		$this->PluginAdmin_Settings_SaveConfigByKey('admin', $aData);
 	}
 
 
@@ -385,6 +360,46 @@ class PluginAdmin_ModuleUsers extends Module {
 	}
 
 
+	/*
+	 *
+	 * --- Баны ---
+	 *
+	 */
+
+
+	/**
+	 * Добавить запись о бане
+	 *
+	 * @param $oBan		объект бана
+	 * @return mixed
+	 */
+	public function AddBanRecord($oBan) {
+		// todo: cache
+		return $this->oMapper->AddBanRecord($oBan);
+	}
+
+
+	/**
+	 * Возвращает список банов по фильтру
+	 *
+	 * @param array 	$aFilter		Фильтр
+	 * @param array 	$aOrder			Сортировка
+	 * @param int 		$iPage			Номер страницы
+	 * @param int 		$iPerPage		Количество элментов на страницу
+	 * @return array('collection'=>array,'count'=>int)
+	 */
+	public function GetBansByFilter($aFilter = array(), $aOrder = array(), $iPage = 1, $iPerPage = PHP_INT_MAX) {
+		// todo: cache
+		$sOrder = $this -> GetCorrectSortingOrder(
+			$aOrder,
+			Config::Get('plugin.admin.correct_sorting_bans'),
+			Config::Get('plugin.admin.default_sorting_bans')
+		);
+		$mData = $this->oMapper->GetBansByFilter($aFilter, $sOrder, $iPage, $iPerPage);
+		return $mData;
+	}
+
+
 	/**
 	 * Получить объект бана по id
 	 *
@@ -392,6 +407,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * @return mixed
 	 */
 	public function GetBanById($iId) {
+		// todo: cache
 		$aFilter = array(
 			'id' => $iId,
 		);
@@ -415,6 +431,22 @@ class PluginAdmin_ModuleUsers extends Module {
 		// todo: cache
 		return $this->oMapper->DeleteBanById($iId);
 	}
+
+
+	/**
+	 * Удалить старые записи банов, дата окончания которых уже прошла
+	 */
+	public function DeleteOldBanRecords() {
+		// todo: cache
+		$this->oMapper->DeleteOldBanRecords();
+	}
+
+
+	/*
+	 *
+	 * --- Проверка бана ---
+	 *
+	 */
 
 
 	/**
@@ -454,13 +486,11 @@ class PluginAdmin_ModuleUsers extends Module {
 	}
 
 
-	/**
-	 * Удалить старые записи банов, дата окончания которых уже прошла
+	/*
+	 *
+	 * --- Статистика по банам ---
+	 *
 	 */
-	public function DeleteOldBanRecords() {
-		// todo: cache
-		$this->oMapper->DeleteOldBanRecords();
-	}
 
 
 	/**
@@ -515,6 +545,13 @@ class PluginAdmin_ModuleUsers extends Module {
 	}
 
 
+	/*
+	 *
+	 * --- Назначение/удаление администраторов ---
+	 *
+	 */
+
+
 	/**
 	 * Добавить права админа пользователю
 	 *
@@ -539,6 +576,13 @@ class PluginAdmin_ModuleUsers extends Module {
 		$this->Cache_Delete('user_' . $oUser->getId());
 		return $this->oMapper->DeleteAdmin($oUser->getId());
 	}
+
+
+	/*
+	 *
+	 * --- Удаление контента ---
+	 *
+	 */
 
 
 	/**
@@ -724,7 +768,7 @@ class PluginAdmin_ModuleUsers extends Module {
 		$this->Vote_DeleteVoteByTarget($oUser->getId(), 'user');
 
 		/*
-		 * todo: review: если будут проблемы с удалением объектов выше - можно весь процесс удаления перевести на модуль удаления (как в вызовах ниже)
+		 * review: если будут проблемы с удалением объектов выше - можно весь процесс удаления перевести на модуль удаления (как в вызовах ниже)
 		 */
 
 		/*
@@ -907,8 +951,15 @@ class PluginAdmin_ModuleUsers extends Module {
 	}
 
 
+	/*
+	 *
+	 * --- Последний визит ---
+	 *
+	 */
+
+
 	/**
-	 * Возвращает данные последнего входа на основе даты и ip
+	 * Возвращает данные последнего входа на основе даты и ip персонально для каждого пользователя
 	 *
 	 * @return array
 	 */
@@ -935,7 +986,7 @@ class PluginAdmin_ModuleUsers extends Module {
 
 
 	/**
-	 * записать данные последнего входа пользователя в админку
+	 * записать данные последнего входа пользователя в админку персонально для каждого пользователя
 	 */
 	public function SetLastVisitData() {
 		$aData = array(
@@ -950,6 +1001,13 @@ class PluginAdmin_ModuleUsers extends Module {
 		);
 		$this->Storage_Set($this->GetAdminLastVisitKeyForUser(), $aData, $this);
 	}
+
+
+	/*
+	 *
+	 * --- Статистика ---
+	 *
+	 */
 
 
 	/**
