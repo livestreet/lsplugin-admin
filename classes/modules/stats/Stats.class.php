@@ -431,6 +431,9 @@ class PluginAdmin_ModuleStats extends Module {
 	/**
 	 * Получить реальные существующие данные о типе на основе периода
 	 *
+	 * tip: если нужно добавить свой тип данных - необходимо наследовать этот метод и проверять в нём $sGraphType
+	 * и если $sGraphType == типу данных плагина - вернуть результат, иначе - вызвать родительский метод
+	 *
 	 * @param $sGraphType		тип данных для графика
 	 * @param $aPeriod			данные периода
 	 * @return mixed			данные
@@ -447,14 +450,10 @@ class PluginAdmin_ModuleStats extends Module {
 			case self::DATA_TYPE_VOTINGS:
 				return $this->PluginAdmin_Votings_GetVotingsStats($aPeriod);
 			default:
-				$aData = array('sGraphType' => $sGraphType, 'aPeriod' => $aPeriod);
-				$this->Hook_Run('admin_stats_get_data_corresponding_on_type', $aData);
 				/*
-				 * хук должен вернуть true в значении ключа result передаваемых параметров, иначе это неизвестный тип данных
+				 * неизвестный тип данных
 				 */
-				if (!isset($aData['result']) or !$aData['result']) {
-					throw new Exception('admin: error: unknown graph type "' . $sGraphType . '" in ' . __METHOD__);
-				}
+				throw new Exception('admin: error: unknown graph type "' . $sGraphType . '" in ' . __METHOD__);
 		}
 	}
 
