@@ -34,20 +34,30 @@ class PluginAdmin_ModuleViewer extends PluginAdmin_Inherit_ModuleViewer {
 		$this->oSmarty->addPluginsDir($sDir);
 		return true;
 	}
-	
-	
 
+
+	/**
+	 * Очистить списки таблиц стилей и JS загружаемых вместе с движком
+	 *
+	 * @param bool $bClearConfig
+	 */
 	public function ClearStyle($bClearConfig=false) {
 		$this->aCssInclude = array(
 			'append' => array(),
 			'prepend' => array()
 		);
+		/*
+		 * очистить параметры для подключаемых файлов
+		 */
 		$this->aFilesParams=array(
 			'js' => array(),
 			'css' => array()
 		);
 
 		if ($bClearConfig) {
+			/*
+			 * стандартные настройки жс и ксс
+			 */
 			$this->aFilesDefault=array(
 				'js' => array(),
 				'css' => array()

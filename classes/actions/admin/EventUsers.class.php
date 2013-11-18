@@ -1134,9 +1134,9 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 				 */
 				$oViewer->Assign('sCurrentLivingSorting', $aLivingStatsData['sCurrentLivingSorting']);
 				/*
-				 * настроить смарти, todo: вынести путь к плагинам куда-то в модуль (используется также в хуке на ланг_инит_старт)
+				 * настроить смарти
 				 */
-				$oViewer->AddSmartyPluginsDir(Plugin::GetPath(__CLASS__) . 'include/smarty/');
+				$oViewer->AddSmartyPluginsDir($this->PluginAdmin_Tools_GetSmartyPluginsPath());
 				/*
 				 * для расчетов нужно количество всех пользователей, берем их уже из кеша
 				 */

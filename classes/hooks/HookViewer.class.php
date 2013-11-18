@@ -39,7 +39,7 @@ class PluginAdmin_HookViewer extends Hook {
 		/*
 		 * добавить директорию с плагинами для Smarty
 		 */
-		$this->Viewer_AddSmartyPluginsDir(Plugin::GetPath(__CLASS__) . 'include/smarty/');
+		$this->Viewer_AddSmartyPluginsDir($this->PluginAdmin_Tools_GetSmartyPluginsPath());
 	}
 	
 }

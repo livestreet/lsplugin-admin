@@ -292,11 +292,6 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 		return $this->DeleteContentByFilter($aFilter);
 	}
 
-	/*
-	 * todo: стрим нужно чистить также как с таблицей комментариев
-	 * там может остаться куча мусора
-	 */
-
 
 	/**
 	 * Удаление подписки активности пользователя на других пользователей

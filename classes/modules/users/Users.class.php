@@ -523,7 +523,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	 */
 	public function AddAdmin($oUser) {
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array('user_update'));
-		$this->Cache_Delete("user_{$oUser->getId()}");
+		$this->Cache_Delete('user_' . $oUser->getId());
 		return $this->oMapper->AddAdmin($oUser->getId());
 	}
 
@@ -536,7 +536,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	 */
 	public function DeleteAdmin($oUser) {
 		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array('user_update'));
-		$this->Cache_Delete("user_{$oUser->getId()}");
+		$this->Cache_Delete('user_' . $oUser->getId());
 		return $this->oMapper->DeleteAdmin($oUser->getId());
 	}
 
