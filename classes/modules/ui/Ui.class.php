@@ -1,7 +1,7 @@
 <?php
 
 /*
- * todo: пересмотреть методы - половина из них не используется
+ * todo: пересмотреть методы - код старый, нужен рефакторинг
  * узнать для чего они были нужны
  */
 
@@ -10,17 +10,8 @@ class PluginAdmin_ModuleUi extends Module {
 	protected $oMenuMain;
 	protected $oMenuAddition;
 	protected $oCursor;
-	protected $aAjaxArray = array();
-	protected $aViewerArray = array(
-		'aAdminNotice'	=> array(),
-	);
-	
-	/**
-	 * Инициализация
-	 *
-	 */
+
 	public function Init() {
-		// init menu
 		$this->oCursor = Engine::GetEntity('PluginAdmin_Ui_Cursor');
 		$this->oMenuMain = $this->oCursor->GetMenu('main')->SetUrlPrefix('admin');
 		$this->oMenuAddition = $this->oCursor->GetMenu('addition')->SetUrlPrefix('admin/p')->SetCaption('Дополнительно');
@@ -88,90 +79,7 @@ class PluginAdmin_ModuleUi extends Module {
 		return $oCursor;
 	}
 	
-	
-	
-	public function MergeMessages(){
-		$aErrors = $this->Message_GetError();
-		$aNotices = $this->Message_GetNotice();
-		if (count($aErrors)>1){
-			$sMsg = $sTitle = '';
-			foreach($aErrors as $aError){
-				$sTitle = $sTitle ? $sTitle : $aError['title'];
-				$sMsg .=($sMsg ? '<br>' : '').$aError['msg'];
-			}
-			$this->Message_AddErrorSingle($sMsg, $sTitle);
-		}elseif (!$aErrors && count($aNotices)>1){
-			$sMsg = $sTitle = '';
-			foreach($aNotices as $aNotice){
-				$sTitle = $sTitle ? $sTitle : $aNotice['title'];
-				$sMsg .=($sMsg ? '<br>' : '').$aNotice['msg'];
-			}
-			$this->Message_AddNoticeSingle($sMsg, $sTitle);
-		}
-	}
-	
-	
-	
-	public function DisplayJson($bMergeMessages = true){
-		if ($bMergeMessages){
-			$this->MergeMessages();
-		}
-		$this->AjaxArraysToViewer();
-		$this->Viewer_DisplayAjax('json');
-	}
-	
-	
-	
-	public function AjaxArraysToViewer(){
-		foreach($this->aAjaxArray as $sName => $aArray){
-			$this->Viewer_AssignAjax($sName, $aArray);
-		}
-	}
-	
-	
-	
-	public function AddAjaxArrayElement($sArrayName, $mValue, $sKey = null){
-		if (is_null($sKey)){
-			$this->aAjaxArray[$sArrayName][] = $mValue;
-		}else{
-			$this->aAjaxArray[$sArrayName][$sKey] = $mValue;
-		}
-	}
-	
-	
-	
-	public function ArraysToViewer(){
-		foreach($this->aViewerArray as $sName => $aArray){
-			$this->Viewer_Assign($sName, $aArray);
-		}
-	}
-	
-	
-	
-	public function AddViewerArrayElement($sArrayName, $mValue, $sKey = null){
-		if (is_null($sKey)){
-			$this->aViewerArray[$sArrayName][] = $mValue;
-		}else{
-			$this->aViewerArray[$sArrayName][$sKey] = $mValue;
-		}
-	}
-	
-	
-	
-	public function GetViewerArray($sArrayName){
-		if (isset($this->aViewerArray[$sArrayName])
-		&& is_array($this->aViewerArray[$sArrayName])){
-			return $this->aViewerArray[$sArrayName];
-		}
-		return array();
-	}
-	
-	
-	
-	public function AddHeadJsDefine($sName, $mValue){
-		$this->AddViewerArrayElement('aHeadJsDefine', $mValue, $sName);
-	}
-	
+
 }
  
 ?>
