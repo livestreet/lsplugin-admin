@@ -632,6 +632,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			 */
 			$sPluginTemplatePath . '/js/vendor/highcharts/highcharts.src.js',
 			$sPluginTemplatePath . '/js/vendor/icheck/jquery.icheck.js',
+			$sPluginTemplatePath . '/js/vendor/jeditable/jquery.jeditable.js',
 		);
 
 		array_map(array($this, 'Viewer_AppendStyle'), $aStyles);

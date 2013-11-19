@@ -35,7 +35,10 @@
 				</a>
 
 				<h3 class="user-login">
-					{$oUser->getLogin()}
+					{*
+						инлайн редактирование поля
+					*}
+					<span class="profile-inline-edit-input" data-item-type="login" data-item-id="{$oUser->getId()}">{$oUser->getLogin()}</span>
 
 					{if $oUser->isAdministrator()}
 						<i class="icon-user-admin" title="{$aLang.plugin.admin.users.admin}"></i>
