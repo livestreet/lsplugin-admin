@@ -39,6 +39,43 @@ class PluginAdmin_ModuleTools extends Module {
 		return Plugin::GetPath(__CLASS__) . 'include/smarty/';
 	}
 
+
+	/**
+	 * Вернуть путь к шаблону админки для плагина
+	 *
+	 * @param $sName			имя плагина
+	 * @return bool|string
+	 */
+	public function GetPluginTemplatePath($sName) {
+		$sNamePlugin = Engine::GetPluginName($sName);
+		$sNamePlugin = $sNamePlugin ? $sNamePlugin : $sName;
+		$sNamePlugin = func_underscore($sNamePlugin);
+
+		$sPath = Plugin::GetPath($sNamePlugin);
+		$aSkins = array('admin_default', 'default', Config::Get('view.skin'));
+		foreach($aSkins as $sSkin) {
+			$sTpl = $sPath . 'templates/skin/' . $sSkin . '/';
+			if (is_dir($sTpl)) {
+				return $sTpl;
+			}
+		}
+		return false;
+	}
+
+
+	/**
+	 * Вернуть веб-путь к шаблону админки для плагина
+	 *
+	 * @param $sName			имя плагина
+	 * @return bool|string
+	 */
+	public function GetPluginTemplateWebPath($sName) {
+		if ($sPath = $this->GetPluginTemplatePath($sName)) {
+			return str_replace(Config::Get('path.root.server'), Config::Get('path.root.web'), $sPath);
+		}
+		return false;
+	}
+
 }
 
 ?>
