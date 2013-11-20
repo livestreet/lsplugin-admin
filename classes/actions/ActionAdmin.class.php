@@ -147,11 +147,6 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		$this->AddEvent('ajax-get-index-activity-more', 'Dashboard::EventAjaxGetIndexActivityMore');
 
 		/*
-		 * Обработка ошибок, аналог ActionError
-		 */
-		$this->AddEvent('error', 'EventError');
-
-		/*
 		 *
 		 * --- Пользователи ---
 		 *
@@ -235,13 +230,17 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 */
 		$this->AddEventPreg('#^users$#iu', '#^ajax-edit-rating$#iu', 'Users::EventAjaxEditUserRatingAndSkill');
 		/*
-		 * изменение количества банов на страницу
+		 * изменение данных пользователя в его профиле
 		 */
-		$this->AddEventPreg('#^bans$#iu', '#^ajax-on-page$#iu', 'Users::EventAjaxBansOnPage');
+		$this->AddEventPreg('#^users$#iu', '#^ajax-profile-edit$#iu', 'Users::EventAjaxProfileEdit');
 		/*
 		 * изменение количества голосов на страницу
 		 */
 		$this->AddEventPreg('#^votes$#iu', '#^ajax-on-page$#iu', 'Users::EventAjaxVotesOnPage');
+		/*
+		 * изменение количества банов на страницу
+		 */
+		$this->AddEventPreg('#^bans$#iu', '#^ajax-on-page$#iu', 'Users::EventAjaxBansOnPage');
 		/*
 		 * проверить правило бана на корректность
 		 */
@@ -332,6 +331,12 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		foreach(array_keys(Config::Get('plugin.admin.core_config_groups')) as $sKey) {
 			$this->AddEventPreg('#^settings$#iu', '#^' . $sKey . '$#iu', 'Settings::' . $this->sCallbackMethodToShowSystemSettings . $sKey);
 		}
+
+
+		/*
+		 * Обработка ошибок, аналог ActionError
+		 */
+		$this->AddEvent('error', 'EventError');
 	}
 
 
@@ -507,19 +512,19 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 	/**
 	 * Добавить свои файлы JS и CSS для админки
 	 */
-	protected function AddJSAndCSSFiles () {
+	protected function AddJSAndCSSFiles() {
 		/*
 		 * обнулить списки скриптов и таблиц стилей
 		 */
-		$this->Viewer_ClearStyle (true);
+		$this->Viewer_ClearStyle(true);
 
-		$sFrameworkPath = Config::Get ('path.framework.frontend.web');
-		$sPluginTemplatePath = Plugin::GetTemplatePath (__CLASS__) . 'assets';
+		$sFrameworkPath = Config::Get('path.framework.frontend.web');
+		$sPluginTemplatePath = Plugin::GetTemplatePath(__CLASS__) . 'assets';
 
 		/*
 		 * набор стилей для админки
 		 */
-		$aStyles = array (
+		$aStyles = array(
 			/*
 			 * стили, задаваемые фреймворком
 			 */
@@ -567,7 +572,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		/*
 		 * скрипты для админки
 		 */
-		$aScripts = array (
+		$aScripts = array(
 			/*
 			 * скрипты, задаваемые фреймворком
 			 */
@@ -624,6 +629,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$sPluginTemplatePath . '/js/admin_misc.js',
 			$sPluginTemplatePath . '/js/admin_stream.js',
 			$sPluginTemplatePath . '/js/admin_users_stats_living.js',
+			$sPluginTemplatePath . '/js/admin_profile_edit.js',
 			$sPluginTemplatePath . '/js/more.js',
 			$sPluginTemplatePath . '/js/property.js',
 

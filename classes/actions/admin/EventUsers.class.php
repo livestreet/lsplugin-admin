@@ -1013,7 +1013,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 */
 		if (isAjaxRequest()) {
 			$this->GetAjaxAnswerForUsersStats ();
-			return false;
+			return true;
 		}
 
 		$this->SetTemplateAction('users/stats');
@@ -1106,8 +1106,11 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	}
 
 
+	/**
+	 * Получить аякс ответ для статистики стран и городов пользователей в виде готового шаблона в виде строки
+	 */
 	protected function GetAjaxAnswerForUsersStats() {
-		$this->Viewer_SetResponseAjax ('json');
+		$this->Viewer_SetResponseAjax('json');
 		/*
 		 * если нужно вывести только нужные данные
 		 */
@@ -1147,6 +1150,56 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 				 */
 				$this->Viewer_AssignAjax('result', $oViewer->Fetch(Plugin::GetTemplatePath(__CLASS__) . 'charts/chart.bar.location.tpl'));
 			}
+		}
+	}
+
+
+	/**
+	 * Редактирование профиля пользователя
+	 */
+	public function EventAjaxProfileEdit() {
+		$this->Viewer_SetResponseAjax('json');
+		/*
+		 * есть ли редактируемый пользователь
+		 */
+		if (!$oUser = $this->User_GetUserById((int) getRequestStr('user_id'))) {
+			return $this->Message_AddError($this->Lang('errors.profile_edit.wrong_user_id'));
+		}
+		/*
+		 * проверить значение
+		 */
+		if (!$sValue = getRequestStr('value') or !$this->Validate_Validate('string', $sValue, array('min' => 1, 'max' => 2000, 'allowEmpty' => false))) {
+			return $this->Message_AddError($this->Lang('errors.profile_edit.disallowed_value') . '. ' . $this->Validate_GetErrorLast());
+		}
+		/*
+		 * выполнить действие на основе его типа
+		 */
+		switch (getRequestStr('field_type')) {
+			/*
+			 * редактировать логин пользователя
+			 */
+			case 'login':
+				return $this->PluginAdmin_Users_ChangeUserLogin($oUser, $sValue);
+			/*
+			 * редактировать имя пользователя
+			 */
+			case 'profile_name':
+				return $this->PluginAdmin_Users_ChangeUserName($oUser, $sValue);
+			/*
+			 * редактировать почту пользователя
+			 */
+			case 'mail':
+				return $this->PluginAdmin_Users_ChangeUserMail($oUser, $sValue);
+			/*
+			 * редактировать пароль пользователя
+			 */
+			case 'password':
+				return $this->PluginAdmin_Users_ChangeUserPassword($oUser, $sValue);
+			/*
+			 * действие не найдено
+			 */
+			default:
+				return $this->Message_AddError($this->Lang('errors.profile_edit.unknown_action_type'));
 		}
 	}
 

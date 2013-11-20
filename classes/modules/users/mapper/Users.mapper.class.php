@@ -608,6 +608,26 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 	}
 
 
+	/**
+	 * Выполнить изменение данных в таблице пользователя
+	 *
+	 * @param $oUser		объект пользователя
+	 * @param $aChanges		массив необходимых изменений field => value
+	 * @return array|null
+	 */
+	public function Update($oUser, $aChanges) {
+		$sSql = 'UPDATE
+				`' . Config::Get('db.table.user') . '`
+			SET
+				?a
+			WHERE
+				`user_id` = ?d
+			LIMIT 1
+		';
+		return $this->oDb->query($sSql, $aChanges, $oUser->getId());
+	}
+
+
 }
 
 ?>

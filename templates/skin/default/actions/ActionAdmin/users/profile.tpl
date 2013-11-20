@@ -46,10 +46,19 @@
 				</h3>
 
 				{if $oUser->getProfileName()}
-					<p class="user-name">{$oUser->getProfileName()}</p>
+					{*
+						инлайн редактирование поля
+					*}
+					<p class="user-name profile-inline-edit-input" data-item-type="profile_name" data-item-id="{$oUser->getId()}">{$oUser->getProfileName()}</p>
 				{/if}
 
-				<p class="user-mail"><a href="mailto:{$oUser->getMail()}" class="link-border"><span>{$oUser->getMail()}</span></a></p>
+				<p class="user-mail">
+					{*
+						инлайн редактирование поля
+					*}
+					<span class="profile-inline-edit-input" data-item-type="mail" data-item-id="{$oUser->getId()}">{$oUser->getMail()}</span>
+					<a href="mailto:{$oUser->getMail()}" class="link-border"><i class="icon-envelope"></i></a>
+				</p>
 
 				<p class="user-id">{$aLang.plugin.admin.users.profile.user_no}{$oUser->getId()}</p>
 			</div>
@@ -73,6 +82,14 @@
 				<div class="get-user-baneed">
 					{* для вывода информации бана *}
 					{hook run='admin_user_profile_brief_aside' oUserProfile=$oUser}        {* todo: review: hook names *}
+				</div>
+
+				<div class="mt-20">
+					{$aLang.plugin.admin.users.profile_edit.password}
+					{*
+						инлайн редактирование поля
+					*}
+					<span class="link-dotted profile-inline-edit-input" data-item-type="password" data-item-id="{$oUser->getId()}">*******</span>
 				</div>
 			</div>
 		</div>

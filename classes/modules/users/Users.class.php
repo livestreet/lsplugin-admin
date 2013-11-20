@@ -1112,6 +1112,69 @@ class PluginAdmin_ModuleUsers extends Module {
 		return $aData;
 	}
 
+
+	/*
+	 *
+	 * --- Редактирование данных пользователя ---
+	 *
+	 */
+
+
+	/**
+	 * Выполнить изменение данных в таблице пользователя
+	 *
+	 * @param $oUser		объект пользователя
+	 * @param $aChanges		массив необходимых изменений field => value
+	 */
+	protected function ModifyUserData($oUser, $aChanges) {
+		$this->oMapper->Update($oUser, $aChanges);
+		$this->Cache_Clean();
+	}
+
+
+	/**
+	 * Сменить логин пользователя на новый
+	 *
+	 * @param $oUser		объект пользователя
+	 * @param $sNewValue	новое значение
+	 */
+	public function ChangeUserLogin($oUser, $sNewValue) {
+		$this->ModifyUserData($oUser, array('user_login' => $sNewValue));
+	}
+
+
+	/**
+	 * Сменить имя пользователя
+	 *
+	 * @param $oUser		объект пользователя
+	 * @param $sNewValue	новое значение
+	 */
+	public function ChangeUserName($oUser, $sNewValue) {
+		$this->ModifyUserData($oUser, array('user_profile_name' => $sNewValue));
+	}
+
+
+	/**
+	 * Сменить почту пользователя
+	 *
+	 * @param $oUser		объект пользователя
+	 * @param $sNewValue	новое значение
+	 */
+	public function ChangeUserMail($oUser, $sNewValue) {
+		$this->ModifyUserData($oUser, array('user_mail' => $sNewValue));
+	}
+
+
+	/**
+	 * Сменить пароль пользователя
+	 *
+	 * @param $oUser		объект пользователя
+	 * @param $sNewValue	новое значение
+	 */
+	public function ChangeUserPassword($oUser, $sNewValue) {
+		$this->ModifyUserData($oUser, array('user_password' => func_encrypt($sNewValue)));
+	}
+
 }
 
 ?>
