@@ -80,7 +80,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 * @param $sInstance		инстанция хранилища
 	 * @return mixed
 	 */
-	public function SaveConfigData($sConfigName, $mData, $sInstance = self::DEFAULT_INSTANCE) {
+	final public function SaveConfigData($sConfigName, $mData, $sInstance = self::DEFAULT_INSTANCE) {
 		$sKey = $this->GetCorrectStorageKey($sConfigName);
 		return $this->SetOneParam($sKey, self::CONFIG_DATA_PARAM_NAME, $mData, $sInstance);
 	}
@@ -89,7 +89,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	/**
 	 * Начать загрузку всех конфигов в системе
 	 */
-	public function AutoLoadConfigs() {
+	final public function AutoLoadConfigs() {
 		/*
 		 * получить данные в сыром виде для всех записей хранилища
 		 */
@@ -216,7 +216,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 * @param $sInstance			инстанция
 	 * @return mixed				значение
 	 */
-	protected function GetConfigKeyValue($sConfigName, $sConfigKey, $sInstance = Config::DEFAULT_CONFIG_INSTANCE) {
+	private function GetConfigKeyValue($sConfigName, $sConfigKey, $sInstance = Config::DEFAULT_CONFIG_INSTANCE) {
 		return Config::Get($this->GetRealFullKey($sConfigName) . $sConfigKey, $sInstance);
 	}
 
@@ -229,7 +229,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 * @param $mValue				значение
 	 * @param $sInstance			инстанция
 	 */
-	protected function SetConfigKeyValue($sConfigName, $sConfigKey, $mValue, $sInstance = Config::DEFAULT_CONFIG_INSTANCE) {
+	private function SetConfigKeyValue($sConfigName, $sConfigKey, $mValue, $sInstance = Config::DEFAULT_CONFIG_INSTANCE) {
 		Config::Set($this->GetRealFullKey($sConfigName) . $sConfigKey, $mValue, $sInstance);
 	}
 
@@ -242,7 +242,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 * @param bool 		$bAddDot			добавлять ли точку в конце (удобно для получения всего конфига)
 	 * @return string						полное представление ключа
 	 */
-	protected function GetRealFullKey($sConfigName, $bAddDot = true) {
+	private function GetRealFullKey($sConfigName, $bAddDot = true) {
 		return $sConfigName == ModuleStorage::DEFAULT_KEY_NAME ? '' : 'plugin.' . $sConfigName .($bAddDot ? '.' : '');
 	}
 
@@ -256,7 +256,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 * @param array 	$aKeys			ключи, которые нужно заполнить текстовками
 	 * @return mixed					параметр с текстовками вместо ключей, указывающих на них
 	 */
-	protected function ConvertLangKeysToTexts($sConfigName, $aParam, $aKeys = array('name', 'description')) {
+	private function ConvertLangKeysToTexts($sConfigName, $aParam, $aKeys = array('name', 'description')) {
 		foreach($aKeys as $sNamesToExtend) {
 			if (!isset($aParam [$sNamesToExtend]) or empty($aParam [$sNamesToExtend])) continue;
 			$aParam [$sNamesToExtend] = $this->Lang_Get($this->GetRealFullKey($sConfigName) . $aParam [$sNamesToExtend]);
@@ -271,7 +271,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 * @param $sConfigName			имя конфига
 	 * @return array|mixed			массив с описанием структуры
 	 */
-	protected function GetConfigSettingsSchemeInfo($sConfigName) {
+	private function GetConfigSettingsSchemeInfo($sConfigName) {
 		$aData = $this->GetConfigKeyValue($sConfigName, self::CONFIG_SCHEME_KEY);
 		return $aData ? $aData : array();
 	}
@@ -284,7 +284,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 * @param $mValue				значение, которое нужно проверит
 	 * @return bool					результат проверки
 	 */
-	protected function ValidateParameter($aValidatorInfo, $mValue) {
+	private function ValidateParameter($aValidatorInfo, $mValue) {
 		if (!isset($aValidatorInfo ['type'])) return true;
 		return $this->Validate_Validate(
 			$aValidatorInfo ['type'],
@@ -299,7 +299,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 *
 	 * @return mixed				текст ошибки
 	 */
-	protected function ValidatorGetLastError() {
+	private function ValidatorGetLastError() {
 		return $this->Validate_GetErrorLast(true);
 	}
 
@@ -312,7 +312,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 * @param array 	$aExcludeKeys				список запрещенных ключей для показа из этого конфига
 	 * @return array								настройки конфига
 	 */
-	public function GetConfigSettings($sConfigName, $aOnlyThisKeysAllowed = array(), $aExcludeKeys = array()) {
+	final public function GetConfigSettings($sConfigName, $aOnlyThisKeysAllowed = array(), $aExcludeKeys = array()) {
 		/*
 		 * Получить описание настроек из конфига
 		 */
@@ -378,7 +378,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 * @param $sConfigName				имя конфига
 	 * @return bool
 	 */
-	public function ParsePOSTDataIntoSeparateConfigInstance($sConfigName) {
+	final public function ParsePOSTDataIntoSeparateConfigInstance($sConfigName) {
 		$bResult = true;
 		/*
 		 * Получить описание настроек из конфига
@@ -541,7 +541,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 * @param null		$aData					ручное указание данных, вместо получения их временной инстанции конфига
 	 * @return mixed
 	 */
-	public function SaveConfigByKey($sConfigName, $aData = null) {
+	final public function SaveConfigByKey($sConfigName, $aData = null) {
 		if (is_null($aData)) {
 			/*
 			 * получить данные, которые были сохранены во временной инстанции конфига после их парсинга и анализа
@@ -570,7 +570,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 * @param $sConfigName		имя конфига
 	 * @return string			ключ
 	 */
-	protected function GetCorrectStorageKey($sConfigName) {
+	private function GetCorrectStorageKey($sConfigName) {
 		if ($sConfigName == ModuleStorage::DEFAULT_KEY_NAME) {
 			return ModuleStorage::DEFAULT_KEY_NAME;
 		}
@@ -586,7 +586,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 * @param			$sInstance			инстанция хранилища
 	 * @return mixed
 	 */
-	public function SavePluginConfig($aKeysToSave = array(), $sCallerName, $sInstance = self::DEFAULT_INSTANCE) {
+	final public function SavePluginConfig($aKeysToSave = array(), $sCallerName, $sInstance = self::DEFAULT_INSTANCE) {
 		/*
 		 * Получить сохраненный конфиг из хранилища
 		 */
@@ -629,7 +629,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 *
 	 * @return string
 	 */
-	protected function GetRootConfigSchemePath() {
+	private function GetRootConfigSchemePath() {
 		return Plugin::GetPath(__CLASS__) . self::PATH_TO_ROOT_CONFIG_SCHEME;
 	}
 
@@ -640,7 +640,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 * @param $sFileName		имя языкового файла (совпадает с языком движка)
 	 * @return string
 	 */
-	protected function GetRootConfigLanguge($sFileName) {
+	private function GetRootConfigLanguge($sFileName) {
 		return $this->GetRootConfigSchemePath() . Config::Get('lang.dir') . '/' . $sFileName . '.php';
 	}
 
@@ -650,7 +650,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 *
 	 * @throws Exception
 	 */
-	protected function AddConfigSchemeToRootConfig() {
+	private function AddConfigSchemeToRootConfig() {
 		$sPathRootConfigScheme = $this->GetRootConfigSchemePath() . 'scheme.php';
 		if (!is_readable($sPathRootConfigScheme)) {
 			throw new Exception('Admin: error: can`t read root config scheme "' . $sPathRootConfigScheme . '". Check rights for this file.');
@@ -670,7 +670,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 *
 	 * @throws Exception
 	 */
-	protected function AddConfigLanguageToRootConfig() {
+	private function AddConfigLanguageToRootConfig() {
 		$sPathRootConfigLang = $this->GetRootConfigLanguge(Config::Get('lang.current'));
 		if (!is_readable($sPathRootConfigLang)) {
 			$sPathRootConfigLang = $this->GetRootConfigLanguge(Config::Get('lang.default'));
@@ -691,7 +691,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	/**
 	 * Добавить к главному конфигу движка схему его конфига и описание в языковый файл
 	 */
-	public function AddSchemeAndLangToRootConfig() {
+	final public function AddSchemeAndLangToRootConfig() {
 		$this->AddConfigSchemeToRootConfig();
 		$this->AddConfigLanguageToRootConfig();
 	}
@@ -706,7 +706,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 * @param $oParamInfo		описание параметра из схемы конфига
 	 * @return bool				разрешение на установку данного значения для этого ключа
 	 */
-	protected function FireEvents($sConfigName, $sKey, $mNewValue, $oParamInfo) {
+	private function FireEvents($sConfigName, $sKey, $mNewValue, $oParamInfo) {
 		$mPreviousValue = $oParamInfo->getValue();
 		if ($mNewValue != $mPreviousValue) {
 			return $this->PluginAdmin_Events_ConfigParameterChangeNotification($sConfigName, $sKey, $mNewValue, $mPreviousValue);
@@ -722,7 +722,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 * @param $aSettingsInfo	набор настроек
 	 * @return bool				разрешение на запись настроек
 	 */
-	protected function FireChangedAtLeastOneParamEvent($sConfigName, $aSettingsInfo) {
+	private function FireChangedAtLeastOneParamEvent($sConfigName, $aSettingsInfo) {
 		/*
 		 * проверить каждый параметр - было изменено хотя бы одно значение
 		 */
