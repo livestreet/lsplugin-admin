@@ -19,14 +19,16 @@
  */
 
 /*
- *	Работа с элементами массива особого вида отображения
- *
-*/
+ 	Работа с элементами массива особого вида отображения
+ */
 
 var ls = ls || {};
 
 ls.admin_settings_array = (function($) {
-	
+
+	/**
+	 * Селекторы
+	 */
 	this.selectors = {
 		HiddenArrayItemCopy: '.js-hidden-array-item-copy',
 		ArrayItemValue: '.js-array-item-value',
@@ -35,78 +37,123 @@ ls.admin_settings_array = (function($) {
 		ArrayInputText: '.js-array-input-text',
 		ArrayInputType: '.js-array-input-type'
 	};
-	
-	// ---
 
+
+	/**
+	 * Удалить значение массива
+	 *
+	 * @param oThis
+	 * @constructor
+	 */
 	this.RemoveArrayItem = function(oThis) {
-		oArrayItemValue = $(oThis).closest(this.selectors.ArrayItemValue);
+		var oArrayItemValue = $ (oThis).closest(this.selectors.ArrayItemValue);
 		
-		sKey = oArrayItemValue.closest(this.selectors.ArrayValues).attr('data-key');
-		sValue = oArrayItemValue.find('input').val();
+		var sKey = oArrayItemValue.closest(this.selectors.ArrayValues).attr('data-key');
+		var sValue = oArrayItemValue.find('input').val();
 		this.GetEnumSelector(sKey).find('option[value=' + sValue + ']').removeAttr('disabled');
 		
 		oArrayItemValue.fadeOut(200, function() {
-			$(this).remove();
+			$ (this).remove();
 		});
 	};
-	
-	// ---
-	
+
+
+	/**
+	 * Получить копию структуры одного элемента массива
+	 * 
+	 * @constructor
+	 */
 	this.GetArrayItemBaseStructure = function() {
-		return $(this.selectors.HiddenArrayItemCopy).children().clone();
+		return $ (this.selectors.HiddenArrayItemCopy).children().clone();
 	};
-	
-	// ---
-	
+
+
+	/**
+	 * Получить данные селекта с разрешенными значениями
+	 *
+	 * @param sKey
+	 * @constructor
+	 */
 	this.GetEnumSelector = function(sKey) {
-		return $(this.selectors.ArrayEnum + '[data-key="' + sKey + '"]');
+		return $ (this.selectors.ArrayEnum + '[data-key="' + sKey + '"]');
 	};
-	
-	// ---
-	
+
+
+	/**
+	 * Установить утрибут name для инпута из его сохраненного значения
+	 *
+	 * @param oInput	инпут
+	 * @constructor
+	 */
 	this.SwitchOriginalNameToInput = function(oInput) {
 		return oInput.attr('name', oInput.attr('data-name-original'));
 	};
-	
-	// ---
-	
+
+
+	/**
+	 * Добавить значение массива из перечисления (селекта)
+	 *
+	 * @param sKey
+	 * @returns {boolean}
+	 * @constructor
+	 */
 	this.AddArrayItemFromEnum = function(sKey) {
-		oSelectInput = this.GetEnumSelector(sKey);
-		if (!(sValue = oSelectInput.val())) return false;
+		var oSelectInput = this.GetEnumSelector(sKey);
+		var sValue = oSelectInput.val();
+		if (!sValue) return false;
 		oSelectInput.find('option[value=' + sValue + ']').attr('disabled', true);
 		
-		oNewItem = this.GetArrayItemBaseStructure();
+		var oNewItem = this.GetArrayItemBaseStructure();
 		this.SwitchOriginalNameToInput(oNewItem.find('input')).val(sValue);
 		
-		$(this.selectors.ArrayValues + '[data-key="' + sKey + '"]').append(oNewItem);
+		$ (this.selectors.ArrayValues + '[data-key="' + sKey + '"]').append(oNewItem);
 		return true;
 	};
-	
-	// ---
-	
+
+
+	/**
+	 * Добавить значение массива из инпута (введенное пользователем)
+	 *
+	 * @param sKey
+	 * @returns {boolean}
+	 * @constructor
+	 */
 	this.AddArrayItemFromTextInput = function(sKey) {
-		oTextInput = $(this.selectors.ArrayInputText + '[data-key="' + sKey + '"]');
-		if (!(sValue = oTextInput.val())) return false;
+		var oTextInput = $ (this.selectors.ArrayInputText + '[data-key="' + sKey + '"]');
+		var sValue = oTextInput.val();
+		if (!sValue) return false;
 		oTextInput.val('');
 		
-		oNewItem = this.GetArrayItemBaseStructure();
+		var oNewItem = this.GetArrayItemBaseStructure();
 		this.SwitchOriginalNameToInput(oNewItem.find('input')).val(sValue);
 		
-		$(this.selectors.ArrayValues + '[data-key="' + sKey + '"]').append(oNewItem);
+		$ (this.selectors.ArrayValues + '[data-key="' + sKey + '"]').append(oNewItem);
 		return true;
 	};
-	
-	// ---
-	
+
+
+	/**
+	 * Получить тип ввода для массива
+	 *
+	 * @param sKey
+	 * @returns {*}
+	 * @constructor
+	 */
 	this.GetArrayInputType = function(sKey) {
-		return $(this.selectors.ArrayInputType + '[data-key="' + sKey + '"]').val();
+		return $ (this.selectors.ArrayInputType + '[data-key="' + sKey + '"]').val();
 	};
-	
-	// ---
-	
+
+
+	/**
+	 * Добавить значение в массив
+	 *
+	 * @param oThis
+	 * @returns {*}
+	 * @constructor
+	 */
 	this.AddArrayItem = function(oThis) {
-		bResult = false;
-		sKey = $(oThis).attr('data-key');
+		var bResult = false;
+		var sKey = $ (oThis).attr('data-key');
 		switch(this.GetArrayInputType(sKey)) {
 			case 'enum':
 				bResult = this.AddArrayItemFromEnum(sKey);
@@ -130,18 +177,18 @@ ls.admin_settings_array = (function($) {
 
 jQuery(document).ready(function($) {
 	
-	//
-	// Remove elements from array special list
-	//
-	$(document).on('click.admin', '.js-array-values .js-array-item-value .js-remove-previous', function() {
+	/**
+	 * Удалить элемент из массива специального вида отображения
+	 */
+	$ (document).on('click.admin', ls.admin_settings_array.selectors.ArrayValues + ' ' + ls.admin_settings_array.selectors.ArrayItemValue + ' .js-remove-previous', function() {
 		ls.admin_settings_array.RemoveArrayItem(this);
 		ls.msg.error('Ok', 'Deleted');
 	});
 	
-	//
-	// Add elements to array special list
-	//
-	$(document).on('click.admin', ls.admin_settings_save.selectors.OneParameterContainer + ' .js-array-add-value', function() {
+	/**
+	 * Добавить элемент в массив специального вида отображения
+	 */
+	$ (document).on('click.admin', ls.admin_settings_save.selectors.OneParameterContainer + ' .js-array-add-value', function() {
 		if (ls.admin_settings_array.AddArrayItem(this)) {
 			ls.msg.notice('Ok', 'Added');
 		}
