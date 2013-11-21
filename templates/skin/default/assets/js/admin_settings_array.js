@@ -141,7 +141,7 @@ jQuery(document).ready(function($) {
 	//
 	// Add elements to array special list
 	//
-	$(document).on('click.admin', '.OneParameterContainer .js-array-add-value', function() {
+	$(document).on('click.admin', ls.admin_settings_save.selectors.OneParameterContainer + ' .js-array-add-value', function() {
 		if (ls.admin_settings_array.AddArrayItem(this)) {
 			ls.msg.notice('Ok', 'Added');
 		}

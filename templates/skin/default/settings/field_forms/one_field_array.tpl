@@ -7,9 +7,9 @@
 	{$aValidatorParams = $aValidatorData['params']}
 	
 	<div class="js-hidden-array-item-copy" style="display: none;">
-		<div class="js-array-item-value">
-			<input type="text" class="input-text width-50" readonly="readonly" value="" data-name-original="{$sInputDataName}" />
-			<button class="button button-primary js-remove-previous">x</button>
+		<div class="mb-10 js-array-item-value">
+			<input type="text" class="input-text width-150" readonly="readonly" value="" data-name-original="{$sInputDataName}" />
+			<button type="button" class="button button-primary js-remove-previous">x</button>
 		</div>
 	</div>
 	
@@ -18,7 +18,7 @@
 		{foreach from=$oParameter->getValue() item=mValue}
 			<div class="mb-10 js-array-item-value">
 				<input type="text" name="{$sInputDataName}" class="input-text width-150" readonly="readonly" value="{$mValue}" />
-				<button class="button button-primary js-remove-previous">x</button>
+				<button type="button" class="button button-primary js-remove-previous">x</button>
 			</div>
 		{/foreach}
 	</div>
