@@ -19,15 +19,17 @@
  */
 
 /*
-	Статистика проживаний пользователей
-	Обработка селекта стран или городов
-	Аякс смена параметров
+	Обработка селекта стран или городов в статистике проживаний пользователей
+	(аякс смена параметров)
  */
 
 var ls = ls || {};
 
 ls.admin_users_stats_living = (function($) {
-	
+
+	/**
+	 * Селекторы
+	 */
 	this.selectors = {
 		/*
 		 	просмотр короткой статистики по проживанию пользователей на странице статистики пользователей (селект)
@@ -50,7 +52,6 @@ ls.admin_users_stats_living = (function($) {
 		last_element: 'without_comma'
 	};
 
-	// ---
 
 	/**
 	 * Показать количество и процентное соотнешение для выбранного элемента в селекте
@@ -64,7 +65,6 @@ ls.admin_users_stats_living = (function($) {
 		$ (this.selectors.users_stats_living_stats_short_view_percentage).text((iCount*100/iTotalUsersCount).toFixed(2) + ' %');
 	};
 
-	// ---
 
 	/**
 	 * Установить значение для выбранного элемента селекта по-умолчанию
@@ -127,12 +127,15 @@ jQuery(document).ready(function($) {
 				}
 
 				$ (ls.admin_users_stats_living.selectors.admin_users_stats_living).removeClass('loading');
-			}.bind(this),
+			},
 			{
 				type: 'POST',
 				dataType: 'json'
 			}
 		);
+		/*
+			отменить обычную загрузку по ссылке
+		 */
 		return false;
 	});
 

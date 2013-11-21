@@ -123,3 +123,9 @@
 	vertical-align: middle;
 	width: 60px;
 }
+
+/* inline editing in profile */
+
+.ls-admin .profile-inline-edit-input:hover {
+	background: none repeat scroll 0 0 #FFFFED;
+}
