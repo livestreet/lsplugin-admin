@@ -388,7 +388,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 			/*
 			 * Проверка это ли параметр настроек формы
 			 */
-			if (is_array($aPostRawData) and $aPostRawData [self::POST_RAW_DATA_ARRAY_SIGNATURE] == self::ADMIN_SETTINGS_FORM_SYSTEM_ID) {
+			if (is_array($aPostRawData) and $aPostRawData[self::POST_RAW_DATA_ARRAY_SIGNATURE] == self::ADMIN_SETTINGS_FORM_SYSTEM_ID) {
 				/*
 				 * Структура принимаемых данных - массив с значениями по ключам:
 				 *
@@ -399,7 +399,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 				 * [self::POST_RAW_DATA_ARRAY_VALUE_FIRST] - значение параметра из формы
 				 * [n] - n-е значение из формы(для типа "массив" улучшеного отображения)
 				 */
-				$sKey = $aPostRawData [self::POST_RAW_DATA_ARRAY_KEY];
+				$sKey = $aPostRawData[self::POST_RAW_DATA_ARRAY_KEY];
 				/*
 				 * Если существует запись в конфиге о таком параметре, который был передан
 				 */
@@ -468,14 +468,20 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	/**
 	 * Получить данные параметра из формы
 	 *
-	 * @param $aPostRawData		значение одного параметра из пост данных
+	 * @param $aPostRawData		значение одного параметра из post данных
 	 * @param $oParamInfo		описание структуры парамера из конфига
 	 * @return mixed			значение параметра
 	 * @throws Exception		если данные для параметра не были отправлены формой
 	 */
 	private function GetFormParameterValue($aPostRawData, $oParamInfo) {
+		/*
+		 * не установленное значение
+		 */
 		$mValue = null;
 		switch($oParamInfo->getType()) {
+			/*
+			 * массив
+			 */
 			case 'array':
 				/*
 				 * для массива у которого особый вид отображения, нужно собрать значения
@@ -486,19 +492,42 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 					 * собрать значения
 					 */
 					for($i = self::POST_RAW_DATA_ARRAY_VALUE_FIRST; $i < count($aPostRawData); $i ++) {
-						$mValue [] = $aPostRawData [$i];
+						$mValue[] = $aPostRawData[$i];
 					}
 					break;
 				}
 				/*
 				 * для стандартного отображения массива в виде php array логика не меняется - получение идентично как и для других типов данных
+				 * (прислано его строковое представление)
 				 */
-			default:
-				if (!isset($aPostRawData [self::POST_RAW_DATA_ARRAY_VALUE_FIRST])) {
-					throw new Exception('Admin: error: value was not sent by request, raw post data: ' . print_r($aPostRawData, true));
-				}
-				$mValue = $aPostRawData [self::POST_RAW_DATA_ARRAY_VALUE_FIRST];
+
+				/*
+				 * tip: на данный момент такой тип данных запрещен в целях безопасности, т.к. требуется eval для этого
+				 * поэтому проверка ниже бросит исключение
+				 */
 				break;
+			/*
+			 * флажок
+			 */
+			case 'boolean':
+				/*
+				 * tip: если данных для флажка нет - значит он просто выключен
+				 */
+				$mValue = isset($aPostRawData[self::POST_RAW_DATA_ARRAY_VALUE_FIRST]) ? 1 : 0;
+				break;
+			/*
+			 * остальные типы данных
+			 */
+			default:
+				if (isset($aPostRawData[self::POST_RAW_DATA_ARRAY_VALUE_FIRST])) {
+					$mValue = $aPostRawData[self::POST_RAW_DATA_ARRAY_VALUE_FIRST];
+				}
+		}
+		/*
+		 * проверить результат
+		 */
+		if (is_null($mValue)) {
+			throw new Exception('Admin: error: value was not sent by request or null, raw post data: ' . print_r($aPostRawData, true));
 		}
 		return $mValue;
 	}
