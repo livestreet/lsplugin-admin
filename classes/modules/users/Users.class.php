@@ -1197,6 +1197,17 @@ class PluginAdmin_ModuleUsers extends Module {
 		$this->ModifyUserData($oUser, array('user_skill' => $sNewValue));
 	}
 
+
+	/**
+	 * Сменить описание пользователя
+	 *
+	 * @param $oUser		объект пользователя
+	 * @param $sNewValue	новое значение
+	 */
+	public function ChangeUserAbout($oUser, $sNewValue) {
+		$this->ModifyUserData($oUser, array('user_profile_about' => $sNewValue));
+	}
+
 }
 
 ?>

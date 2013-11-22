@@ -68,7 +68,7 @@
 			*}
 			<div class="user-brief-aside">
 				<div class="edit-rating">
-					<i class="icon-rating" title="{$aLang.plugin.admin.users.profile.rating}"></i>
+					<i class="icon-rating" title="{$aLang.plugin.admin.users.profile_edit.rating}"></i>
 					{*
 						инлайн редактирование поля
 					*}
@@ -76,19 +76,27 @@
 				</div>
 
 				<div class="edit-skill">
-					skill:
+					{$aLang.plugin.admin.users.profile_edit.skill}
 					{*
 						инлайн редактирование поля
 					*}
 					<span class="link-dotted profile-inline-edit-input" data-item-type="skill" data-item-id="{$oUser->getId()}">{$oUser->getSkill()}</span>
 				</div>
 
-				<div class="mt-20">
+				<div class="edit-password">
 					{$aLang.plugin.admin.users.profile_edit.password}
 					{*
 						инлайн редактирование поля
 					*}
 					<span class="link-dotted profile-inline-edit-input" data-item-type="password" data-item-id="{$oUser->getId()}">*******</span>
+				</div>
+
+				<div class="edit-about-user">
+					{$aLang.plugin.admin.users.profile_edit.about_user}
+					{*
+						инлайн редактирование поля
+					*}
+					<span class="link-dotted profile-inline-edit-input" data-item-type="about" data-item-id="{$oUser->getId()}">{$oUser->getProfileAbout()}</span>
 				</div>
 
 				<div class="get-user-baneed">

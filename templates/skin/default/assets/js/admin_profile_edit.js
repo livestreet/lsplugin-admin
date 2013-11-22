@@ -111,25 +111,26 @@ jQuery(document).ready(function($) {
 			/*
 				для получения исходника редактируемого значения вместо хтмл данных
 			 */
-			//loadurl  : 'http://www.example.com/load.php',
+			//loadurl : 'http://www.example.com/load.php',
 			//loaddata : function(value, settings) { return {foo: "bar"}; }
 
 			/*
 				тип поля для редактирования
 			 */
-			type      : 'text',	// textarea, select
+			type: 'text',	// textarea, select
 
 			/*
 				тексты кнопок
 			 */
-			//cancel    : 'Отмена',
-			//submit    : 'OK',
+			//cancel: 'Отмена',
+			//submit: 'OK',
 
-			indicator : 'Сохранение...',
-			tooltip   : 'Нажмите для редактирования',
+			indicator: 'Сохранение...',
+			tooltip: 'Нажмите для редактирования',
+			placeholder: 'Редактировать',
 
-			//cssclass : 'someclass'
-			style  : 'inherit'
+			//cssclass: 'someclass'
+			style: 'inherit'
 		}
 	);
 

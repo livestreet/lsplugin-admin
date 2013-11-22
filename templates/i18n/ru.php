@@ -29,8 +29,8 @@ return array(
 	 * Общие
 	 */
 	'title' => 'Админка для LiveStreet CMS',
-	'true' => 'Включено (true)',
-	'false' => 'Выключено (false)',
+/*	'true' => 'Включено (true)',
+	'false' => 'Выключено (false)',*/
 	'current' => 'текущее',
 	'on_page' => 'На странице',
 	'delete' => 'Удалить',
@@ -281,9 +281,6 @@ return array(
 				'wall' => 'Стена',
 				'fav' => 'Избранное',
 			),
-			'edit_user_rating' => 'Редактировать',
-			'skill' => 'Сила',
-			'rating' => 'Рейтинг',
 			'user_no' => 'Пользователь №',
 			'info' => array(
 				'resume' => 'Досье',
@@ -340,7 +337,10 @@ return array(
 		 * инлайн редактирование данных профиля
 		 */
 		'profile_edit' => array(
+			'rating' => 'Рейтинг',
+			'skill' => 'Сила',
 			'password' => 'Пароль',
+			'about_user' => 'О себе',
 		),
 
 	),

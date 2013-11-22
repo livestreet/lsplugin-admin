@@ -1192,6 +1192,11 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 			case 'skill':
 				return $this->PluginAdmin_Users_ChangeUserSkill($oUser, $sValue);
 			/*
+			 * редактировать описание о себе пользователя
+			 */
+			case 'about':
+				return $this->PluginAdmin_Users_ChangeUserAbout($oUser, $sValue);
+			/*
 			 * действие не найдено
 			 */
 			default:
