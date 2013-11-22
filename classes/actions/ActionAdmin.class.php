@@ -226,10 +226,6 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 */
 		$this->AddEventPreg('#^users$#iu', '#^ajax-on-page$#iu', 'Users::EventAjaxUsersOnPage');
 		/*
-		 * изменение рейтинга и силы пользователя
-		 */
-		$this->AddEventPreg('#^users$#iu', '#^ajax-edit-rating$#iu', 'Users::EventAjaxEditUserRatingAndSkill');
-		/*
 		 * изменение данных пользователя в его профиле
 		 */
 		$this->AddEventPreg('#^users$#iu', '#^ajax-profile-edit$#iu', 'Users::EventAjaxProfileEdit');

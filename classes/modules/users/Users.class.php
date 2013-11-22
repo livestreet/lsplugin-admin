@@ -1175,6 +1175,28 @@ class PluginAdmin_ModuleUsers extends Module {
 		$this->ModifyUserData($oUser, array('user_password' => func_encrypt($sNewValue)));
 	}
 
+
+	/**
+	 * Сменить рейтинг пользователя
+	 *
+	 * @param $oUser		объект пользователя
+	 * @param $sNewValue	новое значение
+	 */
+	public function ChangeUserRating($oUser, $sNewValue) {
+		$this->ModifyUserData($oUser, array('user_rating' => $sNewValue));
+	}
+
+
+	/**
+	 * Сменить силу пользователя
+	 *
+	 * @param $oUser		объект пользователя
+	 * @param $sNewValue	новое значение
+	 */
+	public function ChangeUserSkill($oUser, $sNewValue) {
+		$this->ModifyUserData($oUser, array('user_skill' => $sNewValue));
+	}
+
 }
 
 ?>

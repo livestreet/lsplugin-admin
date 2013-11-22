@@ -411,20 +411,6 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 
 
 	/**
-	 * Изменить рейтинг и силу пользователя
-	 */
-	public function EventAjaxEditUserRatingAndSkill () {
-		$this->Viewer_SetResponseAjax('json');
-		if ($oUser = $this->User_GetUserById((int) getRequest('user_id'))) {
-			$oUser->setRating((float) getRequestStr('user-rating'));
-			$oUser->setSkill((float) getRequestStr('user-skill'));
-			$this->User_Update($oUser);
-			$this->Message_AddNotice('Ok');
-		}
-	}
-
-
-	/**
 	 * Список банов
 	 */
 	public function EventBansList() {
@@ -1195,6 +1181,16 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 			 */
 			case 'password':
 				return $this->PluginAdmin_Users_ChangeUserPassword($oUser, $sValue);
+			/*
+			 * редактировать рейтинг пользователя
+			 */
+			case 'rating':
+				return $this->PluginAdmin_Users_ChangeUserRating($oUser, $sValue);
+			/*
+			 * редактировать силу пользователя
+			 */
+			case 'skill':
+				return $this->PluginAdmin_Users_ChangeUserSkill($oUser, $sValue);
 			/*
 			 * действие не найдено
 			 */

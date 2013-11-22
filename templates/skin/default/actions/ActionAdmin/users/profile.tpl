@@ -67,21 +67,20 @@
 				Редактирование рейтинга
 			*}
 			<div class="user-brief-aside">
-				<form action="{router page='admin/users/ajax-edit-rating'}" method="post" enctype="application/x-www-form-urlencoded" id="admin_editrating">
-					<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
-					<input type="hidden" name="user_id" value="{$oUser->getId()}" />
-
+				<div class="edit-rating">
 					<i class="icon-rating" title="{$aLang.plugin.admin.users.profile.rating}"></i>
-					<input type="text" name="user-rating" class="input-text width-50" value="{$oUser->getRating()}" title="{$aLang.plugin.admin.users.profile.rating}" />
+					{*
+						инлайн редактирование поля
+					*}
+					<span class="link-dotted profile-inline-edit-input" data-item-type="rating" data-item-id="{$oUser->getId()}">{$oUser->getRating()}</span>
+				</div>
 
-					{* пока оно нужно т.к. сила будет установлена в 0, если этого поля не будет в реквесте *}
-					<input type="hidden" name="user-skill" class="input-text width-50" value="{$oUser->getSkill()}" />
-
-					<button type="submit" name="submit_edit_rating" class="button">{$aLang.plugin.admin.save}</button>
-				</form>
-				<div class="get-user-baneed">
-					{* для вывода информации бана *}
-					{hook run='admin_user_profile_brief_aside' oUserProfile=$oUser}        {* todo: review: hook names *}
+				<div class="edit-skill">
+					skill:
+					{*
+						инлайн редактирование поля
+					*}
+					<span class="link-dotted profile-inline-edit-input" data-item-type="skill" data-item-id="{$oUser->getId()}">{$oUser->getSkill()}</span>
 				</div>
 
 				<div class="mt-20">
@@ -90,6 +89,13 @@
 						инлайн редактирование поля
 					*}
 					<span class="link-dotted profile-inline-edit-input" data-item-type="password" data-item-id="{$oUser->getId()}">*******</span>
+				</div>
+
+				<div class="get-user-baneed">
+					{*
+						для вывода информации бана
+					*}
+					{hook run='admin_user_profile_brief_aside' oUserProfile=$oUser}        {* todo: review: hook names *}
 				</div>
 			</div>
 		</div>

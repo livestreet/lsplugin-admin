@@ -1141,17 +1141,17 @@ return array(
 						'description' => 'Настройка memcache',
 					),
 					'port' => array(
-						'name' => '',
+						'name' => 'port',
 						'description' => '',
 					),
 					'persistent' => array(
-						'name' => '',
+						'name' => 'persistent',
 						'description' => '',
 					),
 				),
 			),
 			'compression' => array(
-				'name' => '',
+				'name' => 'compression',
 				'description' => '',
 			),
 		),
