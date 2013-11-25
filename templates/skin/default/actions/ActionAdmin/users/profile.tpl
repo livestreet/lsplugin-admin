@@ -151,21 +151,31 @@
 			<dl class="dotted-list-item">
 				<dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile.info.mail}</dt>
 				<dd class="dotted-list-item-value">
+					{*
+						инлайн редактирование поля
+					*}
+					<span class="profile-inline-edit-input" data-item-type="mail" data-item-id="{$oUser->getId()}">{$oUser->getMail()}</span>
+
 					<a href="{router page='admin/users/list'}{request_filter
 						name=array('mail')
 						value=array($oUser->getMail())
-					}">{$oUser->getMail()}</a>
+					}"><i class="icon-search"></i></a>
 				</dd>
 			</dl>
 			{if $oUser->getProfileSex() != 'other'}
 				<dl class="dotted-list-item">
 					<dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile.info.sex}</dt>
 					<dd class="dotted-list-item-value">
-						{if $oUser->getProfileSex() == 'man'}
-							{$aLang.profile_sex_man}
-						{else}
-							{$aLang.profile_sex_woman}
-						{/if}
+						{*
+							инлайн редактирование поля
+						*}
+						<span class="profile-inline-edit-select" data-item-type="sex" data-item-id="{$oUser->getId()}">
+							{if $oUser->getProfileSex() == 'man'}
+								{$aLang.profile_sex_man}
+							{else}
+								{$aLang.profile_sex_woman}
+							{/if}
+						</span>
 					</dd>
 				</dl>
 			{/if}
@@ -181,11 +191,15 @@
 					<dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile.info.living}</dt>
 					<dd class="dotted-list-item-value">
 						{if $oGeoTarget->getCountryId()}
-							<a href="{router page='people/country'}{$oGeoTarget->getCountryId()}/">{$oUser->getProfileCountry()|escape:'html'}</a>{if $oGeoTarget->getCityId()},{/if}
+							{$oUser->getProfileCountry()|escape:'html'}
+
+							<a href="{router page='people/country'}{$oGeoTarget->getCountryId()}/"><i class="icon-search"></i></a>{if $oGeoTarget->getCityId()},{/if}
 						{/if}
 
 						{if $oGeoTarget->getCityId()}
-							<a href="{router page='people/city'}{$oGeoTarget->getCityId()}/">{$oUser->getProfileCity()|escape:'html'}</a>
+							{$oUser->getProfileCity()|escape:'html'}
+
+							<a href="{router page='people/city'}{$oGeoTarget->getCityId()}/"><i class="icon-search"></i></a>
 						{/if}
 					</dd>
 				</dl>

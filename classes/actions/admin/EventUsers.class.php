@@ -1205,6 +1205,35 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	}
 
 
+	/**
+	 * Получение данных профиля пользователя для редактирования в селекте
+	 */
+	public function EventAjaxProfileGetData() {
+		$this->Viewer_SetResponseAjax('json');
+		/*
+		 * есть ли редактируемый пользователь
+		 */
+		if (!$oUser = $this->User_GetUserById((int) getRequestStr('user_id'))) {
+			return $this->Message_AddError($this->Lang('errors.profile_edit.wrong_user_id'));
+		}
+		/*
+		 * получить данные на основе его типа
+		 */
+		$aData = array();
+		switch (getRequestStr('type')) {
+			case 'sex':
+				// todo: все это вынести в модули и там проверять, помнить про ключ "selected"
+
+				$aData = array('man' => 'mmmaan', 'wo' => 'wwww');
+
+				break;
+			default:
+				return $this->Message_AddError($this->Lang('errors.profile_edit.unknown_action_type'));
+		}
+		$this->Viewer_AssignAjax('aData', $aData);
+	}
+
+
 }
 
 ?>

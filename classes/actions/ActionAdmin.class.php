@@ -222,13 +222,18 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 */
 
 		/*
-		 * изменение количества пользователей на страницу
-		 */
-		$this->AddEventPreg('#^users$#iu', '#^ajax-on-page$#iu', 'Users::EventAjaxUsersOnPage');
-		/*
 		 * изменение данных пользователя в его профиле
 		 */
 		$this->AddEventPreg('#^users$#iu', '#^ajax-profile-edit$#iu', 'Users::EventAjaxProfileEdit');
+		/*
+		 * получение данных профиля пользователя для редактирования
+		 */
+		$this->AddEventPreg('#^users$#iu', '#^ajax-profile-get-data$#iu', 'Users::EventAjaxProfileGetData');
+
+		/*
+		 * изменение количества пользователей на страницу
+		 */
+		$this->AddEventPreg('#^users$#iu', '#^ajax-on-page$#iu', 'Users::EventAjaxUsersOnPage');
 		/*
 		 * изменение количества голосов на страницу
 		 */

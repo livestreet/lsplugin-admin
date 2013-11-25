@@ -1,3 +1,12 @@
+/**
+ *
+ * Modified for custom button classes by Serge Pustovit (PSNet)
+ * http://psnet.lookformp3.net
+ *
+ * See changes by searching "MOD by PSNet"
+ *
+ */
+
 /*
  * Jeditable - jQuery in place edit plugin
  *
@@ -424,7 +433,10 @@
                             });
                         /* otherwise use button with given string as text */
                         } else {
-                            var submit = $('<button type="submit" />');
+                            // MOD by PSNet 23:20 25.11.2013
+                            var submit = $('<button type="submit" class="' + settings.okbuttonclass + '" />');
+                            // / MOD by PSNet 23:20 25.11.2013
+                            
                             submit.html(settings.submit);                            
                         }
                         $(this).append(submit);
@@ -435,7 +447,10 @@
                             var cancel = $(settings.cancel);
                         /* otherwise use button with given string as text */
                         } else {
-                            var cancel = $('<button type="cancel" />');
+                            // MOD by PSNet 23:20 25.11.2013
+                            var cancel = $('<button type="cancel" class="' + settings.cancelbuttonclass + '" />');
+                            // / MOD by PSNet 23:20 25.11.2013
+                            
                             cancel.html(settings.cancel);
                         }
                         $(this).append(cancel);
@@ -537,7 +552,11 @@
         placeholder: 'Click to edit',
         loaddata   : {},
         submitdata : {},
-        ajaxoptions: {}
+        ajaxoptions: {},
+        // MOD by PSNet 23:20 25.11.2013
+        okbuttonclass: 'button button-primary',
+        cancelbuttonclass: 'button'
+        // / MOD by PSNet 23:20 25.11.2013
     };
 
 })(jQuery);

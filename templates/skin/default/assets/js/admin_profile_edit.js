@@ -31,9 +31,13 @@ ls.admin_profile_edit = (function($) {
 	 */
 	this.selectors = {
 		/*
-			селектор элементов, которые можно редактировать
+			селектор элементов, которые можно редактировать как текст
 		 */
 		editable_elements: '.profile-inline-edit-input',
+		/*
+			селектор элементов, которые нужно редактировать в выпадающем списке, предварительно получая от сервера
+		 */
+		editable_elements_select: '.profile-inline-edit-select',
 
 
 		/*
@@ -59,7 +63,7 @@ ls.admin_profile_edit = (function($) {
 
 
 	/**
-	 * Разбирает ответ от сервера
+	 * Разбирает ответ сохранения данных от сервера
 	 *
 	 * @param data
 	 * @constructor
@@ -70,6 +74,87 @@ ls.admin_profile_edit = (function($) {
 		} else {
 			ls.msg.notice('Ok');
 		}
+	};
+
+
+	/**
+	 * Хендлер изменения значения и отправки нового значения на сервер
+	 *
+	 * @param value		новое значение
+	 * @param settings	настройки jeditable
+	 * @returns {*}		новое значение
+	 * @constructor
+	 */
+	this.PerformServerSaveRequest = function(value, settings) {
+		ls.ajax.load(
+			aRouter['admin'] + 'users/ajax-profile-edit',
+			{
+				field_type: $ (this).attr(ls.admin_profile_edit.data_attr.item_type),
+				user_id: $ (this).attr(ls.admin_profile_edit.data_attr.item_id),
+				value: value
+			},
+			function(data) {
+				ls.admin_profile_edit.AnswerHandler(data);
+			}
+		);
+		return value;
+	};
+
+
+	/**
+	 * Получает данные для селекта от сервера
+	 *
+	 * @param value
+	 * @param settings
+	 * @returns {*}
+	 * @constructor
+	 */
+	this.GetSelectDataFromServer = function(value, settings) {
+		aData = false;
+		ls.ajax.load(
+			aRouter['admin'] + 'users/ajax-profile-get-data',
+			{
+				/*
+				 	получить данные для типа
+				 */
+				type: $ (this).attr(ls.admin_profile_edit.data_attr.item_type),
+				/*
+					нужного пользователя
+				 */
+				user_id: $ (this).attr(ls.admin_profile_edit.data_attr.item_id)
+			},
+			function(data) {
+				aData = ls.admin_profile_edit.GetDataHandler(data);
+			},
+			/*
+				дополнительные параметры для $.ajax
+			 */
+			{
+				/*
+					важно - отключить асинхронную загрузку т.к. нужно ждать ответа чтобы вернуть данные
+				 */
+				async : false
+			}
+		);
+		return aData;
+	};
+
+
+	/**
+	 * Разбирает ответ получения данных от сервера
+	 *
+	 * @param data
+	 * @returns {*}		новое значение
+	 * @constructor
+	 */
+	this.GetDataHandler = function(data) {
+		if (data.bStateError) {
+			ls.msg.notice(data.sTitle, data.sMsg);
+			return false;
+		} else if (data.aData) {
+			return data.aData;
+		}
+		return false;
 	};
 
 	// ---
@@ -90,20 +175,7 @@ jQuery(document).ready(function($) {
 		/*
 			хендлер изменения значения
 		 */
-		function(value, settings) {
-			ls.ajax.load(
-				aRouter['admin'] + 'users/ajax-profile-edit',
-				{
-					field_type: $ (this).attr(ls.admin_profile_edit.data_attr.item_type),
-					user_id: $ (this).attr(ls.admin_profile_edit.data_attr.item_id),
-					value: value
-				},
-				function(data) {
-					ls.admin_profile_edit.AnswerHandler(data);
-				}
-			);
-			return value;
-		},
+		ls.admin_profile_edit.PerformServerSaveRequest,
 		/*
 			настройки
 		 */
@@ -134,6 +206,40 @@ jQuery(document).ready(function($) {
 			placeholder: 'Редактировать',
 
 			//cssclass: 'someclass'
+			style: 'inherit'
+		}
+	);
+
+
+	/*
+	 	инлайн редактирование полей в профиле пользователя, которые требуют подгрузки данных для своих значений
+	 	т.е. для селектов (пол, дата рождения и страны)
+	 */
+	// docs: http://www.appelsiini.net/projects/jeditable
+	$ (ls.admin_profile_edit.selectors.editable_elements_select).editable(
+		ls.admin_profile_edit.PerformServerSaveRequest,
+		{
+			/*
+			 	для получения исходника редактируемого значения.
+			 	можно использовать loadurl, а вместе с ним и loaddata, но те требуют в ответ строго json массив.
+			 	ЛС не отдает такие данные по нормальному т.к. в ответе будут как минимум три ключа ассоциативного массива:
+			 	флаг ошибки, текст ошибки и заголовок ошибки + ещё один ключ с нужными данными.
+			 	Поэтому библиотека предоставляет возможность в виде метода получения данных, а в нем возврат данных в удобном для библиотеки виде
+			 */
+			data: ls.admin_profile_edit.GetSelectDataFromServer,
+			/*
+			 	выпадающий список
+			 */
+			type: 'select',
+			/*
+				для селекта кнопка нужна для подтверждения редактирования
+			 */
+			submit: 'OK',
+
+			indicator: 'Сохранение...',
+			tooltip: 'Нажмите для редактирования',
+			placeholder: 'Редактировать',
+
 			style: 'inherit'
 		}
 	);
