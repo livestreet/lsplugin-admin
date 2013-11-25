@@ -24,9 +24,6 @@
 	border-color: transparent transparent #EEEEEE;
 	border-style: solid;
 	border-width: 1px;
-	clear: both;
-	overflow: hidden;
-	padding: 10px;
 }
 
 .js-settings-field .ParamNum {
