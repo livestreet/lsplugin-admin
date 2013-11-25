@@ -20,13 +20,13 @@
 		{*
 			Скрытые поля
 		*}
-		{include file="{$aTemplatePathPlugin.admin}/forms/fields/form.field.hidden.security_key.tpl"}
-		{include file="{$aTemplatePathPlugin.admin}/forms/fields/form.field.hidden.tpl" sFieldName='ban_id' sFieldValue=$_aRequest.id}
+		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.hidden.security_key.tpl"}
+		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.hidden.tpl" sFieldName='ban_id' sFieldValue=$_aRequest.id}
 
 		{*
 			Пользователь
 		*}
-		{include file="{$aTemplatePathPlugin.admin}/forms/fields/form.field.text.tpl"
+		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
 				sFieldName    = 'user_sign'
 				sFieldClasses = 'width-250'
 				sFieldNote    = $aLang.plugin.admin.bans.add.user_sign_info
@@ -103,7 +103,7 @@
 		{*
 			Причина
 		*}
-		{include file="{$aTemplatePathPlugin.admin}/forms/fields/form.field.text.tpl"
+		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
 				 sFieldName    = 'reason_for_user'
 				 sFieldNote    = $aLang.plugin.admin.bans.add.reason_tip
 				 sFieldLabel   = $aLang.plugin.admin.bans.add.reason}
@@ -111,7 +111,7 @@
 		{*
 			Заметка
 		*}
-		{include file="{$aTemplatePathPlugin.admin}/forms/fields/form.field.text.tpl"
+		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
 				 sFieldName    = 'comment'
 				 sFieldNote    = $aLang.plugin.admin.bans.add.comment_for_yourself_tip
 				 sFieldLabel   = $aLang.plugin.admin.bans.add.comment}
@@ -119,6 +119,6 @@
 		{*
 			Кнопки
 		*}
-		{include file="{$aTemplatePathPlugin.admin}/forms/fields/form.field.button.tpl" sFieldName='submit_add_ban' sFieldStyle='primary' sFieldText=$aLang.plugin.admin.save}
+		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.button.tpl" sFieldName='submit_add_ban' sFieldStyle='primary' sFieldText=$aLang.plugin.admin.save}
 	</form>
 {/block}

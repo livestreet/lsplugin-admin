@@ -11,8 +11,8 @@
 		{*
 			Скрытые поля
 		*}
-		{include file="{$aTemplatePathPlugin.admin}/forms/fields/form.field.hidden.security_key.tpl"}
-		{include file="{$aTemplatePathPlugin.admin}/forms/fields/form.field.hidden.tpl" sFieldName='id' sFieldValue=$oComment->getId()}
+		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.hidden.security_key.tpl"}
+		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.hidden.tpl" sFieldName='id' sFieldValue=$oComment->getId()}
 
 		<div class="info mb-20">
 			{$aLang.plugin.admin.comments.delete.delete_info}
@@ -21,6 +21,6 @@
 		{*
 			Кнопки
 		*}
-		{include file="{$aTemplatePathPlugin.admin}/forms/fields/form.field.button.tpl" sFieldName='submit_comment_delete' sFieldStyle='primary question' sFieldText=$aLang.plugin.admin.delete}
+		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.button.tpl" sFieldName='submit_comment_delete' sFieldStyle='primary question' sFieldText=$aLang.plugin.admin.delete}
 	</form>
 {/block}

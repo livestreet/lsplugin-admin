@@ -15,7 +15,7 @@
 		{*
 			Скрытые поля
 		*}
-		{include file="{$aTemplatePathPlugin.admin}/forms/fields/form.field.hidden.security_key.tpl"}
+		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.hidden.security_key.tpl"}
 
 		{include file="{$aTemplatePathPlugin.admin}forms/preset_interval.tpl"
 			sName='filter[newly_added_items_period]'

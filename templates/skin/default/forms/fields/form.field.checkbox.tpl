@@ -2,7 +2,7 @@
  * Чекбокс
  *}
 
-{extends file="{$aTemplatePathPlugin.admin}/forms/fields/form.field.base.tpl"}
+{extends file="{$aTemplatePathPlugin.admin}forms/fields/form.field.base.tpl"}
 
 {block name='field_before'}
 	{$bFieldNoLabel = true}

@@ -1,8 +1,8 @@
 {**
- * Boolean
+ * Логическое поле (да/нет)
  *}
 
-{extends file="{$aTemplatePathPlugin.admin}/settings/fields/settings.field.base.tpl"}
+{extends file="{$aTemplatePathPlugin.admin}settings/fields/settings.field.base.tpl"}
 
 {block name='field_classes'}form-field-checkbox{/block}
 

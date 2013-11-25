@@ -22,7 +22,7 @@
 		{*
 			Скрытые поля
 		*}
-		{include file="{$aTemplatePathPlugin.admin}/forms/fields/form.field.hidden.security_key.tpl"}
+		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.hidden.security_key.tpl"}
 
 		{$aLang.plugin.admin.on_page}
 		<select name="onpage" class="width-75">

@@ -2,7 +2,7 @@
  * Выбор даты
  *}
 
-{extends file="{$aTemplatePathPlugin.admin}/forms/fields/form.field.base.tpl"}
+{extends file="{$aTemplatePathPlugin.admin}forms/fields/form.field.base.tpl"}
 
 {block name='field_holder' prepend}
     <select name="{$sFieldNamePrefix}_day">

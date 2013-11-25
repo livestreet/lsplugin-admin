@@ -11,13 +11,15 @@
 	<input type="hidden" name="{$sInputDataName}" value="{$sAdminSettingsFormSystemId}" />
 	<input type="hidden" name="{$sInputDataName}" value="{$sKey}" />
 
-	{if ! $bFieldNoLabel}
+	{if !$bFieldNoLabel}
 		<label class="form-field-label">{$oParameter->getName()}</label>
 	{/if}
 
 	<div class="form-field-holder">
 		{block name="field_holder"}{/block}
 
-		{if $oParameter->getDescription()}<small class="note">{$oParameter->getDescription()}</small>{/if}
+		{if $oParameter->getDescription()}
+			<small class="note">{$oParameter->getDescription()}</small>
+		{/if}
 	</div>
 </div>

@@ -15,14 +15,14 @@
 		{*
 			Скрытые поля
 		*}
-		{include file="{$aTemplatePathPlugin.admin}/forms/fields/form.field.hidden.security_key.tpl"}
-		{include file="{$aTemplatePathPlugin.admin}/forms/fields/form.field.hidden.tpl" sFieldName='user_id' sFieldValue=$oUser->getId()}
+		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.hidden.security_key.tpl"}
+		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.hidden.tpl" sFieldName='user_id' sFieldValue=$oUser->getId()}
 
 		<div class="info mb-20">
 			{$aLang.plugin.admin.users.deleteuser.delete_user_info}
 		</div>
 
-		{include file="{$aTemplatePathPlugin.admin}/forms/fields/form.field.checkbox.tpl"
+		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.checkbox.tpl"
 			sFieldLabel=$aLang.plugin.admin.users.deleteuser.delete_user_itself
 			sFieldName='delete_user'
 			sFieldValue=1
@@ -32,6 +32,6 @@
 		{*
 			Кнопки
 		*}
-		{include file="{$aTemplatePathPlugin.admin}/forms/fields/form.field.button.tpl" sFieldName='submit_delete_user_contents' sFieldStyle='primary question' sFieldText=$aLang.plugin.admin.delete}
+		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.button.tpl" sFieldName='submit_delete_user_contents' sFieldStyle='primary question' sFieldText=$aLang.plugin.admin.delete}
 	</form>
 {/block}

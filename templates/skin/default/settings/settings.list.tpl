@@ -1,5 +1,5 @@
 {*
-	Вывод настроек
+	Вывод настроек движка или плагина
 *}
 
 {if $aSettingsAll and count($aSettingsAll) > 0}
