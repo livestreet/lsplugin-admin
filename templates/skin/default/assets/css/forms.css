@@ -41,4 +41,7 @@ input[type="text"] {
 .form-field-inline.form-field-option .form-field-label  { width: 165px; padding-top: 0; }
 .form-field-inline.form-field-option .form-field-holder { padding-left: 180px; }
 
+.form-field-checkbox { position: relative; }
+.form-field-checkbox input[type="checkbox"] { position: absolute; top: 0; left: 0; }
+
 .select-multiple { height: 150px; }

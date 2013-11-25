@@ -16,7 +16,7 @@
         <input type="text"
                id="{if $sFieldId}{$sFieldId}{else}{$sFieldName}{/if}"
                name="{$sFieldName}"
-               value="{if $sFieldValue}{$sFieldValue}{else}{if $_aRequest[$sFieldName]}{$_aRequest[$sFieldName]}{/if}{/if}"
+               value="{if $sFieldValue}{$sFieldValue}{elseif $_aRequest[$sFieldName]}{$_aRequest[$sFieldName]}{/if}"
                class="{if $sFieldClasses}{$sFieldClasses}{else}width-150{/if} js-input-{$sFieldName}"
                data-length="3"
                data-required="true"
