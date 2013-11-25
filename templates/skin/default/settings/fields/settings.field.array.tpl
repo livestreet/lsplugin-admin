@@ -4,10 +4,10 @@
 
 {extends file="{$aTemplatePathPlugin.admin}/settings/fields/settings.field.base.tpl"}
 
-{*
-	особый вид отображения массива
-*}
 {block name="field_holder"}
+	{*
+		особый вид отображения массива
+	*}
 	{if $oParameter->getNeedToShowSpecialArrayForm()}
 		{$aValidatorData = $oParameter->getValidator()}
 		{$aValidatorParams = $aValidatorData['params']}
