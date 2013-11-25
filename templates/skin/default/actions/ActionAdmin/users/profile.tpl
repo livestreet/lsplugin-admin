@@ -49,7 +49,9 @@
 					{*
 						инлайн редактирование поля
 					*}
-					<p class="user-name profile-inline-edit-input" data-item-type="profile_name" data-item-id="{$oUser->getId()}">{$oUser->getProfileName()}</p>
+					<p class="user-name">
+						<span class="profile-inline-edit-input" data-item-type="profile_name" data-item-id="{$oUser->getId()}">{$oUser->getProfileName()}</span>
+					</p>
 				{/if}
 
 				<p class="user-mail">

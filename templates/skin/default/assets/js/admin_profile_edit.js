@@ -113,6 +113,10 @@ jQuery(document).ready(function($) {
 			 */
 			//loadurl : 'http://www.example.com/load.php',
 			//loaddata : function(value, settings) { return {foo: "bar"}; }
+			/*
+				при отправке данных добавить параметры
+			 */
+			//submitdata : function(value, settings) { return {foo: "bar"}; }
 
 			/*
 				тип поля для редактирования
