@@ -162,23 +162,23 @@
 					}"><i class="icon-search"></i></a>
 				</dd>
 			</dl>
-			{if $oUser->getProfileSex() != 'other'}
-				<dl class="dotted-list-item">
-					<dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile.info.sex}</dt>
-					<dd class="dotted-list-item-value">
-						{*
-							инлайн редактирование поля
-						*}
-						<span class="profile-inline-edit-select" data-item-type="sex" data-item-id="{$oUser->getId()}">
-							{if $oUser->getProfileSex() == 'man'}
-								{$aLang.profile_sex_man}
-							{else}
-								{$aLang.profile_sex_woman}
-							{/if}
-						</span>
-					</dd>
-				</dl>
-			{/if}
+			<dl class="dotted-list-item">
+				<dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile.info.sex}</dt>
+				<dd class="dotted-list-item-value">
+					{*
+						инлайн редактирование поля
+					*}
+					<span class="profile-inline-edit-select" data-item-type="sex" data-item-id="{$oUser->getId()}">
+						{if $oUser->getProfileSex() == 'man'}
+							{$aLang.profile_sex_man}
+						{elseif $oUser->getProfileSex() == 'woman'}
+							{$aLang.profile_sex_woman}
+						{else}
+							{$aLang.settings_profile_sex_other}
+						{/if}
+					</span>
+				</dd>
+			</dl>
 			{if $oUser->getProfileBirthday()}
 				<dl class="dotted-list-item">
 					<dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile.info.birthday}</dt>

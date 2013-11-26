@@ -1138,7 +1138,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * @param $oUser		объект пользователя
 	 * @param $sNewValue	новое значение
 	 */
-	public function ChangeUserLogin($oUser, $sNewValue) {
+	protected function ChangeUserLogin($oUser, $sNewValue) {
 		$this->ModifyUserData($oUser, array('user_login' => $sNewValue));
 	}
 
@@ -1149,7 +1149,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * @param $oUser		объект пользователя
 	 * @param $sNewValue	новое значение
 	 */
-	public function ChangeUserName($oUser, $sNewValue) {
+	protected function ChangeUserName($oUser, $sNewValue) {
 		$this->ModifyUserData($oUser, array('user_profile_name' => $sNewValue));
 	}
 
@@ -1160,7 +1160,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * @param $oUser		объект пользователя
 	 * @param $sNewValue	новое значение
 	 */
-	public function ChangeUserMail($oUser, $sNewValue) {
+	protected function ChangeUserMail($oUser, $sNewValue) {
 		$this->ModifyUserData($oUser, array('user_mail' => $sNewValue));
 	}
 
@@ -1171,7 +1171,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * @param $oUser		объект пользователя
 	 * @param $sNewValue	новое значение
 	 */
-	public function ChangeUserPassword($oUser, $sNewValue) {
+	protected function ChangeUserPassword($oUser, $sNewValue) {
 		$this->ModifyUserData($oUser, array('user_password' => func_encrypt($sNewValue)));
 	}
 
@@ -1182,7 +1182,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * @param $oUser		объект пользователя
 	 * @param $sNewValue	новое значение
 	 */
-	public function ChangeUserRating($oUser, $sNewValue) {
+	protected function ChangeUserRating($oUser, $sNewValue) {
 		$this->ModifyUserData($oUser, array('user_rating' => $sNewValue));
 	}
 
@@ -1193,7 +1193,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * @param $oUser		объект пользователя
 	 * @param $sNewValue	новое значение
 	 */
-	public function ChangeUserSkill($oUser, $sNewValue) {
+	protected function ChangeUserSkill($oUser, $sNewValue) {
 		$this->ModifyUserData($oUser, array('user_skill' => $sNewValue));
 	}
 
@@ -1204,8 +1204,159 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * @param $oUser		объект пользователя
 	 * @param $sNewValue	новое значение
 	 */
-	public function ChangeUserAbout($oUser, $sNewValue) {
+	protected function ChangeUserAbout($oUser, $sNewValue) {
 		$this->ModifyUserData($oUser, array('user_profile_about' => $sNewValue));
+	}
+
+
+	/**
+	 * Сменить стать пользователя
+	 *
+	 * @param $oUser		объект пользователя
+	 * @param $sNewValue	новое значение
+	 */
+	protected function ChangeUserSex($oUser, $sNewValue) {
+		$this->ModifyUserData($oUser, array('user_profile_sex' => $sNewValue));
+	}
+
+
+	/**
+	 * Изменить данные пользователя
+	 *
+	 * @param $sType	тип поля для редактирования
+	 * @param $oUser	объект пользователя
+	 * @param $sValue	новое значение
+	 * @return mixed
+	 */
+	public function PerformUserDataModification($sType, $oUser, $sValue) {
+		$sReturnValue = $sValue;
+		/*
+		 * выполнить действие на основе его типа
+		 */
+		switch($sType) {
+			/*
+			 * редактировать логин пользователя
+			 */
+			case 'login':
+				$this->ChangeUserLogin($oUser, $sValue);
+				break;
+			/*
+			 * редактировать имя пользователя
+			 */
+			case 'profile_name':
+				$this->ChangeUserName($oUser, $sValue);
+				break;
+			/*
+			 * редактировать почту пользователя
+			 */
+			case 'mail':
+				$this->ChangeUserMail($oUser, $sValue);
+				break;
+			/*
+			 * редактировать пароль пользователя
+			 */
+			case 'password':
+				$this->ChangeUserPassword($oUser, $sValue);
+				break;
+			/*
+			 * редактировать рейтинг пользователя
+			 */
+			case 'rating':
+				$this->ChangeUserRating($oUser, $sValue);
+				break;
+			/*
+			 * редактировать силу пользователя
+			 */
+			case 'skill':
+				$this->ChangeUserSkill($oUser, $sValue);
+				break;
+			/*
+			 * редактировать описание о себе пользователя
+			 */
+			case 'about':
+				$this->ChangeUserAbout($oUser, $sValue);
+				break;
+			/*
+			 * редактировать стать пользователя
+			 */
+			case 'sex':
+				$this->ChangeUserSex($oUser, $sValue);
+				/*
+				 * вернуть текстовое отображение
+				 */
+				$sReturnValue = $this->GetDataForUserSexAndSelectedByUser($this->ReloadUserData($oUser));
+				$sReturnValue = $sReturnValue['selected'];
+				break;
+			/*
+			 * действие не найдено
+			 */
+			default:
+				return false;
+		}
+		return $sReturnValue;
+	}
+
+
+	/**
+	 * Обновить сущность пользователя
+	 *
+	 * @param $oUser	объект пользователя
+	 * @return mixed	акуальная сущность
+	 */
+	protected function ReloadUserData($oUser) {
+		return $this->User_GetUserById($oUser->getId());
+	}
+
+
+	/*
+	 *
+	 * --- Получение данных пользователя ---
+	 *
+	 */
+
+
+	/**
+	 * Сравнить ключ и текущее значение. Вернуть 'selected' если ключ и текущее значение совпадают, иначе вернуть ключ
+	 *
+	 * @param $sKey			ключ
+	 * @param $sCurrentKey	текущее значение
+	 * @return string
+	 */
+	protected function GetArrayKeyComparedWithCurrentValue($sKey, $sCurrentKey) {
+		if ($sKey == $sCurrentKey) return 'selected';
+		return $sKey;
+	}
+
+
+	/**
+	 * Получить массив данных для выбора стати пользователя
+	 *
+	 * @param $oUser		объект пользователя
+	 * @return array
+	 */
+	protected function GetDataForUserSexAndSelectedByUser($oUser) {
+		return array(
+			$this->GetArrayKeyComparedWithCurrentValue('man', $oUser->getProfileSex()) => $this->Lang_Get('settings_profile_sex_man'),
+			$this->GetArrayKeyComparedWithCurrentValue('woman', $oUser->getProfileSex()) => $this->Lang_Get('settings_profile_sex_woman'),
+			$this->GetArrayKeyComparedWithCurrentValue('other', $oUser->getProfileSex()) => $this->Lang_Get('settings_profile_sex_other'),
+		);
+	}
+
+
+	/**
+	 * Получить данные пользователя на основе типа
+	 *
+	 * @param $sType	тип
+	 * @param $oUser	объект пользователя
+	 * @return mixed
+	 */
+	public function GetUserDataByType($sType, $oUser) {
+		switch ($sType) {
+			case 'sex':
+				return $this->GetDataForUserSexAndSelectedByUser($oUser);
+			default:
+				return false;
+		}
 	}
 
 }

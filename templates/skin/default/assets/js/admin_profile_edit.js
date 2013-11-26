@@ -66,14 +66,35 @@ ls.admin_profile_edit = (function($) {
 	 * Разбирает ответ сохранения данных от сервера
 	 *
 	 * @param data
+	 * @return {*}
 	 * @constructor
 	 */
 	this.AnswerHandler = function(data) {
 		if (data.bStateError) {
 			ls.msg.notice(data.sTitle, data.sMsg);
-		} else {
+		} else if (data.aData) {
 			ls.msg.notice('Ok');
+			return data.aData;
 		}
+		return false;
+	};
+
+
+	/**
+	 * Разбирает ответ получения данных от сервера
+	 *
+	 * @param data
+	 * @returns {*}		новое значение
+	 * @constructor
+	 */
+	this.GetDataHandler = function(data) {
+		if (data.bStateError) {
+			ls.msg.notice(data.sTitle, data.sMsg);
+			return false;
+		} else if (data.aData) {
+			return data.aData;
+		}
+		return false;
 	};
 
 
@@ -86,6 +107,7 @@ ls.admin_profile_edit = (function($) {
 	 * @constructor
 	 */
 	this.PerformServerSaveRequest = function(value, settings) {
+		var aData = value;
 		ls.ajax.load(
 			aRouter['admin'] + 'users/ajax-profile-edit',
 			{
@@ -94,10 +116,19 @@ ls.admin_profile_edit = (function($) {
 				value: value
 			},
 			function(data) {
-				ls.admin_profile_edit.AnswerHandler(data);
+				aData = ls.admin_profile_edit.AnswerHandler(data);
+			},
+			/*
+			 	дополнительные параметры для $.ajax
+			 */
+			{
+				/*
+				 	важно - отключить асинхронную загрузку т.к. нужно ждать ответа чтобы вернуть данные
+				 */
+				async : false
 			}
 		);
-		return value;
+		return aData;
 	};
 
 
@@ -110,7 +141,7 @@ ls.admin_profile_edit = (function($) {
 	 * @constructor
 	 */
 	this.GetSelectDataFromServer = function(value, settings) {
-		aData = false;
+		var aData = false;
 		ls.ajax.load(
 			aRouter['admin'] + 'users/ajax-profile-get-data',
 			{
@@ -137,24 +168,6 @@ ls.admin_profile_edit = (function($) {
 			}
 		);
 		return aData;
-	};
-
-
-	/**
-	 * Разбирает ответ получения данных от сервера
-	 *
-	 * @param data
-	 * @returns {*}		новое значение
-	 * @constructor
-	 */
-	this.GetDataHandler = function(data) {
-		if (data.bStateError) {
-			ls.msg.notice(data.sTitle, data.sMsg);
-			return false;
-		} else if (data.aData) {
-			return data.aData;
-		}
-		return false;
 	};
 
 	// ---

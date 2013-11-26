@@ -126,6 +126,7 @@
 
 /* inline editing in profile */
 
-.ls-admin .profile-inline-edit-input:hover {
+.ls-admin .profile-inline-edit-input:hover,
+.ls-admin .profile-inline-edit-select:hover {
 	background: none repeat scroll 0 0 #FFFFED;
 }

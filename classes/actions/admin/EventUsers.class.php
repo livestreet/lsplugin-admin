@@ -1158,55 +1158,17 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 			return $this->Message_AddError($this->Lang('errors.profile_edit.disallowed_value') . '. ' . $this->Validate_GetErrorLast());
 		}
 		/*
-		 * выполнить действие на основе его типа
+		 * изменить данные
 		 */
-		switch (getRequestStr('field_type')) {
-			/*
-			 * редактировать логин пользователя
-			 */
-			case 'login':
-				return $this->PluginAdmin_Users_ChangeUserLogin($oUser, $sValue);
-			/*
-			 * редактировать имя пользователя
-			 */
-			case 'profile_name':
-				return $this->PluginAdmin_Users_ChangeUserName($oUser, $sValue);
-			/*
-			 * редактировать почту пользователя
-			 */
-			case 'mail':
-				return $this->PluginAdmin_Users_ChangeUserMail($oUser, $sValue);
-			/*
-			 * редактировать пароль пользователя
-			 */
-			case 'password':
-				return $this->PluginAdmin_Users_ChangeUserPassword($oUser, $sValue);
-			/*
-			 * редактировать рейтинг пользователя
-			 */
-			case 'rating':
-				return $this->PluginAdmin_Users_ChangeUserRating($oUser, $sValue);
-			/*
-			 * редактировать силу пользователя
-			 */
-			case 'skill':
-				return $this->PluginAdmin_Users_ChangeUserSkill($oUser, $sValue);
-			/*
-			 * редактировать описание о себе пользователя
-			 */
-			case 'about':
-				return $this->PluginAdmin_Users_ChangeUserAbout($oUser, $sValue);
-			/*
-			 * действие не найдено
-			 */
-			default:
-				return $this->Message_AddError($this->Lang('errors.profile_edit.unknown_action_type'));
+		if (($aData = $this->PluginAdmin_Users_PerformUserDataModification(getRequestStr('field_type'), $oUser, $sValue)) === false) {
+			return $this->Message_AddError($this->Lang ('errors.profile_edit.unknown_action_type'));
 		}
+		$this->Viewer_AssignAjax('aData', $aData);
 	}
 
 
 	/**
-	 * Получение данных профиля пользователя для редактирования в селекте
+	 * Получение данных профиля пользователя для редактирования (выбора) в селекте
 	 */
 	public function EventAjaxProfileGetData() {
 		$this->Viewer_SetResponseAjax('json');
@@ -1219,16 +1181,8 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * получить данные на основе его типа
 		 */
-		$aData = array();
-		switch (getRequestStr('type')) {
-			case 'sex':
-				// todo: все это вынести в модули и там проверять, помнить про ключ "selected"
-
-				$aData = array('man' => 'mmmaan', 'wo' => 'wwww');
-
-				break;
-			default:
-				return $this->Message_AddError($this->Lang('errors.profile_edit.unknown_action_type'));
+		if (($aData = $this->PluginAdmin_Users_GetUserDataByType(getRequestStr('type'), $oUser)) === false) {
+			return $this->Message_AddError ($this->Lang ('errors.profile_edit.unknown_action_type'));
 		}
 		$this->Viewer_AssignAjax('aData', $aData);
 	}
