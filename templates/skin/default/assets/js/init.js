@@ -79,6 +79,21 @@ jQuery(document).ready(function($) {
 		body: true
 	});
 
+	/* Юзербар */
+	$('.js-dropdown-userbar').dropdown({
+	    position: {
+	        my: "right top",
+	        at: "right bottom",
+	        collision: "flipfit flip"
+		},
+		body: true,
+		beforeshow: function (e, dropdown) {
+			// Задаем минимальную ширину меню
+			var toggleWidth = dropdown.element.outerWidth();
+			dropdown._target.css('width', toggleWidth > 200 ? toggleWidth : 'auto' );
+		}
+	});
+
 
 	/**
 	 * Tooltips

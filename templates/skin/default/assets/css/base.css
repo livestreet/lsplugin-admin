@@ -61,9 +61,37 @@ h1, h2, h3, h4, h5, h6 { font-family: "Open Sans"; }
  *
  * @template layout.base.tpl
  */
-.site-name { font: 300 40px/1em 'Open Sans', Arial; }
+
+/* Breadcrumbs */
+.breadcrumbs { font-size: 11px; margin-bottom: 5px; }
+.breadcrumbs a { color: #6c6c6c; }
+
+@media (max-width: 999px)  {
+  .breadcrumbs { font-size: 13px; }
+}
+
+/* Logo */
+.site-name { float: left; font: 300 40px/1em 'Open Sans', Arial; padding-top: 15px; }
 .site-name a { color: #333; }
 .site-name a:hover { color: #f00; }
+
+@media (max-width: 999px)  {
+  .site-name { float: none; margin-bottom: 25px; }
+}
+
+/* Userbar */
+.userbar { float: right; position: relative; min-height: 40px; padding: 16px 25px 16px 70px; margin-bottom: 2px; }
+.userbar.dropdown-toggle.open { background-color: transparent; box-shadow: none; }
+.userbar.dropdown-toggle:after { border-top-color: #aaa; }
+
+.userbar-avatar { position: absolute; top: 16px; left: 16px; width: 40px; height: 40px; border-radius: 50%; }
+
+.userbar-login { font: 400 16px/38px 'Open Sans', Arial; color: #6c6c6c; }
+
+@media (max-width: 999px)  {
+  .userbar { float: none; background: #fafafa; }
+  .userbar.dropdown-toggle.open { background: #fafafa; }
+}
 
 
 /**
