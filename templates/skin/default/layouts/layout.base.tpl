@@ -99,10 +99,26 @@
 			{**
 			 * Шапка сайта
 			 *}
-			<header id="header" role="banner">
+			<header id="header" class="clearfix" role="banner">
+				<ul class="breadcrumbs">
+					<li><a href="{cfg name='path.root.web'}" class="link-dotted">Перейти на сайт</a></li>
+				</ul>
+
 				<div class="site-info">
 					<h1 class="site-name"><a href="{cfg name='path.root.web'}/admin">{cfg name="view.name"}</a></h1>
 				</div>
+
+				{* Юзербар *}
+				<div class="userbar dropdown-toggle js-dropdown-userbar" data-dropdown-target="dropdown-menu-userbar">
+					<img src="{$oUserCurrent->getProfileAvatarPath(48)}" alt="Avatar" class="userbar-avatar" />
+					
+					<div class="userbar-login">{$oUserCurrent->getLogin()}</div>
+				</div>
+
+				<ul class="dropdown-menu" id="dropdown-menu-userbar">
+					<li><a href="#">Редактировать профиль</a></li>
+					<li><a href="{router page='login'}exit/?security_ls_key={$LIVESTREET_SECURITY_KEY}">Выйти</a></li>
+				</ul>
 			</header>
 
 

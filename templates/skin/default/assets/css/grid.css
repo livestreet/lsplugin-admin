@@ -10,7 +10,7 @@
     /*min-width: 976px;*/
     padding: 0 50px;
 }
-#header          { padding: 20px 0 20px 16px; position: relative; }
+#header          { padding: 20px 255px 0 16px; position: relative; }
 #nav             { margin-bottom: 15px; overflow: hidden; }
 #wrapper         { margin-bottom: 70px; }
 #content-wrapper { float: left; width: 100%; margin-right: -255px; }
@@ -33,6 +33,8 @@
 
 /* Responsive */
 @media (max-width: 999px)  {
+  #container       { padding: 0 10px; }
+  #header          { padding: 15px 0 10px 0; }
   #sidebar         { width: 100%; float: static; }
   #content-wrapper,
   #content         { margin-right: 0; }
