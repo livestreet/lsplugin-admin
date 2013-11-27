@@ -124,6 +124,15 @@
 
 			{* Вспомогательный контейнер-обертка *}
 			<div id="wrapper" class="{* {hook run='wrapper_class'} *} clearfix">
+				{* Сайдбар *}
+				{if ! $bNoSidebar}
+					<aside id="sidebar" role="complementary">
+						<div class="m-nav-toggle dropdown-toggle js-nav-main-toggle"><i class="icon-list"></i> Навигация</div>
+
+						{include file="{$aTemplatePathPlugin.admin}blocks.tpl" group='right'}
+					</aside>
+				{/if}
+
 				{* Контент *}
 				<div id="content-wrapper">
 					<div id="content" 
@@ -203,14 +212,6 @@
 						{block name='layout_footer_end'}{/block}
 					</footer>
 				</div>
-
-
-				{* Сайдбар *}
-				{if ! $bNoSidebar}
-					<aside id="sidebar" role="complementary">
-						{include file='blocks.tpl' group='right'}
-					</aside>
-				{/if}
 			</div> {* /wrapper *}
 		</div> {* /container *}
 	{/block}

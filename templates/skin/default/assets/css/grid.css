@@ -5,24 +5,24 @@
  */
 
 #container {
-    margin: 0 auto 20px;
-    max-width: 1100px;
-    /*min-width: 976px;*/
-    padding: 0 50px;
+	margin: 0 auto 20px;
+	max-width: 1100px;
+	/*min-width: 976px;*/
+	padding: 0 50px;
 }
 #header          { padding: 20px 255px 0 16px; position: relative; }
 #nav             { margin-bottom: 15px; overflow: hidden; }
 #wrapper         { margin-bottom: 70px; }
 #content-wrapper { float: left; width: 100%; margin-right: -255px; }
 #content {
-    background: none repeat scroll 0 0 #FFFFFF;
-    margin-right: 255px;
-    min-height: 250px;
-    overflow: hidden;
-    position: relative;
-    -webkit-box-shadow: 0 66px 40px -44px rgba(0, 0, 0, 0.1);
-       -moz-box-shadow: 0 66px 40px -44px rgba(0, 0, 0, 0.1);
-            box-shadow: 0 66px 40px -44px rgba(0, 0, 0, 0.1);
+	background: none repeat scroll 0 0 #FFFFFF;
+	margin-right: 255px;
+	min-height: 250px;
+	overflow: hidden;
+	position: relative;
+	-webkit-box-shadow: 0 66px 40px -44px rgba(0, 0, 0, 0.1);
+	   -moz-box-shadow: 0 66px 40px -44px rgba(0, 0, 0, 0.1);
+			box-shadow: 0 66px 40px -44px rgba(0, 0, 0, 0.1);
 }
 #sidebar         { float: right; width: 250px; position: relative; z-index: 1; }
 #footer          { overflow: hidden; zoom: 1; margin-right: 255px; margin-bottom: 20px; padding: 65px 15px 50px 16px; }
@@ -33,9 +33,9 @@
 
 /* Responsive */
 @media (max-width: 999px)  {
-  #container       { padding: 0 10px; }
-  #header          { padding: 15px 0 10px 0; }
-  #sidebar         { width: 100%; float: static; }
-  #content-wrapper,
-  #content         { margin-right: 0; }
+	#container       { padding: 0 10px; }
+	#header          { padding: 15px 0 10px 0; }
+	#sidebar         { width: 100%; float: static; margin-bottom: 10px; }
+	#content-wrapper,
+	#content         { margin-right: 0; }
 }
