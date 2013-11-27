@@ -23,6 +23,16 @@ a:hover { color: #058; }
 
 
 /**
+ * Responsive styles
+ */
+[class^="m-"] { display: none; }
+
+@media (max-width: 999px)  {
+	[class^="m-"] { display: block; }
+}
+
+
+/**
  * Заголовки
  */
 h1, h2, h3, h4, h5, h6 { font-family: "Open Sans"; }
@@ -67,7 +77,7 @@ h1, h2, h3, h4, h5, h6 { font-family: "Open Sans"; }
 .breadcrumbs a { color: #6c6c6c; }
 
 @media (max-width: 999px)  {
-  .breadcrumbs { font-size: 13px; }
+	.breadcrumbs { font-size: 13px; }
 }
 
 /* Logo */
@@ -76,7 +86,7 @@ h1, h2, h3, h4, h5, h6 { font-family: "Open Sans"; }
 .site-name a:hover { color: #f00; }
 
 @media (max-width: 999px)  {
-  .site-name { float: none; margin-bottom: 25px; }
+	.site-name { float: none; margin-bottom: 25px; }
 }
 
 /* Userbar */
@@ -89,8 +99,8 @@ h1, h2, h3, h4, h5, h6 { font-family: "Open Sans"; }
 .userbar-login { font: 400 16px/38px 'Open Sans', Arial; color: #6c6c6c; }
 
 @media (max-width: 999px)  {
-  .userbar { float: none; background: #fafafa; }
-  .userbar.dropdown-toggle.open { background: #fafafa; }
+	.userbar { float: none; background: #fafafa; margin-bottom: 0; }
+	.userbar.dropdown-toggle.open { background: #fafafa; }
 }
 
 

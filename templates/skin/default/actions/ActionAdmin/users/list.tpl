@@ -173,18 +173,18 @@
 						Рейтинг и сила
 					*}
 					<td class="cell-rating">
+						<div class="dropdown-circle js-dropdown" data-dropdown-target="dropdown-user-menu-{$oUser->getId()}"></div>
+
+						<ul class="dropdown-menu" id="dropdown-user-menu-{$oUser->getId()}">
+							{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/user_operations.tpl"}
+						</ul>
+
 						<p class="user-rating {if $oUser->getRating() < 0}user-rating-negative{/if}" title="{$aLang.plugin.admin.users.table_header.user_rating}">
 							{$oUser->getRating()}
 						</p>
 						<p class="user-skill" title="{$aLang.plugin.admin.users.table_header.user_skill}">
 							{$oUser->getSkill()}
 						</p>
-
-						<div class="dropdown-circle js-dropdown" data-dropdown-target="dropdown-user-menu-{$oUser->getId()}"></div>
-
-						<ul class="dropdown-menu" id="dropdown-user-menu-{$oUser->getId()}">
-							{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/user_operations.tpl"}
-						</ul>
 					</td>
 				</tr>
 			{/foreach}

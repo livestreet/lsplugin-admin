@@ -17,18 +17,13 @@
 	{assign var=sFormId value="admin_onpage"}
 {/if}
 
-<div class="on-page-select">
-	<form action="{$sFormActionPath}" method="post" enctype="application/x-www-form-urlencoded" id="{$sFormId}">
-		{*
-			Скрытые поля
-		*}
-		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.hidden.security_key.tpl"}
+<form action="{$sFormActionPath}" class="per-page" method="post" enctype="application/x-www-form-urlencoded" id="{$sFormId}">
+	{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.hidden.security_key.tpl"}
 
-		{$aLang.plugin.admin.on_page}
-		<select name="onpage" class="width-75">
-			{foreach from=$oConfig->GetValue('plugin.admin.values_for_select_elements_on_page') item=iVal}
-				<option value="{$iVal}" {if $iVal==$iCurrentValue}selected="selected"{/if}>{$iVal}</option>
-			{/foreach}
-		</select>
-	</form>
-</div>
+	{$aLang.plugin.admin.on_page}
+	<select name="onpage" class="width-75">
+		{foreach from=$oConfig->GetValue('plugin.admin.values_for_select_elements_on_page') item=iVal}
+			<option value="{$iVal}" {if $iVal==$iCurrentValue}selected="selected"{/if}>{$iVal}</option>
+		{/foreach}
+	</select>
+</form>

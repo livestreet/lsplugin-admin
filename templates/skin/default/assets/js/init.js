@@ -143,4 +143,16 @@ jQuery(document).ready(function($) {
 
 		if ( checkAll.is(':checked') ) checkboxes.iCheck('check'); else checkboxes.iCheck('uncheck');
 	});
+
+	/**
+	 * Mobile navigation toggle
+	 *
+	 * @template layouts/layout.base.tpl
+	 * @template blocks/block.nav.tpl
+	 */
+	var navMain = $('.js-nav-main');
+
+	$('.js-nav-main-toggle').on('click', function () {
+		navMain[ navMain.is(':visible') ? 'removeClass' : 'addClass' ]('is-open');
+	});
 });
