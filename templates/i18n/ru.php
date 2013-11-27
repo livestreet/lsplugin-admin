@@ -341,6 +341,13 @@ return array(
 			'skill' => 'Сила',
 			'password' => 'Пароль',
 			'about_user' => 'О себе',
+			'no_profile_name' => 'имя не указано',
+			'no_bidthday_set' => 'не указано',
+			'bidthday_parts' => array(
+				'day' => 'день',
+				'month' => 'месяц',
+				'year' => 'год',
+			),
 		),
 
 	),

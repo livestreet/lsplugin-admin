@@ -1221,6 +1221,17 @@ class PluginAdmin_ModuleUsers extends Module {
 
 
 	/**
+	 * Сменить дату рождения пользователя
+	 *
+	 * @param $oUser		объект пользователя
+	 * @param $sNewValue	новое значение
+	 */
+	protected function ChangeUserBirthday($oUser, $sNewValue) {
+		$this->ModifyUserData($oUser, array('user_profile_birthday' => $sNewValue));
+	}
+
+
+	/**
 	 * Изменить данные пользователя
 	 *
 	 * @param $sType	тип поля для редактирования
@@ -1287,6 +1298,44 @@ class PluginAdmin_ModuleUsers extends Module {
 				$sReturnValue = $this->GetDataForUserSexAndSelectedByUser($this->ReloadUserData($oUser));
 				$sReturnValue = $sReturnValue['selected'];
 				break;
+
+
+			/*
+			 * др пользователя (день)
+			 */
+			case 'birthday_day':
+				$this->ChangeUserBirthday($oUser, date('Y-m-d H:i:s', mktime(0, 0, 0,
+					date('m', strtotime($oUser->getProfileBirthday())),
+					$sValue,
+					date('Y', strtotime($oUser->getProfileBirthday()))
+				)));
+				break;
+			/*
+			 * др пользователя (месяц)
+			 */
+			case 'birthday_month':
+				$this->ChangeUserBirthday($oUser, date('Y-m-d H:i:s', mktime(0, 0, 0,
+					$sValue,
+					date('d', strtotime($oUser->getProfileBirthday())),
+					date('Y', strtotime($oUser->getProfileBirthday()))
+				)));
+				/*
+				 * вернуть текстовое отображение
+				 */
+				$sReturnValue = $this->Lang_Get('month_array.' . (string) $sValue . '.0');
+				break;
+			/*
+			 * др пользователя (год)
+			 */
+			case 'birthday_year':
+				$this->ChangeUserBirthday($oUser, date('Y-m-d H:i:s', mktime(0, 0, 0,
+					date('m', strtotime($oUser->getProfileBirthday())),
+					date('d', strtotime($oUser->getProfileBirthday())),
+					$sValue
+				)));
+				break;
+
+
 			/*
 			 * действие не найдено
 			 */
@@ -1323,8 +1372,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * @return string
 	 */
 	protected function GetArrayKeyComparedWithCurrentValue($sKey, $sCurrentKey) {
-		if ($sKey == $sCurrentKey) return 'selected';
-		return $sKey;
+		return $sKey == $sCurrentKey ? 'selected' : $sKey;
 	}
 
 
@@ -1344,7 +1392,80 @@ class PluginAdmin_ModuleUsers extends Module {
 
 
 	/**
-	 * Получить данные пользователя на основе типа
+	 * Получить массив данных для выбора даты рождения пользователя по частям
+	 *
+	 * @param $oUser		объект пользователя
+	 * @param $sPart		часть даты ('day', 'month', 'year')
+	 * @return array
+	 * @throws Exception
+	 */
+	protected function GetDataForUserBirthdayAndSelectedByUserAndPart($oUser, $sPart) {
+		/*
+		 * набор частей даты
+		 */
+		$aDates = array();
+		/*
+		 * текущая, установленная пользователем, часть (число дня, месяца или года)
+		 */
+		$sCurrentDatePart = null;
+		/*
+		 * найти параметры даты для нужной её части (текущее значение, границы от и до)
+		 */
+		switch ($sPart) {
+			case 'day':
+				/*
+				 * если пользователь указал дату рождения - получить текущее значение
+				 */
+				if ($oUser->getProfileBirthday()) {
+					$sCurrentDatePart = date('d', strtotime($oUser->getProfileBirthday()));
+				}
+				/*
+				 * начало и конец дат для выбора
+				 */
+				$iStart = 1;
+				$iFinish = 31;
+				break;
+			case 'month':
+				/*
+				 * если пользователь указал дату рождения - получить текущее значение
+				 */
+				if ($oUser->getProfileBirthday()) {
+					$sCurrentDatePart = date('m', strtotime($oUser->getProfileBirthday()));
+				}
+				/*
+				 * начало и конец дат для выбора
+				 */
+				$iStart = 1;
+				$iFinish = 12;
+				break;
+			case 'year':
+				/*
+				 * если пользователь указал дату рождения - получить текущее значение
+				 */
+				if ($oUser->getProfileBirthday()) {
+					$sCurrentDatePart = date('Y', strtotime($oUser->getProfileBirthday()));
+				}
+				/*
+				 * начало и конец дат для выбора
+				 */
+				$iStart = 1940;
+				$iFinish = date('Y');
+				break;
+			default:
+				throw new Exception('Admin: error: unknown birthday part "' . $sPart . '" in ' . __METHOD__);
+		}
+		/*
+		 * заполнить набор нужных частей даты
+		 */
+		for ($i = $iStart; $i <= $iFinish; $i ++) {
+			$aDates[$this->GetArrayKeyComparedWithCurrentValue($i, $sCurrentDatePart)] = $i;
+		}
+		return $aDates;
+	}
+
+
+	/**
+	 * Получить данные пользователя на основе типа вместе с текущим значением (ключ "selected")
 	 *
 	 * @param $sType	тип
 	 * @param $oUser	объект пользователя
@@ -1352,8 +1473,29 @@ class PluginAdmin_ModuleUsers extends Module {
 	 */
 	public function GetUserDataByType($sType, $oUser) {
 		switch ($sType) {
+			/*
+			 * пол пользователя
+			 */
 			case 'sex':
 				return $this->GetDataForUserSexAndSelectedByUser($oUser);
+			/*
+			 * др пользователя (день)
+			 */
+			case 'birthday_day':
+				return $this->GetDataForUserBirthdayAndSelectedByUserAndPart($oUser, 'day');
+			/*
+			 * др пользователя (месяц)
+			 */
+			case 'birthday_month':
+				return $this->GetDataForUserBirthdayAndSelectedByUserAndPart($oUser, 'month');
+			/*
+			 * др пользователя (год)
+			 */
+			case 'birthday_year':
+				return $this->GetDataForUserBirthdayAndSelectedByUserAndPart($oUser, 'year');
+			/*
+			 * действие не найдено
+			 */
 			default:
 				return false;
 		}

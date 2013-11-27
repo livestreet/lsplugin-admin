@@ -45,28 +45,27 @@
 					{/if}
 				</h3>
 
-				{if $oUser->getProfileName()}
+				<p class="user-name">
 					{*
 						инлайн редактирование поля
 					*}
-					<p class="user-name">
-						<span class="profile-inline-edit-input" data-item-type="profile_name" data-item-id="{$oUser->getId()}">{$oUser->getProfileName()}</span>
-					</p>
-				{/if}
+					<span class="profile-inline-edit-input" data-item-type="profile_name" data-item-id="{$oUser->getId()}"
+							>{if $oUser->getProfileName()}{$oUser->getProfileName()}{else}{$aLang.plugin.admin.users.profile_edit.no_profile_name}{/if}</span>
+				</p>
 
 				<p class="user-mail">
 					{*
 						инлайн редактирование поля
 					*}
 					<span class="profile-inline-edit-input" data-item-type="mail" data-item-id="{$oUser->getId()}">{$oUser->getMail()}</span>
-					<a href="mailto:{$oUser->getMail()}" class="link-border"><i class="icon-envelope"></i></a>
+					<a href="mailto:{$oUser->getMail()}" class="link-border" target="_blank"><i class="icon-envelope"></i></a>
 				</p>
 
 				<p class="user-id">{$aLang.plugin.admin.users.profile.user_no}{$oUser->getId()}</p>
 			</div>
 
 			{*
-				Редактирование рейтинга
+				Редактирование доп. данных
 			*}
 			<div class="user-brief-aside">
 				<div class="edit-rating">
@@ -179,12 +178,47 @@
 					</span>
 				</dd>
 			</dl>
-			{if $oUser->getProfileBirthday()}
-				<dl class="dotted-list-item">
-					<dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile.info.birthday}</dt>
-					<dd class="dotted-list-item-value">{date_format date=$oUser->getProfileBirthday() format="j F Y" notz=true}</dd>
-				</dl>
-			{/if}
+			<dl class="dotted-list-item">
+				<dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile.info.birthday}</dt>
+				<dd class="dotted-list-item-value">
+					{if $oUser->getProfileBirthday()}
+						{*date_format date=$oUser->getProfileBirthday() format="j F Y" notz=true*}
+						{*
+							инлайн редактирование поля даты рождения - день
+						*}
+						<span class="profile-inline-edit-select" data-item-type="birthday_day" data-item-id="{$oUser->getId()}"
+								>{date_format date=$oUser->getProfileBirthday() format="j" notz=true}</span>
+						{*
+							инлайн редактирование поля даты рождения - месяц
+						*}
+						<span class="profile-inline-edit-select" data-item-type="birthday_month" data-item-id="{$oUser->getId()}"
+								>{date_format date=$oUser->getProfileBirthday() format="F" notz=true}</span>
+						{*
+							инлайн редактирование поля даты рождения - год
+						*}
+						<span class="profile-inline-edit-select" data-item-type="birthday_year" data-item-id="{$oUser->getId()}"
+								>{date_format date=$oUser->getProfileBirthday() format="Y" notz=true}</span>
+					{else}
+						<i class="icon-question-sign" title="{$aLang.plugin.admin.users.profile_edit.no_bidthday_set}"></i>
+						{*
+							инлайн редактирование поля даты рождения - день
+						*}
+						<span class="profile-inline-edit-select" data-item-type="birthday_day" data-item-id="{$oUser->getId()}"
+								>{$aLang.plugin.admin.users.profile_edit.bidthday_parts.day}</span>
+						{*
+							инлайн редактирование поля даты рождения - месяц
+						*}
+						<span class="profile-inline-edit-select" data-item-type="birthday_month" data-item-id="{$oUser->getId()}"
+								>{$aLang.plugin.admin.users.profile_edit.bidthday_parts.month}</span>
+						{*
+							инлайн редактирование поля даты рождения - год
+						*}
+						<span class="profile-inline-edit-select" data-item-type="birthday_year" data-item-id="{$oUser->getId()}"
+								>{$aLang.plugin.admin.users.profile_edit.bidthday_parts.year}</span>
+					{/if}
+
+				</dd>
+			</dl>
 
 			{if $oGeoTarget}
 				<dl class="dotted-list-item">
