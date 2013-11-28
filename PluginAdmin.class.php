@@ -101,6 +101,14 @@ class PluginAdmin extends Plugin {
 			Engine::getInstance()->Message_AddError('This plugin needs to be run in original LiveStreet CMS Framework', 'Error', true);
 			return false;
 		}
+		/*
+		 * блокировка от использования одновременно другой админки т.к. возможны конфликты/коллизии
+		 * tip: не включать одновременно несколько админок т.к. могут быть самые непредсказуемые последствия
+		 */
+		if (defined('ACEADMINPANEL_VERSION')) {
+			Engine::getInstance()->Message_AddError('You should fully remove old AceAdminPanel plugin and its tables before enabling this admin panel', 'Error', true);
+			return false;
+		}
 		return true;
 	}
 
