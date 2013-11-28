@@ -1410,6 +1410,7 @@ class PluginAdmin_ModuleUsers extends Module {
 		$sCurrentDatePart = null;
 		/*
 		 * найти параметры даты для нужной её части (текущее значение, границы от и до)
+		 * tip: цикл специально внесен в каждый кейс т.к. для месяцев нужно отображать их названия, а не числа
 		 */
 		switch ($sPart) {
 			case 'day':
@@ -1420,10 +1421,11 @@ class PluginAdmin_ModuleUsers extends Module {
 					$sCurrentDatePart = date('d', strtotime($oUser->getProfileBirthday()));
 				}
 				/*
-				 * начало и конец дат для выбора
+				 * заполнить набор нужных частей даты
 				 */
-				$iStart = 1;
-				$iFinish = 31;
+				for ($i = 1; $i <= 31; $i ++) {
+					$aDates[$this->GetArrayKeyComparedWithCurrentValue($i, $sCurrentDatePart)] = $i;
+				}
 				break;
 			case 'month':
 				/*
@@ -1433,10 +1435,11 @@ class PluginAdmin_ModuleUsers extends Module {
 					$sCurrentDatePart = date('m', strtotime($oUser->getProfileBirthday()));
 				}
 				/*
-				 * начало и конец дат для выбора
+				 * заполнить набор нужных частей даты
 				 */
-				$iStart = 1;
-				$iFinish = 12;
+				for ($i = 1; $i <= 12; $i ++) {
+					$aDates[$this->GetArrayKeyComparedWithCurrentValue($i, $sCurrentDatePart)] = $this->Lang_Get('month_array.' . (string) $i . '.0');
+				}
 				break;
 			case 'year':
 				/*
@@ -1446,19 +1449,14 @@ class PluginAdmin_ModuleUsers extends Module {
 					$sCurrentDatePart = date('Y', strtotime($oUser->getProfileBirthday()));
 				}
 				/*
-				 * начало и конец дат для выбора
+				 * заполнить набор нужных частей даты
 				 */
-				$iStart = 1940;
-				$iFinish = date('Y');
+				for ($i = 1940; $i <= date('Y'); $i ++) {
+					$aDates[$this->GetArrayKeyComparedWithCurrentValue($i, $sCurrentDatePart)] = $i;
+				}
 				break;
 			default:
 				throw new Exception('Admin: error: unknown birthday part "' . $sPart . '" in ' . __METHOD__);
-		}
-		/*
-		 * заполнить набор нужных частей даты
-		 */
-		for ($i = $iStart; $i <= $iFinish; $i ++) {
-			$aDates[$this->GetArrayKeyComparedWithCurrentValue($i, $sCurrentDatePart)] = $i;
 		}
 		return $aDates;
 	}
