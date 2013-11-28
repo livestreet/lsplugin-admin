@@ -158,7 +158,7 @@
 					<a href="{router page='admin/users/list'}{request_filter
 						name=array('mail')
 						value=array($oUser->getMail())
-					}"><i class="icon-search"></i></a>
+					}"><i class="icon-search" title="{$aLang.plugin.admin.search}"></i></a>
 				</dd>
 			</dl>
 			<dl class="dotted-list-item">
@@ -216,28 +216,65 @@
 						<span class="profile-inline-edit-select" data-item-type="birthday_year" data-item-id="{$oUser->getId()}"
 								>{$aLang.plugin.admin.users.profile_edit.bidthday_parts.year}</span>
 					{/if}
-
 				</dd>
 			</dl>
 
-			{if $oGeoTarget}
-				<dl class="dotted-list-item">
-					<dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile.info.living}</dt>
-					<dd class="dotted-list-item-value">
-						{if $oGeoTarget->getCountryId()}
-							{$oUser->getProfileCountry()|escape:'html'}
+			<dl class="dotted-list-item">
+				<dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile.info.living}</dt>
+				<dd class="dotted-list-item-value">
+					{*
+						если город не указан, значит не все гео-данные заполнены и можно вывести подсказку
+					*}
+					{if !$oGeoTarget or !$oGeoTarget->getCityId()}
+						<i class="icon-question-sign" title="{$aLang.plugin.admin.users.profile_edit.no_living_set}"></i>
+					{/if}
 
-							<a href="{router page='people/country'}{$oGeoTarget->getCountryId()}/"><i class="icon-search"></i></a>{if $oGeoTarget->getCityId()},{/if}
-						{/if}
+					{if $oGeoTarget and $oGeoTarget->getCountryId()}
+						{*
+							инлайн редактирование поля страны (задано)
+						*}
+						<span class="profile-inline-edit-select" data-item-type="living_country" data-item-id="{$oUser->getId()}">{$oUser->getProfileCountry()|escape:'html'}</span>
 
-						{if $oGeoTarget->getCityId()}
-							{$oUser->getProfileCity()|escape:'html'}
+						<a href="{router page='people/country'}{$oGeoTarget->getCountryId()}/"><i class="icon-search" title="{$aLang.plugin.admin.search}"></i></a>
+					{else}
+						{*
+							инлайн редактирование поля страны
+						*}
+						<span class="profile-inline-edit-select" data-item-type="living_country" data-item-id="{$oUser->getId()}"
+								>{$aLang.plugin.admin.users.profile_edit.living_parts.country}</span>
+					{/if}
+					,
 
-							<a href="{router page='people/city'}{$oGeoTarget->getCityId()}/"><i class="icon-search"></i></a>
-						{/if}
-					</dd>
-				</dl>
-			{/if}
+					{if $oGeoTarget and $oGeoTarget->getRegionId()}
+						{*
+							инлайн редактирование поля региона (задано)
+						*}
+						<span class="profile-inline-edit-select" data-item-type="living_region" data-item-id="{$oUser->getId()}">{$oUser->getProfileRegion()|escape:'html'}</span>
+					{else}
+						{*
+							инлайн редактирование поля региона
+						*}
+						<span class="profile-inline-edit-select" data-item-type="living_region" data-item-id="{$oUser->getId()}"
+								>{$aLang.plugin.admin.users.profile_edit.living_parts.region}</span>
+					{/if}
+					,
+
+					{if $oGeoTarget and $oGeoTarget->getCityId()}
+						{*
+							инлайн редактирование поля города (задано)
+						*}
+						<span class="profile-inline-edit-select" data-item-type="living_city" data-item-id="{$oUser->getId()}">{$oUser->getProfileCity()|escape:'html'}</span>
+
+						<a href="{router page='people/city'}{$oGeoTarget->getCityId()}/"><i class="icon-search" title="{$aLang.plugin.admin.search}"></i></a>
+					{else}
+						{*
+							инлайн редактирование поля города
+						*}
+						<span class="profile-inline-edit-select" data-item-type="living_city" data-item-id="{$oUser->getId()}"
+								>{$aLang.plugin.admin.users.profile_edit.living_parts.city}</span>
+					{/if}
+				</dd>
+			</dl>
 
 			<dl class="dotted-list-item mt-20">
 				<dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile.info.reg_date}</dt>

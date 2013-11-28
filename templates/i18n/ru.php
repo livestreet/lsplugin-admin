@@ -42,6 +42,7 @@ return array(
 	'save' => 'Сохранить',
 	'add' => 'Добавить',
 	'controls' => 'Управление',
+	'search' => 'Поиск',
 
 	/*
 	 * Ошибки
@@ -342,11 +343,23 @@ return array(
 			'password' => 'Пароль',
 			'about_user' => 'О себе',
 			'no_profile_name' => 'имя не указано',
+			/*
+			 * др
+			 */
 			'no_bidthday_set' => 'не указано',
 			'bidthday_parts' => array(
 				'day' => 'день',
 				'month' => 'месяц',
 				'year' => 'год',
+			),
+			/*
+			 * проживание
+			 */
+			'no_living_set' => 'не указано польностью или частично',
+			'living_parts' => array(
+				'country' => 'страна',
+				'region' => 'регион',
+				'city' => 'город',
 			),
 		),
 

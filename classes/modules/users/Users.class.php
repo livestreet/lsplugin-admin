@@ -1232,6 +1232,111 @@ class PluginAdmin_ModuleUsers extends Module {
 
 
 	/**
+	 * Сменить geo-данные пользователя
+	 *
+	 * @param $oUser		объект пользователя
+	 * @param $oGeo			новое значение
+	 */
+	protected function ChangeUserGeo($oUser, $oGeo) {
+		/*
+		 * установить связь "пользователь - гео-привязка"
+		 */
+		$this->Geo_CreateTarget($oGeo, 'user', $oUser->getId());
+		/*
+		 * задать страну
+		 */
+		if ($oCountry = $oGeo->getCountry()) {
+			$oUser->setProfileCountry($oCountry->getName());
+		} else {
+			$oUser->setProfileCountry(null);
+		}
+		/*
+		 * задать регион
+		 */
+		if ($oRegion = $oGeo->getRegion()) {
+			$oUser->setProfileRegion($oRegion->getName());
+		} else {
+			$oUser->setProfileRegion(null);
+		}
+		/*
+		 * задать город
+		 */
+		if ($oCity = $oGeo->getCity()) {
+			$oUser->setProfileCity($oCity->getName());
+		} else {
+			$oUser->setProfileCity(null);
+		}
+		$this->User_Update($oUser);
+	}
+
+
+	/**
+	 * Задать для пользователя гео-данные на основе типа
+	 *
+	 * @param $oUser		объект пользователя
+	 * @param $sType		тип ('country', 'region', 'city')
+	 * @param $iId			ид объекта (типа)
+	 * @throws Exception
+	 * @return string
+	 */
+	protected function SetUserGeoToType($oUser, $sType, $iId) {
+		/*
+		 * проверить тип
+		 */
+		if (!in_array($sType, array('country', 'region', 'city'))) {
+			throw new Exception('Admin: error: unknown geo type "' . $sType . '" in ' . __METHOD__);
+		}
+		/*
+		 * установить связь "пользователь - гео-запись" и обновить профиль пользователя
+		 */
+		if ($oGeo = $this->Geo_GetGeoObject($sType, $iId)) {
+			$this->ChangeUserGeo($oUser, $oGeo);
+			/*
+			 * вернуть отображаемое значение
+			 */
+			return $oGeo->getName();
+		}
+		return null;
+	}
+
+
+	/**
+	 * Задать для пользователя гео-данные на основе страны
+	 *
+	 * @param $oUser	объект пользователя
+	 * @param $iId		ид страны
+	 * @return string
+	 */
+	protected function SetUserGeoToCountry($oUser, $iId) {
+		return $this->SetUserGeoToType($oUser, 'country', $iId);
+	}
+
+
+	/**
+	 * Задать для пользователя гео-данные на основе региона
+	 *
+	 * @param $oUser	объект пользователя
+	 * @param $iId		ид региона
+	 * @return string
+	 */
+	protected function SetUserGeoToRegion($oUser, $iId) {
+		return $this->SetUserGeoToType($oUser, 'region', $iId);
+	}
+
+
+	/**
+	 * Задать для пользователя гео-данные на основе города
+	 *
+	 * @param $oUser	объект пользователя
+	 * @param $iId		ид города
+	 * @return string
+	 */
+	protected function SetUserGeoToCity($oUser, $iId) {
+		return $this->SetUserGeoToType($oUser, 'city', $iId);
+	}
+
+
+	/**
 	 * Изменить данные пользователя
 	 *
 	 * @param $sType	тип поля для редактирования
@@ -1295,7 +1400,7 @@ class PluginAdmin_ModuleUsers extends Module {
 				/*
 				 * вернуть текстовое отображение
 				 */
-				$sReturnValue = $this->GetDataForUserSexAndSelectedByUser($this->ReloadUserData($oUser));
+				$sReturnValue = $this->GetDataForUserSexAndSelectedByUser($this->ReloadUserData($oUser));//todo: add flag bReturnOnlySelected, use here
 				$sReturnValue = $sReturnValue['selected'];
 				break;
 
@@ -1335,6 +1440,24 @@ class PluginAdmin_ModuleUsers extends Module {
 				)));
 				break;
 
+			/*
+			 * место проживания: страна
+			 */
+			case 'living_country':
+				$sReturnValue = $this->SetUserGeoToCountry($oUser, $sValue);
+				break;
+			/*
+			 * место проживания: регион
+			 */
+			case 'living_region':
+				$sReturnValue = $this->SetUserGeoToRegion($oUser, $sValue);
+				break;
+			/*
+			 * место проживания: город
+			 */
+			case 'living_city':
+				$sReturnValue = $this->SetUserGeoToCity($oUser, $sValue);
+				break;
 
 			/*
 			 * действие не найдено
@@ -1463,6 +1586,95 @@ class PluginAdmin_ModuleUsers extends Module {
 
 
 	/**
+	 * Получить массив данных для выбора места проживания пользователя по частям
+	 *
+	 * @param $oUser		объект пользователя
+	 * @param $sPart		часть места проживания ('country', 'region', 'city')
+	 * @return array
+	 * @throws Exception
+	 */
+	protected function GetDataForUserLivingAndSelectedByUserAndPart($oUser, $sPart) {
+		/*
+		 * набор данных
+		 */
+		$aData = array();
+		/*
+		 * найти параметры для нужного типа
+		 */
+		switch ($sPart) {
+			case 'country':
+				$aCountries = $this->Geo_GetCountries(array(), array('sort' => 'asc'), 1, 300);
+				/*
+				 * получить набор данных, пометив текущий ключ
+				 */
+				foreach ($aCountries['collection'] as $oCountry) {
+					/*
+					 * tip: гео-данные автоматически были подгружены при получении пользователя по ид
+					 */
+					$aData[$this->GetArrayKeyComparedWithCurrentValue($oCountry->getId(), $this->_GetUserGEODataOrNull($oUser, 'country_id'))] = $oCountry->getName();
+				}
+				break;
+			case 'region':
+				/*
+				 * tip: гео-данные автоматически были подгружены при получении пользователя по ид
+				 */
+				$aRegions = $this->Geo_GetRegions(array('country_id' => $this->_GetUserGEODataOrNull($oUser, 'country_id')), array('sort' => 'asc'), 1, 500);
+				/*
+				 * получить набор данных, пометив текущий ключ
+				 */
+				foreach ($aRegions['collection'] as $oRegion) {
+					/*
+					 * tip: гео-данные автоматически были подгружены при получении пользователя по ид
+					 */
+					$aData[$this->GetArrayKeyComparedWithCurrentValue($oRegion->getId(), $this->_GetUserGEODataOrNull($oUser, 'region_id'))] = $oRegion->getName();
+				}
+				break;
+			case 'city':
+				/*
+				 * tip: гео-данные автоматически были подгружены при получении пользователя по ид
+				 */
+				$aCities = $this->Geo_GetCities(array('region_id' => $this->_GetUserGEODataOrNull($oUser, 'region_id')), array('sort' => 'asc'), 1, 500);
+				/*
+				 * получить набор данных, пометив текущий ключ
+				 */
+				foreach ($aCities['collection'] as $oCity) {
+					/*
+					 * tip: гео-данные автоматически были подгружены при получении пользователя по ид
+					 */
+					$aData[$this->GetArrayKeyComparedWithCurrentValue($oCity->getId(), $this->_GetUserGEODataOrNull($oUser, 'city_id'))] = $oCity->getName();
+				}
+				break;
+			default:
+				throw new Exception('Admin: error: unknown living part "' . $sPart . '" in ' . __METHOD__);
+		}
+		return $aData;
+	}
+
+
+	/**
+	 * Получить ид страны, региона или города гео-данных пользователя или null если их нет
+	 *
+	 * @param $oUser	объект пользователя
+	 * @param $sType	тип запроса (ид страны, региона или города)
+	 * @return int|null
+	 * @throws Exception
+	 */
+	protected function _GetUserGEODataOrNull($oUser, $sType) {
+		if (!$oUser->getGeoTarget()) return null;
+		switch ($sType) {
+			case 'country_id':
+				return $oUser->getGeoTarget()->getCountryId();
+			case 'region_id':
+				return $oUser->getGeoTarget()->getRegionId();
+			case 'city_id':
+				return $oUser->getGeoTarget()->getCityId();
+			default:
+				throw new Exception('Admin: error: unknown living type "' . $sType . '" in ' . __METHOD__);
+		}
+	}
+
+
+	/**
 	 * Получить данные пользователя на основе типа вместе с текущим значением (ключ "selected")
 	 *
 	 * @param $sType	тип
@@ -1491,6 +1703,21 @@ class PluginAdmin_ModuleUsers extends Module {
 			 */
 			case 'birthday_year':
 				return $this->GetDataForUserBirthdayAndSelectedByUserAndPart($oUser, 'year');
+			/*
+			 * место проживания: страна
+			 */
+			case 'living_country':
+				return $this->GetDataForUserLivingAndSelectedByUserAndPart($oUser, 'country');
+			/*
+			 * место проживания: регион
+			 */
+			case 'living_region':
+				return $this->GetDataForUserLivingAndSelectedByUserAndPart($oUser, 'region');
+			/*
+			 * место проживания: город
+			 */
+			case 'living_city':
+				return $this->GetDataForUserLivingAndSelectedByUserAndPart($oUser, 'city');
 			/*
 			 * действие не найдено
 			 */
