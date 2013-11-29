@@ -1,5 +1,11 @@
 {extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
 
+
+{block name='layout_page_title'}
+	{$aLang.plugin.admin.bans.title} <span>{$iBansTotalCount}</span>
+{/block}
+
+
 {block name='layout_content_actionbar'}
 	<div class="fl-r">
 		<a class="button {if $sBanSelectType=='all'}active{/if}"
@@ -13,24 +19,16 @@
 {/block}
 
 
-{block name='layout_page_title'}
-	{$aLang.plugin.admin.bans.title} <span>{$iBansTotalCount}</span>
-{/block}
-
-
 {block name='layout_content'}
 	<div class="mb-20">
-		{$aLang.plugin.admin.bans.list.current_date_on_server}:
-		<b>{date("Y-m-d H:i:s")}</b>
+		{$aLang.plugin.admin.bans.list.current_date_on_server}: <b>{date("Y-m-d H:i:s")}</b>
 	</div>
 
 	{if $aBans and count($aBans)>0}
 		<table class="table">
 			<thead>
 				<tr>
-					<th>
-						#
-					</th>
+					<th>#</th>
 					{*
 						правило бана
 					*}
@@ -49,39 +47,9 @@
 						sDropDownHtml=$aLang.plugin.admin.bans.table_header.block_rule
 						sBaseUrl=$sFullPagePathToEvent
 					}
-					{*include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
-						sCellClassName='block_type'
-						mSortingOrder='block_type'
-						mLinkHtml=$aLang.plugin.admin.bans.table_header.block_type
-						sBaseUrl=$sFullPagePathToEvent
-					*}
-					{*include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
-						sCellClassName='user_id'
-						mSortingOrder='user_id'
-						mLinkHtml=$aLang.plugin.admin.bans.table_header.user_id
-						sBaseUrl=$sFullPagePathToEvent
-					*}
-					{*include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
-						sCellClassName='ip'
-						mSortingOrder='ip'
-						mLinkHtml=$aLang.plugin.admin.bans.table_header.ip
-						sBaseUrl=$sFullPagePathToEvent
-					*}
-					{*include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
-						sCellClassName='ip_start'
-						mSortingOrder='ip_start'
-						mLinkHtml=$aLang.plugin.admin.bans.table_header.ip_start
-						sBaseUrl=$sFullPagePathToEvent
-					*}
-					{*include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
-						sCellClassName='ip_finish'
-						mSortingOrder='ip_finish'
-						mLinkHtml=$aLang.plugin.admin.bans.table_header.ip_finish
-						sBaseUrl=$sFullPagePathToEvent
-					*}
 
 					{*
-						Тип временного интервала для бана и даты начала и конца
+						тип временного интервала для бана
 					*}
 					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 						sCellClassName='time_type'
@@ -89,6 +57,9 @@
 						mLinkHtml=$aLang.plugin.admin.bans.table_header.time_type
 						sBaseUrl=$sFullPagePathToEvent
 					}
+					{*
+						даты начала и конца
+					*}
 					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 						sCellClassName='date_start'
 						mSortingOrder='date_start'
@@ -103,7 +74,7 @@
 					}
 
 					{*
-						Дата создания и редактирования
+						дата создания и редактирования
 					*}
 					{*include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 						sCellClassName='add_date'
@@ -119,7 +90,7 @@
 					*}
 
 					{*
-						Причина и комментарий для себя
+						причина и комментарий для себя
 					*}
 					{*include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
 						sCellClassName='reason_for_user'
@@ -145,55 +116,13 @@
 					
 					<tr class="{if $smarty.foreach.BanCycle.iteration % 2 == 0}second{/if}">
 						<td>
-							<a href="{router page="admin/users/bans/view/{$oBan->getId()}"}">
-								{$oBan->getId()}
-							</a>
+							<a href="{router page="admin/users/bans/view/{$oBan->getId()}"}">{$oBan->getId()}</a>
 						</td>
 						<td>
 							{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/bans_block_type_description.tpl"}
 						</td>
-						{*<td>
-							{if $oBan->getBlockType()==PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_USER_ID}
-								{$aLang.plugin.admin.bans.list.block_type.user}
-							{elseif $oBan->getBlockType()==PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_IP}
-								{$aLang.plugin.admin.bans.list.block_type.ip}
-							{elseif $oBan->getBlockType()==PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_IP_RANGE}
-								{$aLang.plugin.admin.bans.list.block_type.ip_range}
-							{/if}
-						</td>*}
-						{*<td>
-							{if $oBan->getUserId()}
-								<a href="{router page="admin/users/profile/{$oBan->getUserId()}"}">{$oBan->getUserId()}</a>
-							{/if}
-						</td>*}
 
-						{* IPs *}
-						{*<td>
-							{if $oBan->getIp()}
-								<a href="{router page='admin/users/list'}{request_filter
-								name=array('session_ip_last')
-								value=array(convert_long2ip($oBan->getIp()))
-								}">{convert_long2ip($oBan->getIp())}</a>
-							{/if}
-						</td>*}
-						{*<td>
-							{if $oBan->getIpStart()}
-								<a href="{router page='admin/users/list'}{request_filter
-								name=array('session_ip_last')
-								value=array(convert_long2ip($oBan->getIpStart()))
-								}">{convert_long2ip($oBan->getIpStart())}</a>
-							{/if}
-						</td>*}
-						{*<td>
-							{if $oBan->getIpFinish()}
-								<a href="{router page='admin/users/list'}{request_filter
-								name=array('session_ip_last')
-								value=array(convert_long2ip($oBan->getIpFinish()))
-								}">{convert_long2ip($oBan->getIpFinish())}</a>
-							{/if}
-						</td>*}
-
-						{* dates *}
+						{* даты начала и окончания бана *}
 						<td>
 							{if $oBan->getTimeType()==PluginAdmin_ModuleUsers::BAN_TIME_TYPE_PERMANENT}
 								{$aLang.plugin.admin.bans.list.time_type.permanent}
@@ -216,7 +145,7 @@
 							{/if}
 						</td>
 
-						{* create and edit dates *}
+						{* дата создания и редактирования *}
 						{*<td>
 							{$oBan->getAddDate()}
 						</td>
@@ -224,7 +153,7 @@
 							{$oBan->getEditDate()}
 						</td>*}
 
-						{* reason and comments *}
+						{* причина и комментарий для себя *}
 						{*<td>
 							{$oBan->getReasonForUser()|escape:'html'|truncate:100:'...'}
 						</td>
@@ -246,6 +175,7 @@
 		}
 
 		{include file="{$aTemplatePathPlugin.admin}pagination.tpl" aPaging=$aPaging}
+
 	{else}
 		{include file='alert.tpl' mAlerts=$aLang.plugin.admin.bans.list.no_bans sAlertStyle='empty'}
 	{/if}

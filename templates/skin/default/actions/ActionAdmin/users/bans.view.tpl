@@ -23,6 +23,7 @@
 		</dd>
 	</dl>
 
+	{* даты начала и окончания бана *}
 	<dl class="dotted-list-item">
 		<dt class="dotted-list-item-label">
 			{$aLang.plugin.admin.bans.table_header.time_type}
