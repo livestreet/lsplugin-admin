@@ -205,7 +205,7 @@
 							<li><a href="#" class="link-border"><span>Работа</a></span></li>
 						</ul>
 
-						<ul class="fl-r ta-r">
+						<ul class="footer-right">
 							<li><a href="{cfg name='path.root.web'}" class="link-border"><span>Перейти на сайт</a></span></li>
 						</ul>
 
