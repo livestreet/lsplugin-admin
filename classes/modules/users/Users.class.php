@@ -1400,8 +1400,7 @@ class PluginAdmin_ModuleUsers extends Module {
 				/*
 				 * вернуть текстовое отображение
 				 */
-				$sReturnValue = $this->GetDataForUserSexAndSelectedByUser($this->ReloadUserData($oUser));//todo: add flag bReturnOnlySelected, use here
-				$sReturnValue = $sReturnValue['selected'];
+				$sReturnValue = $this->Lang_Get('plugin.admin.users.sex.' . $this->ReloadUserData($oUser)->getProfileSex());
 				break;
 
 
@@ -1507,9 +1506,9 @@ class PluginAdmin_ModuleUsers extends Module {
 	 */
 	protected function GetDataForUserSexAndSelectedByUser($oUser) {
 		return array(
-			$this->GetArrayKeyComparedWithCurrentValue('man', $oUser->getProfileSex()) => $this->Lang_Get('settings_profile_sex_man'),
-			$this->GetArrayKeyComparedWithCurrentValue('woman', $oUser->getProfileSex()) => $this->Lang_Get('settings_profile_sex_woman'),
-			$this->GetArrayKeyComparedWithCurrentValue('other', $oUser->getProfileSex()) => $this->Lang_Get('settings_profile_sex_other'),
+			$this->GetArrayKeyComparedWithCurrentValue('man', $oUser->getProfileSex()) => $this->Lang_Get('plugin.admin.users.sex.man'),
+			$this->GetArrayKeyComparedWithCurrentValue('woman', $oUser->getProfileSex()) => $this->Lang_Get('plugin.admin.users.sex.woman'),
+			$this->GetArrayKeyComparedWithCurrentValue('other', $oUser->getProfileSex()) => $this->Lang_Get('plugin.admin.users.sex.other'),
 		);
 	}
 

@@ -167,15 +167,7 @@
 					{*
 						инлайн редактирование поля
 					*}
-					<span class="profile-inline-edit-select" data-item-type="sex" data-item-id="{$oUser->getId()}">
-						{if $oUser->getProfileSex() == 'man'}
-							{$aLang.profile_sex_man}
-						{elseif $oUser->getProfileSex() == 'woman'}
-							{$aLang.profile_sex_woman}
-						{else}
-							{$aLang.settings_profile_sex_other}
-						{/if}
-					</span>
+					<span class="profile-inline-edit-select" data-item-type="sex" data-item-id="{$oUser->getId()}">{$aLang.plugin.admin.users.sex[$oUser->getProfileSex()]}</span>
 				</dd>
 			</dl>
 			<dl class="dotted-list-item">
