@@ -878,10 +878,19 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	public function EventAjaxBansCheckUserSign () {
 		$this->Viewer_SetResponseAjax('json');
 		$sResponse = '';
+		/*
+		 * получить правило идентификации пользователя
+		 */
 		if ($sUserSign = getRequestStr('value')) {
+			/*
+			 * распознать правило
+			 */
 			if (!$aData = $this->GetUserDataByUserRule($sUserSign)) {
 				return $this->Message_AddError($this->Lang('bans.user_sign_check.wrong_rule'));
 			}
+			/*
+			 * вернуть информацию о правиле на основе его типа
+			 */
 			switch ($aData['type']) {
 				case 'user':
 					$sResponse = $this->Lang('bans.user_sign_check.user', array(
@@ -914,9 +923,9 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 			return false;
 		}
 		/*
-		 * проверка id пользователя (нельзя удалять права админа у пользователя с id = 1)
+		 * проверка id пользователя (нельзя удалять права админа у пользователей из спец. списка из конфига)
 		 */
-		if (!$iUserId = (int) $this->GetParam(2) or !$oUser = $this->User_GetUserById($iUserId) or $iUserId == 1) {
+		if (!$iUserId = (int) $this->GetParam(2) or in_array($iUserId, Config::Get('plugin.admin.block_managing_admin_rights_user_ids')) or !$oUser = $this->User_GetUserById($iUserId)) {
 			$this->Message_AddError($this->Lang('errors.bans.incorrect_user_id'));
 			return false;
 		}
@@ -938,9 +947,9 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	public function EventDeleteUserContent() {
 		$this->SetTemplateAction('users/delete_user');
 		/*
-		 * проверка id пользователя (нельзя удалять контент у пользователей из спец. списка в конфиге)
+		 * проверка id пользователя (нельзя удалять контент у пользователей из спец. списка из конфига)
 		 */
-		if (!$iUserId = (int) getRequestStr('user_id') or in_array($iUserId, Config::Get('plugin.admin.block_deleting_user_id')) or !$oUser = $this->User_GetUserById($iUserId)) {
+		if (!$iUserId = (int) getRequestStr('user_id') or in_array($iUserId, Config::Get('plugin.admin.block_deleting_user_ids')) or !$oUser = $this->User_GetUserById($iUserId)) {
 			$this->Message_AddError($this->Lang('errors.bans.incorrect_user_id'));
 			return $this->EventError();
 		}
@@ -998,7 +1007,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 * это сделано для того, чтобы не дублировать (пусть и небольшую) часть кода для подгрузки данных через аякс
 		 */
 		if (isAjaxRequest()) {
-			$this->GetAjaxAnswerForUsersStats ();
+			$this->GetAjaxAnswerForUsersStats();
 			return true;
 		}
 
@@ -1007,24 +1016,24 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * получить статистику по проживанию
 		 */
-		$aLivingStatsData = $this->GetLivingStats ();
+		$aLivingStatsData = $this->GetLivingStats();
 		/*
 		 * получить статистику стран или городов
 		 */
-		$this->Viewer_Assign ('aLivingStats', $aLivingStatsData['aLivingStats']);
+		$this->Viewer_Assign('aLivingStats', $aLivingStatsData['aLivingStats']);
 		/*
 		 * тип текущего отображения: страны или города
 		 */
-		$this->Viewer_Assign ('sCurrentLivingSection', $aLivingStatsData['sCurrentLivingSection']);
+		$this->Viewer_Assign('sCurrentLivingSection', $aLivingStatsData['sCurrentLivingSection']);
 		/*
 		 * тип текущей сортировки: топ или по алфавиту
 		 */
-		$this->Viewer_Assign ('sCurrentLivingSorting', $aLivingStatsData['sCurrentLivingSorting']);
+		$this->Viewer_Assign('sCurrentLivingSorting', $aLivingStatsData['sCurrentLivingSorting']);
 		
 		/*
 		 * получить график
 		 */
-		$this->GetGraphStats ();
+		$this->GetGraphStats();
 
 		/*
 		 * получить количество хороших и не очень пользователей
@@ -1098,11 +1107,12 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	protected function GetAjaxAnswerForUsersStats() {
 		$this->Viewer_SetResponseAjax('json');
 		/*
-		 * если нужно вывести только нужные данные
+		 * если нужно вывести только нужные данные без рендеринга всей формы (через аякс)
 		 */
 		if (getRequestStr('get_short_answer')) {
 			/*
 			 * пока поддерживается только данные проживаний
+			 * tip: при добавлении новых методов переделать на свитч и разнести получение данных по методам
 			 */
 			if (getRequestStr('request_type') == 'living_stats') {
 				/*

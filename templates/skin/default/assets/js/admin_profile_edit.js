@@ -82,6 +82,7 @@ ls.admin_profile_edit = (function($) {
 
 	/**
 	 * Разбирает ответ получения данных от сервера
+	 * tip: похож на предыдущий метод, но они не одинаковы, не обьеденять
 	 *
 	 * @param data
 	 * @returns {*}		новое значение
@@ -214,7 +215,7 @@ jQuery(document).ready(function($) {
 			//cancel: 'Отмена',
 			//submit: 'OK',
 
-			indicator: 'Сохранение...',
+			indicator: 'Сохранение...',	// todo: add langs
 			tooltip: 'Нажмите для редактирования',
 			placeholder: 'Редактировать',
 
@@ -249,7 +250,7 @@ jQuery(document).ready(function($) {
 			 */
 			submit: 'OK',
 
-			indicator: 'Сохранение...',
+			indicator: 'Сохранение...',	// todo: add langs
 			tooltip: 'Нажмите для редактирования',
 			placeholder: 'Редактировать',
 
