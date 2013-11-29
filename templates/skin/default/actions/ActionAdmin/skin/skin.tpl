@@ -66,7 +66,7 @@
 
 									<select name="theme" class="width-150">
 										{foreach from=$oInfo->themes->children() item=oTheme}
-											<option value="{$oTheme->value}" {if $oConfig->GetValue('view.theme')==$oTheme->value}selected="selected"{/if}>
+											<option value="{$oTheme->value}" {if $oConfig->Get('view.theme')==$oTheme->value}selected="selected"{/if}>
 												{$oTheme->description->data}
 											</option>
 										{/foreach}

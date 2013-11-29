@@ -99,7 +99,7 @@
 
 	{include file="{$aTemplatePathPlugin.admin}forms/elements_on_page.tpl"
 		sFormActionPath="{router page='admin/votes/ajax-on-page'}"
-		iCurrentValue = $oConfig->GetValue('plugin.admin.votes.per_page')
+		iCurrentValue = $oConfig->Get('plugin.admin.votes.per_page')
 	}
 
 	{include file="{$aTemplatePathPlugin.admin}pagination.tpl" aPaging=$aPaging}

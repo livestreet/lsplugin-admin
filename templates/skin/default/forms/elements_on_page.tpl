@@ -5,7 +5,7 @@
 	Передаваемые параметры:
 
 		$sFormActionPath - путь к екшену ({router page='admin/bans/ajax-on-page'})
-		$iCurrentValue - текущее значение ($oConfig->GetValue('plugin.admin.bans.per_page'))
+		$iCurrentValue - текущее значение ($oConfig->Get('plugin.admin.bans.per_page'))
 		$sFormId - id формы (не обязательно, по-умолчанию "admin_onpage")
 
 *}
@@ -22,7 +22,7 @@
 
 	{$aLang.plugin.admin.on_page}
 	<select name="onpage" class="width-75">
-		{foreach from=$oConfig->GetValue('plugin.admin.values_for_select_elements_on_page') item=iVal}
+		{foreach from=$oConfig->Get('plugin.admin.values_for_select_elements_on_page') item=iVal}
 			<option value="{$iVal}" {if $iVal==$iCurrentValue}selected="selected"{/if}>{$iVal}</option>
 		{/foreach}
 	</select>

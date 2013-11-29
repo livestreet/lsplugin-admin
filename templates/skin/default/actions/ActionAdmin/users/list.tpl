@@ -13,7 +13,7 @@
 		<input type="text" class="width-200" value="{$sSearchValue}" id="admin_user_list_search_form_q" placeholder="{$aLang.plugin.admin.users.search}" />
 
 		<select class="width-150" id="admin_user_list_search_form_field">
-			{foreach array_keys($oConfig->GetValue('plugin.admin.user_search_allowed_types')) as $sSearchIn}
+			{foreach array_keys($oConfig->Get('plugin.admin.user_search_allowed_types')) as $sSearchIn}
 				<option value="{$sSearchIn}" {if $sSearchIn == $sSearchField}selected="selected"{/if}>
 					{$aLang.plugin.admin.users.search_allowed_in.$sSearchIn}
 				</option>
@@ -193,7 +193,7 @@
 
 	{include file="{$aTemplatePathPlugin.admin}forms/elements_on_page.tpl"
 		sFormActionPath="{router page='admin/users/ajax-on-page'}"
-		iCurrentValue = $oConfig->GetValue('plugin.admin.user.per_page')
+		iCurrentValue = $oConfig->Get('plugin.admin.user.per_page')
 	}
 
 	{include file="{$aTemplatePathPlugin.admin}pagination.tpl" aPaging=$aPaging}

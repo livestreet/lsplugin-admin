@@ -57,8 +57,8 @@
                 LIVESTREET_SECURITY_KEY = '{$LIVESTREET_SECURITY_KEY}',
                 SESSION_ID				= '{$_sPhpSessionId}',
                 SESSION_NAME			= '{$_sPhpSessionName}',
-                LANGUAGE				= '{$oConfig->GetValue('lang.current')}',
-                WYSIWYG					= {if $oConfig->GetValue('view.wysiwyg')}true{else}false{/if};
+                LANGUAGE				= '{$oConfig->Get('lang.current')}',
+                WYSIWYG					= {if $oConfig->Get('view.wysiwyg')}true{else}false{/if};
 
 		var aRouter = [];
 		{foreach from=$aRouter key=sPage item=sPath}
