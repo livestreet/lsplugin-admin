@@ -111,6 +111,12 @@ h1, h2, h3, h4, h5, h6 { font-family: "Open Sans"; }
  */
 #footer ul { float: left; width: 33%; }
 #footer ul li { margin-bottom: 5px; }
+#footer ul.footer-right { float: right; text-align: right; }
+
+@media (max-width: 999px)  {
+	#footer ul,
+	#footer ul.footer-right { float: none; width: auto; text-align: left; margin-bottom: 20px; }
+}
 
 
 /* Shadow */

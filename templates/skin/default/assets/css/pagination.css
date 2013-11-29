@@ -57,3 +57,11 @@
 .pagination-item a i { opacity: 1; }
 .pagination-item-prev i { background-image: url(../images/icons/pagination-prev.png); margin-right: 20px; }
 .pagination-item-next i { background-image: url(../images/icons/pagination-next.png); margin-left: 20px; }
+
+/* Responsive */
+@media (max-width: 999px)  {
+	.pagination-item-prev,
+	.pagination-item-next { display: none; }
+	.pagination-item { float: none; }
+	.pagination-list { display: block; margin: 0; }
+}

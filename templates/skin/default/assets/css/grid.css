@@ -37,5 +37,11 @@
 	#header          { padding: 15px 0 10px 0; }
 	#sidebar         { width: 100%; float: static; margin-bottom: 10px; }
 	#content-wrapper,
-	#content         { margin-right: 0; }
+	#content         { 
+		margin-right: 0;
+		-webkit-box-shadow: none;
+		   -moz-box-shadow: none;
+				box-shadow: none;
+	}
+	#footer { padding: 15px; margin: 0; }
 }
