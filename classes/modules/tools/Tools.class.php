@@ -19,11 +19,11 @@
  * 
  */
 
-/**
+/*
  *
- *	Разные методы
+ * Разные методы
  *
-*/
+ */
 
 class PluginAdmin_ModuleTools extends Module {
 
@@ -78,110 +78,68 @@ class PluginAdmin_ModuleTools extends Module {
 
 
 	/**
-	 * Выполнить проверку конфигов и языковых файлов плагинов и системы на utf-8 w/o BOM
+	 * Выполнить проверку файлов плагинов и системы на UTF-8 BOM
+	 *
+	 * @param $bSessionMessages		выводить сообщения об ошибках в отложенный вывод (для следующей загрузки ядра)
+	 * @return bool
 	 */
-	public function CheckLangsAndConfigsOfPluginsAndEngineToBeInCorrectEncoding() {
+	public function GetLangsAndConfigsOfPluginsAndEngineHasCorrectEncoding($bSessionMessages = true) {
 		/*
-		 * проверить файлы движка
+		 * получить массив масок для проверки
 		 */
-		$aFilesMasksToCheck = array(
-			/*
-			 *
-			 * --- проверка файлов фреймворка ---
-			 *
-			 */
-			/*
-			 * все конфиги: конфиг, жевикс, загрузчик
-			 */
-			Config::Get('path.framework.server') . 'config/*.php',
-			/*
-			 * все css файлы
-			 */
-			Config::Get('path.framework.server') . 'frontend/framework/*.css',
-			/*
-			 * все js файлы (папку vendor не будем проверять)
-			 */
-			Config::Get('path.framework.server') . 'frontend/framework/js/core/*.js',
-			Config::Get('path.framework.server') . 'frontend/framework/js/ui/*.js',
-			/*
-			 * языковые файлы
-			 */
-			Config::Get('path.framework.server') . 'frontend/i18n/*.php',
-			/*
-			 * шаблоны
-			 */
-			Config::Get('path.framework.server') . 'frontend/templates/*.tpl',
-			Config::Get('path.framework.server') . 'frontend/templates/*.js',
-			Config::Get('path.framework.server') . 'frontend/templates/*.css',
-
-			/*
-			 *
-			 * --- проверка файлов приложения ---
-			 *
-			 */
-			/*
-			 * все конфиги: конфиг, жевикс
-			 */
-			Config::Get('path.application.server') . 'config/*.php',
-			/*
-			 * все js файлы
-			 */
-			Config::Get('path.application.server') . 'frontend/common/js/*.js',
-			/*
-			 * языковые файлы
-			 */
-			Config::Get('path.application.server') . 'frontend/i18n/*.php',
-			/*
-			 * шаблоны
-			 */
-			Config::Get('path.application.server') . 'frontend/skin/*.tpl',
-			Config::Get('path.application.server') . 'frontend/skin/*.js',
-			Config::Get('path.application.server') . 'frontend/skin/*.css',
-			/*
-			 * проверить файлы крона
-			 */
-			Config::Get('path.application.server') . 'utilities/cron/*.php',
-		);
-		$this->CheckFilesEncodingByArray($aFilesMasksToCheck);
-
+		$aFilesMasksToCheck = Config::Get('plugin.admin.encoding_checking_dirs');
 		/*
-		 * todo: конфиги и языковые файлы плагинов
+		 * проверить файлы
 		 */
+		if ($aWrongEncodingFiles = $this->CheckFilesEncodingByArray($aFilesMasksToCheck, $bSessionMessages)) {
+			$this->Message_AddError($this->Lang_Get('plugin.admin.errors.encoding_check.utf8_bom_encoding_detected'), $this->Lang_Get('error'), $bSessionMessages);
+			/*
+			 * показать список файлов с неверной кодировкой
+			 */
+			foreach ($aWrongEncodingFiles as $sFile) {
+				$this->Message_AddError($sFile, $this->Lang_Get('plugin.admin.errors.encoding_check.utf8_bom_file'), $bSessionMessages);
+			}
+			return false;
+		}
+		return true;
 	}
 
 
 	/**
 	 * Проверить файлы из переданного массива на корректность кодировки
 	 *
-	 * @param $aFilesMasksToCheck	массив файлов для проверки
+	 * @param $aFilesMasks			массив файлов для проверки
+	 * @param $bSessionMessages		выводить сообщения об ошибках в отложенный вывод (для следующей загрузки ядра)
+	 * @return array
 	 */
-	protected function CheckFilesEncodingByArray($aFilesMasksToCheck) {
-		foreach ($aFilesMasksToCheck as $sFileMask) {
-			$aFilesMasksToCheck = glob($sFileMask);
-			foreach ($aFilesMasksToCheck as $sFile) {
+	protected function CheckFilesEncodingByArray($aFilesMasks, $bSessionMessages = true) {
+		$aIncorrectEncodingFiles = array();
+		foreach ($aFilesMasks as $sFileMask) {
+			$aFiles = glob($sFileMask);
+			foreach ($aFiles as $sFile) {
 				/*
 				 * можно ли прочитать этот файл
 				 */
 				if (!is_readable($sFile)) {
-					$this->Message_AddError($this->Lang_Get('plugin.admin.errors.encoding_check.unreadable_file', array('file' => $sFile)), $this->Lang_Get('error'));
+					$this->Message_AddError($this->Lang_Get('plugin.admin.errors.encoding_check.unreadable_file', array('file' => $sFile)), $this->Lang_Get('error'), $bSessionMessages);
 					continue;
 				}
 				/*
 				 * получить первые 50 байт, этого достаточно для проверки
 				 */
 				if (($sText = @file_get_contents($sFile, false, null, 0, 50)) === false) {
-					$this->Message_AddError($this->Lang_Get('plugin.admin.errors.encoding_check.file_cant_be_read', array('file' => $sFile)), $this->Lang_Get('error'));
+					$this->Message_AddError($this->Lang_Get('plugin.admin.errors.encoding_check.file_cant_be_read', array('file' => $sFile)), $this->Lang_Get('error'), $bSessionMessages);
 					continue;
 				}
 				/*
-				 * проверить на некорректную кодировку файлов
+				 * проверить на некорректную кодировку файлов (utf-8 BOM)
 				 */
-				if ($this->CheckTextEncodingForUTF8BOM($sText)) {
-					$this->Message_AddError($this->Lang_Get('plugin.admin.errors.encoding_check.utf8_bom_encoding_detected', array('file' => $sFile)), $this->Lang_Get('error'));
-					continue;
+				if ($this->IsTextEncodedByUTF8BOM($sText)) {
+					$aIncorrectEncodingFiles[] = $sFile;
 				}
 			}
 		}
+		return $aIncorrectEncodingFiles;
 	}
 
 
@@ -191,7 +149,7 @@ class PluginAdmin_ModuleTools extends Module {
 	 * @param $sText	текст для проверка
 	 * @return bool
 	 */
-	protected function CheckTextEncodingForUTF8BOM($sText) {
+	protected function IsTextEncodedByUTF8BOM($sText) {
 		/*
 		 * utf-8 BOM отличается от простой utf-8 без сигнатуры первыми тремя символами
 		 */

@@ -2,7 +2,7 @@
 
 
 {block name='layout_page_title'}
-	{$aLang.plugin.admin.utils.title}
+	{$aLang.plugin.admin.utils.tables.title}
 {/block}
 
 

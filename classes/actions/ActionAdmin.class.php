@@ -316,6 +316,10 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 * Проверка таблиц БД
 		 */
 		$this->AddEventPreg('#^utils$#iu', '#^tables$#iu', 'Utils::EventCheckTables');
+		/*
+		 * Проверка файлов на корректность их кодировки
+		 */
+		$this->AddEventPreg('#^utils$#iu', '#^files$#iu', 'Utils::EventCheckFiles');
 
 		/*
 		 *
@@ -400,7 +404,8 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			->AddSection(
 				Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Утилиты')->SetName('utils')->SetUrl('utils')
 
-					->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Проверка таблиц')->SetUrl('tables'))
+				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Проверка таблиц')->SetUrl('tables'))
+				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Проверка файлов')->SetUrl('files'))
 			)	// /AddSection
 		;
 	}

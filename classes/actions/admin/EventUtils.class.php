@@ -25,6 +25,12 @@
 
 class PluginAdmin_ActionAdmin_EventUtils extends Event {
 
+	/*
+	 *
+	 * --- Проверка таблиц ---
+	 *
+	 */
+
 	/**
 	 * Показать список действий очистки таблиц от поврежденных связей
 	 *
@@ -68,6 +74,54 @@ class PluginAdmin_ActionAdmin_EventUtils extends Event {
 				return false;
 		}
 		$this->Message_AddNotice('Ok', '', true);
+		$this->RedirectToReferer();
+	}
+
+
+	/*
+	 *
+	 * --- Проверка файлов ---
+	 *
+	 */
+
+	/**
+	 * Показать список действий проверки файлов
+	 *
+	 * @return mixed
+	 */
+	public function EventCheckFiles() {
+		$this->SetTemplateAction('utils/files');
+
+		/*
+		 * если нужно выполнить действие
+		 */
+		if ($sActionType = $this->GetParam(1)) {
+			$this->Security_ValidateSendForm();
+			$this->ProcessFilesAction($sActionType);
+		}
+	}
+
+
+	/**
+	 * Выполнить нужное действие проверки файлов
+	 *
+	 * @param $sActionType	тип действия
+	 * @return bool
+	 */
+	protected function ProcessFilesAction($sActionType) {
+		switch ($sActionType) {
+			case 'checkencoding':
+				/*
+				 * проверить кодировку файлов
+				 */
+				if ($this->PluginAdmin_Tools_GetLangsAndConfigsOfPluginsAndEngineHasCorrectEncoding()) {
+					$this->Message_AddNotice('Ok', '', true);
+				}
+				break;
+			default:
+				$this->Message_AddError($this->Lang('errors.utils.unknown_files_action'));
+				return false;
+		}
 		$this->RedirectToReferer();
 	}
 
