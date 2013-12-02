@@ -91,6 +91,10 @@ class PluginAdmin_ModuleTools extends Module {
 	 */
 	public function CheckFilesOfPluginsAndEngineHaveCorrectEncoding($bSessionMessages = true) {
 		/*
+		 * убрать лимит времени
+		 */
+		set_time_limit(0);
+		/*
 		 * получить массив масок для проверки
 		 */
 		$aFilesMasksToCheck = Config::Get('plugin.admin.encoding_checking_dirs');

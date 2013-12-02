@@ -116,7 +116,9 @@
 				</div>
 
 				<ul class="dropdown-menu" id="dropdown-menu-userbar">
-					<li><a href="#">Редактировать профиль</a></li>
+					<li>
+						<a href="{router page="admin/users/profile/{$oUserCurrent->getId()}"}">Мой профиль</a>
+					</li>
 					<li><a href="{router page='login'}exit/?security_ls_key={$LIVESTREET_SECURITY_KEY}">Выйти</a></li>
 				</ul>
 			</header>
