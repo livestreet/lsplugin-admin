@@ -35,26 +35,24 @@ $config['encoding_checking_dirs'] = array(
 	/*
 	 * все конфиги: конфиг, жевикс, загрузчик
 	 */
-	Config::Get('path.framework.server') . '/config/*.php',
+	array('path' => Config::Get('path.framework.server') . '/config/', 'file_masks' => 'php'),
 	/*
 	 * все css файлы
 	 */
-	Config::Get('path.framework.server') . '/frontend/framework/css/*.css',
+	array('path' => Config::Get('path.framework.server') . '/frontend/framework/css/', 'file_masks' => 'css'),
 	/*
 	 * все js файлы (кроме папки vendor, которую никто не редактирует)
 	 */
-	Config::Get('path.framework.server') . '/frontend/framework/js/core/*.js',
-	Config::Get('path.framework.server') . '/frontend/framework/js/ui/*.js',
+	array('path' => Config::Get('path.framework.server') . '/frontend/framework/js/core/', 'file_masks' => 'js'),
+	array('path' => Config::Get('path.framework.server') . '/frontend/framework/js/ui/', 'file_masks' => 'js'),
 	/*
 	 * языковые файлы
 	 */
-	Config::Get('path.framework.server') . '/frontend/i18n/*.php',
+	array('path' => Config::Get('path.framework.server') . '/frontend/i18n/', 'file_masks' => 'php'),
 	/*
 	 * файлы шаблонов
 	 */
-	Config::Get('path.framework.server') . '/frontend/templates/*.tpl',
-	Config::Get('path.framework.server') . '/frontend/templates/*.js',
-	Config::Get('path.framework.server') . '/frontend/templates/*.css',
+	array('path' => Config::Get('path.framework.server') . '/frontend/templates/', 'file_masks' => array('tpl', 'js', 'css')),
 
 	/*
 	 *
@@ -64,49 +62,45 @@ $config['encoding_checking_dirs'] = array(
 	/*
 	 * все конфиги: конфиг, жевикс
 	 */
-	Config::Get('path.application.server') . '/config/*.php',
+	array('path' => Config::Get('path.application.server') . '/config/', 'file_masks' => 'php'),
 	/*
 	 * все js файлы
 	 */
-	Config::Get('path.application.server') . '/frontend/common/js/*.js',
+	array('path' => Config::Get('path.application.server') . '/frontend/common/js/', 'file_masks' => 'js'),
 	/*
 	 * языковые файлы
 	 */
-	Config::Get('path.application.server') . '/frontend/i18n/*.php',
+	array('path' => Config::Get('path.application.server') . '/frontend/i18n/', 'file_masks' => 'php'),
 	/*
 	 * файлы шаблонов
 	 */
-	Config::Get('path.application.server') . '/frontend/skin/*.tpl',//todo
-	Config::Get('path.application.server') . '/frontend/skin/*.js',
-	Config::Get('path.application.server') . '/frontend/skin/*.css',
+	array('path' => Config::Get('path.application.server') . '/frontend/skin/', 'file_masks' => array('tpl', 'js', 'css')),
 	/*
 	 * проверить файлы крона
 	 */
-	Config::Get('path.application.server') . '/utilities/cron/*.php',
+	array('path' => Config::Get('path.application.server') . '/utilities/cron/', 'file_masks' => 'php'),
 
 	/*
 	 *
-	 * --- Плагины ---
+	 * --- Проверка файлов плагинов ---
 	 *
 	 */
 	/*
 	 * конфиги плагинов
 	 */
-	Config::Get('path.application.server') . '/plugins/*/config/*.php',
+	array('path' => Config::Get('path.application.server') . '/plugins/*/config/', 'file_masks' => 'php'),
 	/*
 	 * инклуды плагинов
 	 */
-	Config::Get('path.application.server') . '/plugins/*/include/*.php',
+	array('path' => Config::Get('path.application.server') . '/plugins/*/include/', 'file_masks' => 'php'),
 	/*
 	 * языковые файлы плагинов
 	 */
-	Config::Get('path.application.server') . '/plugins/*/templates/i18n/*.php',
+	array('path' => Config::Get('path.application.server') . '/plugins/*/templates/i18n/', 'file_masks' => 'php'),
 	/*
 	 * файлы шаблонов плагинов
 	 */
-	Config::Get('path.application.server') . '/plugins/*/templates/skin/*.tpl',// todo:
-	Config::Get('path.application.server') . '/plugins/*/templates/skin/*.js',
-	Config::Get('path.application.server') . '/plugins/*/templates/skin/*.css',
+	array('path' => Config::Get('path.application.server') . '/plugins/*/templates/skin/', 'file_masks' => array('tpl', 'js', 'css')),
 );
 
 return $config;

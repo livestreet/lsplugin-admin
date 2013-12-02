@@ -77,6 +77,12 @@ class PluginAdmin_ModuleTools extends Module {
 	}
 
 
+	/*
+	 *
+	 * --- Проверка кодировки файлов ---
+	 *
+	 */
+
 	/**
 	 * Выполнить проверку файлов плагинов и системы на UTF-8 BOM
 	 *
@@ -113,9 +119,21 @@ class PluginAdmin_ModuleTools extends Module {
 	 * @return array
 	 */
 	protected function CheckFilesEncodingByArray($aFilesMasks, $bSessionMessages = true) {
+		/*
+		 * список файлов с некорректной кодировкой
+		 */
 		$aIncorrectEncodingFiles = array();
-		foreach ($aFilesMasks as $sFileMask) {
-			$aFiles = glob($sFileMask);
+		/*
+		 * пройтись по всем заданным путям для поиска файлов
+		 */
+		foreach ($aFilesMasks as $aPathAndMask) {
+			/*
+			 * найти по указанному пути файлы с нужными расширениями
+			 */
+			$aFiles = $this->GetDirsRecursiveListing($aPathAndMask['path'], (array) $aPathAndMask['file_masks']);
+			/*
+			 * проверить каждый найденный файл
+			 */
 			foreach ($aFiles as $sFile) {
 				/*
 				 * можно ли прочитать этот файл
@@ -144,7 +162,61 @@ class PluginAdmin_ModuleTools extends Module {
 
 
 	/**
-	 * Проверить является ли кодировкой текста utf-8 BOM, которую нельзя использовать в файлах движка
+	 * Получить список файлов (и директорий) по указанному пути с указанными расширениями (или все файлы)
+	 *
+	 * @param      $sDir			корневая директория для поиска (далее в ней будет рекурсивный поиск)
+	 * @param null $aFileTypes		массив расширений файлов для поиска (или null если нужны все файлы)
+	 * @param bool $bOnlyFiles		флаг возвращения в списке только файлов, иначе будут возвращены и директории тоже
+	 * @return array				массив файлов (и директорий, если нужно)
+	 */
+	public function GetDirsRecursiveListing($sDir, $aFileTypes = null, $bOnlyFiles = true) {
+		/*
+		 * список файлов по указанному пути
+		 */
+		$aFiles = array();
+		/*
+		 * выбрать все директории и файлы, добавляя к директориям слеш в конце
+		 * (будут выбраны все файлы, кроме тех, которые начинаются на точку (.htaccess)
+		 */
+		$aFilesAndDirs = glob($sDir . '*', GLOB_MARK);
+		foreach ($aFilesAndDirs as $sFileOrDir) {
+			/*
+			 * если это директория
+			 */
+			if (is_dir($sFileOrDir)) {
+				/*
+				 * искать в ней файлы рекурсивно с возвращением их списка
+				 */
+				$aFiles = array_merge($aFiles, $this->GetDirsRecursiveListing($sFileOrDir, $aFileTypes, $bOnlyFiles));
+				/*
+				 * если нужно получить только список файлов
+				 */
+				if ($bOnlyFiles) continue;
+			}
+			/*
+			 * это файл
+			 */
+			/*
+			 * если указан массив нужных расширений для отбора файлов и это не директория (может быть если флаг $bOnlyFiles установлен в false)
+			 */
+			if (is_array($aFileTypes) and !is_dir($sFileOrDir)) {
+				$sFileExtension = pathinfo($sFileOrDir, PATHINFO_EXTENSION);
+				/*
+				 * проверить на расширение
+				 */
+				if (!in_array($sFileExtension, $aFileTypes)) continue;
+			}
+			/*
+			 * добавить файл (или директорию) в список
+			 */
+			$aFiles[] = $sFileOrDir;
+		}
+		return $aFiles;
+	}
+
+
+	/**
+	 * Проверить является ли кодировкой текста utf-8 BOM (которую нельзя использовать в файлах движка)
 	 *
 	 * @param $sText	текст для проверка
 	 * @return bool
