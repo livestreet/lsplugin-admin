@@ -1,4 +1,7 @@
-{$oValue=$oProperty->getValue()}
+{$oValue = $oProperty->getValue()}
 
-{$oProperty->getTitle()}:
-<textarea name="property[{$oProperty->getId()}]" rows="10" class="width-500">{$oValue->getValueForForm()}</textarea><br/><br/>
+{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.textarea.tpl"
+		 sFieldName  = "property[{$oProperty->getId()}]"
+		 sFieldValue = $oValue->getValueForForm()
+		 iFieldRows  = 10
+		 sFieldLabel = $oProperty->getTitle()}

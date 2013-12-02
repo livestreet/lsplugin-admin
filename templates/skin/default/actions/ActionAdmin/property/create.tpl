@@ -1,31 +1,57 @@
+{**
+ * Добавление дополнительного поля
+ *
+ * @param array $aPropertyType Список типов полей
+ *}
+
 {extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
 
+{block name='layout_content_actionbar'}
+	<a href="#" class="button">&larr; Назад к списку полей</a>
+{/block}
+
+{block name='layout_page_title'}Добавление поля плагину PluginName{/block}
+
 {block name='layout_content'}
+	<form method="post">
+		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.hidden.security_key.tpl"}
 
-	<form method="post" action="">
-		<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}">
+		{* Тип поля *}
+		{$aPropertyType = [
+			[ 'value' => 'int',        'text' => 'Целое число' ],
+			[ 'value' => 'float',      'text' => 'Дробное число' ],
+			[ 'value' => 'varchar',    'text' => 'Строка' ],
+			[ 'value' => 'text',       'text' => 'Текст' ],
+			[ 'value' => 'checkbox',   'text' => 'Чекбокс' ],
+			[ 'value' => 'select',     'text' => 'Выпадающий список' ],
+			[ 'value' => 'tags',       'text' => 'Теги' ],
+			[ 'value' => 'video_link', 'text' => 'Ссылка на видео' ]
+		]}
 
-		Создание поля:<br/>
-		<br/>
+		{include file='forms/form.field.select.tpl'
+				 sFieldName          = 'property[type]'
+				 sFieldLabel         = 'Тип поля'
+				 sFieldClasses       = 'width-200'
+				 aFieldItems         = $aPropertyType
+				 sFieldSelectedValue = $_aRequest.property.type}
 
-		Тип:
-		<select name="property[type]">
-			<option value="int" {if $_aRequest.property.type=='int'}selected="selected"{/if}>Целое число</option>
-			<option value="float" {if $_aRequest.property.type=='float'}selected="selected"{/if}>Дробное число</option>
-			<option value="varchar" {if $_aRequest.property.type=='varchar'}selected="selected"{/if}>Строка</option>
-			<option value="text" {if $_aRequest.property.type=='text'}selected="selected"{/if}>Текст</option>
-			<option value="checkbox" {if $_aRequest.property.type=='checkbox'}selected="selected"{/if}>Чекбокс</option>
-			<option value="select" {if $_aRequest.property.type=='select'}selected="selected"{/if}>Селект/Поле выбора</option>
-			<option value="tags" {if $_aRequest.property.type=='tags'}selected="selected"{/if}>Теги</option>
-			<option value="video_link" {if $_aRequest.property.type=='video_link'}selected="selected"{/if}>Ссылка на видео</option>
-		</select>
-		<br/>
-		Название: <input name="property[title]" value="{if $_aRequest.property.title}{$_aRequest.property.title}{/if}"><br/>
-		Код: <input name="property[code]" value="{if $_aRequest.property.code}{$_aRequest.property.code}{/if}"><br/>
+		{* Название *}
+		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
+				 sFieldName  = 'property[title]'
+				 sFieldValue = $_aRequest.property.title
+				 sFieldLabel = 'Название'}
 
-		<br/><br/>
-		<button type="submit" name="property_create_submit" value="1">Добавить</button>
+		{* Код *}
+		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
+				 sFieldName  = 'property[code]'
+				 sFieldValue = $_aRequest.property.code
+				 sFieldLabel = 'Код'}
 
+		{* Кнопки *}
+		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.button.tpl"
+				 sFieldName  = 'property_create_submit'
+				 sFieldText  = $aLang.plugin.admin.add
+				 sFieldValue = '1'
+				 sFieldStyle = 'primary'}
 	</form>
-
 {/block}

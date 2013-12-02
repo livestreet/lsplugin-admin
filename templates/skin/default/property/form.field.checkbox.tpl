@@ -1,4 +1,6 @@
-{$oValue=$oProperty->getValue()}
+{$oValue = $oProperty->getValue()}
 
-{$oProperty->getTitle()}:
-<input type="checkbox" value="1" name="property[{$oProperty->getId()}]" {if $oValue->getValueInt()}checked="checked"{/if}><br/><br/>
+{include file='forms/form.field.checkbox.tpl' 
+		 sFieldName    = "property[{$oProperty->getId()}]"
+		 bFieldChecked = $oValue->getValueInt()
+		 sFieldLabel   = $oProperty->getTitle()}

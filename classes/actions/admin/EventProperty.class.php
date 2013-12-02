@@ -37,7 +37,7 @@ class PluginAdmin_ActionAdmin_EventProperty extends Event {
 		$this->Viewer_Assign('aPropertyItems',$aProperties);
 		$this->Viewer_Assign('sPropertyTargetType',$sTargetType);
 
-		$this->SetTemplateAction('property/target');
+		$this->SetTemplateAction('property/list');
 	}
 
 	public function EventPropertyUpdate() {

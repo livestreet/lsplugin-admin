@@ -1,4 +1,7 @@
-{$oValue=$oProperty->getValue()}
+{$oValue = $oProperty->getValue()}
 
-{$oProperty->getTitle()}:
-<input type="text" value="{$oValue->getValueFloat()}" name="property[{$oProperty->getId()}]"><br/><br/>
+{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
+		 sFieldName    = "property[{$oProperty->getId()}]"
+		 sFieldValue   = $oValue->getValueFloat()
+		 sFieldClasses = 'width-150'
+		 sFieldLabel   = $oProperty->getTitle()}

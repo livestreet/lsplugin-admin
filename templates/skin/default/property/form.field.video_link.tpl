@@ -1,6 +1,11 @@
-{$oValue=$oProperty->getValue()}
+{$oValue = $oProperty->getValue()}
 
-{$oProperty->getTitle()}:
-{include file="{$aTemplatePathPlugin.admin}modals/modal.property_type_video.tpl" oValue=$oValue}
-<a href="#" data-type="modal-toggle" data-option-target="modal-property-type-video-{$oValue->getId()}">see!</a>
-<input type="text" value="{$oValue->getValueVarchar()}" name="property[{$oProperty->getId()}]" class="width-500"><br/><br/>
+{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
+		 sFieldName    = "property[{$oProperty->getId()}]"
+		 sFieldValue   = $oValue->getValueVarchar()
+		 sFieldClasses = 'width-300'
+		 sFieldLabel   = $oProperty->getTitle()}
+
+{* TODO: Модального нету *}
+{*include file="{$aTemplatePathPlugin.admin}modals/modal.property_type_video.tpl" oValue=$oValue*}
+<p class="mb-20"><a href="#" class="link-dotted" data-type="modal-toggle" data-option-target="modal-property-type-video-{$oValue->getId()}">Смотреть</a></p>

@@ -1,37 +1,73 @@
+{**
+ * Редактирование дополнительного поля
+ *
+ * @param array  $aPropertyType Список типов полей
+ * @param object $oProperty     Поле
+ *}
+
 {extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
 
+{block name='layout_content_actionbar'}
+	<a href="#" class="button">&larr; Назад к списку полей</a>
+{/block}
+
+{block name='layout_page_title'}Редактирование поля{/block}
+
 {block name='layout_content'}
+	<form method="post">
+		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.hidden.security_key.tpl"}
 
-	<form method="post" action="">
-		<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}">
+		{* Тип поля *}
+		{$aPropertyType = [
+			[ 'value' => 'int',        'text' => 'Целое число' ],
+			[ 'value' => 'float',      'text' => 'Дробное число' ],
+			[ 'value' => 'varchar',    'text' => 'Строка' ],
+			[ 'value' => 'text',       'text' => 'Текст' ],
+			[ 'value' => 'checkbox',   'text' => 'Чекбокс' ],
+			[ 'value' => 'select',     'text' => 'Выпадающий список' ],
+			[ 'value' => 'tags',       'text' => 'Теги' ],
+			[ 'value' => 'video_link', 'text' => 'Ссылка на видео' ]
+		]}
 
-		Настройка поля:<br/>
-		<br/>
+		{include file='forms/form.field.select.tpl'
+				 sFieldName          = 'property[type]'
+				 sFieldLabel         = 'Тип поля'
+				 sFieldClasses       = 'width-200'
+				 aFieldItems         = $aPropertyType
+				 bFieldIsDisabled    = true
+				 sFieldSelectedValue = $oProperty->getTypeTitle()}
 
-		Тип: {$oProperty->getTypeTitle()}<br/>
-		{*
-		<select name="property[type]">
-			<option value="int">Целое число</option>
-			<option value="float">Дробное число</option>
-			<option value="varchar">Строка</option>
-			<option value="text">Текст</option>
-			<option value="checkbox">Чекбокс</option>
-			<option value="select">Селект</option>
-			<option value="tags">Теги</option>
-			<option value="video_link">Ссылка на видео</option>
-		</select>
-		*}
+		{* Название *}
+		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
+				 sFieldName  = 'property[title]'
+				 sFieldValue = $oProperty->getTitle()
+				 sFieldLabel = 'Название'}
 
-		Название: <input name="property[title]" value="{$oProperty->getTitle()}"><br/>
-		Код: <input name="property[code]" value="{$oProperty->getCode()}"><br/>
-		Сортировка: <input name="property[sort]" value="{$oProperty->getSort()}"><br/>
+		{* Код *}
+		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
+				 sFieldName  = 'property[code]'
+				 sFieldValue = $oProperty->getCode()
+				 sFieldLabel = 'Код'}
 
-		<br/>
-		{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/property/type.{$oProperty->getType()}.tpl"}
+		{* Сортировка *}
+		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
+				 sFieldName    = 'property[sort]'
+				 sFieldClasses = 'width-100'
+				 sFieldValue   = $oProperty->getSort()
+				 sFieldLabel   = 'Сортировка'}
+		
+		{* Правила валидации *}
+		<h3 class="page-sub-header mt-30">Правила валидации</h3>
 
-		<br/><br/>
-		<button type="submit" name="property_update_submit" value="1">Сохранить</button>
+		{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/property/types/type.{$oProperty->getType()}.tpl" 
+				 oPropertyValidateRules = $oProperty->getValidateRules()
+				 oPropertyParams        = $oProperty->getParams()}
 
+		{* Кнопки *}
+		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.button.tpl"
+				 sFieldName  = 'property_update_submit'
+				 sFieldText  = $aLang.plugin.admin.save
+				 sFieldValue = '1'
+				 sFieldStyle = 'primary'}
 	</form>
-
 {/block}
