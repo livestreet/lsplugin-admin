@@ -89,7 +89,7 @@ class PluginAdmin_ModuleTools extends Module {
 	 * @param $bSessionMessages		выводить сообщения об ошибках в отложенный вывод (для следующей загрузки ядра)
 	 * @return bool
 	 */
-	public function GetLangsAndConfigsOfPluginsAndEngineHasCorrectEncoding($bSessionMessages = true) {
+	public function CheckFilesOfPluginsAndEngineHaveCorrectEncoding($bSessionMessages = true) {
 		/*
 		 * получить массив масок для проверки
 		 */
@@ -98,7 +98,11 @@ class PluginAdmin_ModuleTools extends Module {
 		 * проверить файлы
 		 */
 		if ($aWrongEncodingFiles = $this->CheckFilesEncodingByArray($aFilesMasksToCheck, $bSessionMessages)) {
-			$this->Message_AddError($this->Lang_Get('plugin.admin.errors.encoding_check.utf8_bom_encoding_detected'), $this->Lang_Get('error'), $bSessionMessages);
+			$this->Message_AddError(
+				$this->Lang_Get('plugin.admin.errors.encoding_check.utf8_bom_encoding_detected', array('count' => count($aWrongEncodingFiles))),
+				$this->Lang_Get('error'),
+				$bSessionMessages
+			);
 			/*
 			 * показать список файлов с неверной кодировкой
 			 */
@@ -162,7 +166,7 @@ class PluginAdmin_ModuleTools extends Module {
 
 
 	/**
-	 * Получить список файлов (и директорий) по указанному пути с указанными расширениями (или все файлы)
+	 * Получить рекурсивно список файлов (и директорий) по указанному пути с указанными расширениями (или все файлы)
 	 *
 	 * @param      $sDir			корневая директория для поиска (далее в ней будет рекурсивный поиск)
 	 * @param null $aFileTypes		массив расширений файлов для поиска (или null если нужны все файлы)

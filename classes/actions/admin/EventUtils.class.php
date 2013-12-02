@@ -114,7 +114,7 @@ class PluginAdmin_ActionAdmin_EventUtils extends Event {
 				/*
 				 * проверить кодировку файлов
 				 */
-				if ($this->PluginAdmin_Tools_GetLangsAndConfigsOfPluginsAndEngineHasCorrectEncoding()) {
+				if ($this->PluginAdmin_Tools_CheckFilesOfPluginsAndEngineHaveCorrectEncoding()) {
 					$this->Message_AddNotice('Ok', '', true);
 				}
 				break;

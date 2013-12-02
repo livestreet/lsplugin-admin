@@ -53,6 +53,11 @@ $config['encoding_checking_dirs'] = array(
 	 * файлы шаблонов
 	 */
 	array('path' => Config::Get('path.framework.server') . '/frontend/templates/', 'file_masks' => array('tpl', 'js', 'css')),
+	/*
+	 * файлы инклуда
+	 */
+	array('path' => Config::Get('path.framework.server') . '/include/', 'file_masks' => 'php'),
+
 
 	/*
 	 *
@@ -76,9 +81,14 @@ $config['encoding_checking_dirs'] = array(
 	 */
 	array('path' => Config::Get('path.application.server') . '/frontend/skin/', 'file_masks' => array('tpl', 'js', 'css')),
 	/*
+	 * файлы инклуда
+	 */
+	array('path' => Config::Get('path.application.server') . '/include/', 'file_masks' => 'php'),
+	/*
 	 * проверить файлы крона
 	 */
 	array('path' => Config::Get('path.application.server') . '/utilities/cron/', 'file_masks' => 'php'),
+
 
 	/*
 	 *
