@@ -1345,6 +1345,17 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * @return mixed
 	 */
 	public function PerformUserDataModification($sType, $oUser, $sValue) {
+		/*
+		 * флаг ошибки
+		 */
+		$bError = false;
+		/*
+		 * текст ошибки
+		 */
+		$sErrorMsg = null;
+		/*
+		 * возвращаемое значение
+		 */
 		$sReturnValue = $sValue;
 		/*
 		 * выполнить действие на основе его типа
@@ -1462,9 +1473,14 @@ class PluginAdmin_ModuleUsers extends Module {
 			 * действие не найдено
 			 */
 			default:
-				return false;
+				$bError = true;
+				$sErrorMsg = $this->Lang ('errors.profile_edit.unknown_action_type');
 		}
-		return $sReturnValue;
+		return array(
+			'error' => $bError,
+			'error_message' => $sErrorMsg,
+			'return_value' => $sReturnValue,
+		);
 	}
 
 

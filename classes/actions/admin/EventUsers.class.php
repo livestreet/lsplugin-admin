@@ -1170,10 +1170,17 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * изменить данные
 		 */
-		if (($aData = $this->PluginAdmin_Users_PerformUserDataModification(getRequestStr('field_type'), $oUser, $sValue)) === false) {
-			return $this->Message_AddError($this->Lang ('errors.profile_edit.unknown_action_type'));
+		$aResult = $this->PluginAdmin_Users_PerformUserDataModification(getRequestStr('field_type'), $oUser, $sValue);
+		/*
+		 * проверка на ошибку
+		 */
+		if ($aResult['error']) {
+			return $this->Message_AddError($aResult['error_message']);
 		}
-		$this->Viewer_AssignAjax('aData', $aData);
+		/*
+		 * вернуть ответ
+		 */
+		$this->Viewer_AssignAjax('aData', $aResult['return_value']);
 	}
 
 
