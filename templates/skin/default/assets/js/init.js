@@ -144,15 +144,61 @@ jQuery(document).ready(function($) {
 		if ( checkAll.is(':checked') ) checkboxes.iCheck('check'); else checkboxes.iCheck('uncheck');
 	});
 
+
 	/**
 	 * Mobile navigation toggle
 	 *
 	 * @template layouts/layout.base.tpl
 	 * @template blocks/block.nav.tpl
 	 */
-	var navMain = $('.js-nav-main');
+	var $navMain = $('.js-nav-main');
 
 	$('.js-nav-main-toggle').on('click', function () {
-		navMain[ navMain.is(':visible') ? 'removeClass' : 'addClass' ]('is-open');
+		$navMain[ $navMain.is(':visible') ? 'removeClass' : 'addClass' ]('is-open');
 	});
+
+
+	/**
+	 * Main navigation
+	 *
+	 * @template navs/nav.main.tpl
+	 */
+	(function () {
+		var cookieName = 'nav_main_items',
+			cookie = $.cookie(cookieName),
+			items = cookie ? cookie.split(',') : [];
+
+		$navMain.find('.js-nav-main-item-root > a').on('click', function (e) {
+			var $element = $(this).closest('li'),
+				id = $element.data('item-id'),
+				isOpen = $element.hasClass('open'),
+				cookie = $.cookie(cookieName),
+				items = cookie ? cookie.split(',') : [];
+
+			if (isOpen) {
+				// Remove
+				var index = items.indexOf(id + "");
+				if (index !== -1) items.splice(index, 1);
+				$.cookie(cookieName, items.join(','), { path: '/' });
+
+				$element.removeClass('open');
+			} else {
+				// Add
+				items.push(id);
+				$.cookie(cookieName, items.join(','), { path: '/' });
+
+				$element.addClass('open');
+			}
+
+			e.preventDefault();
+		});
+
+		// Open items
+		$('.js-nav-main-item-root').each(function () {
+			var $element = $(this),
+				id = $element.data('item-id');
+
+			if ( items.indexOf(id + "") != -1 ) $element.addClass('open');
+		});
+	})();
 });

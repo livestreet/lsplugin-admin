@@ -23,13 +23,16 @@
 .nav-main > li > i             { position: absolute; top: 5px; left: 11px; }
 
 /* Sub */
-.nav-main ul                  { margin-bottom: 10px; padding-bottom: 10px; position: relative; }
+.nav-main ul                  { margin-bottom: 10px; padding-bottom: 10px; position: relative; display: none; }
 .nav-main ul li               { font-family: Verdana; font-size: 13px; }
 .nav-main ul li a             { color: #6c6c6c; padding: 5px 0 5px 42px; }
 .nav-main ul li a span        { display: inline-block; border-bottom: 1px solid #ccc; line-height: 14px; }
 .nav-main ul li.active a      { background: #fff; }
 .nav-main ul li.active a span { border: none; color: #000; font-weight: bold; }
 
+.nav-main li.open ul { display: block; }
+
+/* Separator */
 .nav-main ul:after,
 .nav-main ul:before { content: ""; position: absolute; bottom: -1px; left: 5%; width: 90%; height: 0; border-bottom: 1px solid #dbdbdb; }
 .nav-main ul:after { border-color: #fff; bottom: -2px; }

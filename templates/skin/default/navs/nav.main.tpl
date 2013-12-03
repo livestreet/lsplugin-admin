@@ -1,22 +1,29 @@
+{**
+ * Главное меню
+ *
+ * @param object $oMenuMain       Основные пункты меню
+ * @param object $oMenuAddition   Дополнительные пункты меню
+ *
+ * @styles assets/css/navs.css
+ * @scripts assets/js/init.js
+ *}
+
 <ul class="nav-main">
-	{foreach from=$oMenuMain->GetSections() item=oMenuSection key=section_index}
-		<li {if $oMenuSection->GetActive()}class="active"{/if}>
+	{* Основные пункты меню *}
+	{foreach $oMenuMain->GetSections() as $oMenuSection}
+		<li class="nav-main-item-root js-nav-main-item-root {if $oMenuSection->GetActive()}active{/if}" data-item-id="{$oMenuSection@index}">
 			<i class="icon-nav-main-home"></i>
 
-			<a {if !$oMenuSection->HasItems()}href="{$oMenuSection->GetUrlFull()}"{else}href="#"{/if}
-				class="sb-item {$oMenuSection->GetCssClass()}
-					   {if $oMenuSection->HasItems()}sb-root{/if}"
-				id="sb-root-{$oMenuMain->GetName()}-{$section_index}">
-
-				<span>{$oMenuSection->GetCaption()|escape:'html'}</span>
+			<a {if ! $oMenuSection->HasItems()}href="{$oMenuSection->GetUrlFull()}"{else}href="#"{/if}>
+				<span>{$oMenuSection->GetCaption()|escape}</span>
 			</a>
 
-
+			{* Подменю *}
 			{if $oMenuSection->HasItems()}
 				<ul>
-					{foreach from=$oMenuSection->GetItems() item=oMenuItem}
+					{foreach $oMenuSection->GetItems() as $oMenuItem}
 						<li {if $oMenuItem->GetActive()}class="active"{/if}>
-							<a href="{$oMenuItem->GetUrlFull()}"><span>{$oMenuItem->GetCaption()|escape:'html'}</span></a>
+							<a href="{$oMenuItem->GetUrlFull()}"><span>{$oMenuItem->GetCaption()|escape}</span></a>
 						</li>
 					{/foreach}
 				</ul>
@@ -24,23 +31,23 @@
 		</li>
 	{/foreach}
 
+	{* Дополнительные пункты меню *}
 	{if $oMenuAddition->GetSections()}
 		<li {if $oMenuSection->GetActive()}class="active"{/if}>
 			<a href="#">{$oMenuAddition->GetCaption()|escape:'html'}</a>
 
 			{foreach from=$oMenuAddition->GetSections() item=oMenuSection key=section_index}
-				<a {if !$oMenuSection->HasItems()}href="{$oMenuSection->GetUrlFull()}"{else}href="#"{/if}
-					class="sb-item {$oMenuSection->GetCssClass()}
-						   {if $oMenuSection->HasItems()}sb-root{/if} "
-					id="sb-root-{$oMenuAddition->GetName()}-{$section_index}">
-
+				<a {if ! $oMenuSection->HasItems()}href="{$oMenuSection->GetUrlFull()}"{else}href="#"{/if}>
 					<span>{$oMenuSection->GetCaption()|escape:'html'}</span>
 				</a>
 
+				{* Подменю *}
 				{if $oMenuSection->HasItems()}
 					<ul>
-						{foreach from=$oMenuSection->GetItems() item=oMenuItem}
-							<li{if $oMenuItem->GetActive()} class="active"{/if}><a href="{$oMenuItem->GetUrlFull()}"><span>{$oMenuItem->GetCaption()|escape:'html'}</span></a></li>
+						{foreach $oMenuSection->GetItems() as $oMenuItem}
+							<li {if $oMenuItem->GetActive()}class="active"{/if}>
+								<a href="{$oMenuItem->GetUrlFull()}"><span>{$oMenuItem->GetCaption()|escape}</span></a>
+							</li>
 						{/foreach}
 					</ul>
 				{/if}
@@ -48,6 +55,9 @@
 		</li>
 	{/if}
 </ul>
+
+
+
 {*
  
  
