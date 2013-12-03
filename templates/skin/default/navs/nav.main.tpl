@@ -11,7 +11,7 @@
 <ul class="nav-main">
 	{* Основные пункты меню *}
 	{foreach $oMenuMain->GetSections() as $oMenuSection}
-		<li class="nav-main-item-root js-nav-main-item-root {if $oMenuSection->GetActive()}active{/if}" data-item-id="{$oMenuSection@index}">
+		<li class="nav-main-item-root {if $oMenuSection->HasItems()}js-nav-main-item-root{/if} {if $oMenuSection->GetActive()}active{/if}" data-item-id="{$oMenuSection@index}">
 			<i class="icon-nav-main-home"></i>
 
 			<a {if ! $oMenuSection->HasItems()}href="{$oMenuSection->GetUrlFull()}"{else}href="#"{/if}>
