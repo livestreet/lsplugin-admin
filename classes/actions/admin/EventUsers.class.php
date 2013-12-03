@@ -1175,7 +1175,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 * проверка на ошибку
 		 */
 		if ($aResult['error']) {
-			return $this->Message_AddError($aResult['error_message']);
+			$this->Message_AddError($aResult['error_message']);
 		}
 		/*
 		 * вернуть ответ

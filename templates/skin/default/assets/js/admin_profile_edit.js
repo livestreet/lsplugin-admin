@@ -69,11 +69,16 @@ ls.admin_profile_edit = (function($) {
 	 * @return {*}
 	 * @constructor
 	 */
-	this.AnswerHandler = function(data) {
+	this.SaveDataAnswerHandler = function(data) {
 		if (data.bStateError) {
-			ls.msg.notice(data.sTitle, data.sMsg);
-		} else if (data.aData) {
+			ls.msg.error(data.sTitle, data.sMsg);
+		} else {
 			ls.msg.notice('Ok');
+		}
+		/*
+			все равно вернуть редактируемое значение, чтобы можно было исправить его и отправить снова
+		 */
+		if (data.aData) {
 			return data.aData;
 		}
 		return false;
@@ -90,7 +95,7 @@ ls.admin_profile_edit = (function($) {
 	 */
 	this.GetDataHandler = function(data) {
 		if (data.bStateError) {
-			ls.msg.notice(data.sTitle, data.sMsg);
+			ls.msg.error(data.sTitle, data.sMsg);
 			return false;
 		} else if (data.aData) {
 			return data.aData;
@@ -117,7 +122,7 @@ ls.admin_profile_edit = (function($) {
 				value: value
 			},
 			function(data) {
-				aData = ls.admin_profile_edit.AnswerHandler(data);
+				aData = ls.admin_profile_edit.SaveDataAnswerHandler(data);
 			},
 			/*
 			 	дополнительные параметры для $.ajax

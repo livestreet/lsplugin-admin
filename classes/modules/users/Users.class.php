@@ -1365,7 +1365,14 @@ class PluginAdmin_ModuleUsers extends Module {
 			 * редактировать логин пользователя
 			 */
 			case 'login':
-				$this->ChangeUserLogin($oUser, $sValue);
+				/*
+				 * корректен и свободен ли новый логин
+				 */
+				if (($sErrorMsg = $this->ValidateUserLoginChange($sValue, $oUser)) !== true) {
+					$bError = true;
+				} else {
+					$this->ChangeUserLogin($oUser, $sValue);
+				}
 				break;
 			/*
 			 * редактировать имя пользователя
@@ -1377,7 +1384,14 @@ class PluginAdmin_ModuleUsers extends Module {
 			 * редактировать почту пользователя
 			 */
 			case 'mail':
-				$this->ChangeUserMail($oUser, $sValue);
+				/*
+				 * корректна и свободна ли новая почта
+				 */
+				if (($sErrorMsg = $this->ValidateUserMailChange($sValue, $oUser)) !== true) {
+					$bError = true;
+				} else {
+					$this->ChangeUserMail($oUser, $sValue);
+				}
 				break;
 			/*
 			 * редактировать пароль пользователя
@@ -1411,7 +1425,7 @@ class PluginAdmin_ModuleUsers extends Module {
 				/*
 				 * вернуть текстовое отображение
 				 */
-				$sReturnValue = $this->Lang_Get('plugin.admin.users.sex.' . $this->ReloadUserData($oUser)->getProfileSex());
+				$sReturnValue = $this->Lang_Get('plugin.admin.users.sex.' . $sValue);
 				break;
 
 
@@ -1474,7 +1488,7 @@ class PluginAdmin_ModuleUsers extends Module {
 			 */
 			default:
 				$bError = true;
-				$sErrorMsg = $this->Lang ('errors.profile_edit.unknown_action_type');
+				$sErrorMsg = $this->Lang_Get('plugin.admin.errors.profile_edit.unknown_action_type');
 		}
 		return array(
 			'error' => $bError,
@@ -1484,14 +1498,57 @@ class PluginAdmin_ModuleUsers extends Module {
 	}
 
 
-	/**
-	 * Обновить сущность пользователя
+	/*
 	 *
-	 * @param $oUser	объект пользователя
-	 * @return mixed	акуальная сущность
+	 * --- Хелперы изменения данных пользователя ---
+	 *
 	 */
-	protected function ReloadUserData($oUser) {
-		return $this->User_GetUserById($oUser->getId());
+
+	/**
+	 * Проверить новый логин пользователя на корректность написания и дубликат
+	 *
+	 * @param $sNewLogin	новый логин
+	 * @param $oUser		объект пользователя, которому будут применять изменение
+	 * @return bool
+	 */
+	protected function ValidateUserLoginChange($sNewLogin, $oUser) {
+		/*
+		 * проверить на корректность написания логина
+		 */
+		if (!$this->User_CheckLogin($sNewLogin)) {
+			return $this->Lang_Get('plugin.admin.errors.profile_edit.login_has_unsupported_symbols');
+		}
+		/*
+		 * проверить не занят ли логин (даже если этим же пользователем)
+		 */
+		if ($this->User_GetUserByLogin($sNewLogin)) {
+			return $this->Lang_Get('plugin.admin.errors.profile_edit.login_already_exists');
+		}
+		return true;
+	}
+
+
+	/**
+	 * Проверить новую почту пользователя на дубликат
+	 *
+	 * @param $sNewMail		новая почта
+	 * @param $oUser		объект пользователя, которому будут применять изменение
+	 * @return bool
+	 */
+	protected function ValidateUserMailChange($sNewMail, $oUser) {
+		/*
+		 * проверить на корректность почту
+		 */
+		if (!$this->Validate_Validate('email', $sNewMail, array('allowEmpty' => false))) {
+			return $this->Lang_Get('plugin.admin.errors.profile_edit.mail_is_incorrect') . '. ' . $this->Validate_GetErrorLast();
+		}
+		/*
+		 * проверить не занята ли эта почта
+		 */
+		if ($this->User_GetUserByMail($sNewMail)) {
+			return $this->Lang_Get('plugin.admin.errors.profile_edit.mail_already_exists');
+		}
+		return true;
 	}
 
 
