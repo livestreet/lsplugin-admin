@@ -20,7 +20,9 @@
  */
 
 /*
- *	Сущность для работы с скинами
+ *
+ * Сущность для работы с шаблонами
+ *
  */
 
 class PluginAdmin_ModuleSkin_EntitySkin extends Entity {

@@ -39,7 +39,8 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 	 * @return mixed
 	 */
 	private function GetAllPluginLists() {
-		return $this->Plugin_GetList(array('order' => 'name'));
+		//return $this->Plugin_GetList(array('order' => 'name'));
+		return $this->PluginAdmin_Plugins_GetPluginsList();
 	}
 
 
