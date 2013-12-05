@@ -268,13 +268,17 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 */
 		$this->AddEventPreg('#^plugin$#i', '#^[\w-]+$#i', 'EmbedPlugin::EventShowEmbedPlugin');
 		/*
-		 * список плагинов
+		 * список плагинов (по фильтру)
 		 */
 		$this->AddEventPreg('#^plugins$#iu', '#^(?:list)?$#iu', 'Plugins::EventPluginsList');
 		/*
 		 * активация/деактивация плагина
 		 */
 		$this->AddEventPreg('#^plugins$#iu', '#^toggle$#iu', 'Plugins::EventTogglePlugin');
+		/*
+		 * показать страницу инструкций по установке плагина (файл install.txt)
+		 */
+		$this->AddEventPreg('#^plugins$#iu', '#^instructions$#iu', 'Plugins::EventPluginInstructions');
 
 
 		/*
@@ -570,6 +574,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$sPluginTemplatePath . '/css/helpers.css',
 			$sPluginTemplatePath . '/css/user.css',
 			$sPluginTemplatePath . '/css/stats.css',
+			$sPluginTemplatePath . '/css/plugins.css',
 			
 			$sPluginTemplatePath . '/css/vendor/jquery.notifier.css',
 			$sPluginTemplatePath . '/css/vendor/icheck/skins/livestreet/minimal.css',

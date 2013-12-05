@@ -92,8 +92,7 @@ class PluginAdmin_ModuleCatalog extends Module {
 			/*
 			 * найти группу методов и сам метод
 			 */
-			$sMethodFull = func_underscore($sName);
-			list($sMethodGroup, $sMethod) = explode('_', $sMethodFull, 2);
+			list($sMethodGroup, $sMethod) = explode('_', func_underscore($sName), 2);
 
 			/*
 			 * добавить их в набор параметров

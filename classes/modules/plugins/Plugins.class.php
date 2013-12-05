@@ -28,10 +28,11 @@
 class PluginAdmin_ModulePlugins extends Module {
 
 	/*
-	 * файлы xml-описания и лого плагина, которые должны быть в корне папки плагина
+	 * файлы xml-описания, лого и файла описания установки плагина, которые должны быть в корне папки плагина
 	 */
 	const LOGO_FILE = 'logo.png';
 	const XML_FILE = 'plugin.xml';
+	const INSTALL_TXT_FILE = 'install.txt';
 
 	/*
 	 * путь к плагинам
@@ -66,7 +67,7 @@ class PluginAdmin_ModulePlugins extends Module {
 	 * Полный путь к xml файлу плагина
 	 *
 	 * @param $sPluginCode	код плагина
-	 * @return string 		Полный путь к файлу и его имя
+	 * @return string 		полный путь к файлу и его имя
 	 */
 	protected function GetXmlFileFullPath($sPluginCode) {
 		return $this->GetPluginRootFolderFileFullPath($sPluginCode, self::XML_FILE);
@@ -77,10 +78,21 @@ class PluginAdmin_ModulePlugins extends Module {
 	 * Полный путь к файлу лого плагина (изображение)
 	 *
 	 * @param $sPluginCode	код плагина
-	 * @return string		Полный путь к файлу и его имя
+	 * @return string		полный путь к файлу и его имя
 	 */
 	protected function GetLogoFileFullPath($sPluginCode) {
 		return $this->GetPluginRootFolderFileFullPath($sPluginCode, self::LOGO_FILE);
+	}
+
+
+	/**
+	 * Полный путь к файлу описания установки плагина (текстовый файл)
+	 *
+	 * @param $sPluginCode	код плагина
+	 * @return string		полный путь к файлу и его имя
+	 */
+	protected function GetInstallTxtFileFullPath($sPluginCode) {
+		return $this->GetPluginRootFolderFileFullPath($sPluginCode, self::INSTALL_TXT_FILE);
 	}
 
 
@@ -91,20 +103,6 @@ class PluginAdmin_ModulePlugins extends Module {
 	 */
 	protected function GetAllPluginsCodes() {
 		return array_map('basename', glob($this->sPluginPath . '*', GLOB_ONLYDIR));
-	}
-
-
-	/**
-	 * Получает информацию из xml файла плагина на основе основного языка сайта
-	 *
-	 * @param $sXmlFile 				Путь к xml файлу
-	 * @return null|SimpleXMLElement
-	 */
-	protected function GetPluginXmlData($sXmlFile) {
-		if ($oXml = @simplexml_load_file($sXmlFile)) {
-			return $this->SetXmlPropertiesForLang($oXml);
-		}
-		return null;
 	}
 
 
@@ -125,6 +123,20 @@ class PluginAdmin_ModulePlugins extends Module {
 		$oXml->homepage = $this->Text_JevixParser((string) $oXml->homepage);
 		$oXml->settings = preg_replace('#{([^}]+)}#', Router::GetPath('$1'), $oXml->settings);
 		return $oXml;
+	}
+
+
+	/**
+	 * Получает информацию из xml файла плагина на основе основного языка сайта
+	 *
+	 * @param $sXmlFile 				Путь к xml файлу
+	 * @return null|SimpleXMLElement
+	 */
+	protected function GetPluginXmlData($sXmlFile) {
+		if ($oXml = @simplexml_load_file($sXmlFile)) {
+			return $this->SetXmlPropertiesForLang($oXml);
+		}
+		return null;
 	}
 
 
@@ -164,41 +176,96 @@ class PluginAdmin_ModulePlugins extends Module {
 	/**
 	 * Получает список плагинов по фильтру
 	 *
-	 * @param array $aFilter			Фильтр
+	 * @param array $aFilter			фильтр
 	 * @return array
 	 */
 	public function GetPluginsList($aFilter = array()) {
 		$aPlugins = array();
+		/*
+		 * коды активных плагинов (так быстрее)
+		 */
 		$aActivePluginsCodes = $this->GetActivePlugins();
 		foreach($this->GetAllPluginsCodes() as $sPluginCode) {
-			$aPluginInfo = array();
 			/*
-			 * код плагина
+			 * получить сущность плагина
 			 */
-			$aPluginInfo['code'] = $sPluginCode;
+			if (($oPlugin = $this->GetPluginByCode($sPluginCode, $aActivePluginsCodes, $aFilter, false, false)) === false) {
+				continue;
+			}
 			/*
-			 * включен ли
+			 * ключ массива - имя папки (код) плагина
 			 */
-			$aPluginInfo['active'] = in_array($sPluginCode, $aActivePluginsCodes);
-			/*
-			 * информация о плагине из xml данных
-			 */
-			$aPluginInfo['xml'] = $this->GetXmlObject($sPluginCode);
-			/*
-			 * лого плагина
-			 */
-			$aPluginInfo['logo'] = $this->GetLogoImage($sPluginCode);
-			/*
-			 * получить сущность плагина, ключ массива - имя папки плагина
-			 */
-			$aPlugins[$sPluginCode] = Engine::GetEntity('PluginAdmin_Plugins', $aPluginInfo);
+			$aPlugins[$sPluginCode] = $oPlugin;
 		}
-
-		/*
-		 * todo: filter
-		 */
-
 		return $aPlugins;
+	}
+
+
+	/**
+	 * Получить сущность плагина по коду (папке плагина)
+	 *
+	 * @param       $sPluginCode				код плагина
+	 * @param array $aActivePluginsCodes		массив кодов активированных плагинов (для метода "active"), может быть пропущен
+	 * @param array $aFilter					фильтр (для проверки активированности плагина и прерывания сбора дальнейшей информации, если не подходит для фильтра), может быть пропущен
+	 * @param bool $bCheckPluginFolder			нужно ли проверять есть ли такой плагин в системе
+	 * @param bool $bThrowExceptionOnWrongXml	бросать исключение если xml файл плагина поврежден
+	 * @return bool|Entity						сущность плагина или false в случае ошибки или не попадание под условия фильтра
+	 * @throws Exception
+	 */
+	public function GetPluginByCode($sPluginCode, $aActivePluginsCodes = array(), $aFilter = array(), $bCheckPluginFolder = true, $bThrowExceptionOnWrongXml = true) {
+		/*
+		 * нужно ли проверять есть ли такой плагин в системе
+		 */
+		if ($bCheckPluginFolder and !in_array($sPluginCode, $this->GetAllPluginsCodes())) return false;
+		/*
+		 * если список активных плагинов не был передан - получить коды активных плагинов
+		 */
+		$aActivePluginsCodes = empty($aActivePluginsCodes) ? $this->GetActivePlugins() : $aActivePluginsCodes;
+		/*
+		 * собрать данные по плагину
+		 */
+		$aPluginInfo = array();
+		/*
+		 * код плагина
+		 */
+		$aPluginInfo['code'] = $sPluginCode;
+		/*
+		 * включен ли
+		 */
+		$aPluginInfo['active'] = in_array($sPluginCode, $aActivePluginsCodes);
+		/*
+		 * проверка отбора только активных или неактивных плагинов
+		 */
+		if (isset($aFilter['active']) and $aPluginInfo['active'] !== $aFilter['active']) {
+			/*
+			 * по фильтру нужны только активные или неактивные плагины
+			 */
+			return false;
+		}
+		/*
+		 * информация о плагине из xml данных
+		 */
+		if (!$aPluginInfo['xml'] = $this->GetXmlObject($sPluginCode)) {
+			/*
+			 * если xml файл плагина некорректен или поврежден - исключить из списка
+			 */
+			if ($bThrowExceptionOnWrongXml) {
+				throw new Exception('Admin: error: plugin`s xml file is incorrect for plugin "' . $sPluginCode . '" in ' . __METHOD__);
+			}
+			return false;
+		}
+		/*
+		 * лого плагина
+		 */
+		$aPluginInfo['logo'] = $this->GetLogoImage($sPluginCode);
+		/*
+		 * получить серверный путь к файлу install.txt
+		 */
+		$aPluginInfo['install_instructions_path'] = $this->CheckInstallTxtFile($sPluginCode);
+		/*
+		 * получить сущность плагина
+		 */
+		return Engine::GetEntity('PluginAdmin_Plugins', $aPluginInfo);
 	}
 
 
@@ -207,13 +274,42 @@ class PluginAdmin_ModulePlugins extends Module {
 	 *
 	 * @return array
 	 */
-	public function GetActivePlugins() {
-		/**
-		 * Читаем данные из файла PLUGINS.DAT
+	protected function GetActivePlugins() {
+		/*
+		 * данные из файла PLUGINS.DAT
 		 */
 		$aPlugins = @file($this->sPluginPath . Config::Get('sys.plugins.activation_file'));
 		$aPlugins = (is_array($aPlugins)) ? array_unique(array_map('trim', $aPlugins)) : array();
 		return $aPlugins;
+	}
+
+
+	/**
+	 * Проверить урл файла описания установки плагина
+	 *
+	 * @param $sPluginCode				код плагина
+	 * @return null|SimpleXMLElement	обьект данных
+	 */
+	protected function CheckInstallTxtFile($sPluginCode) {
+		$sInstallTxtFile = $this->GetInstallTxtFileFullPath($sPluginCode);
+		if (file_exists($sInstallTxtFile)) {
+			return $sInstallTxtFile;
+		}
+		return null;
+	}
+
+
+	/**
+	 * Получить текст файла описания установки
+	 *
+	 * @param $sPluginCode				код плагина
+	 * @return null|string
+	 */
+	public function GetInstallFileText($sPluginCode) {
+		if ($sInstallTxtFilePath = $this->CheckInstallTxtFile($sPluginCode) and ($sText = @file_get_contents($sInstallTxtFilePath)) !== false) {
+			return $sText;
+		}
+		return null;
 	}
 
 

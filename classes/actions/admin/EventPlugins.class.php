@@ -29,18 +29,56 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 	 * Список плагинов
 	 */
 	public function EventPluginsList() {
-		$this->Viewer_Assign('aPluginsInfo', $this->GetAllPluginLists());
-		$this->SetTemplateAction('plugins');
+		$this->SetTemplateAction('plugins/list');
+		/*
+		 * проверить тип фильтра
+		 */
+		$aFilter = array();
+		switch (getRequestStr('type')) {
+			/*
+			 * активные плагины
+			 */
+			case '':
+			case 'activated':
+				$aFilter['active'] = true;
+				break;
+			/*
+			 * деактивированные
+			 */
+			case 'deactivated':
+				$aFilter['active'] = false;
+				break;
+			/*
+			 * весь список
+			 */
+			case 'all':
+				break;
+			/*
+			 * с обновлениями
+			 */
+			case 'updates':
+
+				// todo
+
+				break;
+			/*
+			 * неизвестный тип
+			 */
+			default:
+				$this->Message_AddError($this->Lang('errors.plugins.unknown_filter_type'), $this->Lang_Get('error'));
+		}
+		$this->Viewer_Assign('aPluginsInfo', $this->GetPluginLists($aFilter));
 	}
 
 
 	/**
 	 * Получить список плагинов по имени
+	 *
+	 * @param $aFilter		фильтр
 	 * @return mixed
 	 */
-	private function GetAllPluginLists() {
-		//return $this->Plugin_GetList(array('order' => 'name'));
-		return $this->PluginAdmin_Plugins_GetPluginsList();
+	private function GetPluginLists($aFilter) {
+		return $this->PluginAdmin_Plugins_GetPluginsList($aFilter);
 	}
 
 
@@ -60,7 +98,9 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 			$this->Message_AddError($this->Lang('errors.plugins.unknown_action'), $this->Lang_Get('error'), true);
 			return $this->RedirectToReferer();
 		}
-
+		/*
+		 * выполнить (де)активацию плагина
+		 */
 		if($bResult = $this->Plugin_Toggle($sPlugin, $sAction)) {
 			$this->Message_AddNotice('Ok', '', true);
 		} else {
@@ -72,6 +112,20 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 			}
 		}
 		$this->RedirectToReferer();
+	}
+
+
+	/**
+	 * Показать страницу с инструкциями по установке плагина
+	 *
+	 * @return mixed
+	 */
+	public function EventPluginInstructions() {
+		$this->SetTemplateAction('plugins/show_install_txt');
+		if (!$oPlugin = $this->PluginAdmin_Plugins_GetPluginByCode(getRequestStr('plugin'))) {
+			return $this->Message_AddError($this->Lang('errors.plugins.plugin_not_found'), $this->Lang_Get('error'));
+		}
+		$this->Viewer_Assign('oPlugin', $oPlugin);
 	}
 
 }
