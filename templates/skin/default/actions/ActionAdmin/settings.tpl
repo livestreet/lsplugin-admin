@@ -10,7 +10,7 @@
 		{if $sConfigName==$sAdminSystemConfigId}
 			{$aLang.plugin.admin.settings.titles.main_config}
 		{else}
-			{$aLang.plugin.admin.settings.titles.plugin_config} "{$sConfigName}"
+			{$aLang.plugin.admin.settings.titles.plugin_config} "<span title="{$sConfigName}">{$oPlugin->getName()}</span>"
 		{/if}
 	{/if}
 {/block}

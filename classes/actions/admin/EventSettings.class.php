@@ -52,6 +52,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 		
 		$this->Viewer_Assign('aSettingsAll', $aSettingsAll);
 		$this->Viewer_Assign('sConfigName', $sConfigName);
+		$this->Viewer_Assign('oPlugin', $this->PluginAdmin_Plugins_GetPluginByCode($sConfigName));
 		$this->Lang_AddLangJs(array('plugin.admin.errors.some_fields_are_incorrect'));
 	}
 
@@ -104,6 +105,12 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 		}
 	}
 
+
+	/*
+	 *
+	 * --- Хелперы ---
+	 *
+	 */
 
 	/**
 	 * Выполнить сохранение настроек

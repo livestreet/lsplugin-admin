@@ -1,5 +1,5 @@
 {**
- * Список плагинов
+ * Управление своими настройками плагином (интеграция интерфейса плагина в админку)
  *}
 
 {extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
