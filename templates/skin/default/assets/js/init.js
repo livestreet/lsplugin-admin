@@ -65,7 +65,13 @@ jQuery(document).ready(function($) {
 	        at: "right bottom",
 	        collision: "flipfit flip"
 		},
-		body: true
+		body: true,
+		show: {
+			effect: 'fadeIn'
+		},
+		hide: {
+			effect: 'fadeOut'
+		}
 	});
 	/*
 		используется для списка сортировок столбца таблицы
@@ -76,7 +82,13 @@ jQuery(document).ready(function($) {
 			at: "left bottom",
 			collision: "flipfit flip"
 		},
-		body: true
+		body: true,
+		show: {
+			effect: 'fadeIn'
+		},
+		hide: {
+			effect: 'fadeOut'
+		}
 	});
 
 	/* Юзербар */
@@ -91,6 +103,12 @@ jQuery(document).ready(function($) {
 			// Задаем минимальную ширину меню
 			var toggleWidth = dropdown.element.outerWidth();
 			dropdown._target.css('width', toggleWidth > 200 ? toggleWidth : 'auto' );
+		},
+		show: {
+			effect: 'fadeIn'
+		},
+		hide: {
+			effect: 'fadeOut'
 		}
 	});
 
