@@ -30,8 +30,6 @@
 .nav-main ul li.active a      { background: #fff; }
 .nav-main ul li.active a span { border: none; color: #000; font-weight: bold; }
 
-.nav-main li.open ul { display: block; }
-
 /* Separator */
 .nav-main ul:after,
 .nav-main ul:before { content: ""; position: absolute; bottom: -1px; left: 5%; width: 90%; height: 0; border-bottom: 1px solid #dbdbdb; }

@@ -56,7 +56,7 @@
 
 @media (max-width: 999px)  {
     .block-type-nav { display: none; margin-top: 10px; }
-    .block-type-nav.is-open { display: block; }
+    .block-type-nav.open { display: block; }
 }
 
 

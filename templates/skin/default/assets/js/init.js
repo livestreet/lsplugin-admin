@@ -154,7 +154,7 @@ jQuery(document).ready(function($) {
 	var $navMain = $('.js-nav-main');
 
 	$('.js-nav-main-toggle').on('click', function () {
-		$navMain[ $navMain.is(':visible') ? 'removeClass' : 'addClass' ]('is-open');
+		$navMain.toggleClass('open');
 	});
 
 
@@ -164,30 +164,33 @@ jQuery(document).ready(function($) {
 	 * @template navs/nav.main.tpl
 	 */
 	(function () {
-		var cookieName = 'nav_main_items',
+		var cookieName = 'plugin_admin_nav_main_items',
 			cookie = $.cookie(cookieName),
 			items = cookie ? cookie.split(',') : [];
 
 		$navMain.find('.js-nav-main-item-root > a').on('click', function (e) {
 			var $element = $(this).closest('li'),
+				$menu = $element.find('ul'),
 				id = $element.data('item-id'),
 				isOpen = $element.hasClass('open'),
 				cookie = $.cookie(cookieName),
 				items = cookie ? cookie.split(',') : [];
 
 			if (isOpen) {
-				// Remove
+				// Close
 				var index = items.indexOf(id + "");
 				if (index !== -1) items.splice(index, 1);
-				$.cookie(cookieName, items.join(','), { path: '/' });
+				$.cookie(cookieName, items.join(','), { path: '/', expires: 999 });
 
 				$element.removeClass('open');
+				$menu.slideUp(200);
 			} else {
-				// Add
+				// Open
 				items.push(id);
-				$.cookie(cookieName, items.join(','), { path: '/' });
+				$.cookie(cookieName, items.join(','), { path: '/', expires: 999 });
 
 				$element.addClass('open');
+				$menu.slideDown(200);
 			}
 
 			e.preventDefault();
@@ -196,9 +199,13 @@ jQuery(document).ready(function($) {
 		// Open items
 		$('.js-nav-main-item-root').each(function () {
 			var $element = $(this),
+				$menu = $element.find('ul'),
 				id = $element.data('item-id');
 
-			if ( items.indexOf(id + "") != -1 ) $element.addClass('open');
+			if ( items.indexOf(id + "") != -1 ) {
+				$element.addClass('open');
+				$menu.show();
+			}
 		});
 	})();
 });
