@@ -67,18 +67,7 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 			default:
 				$this->Message_AddError($this->Lang('errors.plugins.unknown_filter_type'), $this->Lang_Get('error'));
 		}
-		$this->Viewer_Assign('aPluginsInfo', $this->GetPluginLists($aFilter));
-	}
-
-
-	/**
-	 * Получить список плагинов по имени
-	 *
-	 * @param $aFilter		фильтр
-	 * @return mixed
-	 */
-	private function GetPluginLists($aFilter) {
-		return $this->PluginAdmin_Plugins_GetPluginsList($aFilter);
+		$this->Viewer_Assign('aPluginsInfo', $this->PluginAdmin_Plugins_GetPluginsList($aFilter));
 	}
 
 

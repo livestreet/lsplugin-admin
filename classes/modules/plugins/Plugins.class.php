@@ -185,7 +185,11 @@ class PluginAdmin_ModulePlugins extends Module {
 		 * коды активных плагинов (так быстрее)
 		 */
 		$aActivePluginsCodes = $this->GetActivePlugins();
-		foreach($this->GetAllPluginsCodes() as $sPluginCode) {
+		/*
+		 * коды всех плагинов
+		 */
+		$aAllPluginsCodes = $this->GetAllPluginsCodes();
+		foreach($aAllPluginsCodes as $sPluginCode) {
 			/*
 			 * получить сущность плагина
 			 */
@@ -197,7 +201,11 @@ class PluginAdmin_ModulePlugins extends Module {
 			 */
 			$aPlugins[$sPluginCode] = $oPlugin;
 		}
-		return $aPlugins;
+		return array(
+			'collection' => $aPlugins,
+			'count' => count($aPlugins),
+			'count_all' => count($aAllPluginsCodes)
+		);
 	}
 
 

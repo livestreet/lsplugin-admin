@@ -16,7 +16,7 @@
 			{$aLang.plugin.admin.plugins.instructions.description}
 		</div>
 		<div class="mb-30 plugin-instructions">
-			{$oPlugin->getInstallInstructionsText()|nl2br}
+			{$oPlugin->getInstallInstructionsText()|escape:'html'|nl2br}
 		</div>
 		<div class="Controls">
 			<a href="{$oPlugin->getActivateUrl(false)}" title="{$aLang.plugins_plugin_activate}"
