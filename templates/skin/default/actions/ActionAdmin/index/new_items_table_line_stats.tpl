@@ -17,21 +17,29 @@
 				<div class="ratings-graph" title="{$sGraphLineTitle}">
 
 					{if $aDataGrowth[$sObjectsType][$sDataType]['total']}
-						<div class="negative" style="width: {$aDataGrowth[$sObjectsType][$sDataType]['negative']*100/$aDataGrowth[$sObjectsType][$sDataType]['total']}%">
+						{$iNegativePercentage = number_format($aDataGrowth[$sObjectsType][$sDataType]['negative']*100/$aDataGrowth[$sObjectsType][$sDataType]['total'], 2, '.', '')}
+
+						<div class="negative" style="width: {$iNegativePercentage}%">
 							{if $aDataGrowth[$sObjectsType][$sDataType]['negative']}
 								<div class="inner-value">
 									{$aDataGrowth[$sObjectsType][$sDataType]['negative']}
 								</div>
 							{/if}
 						</div>
-						<div class="neutral" style="width: {$aDataGrowth[$sObjectsType][$sDataType]['neutral']*100/$aDataGrowth[$sObjectsType][$sDataType]['total']}%">
+
+						{$iNeutralPercentage = number_format($aDataGrowth[$sObjectsType][$sDataType]['neutral']*100/$aDataGrowth[$sObjectsType][$sDataType]['total'], 2, '.', '')}
+
+						<div class="neutral" style="width: {$iNeutralPercentage}%">
 							{if $aDataGrowth[$sObjectsType][$sDataType]['neutral']}
 								<div class="inner-value">
 									{$aDataGrowth[$sObjectsType][$sDataType]['neutral']}
 								</div>
 							{/if}
 						</div>
-						<div class="positive" style="width: {$aDataGrowth[$sObjectsType][$sDataType]['positive']*100/$aDataGrowth[$sObjectsType][$sDataType]['total']}%">
+
+						{$iPositivePercentage = number_format($aDataGrowth[$sObjectsType][$sDataType]['positive']*100/$aDataGrowth[$sObjectsType][$sDataType]['total'], 2, '.', '')}
+
+						<div class="positive" style="width: {$iPositivePercentage}%">
 							{if $aDataGrowth[$sObjectsType][$sDataType]['positive']}
 								<div class="inner-value">
 									{$aDataGrowth[$sObjectsType][$sDataType]['positive']}
