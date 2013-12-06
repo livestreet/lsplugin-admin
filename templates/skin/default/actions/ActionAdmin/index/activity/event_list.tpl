@@ -4,7 +4,7 @@
 
 {if count($aStreamEvents)}
 	<ul id="activity-event-list">
-		{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/stream/events.tpl"}
+		{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/activity/events.tpl"}
 	</ul>
 
 	{if ! $bDisableGetMoreButton}

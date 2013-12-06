@@ -1,15 +1,24 @@
-{extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
+{**
+ * Страница вывода ошибок
+ *}
+
+{extends file='layouts/layout.base.tpl'}
 
 {block name='layout_options'}
 	{$bNoSidebar = true}
-	{$noShowSystemMessage = true}
+	{$bNoSystemMessages = true}
+{/block}
+
+{block name='layout_page_title'}
+	{if $aMsgError[0].title}
+		{$aLang.error}: <span>{$aMsgError[0].title}</span>
+	{/if}
 {/block}
 
 {block name='layout_content'}
-	{if $aMsgError[0].title}
-    	<h2>{$aLang.error}: <span>{$aMsgError[0].title}</span></h2>
-	{/if}
-
 	<p>{$aMsgError[0].msg}</p>
-	<p><a href="javascript:history.go(-1);">{$aLang.site_history_back}</a>, <a href="{router page='admin'}">{$aLang.site_go_main}</a></p>
+	<p>
+		<a href="javascript:history.go(-1);">{$aLang.site_history_back}</a>, 
+		<a href="{cfg name='path.root.web'}">{$aLang.site_go_main}</a>
+	</p>
 {/block}

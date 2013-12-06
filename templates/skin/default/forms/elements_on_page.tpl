@@ -1,18 +1,12 @@
+{**
+ * Форма изменения количества элементов на страницу
+ *
+ * @param $sFormActionPath Путь к екшену ({router page='admin/bans/ajax-on-page'})
+ * @param $iCurrentValue   Текущее значение ($oConfig->Get('plugin.admin.bans.per_page'))
+ * @param $sFormId         id формы (не обязательно, по-умолчанию "admin_onpage")
+ *}
 
-{*
-	Форма изменения количества элементов на страницу
-
-	Передаваемые параметры:
-
-		$sFormActionPath - путь к екшену ({router page='admin/bans/ajax-on-page'})
-		$iCurrentValue - текущее значение ($oConfig->Get('plugin.admin.bans.per_page'))
-		$sFormId - id формы (не обязательно, по-умолчанию "admin_onpage")
-
-*}
-
-{*
-	Если ид не указан - использовать по-умолчанию
-*}
+{* Если ид не указан - использовать по-умолчанию *}
 {if !$sFormId}
 	{assign var=sFormId value="admin_onpage"}
 {/if}

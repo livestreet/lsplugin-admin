@@ -1,3 +1,7 @@
+{**
+ * Список плагинов
+ *}
+
 {extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
 
 {block name='layout_head_end' append}

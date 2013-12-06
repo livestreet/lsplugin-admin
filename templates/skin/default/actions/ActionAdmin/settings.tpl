@@ -1,3 +1,7 @@
+{**
+ * Настройки
+ *}
+
 {extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
 
 

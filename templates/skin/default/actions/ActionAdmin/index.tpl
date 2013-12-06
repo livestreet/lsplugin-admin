@@ -1,3 +1,7 @@
+{**
+ * Главная страница
+ *}
+
 {extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
 
 
@@ -52,9 +56,11 @@
 		{include file="{$aTemplatePathPlugin.admin}blocks/block.home.stats.tpl"}
 	</div>
 
-	{*
-		Данные о последнем входе пользователя в админку
-	*}
-	{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/last_join_info.tpl"}
 
+	{**
+	 * Данные о последнем входе пользователя в админку
+	 *}
+	{if $aLastVisitData.date}
+		{include file="{$aTemplatePathPlugin.admin}alert.tpl" mAlerts="{$aLang.plugin.admin.hello.last_visit} {date_format date=$aLastVisitData.date format="j F Y в H:i"}."}
+	{/if}
 {/block}

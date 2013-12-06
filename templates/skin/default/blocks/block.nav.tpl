@@ -1,3 +1,9 @@
+{**
+ * Блок с главным меню
+ *
+ * @styles blocks.css
+ *}
+
 {extends file="{$aTemplatePathPlugin.admin}blocks/block.aside.base.tpl"}
 
 {block name='block_type'}nav{/block}

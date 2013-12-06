@@ -37,7 +37,7 @@
 {/block}
 
 {block name='block_content'}
-	{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/stream/event_list.tpl"}
+	{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/activity/event_list.tpl"}
 {/block}
 
 {block name='block_footer'}

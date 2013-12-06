@@ -1,3 +1,7 @@
+{**
+ * Список шаблонов
+ *}
+
 {extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
 
 
@@ -13,7 +17,7 @@
 		{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/skin/skin.tpl" oSkin=$oCurrentSkin}
 	</div>
 	
-	<h2 class="page-sub-header"> {$aLang.plugin.admin.settings.titles.skin_config} </h2>
+	<h2 class="page-sub-header">{$aLang.plugin.admin.settings.titles.skin_config}</h2>
 
 	<div class="skin-list">
 		{foreach from=$aSkins item=oSkin name=SkinForCycle}
