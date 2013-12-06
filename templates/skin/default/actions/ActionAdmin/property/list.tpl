@@ -12,7 +12,7 @@
 	<a href="{router page="admin/properties/{$sPropertyTargetType}/create"}" class="button button-primary">{$aLang.plugin.admin.add}</a>
 {/block}
 
-{block name='layout_page_title'}Список полей плагина PluginName{/block}
+{block name='layout_page_title'}Список полей типа &laquo;{$sPropertyTargetParams.name}&raquo;{/block}
 
 {block name='layout_content'}
 	{if $aPropertyItems}

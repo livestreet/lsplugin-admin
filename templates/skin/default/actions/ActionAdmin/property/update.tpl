@@ -8,10 +8,10 @@
 {extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
 
 {block name='layout_content_actionbar'}
-	<a href="#" class="button">&larr; Назад к списку полей</a>
+	<a href="{router page="admin/properties/{$sPropertyTargetType}"}" class="button">&larr; Назад к списку полей</a>
 {/block}
 
-{block name='layout_page_title'}Редактирование поля{/block}
+{block name='layout_page_title'}Редактирование поля для типа &laquo;{$sPropertyTargetParams.name}&raquo;{/block}
 
 {block name='layout_content'}
 	<form method="post">

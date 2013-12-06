@@ -36,6 +36,7 @@ class PluginAdmin_ActionAdmin_EventProperty extends Event {
 		$aProperties=$this->Property_GetPropertyItemsByFilter(array('target_type'=>$sTargetType,'#order'=>array('sort'=>'desc')));
 		$this->Viewer_Assign('aPropertyItems',$aProperties);
 		$this->Viewer_Assign('sPropertyTargetType',$sTargetType);
+		$this->Viewer_Assign('sPropertyTargetParams',$this->Property_GetTargetTypeParams($sTargetType));
 
 		$this->SetTemplateAction('property/list');
 	}
@@ -112,6 +113,8 @@ class PluginAdmin_ActionAdmin_EventProperty extends Event {
 		}
 
 		$this->Viewer_Assign('oProperty',$oProperty);
+		$this->Viewer_Assign('sPropertyTargetType',$sTargetType);
+		$this->Viewer_Assign('sPropertyTargetParams',$this->Property_GetTargetTypeParams($sTargetType));
 		$this->SetTemplateAction('property/update');
 	}
 
@@ -138,6 +141,8 @@ class PluginAdmin_ActionAdmin_EventProperty extends Event {
 				$this->Message_AddError($oProperty->_getValidateError(),$this->Lang_Get('error'));
 			}
 		}
+		$this->Viewer_Assign('sPropertyTargetType',$sTargetType);
+		$this->Viewer_Assign('sPropertyTargetParams',$this->Property_GetTargetTypeParams($sTargetType));
 		$this->SetTemplateAction('property/create');
 	}
 

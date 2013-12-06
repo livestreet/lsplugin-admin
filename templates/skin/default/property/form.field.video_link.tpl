@@ -7,5 +7,5 @@
 		 sFieldLabel   = $oProperty->getTitle()}
 
 {* TODO: Модального нету *}
-{*include file="{$aTemplatePathPlugin.admin}modals/modal.property_type_video.tpl" oValue=$oValue*}
-<p class="mb-20"><a href="#" class="link-dotted" data-type="modal-toggle" data-option-target="modal-property-type-video-{$oValue->getId()}">Смотреть</a></p>
+{include file="{$aTemplatePathPlugin.admin}modals/modal.property_type_video.tpl" oValue=$oValue}
+<p class="mb-20"><a href="#" class="link-dotted" data-modal-target="modal-property-type-video-{$oValue->getId()}">Смотреть</a></p>
