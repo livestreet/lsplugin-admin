@@ -164,7 +164,7 @@ class PluginAdmin_ModulePlugins extends Module {
 	protected function GetLogoImage($sPluginCode){
 		$sLogoFile = $this->GetLogoFileFullPath($sPluginCode);
 		if (file_exists($sLogoFile)) {
-			return $this->GetWebPath($sLogoFile);
+			return $this->PluginAdmin_Tools_GetWebPath($sLogoFile);
 		}
 		/*
 		 * получить лого из каталога
@@ -321,22 +321,6 @@ class PluginAdmin_ModulePlugins extends Module {
 	}
 
 
-
-
-	/*
-	 *
-	 * todo: вынести этот метод в тулс и заменить из модуля шаблонов такой же метод аналог
-	 *
-	 */
-	/**
-	 * Возвращает веб-путь из серверного
-	 *
-	 * @param $sPath	серверный путь
-	 * @return mixed	веб путь
-	 */
-	protected function GetWebPath($sPath) {
-		return $this->Image_GetWebPath($sPath);											// todo: in engine export this funcs into tools module
-	}
 
 
 	/*

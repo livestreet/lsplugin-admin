@@ -236,6 +236,26 @@ class PluginAdmin_ModuleTools extends Module {
 		return substr($sText, 0, 3) === pack('CCC', 0xEF, 0xBB, 0xBF);
 	}
 
+
+	/*
+	 *
+	 * --- Хелперы ---
+	 *
+	 */
+
+	/**
+	 * Возвращает веб-путь из серверного
+	 *
+	 * @param $sPath	серверный путь
+	 * @return mixed	веб путь
+	 */
+	public function GetWebPath($sPath) {
+		/*
+		 * todo: в движке этот метод давно нужно бы вынести из модуля изображений в модуль tools
+		 */
+		return $this->Image_GetWebPath($sPath);
+	}
+
 }
 
 ?>

@@ -138,7 +138,7 @@ class PluginAdmin_ModuleSkin extends Module {
 	protected function GetSkinPreviewImage($sSkinName){
 		$sSkinPreviewFile = $this->GetSkinPreviewFile($sSkinName);
 		if (file_exists($sSkinPreviewFile)) {
-			return $this->GetWebPath($sSkinPreviewFile);
+			return $this->PluginAdmin_Tools_GetWebPath($sSkinPreviewFile);
 		}
 		return null;
 	}
@@ -212,17 +212,6 @@ class PluginAdmin_ModuleSkin extends Module {
 			$data=$oXml->xpath("{$sProperty}/lang[@name='default']");
 		}
 		$oXml->$sProperty->data=$this->Text_Parser(trim((string)array_shift($data)));
-	}
-
-
-	/**
-	 * Возвращает веб-путь из серверного
-	 *
-	 * @param $sPath	серверный путь
-	 * @return mixed	веб путь
-	 */
-	protected function GetWebPath($sPath) {
-		return $this->Image_GetWebPath($sPath);											// todo: in engine export this funcs into tools module
 	}
 
 
