@@ -35,28 +35,28 @@ $config['encoding_checking_dirs'] = array(
 	/*
 	 * все конфиги: конфиг, жевикс, загрузчик
 	 */
-	array('path' => Config::Get('path.framework.server') . '/config/', 'file_masks' => 'php'),
+	array('path' => Config::Get('path.framework.server') . '/config/', 'file_extensions' => 'php'),
 	/*
 	 * все css файлы
 	 */
-	array('path' => Config::Get('path.framework.server') . '/frontend/framework/css/', 'file_masks' => 'css'),
+	array('path' => Config::Get('path.framework.server') . '/frontend/framework/css/', 'file_extensions' => 'css'),
 	/*
 	 * все js файлы (кроме папки vendor, которую никто не редактирует)
 	 */
-	array('path' => Config::Get('path.framework.server') . '/frontend/framework/js/core/', 'file_masks' => 'js'),
-	array('path' => Config::Get('path.framework.server') . '/frontend/framework/js/ui/', 'file_masks' => 'js'),
+	array('path' => Config::Get('path.framework.server') . '/frontend/framework/js/core/', 'file_extensions' => 'js'),
+	array('path' => Config::Get('path.framework.server') . '/frontend/framework/js/ui/', 'file_extensions' => 'js'),
 	/*
 	 * языковые файлы
 	 */
-	array('path' => Config::Get('path.framework.server') . '/frontend/i18n/', 'file_masks' => 'php'),
+	array('path' => Config::Get('path.framework.server') . '/frontend/i18n/', 'file_extensions' => 'php'),
 	/*
 	 * файлы шаблонов
 	 */
-	array('path' => Config::Get('path.framework.server') . '/frontend/templates/', 'file_masks' => array('tpl', 'js', 'css')),
+	array('path' => Config::Get('path.framework.server') . '/frontend/templates/', 'file_extensions' => array('tpl', 'js', 'css')),
 	/*
 	 * файлы инклуда
 	 */
-	array('path' => Config::Get('path.framework.server') . '/include/', 'file_masks' => 'php'),
+	array('path' => Config::Get('path.framework.server') . '/include/', 'file_extensions' => 'php'),
 
 
 	/*
@@ -67,27 +67,27 @@ $config['encoding_checking_dirs'] = array(
 	/*
 	 * все конфиги: конфиг, жевикс
 	 */
-	array('path' => Config::Get('path.application.server') . '/config/', 'file_masks' => 'php'),
+	array('path' => Config::Get('path.application.server') . '/config/', 'file_extensions' => 'php'),
 	/*
 	 * все js файлы
 	 */
-	array('path' => Config::Get('path.application.server') . '/frontend/common/js/', 'file_masks' => 'js'),
+	array('path' => Config::Get('path.application.server') . '/frontend/common/js/', 'file_extensions' => 'js'),
 	/*
 	 * языковые файлы
 	 */
-	array('path' => Config::Get('path.application.server') . '/frontend/i18n/', 'file_masks' => 'php'),
+	array('path' => Config::Get('path.application.server') . '/frontend/i18n/', 'file_extensions' => 'php'),
 	/*
 	 * файлы шаблонов
 	 */
-	array('path' => Config::Get('path.application.server') . '/frontend/skin/', 'file_masks' => array('tpl', 'js', 'css')),
+	array('path' => Config::Get('path.application.server') . '/frontend/skin/', 'file_extensions' => array('tpl', 'js', 'css')),
 	/*
 	 * файлы инклуда
 	 */
-	array('path' => Config::Get('path.application.server') . '/include/', 'file_masks' => 'php'),
+	array('path' => Config::Get('path.application.server') . '/include/', 'file_extensions' => 'php'),
 	/*
 	 * проверить файлы крона
 	 */
-	array('path' => Config::Get('path.application.server') . '/utilities/cron/', 'file_masks' => 'php'),
+	array('path' => Config::Get('path.application.server') . '/utilities/cron/', 'file_extensions' => 'php'),
 
 
 	/*
@@ -98,19 +98,19 @@ $config['encoding_checking_dirs'] = array(
 	/*
 	 * конфиги плагинов
 	 */
-	array('path' => Config::Get('path.application.server') . '/plugins/*/config/', 'file_masks' => 'php'),
+	array('path' => Config::Get('path.application.server') . '/plugins/*/config/', 'file_extensions' => 'php'),
 	/*
 	 * инклуды плагинов
 	 */
-	array('path' => Config::Get('path.application.server') . '/plugins/*/include/', 'file_masks' => 'php'),
+	array('path' => Config::Get('path.application.server') . '/plugins/*/include/', 'file_extensions' => 'php'),
 	/*
 	 * языковые файлы плагинов
 	 */
-	array('path' => Config::Get('path.application.server') . '/plugins/*/templates/i18n/', 'file_masks' => 'php'),
+	array('path' => Config::Get('path.application.server') . '/plugins/*/templates/i18n/', 'file_extensions' => 'php'),
 	/*
 	 * файлы шаблонов плагинов
 	 */
-	array('path' => Config::Get('path.application.server') . '/plugins/*/templates/skin/', 'file_masks' => array('tpl', 'js', 'css')),
+	array('path' => Config::Get('path.application.server') . '/plugins/*/templates/skin/', 'file_extensions' => array('tpl', 'js', 'css')),
 );
 
 return $config;

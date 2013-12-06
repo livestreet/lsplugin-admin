@@ -138,7 +138,7 @@ class PluginAdmin_ModuleTools extends Module {
 			/*
 			 * найти по указанному пути файлы с нужными расширениями
 			 */
-			$aFiles = $this->GetDirsRecursiveListing($aPathAndMask['path'], (array) $aPathAndMask['file_masks']);
+			$aFiles = $this->GetDirsRecursiveListing($aPathAndMask['path'], (array) $aPathAndMask['file_extensions']);
 			/*
 			 * проверить каждый найденный файл
 			 */
