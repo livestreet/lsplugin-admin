@@ -115,7 +115,7 @@ jQuery(document).ready(function($) {
 		 */
 		var aAllowedEmptySearchTypes = ['profile_sex', 'admins_only'];
 		/*
-			флаг, который указывает что для данного поиска разрешено не указывать поисковый запрос
+			флаг, который указывает что для данного типа поиска разрешено не указывать поисковый запрос
 		 */
 		var bAllowEmptyRequest = $.inArray(field.val(), aAllowedEmptySearchTypes) !== -1;
 		/*

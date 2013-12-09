@@ -25,18 +25,16 @@
 				*}
 				{if $bShowGraphTypeSelect}
 					<select name="filter[graph_type]" class="width-150">
-						<option value="{PluginAdmin_ModuleStats::DATA_TYPE_REGISTRATIONS}" {if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_REGISTRATIONS}selected="selected"{/if}>
-							{$aLang.plugin.admin.graph.graph_type[PluginAdmin_ModuleStats::DATA_TYPE_REGISTRATIONS]}
-						</option>
-						<option value="{PluginAdmin_ModuleStats::DATA_TYPE_TOPICS}" {if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_TOPICS}selected="selected"{/if}>
-							{$aLang.plugin.admin.graph.graph_type[PluginAdmin_ModuleStats::DATA_TYPE_TOPICS]}
-						</option>
-						<option value="{PluginAdmin_ModuleStats::DATA_TYPE_COMMENTS}" {if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_COMMENTS}selected="selected"{/if}>
-							{$aLang.plugin.admin.graph.graph_type[PluginAdmin_ModuleStats::DATA_TYPE_COMMENTS]}
-						</option>
-						<option value="{PluginAdmin_ModuleStats::DATA_TYPE_VOTINGS}" {if $sCurrentGraphType==PluginAdmin_ModuleStats::DATA_TYPE_VOTINGS}selected="selected"{/if}>
-							{$aLang.plugin.admin.graph.graph_type[PluginAdmin_ModuleStats::DATA_TYPE_VOTINGS]}
-						</option>
+						{foreach array(
+							PluginAdmin_ModuleStats::DATA_TYPE_REGISTRATIONS,
+							PluginAdmin_ModuleStats::DATA_TYPE_TOPICS,
+							PluginAdmin_ModuleStats::DATA_TYPE_COMMENTS,
+							PluginAdmin_ModuleStats::DATA_TYPE_VOTINGS
+						) as $sGraphType}
+							<option value="{$sGraphType}" {if $sCurrentGraphType==$sGraphType}selected="selected"{/if}>
+								{$aLang.plugin.admin.graph.graph_type[$sGraphType]}
+							</option>
+						{/foreach}
 					</select>
 
 					&nbsp;
