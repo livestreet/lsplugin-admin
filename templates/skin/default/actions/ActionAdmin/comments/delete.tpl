@@ -21,6 +21,6 @@
 		</div>
 
 		{* Кнопки *}
-		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.button.tpl" sFieldName='submit_comment_delete' sFieldStyle='primary question' sFieldText=$aLang.plugin.admin.delete}
+		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.button.tpl" sFieldName='submit_comment_delete' sFieldStyle='primary js-question' sFieldText=$aLang.plugin.admin.delete}
 	</form>
 {/block}

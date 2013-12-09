@@ -23,7 +23,7 @@
 					<td>{$oPropertyItem->getCode()}</td>
 					<td>{$oPropertyItem->getType()}</td>
 					<td class="ta-r">
-						<a href="{$oPropertyItem->getUrlAdminUpdate()}" class="icon-edit" title="$aLang.plugin.admin.edit"></a>
+						<a href="{$oPropertyItem->getUrlAdminUpdate()}" class="icon-edit" title="{$aLang.plugin.admin.edit}"></a>
 					</td>
 				</tr>
 			{/foreach}

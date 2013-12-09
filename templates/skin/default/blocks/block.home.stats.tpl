@@ -1,5 +1,5 @@
 {**
- * Статитстика по комментариям, топикам и т.д.
+ * Статистика по комментариям, топикам и т.д.
  *
  * @styles blocks.css
  *}
@@ -12,11 +12,10 @@
 
 {block name='block_header_end'}
 	<form action="" method="get" enctype="application/x-www-form-urlencoded" id="admin_index_growth_block_form">
-		{*
-			Скрытые поля
-		*}
+		{* Скрытые поля *}
 		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.hidden.security_key.tpl"}
 
+		{* Скрытые поля *}
 		{include file="{$aTemplatePathPlugin.admin}forms/preset_interval.tpl"
 			sName='filter[newly_added_items_period]'
 			sId='admin_index_growth_period_select'

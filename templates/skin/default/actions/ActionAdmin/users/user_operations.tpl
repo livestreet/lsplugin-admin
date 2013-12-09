@@ -6,10 +6,10 @@
 *}
 {if !in_array($oUser->getId(), $oConfig->Get('plugin.admin.block_managing_admin_rights_user_ids'))}
 	{if $oUser->isAdministrator()}
-		<li><a class="question" href="{router page="admin/users/manageadmins/delete/{$oUser->getId()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
+		<li><a class="js-question" href="{router page="admin/users/manageadmins/delete/{$oUser->getId()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
 					>{$aLang.plugin.admin.users.profile.top_bar.admin_delete}</a></li>
 	{else}
-		<li><a class="question" href="{router page="admin/users/manageadmins/add/{$oUser->getId()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
+		<li><a class="js-question" href="{router page="admin/users/manageadmins/add/{$oUser->getId()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
 					>{$aLang.plugin.admin.users.profile.top_bar.admin_add}</a></li>
 	{/if}
 {/if}

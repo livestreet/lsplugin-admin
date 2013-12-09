@@ -17,15 +17,11 @@
 
 {block name='layout_content'}
 	<form action="{router page='admin/users/bans/add'}" method="post" enctype="application/x-www-form-urlencoded">
-		{*
-			Скрытые поля
-		*}
+		{* Скрытые поля *}
 		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.hidden.security_key.tpl"}
 		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.hidden.tpl" sFieldName='ban_id' sFieldValue=$_aRequest.id}
 
-		{*
-			Пользователь
-		*}
+		{* Пользователь *}
 		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
 				sFieldName    = 'user_sign'
 				sFieldClasses = 'width-250'
@@ -33,17 +29,14 @@
 				sFieldLabel   = $aLang.plugin.admin.bans.add.user_sign
 				sFieldId	  = 'admin_bans_user_sign'
 		}
-		{*
-			Индикатор ajax-проверки правила
-		*}
-		<span id="admin_bans_checking_msg" class="mb-20"></span>
+
+		{* Результат ajax-проверки поля *}
+		<div id="admin_bans_checking_msg" class="alert alert-info" style="display: none;"></div>
 
 
 		<label class="mb-15">{$aLang.plugin.admin.bans.add.ban_time_title}</label>
 
-		{*
-			Пожизненно
-		*}
+		{* Пожизненно *}
 		<div class="form-field form-field-inline form-field-option">
 			<label class="form-field-label">
 				<input type="radio" name="bantype[]" value="unlimited"
@@ -56,9 +49,7 @@
 		    </div>
 		</div>
 
-		{*
-			На период времени
-		*}
+		{* На период времени *}
 		<div class="form-field form-field-inline form-field-option">
 			<label class="form-field-label">
 				<input type="radio" name="bantype[]" value="period"
@@ -80,9 +71,7 @@
 		    </div>
 		</div>
 
-		{*
-			На количество дней
-		*}
+		{* На количество дней *}
 		<div class="form-field form-field-inline form-field-option">
 			<label class="form-field-label">
 				<input type="radio" name="bantype[]" value="days"
@@ -99,26 +88,19 @@
 		    </div>
 		</div>
 
-
-		{*
-			Причина
-		*}
+		{* Причина *}
 		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
 				 sFieldName    = 'reason_for_user'
 				 sFieldNote    = $aLang.plugin.admin.bans.add.reason_tip
 				 sFieldLabel   = $aLang.plugin.admin.bans.add.reason}
 
-		{*
-			Заметка
-		*}
+		{* Заметка *}
 		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
 				 sFieldName    = 'comment'
 				 sFieldNote    = $aLang.plugin.admin.bans.add.comment_for_yourself_tip
 				 sFieldLabel   = $aLang.plugin.admin.bans.add.comment}
 
-		{*
-			Кнопки
-		*}
+		{* Кнопки *}
 		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.button.tpl" sFieldName='submit_add_ban' sFieldStyle='primary' sFieldText=$aLang.plugin.admin.save}
 	</form>
 {/block}

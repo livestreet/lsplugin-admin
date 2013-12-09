@@ -166,7 +166,7 @@
 	</div>
 
 
-	{*
+	{**
 	 * Показать значения графика в таблице
 	 *}
 
@@ -174,7 +174,7 @@
 		<div class="graph-table">
 			<button type="button" class="button" id="admin_show_graph_data_in_table">{$aLang.plugin.admin.graph.values_in_table}</button>
 
-			<div id="admin_graph_table_data">
+			<div id="admin_graph_table_data" style="display: none">
 				<table class="table">
 					<thead>
 						<tr>

@@ -2,7 +2,7 @@
  * Страница вывода ошибок
  *}
 
-{extends file='layouts/layout.base.tpl'}
+{extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
 
 {block name='layout_options'}
 	{$bNoSidebar = true}
