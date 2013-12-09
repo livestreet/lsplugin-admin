@@ -65,11 +65,11 @@ input[type="text"] {
 
 /* Error */
 /* TODO: Унифицировать / Перенести во фреймворк */
-.form-field-settings.has-error .form-field-label { color: #f00; }
+.form-field-settings.has-error .form-field-label { color: #e00; }
 .form-field-settings.has-error input[type="text"],
 .form-field-settings.has-error select,
-.form-field-settings.has-error textarea { border-color: #FF9B9B; background: #ffe4e4; }
-.form-field-settings.has-error .admin-save-error-wrapper { background: #ffe4e4; color: #ff0000; margin-top: 5px; padding: 5px 10px; }
+.form-field-settings.has-error textarea { border-color: #FF7070; background: none repeat scroll 0 0 #FFF4F4; }
+.form-field-settings.has-error .admin-save-error-wrapper { background: none repeat scroll 0 0 #FFE4E4; color: #e00; margin-top: 5px; padding: 5px 10px; }
 
 
 /**

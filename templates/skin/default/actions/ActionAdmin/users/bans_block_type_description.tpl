@@ -16,8 +16,8 @@
 	{$aLang.plugin.admin.bans.list.block_type.ip}:
 	{if $oBan->getIp()}
 		<a href="{router page='admin/users/list'}{request_filter
-		name=array('session_ip_last')
-		value=array(convert_long2ip($oBan->getIp()))
+			name=array('session_ip_last')
+			value=array(convert_long2ip($oBan->getIp()))
 		}">{convert_long2ip($oBan->getIp())}</a>
 	{/if}
 {elseif $oBan->getBlockType() == PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_IP_RANGE}

@@ -60,11 +60,14 @@
 					<input type="text" name="filter[date_start]" value="{$_aRequest.filter.date_start}" class="input-text width-100 date-picker-php" placeholder="{$aLang.plugin.admin.from}" />
 					&nbsp;&ndash;&nbsp;
 					<input type="text" name="filter[date_finish]" value="{$_aRequest.filter.date_finish}" class="input-text width-100 date-picker-php" placeholder="{$aLang.plugin.admin.to}" />
+					{*
+						сброс ручного выбора диапазона дат
+					*}
 					{if $_aRequest.filter.date_start}
 						<a href="{$sUrl}{request_filter
 							name=array('date_start', 'date_finish')
 							value=array(null, null)
-						}" class="remove-custom-period-selection"><i class="icon-remove"></i></a>
+						}"><i class="icon-remove"></i></a>
 					{/if}
 
 					&nbsp;&nbsp;

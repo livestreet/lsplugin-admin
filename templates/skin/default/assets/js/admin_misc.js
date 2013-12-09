@@ -108,16 +108,16 @@ jQuery(document).ready(function($) {
 		добавление скрытого поля для поиска по пользователям (поле имеет имя filter[profile_name])
 	 */
 	$ (ls.admin_misc.selectors.user_search_form_id).bind('submit.admin', function() {
-		q = $ (ls.admin_misc.selectors.user_search_form_q);
-		field = $ (ls.admin_misc.selectors.user_search_form_field);
+		var q = $ (ls.admin_misc.selectors.user_search_form_q);
+		var field = $ (ls.admin_misc.selectors.user_search_form_field);
 		/*
 			список разрешенных типов поиска, по которым можно искать без указания искомого значения
 		 */
-		aAllowedSearchTypes = ['profile_sex', 'admins_only'];
+		var aAllowedEmptySearchTypes = ['profile_sex', 'admins_only'];
 		/*
 			флаг, который указывает что для данного поиска разрешено не указывать поисковый запрос
 		 */
-		bAllowEmptyRequest = $.inArray(field.val(), aAllowedSearchTypes) !== -1;
+		var bAllowEmptyRequest = $.inArray(field.val(), aAllowedEmptySearchTypes) !== -1;
 		/*
 			запретить поиск с пустым условием
 		 */
@@ -137,11 +137,11 @@ jQuery(document).ready(function($) {
 	 */
 	$ (ls.admin_misc.selectors.bans_user_sign).bind('change.admin', function() {
 		var sVal = $.trim ($ (this).val()),
-			$userInfo = $(ls.admin_misc.selectors.bans_answer_id);
+			oUserInfo = $(ls.admin_misc.selectors.bans_answer_id);
 
 		if (sVal === '') return false;
 		$ (this).addClass('loading');
-		$userInfo.show().html('Loading...');
+		oUserInfo.show().html('Loading...');
 		ls.ajax.load(
 			aRouter ['admin'] + 'bans/ajax-check-user-sign',
 			{
@@ -149,10 +149,10 @@ jQuery(document).ready(function($) {
 			},
 			function(data) {
 				if (data.bStateError) {
-					ls.msg.notice(data.sMsg, data.sTitle);
-					$userInfo.hide();
+					ls.msg.notice(data.sTitle, data.sMsg);
+					oUserInfo.hide();
 				} else {
-					$userInfo.html('<i class="icon-check"></i>&nbsp;' + data.sResponse);
+					oUserInfo.html('<i class="icon-check"></i>&nbsp;' + data.sResponse);
 				}
 				$ (ls.admin_misc.selectors.bans_user_sign).removeClass('loading');
 			}
