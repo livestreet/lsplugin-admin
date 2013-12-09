@@ -118,7 +118,7 @@ class PluginAdmin_ModulePlugins extends Module {
 		$this->Xlang($oXml, 'description', $this->sLang);
 
 		/*
-		 * пропустить прямо только через парсер текста т.к. другие методы парсинга (флеш, видео, тег кода и наследование через плагины) не нужны
+		 * пропустить только через парсер текста т.к. другие методы парсинга (флеш, видео, тег кода и наследование через плагины, которые обычно наследуют метод Parse) не нужны
 		 */
 		$oXml->homepage = $this->Text_JevixParser((string) $oXml->homepage);
 		$oXml->settings = preg_replace('#{([^}]+)}#', Router::GetPath('$1'), $oXml->settings);
@@ -189,11 +189,28 @@ class PluginAdmin_ModulePlugins extends Module {
 		 * коды всех плагинов
 		 */
 		$aAllPluginsCodes = $this->GetAllPluginsCodes();
+		/*
+		 * количество активных плагинов
+		 */
+		$iActive = 0;
 		foreach($aAllPluginsCodes as $sPluginCode) {
 			/*
 			 * получить сущность плагина
 			 */
-			if (($oPlugin = $this->GetPluginByCode($sPluginCode, $aActivePluginsCodes, $aFilter, false, false)) === false) {
+			if (($oPlugin = $this->GetPluginByCode($sPluginCode, $aActivePluginsCodes, false, false)) === false) {
+				/*
+				 * ошибка распознавания xml-файла плагина
+				 */
+				continue;
+			}
+			if ($oPlugin->getActive()) $iActive++;
+			/*
+			 * проверка отбора только активных или неактивных плагинов
+			 */
+			if (isset($aFilter['active']) and $oPlugin->getActive() !== $aFilter['active']) {
+				/*
+				 * по фильтру нужны только активные или неактивные плагины
+				 */
 				continue;
 			}
 			/*
@@ -203,7 +220,8 @@ class PluginAdmin_ModulePlugins extends Module {
 		}
 		return array(
 			'collection' => $aPlugins,
-			'count' => count($aPlugins),
+			'count_active' => $iActive,
+			'count_inactive' => count($aAllPluginsCodes) - $iActive,
 			'count_all' => count($aAllPluginsCodes)
 		);
 	}
@@ -214,13 +232,12 @@ class PluginAdmin_ModulePlugins extends Module {
 	 *
 	 * @param       $sPluginCode				код плагина
 	 * @param array $aActivePluginsCodes		массив кодов активированных плагинов (для метода "active"), может быть пропущен
-	 * @param array $aFilter					фильтр (для проверки активированности плагина и прерывания сбора дальнейшей информации, если не подходит для фильтра), может быть пропущен
 	 * @param bool $bCheckPluginFolder			нужно ли проверять есть ли такой плагин в системе
 	 * @param bool $bThrowExceptionOnWrongXml	бросать исключение если xml файл плагина поврежден
 	 * @return bool|Entity						сущность плагина или false в случае ошибки или не попадание под условия фильтра
 	 * @throws Exception
 	 */
-	public function GetPluginByCode($sPluginCode, $aActivePluginsCodes = array(), $aFilter = array(), $bCheckPluginFolder = true, $bThrowExceptionOnWrongXml = true) {
+	public function GetPluginByCode($sPluginCode, $aActivePluginsCodes = array(), $bCheckPluginFolder = true, $bThrowExceptionOnWrongXml = true) {
 		/*
 		 * нужно ли проверять есть ли такой плагин в системе
 		 */
@@ -241,15 +258,6 @@ class PluginAdmin_ModulePlugins extends Module {
 		 * включен ли
 		 */
 		$aPluginInfo['active'] = in_array($sPluginCode, $aActivePluginsCodes);
-		/*
-		 * проверка отбора только активных или неактивных плагинов
-		 */
-		if (isset($aFilter['active']) and $aPluginInfo['active'] !== $aFilter['active']) {
-			/*
-			 * по фильтру нужны только активные или неактивные плагины
-			 */
-			return false;
-		}
 		/*
 		 * информация о плагине из xml данных
 		 */
