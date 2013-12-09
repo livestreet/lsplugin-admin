@@ -20,13 +20,12 @@
 .p15 { padding: 15px; }
 .p20 { padding: 20px; }
 
-.width-75 {
-	width: 75px;
-}
+/**
+ * Width
+ */
+.width-75 { width: 75px; }
 
-/*
-	Loader
-*/
-.ls-admin .loading > * {
-	opacity: 0.15;
-}
+/**
+ * Loader
+ */
+.ls-admin .loading > * { opacity: 0.15; }

@@ -17,10 +17,6 @@ body {
 a 		{ color: #08c; text-decoration: none; }
 a:hover { color: #058; }
 
-.text a:visited, 
-.topic .topic-header .topic-title a:visited,
-.item-list li a:visited { color: #1D2273; }
-
 
 /**
  * Responsive styles
@@ -136,12 +132,6 @@ h1, h2, h3, h4, h5, h6 { font-family: "Open Sans"; }
 
 
 /**
- * Stat Perfomance
- */
-.stat-performance { display: none; }
-
-
-/**
  * Home
  */
 .home-blocks { margin-bottom: 15px; }
@@ -160,18 +150,6 @@ h1, h2, h3, h4, h5, h6 { font-family: "Open Sans"; }
   .home-blocks .block { width: 100%; margin-right: 0; }
 }
 
-
-/**
-	Стили для админки
-*/
-
-.ls-admin .fS-10 {
-	font-size: 10px;
-}
-
-.ls-admin h2.title {
-    font-size: 22px;
-}
 
 /* Проценты */
 .percent {

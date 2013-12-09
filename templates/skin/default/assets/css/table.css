@@ -22,6 +22,7 @@
  * Base
  */
 .table { width: 100%; margin-bottom: 20px; }
+.table:last-child { margin-bottom: 0; }
 
 /* Header */
 .table th { 

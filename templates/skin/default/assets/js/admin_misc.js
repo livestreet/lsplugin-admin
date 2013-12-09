@@ -121,7 +121,7 @@ jQuery(document).ready(function($) {
 		/*
 			запретить поиск с пустым условием
 		 */
-		if ($.trim(q.val()) == '' && !bAllowEmptyRequest) return false;
+		if ($.trim(q.val()) === '' && !bAllowEmptyRequest) return false;
 		$ (ls.admin_misc.selectors.user_search_form_id).prepend(
 			$ ('<input />', {
 				type: 'hidden',
@@ -136,10 +136,12 @@ jQuery(document).ready(function($) {
 		проверка данных поля для бана
 	 */
 	$ (ls.admin_misc.selectors.bans_user_sign).bind('change.admin', function() {
-		var sVal = $.trim ($ (this).val());
-		if (sVal == '') return false;
+		var sVal = $.trim ($ (this).val()),
+			$userInfo = $(ls.admin_misc.selectors.bans_answer_id);
+
+		if (sVal === '') return false;
 		$ (this).addClass('loading');
-		$ (ls.admin_misc.selectors.bans_answer_id).html('');
+		$userInfo.show().html('Loading...');
 		ls.ajax.load(
 			aRouter ['admin'] + 'bans/ajax-check-user-sign',
 			{
@@ -148,8 +150,9 @@ jQuery(document).ready(function($) {
 			function(data) {
 				if (data.bStateError) {
 					ls.msg.notice(data.sMsg, data.sTitle);
+					$userInfo.hide();
 				} else {
-					$ (ls.admin_misc.selectors.bans_answer_id).html('<i class="icon-check"></i>&nbsp;' + data.sResponse);
+					$userInfo.html('<i class="icon-check"></i>&nbsp;' + data.sResponse);
 				}
 				$ (ls.admin_misc.selectors.bans_user_sign).removeClass('loading');
 			}

@@ -30,7 +30,7 @@ ls.admin_settings_save = (function($) {
 		Классы тегов
 	 */
 	this.styleClass = {
-		Error: 'admin-save-error-border',
+		Error: 'has-error',
 		ErrorMsgContainer: 'admin-save-error-wrapper'
 	};
 

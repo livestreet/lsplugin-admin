@@ -60,41 +60,60 @@
 }
 
 
- /**
-  * Block Home
-  */
- .block-home { border: 1px solid #f2f2f2; }
+/**
+ * Block Home
+ */
+.block-home { border: 1px solid #f2f2f2; }
 
- .block-home .block-header { border: none; background: #f9f9f9; padding: 13px 13px; }
- .block-home .block-header .button { position: absolute; top: 7px; right: 7px; }
- .block-home .block-title { font-size: 18px; }
+.block-home .block-header { border: none; background: #f9f9f9; padding: 13px 13px; }
+.block-home .block-header .button { position: absolute; top: 7px; right: 7px; }
+.block-home .block-title { font-size: 18px; }
 
- .block-home .block-content { background: #fff; }
+.block-home .block-content { background: #fff; }
 
- .block-home .block-footer { padding: 0 10px 10px; background: #fff; border: none; }
-
-
- /**
-  * Home Stats
-  *
-  * @file blocks/block.home.stats.tpl
-  */
- .block-type-home-stats .block-header { overflow: hidden; }
- .block-type-home-stats .block-header select { position: absolute; top: 7px; right: 7px; }
-
- .block-type-home-stats .block-content { padding: 0 10px; }
-
- .table.table-stats { margin-bottom: 0; }
- .table.table-stats td { padding: 13px 13px 13px 3px; font-family: Verdana; vertical-align: middle; }
- .table.table-stats tr:hover td { background-color: transparent; }
- .table.table-stats tr:first-child td { border: none; }
+.block-home .block-footer { padding: 0 10px 10px; background: #fff; border: none; }
 
 
- /**
-  * Activity
-  *
-  * @file blocks/block.home.activity.tpl
-  */
+/**
+ * Home Stats
+ *
+ * @file blocks/block.home.stats.tpl
+ */
+.block-type-home-stats .block-header { overflow: hidden; }
+.block-type-home-stats .block-header select { position: absolute; top: 7px; right: 7px; }
+
+.block-type-home-stats .block-content { padding: 0 10px; }
+
+.table.table-stats { margin-bottom: 0; }
+.table.table-stats td { padding: 13px 13px 13px 3px; font-family: Verdana; vertical-align: middle; }
+.table.table-stats tr:hover td { background-color: transparent; }
+.table.table-stats tr:first-child td { border: none; }
+
+.block-type-home-stats .name { width: 140px; vertical-align: middle; }
+.block-type-home-stats .growth { vertical-align: middle; }
+.block-type-home-stats .graph-line { width: 150px; }
+.block-type-home-stats .graph-line .ratings-graph { height: 3px; clear: both; }
+.block-type-home-stats .graph-line .ratings-graph > * { height: 100%; float: left; position: relative; }
+.block-type-home-stats .graph-line .ratings-graph .positive { background: #17A553; color: #17A553; }
+.block-type-home-stats .graph-line .ratings-graph .negative { background: #ff1313; color: #FF1313; }
+.block-type-home-stats .graph-line .ratings-graph .neutral { background: #c9c9c9; color: #C9C9C9; }
+.block-type-home-stats .graph-line .ratings-graph .inner-value { font-size: 10px; position: absolute; top: -16px; }
+.block-type-home-stats .graph-line .ratings-graph *:nth-child(1) .inner-value { left: 0; }
+.block-type-home-stats .graph-line .ratings-graph *:nth-child(2) .inner-value { left: 43%; }
+.block-type-home-stats .graph-line .ratings-graph *:nth-child(3) .inner-value { right: 0; }
+
+/* stats line table */
+.table.stats-line-table { margin: 0; }
+.table.stats-line-table td { padding: 0 !important; }
+.table.stats-line-table .info-tip { width: 25px; }
+.table.stats-line-table .line-block { vertical-align: middle; }
+
+
+/**
+ * Activity
+ *
+ * @file blocks/block.home.activity.tpl
+ */
 .block-type-home-activity .block-content { padding: 0 10px; }
 
 .activity-event-list { margin: 0 0 20px; }
@@ -114,11 +133,11 @@
 .activity-event-text:after     { content: ""; width: 0; height: 0; border: 6px solid #fff; position: absolute; top: -12px; left: -1px; }
 
 
- /**
-  * Gender stats
-  *
-  * @file blocks/block.home.users.genders.tpl
-  */
+/**
+ * Gender stats
+ *
+ * @file blocks/block.home.users.genders.tpl
+ */
 .block-type-home-users-genders .highcharts-container { margin: 0 auto 20px; }
 
 .table.chart-pie-legend { margin: 0; font-family: Verdana; }
