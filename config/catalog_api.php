@@ -28,13 +28,13 @@
 /*
  * Базовый путь к АПИ каталога
  */
-$config['catalog_base_api_url'] = 'https://catalog.livestreetcms.com/api/';
+$config['catalog']['base_api_url'] = 'https://catalog.livestreetcms.com/api/';
 
 /*
  * Методы для работы с каталогом
  * tip: ключ {plugin_code} - код плагина (имя папки плагина)
  */
-$config['catalog_methods_pathes'] = array(
+$config['catalog']['methods_pathes'] = array(
 	/*
 	 * Группа: работа с одним плагином с указанием его кода
 	 */

@@ -14,7 +14,7 @@
 		<a class="button {if $_aRequest.type=='all'}active{/if}"
 		   href="{router page='admin/plugins/list'}?type=all">{$aLang.plugin.admin.plugins.menu.filter.all} ({$aPluginsInfo.count_all})</a>
 		<a class="button {if $_aRequest.type=='updates'}active{/if}"
-		   href="{router page='admin/plugins/list'}?type=updates">{$aLang.plugin.admin.plugins.menu.filter.updates}</a>
+		   href="{router page='admin/plugins/list'}?type=updates">{$aLang.plugin.admin.plugins.menu.filter.updates} ({$iPluginUpdates})</a>
 	</div>
 	<a class="button button-primary" href="{router page='admin/plugins/install'}">{$aLang.plugin.admin.plugins.menu.install_plugin}</a>
 {/block}

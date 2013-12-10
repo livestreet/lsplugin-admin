@@ -67,11 +67,36 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 			default:
 				$this->Message_AddError($this->Lang('errors.plugins.unknown_filter_type'), $this->Lang_Get('error'));
 		}
-		$aPluginsInfo = $this->PluginAdmin_Plugins_GetPluginsList($aFilter);
+		$this->GetUpdatesInfo();
+		$this->Viewer_Assign('aPluginsInfo', $this->PluginAdmin_Plugins_GetPluginsList($aFilter));
+	}
 
-		//$aUpdatesList = $this->PluginAdmin_Catalog_GetUpdatesListForPluginCodesList($aPluginsInfo['collection']);
 
-		$this->Viewer_Assign('aPluginsInfo', $aPluginsInfo);
+	/**
+	 * Получить список плагинов у которых есть более новые версии в каталоге чем текущая установленная
+	 */
+	protected function GetUpdatesInfo() {
+		$aUpdatesList = $this->PluginAdmin_Catalog_GetPluginUpdatesCached();
+		switch (gettype($aUpdatesList)) {
+			/*
+			 * ошибка соединения или сервера
+			 */
+			case 'string':
+				$this->Message_AddError($aUpdatesList);
+				break;
+			/*
+			 * есть обновления
+			 */
+			case 'array':
+				$this->Viewer_Assign('aPluginUpdates', $aUpdatesList);										// todo: wait for plugin codes in answer
+				$this->Viewer_Assign('iPluginUpdates', count($aUpdatesList));
+				break;
+			/*
+			 * обновлений нет
+			 */
+			default:
+				$this->Viewer_Assign('iPluginUpdates', 0);
+		}
 	}
 
 

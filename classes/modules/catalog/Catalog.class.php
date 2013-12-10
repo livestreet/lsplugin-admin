@@ -33,7 +33,7 @@ class PluginAdmin_ModuleCatalog extends Module {
 	const PLUGIN_CODE_PLACEHOLDER = '{plugin_code}';
 
 	/*
-	 * Префикс вызовов методов
+	 * Префикс методов АПИ каталога
 	 */
 	const CALLING_METHOD_PREFIX = 'RequestDataFor';
 
@@ -49,10 +49,16 @@ class PluginAdmin_ModuleCatalog extends Module {
 
 
 	final public function Init() {
-		$this->sCatalogBaseApiUrl = Config::Get('plugin.admin.catalog_base_api_url');
-		$this->aCatalogMethodPath = Config::Get('plugin.admin.catalog_methods_pathes');
+		$this->sCatalogBaseApiUrl = Config::Get('plugin.admin.catalog.base_api_url');
+		$this->aCatalogMethodPath = Config::Get('plugin.admin.catalog.methods_pathes');
 	}
 
+
+	/*
+	 *
+	 * --- АПИ ---
+	 *
+	 */
 
 	/**
 	 * Построить относительный путь к методу по коду плагина, группе методов и методе из указанной группы
@@ -119,28 +125,41 @@ class PluginAdmin_ModuleCatalog extends Module {
 	}
 
 
-	public function GetUpdatesListForPluginCodesList($aPlugins) {
+	/*
+	 *
+	 * --- Обработка и запросы по АПИ ---
+	 *
+	 */
+
+	/**
+	 * Получить ответ от сервера по обновлениям для всех или указанных плагинов
+	 *
+	 * @param array $aPlugins	массив сущностей плагинов для проверки, если не указать - будут проверены все плагины в системе
+	 * @return mixed			массив ответа от сервера или строка ошибки соединения
+	 */
+	protected function GetUpdatesListForPlugins($aPlugins = array()) {
+		/*
+		 * если список проверяемых плагинов не указан - получить все плагины
+		 */
+		if (empty($aPlugins)) {
+			$aPluginsInfo = $this->PluginAdmin_Plugins_GetPluginsList();
+			$aPlugins = $aPluginsInfo['collection'];
+		}
 		if (!is_array($aPlugins)) {
 			$aPlugins = (array) $aPlugins;
 		}
 		/*
 		 * сформировать нужный массив для запроса
 		 */
-		$aRequestData = array();
-		foreach($aPlugins as $oPlugin) {
-			$aRequestData[] = array(
-				'code' => $oPlugin->getCode(),
-				'version' => (string) $oPlugin->getVersion(),
-			);
-		}
+		$aRequestData = array('data' => $this->BuildPluginsRequestArray($aPlugins));
 		/*
-		 * получить полный урл для АПИ каталога
+		 * получить полный урл для АПИ каталога по запросу последних версий плагинов
 		 */
 		$sApiUrl = $this->RequestDataForAddonsCheckVersion();
 		/*
 		 * запросить данные
 		 */
-		$aResponseAnswer = $this->PluginAdmin_Remoteserver_Send(array(//	todo: проблемы с сертификатом
+		$aResponseAnswer = $this->PluginAdmin_Remoteserver_Send(array(
 			PluginAdmin_ModuleRemoteserver::REQUEST_URL => $sApiUrl,
 			PluginAdmin_ModuleRemoteserver::REQUEST_DATA => $aRequestData
 		));
@@ -157,6 +176,89 @@ class PluginAdmin_ModuleCatalog extends Module {
 		 * вернуть текст ошибки
 		 */
 		return $aResponseAnswer[PluginAdmin_ModuleRemoteserver::RESPONSE_ERROR_MESSAGE];
+	}
+
+
+	/**
+	 * Сформировать массив со списком кодов плагинов и их версиями
+	 *
+	 * @param $aPlugins		массив сущностей плагинов
+	 * @return array
+	 */
+	protected function BuildPluginsRequestArray($aPlugins) {
+		$aRequestData = array();
+		foreach ($aPlugins as $oPlugin) {
+			$aRequestData[] = array('code' => $oPlugin->getCode(), 'version' => $oPlugin->getVersion());
+		}
+
+		return $aRequestData;
+	}
+
+
+	/**
+	 * Получение массива кодов плагинов, для которых есть обновления в каталоге
+	 *
+	 * @param array $aPlugins		массив сущностей плагинов для проверки, если нужно
+	 * @return string|bool|array	массив кодов и версий плагинов с обновлениям, false если нет обновлений или строка ошибки
+	 */
+	public function GetPluginUpdates($aPlugins = array()) {
+		$mData = $this->GetUpdatesListForPlugins($aPlugins);
+		/*
+		 * если получен ответ от сервера
+		 */
+		if (is_array($mData)) {
+			/*
+			 * если ошибка на стороне сервера
+			 */
+			if (isset($mData['bStateError']) and $mData['bStateError']) {
+				/*
+				 * вернуть её текст
+				 */
+				return $mData['sMsgTitle'] . ':' . $mData['sMsg'];
+			}
+			/*
+			 * если есть данные по обновлению плагинов
+			 */
+			if (isset($mData['aData']) and is_array($mData['aData']) and count($mData['aData']) > 0) {
+				/*
+				 * передан список плагинов, для которых есть обновления и их последние версии
+				 */
+				/*
+				 * todo: передалать ответ от сервера чтобы ключ был кодом
+				 */
+				return $mData['aData'];
+			}
+			/*
+			 * обновлений нет
+			 */
+			return false;
+		}
+		/*
+		 * текст ошибки соединения с сервером
+		 */
+		return $mData;
+	}
+
+
+	/**
+	 * Получение массива кодов плагинов, для которых есть обновления в каталоге из кеша (обновление каждые 5 минут)
+	 *
+	 * @param array $aPlugins		массив сущностей плагинов для проверки, если нужно
+	 * @return string|bool|array	массив кодов и версий плагинов с обновлениям, false если нет обновлений или строка ошибки
+	 */
+	public function GetPluginUpdatesCached($aPlugins = array()) {
+		$sCacheKey = 'admin_get_plugins_updates_' . serialize($aPlugins);
+		/*
+		 * есть ли в кеше
+		 */
+		if (($mData = $this->Cache_Get($sCacheKey)) === false) {
+			$mData = $this->GetPluginUpdates($aPlugins);
+			/*
+			 * кеширование обновлений на 5 минут
+			 */
+			$this->Cache_Set($mData, $sCacheKey, array('plugin_update', 'plugin_new'), 60*5);
+		}
+		return $mData;
 	}
 
 

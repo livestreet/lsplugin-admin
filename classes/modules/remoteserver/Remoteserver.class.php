@@ -35,6 +35,10 @@ class PluginAdmin_ModuleRemoteserver extends Module {
 	 * ключ массива запроса для массив передаваемых данных
 	 */
 	const REQUEST_DATA = 'data';
+	/*
+	 * ключ массива запроса настроек для curl
+	 */
+	const REQUEST_CURL_OPTIONS = 'curl_options';
 
 	/*
 	 * ключ успеха массива ответа
@@ -55,24 +59,32 @@ class PluginAdmin_ModuleRemoteserver extends Module {
 	const CURL_USER_AGENT = 'LiveStreet CMS New Admin Panel';
 
 	/*
-	 * передаваемые куки по-умолчанию
+	 * путь к корневым сертификатам
 	 */
-	private $aCookies = array();
+	private $sCARootCertsPath = null;
 
 
 	public function Init() {
-		// todo: keys review
-		$this->aCookies['ls_version'] = LS_VERSION;
-		$this->aCookies['lsf_version'] = LS_VERSION_FRAMEWORK;
+		$this->sCARootCertsPath = Config::Get('path.application.plugins.server') . '/admin/ssl_ca_certs/cacert.pem';
 	}
 
 
+	/**
+	 * Выполнить запрос на сервер через первый из доступных способов (curl, socket, file)
+	 *
+	 * @param $aRequestData		массив с данными для запроса
+	 * @return array|null
+	 */
 	public function Send($aRequestData) {
 		/*
 		 * если на сервере можно использовать CURL
 		 */
 		if ($this->IsCurlSupported()) {
-			return $this->SendByCurl($aRequestData[self::REQUEST_URL], $aRequestData[self::REQUEST_DATA]);
+			return $this->SendByCurl(
+				$aRequestData[self::REQUEST_URL],
+				$aRequestData[self::REQUEST_DATA],
+				isset($aRequestData[self::REQUEST_CURL_OPTIONS]) ? $aRequestData[self::REQUEST_CURL_OPTIONS] : array()
+			);
 		}
 		/*
 		 * если на сервере можно использовать сокеты
@@ -104,17 +116,17 @@ class PluginAdmin_ModuleRemoteserver extends Module {
 		 */
 		$sErrorMsg = null;
 		/*
-		 * упаковать массив передаваемых данных в строку
+		 * упаковать массив передаваемых данных в строку чтобы использовать application/x-www-form-urlencoded
 		 */
 		$sPostData = http_build_query($aData);
 		/*
-		 * результат
+		 * результат запроса
 		 */
 		$mData = null;
 
 		/*
-		 * установить параметры по-умолчанию
-		 * они могут быть изменены через параметр метода $aCurlOptions
+		 * параметры по-умолчанию
+		 * они могут быть изменены/дополнены через параметр метода $aCurlOptions
 		 * docs: http://www.php.net/manual/ru/function.curl-setopt.php
 		 */
 		$aCurlDefaults = array(
@@ -130,6 +142,20 @@ class PluginAdmin_ModuleRemoteserver extends Module {
 			 * не возвращать заголовки
 			 */
 			CURLOPT_HEADER => false,
+
+
+			/*
+			 * не проверять сертификат безопасности (если имеются проблемы с проверкой сертификата)
+			 */
+			//CURLOPT_SSL_VERIFYPEER => false,
+			/*
+			 * проверять сертифкат
+			 */
+			CURLOPT_SSL_VERIFYPEER => true,
+			/*
+			 * путь к файлу с рутовыми CA сертификатами
+			 */
+			CURLOPT_CAINFO => $this->sCARootCertsPath,
 
 
 			/*
@@ -180,17 +206,13 @@ class PluginAdmin_ModuleRemoteserver extends Module {
 			 */
 			CURLOPT_USERAGENT => self::CURL_USER_AGENT,
 			/*
-			 * передаваемые куки (заголовок)
-			 */
-			CURLOPT_COOKIE => implode('; ', $this->aCookies),
-			/*
 			 * реферер
 			 */
 			CURLOPT_REFERER => Config::Get('path.root.web'),
 			/*
 			 * заголовки
 			 */
-			CURLOPT_HTTPHEADER => array('X-Powered-By: LiveStreet CMS'),
+			CURLOPT_HTTPHEADER => array('X-Powered-By: LiveStreet CMS New Admin Panel'),
 		);
 
 		$oCurl = curl_init();
@@ -230,6 +252,12 @@ class PluginAdmin_ModuleRemoteserver extends Module {
 		);
 	}
 
+
+	/*
+	 *
+	 * --- Проверка наличия методов ---
+	 *
+	 */
 
 	/**
 	 * Включена ли поддержка CURL на сервере

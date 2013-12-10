@@ -103,7 +103,7 @@ class PluginAdmin_ModulePlugins_EntityPlugins extends Entity {
 	 */
 	public function getName() {
 		$sData = $this->getXml()->name->data;
-		return $sData != '' ? $sData : null;
+		return $sData != '' ? (string) $sData : null;
 	}
 
 
@@ -114,7 +114,7 @@ class PluginAdmin_ModulePlugins_EntityPlugins extends Entity {
 	 */
 	public function getAuthor() {
 		$sData = $this->getXml()->author->data;
-		return $sData != '' ? $sData : null;
+		return $sData != '' ? (string) $sData : null;
 	}
 
 
@@ -125,7 +125,7 @@ class PluginAdmin_ModulePlugins_EntityPlugins extends Entity {
 	 */
 	public function getHomepage() {
 		$sData = $this->getXml()->homepage;
-		return $sData != '' ? $sData : null;
+		return $sData != '' ? (string) $sData : null;
 	}
 
 
@@ -136,7 +136,7 @@ class PluginAdmin_ModulePlugins_EntityPlugins extends Entity {
 	 */
 	public function getDescription() {
 		$sData = $this->getXml()->description->data;
-		return $sData != '' ? $sData : null;
+		return $sData != '' ? (string) $sData : null;
 	}
 
 
@@ -147,7 +147,7 @@ class PluginAdmin_ModulePlugins_EntityPlugins extends Entity {
 	 */
 	public function getVersion() {
 		$sData = $this->getXml()->version;
-		return $sData != '' ? $sData : null;
+		return $sData != '' ? (string) $sData : null;
 	}
 
 
@@ -158,7 +158,7 @@ class PluginAdmin_ModulePlugins_EntityPlugins extends Entity {
 	 */
 	public function getOwnSettingsPageUrl() {
 		$sData = $this->getXml()->settings;
-		return $sData != '' ? $sData : null;
+		return $sData != '' ? (string) $sData : null;
 	}
 
 }
