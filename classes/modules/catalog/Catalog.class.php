@@ -48,7 +48,7 @@ class PluginAdmin_ModuleCatalog extends Module {
 	private $aCatalogMethodPath = array();
 
 
-	public function Init() {
+	final public function Init() {
 		$this->sCatalogBaseApiUrl = Config::Get('plugin.admin.catalog_base_api_url');
 		$this->aCatalogMethodPath = Config::Get('plugin.admin.catalog_methods_pathes');
 	}
@@ -75,11 +75,18 @@ class PluginAdmin_ModuleCatalog extends Module {
 	 * @param $sMethod			метод группы
 	 * @return mixed			строка с абсолютным путем к методу
 	 */
-	public function GetApiPath($sPluginCode, $sMethodGroup, $sMethod) {
+	private function GetApiPath($sPluginCode, $sMethodGroup, $sMethod) {
 		return $this->sCatalogBaseApiUrl . $this->BuildMethodPathForPlugin($sPluginCode, $sMethodGroup, $sMethod);
 	}
 
 
+	/**
+	 * Обрабатывает все запросы к АПИ каталога
+	 *
+	 * @param string $sName		имя не обьявленного метода
+	 * @param array  $aArgs		аргументы
+	 * @return mixed
+	 */
 	public function __call($sName, $aArgs) {
 		/*
 		 * если это вызов АПИ
@@ -97,7 +104,7 @@ class PluginAdmin_ModuleCatalog extends Module {
 			/*
 			 * добавить их в набор параметров
 			 */
-			$aArgsToSend = array_merge($aArgs, array($sMethodGroup, $sMethod));
+			$aArgsToSend = array_merge($aArgs ? $aArgs : array('no_plugin_code'), array($sMethodGroup, $sMethod));
 
 			/*
 			 * вернуть путь к методу
@@ -109,6 +116,47 @@ class PluginAdmin_ModuleCatalog extends Module {
 			 */
 			return parent::__call($sName, $aArgs);
 		}
+	}
+
+
+	public function GetUpdatesListForPluginCodesList($aPlugins) {
+		if (!is_array($aPlugins)) {
+			$aPlugins = (array) $aPlugins;
+		}
+		/*
+		 * сформировать нужный массив для запроса
+		 */
+		$aRequestData = array();
+		foreach($aPlugins as $oPlugin) {
+			$aRequestData[] = array(
+				'code' => $oPlugin->getCode(),
+				'version' => (string) $oPlugin->getVersion(),
+			);
+		}
+		/*
+		 * получить полный урл для АПИ каталога
+		 */
+		$sApiUrl = $this->RequestDataForAddonsCheckVersion();
+		/*
+		 * запросить данные
+		 */
+		$aResponseAnswer = $this->PluginAdmin_Remoteserver_Send(array(//	todo: проблемы с сертификатом
+			PluginAdmin_ModuleRemoteserver::REQUEST_URL => $sApiUrl,
+			PluginAdmin_ModuleRemoteserver::REQUEST_DATA => $aRequestData
+		));
+		/*
+		 * если нет ошибок
+		 */
+		if ($aResponseAnswer[PluginAdmin_ModuleRemoteserver::RESPONSE_SUCCESS]) {
+			/*
+			 * вернуть массив данных
+			 */
+			return json_decode($aResponseAnswer[PluginAdmin_ModuleRemoteserver::RESPONSE_DATA], true);
+		}
+		/*
+		 * вернуть текст ошибки
+		 */
+		return $aResponseAnswer[PluginAdmin_ModuleRemoteserver::RESPONSE_ERROR_MESSAGE];
 	}
 
 

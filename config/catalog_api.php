@@ -40,9 +40,18 @@ $config['catalog_methods_pathes'] = array(
 	 */
 	'plugin' => array(
 		/*
-		 * получить лого плагина
+		 * полный урл: получить лого плагина (180х180)
 		 */
 		'logo' => 'plugin/{plugin_code}/get-logo/',
+	),
+	/*
+	 * Группа: работа со списком плагинов
+	 */
+	'addons' => array(
+		/*
+		 * полный урл: получить обновления списка плагинов
+		 */
+		'check_version' => 'addons/check-version/',
 	),
 );
 

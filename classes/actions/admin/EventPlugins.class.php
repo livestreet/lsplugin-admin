@@ -67,7 +67,11 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 			default:
 				$this->Message_AddError($this->Lang('errors.plugins.unknown_filter_type'), $this->Lang_Get('error'));
 		}
-		$this->Viewer_Assign('aPluginsInfo', $this->PluginAdmin_Plugins_GetPluginsList($aFilter));
+		$aPluginsInfo = $this->PluginAdmin_Plugins_GetPluginsList($aFilter);
+
+		//$aUpdatesList = $this->PluginAdmin_Catalog_GetUpdatesListForPluginCodesList($aPluginsInfo['collection']);
+
+		$this->Viewer_Assign('aPluginsInfo', $aPluginsInfo);
 	}
 
 
