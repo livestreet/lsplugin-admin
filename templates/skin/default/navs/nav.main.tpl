@@ -5,16 +5,15 @@
  * @param object $oMenuAddition   Дополнительные пункты меню
  *
  * @styles assets/css/navs.css
- * @scripts assets/js/init.js
+ * @scripts assets/js/nav.main.js
  *}
 
 <ul class="nav-main">
 	{* Основные пункты меню *}
 	{foreach $oMenuMain->GetSections() as $oMenuSection}
-		<li class="nav-main-item-root {if $oMenuSection->HasItems()}js-nav-main-item-root{/if} {if $oMenuSection->GetActive()}active{/if}" data-item-id="{$oMenuSection@index}">
-			<i class="icon-nav-main-home"></i>
-
+		<li class="nav-main-item nav-main-item-root {if $oMenuSection->HasItems()}js-nav-main-item-root{/if} {if $oMenuSection->GetActive()}active{/if}" data-item-id="{$oMenuSection@index}">
 			<a {if ! $oMenuSection->HasItems()}href="{$oMenuSection->GetUrlFull()}"{else}href="#"{/if}>
+				<i class="nav-main-item-icon nav-main-item-icon-{$oMenuSection->GetName()}"></i>
 				<span>{$oMenuSection->GetCaption()|escape}</span>
 			</a>
 
@@ -54,6 +53,13 @@
 			{/foreach}
 		</li>
 	{/if}
+
+	<li class="nav-main-item-root nav-main-item-fold">
+		<a href="#" class="js-nav-main-fold">
+			<i class="nav-main-item-icon nav-main-item-icon-fold"></i>
+			<span class="link-dotted">Свернуть меню</span>
+		</a>
+	</li>
 </ul>
 
 
