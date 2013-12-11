@@ -95,17 +95,20 @@ class PluginAdmin_ModuleSkin extends Module {
 	 */
 	protected function GetSkinXmlData($sSkinXmlFile) {
 		if ($oXml = @simplexml_load_file($sSkinXmlFile)) {
+
+			// todo: refactor in method
+
 			/*
 			 * задать новые свойства "data" со значениями атрибутов согласно настроек языка сайта
 			 */
-			$this->Xlang($oXml, 'name', $this->sLang);
-			$this->Xlang($oXml, 'author', $this->sLang);
-			$this->Xlang($oXml, 'description', $this->sLang);
+			$this->PluginAdmin_Tools_AddXmlDataValueCorrespondingOnLang($oXml, 'name', $this->sLang);
+			$this->PluginAdmin_Tools_AddXmlDataValueCorrespondingOnLang($oXml, 'author', $this->sLang);
+			$this->PluginAdmin_Tools_AddXmlDataValueCorrespondingOnLang($oXml, 'description', $this->sLang);
 
-			$oXml->homepage = $this->Text_Parser((string) $oXml->homepage);
+			$oXml->homepage = $this->Text_JevixParser((string) $oXml->homepage);
 			if ($oXml->themes) {
 				foreach ($oXml->themes->children() as $oTheme) {
-					$this->Xlang($oTheme, 'description', $this->sLang);
+					$this->PluginAdmin_Tools_AddXmlDataValueCorrespondingOnLang($oTheme, 'description', $this->sLang);
 				}
 			}
 			return $oXml;
@@ -195,23 +198,6 @@ class PluginAdmin_ModuleSkin extends Module {
 			);
 		}
 		return $aSkins;
-	}
-	
-	
-	/**
-	 * Получает значение параметра из XML на основе языковой разметки
-	 *
-	 * @param SimpleXMLElement $oXml		XML узел
-	 * @param string						$sProperty	Свойство, которое нужно вернуть
-	 * @param string						$sLang	Название языка
-	 */
-	protected function Xlang($oXml, $sProperty, $sLang) {								// todo: copy from plugin module, todo: reuse from plugin?
-		$sProperty=trim($sProperty);
-
-		if (!count($data=$oXml->xpath("{$sProperty}/lang[@name='{$sLang}']"))) {
-			$data=$oXml->xpath("{$sProperty}/lang[@name='default']");
-		}
-		$oXml->$sProperty->data=$this->Text_Parser(trim((string)array_shift($data)));
 	}
 
 

@@ -23,6 +23,11 @@
 		</h4>
 
 		{*
+			вывод информации об обновлении
+		*}
+		{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/plugins/one_plugin_update_info.tpl"}
+
+		{*
 			информация
 		*}
 		<div class="mb-15">

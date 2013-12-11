@@ -256,6 +256,40 @@ class PluginAdmin_ModuleTools extends Module {
 		return $this->Image_GetWebPath($sPath);
 	}
 
+
+	/**
+	 * Получает значение свойства из объекта XML на основе указанного языка на сайте
+	 * tip: имеет обратную совместимость со старыми форматами xml файлов (когда язык указан полностью, т.е. russian, ukrainian)
+	 *
+	 * @param $oXml			узел
+	 * @param $sProperty	свойство, которое дополнится значением data указанного языка
+	 * @param $sLang		название языка
+	 */
+	public function AddXmlDataValueCorrespondingOnLang($oXml, $sProperty, $sLang) {
+		/*
+		 * есть ли текущий язык в формате i18n
+		 */
+		if (!count($mData = $oXml->xpath($sProperty . '/lang[@name="' . $sLang . '"]'))) {
+			/*
+			 * получить язык в старом формате (полностью)
+			 */
+			$sLangFull = Config::Get('plugin.admin.i18n_mapping.' . $sLang);
+			/*
+			 * есть ли язык в старом формате
+			 */
+			if (!$sLangFull or !count($mData = $oXml->xpath($sProperty . '/lang[@name="' . $sLangFull . '"]'))) {//todo: короткие не принимает (см. шаблоны)
+				/*
+				 * использовать язык по-умолчанию
+				 */
+				$mData = $oXml->xpath($sProperty . '/lang[@name="default"]');
+			}
+		}
+		/*
+		 * обработать как текст без других парсеров
+		 */
+		$oXml->$sProperty->data = $this->Text_JevixParser(trim((string)array_shift($mData)));
+	}
+
 }
 
 ?>

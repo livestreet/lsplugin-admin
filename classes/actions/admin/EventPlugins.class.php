@@ -31,35 +31,39 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 	public function EventPluginsList() {
 		$this->SetTemplateAction('plugins/list');
 		/*
+		 * получить информацию по обновлениям плагинов
+		 */
+		$aUpdatesInfo = $this->GetUpdatesInfo();
+		/*
 		 * проверить тип фильтра
 		 */
-		$aFilter = array();
+		$aPluginsInfo = array();
 		switch (getRequestStr('type')) {
 			/*
 			 * активные плагины
 			 */
 			case '':
 			case 'activated':
-				$aFilter['active'] = true;
+				$aPluginsInfo = $this->PluginAdmin_Plugins_GetPluginsList(array('active' => true));
 				break;
 			/*
 			 * деактивированные
 			 */
 			case 'deactivated':
-				$aFilter['active'] = false;
+				$aPluginsInfo = $this->PluginAdmin_Plugins_GetPluginsList(array('active' => false));
 				break;
 			/*
 			 * весь список
 			 */
 			case 'all':
+				$aPluginsInfo = $this->PluginAdmin_Plugins_GetPluginsList();
 				break;
 			/*
 			 * с обновлениями
 			 */
 			case 'updates':
-
-				// todo
-
+				$aPluginsInfo = $this->PluginAdmin_Plugins_GetPluginsList();
+				$aPluginsInfo['collection'] = $this->PluginAdmin_Plugins_GetPluginsByCodesOrUpdates($aUpdatesInfo);// todo: replace with filter
 				break;
 			/*
 			 * неизвестный тип
@@ -67,8 +71,8 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 			default:
 				$this->Message_AddError($this->Lang('errors.plugins.unknown_filter_type'), $this->Lang_Get('error'));
 		}
-		$this->GetUpdatesInfo();
-		$this->Viewer_Assign('aPluginsInfo', $this->PluginAdmin_Plugins_GetPluginsList($aFilter));
+
+		$this->Viewer_Assign('aPluginsInfo', $aPluginsInfo);
 	}
 
 
@@ -88,7 +92,7 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 			 * есть обновления
 			 */
 			case 'array':
-				$this->Viewer_Assign('aPluginUpdates', $aUpdatesList);										// todo: wait for plugin codes in answer
+				$this->Viewer_Assign('aPluginUpdates', $aUpdatesList);
 				$this->Viewer_Assign('iPluginUpdates', count($aUpdatesList));
 				break;
 			/*
@@ -97,6 +101,7 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 			default:
 				$this->Viewer_Assign('iPluginUpdates', 0);
 		}
+		return $aUpdatesList;
 	}
 
 

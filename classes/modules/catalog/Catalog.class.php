@@ -47,10 +47,16 @@ class PluginAdmin_ModuleCatalog extends Module {
 	 */
 	private $aCatalogMethodPath = array();
 
+	/*
+	 * Время жизни кеша для разных запросов
+	 */
+	protected $aCacheLiveTime = array();
+
 
 	final public function Init() {
 		$this->sCatalogBaseApiUrl = Config::Get('plugin.admin.catalog.base_api_url');
 		$this->aCatalogMethodPath = Config::Get('plugin.admin.catalog.methods_pathes');
+		$this->aCacheLiveTime = Config::Get('plugin.admin.catalog.cache_live_time');
 	}
 
 
@@ -217,16 +223,17 @@ class PluginAdmin_ModuleCatalog extends Module {
 				return $mData['sMsgTitle'] . ':' . $mData['sMsg'];
 			}
 			/*
-			 * если есть данные по обновлению плагинов
+			 * если передан список кодов плагинов, для которых есть обновления и их последние версии
 			 */
 			if (isset($mData['aData']) and is_array($mData['aData']) and count($mData['aData']) > 0) {
 				/*
-				 * передан список плагинов, для которых есть обновления и их последние версии
+				 * формирование массива сущностей, где в качестве ключа выступает код плагина
 				 */
-				/*
-				 * todo: передалать ответ от сервера чтобы ключ был кодом
-				 */
-				return $mData['aData'];
+				$aPluginUpdates = array();
+				foreach ($mData['aData'] as $aPluginInfo) {
+					$aPluginUpdates[$aPluginInfo['code']] = Engine::GetEntity('PluginAdmin_Plugins_Update', $aPluginInfo);
+				}
+				return $aPluginUpdates;
 			}
 			/*
 			 * обновлений нет
@@ -256,7 +263,7 @@ class PluginAdmin_ModuleCatalog extends Module {
 			/*
 			 * кеширование обновлений на 5 минут
 			 */
-			$this->Cache_Set($mData, $sCacheKey, array('plugin_update', 'plugin_new'), 60*5);
+			$this->Cache_Set($mData, $sCacheKey, array('plugin_update', 'plugin_new'), $this->aCacheLiveTime['plugin_updates_check']);
 		}
 		return $mData;
 	}

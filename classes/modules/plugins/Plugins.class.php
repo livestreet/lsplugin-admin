@@ -113,9 +113,9 @@ class PluginAdmin_ModulePlugins extends Module {
 	 * @return mixed		объект xml с новыми свойствами
 	 */
 	protected function SetXmlPropertiesForLang($oXml) {
-		$this->Xlang($oXml, 'name', $this->sLang);
-		$this->Xlang($oXml, 'author', $this->sLang);
-		$this->Xlang($oXml, 'description', $this->sLang);
+		$this->PluginAdmin_Tools_AddXmlDataValueCorrespondingOnLang($oXml, 'name', $this->sLang);
+		$this->PluginAdmin_Tools_AddXmlDataValueCorrespondingOnLang($oXml, 'author', $this->sLang);
+		$this->PluginAdmin_Tools_AddXmlDataValueCorrespondingOnLang($oXml, 'description', $this->sLang);
 
 		/*
 		 * пропустить только через парсер текста т.к. другие методы парсинга (флеш, видео, тег кода и наследование через плагины, которые обычно наследуют метод Parse) не нужны
@@ -228,6 +228,38 @@ class PluginAdmin_ModulePlugins extends Module {
 
 
 	/**
+	 * Получить массив сущностей по кодам плагинов или по сущностям (например, по сущностям обновлений)
+	 *
+	 * @param array $aPluginCodes	массив кодов плагинов
+	 * @return array
+	 */
+	public function GetPluginsByCodesOrUpdates($aPluginCodes = array()) {
+		$aPlugins = array();
+		/*
+		 * коды активных плагинов (так быстрее)
+		 */
+		$aActivePluginsCodes = $this->GetActivePlugins();
+		foreach($aPluginCodes as $sPluginCode) {
+			/*
+			 * если это объект (обновления) - получить его код
+			 */
+			$sPluginCode = is_object($sPluginCode) ? $sPluginCode->getCode() : $sPluginCode;
+			/*
+			 * получить сущность плагина
+			 */
+			if (($oPlugin = $this->GetPluginByCode($sPluginCode, $aActivePluginsCodes, false, false)) === false) {
+				/*
+				 * ошибка распознавания xml-файла плагина
+				 */
+				continue;
+			}
+			$aPlugins[] = $oPlugin;
+		}
+		return $aPlugins;
+	}
+
+
+	/**
 	 * Получить сущность плагина по коду (папке плагина)
 	 *
 	 * @param       $sPluginCode				код плагина
@@ -328,29 +360,6 @@ class PluginAdmin_ModulePlugins extends Module {
 		return null;
 	}
 
-
-
-
-	/*
-	 *
-	 * todo: вынести этот метод в тулс и заменить из модуля шаблонов такой же метод аналог
-	 *
-	 */
-	/**
-	 * Получает значение параметра из XML на основе языковой разметки
-	 *
-	 * @param SimpleXMLElement $oXml		XML узел
-	 * @param string						$sProperty	Свойство, которое нужно вернуть
-	 * @param string						$sLang	Название языка
-	 */
-	protected function Xlang($oXml, $sProperty, $sLang) {								// todo: copy from plugin module, todo: reuse from plugin?
-		$sProperty=trim($sProperty);
-
-		if (!count($data=$oXml->xpath("{$sProperty}/lang[@name='{$sLang}']"))) {
-			$data=$oXml->xpath("{$sProperty}/lang[@name='default']");
-		}
-		$oXml->$sProperty->data=$this->Text_Parser(trim((string)array_shift($data)));
-	}
 
 }
 

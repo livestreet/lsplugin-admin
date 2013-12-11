@@ -14,19 +14,22 @@
 		</plugins>
 	</requires>
 	<description>
-		<lang name="default">Стандартный шаблон для LiveStreet</lang>
+		<lang name="ru">Стандартный шаблон для LiveStreet CMS</lang>
+		<lang name="default">Default template for LiveStreet CMS</lang>
 	</description>
 	<themes>
 		<item>
 			<value>default</value>
 			<description>
-				<lang name="default">по-умолчанию</lang>
+				<lang name="ru">по-умолчанию</lang>
+				<lang name="default">default</lang>
 			</description>
 		</item>
 		<item>
 			<value>light</value>
 			<description>
-				<lang name="default">облегченная</lang>
+				<lang name="ru">облегченная</lang>
+				<lang name="default">light</lang>
 			</description>
 		</item>
 	</themes>

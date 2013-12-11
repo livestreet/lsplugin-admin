@@ -55,6 +55,16 @@ $config['catalog']['methods_pathes'] = array(
 	),
 );
 
+/*
+ * Время кеширования запросов из каталога
+ */
+$config['catalog']['cache_live_time'] = array(
+	/*
+	 * получение обновлений (5 минут)
+	 */
+	'plugin_updates_check' => 60*5
+);
+
 return $config;
 
 ?>
