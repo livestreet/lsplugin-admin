@@ -4,7 +4,7 @@
 
 <tr class="plugin-list-item {if $oPlugin->getActive()}active{/if}">
 	<td>
-		<img src="{$oPlugin->getLogo()}" alt="logo" />
+		<img src="{$oPlugin->getLogo()}" alt="{$oPlugin->getName()|escape:'html'}" />
 	</td>
 
 	<td>

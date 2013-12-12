@@ -315,7 +315,7 @@ class PluginAdmin_ModuleSkin extends Module {
 	/**
 	 * Включить шаблон для предпросмотра (если есть) текущему пользователю
 	 */
-	public function LoadPreviewTemplate() {
+	public function SetPreviewTemplate() {
 		if ($sPreviewSkin = $this->GetPreviewSkinName()) {
 			/*
 			 * сохранить оригинальное значение шаблона чтобы получить его при предпросмотре другого шаблона

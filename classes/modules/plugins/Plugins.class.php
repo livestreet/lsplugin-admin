@@ -234,6 +234,9 @@ class PluginAdmin_ModulePlugins extends Module {
 	 * @return array
 	 */
 	public function GetPluginsByCodesOrUpdates($aPluginCodes = array()) {
+		if (!is_array($aPluginCodes)) {
+			$aPluginCodes = (array) $aPluginCodes;
+		}
 		$aPlugins = array();
 		/*
 		 * коды активных плагинов (так быстрее)

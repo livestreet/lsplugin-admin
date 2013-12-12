@@ -63,7 +63,7 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 			 */
 			case 'updates':
 				$aPluginsInfo = $this->PluginAdmin_Plugins_GetPluginsList();
-				$aPluginsInfo['collection'] = $this->PluginAdmin_Plugins_GetPluginsByCodesOrUpdates($aUpdatesInfo);// todo: replace with filter
+				$aPluginsInfo['collection'] = $this->PluginAdmin_Plugins_GetPluginsByCodesOrUpdates($aUpdatesInfo);// todo: replace with filter, check for ARRAY type
 				break;
 			/*
 			 * неизвестный тип
@@ -80,20 +80,20 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 	 * Получить список плагинов у которых есть более новые версии в каталоге чем текущая установленная
 	 */
 	protected function GetUpdatesInfo() {
-		$aUpdatesList = $this->PluginAdmin_Catalog_GetPluginUpdatesCached();
-		switch (gettype($aUpdatesList)) {
+		$mUpdatesList = $this->PluginAdmin_Catalog_GetPluginUpdatesCached();
+		switch (gettype($mUpdatesList)) {
 			/*
 			 * ошибка соединения или сервера
 			 */
 			case 'string':
-				$this->Message_AddError($aUpdatesList);
+				$this->Message_AddError($mUpdatesList);
 				break;
 			/*
 			 * есть обновления
 			 */
 			case 'array':
-				$this->Viewer_Assign('aPluginUpdates', $aUpdatesList);
-				$this->Viewer_Assign('iPluginUpdates', count($aUpdatesList));
+				$this->Viewer_Assign('aPluginUpdates', $mUpdatesList);
+				$this->Viewer_Assign('iPluginUpdates', count($mUpdatesList));
 				break;
 			/*
 			 * обновлений нет
@@ -101,7 +101,7 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 			default:
 				$this->Viewer_Assign('iPluginUpdates', 0);
 		}
-		return $aUpdatesList;
+		return $mUpdatesList;
 	}
 
 

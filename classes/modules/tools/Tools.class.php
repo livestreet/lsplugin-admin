@@ -277,7 +277,7 @@ class PluginAdmin_ModuleTools extends Module {
 			/*
 			 * есть ли язык в старом формате
 			 */
-			if (!$sLangFull or !count($mData = $oXml->xpath($sProperty . '/lang[@name="' . $sLangFull . '"]'))) {//todo: короткие не принимает (см. шаблоны)
+			if (!$sLangFull or !count($mData = $oXml->xpath($sProperty . '/lang[@name="' . $sLangFull . '"]'))) {
 				/*
 				 * использовать язык по-умолчанию
 				 */
