@@ -24,6 +24,11 @@
  */
 
 class PluginAdmin_ActionAdmin_EventEmbedPlugin extends Event {
+
+	/*
+	 * имя экшена админки который должны унаследовать все плагины, которые хотят встраивать свой интерфейс в админку
+	 */
+	const ACTION_PLUGIN_NAME = 'PluginAdmin_ActionPlugin';
 	
 	/**
 	 * Интегрирует настройки плагина в админку и запускает класс "PluginИмяплагина_ActionAdmin", который должен быть унаследован от PluginAdmin_ActionPlugin
@@ -33,45 +38,47 @@ class PluginAdmin_ActionAdmin_EventEmbedPlugin extends Event {
 	public function EventShowEmbedPlugin() {
 		$aParams = $this->GetParams();
 		$sPlugin = strtolower(array_shift($aParams));
-		/**
-		 * Проверяем плагин на активность
+
+		/*
+		 * активирован ли плагин
 		 */
-		$aPluginsActive = Engine::getInstance()->GetPlugins();
-		if (array_key_exists($sPlugin,$aPluginsActive)) {
-			$sActionClass = 'Plugin'.func_camelize($sPlugin).'_ActionAdmin';
-			if ($this->IsInstanceClass($sActionClass,'PluginAdmin_ActionPlugin')) {
-				/**
-				 * Переопределяем конфиг роутинга и делаем редирект на экшен плагина
+		if (in_array($sPlugin, $this->PluginAdmin_Plugins_GetActivePlugins())) {
+			/*
+			 * построить полное имя класса екшена (на него будет выполнен редирект)
+			 */
+			$sActionClass = 'Plugin' . func_camelize($sPlugin) . '_ActionAdmin';
+			/*
+			 * получить массив родительских классов экшена плагина "ActionAdmin" (с автозагрузкой класса)
+			 */
+			$aParentActionClasses = class_parents($sActionClass);
+			/*
+			 * наследует ли екшен плагина "PluginИмяплагина_ActionAdmin" требуемый класс "PluginAdmin_ActionPlugin" этой админки
+			 */
+			if (in_array(self::ACTION_PLUGIN_NAME, $aParentActionClasses)) {
+				/*
+				 * в роутер добавить новую запись для экшена плагина, на которую будет выполнен редирект
 				 */
-				$sRouterPage='admin_plugin_'.$sPlugin;
-				Config::Set('router.page.'.$sRouterPage,$sActionClass);
+				$sRouterPage = 'admin_plugin_' . $sPlugin;
+				Config::Set('router.page.' . $sRouterPage, $sActionClass);
+				/*
+				 * перезагрузить заново правила роутера
+				 */
 				Router::getInstance()->LoadConfig();
-				$sEventPlugin=array_shift($aParams);
-				/**
-				 * Загружаем в шаблон объект для удобного получения URL внутри админки плагина
+				/*
+				 * загрузить в шаблон объект для удобного получения URL внутри админки плагина
 				 */
-				$oAdminUrl=Engine::GetEntity('PluginAdmin_ModuleUi_EntityAdminUrl');
+				$oAdminUrl = Engine::GetEntity('PluginAdmin_ModuleUi_EntityAdminUrl');
 				$oAdminUrl->setPlugin($sPlugin);
-				$this->Viewer_Assign('oAdminUrl',$oAdminUrl);
-				return Router::Action($sRouterPage,$sEventPlugin,$aParams);
+
+				$this->Viewer_Assign('oAdminUrl', $oAdminUrl);
+				/*
+				 * выполнить редирект на экшен "PluginИмяплагина_ActionAdmin" плагина с нужным эвентом и параметрами
+				 */
+				$sEventPlugin = array_shift($aParams);
+				return Router::Action($sRouterPage, $sEventPlugin, $aParams);
 			}
 		}
 		return $this->EventNotFound();
-	}
-
-
-	protected function IsInstanceClass($sClass,$sParent) {
-		if (!class_exists($sClass)) {
-			return false;
-		}
-		$oClass=new ReflectionClass($sClass);
-		do {
-			if ($oClass->getName()==$sParent) {
-				return true;
-			}
-			$oClass=$oClass->getParentClass();
-		} while(false!==$oClass);
-		return false;
 	}
 
 }

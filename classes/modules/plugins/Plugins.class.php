@@ -322,7 +322,7 @@ class PluginAdmin_ModulePlugins extends Module {
 	 *
 	 * @return array
 	 */
-	protected function GetActivePlugins() {
+	public function GetActivePlugins() {
 		/*
 		 * данные из файла PLUGINS.DAT
 		 */
