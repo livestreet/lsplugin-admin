@@ -88,6 +88,30 @@ class PluginAdmin_ModuleSkin extends Module {
 
 
 	/**
+	 * Задать новые свойства "data" со значениями из атрибутов согласно настроек языка сайта
+	 *
+	 * @param $oXml			объект xml
+	 * @return mixed		объект xml с новыми свойствами
+	 */
+	protected function SetXmlPropertiesForLang($oXml) {
+		$this->PluginAdmin_Tools_AddXmlDataValueCorrespondingOnLang($oXml, 'name', $this->sLang);
+		$this->PluginAdmin_Tools_AddXmlDataValueCorrespondingOnLang($oXml, 'author', $this->sLang);
+		$this->PluginAdmin_Tools_AddXmlDataValueCorrespondingOnLang($oXml, 'description', $this->sLang);
+
+		/*
+		 * пропустить только через парсер текста т.к. другие методы парсинга (флеш, видео, тег кода и наследование через плагины, которые обычно наследуют метод Parse) не нужны
+		 */
+		$oXml->homepage = $this->Text_JevixParser((string) $oXml->homepage);
+		if ($oXml->themes) {
+			foreach ($oXml->themes->children() as $oTheme) {
+				$this->PluginAdmin_Tools_AddXmlDataValueCorrespondingOnLang($oTheme, 'description', $this->sLang);
+			}
+		}
+		return $oXml;
+	}
+
+
+	/**
 	 * Получает информацию из файла шаблона на основе основного языка сайта
 	 *
 	 * @param $sSkinXmlFile 			Имя шаблона
@@ -95,23 +119,7 @@ class PluginAdmin_ModuleSkin extends Module {
 	 */
 	protected function GetSkinXmlData($sSkinXmlFile) {
 		if ($oXml = @simplexml_load_file($sSkinXmlFile)) {
-
-			// todo: refactor in method
-
-			/*
-			 * задать новые свойства "data" со значениями атрибутов согласно настроек языка сайта
-			 */
-			$this->PluginAdmin_Tools_AddXmlDataValueCorrespondingOnLang($oXml, 'name', $this->sLang);
-			$this->PluginAdmin_Tools_AddXmlDataValueCorrespondingOnLang($oXml, 'author', $this->sLang);
-			$this->PluginAdmin_Tools_AddXmlDataValueCorrespondingOnLang($oXml, 'description', $this->sLang);
-
-			$oXml->homepage = $this->Text_JevixParser((string) $oXml->homepage);
-			if ($oXml->themes) {
-				foreach ($oXml->themes->children() as $oTheme) {
-					$this->PluginAdmin_Tools_AddXmlDataValueCorrespondingOnLang($oTheme, 'description', $this->sLang);
-				}
-			}
-			return $oXml;
+			return $this->SetXmlPropertiesForLang($oXml);
 		}
 		return null;
 	}
