@@ -175,6 +175,9 @@ class PluginAdmin_ModulePlugins extends Module {
 
 	/**
 	 * Получает список плагинов по фильтру
+	 * Ключи $aFilter:
+	 * 		active						bool - включен или нет
+	 * 		plugins_codes				array - коды нужных плагинов
 	 *
 	 * @param array $aFilter			фильтр
 	 * @return array
@@ -205,12 +208,21 @@ class PluginAdmin_ModulePlugins extends Module {
 			}
 			if ($oPlugin->getActive()) $iActive++;
 			/*
+			 * tip: фильтры использовать только после этого комментария т.к. нужно общее количество
+			 */
+			/*
 			 * проверка отбора только активных или неактивных плагинов
 			 */
 			if (isset($aFilter['active']) and $oPlugin->getActive() !== $aFilter['active']) {
 				/*
 				 * по фильтру нужны только активные или неактивные плагины
 				 */
+				continue;
+			}
+			/*
+			 * проверка отбора массива нужных кодов плагинов
+			 */
+			if (isset($aFilter['plugins_codes']) and !in_array($oPlugin->getCode(), $aFilter['plugins_codes'])) {
 				continue;
 			}
 			/*
@@ -228,37 +240,22 @@ class PluginAdmin_ModulePlugins extends Module {
 
 
 	/**
-	 * Получить массив сущностей по кодам плагинов или по сущностям (например, по сущностям обновлений)
+	 * Получить коды плагинов из сущностей (плагинов или обновлений)
 	 *
-	 * @param array $aPluginCodes	массив кодов плагинов
-	 * @return array
+	 * @param $aEntities		массив сущностей
+	 * @return array			массив кодов
 	 */
-	public function GetPluginsByCodesOrUpdates($aPluginCodes = array()) {
-		if (!is_array($aPluginCodes)) {
-			$aPluginCodes = (array) $aPluginCodes;
-		}
-		$aPlugins = array();
+	public function GetPluginsCodesFromEntities($aEntities) {
+		$aPluginsCodes = array();
 		/*
-		 * коды активных плагинов (так быстрее)
+		 * может быть строкой (текст ошибки), булевым значением (нет обновлений) или массивом сущностей обновлений
 		 */
-		$aActivePluginsCodes = $this->GetActivePlugins();
-		foreach($aPluginCodes as $sPluginCode) {
-			/*
-			 * если это объект (обновления) - получить его код
-			 */
-			$sPluginCode = is_object($sPluginCode) ? $sPluginCode->getCode() : $sPluginCode;
-			/*
-			 * получить сущность плагина
-			 */
-			if (($oPlugin = $this->GetPluginByCode($sPluginCode, $aActivePluginsCodes, false, false)) === false) {
-				/*
-				 * ошибка распознавания xml-файла плагина
-				 */
-				continue;
+		if (is_array($aEntities)) {
+			foreach($aEntities as $oEntity) {
+				$aPluginsCodes[] = $oEntity->getCode();
 			}
-			$aPlugins[] = $oPlugin;
 		}
-		return $aPlugins;
+		return $aPluginsCodes;
 	}
 
 

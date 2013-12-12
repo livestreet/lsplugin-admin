@@ -62,8 +62,9 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 			 * с обновлениями
 			 */
 			case 'updates':
-				$aPluginsInfo = $this->PluginAdmin_Plugins_GetPluginsList();
-				$aPluginsInfo['collection'] = $this->PluginAdmin_Plugins_GetPluginsByCodesOrUpdates($aUpdatesInfo);// todo: replace with filter, check for ARRAY type
+				$aPluginsInfo = $this->PluginAdmin_Plugins_GetPluginsList(array(
+					'plugins_codes' => $this->PluginAdmin_Plugins_GetPluginsCodesFromEntities($aUpdatesInfo)
+				));
 				break;
 			/*
 			 * неизвестный тип

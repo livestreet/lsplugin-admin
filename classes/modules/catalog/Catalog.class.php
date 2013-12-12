@@ -208,6 +208,9 @@ class PluginAdmin_ModuleCatalog extends Module {
 	 * @return string|bool|array	массив кодов и версий плагинов с обновлениям, false если нет обновлений или строка ошибки
 	 */
 	public function GetPluginUpdates($aPlugins = array()) {
+		/*
+		 * послать запрос на сервер для получения списка обновлений
+		 */
 		$mData = $this->GetUpdatesListForPlugins($aPlugins);
 		/*
 		 * если получен ответ от сервера
