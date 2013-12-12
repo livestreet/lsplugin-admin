@@ -12,14 +12,15 @@
 	{* Основные пункты меню *}
 	{foreach $oMenuMain->GetSections() as $oMenuSection}
 		<li class="nav-main-item nav-main-item-root {if $oMenuSection->HasItems()}js-nav-main-item-root{/if} {if $oMenuSection->GetActive()}active{/if}" data-item-id="{$oMenuSection@index}">
-			<a {if ! $oMenuSection->HasItems()}href="{$oMenuSection->GetUrlFull()}"{else}href="#"{/if}>
-				<i class="nav-main-item-icon nav-main-item-icon-{$oMenuSection->GetName()}"></i>
+			<a {if ! $oMenuSection->HasItems()}href="{$oMenuSection->GetUrlFull()}"{else}href="#"{/if} 
+			   {if $oMenuSection->HasItems()}class="js-dropdown-nav-main" data-dropdown-target="dropdown-menu-nav-main-{$oMenuSection@index}"{/if}>
+				<i class="nav-main-item-icon nav-main-item-icon-{$oMenuSection->GetName()}" title="{$oMenuSection->GetCaption()|escape}"></i>
 				<span>{$oMenuSection->GetCaption()|escape}</span>
 			</a>
 
 			{* Подменю *}
 			{if $oMenuSection->HasItems()}
-				<ul>
+				<ul class="js-nav-main-submenu">
 					{foreach $oMenuSection->GetItems() as $oMenuItem}
 						<li {if $oMenuItem->GetActive()}class="active"{/if}>
 							<a href="{$oMenuItem->GetUrlFull()}"><span>{$oMenuItem->GetCaption()|escape}</span></a>

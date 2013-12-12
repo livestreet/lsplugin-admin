@@ -63,3 +63,12 @@
 
 .dropdown-menu.position-y-top.position-x-center:after  { left: 50%; top: -12px; margin-left: -6px; border-bottom-color: #fff; }
 .dropdown-menu.position-y-top.position-x-center:before { left: 50%; top: -14px; margin-left: -7px; border-bottom-color: #fff; }
+
+.dropdown-menu.position-y-top.position-x-right:after  { right: -12px; top: 14px; border-left-color: #fff; }
+.dropdown-menu.position-y-top.position-x-right:before { right: -14px; top: 13px; border-left-color: #fff; }
+
+/**
+ * Menu Nav Main
+ */
+.dropdown-menu-nav-main:after  { right: -12px; top: 13px; border-left-color: #fff; }
+.dropdown-menu-nav-main:before { right: -14px; top: 12px; border-left-color: #fff; }

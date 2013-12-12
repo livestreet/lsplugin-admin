@@ -19,8 +19,8 @@ ls.plugin.admin.navMain = (function ($) {
 	 * jQuery объект меню
 	 */
 	var oNav = null,
-	    oToggle = null,
-	    oBody = null;
+		oToggle = null,
+		oBody = null;
 
 	/**
 	 * Дефолтные опции
@@ -32,7 +32,8 @@ ls.plugin.admin.navMain = (function ($) {
 		selectors: {
 			nav: '.js-nav-main',
 			toggle: '.js-nav-main-fold',
-			toggleMobile: '.js-nav-main-fold-mobile'
+			toggleMobile: '.js-nav-main-fold-mobile',
+			subMenu: '.js-nav-main-submenu'
 		},
 		classes: {
 			folded: 'is-nav-main-folded'
@@ -152,6 +153,43 @@ ls.plugin.admin.navMain = (function ($) {
 	};
 
 	/**
+	 * 
+	 */
+	this.dropdownsInit = function () {
+		oNav.find(this.options.selectors.subMenu).each(function () {
+			var oSubMenu = $(this);
+
+			oSubMenu.clone()
+					.addClass('dropdown-menu dropdown-menu-nav-main')
+					.attr('id', 'dropdown-menu-nav-main-' + oSubMenu.closest('li').data('item-id'))
+					.appendTo(oBody);
+		});
+
+		$('.js-dropdown-nav-main').dropdown({
+			position: {
+				my: "right-8 top-4",
+				at: "left top",
+				collision: "none none"
+			},
+			body: false,
+			show: {
+				effect: 'fadeIn'
+			},
+			hide: {
+				effect: 'fadeOut'
+			}
+		});
+	};
+
+	/**
+	 * 
+	 */
+	this.dropdownsDestroy = function () {
+		$('.dropdown-menu-nav-main').remove();
+		$('.js-dropdown-nav-main').dropdown('destroy');
+	};
+
+	/**
 	 * Сворачивает / разворачивает меню
 	 */
 	this.toggle = function () {
@@ -159,19 +197,21 @@ ls.plugin.admin.navMain = (function ($) {
 	};
 
 	/**
-	 * Сворачивает меню
+	 * Сворачивает главное меню
 	 */
 	this.fold = function () {
 		oBody.addClass(this.options.classes.folded);
+		this.dropdownsInit();
 		$.cookie(this.options.cookie.folded, 1, { path: '/', expires: 999 });
 		$(window).trigger('resize');
 	};
 
 	/**
-	 * Разворачивает меню
+	 * Разворачивает главное меню
 	 */
 	this.unfold = function () {
 		oBody.removeClass(this.options.classes.folded);
+		this.dropdownsDestroy();
 		$.cookie(this.options.cookie.folded, null, { path: '/', expires: '' });
 		$(window).trigger('resize');
 	};
