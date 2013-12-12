@@ -21,7 +21,7 @@
 
 /*
  *
- * Модуль работы с удаленными серверами
+ * Модуль работы с удаленными серверами через cURL
  *
  */
 
@@ -32,13 +32,14 @@ class PluginAdmin_ModuleRemoteserver extends Module {
 	 */
 	const REQUEST_URL = 'url';
 	/*
-	 * ключ массива запроса для массив передаваемых данных
+	 * ключ массива запроса для массива передаваемых данных
 	 */
 	const REQUEST_DATA = 'data';
 	/*
 	 * ключ массива запроса настроек для curl
 	 */
 	const REQUEST_CURL_OPTIONS = 'curl_options';
+
 
 	/*
 	 * ключ успеха массива ответа
@@ -53,17 +54,19 @@ class PluginAdmin_ModuleRemoteserver extends Module {
 	 */
 	const RESPONSE_DATA = 'data';
 
+
 	/*
 	 * подпись
 	 */
 	const USER_AGENT = 'LiveStreet CMS New Admin Panel';
+
 
 	/*
 	 * макс. время подключения к серверу (не обработки запроса), сек
 	 */
 	const CONNECT_TIMEOUT = 2;
 	/*
-	 * макс. общее время работы получения данных, сек
+	 * макс. общее время работы получения данных от сервера, сек
 	 */
 	const WORK_TIMEOUT = 4;
 
@@ -79,7 +82,7 @@ class PluginAdmin_ModuleRemoteserver extends Module {
 
 
 	/**
-	 * Выполнить запрос на сервер через первый из доступных способов (curl, socket, file)
+	 * Выполнить POST запрос на сервер через curl
 	 *
 	 * @param $aRequestData		массив с данными для запроса
 	 * @return array|null
@@ -88,36 +91,19 @@ class PluginAdmin_ModuleRemoteserver extends Module {
 		/*
 		 * если на сервере можно использовать CURL
 		 */
-/*		if ($this->IsCurlSupported()) {
+		if ($this->IsCurlSupported()) {
 			return $this->SendByCurl(
 				$aRequestData[self::REQUEST_URL],
-				$aRequestData[self::REQUEST_DATA],
+				isset($aRequestData[self::REQUEST_DATA]) ? $aRequestData[self::REQUEST_DATA] : array(),
 				isset($aRequestData[self::REQUEST_CURL_OPTIONS]) ? $aRequestData[self::REQUEST_CURL_OPTIONS] : array()
 			);
-		}*/
-		/*
-		 * если на сервере можно использовать сокеты
-		 * todo: этот способ не протестирован т.к. не удалось запустить OpenSSL
-		 */
-		if ($this->IsSocketsSupported()) {
-			return $this->SendBySocket(
-				$aRequestData[self::REQUEST_URL],
-				$aRequestData[self::REQUEST_DATA]
-			);
 		}
-
-		/*
-		 * попробовать загрузить через файл
-		 * todo: не удалось запустить OpenSSL для file_get_contents()
-		 */
-
-
-		return null;
+		return 'Error: no cURL extension installed on server';
 	}
 
 
 	/**
-	 * Выполнить запрос на сервер через CURL
+	 * Выполнить POST запрос на сервер через cURL
 	 *
 	 * @param       $sUrl				урл запроса
 	 * @param       $aData				массив передаваемых данных
@@ -145,6 +131,7 @@ class PluginAdmin_ModuleRemoteserver extends Module {
 		/*
 		 * параметры по-умолчанию
 		 * они могут быть изменены/дополнены через параметр метода $aCurlOptions
+		 *
 		 * docs: http://www.php.net/manual/ru/function.curl-setopt.php
 		 */
 		$aCurlDefaults = array(
@@ -273,118 +260,6 @@ class PluginAdmin_ModuleRemoteserver extends Module {
 	}
 
 
-	/**
-	 * Выполнить запрос на сервер через сокеты
-	 *
-	 * @param       $sUrl				урл запроса
-	 * @param       $aData				массив передаваемых данных
-	 * @return array					array('success' => $bSuccess, 'error_message' => $sErrorMsg, 'data' => $mData)
-	 */
-	protected function SendBySocket($sUrl, $aData) {
-		/*
-		 * флаг отсутствия ошибки
-		 */
-		$bSuccess = true;
-		/*
-		 * текст ошибки
-		 */
-		$sErrorMsg = null;
-		/*
-		 * упаковать массив передаваемых данных в строку чтобы использовать application/x-www-form-urlencoded
-		 */
-		$sPostData = http_build_query($aData);
-		/*
-		 * результат запроса
-		 */
-		$mData = null;
-
-		/*
-		 * для защищенных соединений через https:// у сокетов другой протокол - ssl://
-		 */
-		$sUrl = str_replace('https://', 'ssl://', $sUrl);
-		/*
-		 * получить части адреса т.к. fsockopen не понимает весь урл полностью
-		 */
-		$aAdressParts = parse_url($sUrl);
-
-		if (!$oSocket = @fsockopen(
-			$aAdressParts['host'],
-			strpos('ssl://', $sUrl) !== false ? 443 : 80,								// todo: check for port
-			$iErrorMsg,
-			$sErrorMsg,
-			self::CONNECT_TIMEOUT
-		)) {
-			$bSuccess = false;
-		}
-		/*
-		 * выполнить запрос
-		 */
-		if ($bSuccess) {
-			/*
-			 * послать заголовки
-			 */
-			$aSendData = array(
-				'POST ' . $aAdressParts['path'] . ' HTTP/1.1',
-				'Connection: Close',
-
-				'User-Agent: ' . self::USER_AGENT,
-				'Host: ' . $aAdressParts['host'],
-				'X-Powered-By: ' . self::USER_AGENT,
-				'Accept: */*',
-
-				'Content-Type: application/x-www-form-urlencoded',
-				'Content-Length: ' . strlen($sPostData),
-				/*
-				 * этот перевод кареток нужен т.к. так отделяются пост данные от заголовков,
-				 * в противном случае сервер будет ждать данных на длину Content-Length и "зависнет"
-				 */
-				'',
-				$sPostData,
-			);
-			fwrite($oSocket, implode("\r\n", $aSendData));
-			/*
-			 * задать общее время работы
-			 */
-			stream_set_timeout($oSocket, self::WORK_TIMEOUT);
-			/*
-			 * получить информацию
-			 */
-			$aInfo = stream_get_meta_data($oSocket);
-			/*
-			 * получать ответ пока есть данные или не вышло время получения данных (заданное в stream_set_timeout)
-			 */
-			while (!feof($oSocket) and !$aInfo['timed_out']) {
-				$aInfo = stream_get_meta_data($oSocket);
-				$mData .= fgets($oSocket, 8192);
-			}
-			/*
-			 * проверить на ошибки
-			 */
-			if ($aInfo['timed_out'] or strpos($mData, 'HTTP/1.1 400') !== false) {// todo: or 404
-				$bSuccess = false;
-				$sErrorMsg = 'response: 40x codes';
-			}
-
-			fclose($oSocket);
-		}
-
-		return array(
-			/*
-			 * флаг успеха
-			 */
-			self::RESPONSE_SUCCESS => $bSuccess,
-			/*
-			 * текст ошибки
-			 */
-			self::RESPONSE_ERROR_MESSAGE => $sErrorMsg,
-			/*
-			 * полученные данные
-			 */
-			self::RESPONSE_DATA => $mData
-		);
-	}
-
-
 	/*
 	 *
 	 * --- Проверка наличия методов ---
@@ -400,15 +275,6 @@ class PluginAdmin_ModuleRemoteserver extends Module {
 		return function_exists('curl_init');
 	}
 
-
-	/**
-	 * Включена ли поддержка сокетов на сервере
-	 *
-	 * @return bool
-	 */
-	protected function IsSocketsSupported() {
-		return function_exists('fsockopen');
-	}
 
 }
 
