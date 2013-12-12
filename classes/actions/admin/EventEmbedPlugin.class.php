@@ -29,6 +29,7 @@ class PluginAdmin_ActionAdmin_EventEmbedPlugin extends Event {
 	 * имя экшена админки который должны унаследовать все плагины, которые хотят встраивать свой интерфейс в админку
 	 */
 	const ACTION_PLUGIN_NAME = 'PluginAdmin_ActionPlugin';
+
 	
 	/**
 	 * Интегрирует настройки плагина в админку и запускает класс "PluginИмяплагина_ActionAdmin", который должен быть унаследован от PluginAdmin_ActionPlugin

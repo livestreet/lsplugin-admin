@@ -88,6 +88,7 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 			 */
 			case 'string':
 				$this->Message_AddError($mUpdatesList);
+				$this->Viewer_Assign('iPluginUpdates', 0);
 				break;
 			/*
 			 * есть обновления

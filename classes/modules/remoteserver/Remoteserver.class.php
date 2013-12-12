@@ -56,7 +56,16 @@ class PluginAdmin_ModuleRemoteserver extends Module {
 	/*
 	 * подпись
 	 */
-	const CURL_USER_AGENT = 'LiveStreet CMS New Admin Panel';
+	const USER_AGENT = 'LiveStreet CMS New Admin Panel';
+
+	/*
+	 * макс. время подключения к серверу (не обработки запроса), сек
+	 */
+	const CONNECT_TIMEOUT = 2;
+	/*
+	 * макс. общее время работы получения данных, сек
+	 */
+	const WORK_TIMEOUT = 4;
 
 	/*
 	 * путь к корневым сертификатам
@@ -79,21 +88,30 @@ class PluginAdmin_ModuleRemoteserver extends Module {
 		/*
 		 * если на сервере можно использовать CURL
 		 */
-		if ($this->IsCurlSupported()) {
+/*		if ($this->IsCurlSupported()) {
 			return $this->SendByCurl(
 				$aRequestData[self::REQUEST_URL],
 				$aRequestData[self::REQUEST_DATA],
 				isset($aRequestData[self::REQUEST_CURL_OPTIONS]) ? $aRequestData[self::REQUEST_CURL_OPTIONS] : array()
 			);
-		}
+		}*/
 		/*
 		 * если на сервере можно использовать сокеты
+		 * todo: этот способ не протестирован т.к. не удалось запустить OpenSSL
 		 */
-		// todo: sockets
+		if ($this->IsSocketsSupported()) {
+			return $this->SendBySocket(
+				$aRequestData[self::REQUEST_URL],
+				$aRequestData[self::REQUEST_DATA]
+			);
+		}
+
 		/*
 		 * попробовать загрузить через файл
+		 * todo: не удалось запустить OpenSSL для file_get_contents()
 		 */
-		// todo: files
+
+
 		return null;
 	}
 
@@ -176,11 +194,11 @@ class PluginAdmin_ModuleRemoteserver extends Module {
 			/*
 			 * таймаут подключения, сек
 			 */
-			CURLOPT_CONNECTTIMEOUT => 2,
+			CURLOPT_CONNECTTIMEOUT => self::CONNECT_TIMEOUT,
 			/*
 			 * макс. позволенное количество секунд для выполнения cURL-функций
 			 */
-			CURLOPT_TIMEOUT => 4,
+			CURLOPT_TIMEOUT => self::WORK_TIMEOUT,
 			/*
 			 * мин. скорость передачи, байт/сек
 			 */
@@ -188,7 +206,7 @@ class PluginAdmin_ModuleRemoteserver extends Module {
 			/*
 			 * макс. время (сек.) когда разрешена скорость CURLOPT_LOW_SPEED_LIMIT после чего пхп оборвет соединение
 			 */
-			CURLOPT_LOW_SPEED_TIME => 2,
+			CURLOPT_LOW_SPEED_TIME => 3,
 
 
 			/*
@@ -204,7 +222,7 @@ class PluginAdmin_ModuleRemoteserver extends Module {
 			/*
 			 * подпись (заголовок)
 			 */
-			CURLOPT_USERAGENT => self::CURL_USER_AGENT,
+			CURLOPT_USERAGENT => self::USER_AGENT,
 			/*
 			 * реферер
 			 */
@@ -212,7 +230,7 @@ class PluginAdmin_ModuleRemoteserver extends Module {
 			/*
 			 * заголовки
 			 */
-			CURLOPT_HTTPHEADER => array('X-Powered-By: LiveStreet CMS New Admin Panel'),
+			CURLOPT_HTTPHEADER => array('X-Powered-By: ' . self::USER_AGENT),
 		);
 
 		$oCurl = curl_init();
@@ -221,7 +239,9 @@ class PluginAdmin_ModuleRemoteserver extends Module {
 		 * tip: особенность работы оператора "+" для массивов: до заданных настроек добавляются настройки по-умолчанию, не перекрывая их
 		 */
 		$aCurlAllOptions = $aCurlOptions + $aCurlDefaults;
-
+		/*
+		 * установить все параметры курла
+		 */
 		if (curl_setopt_array($oCurl, $aCurlAllOptions) === false) {
 			$bSuccess = false;
 			$sErrorMsg = curl_error($oCurl);
@@ -253,6 +273,118 @@ class PluginAdmin_ModuleRemoteserver extends Module {
 	}
 
 
+	/**
+	 * Выполнить запрос на сервер через сокеты
+	 *
+	 * @param       $sUrl				урл запроса
+	 * @param       $aData				массив передаваемых данных
+	 * @return array					array('success' => $bSuccess, 'error_message' => $sErrorMsg, 'data' => $mData)
+	 */
+	protected function SendBySocket($sUrl, $aData) {
+		/*
+		 * флаг отсутствия ошибки
+		 */
+		$bSuccess = true;
+		/*
+		 * текст ошибки
+		 */
+		$sErrorMsg = null;
+		/*
+		 * упаковать массив передаваемых данных в строку чтобы использовать application/x-www-form-urlencoded
+		 */
+		$sPostData = http_build_query($aData);
+		/*
+		 * результат запроса
+		 */
+		$mData = null;
+
+		/*
+		 * для защищенных соединений через https:// у сокетов другой протокол - ssl://
+		 */
+		$sUrl = str_replace('https://', 'ssl://', $sUrl);
+		/*
+		 * получить части адреса т.к. fsockopen не понимает весь урл полностью
+		 */
+		$aAdressParts = parse_url($sUrl);
+
+		if (!$oSocket = @fsockopen(
+			$aAdressParts['host'],
+			strpos('ssl://', $sUrl) !== false ? 443 : 80,								// todo: check for port
+			$iErrorMsg,
+			$sErrorMsg,
+			self::CONNECT_TIMEOUT
+		)) {
+			$bSuccess = false;
+		}
+		/*
+		 * выполнить запрос
+		 */
+		if ($bSuccess) {
+			/*
+			 * послать заголовки
+			 */
+			$aSendData = array(
+				'POST ' . $aAdressParts['path'] . ' HTTP/1.1',
+				'Connection: Close',
+
+				'User-Agent: ' . self::USER_AGENT,
+				'Host: ' . $aAdressParts['host'],
+				'X-Powered-By: ' . self::USER_AGENT,
+				'Accept: */*',
+
+				'Content-Type: application/x-www-form-urlencoded',
+				'Content-Length: ' . strlen($sPostData),
+				/*
+				 * этот перевод кареток нужен т.к. так отделяются пост данные от заголовков,
+				 * в противном случае сервер будет ждать данных на длину Content-Length и "зависнет"
+				 */
+				'',
+				$sPostData,
+			);
+			fwrite($oSocket, implode("\r\n", $aSendData));
+			/*
+			 * задать общее время работы
+			 */
+			stream_set_timeout($oSocket, self::WORK_TIMEOUT);
+			/*
+			 * получить информацию
+			 */
+			$aInfo = stream_get_meta_data($oSocket);
+			/*
+			 * получать ответ пока есть данные или не вышло время получения данных (заданное в stream_set_timeout)
+			 */
+			while (!feof($oSocket) and !$aInfo['timed_out']) {
+				$aInfo = stream_get_meta_data($oSocket);
+				$mData .= fgets($oSocket, 8192);
+			}
+			/*
+			 * проверить на ошибки
+			 */
+			if ($aInfo['timed_out'] or strpos($mData, 'HTTP/1.1 400') !== false) {// todo: or 404
+				$bSuccess = false;
+				$sErrorMsg = 'response: 40x codes';
+			}
+
+			fclose($oSocket);
+		}
+
+		return array(
+			/*
+			 * флаг успеха
+			 */
+			self::RESPONSE_SUCCESS => $bSuccess,
+			/*
+			 * текст ошибки
+			 */
+			self::RESPONSE_ERROR_MESSAGE => $sErrorMsg,
+			/*
+			 * полученные данные
+			 */
+			self::RESPONSE_DATA => $mData
+		);
+	}
+
+
 	/*
 	 *
 	 * --- Проверка наличия методов ---
@@ -266,6 +398,16 @@ class PluginAdmin_ModuleRemoteserver extends Module {
 	 */
 	protected function IsCurlSupported() {
 		return function_exists('curl_init');
+	}
+
+
+	/**
+	 * Включена ли поддержка сокетов на сервере
+	 *
+	 * @return bool
+	 */
+	protected function IsSocketsSupported() {
+		return function_exists('fsockopen');
 	}
 
 }
