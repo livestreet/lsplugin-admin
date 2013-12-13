@@ -223,7 +223,7 @@ class PluginAdmin_ModuleSkin extends Module {
 		/*
 		 * информация о шаблоне
 		 */
-		$aSkinInfo['info'] = $this->GetSkinXmlObject($sSkinName);
+		$aSkinInfo['xml'] = $this->GetSkinXmlObject($sSkinName);
 		/*
 		 * превью шаблона
 		 */
@@ -395,21 +395,6 @@ class PluginAdmin_ModuleSkin extends Module {
 	 *
 	 */
 
-	/**
-	 * Получить список имен тем шаблона из его информации (из xml файла)
-	 *
-	 * @param $oInfo
-	 * @return array
-	 */
-	public function GetSkinThemesByInfo($oInfo) {
-		if (!is_object($oInfo)) return array();
-		$aThemes = array();
-		foreach($oInfo->themes->children() as $oTheme) {
-			$aThemes[] = $oTheme->value;
-		}
-		return $aThemes;
-	}
-
 
 	/**
 	 * Установить тему шаблона
@@ -433,7 +418,6 @@ class PluginAdmin_ModuleSkin extends Module {
 		$this->TurnOffPreviewSkin();
 		return true;
 	}
-
 
 
 }

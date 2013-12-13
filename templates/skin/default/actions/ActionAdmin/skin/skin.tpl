@@ -13,44 +13,42 @@
 				если это не текущий включенный шаблон (независимо от предпросмотра)
 			*}
 			{if !$oSkin->getIsCurrent()}
-				<a href="{router page="admin/settings/skins/use/{$oSkin->getName()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
-				   class="button button-primary">{$aLang.plugin.admin.skin.use_skin}</a>
+				<a href="{$oSkin->getChangeSkinUrl()}" class="button button-primary">{$aLang.plugin.admin.skin.use_skin}</a>
 
 				{*
 					чтобы можно было назад "отжать" кнопку
 				*}
 				{if $oSkin->getInPreview()}
-					<a href="{router page="admin/settings/skins/turnoffpreview/{$oSkin->getName()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
-					   class="button button-primary active">{$aLang.plugin.admin.skin.preview_skin}</a>
+					<a href="{$oSkin->getTurnOffPreviewUrl()}" class="button button-primary active">{$aLang.plugin.admin.skin.preview_skin}</a>
 				{else}
-					<a href="{router page="admin/settings/skins/preview/{$oSkin->getName()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
-					   class="button button-primary">{$aLang.plugin.admin.skin.preview_skin}</a>
+					<a href="{$oSkin->getTurnOnPreviewUrl()}" class="button button-primary">{$aLang.plugin.admin.skin.preview_skin}</a>
 				{/if}
 			{/if}
 		</div>
 
-		{$oInfo = $oSkin->getInfo()}
-
-		{if $oInfo}
+		{*
+			все методы ниже используют xml файл
+		*}
+		{if $oSkin->getXml()}
 			<div class="skin-list-item-info">
 				<dl>
 					<dt>{$aLang.plugin.admin.skin.author}:</dt>
-					<dd>{$oInfo->author->data}</dd>
+					<dd>{$oSkin->getAuthor()}</dd>
 				</dl>
 				<dl>
 					<dt>{$aLang.plugin.admin.skin.homepage}:</dt>
-					<dd>{$oInfo->homepage}</dd>
+					<dd>{$oSkin->getHomepage()}</dd>
 				</dl>
 				<dl>
 					<dt>{$aLang.plugin.admin.skin.version}:</dt>
-					<dd>{$oInfo->version}</dd>
+					<dd>{$oSkin->getVersion()}</dd>
 				</dl>
 				<dl>
 					<dt>{$aLang.plugin.admin.skin.description}:</dt>
-					<dd>{$oInfo->description->data}</dd>
+					<dd>{$oSkin->getDescription()}</dd>
 				</dl>
 
-				{if $oInfo->themes->children() and count($oInfo->themes->children()) > 0}
+				{if $oSkin->getThemes() and count($oSkin->getThemes()) > 0}
 					<dl>
 						<dt>{$aLang.plugin.admin.skin.themes}:</dt>
 						<dd>
@@ -64,9 +62,9 @@
 									<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
 
 									<select name="theme" class="width-150">
-										{foreach from=$oInfo->themes->children() item=oTheme}
-											<option value="{$oTheme->value}" {if $oConfig->Get('view.theme')==$oTheme->value}selected="selected"{/if}>
-												{$oTheme->description->data}
+										{foreach from=$oSkin->getThemes() item=aTheme}
+											<option value="{$aTheme.value}" {if $oConfig->Get('view.theme')==$aTheme.value}selected="selected"{/if}>
+												{$aTheme.description}
 											</option>
 										{/foreach}
 									</select>
@@ -77,10 +75,10 @@
 								{*
 									для неактивного шаблона нужно только вывести список тем, т.к. включить их для неактивного шаблона нельзя
 								*}
-								{foreach from=$oInfo->themes->children() item=oTheme}
-									<span>{$oTheme->value}</span>
-									<i class="icon-info-sign" title="{$oTheme->description->data|escape:'html'}"></i>
-									{if !$oTheme@last},{/if}
+								{foreach from=$oSkin->getThemes() item=aTheme}
+									<span>{$aTheme.value}</span>
+									<i class="icon-info-sign" title="{$aTheme.description|escape:'html'}"></i>
+									{if !$aTheme@last},{/if}
 								{/foreach}
 							{/if}
 						</dd>

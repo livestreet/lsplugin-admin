@@ -84,26 +84,21 @@ class PluginAdmin_ActionAdmin_EventSkin extends Event {
 		 */
 		$sTheme = getRequestStr('theme');
 		/*
-		 * получить список шаблонов и отдельно - текущий скин
+		 * получить текущий шаблон
 		 */
-		$aSkinsData = $this->PluginAdmin_Skin_GetSkinList(array(
-			'separate_current_skin' => true,
-			'delete_current_skin_from_list' => true
-		));
-		/*
-		 * получить описание темы из xml файла
-		 */
-		$oInfo = $aSkinsData['current']->getInfo();
+		$oCurrentSkin = $this->PluginAdmin_Skin_GetSkinByName($this->PluginAdmin_Skin_GetOriginalSkinName());
 		/*
 		 * проверить есть ли такая тема текущего шаблона
 		 */
-		if ($oInfo and in_array($sTheme, $this->PluginAdmin_Skin_GetSkinThemesByInfo($oInfo))) {
+		if ($oCurrentSkin->getIsThemeSupported($sTheme)) {
 			/*
 			 * установить тему
 			 */
 			if ($this->PluginAdmin_Skin_ChangeTheme($sTheme)) {
 				$this->Message_AddNotice($this->Lang('notices.theme_changed'), '', true);
 			}
+		} else {
+			$this->Message_AddError($this->Lang('errors.skin.xml_dont_tells_anything_about_this_theme'), '', true);
 		}
 		return $this->RedirectToReferer();
 	}

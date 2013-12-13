@@ -93,6 +93,8 @@ class PluginAdmin_ModulePlugins_EntityPlugins extends Entity {
 	/*
 	 *
 	 * --- Данные из xml файла ---
+	 * tip: xml файл у плагина должен быть всегда, поэтому нет проверки на существование $this->getXml(),
+	 * пример с проверкой есть в сущности шаблона где xml файл может отсутствовать
 	 *
 	 */
 

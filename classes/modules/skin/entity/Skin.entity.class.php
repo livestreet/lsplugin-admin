@@ -54,13 +54,10 @@ class PluginAdmin_ModuleSkin_EntitySkin extends Entity {
 	 */
 	public function getViewName() {
 		/*
-		 * если есть xml файл описания для шаблона
+		 * если есть имя из xml файла описания для шаблона
 		 */
-		if ($oInfo = $this->getInfo()) {
-			/*
-			 * получить запись с учетом языка сайта
-			 */
-			return (string) $oInfo->name->data;
+		if ($sName = $this->getXmlName()) {
+			return $sName;
 		}
 		/*
 		 * вернуть системное имя шаблона
@@ -69,8 +66,129 @@ class PluginAdmin_ModuleSkin_EntitySkin extends Entity {
 	}
 
 
+	/*
+	 *
+	 * --- Данные из xml файла ---
+	 *
+	 */
+
 	/**
-	 * Получить превью из шаблона или превью по-умолчанию
+	 * Получить имя шаблона
+	 *
+	 * @return mixed
+	 */
+	public function getXmlName() {
+		if ($oInfo = $this->getXml() and $mValue = $oInfo->name->data and $mValue != '') {
+			return (string) $mValue;
+		}
+		return null;
+	}
+
+
+	/**
+	 * Получить автора шаблона
+	 *
+	 * @return mixed
+	 */
+	public function getAuthor() {
+		if ($oInfo = $this->getXml() and $mValue = $oInfo->author->data and $mValue != '') {
+			return (string) $mValue;
+		}
+		return null;
+	}
+
+
+	/**
+	 * Получить страницу шаблона
+	 *
+	 * @return mixed
+	 */
+	public function getHomepage() {
+		if ($oInfo = $this->getXml() and $mValue = $oInfo->homepage and $mValue != '') {
+			return (string) $mValue;
+		}
+		return null;
+	}
+
+
+	/**
+	 * Получить версию шаблона
+	 *
+	 * @return mixed
+	 */
+	public function getVersion() {
+		if ($oInfo = $this->getXml() and $mValue = $oInfo->version and $mValue != '') {
+			return (string) $mValue;
+		}
+		return null;
+	}
+
+
+	/**
+	 * Получить описание шаблона
+	 *
+	 * @return mixed
+	 */
+	public function getDescription() {
+		if ($oInfo = $this->getXml() and $mValue = $oInfo->description->data and $mValue != '') {
+			return (string) $mValue;
+		}
+		return null;
+	}
+
+
+	/**
+	 * Получить массив тем шаблона
+	 *
+	 * @return mixed
+	 */
+	public function getThemes() {
+		if ($oInfo = $this->getXml() and
+			$oXmlThemes = $oInfo->themes and
+			$aXmlThemes = $oXmlThemes->children()
+			and $aXmlThemes != ''
+		) {
+			/*
+			 * получить массив тем, где ключ - системное имя темы, значение - массив с описанием темы
+			 */
+			$aThemes = array();
+			foreach($aXmlThemes as $oTheme) {
+				$aThemes[(string) $oTheme->value] = array(
+					/*
+					 * системное имя
+					 */
+					'value' => (string) $oTheme->value,
+					/*
+					 * описание темы, на основе установленного языка сайта
+					 */
+					'description' => (string) $oTheme->description->data,
+				);
+			}
+			return $aThemes;
+		}
+		return array();
+	}
+
+
+	/**
+	 * Поддерживается ли указанная тема этим шаблоном (есть ли в списке тем шаблона)
+	 *
+	 * @param $sTheme		имя темы для проверки
+	 * @return bool
+	 */
+	public function getIsThemeSupported($sTheme) {
+		return in_array($sTheme, array_keys($this->getThemes()));
+	}
+
+
+	/*
+	 *
+	 * --- Урлы ---
+	 *
+	 */
+
+	/**
+	 * Получить путь к превью из шаблона или превью по-умолчанию
 	 *
 	 * @return string	путь к изображению превью
 	 */
@@ -82,6 +200,36 @@ class PluginAdmin_ModuleSkin_EntitySkin extends Entity {
 		 * если нет превью - использовать превью по-умолчанию
 		 */
 		return Plugin::GetTemplateWebPath(__CLASS__) . 'assets/images/default_skin_preview.png';
+	}
+
+
+	/**
+	 * Получить ссылку для смены шаблона
+	 *
+	 * @return string
+	 */
+	public function getChangeSkinUrl() {
+		return Router::GetPath('admin/settings/skins/use'). $this->getName() . '?security_ls_key=' . $this->Security_SetSessionKey();
+	}
+
+
+	/**
+	 * Получить ссылку для выключения предпросмотра шаблона
+	 *
+	 * @return string
+	 */
+	public function getTurnOffPreviewUrl() {
+		return Router::GetPath('admin/settings/skins/turnoffpreview'). $this->getName() . '?security_ls_key=' . $this->Security_SetSessionKey();
+	}
+
+
+	/**
+	 * Получить ссылку для включения предпросмотра шаблона
+	 *
+	 * @return string
+	 */
+	public function getTurnOnPreviewUrl() {
+		return Router::GetPath('admin/settings/skins/preview'). $this->getName() . '?security_ls_key=' . $this->Security_SetSessionKey();
 	}
 
 }
