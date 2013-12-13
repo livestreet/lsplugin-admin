@@ -3,16 +3,15 @@
  *}
 
 <div class="skin-list-item {if $oSkin@iteration % 2 == 0}even{/if}">
-	{$sPreviewImg=$oSkin->getPreview()}
-	{if !$sPreviewImg}
-		{$sPreviewImg="{$aTemplateWebPathPlugin.admin}assets/images/default_skin_preview.png"}
-	{/if}
-	<img src="{$sPreviewImg}" class="skin-list-item-image" />
+	<img src="{$oSkin->getPreviewImage()}" class="skin-list-item-image" alt="{$oSkin->getViewName()|escape:'html'}" />
 
 	<div class="skin-list-item-content">
 		<h4 class="skin-list-item-title">{$oSkin->getViewName()|escape:'html'}</h4>
 
 		<div class="mb-15">
+			{*
+				если это не текущий включенный шаблон (независимо от предпросмотра)
+			*}
 			{if !$oSkin->getIsCurrent()}
 				<a href="{router page="admin/settings/skins/use/{$oSkin->getName()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
 				   class="button button-primary">{$aLang.plugin.admin.skin.use_skin}</a>

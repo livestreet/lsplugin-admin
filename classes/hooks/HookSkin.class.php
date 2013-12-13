@@ -23,7 +23,6 @@
  *
  * Работа с шаблонами
  *
- *
  */
 
 class PluginAdmin_HookSkin extends Hook {
@@ -34,47 +33,23 @@ class PluginAdmin_HookSkin extends Hook {
 		 */
 		/*
 		 *
-		 * todo:
-		 * исправить имя хука "lang_init_start" на "lang_init_names_set" и добавить этот хук в модуль Lang в Init():
-		 *
-		 * $this->Hook_Run('lang_init_names_set');
-		 *
-		 * весь метод:
+		 * ждать появления хука в модуле Lang в public function Init()
 		 *
 		 */
 /*		public function Init() {
 			$this->Hook_Run('lang_init_start');
 
-			$this->sCurrentLang = Config::Get('lang.current');
-			$this->sDefaultLang = Config::Get('lang.default');
-			$this->sLangPath = Config::Get('lang.path');
-			$this->Hook_Run('lang_init_names_set');														// NEW HOOK
+			$this->InitConfig();
+			$this->Hook_Run('lang_initconfig_done');		// this is it
 			$this->InitLang();
 		}*/
-		/*
-		 * без этого хука не будет работь получение xml данных из файлов из модуля шаблонов админки т.к. та в ините получает язык,
-		 * но первый вызов модуля шаблонов происходит здесь как раз на ините языкового модуля и ДО момента установки языков по-умолчанию.
-		 *
-		 *
-		 * ИЛИ можно сделать хак в модуле шаблонов в Инит(): вместо получения языка из модуля ланг:
-		 *
-		 * $this->sLang = $this->Lang_GetLang();
-		 *
-		 * получить его из конфига
-		 *
-		 * $this->sLang = Config::Get('lang.current');
-		 *
-		 * но это костыль и не факт, что в будущем не возникнет похожей ситуации
-		 */
 
 		/*
 		 *
-		 *
-		 * А пока что предпросмотр шаблона будет отключен т.к. он ломает работую других методов
-		 *
+		 * пока предпросмотр шаблона не работает
 		 *
 		 */
-		//$this->AddHook('lang_init_start', 'LangInitStart', __CLASS__, PHP_INT_MAX - 100);
+		//$this->AddHook('module_lang_initconfig_after', 'LangInitStart', __CLASS__, PHP_INT_MAX - 100);
 		$this->AddHook('engine_init_complete', 'EngineInitComplete');
 	}
 
@@ -91,8 +66,8 @@ class PluginAdmin_HookSkin extends Hook {
 		/*
 		 * показать сообщение о предпросмотре шаблона с ссылкой для выключения
 		 */
-		if ($this->PluginAdmin_Skin_GetPreviewSkinName()) {
-			$this->ShowPreviewSkinMessage();
+		if ($sSkinName = $this->PluginAdmin_Skin_GetPreviewSkinName()) {
+			$this->ShowPreviewSkinMessage($sSkinName);
 		}
 	}
 
@@ -100,9 +75,11 @@ class PluginAdmin_HookSkin extends Hook {
 	/**
 	 * Показать сообщение что включен режим предпросмотра шаблона с ссылкой для выключения
 	 *
+	 * @param $sSkinName	имя шаблона
 	 * @return mixed
 	 */
-	protected function ShowPreviewSkinMessage() {
+	protected function ShowPreviewSkinMessage($sSkinName) {
+		$this->Viewer_Assign('oSkin', $this->PluginAdmin_Skin_GetSkinByName($sSkinName));
 		/*
 		 * ключ безопасности ещё не передан, поэтому создадим его вручную
 		 */

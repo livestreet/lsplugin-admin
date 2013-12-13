@@ -30,8 +30,8 @@ class PluginAdmin_ModuleSkin extends Module {
 	/*
 	 * файлы описания и превью шаблона, которые должны быть в корне папки шаблона
 	 */
-	const SKIN_PREVIEW_FILE = 'template_preview.png';
-	const SKIN_XML_FILE = 'template_info.xml';
+	const PREVIEW_IMAGE_FILE = 'template_preview.png';
+	const XML_FILE = 'template_info.xml';
 
 	/*
 	 * ключ сессии, в котором хранится имя шаблона для предпросмотра
@@ -56,13 +56,25 @@ class PluginAdmin_ModuleSkin extends Module {
 
 
 	/**
+	 * Получить полный путь к файлу корневой директории шаблона по имени шаблона и файла
+	 *
+	 * @param $sSkinName	имя шаблона
+	 * @param $sFileName	имя файла
+	 * @return string		полный путь файла
+	 */
+	protected function GetSkinRootFolderFile($sSkinName, $sFileName) {
+		return $this->sSkinPath . $sSkinName . '/' . $sFileName;
+	}
+
+
+	/**
 	 * Полный путь к xml файлу для скина
 	 *
 	 * @param $sSkinName	Имя шаблона
 	 * @return string 		Полный путь к файлу и его имя
 	 */
 	protected function GetSkinXmlFile($sSkinName) {
-		return $this->sSkinPath . $sSkinName . '/' . self::SKIN_XML_FILE;
+		return $this->GetSkinRootFolderFile($sSkinName, self::XML_FILE);
 	}
 
 
@@ -73,7 +85,7 @@ class PluginAdmin_ModuleSkin extends Module {
 	 * @return string		Полный путь к файлу и его имя
 	 */
 	protected function GetSkinPreviewFile($sSkinName) {
-		return $this->sSkinPath . $sSkinName . '/' . self::SKIN_PREVIEW_FILE;
+		return $this->GetSkinRootFolderFile($sSkinName, self::PREVIEW_IMAGE_FILE);
 	}
 
 
@@ -165,30 +177,17 @@ class PluginAdmin_ModuleSkin extends Module {
 	public function GetSkinList($aFilter = array()) {
 		$aSkins = array();
 		foreach($this->GetSkinNames() as $sSkinName) {
-			$aSkinInfo = array();
 			/*
-			 * имя шаблона
+			 * получить сущность шаблона, ключ массива - имя папки шаблона
 			 */
-			$aSkinInfo['name'] = $sSkinName;
-			/*
-			 * информация о шаблоне
-			 */
-			$aSkinInfo['info'] = $this->GetSkinXmlObject($sSkinName);
-			/*
-			 * превью шаблона
-			 */
-			$aSkinInfo['preview'] = $this->GetSkinPreviewImage($sSkinName);
-			/*
-			 * получить обьект шаблона, ключ массива - имя папки шаблона
-			 */
-			$aSkins[$sSkinName] = Engine::GetEntity('PluginAdmin_Skin', $aSkinInfo);
+			$aSkins[$sSkinName] = $this->GetSkinByName($sSkinName);
 		}
 		
 		/*
 		 * сортировка списка шаблонов
 		 */
 		if (isset($aFilter['order']) and $aFilter['order'] == 'name') {
-			//natsort($aSkins);//todo:
+			ksort($aSkins, SORT_STRING);
 		}
 
 		/*
@@ -210,8 +209,33 @@ class PluginAdmin_ModuleSkin extends Module {
 
 
 	/**
+	 * Получить шаблон по имени (директории шаблона)
 	 *
-	 * Управление шаблонами
+	 * @param $sSkinName	имя шаблона (директория)
+	 * @return object		сущность шаблона
+	 */
+	public function GetSkinByName($sSkinName) {
+		$aSkinInfo = array();
+		/*
+		 * имя шаблона
+		 */
+		$aSkinInfo['name'] = $sSkinName;
+		/*
+		 * информация о шаблоне
+		 */
+		$aSkinInfo['info'] = $this->GetSkinXmlObject($sSkinName);
+		/*
+		 * превью шаблона
+		 */
+		$aSkinInfo['preview'] = $this->GetSkinPreviewImage($sSkinName);
+
+		return Engine::GetEntity('PluginAdmin_Skin', $aSkinInfo);
+	}
+
+
+	/*
+	 *
+	 * --- Управление шаблонами ---
 	 *
 	 */
 
@@ -292,6 +316,12 @@ class PluginAdmin_ModuleSkin extends Module {
 	}
 
 
+	/*
+	 *
+	 * --- Предпросмотр шаблона ---
+	 *
+	 */
+
 	/**
 	 * Задать значение шаблона для предпросмотра для текущего пользователя
 	 *
@@ -340,8 +370,11 @@ class PluginAdmin_ModuleSkin extends Module {
 	 * @return string
 	 */
 	public function GetOriginalSkinName() {
-		if ($this->GetPreviewSkinName()) {
-			return Config::Get('view.skin_original');
+		/*
+		 * если был включен режим предпросмотра и оригинальный шаблон был сохранен (т.к. если не вызвали смену шаблона через SetPreviewTemplate, то он не был изменен т.е. показан)
+		 */
+		if ($this->GetPreviewSkinName() and $sSkinOriginal = Config::Get('view.skin_original')) {
+			return $sSkinOriginal;
 		}
 		return Config::Get('view.skin');
 	}
@@ -355,6 +388,12 @@ class PluginAdmin_ModuleSkin extends Module {
 		Config::Set('view.skin_original', null);
 	}
 
+
+	/*
+	 *
+	 * --- Темы шаблона ---
+	 *
+	 */
 
 	/**
 	 * Получить список имен тем шаблона из его информации (из xml файла)
@@ -394,6 +433,7 @@ class PluginAdmin_ModuleSkin extends Module {
 		$this->TurnOffPreviewSkin();
 		return true;
 	}
+
 
 
 }

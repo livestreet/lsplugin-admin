@@ -60,12 +60,28 @@ class PluginAdmin_ModuleSkin_EntitySkin extends Entity {
 			/*
 			 * получить запись с учетом языка сайта
 			 */
-			return $oInfo->name->data;
+			return (string) $oInfo->name->data;
 		}
 		/*
 		 * вернуть системное имя шаблона
 		 */
 		return $this->getName();
+	}
+
+
+	/**
+	 * Получить превью из шаблона или превью по-умолчанию
+	 *
+	 * @return string	путь к изображению превью
+	 */
+	public function getPreviewImage() {
+		if ($sPreview = $this->getPreview()) {
+			return $sPreview;
+		}
+		/*
+		 * если нет превью - использовать превью по-умолчанию
+		 */
+		return Plugin::GetTemplateWebPath(__CLASS__) . 'assets/images/default_skin_preview.png';
 	}
 
 }
