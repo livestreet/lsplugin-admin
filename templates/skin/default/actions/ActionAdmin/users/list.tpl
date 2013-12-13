@@ -7,8 +7,10 @@
 
 {block name='layout_content_actionbar'}
 	<form action="{$sFullPagePathToEvent}" method="get" enctype="application/x-www-form-urlencoded" id="admin_user_list_search_form">
-		{$sSearchValue = array_shift(array_values($aSearchRulesWithOriginalQueries))}			{* need only first field=>value *}
-		{$sSearchField = array_shift(array_keys($aSearchRulesWithOriginalQueries))}
+		{$sSearchValueItems=array_values($aSearchRulesWithOriginalQueries)}
+		{$sSearchFieldItems=array_keys($aSearchRulesWithOriginalQueries)}
+		{$sSearchValue = array_shift($sSearchValueItems)}			{* need only first field=>value *}
+		{$sSearchField = array_shift($sSearchFieldItems)}
 
 		<input type="text" class="width-200" value="{$sSearchValue}" id="admin_user_list_search_form_q" placeholder="{$aLang.plugin.admin.users.search}" />
 
