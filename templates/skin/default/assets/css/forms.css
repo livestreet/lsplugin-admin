@@ -75,7 +75,6 @@ input[type="text"] {
 /**
  * Inline edit
  */
-.profile-inline-edit-input:hover,
-.profile-inline-edit-select:hover {
+.highlight-profile-inline-edit:hover {
 	background: none repeat scroll 0 0 #E0F9FF;
 }

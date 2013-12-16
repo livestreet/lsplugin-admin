@@ -33,11 +33,11 @@ ls.admin_profile_edit = (function($) {
 		/*
 			селектор элементов, которые можно редактировать как текст
 		 */
-		editable_elements: '.profile-inline-edit-input',
+		editable_elements: '.js-profile-inline-edit-input',
 		/*
-			селектор элементов, которые нужно редактировать в выпадающем списке, предварительно получая от сервера
+			селектор элементов, которые нужно редактировать в выпадающем списке, предварительно получая их от сервера
 		 */
-		editable_elements_select: '.profile-inline-edit-select',
+		editable_elements_select: '.js-profile-inline-edit-select',
 
 
 		/*
