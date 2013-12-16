@@ -136,6 +136,7 @@ return array(
 			'login_already_exists' => 'Этот логин уже занят',
 			'mail_is_incorrect' => 'Почта введена неверно',
 			'mail_already_exists' => 'Эта почта уже занята',
+			'password_is_too_weak' => 'Этот пароль слишком простой',
 		),
 		/*
 		 * Ошибки проверки файлов на некорректную кодировку

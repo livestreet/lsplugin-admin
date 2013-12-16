@@ -163,6 +163,27 @@ class PluginAdmin_ModulePlugins_EntityPlugins extends Entity {
 		return $sData != '' ? (string) $sData : null;
 	}
 
+
+	/*
+	 *
+	 * --- Хелперы ---
+	 *
+	 */
+
+	/**
+	 * Есть ли у плагина обновление (используется кеширование) - вернуть объект обновления или нулл
+	 * todo: работа не проверена, если не будет нужно - удалить
+	 *
+	 * @return object|null
+	 */
+/*	public function getUpdate() {
+		$mUpdatesList = $this->PluginAdmin_Catalog_GetPluginUpdatesCached();
+		if (is_array($mUpdatesList) and isset($mUpdatesList[$this->getCode()]) and is_object($mUpdatesList[$this->getCode()])) {
+			return $mUpdatesList[$this->getCode()];
+		}
+		return null;
+	}*/
+
 }
 
 ?>

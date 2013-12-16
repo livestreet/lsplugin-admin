@@ -1370,6 +1370,7 @@ class PluginAdmin_ModuleUsers extends Module {
 				 */
 				if (($sErrorMsg = $this->ValidateUserLoginChange($sValue, $oUser)) !== true) {
 					$bError = true;
+					$sReturnValue = $oUser->getLogin();
 				} else {
 					$this->ChangeUserLogin($oUser, $sValue);
 				}
@@ -1389,6 +1390,7 @@ class PluginAdmin_ModuleUsers extends Module {
 				 */
 				if (($sErrorMsg = $this->ValidateUserMailChange($sValue, $oUser)) !== true) {
 					$bError = true;
+					$sReturnValue = $oUser->getMail();
 				} else {
 					$this->ChangeUserMail($oUser, $sValue);
 				}
@@ -1397,7 +1399,15 @@ class PluginAdmin_ModuleUsers extends Module {
 			 * редактировать пароль пользователя
 			 */
 			case 'password':
-				$this->ChangeUserPassword($oUser, $sValue);
+				/*
+				 * проверить новый пароль
+				 */
+				if (($sErrorMsg = $this->ValidateUserPasswordChange($sValue, $oUser)) !== true) {
+					$bError = true;
+					$sReturnValue = '*******';
+				} else {
+					$this->ChangeUserPassword($oUser, $sValue);
+				}
 				break;
 			/*
 			 * редактировать рейтинг пользователя
@@ -1547,6 +1557,25 @@ class PluginAdmin_ModuleUsers extends Module {
 		 */
 		if ($this->User_GetUserByMail($sNewMail)) {
 			return $this->Lang_Get('plugin.admin.errors.profile_edit.mail_already_exists');
+		}
+		return true;
+	}
+
+
+	/**
+	 * Проверить новый пароль пользователя
+	 *
+	 * @param $sNewPassword		новый пароль
+	 * @param $oUser			объект пользователя, которому будут применять изменение
+	 * @return bool
+	 */
+	protected function ValidateUserPasswordChange($sNewPassword, $oUser) {
+		/*
+		 * проверить - не послали ли случайно пароль из звездочек, который подставляется по-умолчанию
+		 * и длина пароля должна быть больше 5 символов
+		 */
+		if (strpos($sNewPassword, '*') !== false or mb_strlen($sNewPassword, 'utf-8') <= 5) {
+			return $this->Lang_Get('plugin.admin.errors.profile_edit.password_is_too_weak');
 		}
 		return true;
 	}
