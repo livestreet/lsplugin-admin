@@ -47,6 +47,11 @@ class PluginAdmin_ModuleSkin extends Module {
 	 * текущий язык сайта (для получения данных с описаний шаблонов)
 	 */
 	protected $sLang = null;
+
+	/*
+	 * сущность текущего шаблона (используется для кеширования на момент сессии)
+	 */
+	private $oSkinCurrent = null;
 	
 	
 	public function Init() {
@@ -313,6 +318,23 @@ class PluginAdmin_ModuleSkin extends Module {
 		 */
 		$this->TurnOffPreviewSkin();
 		return true;
+	}
+
+
+	/**
+	 * Получить текущий установленный шаблон (не зависимо от предпросмотра другого шаблона)
+	 * tip: используется кеширование на момент сессии
+	 *
+	 * @return object		сущность шаблона
+	 */
+	public function GetSkinCurrent() {
+		/*
+		 * если шаблон не установлен или имя закешированного шаблона не совпадает с текущим установленным шаблоном
+		 */
+		if (!$this->oSkinCurrent or $this->oSkinCurrent->getName() != $this->GetOriginalSkinName()) {
+			$this->oSkinCurrent = $this->GetSkinByName($this->GetOriginalSkinName());
+		}
+		return $this->oSkinCurrent;
 	}
 
 

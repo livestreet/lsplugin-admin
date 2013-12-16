@@ -86,7 +86,7 @@ class PluginAdmin_ActionAdmin_EventSkin extends Event {
 		/*
 		 * получить текущий шаблон
 		 */
-		$oCurrentSkin = $this->PluginAdmin_Skin_GetSkinByName($this->PluginAdmin_Skin_GetOriginalSkinName());
+		$oCurrentSkin = $this->PluginAdmin_Skin_GetSkinCurrent();
 		/*
 		 * проверить есть ли такая тема текущего шаблона
 		 */
