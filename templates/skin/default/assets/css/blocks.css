@@ -37,6 +37,7 @@
  * @type nav
  * @file blocks/block.nav.tpl
  */
+.block-type-nav { background: transparent; }
 .block-type-nav .block-content { padding: 0; }
 
 .m-nav-toggle { padding: 15px; background: #fafafa; font: 400 16px/1em 'Open Sans', Arial; color: #6c6c6c; }
@@ -45,8 +46,9 @@
 .m-nav-toggle.dropdown-toggle:after { border-top-color: #aaa; }
 
 @media (max-width: 999px)  {
-    .block-type-nav { display: none; margin-top: 10px; }
-    .block-type-nav.open { display: block; }
+    .nav-main-item-fold { display: none; }
+    .nav-main { display: none; margin-top: 10px; }
+    .nav-main.open { display: block; }
 }
 
 

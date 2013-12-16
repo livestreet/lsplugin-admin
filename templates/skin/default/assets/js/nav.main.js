@@ -20,7 +20,8 @@ ls.plugin.admin.navMain = (function ($) {
 	 */
 	var oNav = null,
 		oToggle = null,
-		oBody = null;
+		oBody = null,
+		oWindow = null;
 
 	/**
 	 * Дефолтные опции
@@ -36,7 +37,8 @@ ls.plugin.admin.navMain = (function ($) {
 			subMenu: '.js-nav-main-submenu'
 		},
 		classes: {
-			folded: 'is-nav-main-folded'
+			folded: 'is-nav-main-folded',
+			dropdownMenu: 'dropdown-menu-nav-main'
 		},
 		cookie: {
 			folded: 'plugin_admin_nav_main_folded',
@@ -58,6 +60,7 @@ ls.plugin.admin.navMain = (function ($) {
 		oNav = $(this.options.selectors.nav);
 		oToggle = $(this.options.selectors.toggle);
 		oBody = $('body');
+		oWindow = $(window);
 
 		// Проверяем свернуто меню или нет
 		if ( $.cookie(this.options.cookie.folded) ) this.fold();
@@ -105,6 +108,19 @@ ls.plugin.admin.navMain = (function ($) {
 		$(this.options.selectors.toggleMobile).on('click', function () {
 			oNav.toggleClass('open');
 		}.bind(this));
+
+		oWindow.on('resize', function () {
+			this.checkMobile();
+		}.bind(this));
+
+		this.checkMobile();
+	};
+
+	/**
+	 * 
+	 */
+	this.checkMobile = function (oSubMenu, oItem) {
+		if ( oWindow.width() <= 999 && oBody.hasClass(this.options.classes.folded)) this.unfold();
 	};
 
 	/**
@@ -156,11 +172,13 @@ ls.plugin.admin.navMain = (function ($) {
 	 * 
 	 */
 	this.dropdownsInit = function () {
+		var _this = this;
+
 		oNav.find(this.options.selectors.subMenu).each(function () {
 			var oSubMenu = $(this);
 
 			oSubMenu.clone()
-					.addClass('dropdown-menu dropdown-menu-nav-main')
+					.addClass('dropdown-menu ' + _this.options.classes.dropdownMenu)
 					.attr('id', 'dropdown-menu-nav-main-' + oSubMenu.closest('li').data('item-id'))
 					.appendTo(oBody);
 		});
@@ -185,7 +203,7 @@ ls.plugin.admin.navMain = (function ($) {
 	 * 
 	 */
 	this.dropdownsDestroy = function () {
-		$('.dropdown-menu-nav-main').remove();
+		$('.' + this.options.classes.dropdownMenu).remove();
 		$('.js-dropdown-nav-main').dropdown('destroy');
 	};
 
@@ -201,9 +219,9 @@ ls.plugin.admin.navMain = (function ($) {
 	 */
 	this.fold = function () {
 		oBody.addClass(this.options.classes.folded);
+		oWindow.trigger('resize');
 		this.dropdownsInit();
 		$.cookie(this.options.cookie.folded, 1, { path: '/', expires: 999 });
-		$(window).trigger('resize');
 	};
 
 	/**
@@ -211,9 +229,9 @@ ls.plugin.admin.navMain = (function ($) {
 	 */
 	this.unfold = function () {
 		oBody.removeClass(this.options.classes.folded);
+		oWindow.trigger('resize');
 		this.dropdownsDestroy();
 		$.cookie(this.options.cookie.folded, null, { path: '/', expires: '' });
-		$(window).trigger('resize');
 	};
 
 	return this;

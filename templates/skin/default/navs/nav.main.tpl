@@ -8,7 +8,9 @@
  * @scripts assets/js/nav.main.js
  *}
 
-<ul class="nav-main">
+<div class="m-nav-toggle dropdown-toggle js-nav-main-fold-mobile"><i class="icon-list"></i> Навигация</div>
+
+<ul class="nav-main js-nav-main">
 	{* Основные пункты меню *}
 	{foreach $oMenuMain->GetSections() as $oMenuSection}
 		<li class="nav-main-item nav-main-item-root {if $oMenuSection->HasItems()}js-nav-main-item-root{/if} {if $oMenuSection->GetActive()}active{/if}" data-item-id="{$oMenuSection@index}">

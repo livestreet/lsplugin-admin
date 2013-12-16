@@ -129,8 +129,6 @@
 				{* Сайдбар *}
 				{if ! $bNoSidebar}
 					<aside id="sidebar" role="complementary">
-						<div class="m-nav-toggle dropdown-toggle js-nav-main-toggle"><i class="icon-list"></i> Навигация</div>
-
 						{include file="{$aTemplatePathPlugin.admin}blocks.tpl" group='right'}
 					</aside>
 				{/if}
