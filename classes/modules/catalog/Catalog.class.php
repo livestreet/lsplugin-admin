@@ -35,7 +35,7 @@ class PluginAdmin_ModuleCatalog extends Module {
 	/*
 	 * Префикс методов АПИ каталога
 	 */
-	const CALLING_METHOD_PREFIX = 'RequestDataFor';
+	const CALLING_METHOD_PREFIX = 'RequestUrlFor';
 
 	/*
 	 * Базовый путь к АПИ каталога
@@ -143,7 +143,7 @@ class PluginAdmin_ModuleCatalog extends Module {
 	 * @param array $aPlugins	массив сущностей плагинов для проверки, если не указать - будут проверены все плагины в системе
 	 * @return mixed			массив ответа от сервера или строка ошибки соединения
 	 */
-	protected function GetUpdatesListForPlugins($aPlugins = array()) {
+	protected function GetServerResponseForPluginsUpdates($aPlugins = array()) {
 		/*
 		 * если список проверяемых плагинов не указан - получить все плагины
 		 */
@@ -161,7 +161,7 @@ class PluginAdmin_ModuleCatalog extends Module {
 		/*
 		 * получить полный урл для АПИ каталога по запросу последних версий плагинов
 		 */
-		$sApiUrl = $this->RequestDataForAddonsCheckVersion();
+		$sApiUrl = $this->RequestUrlForAddonsCheckVersion();
 		/*
 		 * запросить данные
 		 */
@@ -209,9 +209,13 @@ class PluginAdmin_ModuleCatalog extends Module {
 	 */
 	public function GetPluginUpdates($aPlugins = array()) {
 		/*
+		 * нужно ли проверять на наличие обновлений для плагинов
+		 */
+		if (!Config::Get('plugin.admin.catalog.allow_plugin_updates_checking')) return false;
+		/*
 		 * послать запрос на сервер для получения списка обновлений
 		 */
-		$mData = $this->GetUpdatesListForPlugins($aPlugins);
+		$mData = $this->GetServerResponseForPluginsUpdates($aPlugins);
 		/*
 		 * если получен ответ от сервера
 		 */
@@ -223,7 +227,7 @@ class PluginAdmin_ModuleCatalog extends Module {
 				/*
 				 * вернуть её текст
 				 */
-				return $mData['sMsgTitle'] . ':' . $mData['sMsg'];
+				return $mData['sMsgTitle'] . ': ' . $mData['sMsg'];
 			}
 			/*
 			 * если передан список кодов плагинов, для которых есть обновления и их последние версии
@@ -271,6 +275,41 @@ class PluginAdmin_ModuleCatalog extends Module {
 		return $mData;
 	}
 
+
+	/*
+	 *
+	 * --- Удобные методы для вызова прямо из экшенов ---
+	 *
+	 */
+
+	/**
+	 * Получить список плагинов у которых есть более новые версии в каталоге чем текущая установленная
+	 */
+	public function GetUpdatesInfo() {
+		$mUpdatesList = $this->GetPluginUpdatesCached();
+		switch (gettype($mUpdatesList)) {
+			/*
+			 * ошибка соединения или сервера
+			 */
+			case 'string':
+				$this->Message_AddError($mUpdatesList, $this->Lang_Get('plugin.admin.errors.catalog.connect_error'));
+				$this->Viewer_Assign('iPluginUpdates', 0);
+				break;
+			/*
+			 * есть обновления
+			 */
+			case 'array':
+				$this->Viewer_Assign('aPluginUpdates', $mUpdatesList);
+				$this->Viewer_Assign('iPluginUpdates', count($mUpdatesList));
+				break;
+			/*
+			 * обновлений нет
+			 */
+			default:
+				$this->Viewer_Assign('iPluginUpdates', 0);
+		}
+		return $mUpdatesList;
+	}
 
 }
 

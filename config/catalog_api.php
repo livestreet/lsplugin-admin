@@ -65,6 +65,11 @@ $config['catalog']['cache_live_time'] = array(
 	'plugin_updates_check' => 60*5
 );
 
+/*
+ * Проверять наличие новых версий плагинов в каталоге
+ */
+$config['catalog']['allow_plugin_updates_checking'] = true;
+
 return $config;
 
 ?>

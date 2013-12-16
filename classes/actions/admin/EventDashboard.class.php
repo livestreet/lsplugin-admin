@@ -19,13 +19,20 @@
  * 
  */
 
+/*
+ *
+ * Главная страница админки
+ *
+ */
+
 class PluginAdmin_ActionAdmin_EventDashboard extends Event {
+
 
 	/**
 	 * Дашборд (главная страница админки)
 	 */
 	public function EventIndex() {
-		$this->SetTemplateAction('index');
+		$this->SetTemplateAction('index/index');
 		/*
 		 * данные для графика
 		 */
@@ -90,6 +97,10 @@ class PluginAdmin_ActionAdmin_EventDashboard extends Event {
 		 * получить данные последнего входа в админку
 		 */
 		$this->GetLastVisitMessageAndCompareIp();
+		/*
+		 * получить информацию по обновлениям плагинов
+		 */
+		$this->PluginAdmin_Catalog_GetUpdatesInfo();
 	}
 
 
@@ -153,7 +164,7 @@ class PluginAdmin_ActionAdmin_EventDashboard extends Event {
 	 * @param bool $bUseFromIdValue		использовать ли смещение
 	 * @return bool
 	 */
-	protected function ProcessAjaxStreamContentLoading ($bUseFromIdValue = false) {
+	protected function ProcessAjaxStreamContentLoading($bUseFromIdValue = false) {
 		$this->Viewer_SetResponseAjax('json');
 		/*
 		 * получить фильтр со списком событий, которые нужно показать
@@ -203,8 +214,8 @@ class PluginAdmin_ActionAdmin_EventDashboard extends Event {
 	/**
 	 * Получить данные последнего входа в админку
 	 */
-	protected function GetLastVisitMessageAndCompareIp () {
-		$aLastVisitData = $this->PluginAdmin_Users_GetLastVisitData ();
+	protected function GetLastVisitMessageAndCompareIp() {
+		$aLastVisitData = $this->PluginAdmin_Users_GetLastVisitData();
 		/*
 		 * если это первый вход - сделать приветствие
 		 */

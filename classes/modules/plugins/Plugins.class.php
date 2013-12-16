@@ -169,7 +169,7 @@ class PluginAdmin_ModulePlugins extends Module {
 		/*
 		 * получить лого из каталога
 		 */
-		return $this->PluginAdmin_Catalog_RequestDataForPluginLogo($sPluginCode);
+		return $this->PluginAdmin_Catalog_RequestUrlForPluginLogo($sPluginCode);
 	}
 
 

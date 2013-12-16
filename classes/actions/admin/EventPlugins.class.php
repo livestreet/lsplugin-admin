@@ -33,7 +33,7 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 		/*
 		 * получить информацию по обновлениям плагинов
 		 */
-		$aUpdatesInfo = $this->GetUpdatesInfo();
+		$aUpdatesInfo = $this->PluginAdmin_Catalog_GetUpdatesInfo();
 		/*
 		 * проверить тип фильтра
 		 */
@@ -74,36 +74,6 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 		}
 
 		$this->Viewer_Assign('aPluginsInfo', $aPluginsInfo);
-	}
-
-
-	/**
-	 * Получить список плагинов у которых есть более новые версии в каталоге чем текущая установленная
-	 */
-	protected function GetUpdatesInfo() {
-		$mUpdatesList = $this->PluginAdmin_Catalog_GetPluginUpdatesCached();
-		switch (gettype($mUpdatesList)) {
-			/*
-			 * ошибка соединения или сервера
-			 */
-			case 'string':
-				$this->Message_AddError($mUpdatesList);
-				$this->Viewer_Assign('iPluginUpdates', 0);
-				break;
-			/*
-			 * есть обновления
-			 */
-			case 'array':
-				$this->Viewer_Assign('aPluginUpdates', $mUpdatesList);
-				$this->Viewer_Assign('iPluginUpdates', count($mUpdatesList));
-				break;
-			/*
-			 * обновлений нет
-			 */
-			default:
-				$this->Viewer_Assign('iPluginUpdates', 0);
-		}
-		return $mUpdatesList;
 	}
 
 

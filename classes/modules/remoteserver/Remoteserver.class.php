@@ -110,7 +110,7 @@ class PluginAdmin_ModuleRemoteserver extends Module {
 	 * @param array $aCurlOptions		настройки curl, которые перекрывают настройки по-умолчанию
 	 * @return array					array('success' => $bSuccess, 'error_message' => $sErrorMsg, 'data' => $mData)
 	 */
-	protected function SendByCurl($sUrl, $aData, $aCurlOptions = array()) {
+	protected function SendByCurl($sUrl, $aData = array(), $aCurlOptions = array()) {
 		/*
 		 * флаг отсутствия ошибки
 		 */
