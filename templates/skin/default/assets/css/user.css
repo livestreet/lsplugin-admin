@@ -33,7 +33,7 @@
 .user-brief { position: relative; color: #6c6c6c; }
 
 .user-brief-body { padding-left: 123px; padding-right: 100px; min-height: 100px; }
-.user-brief-aside { position: absolute; top: 0; right: 0; padding-top: 3px; width: 245px; }
+.user-brief-aside { position: absolute; top: 0; right: 0; padding-top: 3px; width: 75px; }
 .user-brief-aside i { position: relative; top: -1px; margin-right: 2px; }
 
 .user-brief .user-avatar { position: absolute; top: 0; left: 0; width: 100px; height: 100px; }

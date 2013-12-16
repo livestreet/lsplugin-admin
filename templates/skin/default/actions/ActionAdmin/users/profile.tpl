@@ -21,9 +21,7 @@
 {/block}
 
 
-{*
-	Меню
-*}
+{* Основная информация *}
 {block name='layout_content_before'}
 	<header class="user-header">
 		<div class="user-brief clearfix">
@@ -35,9 +33,7 @@
 				</a>
 
 				<h3 class="user-login">
-					{*
-						инлайн редактирование поля
-					*}
+					{* Инлайн редактирование поля *}
 					<span class="profile-inline-edit-input" data-item-type="login" data-item-id="{$oUser->getId()}">{$oUser->getLogin()}</span>
 
 					{if $oUser->isAdministrator()}
@@ -46,17 +42,13 @@
 				</h3>
 
 				<p class="user-name">
-					{*
-						инлайн редактирование поля
-					*}
+					{* Инлайн редактирование поля *}
 					<span class="profile-inline-edit-input" data-item-type="profile_name" data-item-id="{$oUser->getId()}"
 							>{if $oUser->getProfileName()}{$oUser->getProfileName()}{else}{$aLang.plugin.admin.users.profile_edit.no_profile_name}{/if}</span>
 				</p>
 
 				<p class="user-mail">
-					{*
-						инлайн редактирование поля
-					*}
+					{* Инлайн редактирование поля *}
 					<span class="profile-inline-edit-input" data-item-type="mail" data-item-id="{$oUser->getId()}">{$oUser->getMail()}</span>
 					<a href="mailto:{$oUser->getMail()}" class="link-border" target="_blank"><i class="icon-envelope"></i></a>
 				</p>
@@ -64,46 +56,22 @@
 				<p class="user-id">{$aLang.plugin.admin.users.profile.user_no}{$oUser->getId()}</p>
 			</div>
 
-			{*
-				Редактирование доп. данных
-			*}
+			{* Редактирование доп. данных *}
 			<div class="user-brief-aside">
-				<div class="edit-rating">
+				<div class="edit-rating mb-10">
 					<i class="icon-rating" title="{$aLang.plugin.admin.users.profile_edit.rating}"></i>
-					{*
-						инлайн редактирование поля
-					*}
+					{* Инлайн редактирование поля *}
 					<span class="link-dotted profile-inline-edit-input" data-item-type="rating" data-item-id="{$oUser->getId()}">{$oUser->getRating()}</span>
 				</div>
 
 				<div class="edit-skill">
-					{$aLang.plugin.admin.users.profile_edit.skill}
-					{*
-						инлайн редактирование поля
-					*}
+					<i class="icon-rating" title="{$aLang.plugin.admin.users.profile_edit.skill}"></i>
+					{* Инлайн редактирование поля *}
 					<span class="link-dotted profile-inline-edit-input" data-item-type="skill" data-item-id="{$oUser->getId()}">{$oUser->getSkill()}</span>
 				</div>
 
-				<div class="edit-password">
-					{$aLang.plugin.admin.users.profile_edit.password}
-					{*
-						инлайн редактирование поля
-					*}
-					<span class="link-dotted profile-inline-edit-input" data-item-type="password" data-item-id="{$oUser->getId()}">*******</span>
-				</div>
-
-				<div class="edit-about-user">
-					{$aLang.plugin.admin.users.profile_edit.about_user}
-					{*
-						инлайн редактирование поля
-					*}
-					<span class="link-dotted profile-inline-edit-input" data-item-type="about" data-item-id="{$oUser->getId()}">{$oUser->getProfileAbout()}</span>
-				</div>
-
 				<div class="get-user-baneed">
-					{*
-						для вывода информации бана
-					*}
+					{* Для вывода информации бана *}
 					{hook run='admin_user_profile_brief_aside' oUserProfile=$oUser}        {* todo: review: hook names *}
 				</div>
 			</div>
@@ -141,18 +109,14 @@
 
 
 	<div class="user-info-body">
-		{*
-			Базовая информация
-		*}
+		{* Базовая информация *}
 		<div class="user-info-block user-info-block-resume">
 			<h2 class="user-info-heading">{$aLang.plugin.admin.users.profile.info.resume}</h2>
 
 			<dl class="dotted-list-item">
 				<dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile.info.mail}</dt>
 				<dd class="dotted-list-item-value">
-					{*
-						инлайн редактирование поля
-					*}
+					{* Инлайн редактирование поля *}
 					<span class="profile-inline-edit-input" data-item-type="mail" data-item-id="{$oUser->getId()}">{$oUser->getMail()}</span>
 
 					<a href="{router page='admin/users/list'}{request_filter
@@ -161,50 +125,38 @@
 					}"><i class="icon-search" title="{$aLang.plugin.admin.search}"></i></a>
 				</dd>
 			</dl>
+
 			<dl class="dotted-list-item">
 				<dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile.info.sex}</dt>
 				<dd class="dotted-list-item-value">
-					{*
-						инлайн редактирование поля
-					*}
+					{* Инлайн редактирование поля *}
 					<span class="profile-inline-edit-select" data-item-type="sex" data-item-id="{$oUser->getId()}">{$aLang.plugin.admin.users.sex[$oUser->getProfileSex()]}</span>
 				</dd>
 			</dl>
+
 			<dl class="dotted-list-item">
 				<dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile.info.birthday}</dt>
 				<dd class="dotted-list-item-value">
 					{if $oUser->getProfileBirthday()}
 						{*date_format date=$oUser->getProfileBirthday() format="j F Y" notz=true*}
-						{*
-							инлайн редактирование поля даты рождения - день
-						*}
+						{* Инлайн редактирование поля даты рождения - день *}
 						<span class="profile-inline-edit-select" data-item-type="birthday_day" data-item-id="{$oUser->getId()}"
 								>{date_format date=$oUser->getProfileBirthday() format="j" notz=true}</span>
-						{*
-							инлайн редактирование поля даты рождения - месяц
-						*}
+						{* Инлайн редактирование поля даты рождения - месяц *}
 						<span class="profile-inline-edit-select" data-item-type="birthday_month" data-item-id="{$oUser->getId()}"
 								>{date_format date=$oUser->getProfileBirthday() format="F" notz=true}</span>
-						{*
-							инлайн редактирование поля даты рождения - год
-						*}
+						{* Инлайн редактирование поля даты рождения - год *}
 						<span class="profile-inline-edit-select" data-item-type="birthday_year" data-item-id="{$oUser->getId()}"
 								>{date_format date=$oUser->getProfileBirthday() format="Y" notz=true}</span>
 					{else}
 						<i class="icon-question-sign" title="{$aLang.plugin.admin.users.profile_edit.no_bidthday_set}"></i>
-						{*
-							инлайн редактирование поля даты рождения - день
-						*}
+						{* Инлайн редактирование поля даты рождения - день *}
 						<span class="profile-inline-edit-select" data-item-type="birthday_day" data-item-id="{$oUser->getId()}"
 								>{$aLang.plugin.admin.users.profile_edit.bidthday_parts.day}</span>
-						{*
-							инлайн редактирование поля даты рождения - месяц
-						*}
+						{* Инлайн редактирование поля даты рождения - месяц *}
 						<span class="profile-inline-edit-select" data-item-type="birthday_month" data-item-id="{$oUser->getId()}"
 								>{$aLang.plugin.admin.users.profile_edit.bidthday_parts.month}</span>
-						{*
-							инлайн редактирование поля даты рождения - год
-						*}
+						{* Инлайн редактирование поля даты рождения - год *}
 						<span class="profile-inline-edit-select" data-item-type="birthday_year" data-item-id="{$oUser->getId()}"
 								>{$aLang.plugin.admin.users.profile_edit.bidthday_parts.year}</span>
 					{/if}
@@ -214,57 +166,57 @@
 			<dl class="dotted-list-item">
 				<dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile.info.living}</dt>
 				<dd class="dotted-list-item-value">
-					{*
-						если город не указан, значит не все гео-данные заполнены и можно вывести подсказку
-					*}
+					{* Если город не указан, значит не все гео-данные заполнены и можно вывести подсказку *}
 					{if !$oGeoTarget or !$oGeoTarget->getCityId()}
 						<i class="icon-question-sign" title="{$aLang.plugin.admin.users.profile_edit.no_living_set}"></i>
 					{/if}
 
 					{if $oGeoTarget and $oGeoTarget->getCountryId()}
-						{*
-							инлайн редактирование поля страны (задано)
-						*}
+						{* Инлайн редактирование поля страны (задано) *}
 						<span class="profile-inline-edit-select" data-item-type="living_country" data-item-id="{$oUser->getId()}">{$oUser->getProfileCountry()|escape:'html'}</span>
 
 						<a href="{router page='people/country'}{$oGeoTarget->getCountryId()}/"><i class="icon-search" title="{$aLang.plugin.admin.search}"></i></a>
 					{else}
-						{*
-							инлайн редактирование поля страны
-						*}
+						{* Инлайн редактирование поля страны *}
 						<span class="profile-inline-edit-select" data-item-type="living_country" data-item-id="{$oUser->getId()}"
 								>{$aLang.plugin.admin.users.profile_edit.living_parts.country}</span>
 					{/if}
-					,
+					<br />
 
 					{if $oGeoTarget and $oGeoTarget->getRegionId()}
-						{*
-							инлайн редактирование поля региона (задано)
-						*}
+						{* Инлайн редактирование поля региона (задано) *}
 						<span class="profile-inline-edit-select" data-item-type="living_region" data-item-id="{$oUser->getId()}">{$oUser->getProfileRegion()|escape:'html'}</span>
 					{else}
-						{*
-							инлайн редактирование поля региона
-						*}
+						{* Инлайн редактирование поля региона *}
 						<span class="profile-inline-edit-select" data-item-type="living_region" data-item-id="{$oUser->getId()}"
 								>{$aLang.plugin.admin.users.profile_edit.living_parts.region}</span>
 					{/if}
-					,
+					<br />
 
 					{if $oGeoTarget and $oGeoTarget->getCityId()}
-						{*
-							инлайн редактирование поля города (задано)
-						*}
+						{* Инлайн редактирование поля города (задано) *}
 						<span class="profile-inline-edit-select" data-item-type="living_city" data-item-id="{$oUser->getId()}">{$oUser->getProfileCity()|escape:'html'}</span>
 
 						<a href="{router page='people/city'}{$oGeoTarget->getCityId()}/"><i class="icon-search" title="{$aLang.plugin.admin.search}"></i></a>
 					{else}
-						{*
-							инлайн редактирование поля города
-						*}
+						{* Инлайн редактирование поля города *}
 						<span class="profile-inline-edit-select" data-item-type="living_city" data-item-id="{$oUser->getId()}"
 								>{$aLang.plugin.admin.users.profile_edit.living_parts.city}</span>
 					{/if}
+				</dd>
+			</dl>
+
+			<dl class="dotted-list-item">
+				<dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile_edit.password}</dt>
+				<dd class="dotted-list-item-value">
+					<span class="link-dotted profile-inline-edit-input" data-item-type="password" data-item-id="{$oUser->getId()}">*******</span>
+				</dd>
+			</dl>
+
+			<dl class="dotted-list-item">
+				<dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile_edit.about_user}</dt>
+				<dd class="dotted-list-item-value">
+					<span class="link-dotted profile-inline-edit-input" data-item-type="about" data-item-id="{$oUser->getId()}">{$oUser->getProfileAbout()}</span>
 				</dd>
 			</dl>
 
@@ -272,6 +224,7 @@
 				<dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile.info.reg_date}</dt>
 				<dd class="dotted-list-item-value">{date_format date=$oUser->getDateRegister()}</dd>
 			</dl>
+
 			<dl class="dotted-list-item">
 				<dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile.info.ip}</dt>
 				<dd class="dotted-list-item-value">
@@ -287,18 +240,14 @@
 					<dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile.info.last_visit}</dt>
 					<dd class="dotted-list-item-value">{date_format date=$oSession->getDateLast()}</dd>
 				</dl>
+
 				<dl class="dotted-list-item">
 					<dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile.info.ip}</dt>
 					<dd class="dotted-list-item-value">
 						<a href="{router page='admin/users/list'}{request_filter
 							name=array('session_ip_last')
 							value=array($oSession->getIpLast())
-						}">{$oSession->getIpLast()}</a>
-						<br />
-						<a href="{router page='admin/users/list'}{request_filter
-							name=array('session_ip_last')
-							value=array($oSession->getIpLast())
-						}" class="button mt-10">{$aLang.plugin.admin.users.profile.info.search_this_ip}</a>
+						}" title="{$aLang.plugin.admin.users.profile.info.search_this_ip}">{$oSession->getIpLast()}</a>
 					</dd>
 				</dl>
 			{/if}
