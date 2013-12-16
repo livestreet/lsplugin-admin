@@ -240,26 +240,6 @@ class PluginAdmin_ModulePlugins extends Module {
 
 
 	/**
-	 * Получить коды плагинов из сущностей (плагинов или обновлений)
-	 *
-	 * @param $aEntities		массив сущностей
-	 * @return array			массив кодов
-	 */
-	public function GetPluginsCodesFromEntities($aEntities) {
-		$aPluginsCodes = array();
-		/*
-		 * может быть строкой (текст ошибки), булевым значением (нет обновлений) или массивом сущностей обновлений
-		 */
-		if (is_array($aEntities)) {
-			foreach($aEntities as $oEntity) {
-				$aPluginsCodes[] = $oEntity->getCode();
-			}
-		}
-		return $aPluginsCodes;
-	}
-
-
-	/**
 	 * Получить сущность плагина по коду (папке плагина)
 	 *
 	 * @param       $sPluginCode				код плагина

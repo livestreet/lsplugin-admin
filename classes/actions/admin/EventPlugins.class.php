@@ -62,9 +62,7 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 			 * с обновлениями
 			 */
 			case 'updates':
-				$aPluginsInfo = $this->PluginAdmin_Plugins_GetPluginsList(array(
-					'plugins_codes' => $this->PluginAdmin_Plugins_GetPluginsCodesFromEntities($aUpdatesInfo)
-				));
+				$aPluginsInfo = $this->PluginAdmin_Plugins_GetPluginsList(array('plugins_codes' => is_array($aUpdatesInfo) ? array_keys($aUpdatesInfo) : array()));
 				break;
 			/*
 			 * неизвестный тип
