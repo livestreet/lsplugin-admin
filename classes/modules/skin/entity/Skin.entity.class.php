@@ -209,7 +209,7 @@ class PluginAdmin_ModuleSkin_EntitySkin extends Entity {
 	 * @return string
 	 */
 	public function getChangeSkinUrl() {
-		return Router::GetPath('admin/settings/skins/use'). $this->getName() . '?security_ls_key=' . $this->Security_SetSessionKey();
+		return Router::GetPath('admin/skins/use'). $this->getName() . '?security_ls_key=' . $this->Security_SetSessionKey();
 	}
 
 
@@ -219,7 +219,7 @@ class PluginAdmin_ModuleSkin_EntitySkin extends Entity {
 	 * @return string
 	 */
 	public function getTurnOffPreviewUrl() {
-		return Router::GetPath('admin/settings/skins/turnoffpreview'). $this->getName() . '?security_ls_key=' . $this->Security_SetSessionKey();
+		return Router::GetPath('admin/skins/turnoffpreview'). $this->getName() . '?security_ls_key=' . $this->Security_SetSessionKey();
 	}
 
 
@@ -229,7 +229,7 @@ class PluginAdmin_ModuleSkin_EntitySkin extends Entity {
 	 * @return string
 	 */
 	public function getTurnOnPreviewUrl() {
-		return Router::GetPath('admin/settings/skins/preview'). $this->getName() . '?security_ls_key=' . $this->Security_SetSessionKey();
+		return Router::GetPath('admin/skins/preview'). $this->getName() . '?security_ls_key=' . $this->Security_SetSessionKey();
 	}
 
 }

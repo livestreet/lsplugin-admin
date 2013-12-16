@@ -304,7 +304,7 @@ class PluginAdmin_ModuleSkin extends Module {
 			return false;
 		}
 		/*
-		 * установить шаблон
+		 * установить шаблон и тему по-умолчанию
 		 */
 		$aData = array(
 			'view' => array(

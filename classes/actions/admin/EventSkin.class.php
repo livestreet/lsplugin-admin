@@ -20,18 +20,21 @@
  */
 
 /*
- *	Работа с шаблонами
+ *
+ * Работа с шаблонами
+ *
  */
 
 class PluginAdmin_ActionAdmin_EventSkin extends Event {
+
 
 	/**
 	 * Показать список шаблонов
 	 *
 	 * @return mixed
 	 */
-	public function EventSkins() {
-		$this->SetTemplateAction('skin/list');
+	public function EventSkinsList() {
+		$this->SetTemplateAction('skins/list');
 
 		/*
 		 * получить список шаблонов и отдельно - текущий скин
@@ -41,22 +44,22 @@ class PluginAdmin_ActionAdmin_EventSkin extends Event {
 			'delete_current_skin_from_list' => true
 		));
 		/*
-		 * список шаблонов
+		 * список шаблонов, кроме текущего
 		 */
 		$aSkinList = $aSkinsData['skins'];
 		/*
 		 * текущий скин
 		 */
-		$oCurrentSkin = $aSkinsData['current'];
+		$oSkinCurrent = $aSkinsData['current'];
 
 		/*
 		 * проверка разрешенных действий и корректности имени шаблона
 		 */
-		if ($sAction = $this->getParam(1) and in_array($sAction, array('use', 'preview', 'turnoffpreview'))) {
+		if ($sAction = $this->getParam(0) and in_array($sAction, array('use', 'preview', 'turnoffpreview'))) {
 			/*
 			 * указан и есть ли такой шаблон
 			 */
-			if ($sSkinName = $this->getParam(2) and isset($aSkinList[$sSkinName])) {
+			if ($sSkinName = $this->getParam(1) and isset($aSkinList[$sSkinName])) {
 				$this->Security_ValidateSendForm();
 				/*
 				 * выполнить нужную операцию
@@ -70,7 +73,7 @@ class PluginAdmin_ActionAdmin_EventSkin extends Event {
 			}
 		}
 		$this->Viewer_Assign('aSkins', $aSkinList);
-		$this->Viewer_Assign('oCurrentSkin', $oCurrentSkin);
+		$this->Viewer_Assign('oSkinCurrent', $oSkinCurrent);
 	}
 
 

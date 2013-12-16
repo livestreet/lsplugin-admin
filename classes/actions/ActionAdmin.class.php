@@ -305,11 +305,11 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		/*
 		 * Изменение темы текущего шаблона
 		 */
-		$this->AddEventPreg('#^settings$#iu', '#^skins$#iu', '#^theme$#iu', 'Skin::EventChangeSkinTheme');
+		$this->AddEventPreg('#^skins$#iu', '#^changetheme$#iu', 'Skin::EventChangeSkinTheme');
 		/*
 		 * Список шаблонов
 		 */
-		$this->AddEventPreg('#^settings$#iu', '#^skins$#iu', 'Skin::EventSkins');
+		$this->AddEventPreg('#^skins$#iu', 'Skin::EventSkinsList');
 
 		/*
 		 *
@@ -382,9 +382,12 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Установить плагин')->SetUrl('install'))
 			)	// /AddSection
 			->AddSection(
+				Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Шаблоны')->SetName('skins')->SetUrl('skins')
+
+					->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Список шаблонов')->SetUrl('list'))
+			)	// /AddSection
+			->AddSection(
 				Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Настройки')->SetName('settings')->SetUrl('settings')
-				
-				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Шаблоны')->SetUrl('skins'))
 				
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Внешний вид сайта')->SetUrl('view'))
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Интерфейс')->SetUrl('interface'))

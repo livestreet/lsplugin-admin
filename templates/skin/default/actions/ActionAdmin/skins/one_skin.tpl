@@ -56,9 +56,7 @@
 								{*
 									для текущего шаблона можно менять список тем
 								*}
-								<form action="{router page="admin/settings/skins/theme/{$oSkin->getName()}"}"
-									  enctype="application/x-www-form-urlencoded"
-									  method="post">
+								<form action="{router page="admin/skins/changetheme/{$oSkin->getName()}"}" enctype="application/x-www-form-urlencoded" method="post">
 									<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
 
 									<select name="theme" class="width-150">
