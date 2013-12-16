@@ -25,7 +25,7 @@
  *
  */
 
-class PluginAdmin_ActionAdmin_EventSkin extends Event {
+class PluginAdmin_ActionAdmin_EventSkins extends Event {
 
 
 	/**

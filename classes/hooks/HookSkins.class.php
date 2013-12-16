@@ -25,7 +25,7 @@
  *
  */
 
-class PluginAdmin_HookSkin extends Hook {
+class PluginAdmin_HookSkins extends Hook {
 
 	public function RegisterHook() {
 		/*
