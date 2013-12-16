@@ -157,7 +157,7 @@ class PluginAdmin_ModuleCatalog extends Module {
 		/*
 		 * сформировать нужный массив для запроса
 		 */
-		$aRequestData = array('data' => $this->BuildPluginsRequestArray($aPlugins));
+		$aRequestData = array('data' => $this->BuildPluginsRequestArray($aPlugins), 'ls_version' => LS_VERSION);
 		/*
 		 * получить полный урл для АПИ каталога по запросу последних версий плагинов
 		 */
