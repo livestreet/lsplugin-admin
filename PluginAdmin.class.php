@@ -79,6 +79,10 @@ class PluginAdmin extends Plugin {
 			 * нужен для точки загрузки предпросмотра шаблона
 			 */
 			'ModuleLang',
+			/*
+			 * для реализации возможностей read only банов
+			 */
+			'ModuleACL',
 		),
 		'entity' => array(
 			/*

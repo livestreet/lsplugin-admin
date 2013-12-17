@@ -25,6 +25,12 @@
 
 class PluginAdmin_ModuleUser_EntityUser extends PluginAdmin_Inherits_ModuleUser_EntityUser {
 
+	/*
+	 * кешированная сущность бана на время сессии
+	 */
+	private $oBan = null;
+
+
 	/**
 	 * Проверить забанен пользователь или нет (возвращает объект бана в случае успеха)
 	 *
@@ -34,6 +40,45 @@ class PluginAdmin_ModuleUser_EntityUser extends PluginAdmin_Inherits_ModuleUser_
 		return $this->PluginAdmin_Users_GetUserBannedByUser($this);
 	}
 
+
+	/**
+	 * Проверить забанен пользователь или нет (возвращает объект бана в случае успеха)
+	 * tip: с использованием сессионного кеша
+	 *
+	 * @return mixed
+	 */
+	public function getBannedCached() {
+		if (!$this->oBan) {
+			$this->oBan = $this->getBanned();
+		}
+		return $this->oBan;
+	}
+
+
+	/**
+	 * Забанен ли пользователь полностью (без доступа к сайту), возвращает объект бана в случае успеха
+	 *
+	 * @return object|null
+	 */
+/*	public function getBannedFully() {
+		if ($oBan = $this->getBannedCached() and $oBan->getIsFull()) {
+			return $oBan;
+		}
+		return null;
+	}*/
+
+
+	/**
+	 * Переведен ли пользователь в режим "только чтение", без возможности что либо публиковать, возвращает объект бана в случае успеха
+	 *
+	 * @return object|null
+	 */
+	public function getBannedReadOnly() {
+		if ($oBan = $this->getBannedCached() and $oBan->getIsReadOnly()) {
+			return $oBan;
+		}
+		return null;
+	}
 
 }
 

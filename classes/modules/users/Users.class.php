@@ -21,6 +21,14 @@
 
 class PluginAdmin_ModuleUsers extends Module {
 
+	protected $oMapper = null;
+
+	/*
+	 * тип ограничения пользования сайтом бана
+	 */
+	const BAN_RESTRICTION_TYPE_FULL = 1;
+	const BAN_RESTRICTION_TYPE_READ_ONLY = 2;
+
 	/*
 	 * типы правила бана
 	 */
@@ -43,8 +51,6 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * Ключ хранилища, в котором хранится время последнего входа в админку и айпи последнего входа
 	 */
 	const ADMIN_LAST_VISIT_DATA_STORAGE_KEY = 'admin_last_visit_data';
-
-	protected $oMapper = null;
 
 	/*
 	 * направление сортировки по-умолчанию (если она не задана или некорректна)
@@ -448,20 +454,20 @@ class PluginAdmin_ModuleUsers extends Module {
 	 *
 	 */
 
-
 	/**
 	 * Проверить является ли текущий пользователь забаненным
+	 * tip: использовать этот метод для общей проверки на бан, не обьеденять с GetUserBannedByUser
 	 *
-	 * @return object	объект бана
+	 * @return object        объект бана
 	 */
-	public function IsThisUserBanned() {
+	public function IsCurrentUserBanned() {
 		/*
 		 * кешированию не подлежит
 		 */
 		$oUserCurrent = $this->User_GetUserCurrent();
 		$mIp = convert_ip2long(func_getIp());
 		$sCurrentDate = date('Y-m-d H:i:s');
-		return $this->oMapper->IsThisUserBanned($oUserCurrent, $mIp, $sCurrentDate);
+		return $this->oMapper->IsUserBanned($oUserCurrent, $mIp, $sCurrentDate);
 	}
 
 
@@ -482,7 +488,7 @@ class PluginAdmin_ModuleUsers extends Module {
 		}
 		$mIp = convert_ip2long($mIp);
 		$sCurrentDate = date('Y-m-d H:i:s');
-		return $this->oMapper->IsThisUserBanned($oUser, $mIp, $sCurrentDate);
+		return $this->oMapper->IsUserBanned($oUser, $mIp, $sCurrentDate);
 	}
 
 

@@ -49,6 +49,16 @@
 					}
 
 					{*
+						тип ограничения пользования сайтом бана
+					*}
+					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
+						sCellClassName='restriction_type'
+						mSortingOrder='restriction_type'
+						mLinkHtml=$aLang.plugin.admin.bans.table_header.restriction_type
+						sBaseUrl=$sFullPagePathToEvent
+					}
+
+					{*
 						тип временного интервала для бана
 					*}
 					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
@@ -120,6 +130,9 @@
 						</td>
 						<td>
 							{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/bans_block_type_description.tpl"}
+						</td>
+						<td>
+							{$aLang.plugin.admin.bans.add.restriction_types[$oBan->getRestrictionType()]}
 						</td>
 
 						{* даты начала и окончания бана *}

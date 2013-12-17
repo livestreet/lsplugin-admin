@@ -410,6 +410,12 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	}
 
 
+	/*
+	 *
+	 * --- Работа с банами ---
+	 *
+	 */
+
 	/**
 	 * Список банов
 	 */
@@ -422,21 +428,24 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 */
 		$sBanType = $this->GetParam(1);
 		$aSearchRule = array();
-		if ($sBanType == 'permanent') {
-			/*
-			 * показывать только постоянные баны
-			 */
-			$aSearchRule = array('time_type' => PluginAdmin_ModuleUsers::BAN_TIME_TYPE_PERMANENT);
-		} elseif ($sBanType == 'period') {
-			/*
-			 * показать временные баны
-			 */
-			$aSearchRule = array('time_type' => PluginAdmin_ModuleUsers::BAN_TIME_TYPE_PERIOD);
-		} else {
-			/*
-			 * показывать все баны
-			 */
-			$sBanType = 'all';
+		switch ($sBanType) {
+			case 'permanent':
+				/*
+				 * показывать только постоянные баны
+				 */
+				$aSearchRule = array('time_type' => PluginAdmin_ModuleUsers::BAN_TIME_TYPE_PERMANENT);
+				break;
+			case 'period':
+				/*
+				 * показать временные баны
+				 */
+				$aSearchRule = array('time_type' => PluginAdmin_ModuleUsers::BAN_TIME_TYPE_PERIOD);
+				break;
+			default:
+				/*
+				 * показывать все баны
+				 */
+				$sBanType = 'all';
 		}
 
 		/*
@@ -542,6 +551,13 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 */
 		$sUserSign = getRequestStr('user_sign');
 		/*
+		 * получить и проверить тип ограничения бана
+		 */
+		$iRestrictionType = getRequestStr('restriction_type');
+		if (!in_array($iRestrictionType, array(PluginAdmin_ModuleUsers::BAN_RESTRICTION_TYPE_FULL, PluginAdmin_ModuleUsers::BAN_RESTRICTION_TYPE_READ_ONLY))) {
+			$iRestrictionType = PluginAdmin_ModuleUsers::BAN_RESTRICTION_TYPE_FULL;
+		}
+		/*
 		 * тип бана (unlimited, period, days)
 		 */
 		$sBanType = getRequest('bantype');
@@ -628,6 +644,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 */
 		$oEnt = Engine::GetEntity('PluginAdmin_Users_Ban');
 		$oEnt->setId($iBanId);
+		$oEnt->setRestrictionType($iRestrictionType);
 		/*
 		 * тип блокировки
 		 */
@@ -893,10 +910,15 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 			 */
 			switch ($aData['type']) {
 				case 'user':
+					$oUser = $aData['user'];
+					$oSession = $oUser->getSession();
+
 					$sResponse = $this->Lang('bans.user_sign_check.user', array(
-						'login' => $aData['user']->getLogin(),
-						'id' => $aData['user']->getId(),
-						'mail' => $aData['user']->getMail(),
+						'login' => $oUser->getLogin(),
+						'id' => $oUser->getId(),
+						'mail' => $oUser->getMail(),
+						'reg_ip' => $oUser->getIpRegister(),
+						'session_ip' => $oSession ? $oSession->getIpLast() : null,
 					));
 					break;
 				default:
@@ -919,14 +941,14 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 * тип операции - добавление или удаление
 		 */
 		if (!$sType = $this->GetParam(1) or !in_array($sType, array('add', 'delete'))) {
-			$this->Message_AddError($this->Lang('errors.bans.incorrect_admins_action_type'));
+			$this->Message_AddError($this->Lang('errors.bans.incorrect_admins_action_type'));	// todo: lang error array group - export from "bans"
 			return false;
 		}
 		/*
 		 * проверка id пользователя (нельзя удалять права админа у пользователей из спец. списка из конфига)
 		 */
 		if (!$iUserId = (int) $this->GetParam(2) or in_array($iUserId, Config::Get('plugin.admin.block_managing_admin_rights_user_ids')) or !$oUser = $this->User_GetUserById($iUserId)) {
-			$this->Message_AddError($this->Lang('errors.bans.incorrect_user_id'));
+			$this->Message_AddError($this->Lang('errors.bans.incorrect_user_id'));				// todo: lang error array group - export from "bans"
 			return false;
 		}
 		if ($sType == 'add') {
@@ -950,7 +972,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 * проверка id пользователя (нельзя удалять контент у пользователей из спец. списка из конфига)
 		 */
 		if (!$iUserId = (int) getRequestStr('user_id') or in_array($iUserId, Config::Get('plugin.admin.block_deleting_user_ids')) or !$oUser = $this->User_GetUserById($iUserId)) {
-			$this->Message_AddError($this->Lang('errors.bans.incorrect_user_id'));
+			$this->Message_AddError($this->Lang('errors.bans.incorrect_user_id'));				// todo: lang error array group - export from "bans"
 			return $this->EventError();
 		}
 
@@ -987,7 +1009,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 * проверка на администратора
 		 */
 		if ($oUser->isAdministrator()) {
-			$this->Message_AddError($this->Lang('errors.bans.delete_admin_rights_first'));
+			$this->Message_AddError($this->Lang('errors.bans.delete_admin_rights_first'));		// todo: lang error array group - export from "bans"
 			return false;
 		}
 		/*

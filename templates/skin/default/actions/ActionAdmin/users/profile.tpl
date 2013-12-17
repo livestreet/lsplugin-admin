@@ -69,11 +69,6 @@
 					{* Инлайн редактирование поля *}
 					<span class="link-dotted js-profile-inline-edit-input highlight-profile-inline-edit" data-item-type="skill" data-item-id="{$oUser->getId()}">{$oUser->getSkill()}</span>
 				</div>
-
-				<div class="get-user-baneed">
-					{* Для вывода информации бана *}
-					{hook run='admin_user_profile_brief_aside' oUserProfile=$oUser}        {* todo: review: hook names *}
-				</div>
 			</div>
 		</div>
 	</header>
@@ -109,6 +104,11 @@
 
 
 	<div class="user-info-body">
+		<div class="get-user-baneed">
+			{* Для вывода информации бана *}
+			{hook run='admin_user_profile_brief_aside' oUserProfile=$oUser}        {* todo: review: hook names *}
+		</div>
+
 		{* Базовая информация *}
 		<div class="user-info-block user-info-block-resume">
 			<h2 class="user-info-heading">{$aLang.plugin.admin.users.profile.info.resume}</h2>

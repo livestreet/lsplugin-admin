@@ -169,6 +169,9 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 				`' . Config::Get('db.table.users_ban') . '`
 			(
 				`id`,
+
+				`restriction_type`,
+
 				`block_type`,
 				`user_id`,
 				`ip`,
@@ -188,6 +191,9 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 			VALUES
 			(
 				?d,
+
+				?d,
+
 				?d,
 				?d,
 				?d,
@@ -205,6 +211,8 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 				?
 			)
 			ON DUPLICATE KEY UPDATE
+				`restriction_type` = ?d,
+
 				`block_type` = ?d,
 				`user_id` = ?d,
 				`ip` = ?d,
@@ -223,6 +231,9 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 		';
 		return $this->oDb->query($sql,
 			$oBan->getId(),
+
+			$oBan->getRestrictionType(),
+
 			$oBan->getBlockType(),
 			$oBan->getUserId(),
 			$oBan->getIp(),
@@ -240,6 +251,8 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 			$oBan->getComment(),
 
 			// duplicate key
+			$oBan->getRestrictionType(),
+
 			$oBan->getBlockType(),
 			$oBan->getUserId(),
 			$oBan->getIp(),
@@ -323,12 +336,12 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 	/**
 	 * Проверить попадает ли пользователь под одно из правил для бана
 	 *
-	 * @param $oUserCurrent				объект пользователя для проверки
+	 * @param $oUser					объект пользователя для проверки
 	 * @param $mIp						представление ip адреса для сравнения
 	 * @param $sCurrentDate				текущая дата в формате DATETIME
 	 * @return Entity|null
 	 */
-	public function IsThisUserBanned($oUserCurrent, $mIp, $sCurrentDate) {
+	public function IsUserBanned($oUser, $mIp, $sCurrentDate) {
 		$sql = "SELECT *
 			FROM
 				`" . Config::Get('db.table.users_ban') . "`
@@ -371,7 +384,10 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 			 * поиск по id текущего пользователя
 			 */
 			PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_USER_ID,
-			($oUserCurrent ? $oUserCurrent->getId() : 0),
+			/*
+			 * tip: если пользователь не авторизирован, то будет подставлено ид = 0, которого не может быть на сайте и проверка уже будет выполнятся только по айпи
+			 */
+			$oUser ? $oUser->getId() : 0,
 			/*
 			 * поиск по ip
 			 */

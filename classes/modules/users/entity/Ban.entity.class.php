@@ -30,6 +30,11 @@ class PluginAdmin_ModuleUsers_EntityBan extends Entity {
 	 */
 	protected $aValidateRules = array (
 		/*
+		 * тип ограничения
+		 */
+		array ('restriction_type', 'number', 'min' => 1, 'max' => 2),
+
+		/*
 		 * тип условия блокировки (пользователь, ip или диапазон ip-адресов)
 		 */
 		array ('block_type', 'number', 'min' => 1, 'max' => 4),
@@ -66,6 +71,45 @@ class PluginAdmin_ModuleUsers_EntityBan extends Entity {
 		 */
 		array ('comment', 'string', 'min' => 0, 'max' => 500),
 	);
+
+
+	/**
+	 * Получить сообщение для пользователя в зависимости от типа бана (временный или постоянный)
+	 */
+	public function getBanMessageForUser() {
+		switch ($this->getTimeType()) {
+			case PluginAdmin_ModuleUsers::BAN_TIME_TYPE_PERMANENT:
+				return $this->Lang_Get('plugin.admin.bans.permanently_banned', array(
+					'reason' => $this->getReasonForUser(),
+				));
+			case PluginAdmin_ModuleUsers::BAN_TIME_TYPE_PERIOD:
+				return $this->Lang_Get('plugin.admin.bans.you_are_banned', array(
+					'date_start' => $this->getDateStart(),
+					'date_finish' => $this->getDateFinish(),
+					'reason' => $this->getReasonForUser(),
+				));
+			default:
+				throw new Exception('Admin: error: unknown ban time type "' . $this->getTimeType() . '" in ' . __METHOD__);
+		}
+	}
+
+
+	/**
+	 * Полный ли это бан (без доступа к сайту)
+	 * @return bool
+	 */
+	public function getIsFull() {
+		return $this->getRestrictionType() == PluginAdmin_ModuleUsers::BAN_RESTRICTION_TYPE_FULL;
+	}
+
+
+	/**
+	 * Это бан "read only" (есть возможность читать сайт, без возможности что либо публиковать, комментировать)
+	 * @return bool
+	 */
+	public function getIsReadOnly() {
+		return $this->getRestrictionType() == PluginAdmin_ModuleUsers::BAN_RESTRICTION_TYPE_READ_ONLY;
+	}
 
 }
 

@@ -92,6 +92,8 @@ $config ['default_sorting_order_for_votes'] = '`vote_date` DESC';
  * Корректные значения для сортировки банов
  */
 $config ['correct_sorting_bans'] = array(
+	'restriction_type',
+
 	'block_type',
 	'user_id',
 	'ip',
