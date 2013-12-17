@@ -28,6 +28,7 @@ if (!class_exists('Plugin')) {
 }
 
 class PluginAdmin extends Plugin {
+	
 
 	/**
 	 * Активация плагина
@@ -42,8 +43,8 @@ class PluginAdmin extends Plugin {
 		/*
 		 * дамп таблицы для банов пользователя
 		 */
-		if (!$this -> isTableExists ('prefix_admin_users_ban')) {
-			$this -> ExportSQL (dirname (__FILE__) . '/sql_dumps/admin_users_ban.sql');
+		if (!$this->isTableExists('prefix_admin_users_ban')) {
+			$this->ExportSQL(dirname(__FILE__) . '/sql_dumps/admin_users_ban.sql');
 		}
 		return true;
 	}
@@ -73,7 +74,11 @@ class PluginAdmin extends Plugin {
 			/*
 			 * Расширение возможностей показа сообщений об ошибках
 			 */
-			'ModuleMessage'
+			'ModuleMessage',
+			/*
+			 * нужен для точки загрузки предпросмотра шаблона
+			 */
+			'ModuleLang',
 		),
 		'entity' => array(
 			/*

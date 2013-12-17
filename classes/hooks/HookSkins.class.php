@@ -29,36 +29,10 @@ class PluginAdmin_HookSkins extends Hook {
 
 	public function RegisterHook() {
 		/*
-		 * наивысший приоритет, который можно установить, но ниже чем загрузка настроек в HookSettings.class (вторая очередь)
+		 * tip: сам шаблон для предпросмотра устанавливается в наследуемом модуле Lang после вызова родительского InitConfig()
 		 */
-		/*
-		 *
-		 * ждать появления хука в модуле Lang в public function Init()
-		 *
-		 */
-/*		public function Init() {
-			$this->Hook_Run('lang_init_start');
 
-			$this->InitConfig();
-			$this->Hook_Run('lang_initconfig_done');		// this is it
-			$this->InitLang();
-		}*/
-
-		/*
-		 *
-		 * пока предпросмотр шаблона не работает
-		 *
-		 */
-		//$this->AddHook('module_lang_initconfig_after', 'LangInitStart', __CLASS__, PHP_INT_MAX - 100);
 		$this->AddHook('engine_init_complete', 'EngineInitComplete');
-	}
-
-
-	public function LangInitStart() {
-		/*
-		 * показать предпросмотр шаблона, если он был выбран в админке
-		 */
-		$this->PluginAdmin_Skin_SetPreviewTemplate();
 	}
 
 
