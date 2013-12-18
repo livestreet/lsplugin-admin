@@ -132,7 +132,7 @@
 							{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/bans_block_type_description.tpl"}
 						</td>
 						<td>
-							{$aLang.plugin.admin.bans.add.restriction_types[$oBan->getRestrictionType()]}
+							{$aLang.plugin.admin.bans.list.restriction_types[$oBan->getRestrictionType()]}
 						</td>
 
 						{* даты начала и окончания бана *}
