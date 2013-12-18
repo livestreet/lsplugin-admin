@@ -20,7 +20,9 @@
  */
 
 /*
- *	Наследуемая сущность пользователя из движка
+ *
+ * Наследуемая сущность пользователя из движка
+ *
  */
 
 class PluginAdmin_ModuleUser_EntityUser extends PluginAdmin_Inherits_ModuleUser_EntityUser {

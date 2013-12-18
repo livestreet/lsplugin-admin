@@ -53,21 +53,11 @@ class PluginAdmin_HookUserban extends Hook {
 		/*
 		 * удалить старые записи банов
 		 */
-		$this->CheckOldBanRecords();
+		$this->PluginAdmin_Users_DeleteOldBanRecords();
 		/*
 		 * если текущий пользователь попадает под условия бана - показать ему сообщение
 		 */
 		$this->CheckUserBan();
-	}
-
-
-	/**
-	 * Удалить старые записи банов
-	 */
-	protected function CheckOldBanRecords() {
-		if (Config::Get('plugin.admin.auto_delete_old_ban_records')) {
-			$this->PluginAdmin_Users_DeleteOldBanRecords();
-		}
 	}
 
 
@@ -81,25 +71,13 @@ class PluginAdmin_HookUserban extends Hook {
 		 */
 		if ($oBan = $this->PluginAdmin_Users_IsCurrentUserBannedFully()) {
 			/*
-			 * пополнить статистику срабатываний
+			 * добавить запись о срабатывании бана в статистику
 			 */
-			$this->AddBanStats($oBan);
+			$this->PluginAdmin_Users_AddBanTriggering($oBan);
 			/*
 			 * блокировать пользователя
 			 */
 			$this->ShowBanMessage($oBan);
-		}
-	}
-
-
-	/**
-	 * Добавить запись о срабатывании бана в статистику
-	 *
-	 * @param $oBan		объект бана
-	 */
-	protected function AddBanStats($oBan) {
-		if (Config::Get('plugin.admin.gather_bans_running_stats')) {
-			$this->PluginAdmin_Users_AddBanStat($oBan);
 		}
 	}
 

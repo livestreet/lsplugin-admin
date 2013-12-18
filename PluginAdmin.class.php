@@ -80,7 +80,7 @@ class PluginAdmin extends Plugin {
 			 */
 			'ModuleLang',
 			/*
-			 * для реализации возможностей read only банов
+			 * для реализации механизма read only банов для движка
 			 */
 			'ModuleACL',
 		),

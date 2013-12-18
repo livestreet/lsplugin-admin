@@ -22,102 +22,296 @@
 /*
  *
  * ACL (Access Control List)
+ * Реализация механизма бана типа "только чтение"
  *
  */
 
-/*
- * tip:
- * здесь использован хитрый трюк: цепочка наследования разрывается т.к. модуль наследует Module, а не PluginAdmin_Inherits_ModuleACL как должно быть,
- * потом через __call он сравнивает методы и если это не те методы, которые ожидаются, то вызыв передается дальше по цепочке (в PluginAdmin_Inherits_ModuleACL)
- */
-
-/*
- * нужно создать ещё один класс т.к class_alias есть в пхп 5.3, а в лс (который может и на 5.2 работать) есть его эмулятор,
- * который обьявляет алиас как абстрактный класс, который нельзя new
- */
-class Not_Abstract_PluginAdmin_Inherits_ModuleACL extends PluginAdmin_Inherits_ModuleACL {}
+class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 
 
-/*
- * tip:
- *
- * важно помнить что админка не имеет четко определенной позиции в списке активированных плагинов и поэтому могут быть другие плагины,
- * которые встанут в цепочку наследования модуля ACL и если они были после админки, то этот модуль перехватит их вызов, если после,
- * то они будут "выше" в цепочке и их методы должны будут вручную проверять бан пользователя (типа "только чтение"). Это одна неточность в логике.
- *
- * Вторая - это то, что данный перехват работает по принципу "запретить", а если какой-то плагин инвертирует свою логику и добавил в АКЛ метод "ЗапрещеноЛиДействие",
- * то выход, что админка разрешит это действие т.к. вернет false. Это вторая неточность.
- *
- * Выходит, что данный подход красиво выглядит только в оригинальной экосистеме лс (без сторонних плагинов), но имеет недостатки при использовании других плагинов т.к.:
- * нужно сделать так, чтобы админка (из-за этого модуля) активировалась всегда последней чтобы быть в цепочке наследования "сверху" и
- * все методы из АКЛ были логически типа "РазрешитьЛиДействие" т.е. задать стандарт написания методов для этого модуля, а это уже ограничение и затраты на переделку плагинов
- *
- * Поэтому проще, логичнее и в духе "ЛС" наследовать все методы из АКЛ движка, которые отвечают за действия и в них выполнять проверку на бан, чем пытаться универсализировать перехват,
- * как сделано сейчас.
- *
- * Этот способ носит больше академическую ценность.
- *
- * Данный комментарий оставляю чтобы позже не возникло желания переделать все по этому же принципу.
- *
- */
+	/**
+	 * Проверить включен ли для текущего пользователя режим "только чтение"
+	 *
+	 * @return bool
+	 */
+	private function CheckIfReadOnlyModeForCurrentUserIsSet() {
+		/*
+		 * если пользователь переведен в режим "только чтение" - запретить ему любое действие
+		 */
+		if ($oBan = $this->PluginAdmin_Users_IsCurrentUserBannedForReadOnly()) {
+			/*
+			 * добавить запись о срабатывании бана в статистику
+			 */
+			$this->PluginAdmin_Users_AddBanTriggering($oBan);
+			/*
+			 * сообщение пользователю в зависимости от типа бана (временный или постоянный)
+			 */
+			$this->Message_AddError($oBan->getBanMessageForUser(), '403');
+			return true;
+		}
+		return false;
+	}
 
-
-class PluginAdmin_ModuleACL extends Module {
 
 	/*
-	 * объект наследумого модуля (для вызова цепочки наследования дальше)
+	 *
+	 * --- Наследуемые методы, в которые вшита проверка на бан типа "только чтение" для текущего пользователя ---
+	 *
 	 */
-	private $oInheritedParentClass = null;
 
-
-	public function Init() {
-		/*
-		 * сразу нужно получить "вторую часть" цепочки
-		 */
-		$this->oInheritedParentClass = new Not_Abstract_PluginAdmin_Inherits_ModuleACL($this->oEngine);
-
-		/*
-		 * это наследование
-		 */
-		//parent::Init();
+	/**
+	 * Проверяет может ли пользователь создавать блоги
+	 *
+	 * @param ModuleUser_EntityUser $oUser
+	 * @return bool
+	 */
+	public function CanCreateBlog(ModuleUser_EntityUser $oUser) {
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
 	}
 
 
 	/**
-	 * Обработчик для реализации механизма "read only" банов, захватывающий на себя все разрешения в движке
+	 * Проверяет может ли пользователь создавать топики в определенном блоге
 	 *
-	 * @param $sName		имя вызываемого метода
-	 * @param $aArgs		массив аргументов
-	 * @return mixed
+	 * @param ModuleUser_EntityUser $oUser
+	 * @param ModuleBlog_EntityBlog $oBlog
+	 * @return bool
 	 */
-	public function __call($sName, $aArgs) {
-		/*
-		 * tip: все методы, которые разрешают определенное действие (публикация топика или комментария) начинаются на "Can" или "Is" (CanCreateBlog, CanAddTopic, IsAllowEditTopic и т.п.)
-		 */
-		if (stripos($sName, 'Can') === 0 or stripos($sName, 'Is') === 0) {
-			/*
-			 * если пользователь переведен в режим "только чтение" - запретить ему любое действие
-			 */
-			if ($oBan = $this->PluginAdmin_Users_IsCurrentUserBannedForReadOnly()) {
-				/*
-				 * пополнить статистику срабатываний
-				 */
-				//$this->AddBanStats($oBan);//todo:
-				/*
-				 * сообщение пользователю в зависимости от типа бана (временный или постоянный)
-				 */
-				$this->Message_AddError($oBan->getBanMessageForUser(), '403');
-				return false;
-			}
-		}
-		/*
-		 * продолжить вызов по цепочке
-		 */
-		$aArgsRef = array();
-		foreach ($aArgs as $key => $v) {
-			$aArgsRef[] = &$aArgs[$key];
-		}
-		return call_user_func_array(array($this->oInheritedParentClass, $sName), $aArgsRef);
+	public function CanAddTopic(ModuleUser_EntityUser $oUser, ModuleBlog_EntityBlog $oBlog) {
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+	}
+
+
+	/**
+	 * Проверяет может ли пользователь создавать комментарии
+	 *
+	 * @param ModuleUser_EntityUser $oUser
+	 * @param null                  $oTopic
+	 * @return bool
+	 */
+	public function CanPostComment(ModuleUser_EntityUser $oUser,$oTopic = null) {
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+	}
+
+
+	/**
+	 * Проверяет может ли пользователь создавать комментарии по времени(например ограничение максимум 1 коммент в 5 минут)
+	 *
+	 * @param ModuleUser_EntityUser $oUser
+	 * @return bool
+	 */
+	public function CanPostCommentTime(ModuleUser_EntityUser $oUser) {
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+	}
+
+
+	/**
+	 * Проверяет может ли пользователь создавать топик по времени
+	 *
+	 * @param ModuleUser_EntityUser $oUser
+	 * @return bool
+	 */
+	public function CanPostTopicTime(ModuleUser_EntityUser $oUser) {
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+	}
+
+
+	/**
+	 * Проверяет может ли пользователь отправить инбокс по времени
+	 *
+	 * @param ModuleUser_EntityUser $oUser
+	 * @return bool
+	 */
+	public function CanSendTalkTime(ModuleUser_EntityUser $oUser) {
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+	}
+
+
+	/**
+	 * Проверяет может ли пользователь создавать комментарии к инбоксу по времени
+	 *
+	 * @param ModuleUser_EntityUser $oUser
+	 * @return bool
+	 */
+	public function CanPostTalkCommentTime(ModuleUser_EntityUser $oUser) {
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+	}
+
+
+	/**
+	 * Проверяет может ли пользователь голосовать за конкретный комментарий
+	 *
+	 * @param ModuleUser_EntityUser       $oUser
+	 * @param ModuleComment_EntityComment $oComment
+	 * @return bool
+	 */
+	public function CanVoteComment(ModuleUser_EntityUser $oUser, ModuleComment_EntityComment $oComment) {
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+	}
+
+
+	/**
+	 * Проверяет может ли пользователь голосовать за конкретный блог
+	 *
+	 * @param ModuleUser_EntityUser $oUser
+	 * @param ModuleBlog_EntityBlog $oBlog
+	 * @return bool
+	 */
+	public function CanVoteBlog(ModuleUser_EntityUser $oUser, ModuleBlog_EntityBlog $oBlog) {
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+	}
+
+
+	/**
+	 * Проверяет может ли пользователь голосовать за конкретный топик
+	 *
+	 * @param ModuleUser_EntityUser   $oUser
+	 * @param ModuleTopic_EntityTopic $oTopic
+	 * @return bool
+	 */
+	public function CanVoteTopic(ModuleUser_EntityUser $oUser, ModuleTopic_EntityTopic $oTopic) {
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+	}
+
+
+	/**
+	 * Проверяет может ли пользователь голосовать за конкретного пользователя
+	 *
+	 * @param ModuleUser_EntityUser $oUser
+	 * @param ModuleUser_EntityUser $oUserTarget
+	 * @return bool
+	 */
+	public function CanVoteUser(ModuleUser_EntityUser $oUser, ModuleUser_EntityUser $oUserTarget) {
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+	}
+
+
+	/**
+	 * Проверяет можно ли юзеру слать инвайты
+	 *
+	 * @param ModuleUser_EntityUser $oUser
+	 * @return bool
+	 */
+	public function CanSendInvite(ModuleUser_EntityUser $oUser) {
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+	}
+
+
+	/**
+	 * Проверяет можно или нет юзеру постить в данный блог
+	 *
+	 * @param $oBlog
+	 * @param $oUser
+	 * @return bool
+	 */
+	public function IsAllowBlog($oBlog,$oUser) {
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+	}
+
+
+	/**
+	 * Проверяет можно или нет юзеру просматривать блог (fix: просматривать комментарии)
+	 *
+	 * @param $oBlog
+	 * @param $oUser
+	 * @return bool
+	 */
+	public function IsAllowShowBlog($oBlog,$oUser) {
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+	}
+
+
+	/**
+	 * Проверяет можно или нет пользователю редактировать данный топик
+	 *
+	 * @param $oTopic
+	 * @param $oUser
+	 * @return bool
+	 */
+	public function IsAllowEditTopic($oTopic,$oUser) {
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+	}
+
+
+	/**
+	 * Проверяет можно или нет пользователю удалять данный топик
+	 *
+	 * @param $oTopic
+	 * @param $oUser
+	 * @return bool
+	 */
+	public function IsAllowDeleteTopic($oTopic,$oUser) {
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+	}
+
+
+	/**
+	 * Проверяет можно или нет пользователю удалять данный блог
+	 *
+	 * @param $oBlog
+	 * @param $oUser
+	 * @return bool
+	 */
+	public function IsAllowDeleteBlog($oBlog,$oUser) {
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+	}
+
+
+	/**
+	 * Проверяет может ли пользователь удалить комментарий
+	 *
+	 * @param $oUser
+	 * @return bool
+	 */
+	public function CanDeleteComment($oUser) {
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+	}
+
+
+	/**
+	 * Проверяет может ли пользователь публиковать на главной
+	 *
+	 * @param ModuleUser_EntityUser $oUser
+	 * @return bool
+	 */
+	public function IsAllowPublishIndex(ModuleUser_EntityUser $oUser) {
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+	}
+
+
+	/**
+	 * Проверяет можно или нет пользователю редактировать данный блог
+	 *
+	 * @param $oBlog
+	 * @param $oUser
+	 * @return bool
+	 */
+	public function IsAllowEditBlog($oBlog,$oUser) {
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+	}
+
+
+	/**
+	 * Проверяет можно или нет пользователю управлять пользователями блога
+	 *
+	 * @param $oBlog
+	 * @param $oUser
+	 * @return bool
+	 */
+	public function IsAllowAdminBlog($oBlog,$oUser) {
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+	}
+
+
+	/**
+	 * Проверка на ограничение по времени на постинг на стене
+	 *
+	 * @param $oUser
+	 * @param $oWall
+	 * @return bool
+	 */
+	public function CanAddWallTime($oUser,$oWall) {
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
 	}
 
 }

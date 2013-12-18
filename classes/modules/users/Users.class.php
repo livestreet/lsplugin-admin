@@ -24,7 +24,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	protected $oMapper = null;
 
 	/*
-	 * тип ограничения пользования сайтом бана
+	 * тип ограничения пользования сайтом для бана
 	 */
 	const BAN_RESTRICTION_TYPE_FULL = 1;
 	const BAN_RESTRICTION_TYPE_READ_ONLY = 2;
@@ -443,6 +443,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * Удалить старые записи банов, дата окончания которых уже прошла
 	 */
 	public function DeleteOldBanRecords() {
+		if (!Config::Get('plugin.admin.auto_delete_old_ban_records')) return false;
 		// todo: cache
 		$this->oMapper->DeleteOldBanRecords();
 	}
@@ -455,7 +456,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	 */
 
 	/**
-	 * Проверить является ли ТЕКУЩИЙ пользователь забаненным
+	 * Проверить является ли ТЕКУЩИЙ пользователь забаненным (поиск по текущему пользователю (если есть) и текущему айпи)
 	 *
 	 * tip: использовать этот метод для проверки на бан ТЕКУЩЕГО пользователя, не обьеденять с GetUserBannedByUser
 	 * 		т.к. этот метод работает с текущим айпи, что позволит сработать правилам и для не залогиненного пользователя
@@ -475,7 +476,7 @@ class PluginAdmin_ModuleUsers extends Module {
 
 
 	/**
-	 * Проверить является ли указанный пользователь забаненным по его сущности, айпи последнего входа или айпи регистрации
+	 * Проверить является ли указанный пользователь забаненным (по его сущности, айпи последнего входа или айпи регистрации)
 	 *
 	 * tip: использовать этот метод для проверки на бан конкретной сущности пользователя,
 	 * 		из которой будет получен айпи для проверки - либо последнего входа либо регистрации (но не текущий айпи!)
@@ -500,6 +501,7 @@ class PluginAdmin_ModuleUsers extends Module {
 
 	/**
 	 * Попадает ли ТЕКУЩИЙ пользователь под полный бан с лишением доступа ко всему сайту, возвращает объект бана в случае успеха
+	 * tip: используется в хуке банов для общей блокировки доступа
 	 *
 	 * @return bool
 	 */
@@ -514,6 +516,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	/**
 	 * Попадает ли ТЕКУЩИЙ пользователь под "read only" бан (есть возможность читать сайт, без возможности что либо публиковать, комментировать и т.п.),
 	 * возвращает объект бана в случае успеха
+	 * tip: используется в наследуемом модуле ACL, а может быть вызван плагинами для проверки возможности публикации для текущего (!) пользователя
 	 *
 	 * @return bool
 	 */
@@ -523,6 +526,11 @@ class PluginAdmin_ModuleUsers extends Module {
 		}
 		return false;
 	}
+
+
+	/*
+	 * tip: для метода GetUserBannedByUser здесь не нужны методы проверки на тип бана - они есть в сущности пользователя: getBannedCachedFully и getBannedCachedForReadOnly соответственно
+	 */
 
 
 	/*
@@ -536,8 +544,10 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * Добавить запись о срабатывании бана в статистику
 	 *
 	 * @param $oBan
+	 * @return bool
 	 */
-	public function AddBanStat($oBan) {
+	public function AddBanTriggering($oBan) {
+		if (!Config::Get('plugin.admin.gather_bans_running_stats')) return false;
 		/*
 		 * получить статистику по банам
 		 */
