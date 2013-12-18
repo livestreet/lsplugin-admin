@@ -60,12 +60,12 @@ class PluginAdmin_ModuleUser_EntityUser extends PluginAdmin_Inherits_ModuleUser_
 	 *
 	 * @return object|null
 	 */
-/*	public function getBannedFully() {
+	public function getBannedCachedFully() {
 		if ($oBan = $this->getBannedCached() and $oBan->getIsFull()) {
 			return $oBan;
 		}
 		return null;
-	}*/
+	}
 
 
 	/**
@@ -73,7 +73,7 @@ class PluginAdmin_ModuleUser_EntityUser extends PluginAdmin_Inherits_ModuleUser_
 	 *
 	 * @return object|null
 	 */
-	public function getBannedReadOnly() {
+	public function getBannedCachedForReadOnly() {
 		if ($oBan = $this->getBannedCached() and $oBan->getIsReadOnly()) {
 			return $oBan;
 		}

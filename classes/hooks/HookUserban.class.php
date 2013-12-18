@@ -79,7 +79,7 @@ class PluginAdmin_HookUserban extends Hook {
 		 * если это полный бан с лишением доступа ко всему сайту
 		 * tip: использовать этот метод для общей проверки на бан т.к. пользователь может быть не авторизирован
 		 */
-		if ($oBan = $this->PluginAdmin_Users_IsCurrentUserBanned() and $oBan->getIsFull()) {
+		if ($oBan = $this->PluginAdmin_Users_IsCurrentUserBannedFully()) {
 			/*
 			 * пополнить статистику срабатываний
 			 */

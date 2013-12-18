@@ -74,7 +74,7 @@ class PluginAdmin_ModuleUsers_EntityBan extends Entity {
 
 
 	/**
-	 * Получить сообщение для пользователя в зависимости от типа бана (временный или постоянный)
+	 * Получить текст сообщения бана для пользователя в зависимости от типа (временный или постоянный)
 	 */
 	public function getBanMessageForUser() {
 		switch ($this->getTimeType()) {
@@ -96,6 +96,7 @@ class PluginAdmin_ModuleUsers_EntityBan extends Entity {
 
 	/**
 	 * Полный ли это бан (без доступа к сайту)
+	 *
 	 * @return bool
 	 */
 	public function getIsFull() {
@@ -104,7 +105,8 @@ class PluginAdmin_ModuleUsers_EntityBan extends Entity {
 
 
 	/**
-	 * Это бан "read only" (есть возможность читать сайт, без возможности что либо публиковать, комментировать)
+	 * Это бан "read only" (есть возможность читать сайт, без возможности что либо публиковать, комментировать и т.п.)
+	 *
 	 * @return bool
 	 */
 	public function getIsReadOnly() {

@@ -24,11 +24,11 @@
 		{* Пользователь *}
 		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
 				sFieldName    = 'user_sign'
-				sFieldClasses = 'width-250'
+				sFieldClasses = 'width-250 autocomplete-users'
 				sFieldNote    = $aLang.plugin.admin.bans.add.user_sign_info
 				sFieldLabel   = $aLang.plugin.admin.bans.add.user_sign
 				sFieldId	  = 'admin_bans_user_sign'
-		}{* todo: add in class "autocomplete-users" when will be fixed error in completer *}
+		}
 
 		{* Результат ajax-проверки поля *}
 		<div id="admin_bans_checking_msg" class="alert alert-info" style="display: none;"></div>
