@@ -423,35 +423,60 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		$this->SetTemplateAction('users/bans');
 		$this->SetPaging(2, 'bans.per_page');
 
+		$aSearchFilter = array();
+
 		/*
-		 * нужный тип банов
+		 * получить тип ограничения банов
 		 */
-		$sBanType = $this->GetParam(1);
-		$aSearchRule = array();
-		switch ($sBanType) {
+		$sBanRestrictionType = $this->GetDataFromFilter('ban_restriction_type');
+		switch ($sBanRestrictionType) {
+			case 'full':
+				/*
+				 * показывать полные баны
+				 */
+				$aSearchFilter['restriction_type'] = PluginAdmin_ModuleUsers::BAN_RESTRICTION_TYPE_FULL;
+				break;
+			case 'readonly':
+				/*
+				 * показать read only баны
+				 */
+				$aSearchFilter['restriction_type'] = PluginAdmin_ModuleUsers::BAN_RESTRICTION_TYPE_READ_ONLY;
+				break;
+			default:
+				/*
+				 * показывать баны всех типов ограничений
+				 */
+				$sBanRestrictionType = 'all';
+		}
+
+		/*
+		 * получить временной тип банов
+		 */
+		$sBanTimeType = $this->GetDataFromFilter('ban_time_type');
+		switch ($sBanTimeType) {
 			case 'permanent':
 				/*
 				 * показывать только постоянные баны
 				 */
-				$aSearchRule = array('time_type' => PluginAdmin_ModuleUsers::BAN_TIME_TYPE_PERMANENT);
+				$aSearchFilter['time_type'] = PluginAdmin_ModuleUsers::BAN_TIME_TYPE_PERMANENT;
 				break;
 			case 'period':
 				/*
 				 * показать временные баны
 				 */
-				$aSearchRule = array('time_type' => PluginAdmin_ModuleUsers::BAN_TIME_TYPE_PERIOD);
+				$aSearchFilter['time_type'] = PluginAdmin_ModuleUsers::BAN_TIME_TYPE_PERIOD;
 				break;
 			default:
 				/*
 				 * показывать все баны
 				 */
-				$sBanType = 'all';
+				$sBanTimeType = 'all';
 		}
 
 		/*
 		 * полный путь к данному действию (для пагинации и сортировки)
 		 */
-		$sFullPagePathToEvent = Router::GetPath('admin/users/bans/' . $sBanType);
+		$sFullPagePathToEvent = Router::GetPath('admin/users/bans');
 
 		/*
 		 * сортировка
@@ -463,7 +488,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 * получение списка банов
 		 */
 		$aResult = $this->PluginAdmin_Users_GetBansByFilter(
-			$aSearchRule,
+			$aSearchFilter,
 			array($sOrder => $sWay),
 			$this->iPage,
 			$this->iPerPage
@@ -484,7 +509,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 						'order_field' => $sOrder,
 						'order_way' => $sWay
 					),
-					$aSearchRule
+					$aSearchFilter
 				)
 			)
 		);
@@ -493,7 +518,8 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		$this->Viewer_Assign('aBans', $aResult['collection']);
 		$this->Viewer_Assign('iBansTotalCount', $aResult['count']);
 		$this->Viewer_Assign('sFullPagePathToEvent', $sFullPagePathToEvent);
-		$this->Viewer_Assign('sBanSelectType', $sBanType);
+		$this->Viewer_Assign('sBanTimeType', $sBanTimeType);
+		$this->Viewer_Assign('sBanRestrictionType', $sBanRestrictionType);
 
 		/*
 		 * сортировка

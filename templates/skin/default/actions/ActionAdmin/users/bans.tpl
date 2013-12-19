@@ -8,12 +8,43 @@
 
 {block name='layout_content_actionbar'}
 	<div class="fl-r">
-		<a class="button {if $sBanSelectType=='all'}active{/if}"
-		   href="{router page='admin/users/bans'}">{$aLang.plugin.admin.bans.filter.all}</a>
-		<a class="button {if $sBanSelectType=='permanent'}active{/if}"
-		   href="{router page='admin/users/bans/permanent'}">{$aLang.plugin.admin.bans.filter.permanent}</a>
-		<a class="button {if $sBanSelectType=='period'}active{/if}"
-		   href="{router page='admin/users/bans/period'}">{$aLang.plugin.admin.bans.filter.period}</a>
+		{*
+			тип ограничения
+		*}
+		<a href="{$sFullPagePathToEvent}{request_filter
+			name=array('ban_restriction_type', 'ban_time_type')
+			value=array(null, $sBanTimeType)
+		}" class="button {if $sBanRestrictionType=='all'}active{/if}">{$aLang.plugin.admin.bans.filter.restriction.all}</a>
+
+		<a href="{$sFullPagePathToEvent}{request_filter
+			name=array('ban_restriction_type', 'ban_time_type')
+			value=array('full', $sBanTimeType)
+		}" class="button {if $sBanRestrictionType=='full'}active{/if}">{$aLang.plugin.admin.bans.filter.restriction.full}</a>
+
+		<a href="{$sFullPagePathToEvent}{request_filter
+			name=array('ban_restriction_type', 'ban_time_type')
+			value=array('readonly', $sBanTimeType)
+		}" class="button {if $sBanRestrictionType=='readonly'}active{/if}">{$aLang.plugin.admin.bans.filter.restriction.readonly}</a>
+
+		&nbsp;&mdash;&nbsp;
+
+		{*
+			временной тип банов
+		*}
+		<a href="{$sFullPagePathToEvent}{request_filter
+			name=array('ban_restriction_type', 'ban_time_type')
+			value=array($sBanRestrictionType, null)
+		}" class="button {if $sBanTimeType=='all'}active{/if}">{$aLang.plugin.admin.bans.filter.time.all}</a>
+
+		<a href="{$sFullPagePathToEvent}{request_filter
+			name=array('ban_restriction_type', 'ban_time_type')
+			value=array($sBanRestrictionType, 'permanent')
+		}" class="button {if $sBanTimeType=='permanent'}active{/if}">{$aLang.plugin.admin.bans.filter.time.permanent}</a>
+
+		<a href="{$sFullPagePathToEvent}{request_filter
+			name=array('ban_restriction_type', 'ban_time_type')
+			value=array($sBanRestrictionType, 'period')
+		}" class="button {if $sBanTimeType=='period'}active{/if}">{$aLang.plugin.admin.bans.filter.time.period}</a>
 	</div>
 	<a class="button button-primary" href="{router page='admin/users/bans/add'}">{$aLang.plugin.admin.bans.add_ban}</a>
 {/block}
