@@ -34,24 +34,9 @@ $config['user']['per_page'] = 10;
 $config['votes']['per_page'] = 10;
 
 /*
- * количество банов на страницу
- */
-$config['bans']['per_page'] = 10;
-
-/*
  * Использовать ли аякс при отправке формы с настройками
  */
 $config['admin_save_form_ajax_use'] = true;
-
-/*
- * Автоматически удалять старые записи банов если дата окончания бана уже прошла
- */
-$config['auto_delete_old_ban_records'] = true;
-
-/*
- * Собирать статистку по срабатываниям банов
- */
-$config['gather_bans_running_stats'] = true;
 
 /*
  * данные для главной страницы админки
