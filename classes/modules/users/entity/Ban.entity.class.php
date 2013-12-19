@@ -20,7 +20,9 @@
  */
 
 /*
- *	Сущность для работы с баном пользователей
+ *
+ * Сущность для работы с баном пользователей
+ *
  */
 
 class PluginAdmin_ModuleUsers_EntityBan extends Entity {
@@ -77,13 +79,27 @@ class PluginAdmin_ModuleUsers_EntityBan extends Entity {
 	 * Получить текст сообщения бана для пользователя в зависимости от типа (временный или постоянный)
 	 */
 	public function getBanMessageForUser() {
+		if ($this->getIsFull()) {
+			/*
+			 * если это полный бан
+			 */
+			$sLangPrefix = 'plugin.admin.bans.messages.full_ban.';
+		} else {
+			/*
+			 * если это бан типа "только чтение"
+			 */
+			$sLangPrefix = 'plugin.admin.bans.messages.readonly_ban.';
+		}
+		/*
+		 * получить сообщение на основе временного типа бана
+		 */
 		switch ($this->getTimeType()) {
 			case PluginAdmin_ModuleUsers::BAN_TIME_TYPE_PERMANENT:
-				return $this->Lang_Get('plugin.admin.bans.permanently_banned', array(
+				return $this->Lang_Get($sLangPrefix . 'permanently_banned', array(
 					'reason' => $this->getReasonForUser(),
 				));
 			case PluginAdmin_ModuleUsers::BAN_TIME_TYPE_PERIOD:
-				return $this->Lang_Get('plugin.admin.bans.you_are_banned', array(
+				return $this->Lang_Get($sLangPrefix . 'banned_for_period', array(
 					'date_start' => $this->getDateStart(),
 					'date_finish' => $this->getDateFinish(),
 					'reason' => $this->getReasonForUser(),

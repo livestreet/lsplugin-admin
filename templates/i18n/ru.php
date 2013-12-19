@@ -465,8 +465,19 @@ return array(
 			'reason_for_user' => 'Причина',
 			'comment' => 'Комментарий для себя',
 		),
-		'you_are_banned' => 'Вам запрещен доступ к сайту с <b>%%date_start%%</b> по <b>%%date_finish%%</b>. Причина: <i>%%reason%%</i>.',
-		'permanently_banned' => 'Вам запрещен доступ к сайту навсегда. Причина: <i>%%reason%%</i>.',
+		/*
+		 * сообщения пользователю при бане
+		 */
+		'messages' => array(
+			'full_ban' => array(
+				'permanently_banned' => 'Вам запрещен доступ к сайту навсегда. Причина: <i>%%reason%%</i>.',
+				'banned_for_period' => 'Вам запрещен доступ к сайту с <b>%%date_start%%</b> по <b>%%date_finish%%</b>. Причина: <i>%%reason%%</i>.',
+			),
+			'readonly_ban' => array(
+				'permanently_banned' => 'Вы переведены в режим "только чтение" навсегда. Причина: <i>%%reason%%</i>.',
+				'banned_for_period' => 'Вы переведены в режим "только чтение" с <b>%%date_start%%</b> по <b>%%date_finish%%</b>. Причина: <i>%%reason%%</i>.',
+			),
+		),
 		/*
 		 * аякс проверка правила для бана на корректность
 		 */
