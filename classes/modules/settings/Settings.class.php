@@ -185,6 +185,12 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 		/*
 		 * Применить настройки, обьеденив их с существующими
 		 */
+
+		/*
+		 * todo: переделать на рекурсивную замену со сравнением ключей (как при сохранении в SaveConfigByKey)
+		 * см. полное описание в своем todo
+		 * пример для тестов - в config/bans.php
+		 */
 		$aMixedSettings = array_merge($aOriginalSettingsFromConfig, $aSavedSettingsFromDB);
 		Config::Set('plugin.' . $sPluginName, $aMixedSettings);
 	}
@@ -393,11 +399,10 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 				 * Структура принимаемых данных - массив с значениями по ключам:
 				 *
 				 *
-				 * [self::POST_RAW_DATA_ARRAY_SIGNATURE] - идентификатор приналежности значения к параметрам
-				 * (всегда должен быть self::ADMIN_SETTINGS_FORM_SYSTEM_ID)
-				 * [self::POST_RAW_DATA_ARRAY_KEY] - ключ параметра(как прописан в конфиге)
+				 * [self::POST_RAW_DATA_ARRAY_SIGNATURE] - идентификатор приналежности значения к параметрам (всегда должен быть self::ADMIN_SETTINGS_FORM_SYSTEM_ID)
+				 * [self::POST_RAW_DATA_ARRAY_KEY] - ключ параметра (как прописан в конфиге)
 				 * [self::POST_RAW_DATA_ARRAY_VALUE_FIRST] - значение параметра из формы
-				 * [n] - n-е значение из формы(для типа "массив" улучшеного отображения)
+				 * [n] - n-е значение из формы (для типа "массив" улучшеного отображения)
 				 */
 				$sKey = $aPostRawData[self::POST_RAW_DATA_ARRAY_KEY];
 				/*
