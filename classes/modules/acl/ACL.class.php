@@ -32,17 +32,23 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 	/**
 	 * Проверить включен ли для текущего пользователя режим "только чтение"
 	 *
+	 * @param $sFuncName		имя метода, который вызывает проверку
 	 * @return bool
 	 */
-	private function CheckIfReadOnlyModeForCurrentUserIsSet() {
+	private function CheckIfReadOnlyModeForCurrentUserIsSet($sFuncName) {
 		/*
 		 * если пользователь переведен в режим "только чтение" - запретить ему любое действие
 		 */
 		if ($oBan = $this->PluginAdmin_Users_IsCurrentUserBannedForReadOnly()) {
 			/*
-			 * добавить запись о срабатывании бана в статистику
+			 * нужно ли увеличить счетчик срабатываний для этого метода
 			 */
-			$this->PluginAdmin_Users_AddBanTriggering($oBan);
+			if ($this->NeedToGatherStatsForThisMethod($sFuncName)) {
+				/*
+				 * добавить запись о срабатывании бана в статистику
+				 */
+				$this->PluginAdmin_Users_AddBanTriggering($oBan);
+			}
 			/*
 			 * сообщение пользователю в зависимости от типа бана (временный или постоянный)
 			 */
@@ -50,6 +56,17 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 			return true;
 		}
 		return false;
+	}
+
+
+	/**
+	 * Нужно ли записывать срабатывание бана для указанного метода из ACL (некоторые методы выполняются по несколько раз на странице и подсчет их запуска - слишком ресурсоёмко)
+	 *
+	 * @param $sFuncName	имя метода из ACL
+	 * @return bool
+	 */
+	protected function NeedToGatherStatsForThisMethod($sFuncName) {
+		return !in_array($sFuncName, Config::Get('plugin.admin.acl_exclude_methods_from_gather_bans_stats'));
 	}
 
 
@@ -66,7 +83,7 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 	 * @return bool
 	 */
 	public function CanCreateBlog(ModuleUser_EntityUser $oUser) {
-		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet(__FUNCTION__) ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
 	}
 
 
@@ -78,7 +95,7 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 	 * @return bool
 	 */
 	public function CanAddTopic(ModuleUser_EntityUser $oUser, ModuleBlog_EntityBlog $oBlog) {
-		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet(__FUNCTION__) ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
 	}
 
 
@@ -90,7 +107,7 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 	 * @return bool
 	 */
 	public function CanPostComment(ModuleUser_EntityUser $oUser,$oTopic = null) {
-		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet(__FUNCTION__) ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
 	}
 
 
@@ -101,7 +118,7 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 	 * @return bool
 	 */
 	public function CanPostCommentTime(ModuleUser_EntityUser $oUser) {
-		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet(__FUNCTION__) ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
 	}
 
 
@@ -112,7 +129,7 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 	 * @return bool
 	 */
 	public function CanPostTopicTime(ModuleUser_EntityUser $oUser) {
-		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet(__FUNCTION__) ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
 	}
 
 
@@ -123,7 +140,7 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 	 * @return bool
 	 */
 	public function CanSendTalkTime(ModuleUser_EntityUser $oUser) {
-		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet(__FUNCTION__) ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
 	}
 
 
@@ -134,7 +151,7 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 	 * @return bool
 	 */
 	public function CanPostTalkCommentTime(ModuleUser_EntityUser $oUser) {
-		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet(__FUNCTION__) ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
 	}
 
 
@@ -146,7 +163,7 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 	 * @return bool
 	 */
 	public function CanVoteComment(ModuleUser_EntityUser $oUser, ModuleComment_EntityComment $oComment) {
-		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet(__FUNCTION__) ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
 	}
 
 
@@ -158,7 +175,7 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 	 * @return bool
 	 */
 	public function CanVoteBlog(ModuleUser_EntityUser $oUser, ModuleBlog_EntityBlog $oBlog) {
-		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet(__FUNCTION__) ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
 	}
 
 
@@ -170,7 +187,7 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 	 * @return bool
 	 */
 	public function CanVoteTopic(ModuleUser_EntityUser $oUser, ModuleTopic_EntityTopic $oTopic) {
-		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet(__FUNCTION__) ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
 	}
 
 
@@ -182,7 +199,7 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 	 * @return bool
 	 */
 	public function CanVoteUser(ModuleUser_EntityUser $oUser, ModuleUser_EntityUser $oUserTarget) {
-		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet(__FUNCTION__) ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
 	}
 
 
@@ -193,7 +210,7 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 	 * @return bool
 	 */
 	public function CanSendInvite(ModuleUser_EntityUser $oUser) {
-		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet(__FUNCTION__) ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
 	}
 
 
@@ -205,7 +222,7 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 	 * @return bool
 	 */
 	public function IsAllowBlog($oBlog,$oUser) {
-		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet(__FUNCTION__) ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
 	}
 
 
@@ -217,7 +234,7 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 	 * @return bool
 	 */
 	public function IsAllowShowBlog($oBlog,$oUser) {
-		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet(__FUNCTION__) ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
 	}
 
 
@@ -229,7 +246,7 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 	 * @return bool
 	 */
 	public function IsAllowEditTopic($oTopic,$oUser) {
-		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet(__FUNCTION__) ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
 	}
 
 
@@ -241,7 +258,7 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 	 * @return bool
 	 */
 	public function IsAllowDeleteTopic($oTopic,$oUser) {
-		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet(__FUNCTION__) ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
 	}
 
 
@@ -253,7 +270,7 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 	 * @return bool
 	 */
 	public function IsAllowDeleteBlog($oBlog,$oUser) {
-		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet(__FUNCTION__) ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
 	}
 
 
@@ -264,7 +281,7 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 	 * @return bool
 	 */
 	public function CanDeleteComment($oUser) {
-		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet(__FUNCTION__) ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
 	}
 
 
@@ -275,7 +292,7 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 	 * @return bool
 	 */
 	public function IsAllowPublishIndex(ModuleUser_EntityUser $oUser) {
-		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet(__FUNCTION__) ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
 	}
 
 
@@ -287,7 +304,7 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 	 * @return bool
 	 */
 	public function IsAllowEditBlog($oBlog,$oUser) {
-		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet(__FUNCTION__) ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
 	}
 
 
@@ -299,7 +316,7 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 	 * @return bool
 	 */
 	public function IsAllowAdminBlog($oBlog,$oUser) {
-		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet(__FUNCTION__) ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
 	}
 
 
@@ -311,7 +328,7 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 	 * @return bool
 	 */
 	public function CanAddWallTime($oUser,$oWall) {
-		return $this->CheckIfReadOnlyModeForCurrentUserIsSet() ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
+		return $this->CheckIfReadOnlyModeForCurrentUserIsSet(__FUNCTION__) ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
 	}
 
 }
