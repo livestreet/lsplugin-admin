@@ -126,6 +126,53 @@ class PluginAdmin_ActionAdmin_EventUtils extends Event {
 	}
 
 
+	/*
+	 *
+	 * --- Сброс данных ---
+	 *
+	 */
+
+	/**
+	 * Показать список действий для сброса данных
+	 *
+	 * @return mixed
+	 */
+	public function EventDataReset() {
+		$this->SetTemplateAction('utils/datareset');
+
+		/*
+		 * если нужно выполнить действие
+		 */
+		if ($sActionType = $this->GetParam(1)) {
+			$this->Security_ValidateSendForm();
+			$this->ProcessDataResetAction($sActionType);
+		}
+	}
+
+
+	/**
+	 * Выполнить нужное действие сброса данных
+	 *
+	 * @param $sActionType	тип действия
+	 * @return bool
+	 */
+	protected function ProcessDataResetAction($sActionType) {
+		switch ($sActionType) {
+			case 'resetallbansstats':
+				/*
+				 * сбросить статистику срабатываний банов
+				 */
+				$this->PluginAdmin_Users_DeleteAllBansStats();
+				$this->Message_AddNotice('Ok', '', true);
+				break;
+			default:
+				$this->Message_AddError($this->Lang('errors.utils.unknown_datareset_action'));
+				return false;
+		}
+		$this->RedirectToReferer();
+	}
+
+
 }
 
 ?>

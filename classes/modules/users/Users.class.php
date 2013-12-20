@@ -500,7 +500,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * 		т.к. этот метод работает с текущим айпи, что позволит сработать правилам и для не залогиненного пользователя
 	 * 		потому что GetUserBannedByUser использует данные сущности пользователя, в т.ч. и айпи - либо последнего входа либо регистрации
 	 *
-	 * @return object        объект бана
+	 * @return object        	объект бана
 	 */
 	public function IsCurrentUserBanned() {
 		return $this->IsUserBanned();
@@ -513,7 +513,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * tip: использовать этот метод для проверки на бан конкретной сущности пользователя,
 	 * 		из которой будет получен айпи для проверки - либо последнего входа либо регистрации (но не текущий айпи!)
 	 *
-	 * @param $oUser	объект пользователя
+	 * @param $oUser			объект пользователя
 	 * @return mixed
 	 */
 	public function GetUserBannedByUser($oUser) {
@@ -573,7 +573,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	/**
 	 * Добавить запись о срабатывании бана в статистику
 	 *
-	 * @param $oBan
+	 * @param $oBan			объект бана
 	 * @return bool
 	 */
 	public function AddBanTriggering($oBan) {
@@ -606,7 +606,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	/**
 	 * Удалить статистику бана
 	 *
-	 * @param $oBan		объект бана
+	 * @param $oBan				объект бана
 	 */
 	public function DeleteBanStats($oBan) {
 		/*
@@ -621,6 +621,14 @@ class PluginAdmin_ModuleUsers extends Module {
 		 * сохранить данные статистики
 		 */
 		$this->Storage_Set(self::BAN_STATS_PARAM_NAME, $aStats, $this);
+	}
+
+
+	/**
+	 * Удалить все записи статистики срабатываний банов
+	 */
+	public function DeleteAllBansStats() {
+		$this->Storage_Set(self::BAN_STATS_PARAM_NAME, null, $this);
 	}
 
 

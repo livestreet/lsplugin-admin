@@ -20,7 +20,9 @@
  */
 
 /*
- *	Работа с настройками плагинов
+ *
+ * Работа с настройками плагинов
+ *
  */
 
 class PluginAdmin_ActionAdmin_EventSettings extends Event {
@@ -30,7 +32,8 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 	 *
 	 * @return bool
 	 */
-	public function EventShow() {
+	public function EventShowPluginSettings() {
+		$this->SetTemplateAction('settings/list');
 		/*
 		 * корректно ли имя конфига
 		 */
@@ -53,6 +56,10 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 		$this->Viewer_Assign('aSettingsAll', $aSettingsAll);
 		$this->Viewer_Assign('sConfigName', $sConfigName);
 		$this->Viewer_Assign('oPlugin', $this->PluginAdmin_Plugins_GetPluginByCode($sConfigName));
+
+		$this->Viewer_Assign('sAdminSettingsFormSystemId', PluginAdmin_ModuleSettings::ADMIN_SETTINGS_FORM_SYSTEM_ID);
+		$this->Viewer_Assign('sAdminSystemConfigId', ModuleStorage::DEFAULT_KEY_NAME);
+
 		$this->Lang_AddLangJs(array('plugin.admin.errors.some_fields_are_incorrect'));
 	}
 
@@ -150,19 +157,25 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 
 
 	/**
-	 * Получение настроек ядра по группе
+	 * Получение настроек ядра по группе (показ группы настроек ядра)
 	 *
 	 * @param array $aKeysToShow			ключи группы для показа (множество)
 	 * @param array $aKeysToExcludeFromList	ключи, которые необходимо исключить (подмножество)
 	 * @return bool
 	 */
 	protected function ShowSystemSettings($aKeysToShow = array(), $aKeysToExcludeFromList = array()) {
+		$this->SetTemplateAction('settings/list');
+
 		$sConfigName = ModuleStorage::DEFAULT_KEY_NAME;
 		$aSettingsAll = $this->PluginAdmin_Settings_GetConfigSettings($sConfigName, $aKeysToShow, $aKeysToExcludeFromList);
 
 		$this->Viewer_Assign('aSettingsAll', $aSettingsAll);
 		$this->Viewer_Assign('sConfigName', $sConfigName);
 		$this->Viewer_Assign('aKeysToShow', $aKeysToShow);
+
+		$this->Viewer_Assign('sAdminSettingsFormSystemId', PluginAdmin_ModuleSettings::ADMIN_SETTINGS_FORM_SYSTEM_ID);
+		$this->Viewer_Assign('sAdminSystemConfigId', ModuleStorage::DEFAULT_KEY_NAME);
+
 		return true;
 	}
 

@@ -290,7 +290,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		/*
 		 * Показать настройки плагина
 		 */
-		$this->AddEventPreg('#^settings$#iu', '#^plugin$#iu', 'Settings::EventShow');
+		$this->AddEventPreg('#^settings$#iu', '#^plugin$#iu', 'Settings::EventShowPluginSettings');
 		/*
 		 * Сохранить настройки (плагина или движка)
 		 */
@@ -324,6 +324,10 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 * Проверка файлов на корректность их кодировки
 		 */
 		$this->AddEventPreg('#^utils$#iu', '#^files$#iu', 'Utils::EventCheckFiles');
+		/*
+		 * Сброс данных
+		 */
+		$this->AddEventPreg('#^utils$#iu', '#^datareset$#iu', 'Utils::EventDataReset');
 
 		/*
 		 *
@@ -413,6 +417,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Проверка таблиц')->SetUrl('tables'))
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Проверка файлов')->SetUrl('files'))
+				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Сброс данных')->SetUrl('datareset'))
 			)	// /AddSection
 		;
 	}
@@ -429,7 +434,8 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 	 * Делает редирект на страницу, с которой пришел запрос
 	 */
 	public function RedirectToReferer() {
-		return Router::Location(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : Router::GetPath('admin'));
+		Router::Location(isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : Router::GetPath('admin'));
+		return false;
 	}
 
 
@@ -479,21 +485,14 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 
 		$this->Viewer_AddBlock('right','blocks/block.nav.tpl', array('plugin'=>'admin'));
 
-		if (Router::GetActionEvent()!='error') {
+		if (Router::GetActionEvent() != 'error') {
 			$this->PluginAdmin_Ui_HighlightMenus();
 		}
-
 
 		/*
 		 * записать данные последнего входа пользователя в админку
 		 */
 		$this->PluginAdmin_Users_SetLastVisitData();
-
-		/*
-		 * для редактирования настроек плагинов и системы
-		 */
-		$this->Viewer_Assign('sAdminSettingsFormSystemId', PluginAdmin_ModuleSettings::ADMIN_SETTINGS_FORM_SYSTEM_ID);
-		$this->Viewer_Assign('sAdminSystemConfigId', ModuleStorage::DEFAULT_KEY_NAME);
 	}
 
 
