@@ -10,11 +10,13 @@
 	</script>
 {/block}
 
-{block name='layout_content'}
-	управление конкретным плагином<br/>
+{block name='layout_page_title'}
+	{* todo: lang *}
 
-	содержание плагина "<b>{$oAdminUrl->getPlugin()}</b>":<br/><br/>
-	
+	Управление плагином "<b>{$oAdminUrl->getPlugin()}</b>"
+{/block}
+
+{block name='layout_content'}
 	{if $sAdminTemplateInclude}
 		{include file=$sAdminTemplateInclude}
 	{/if}
