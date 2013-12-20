@@ -52,7 +52,7 @@ $config['encoding_checking_dirs'] = array(
 	/*
 	 * файлы шаблонов
 	 */
-	array('path' => Config::Get('path.framework.server') . '/frontend/templates/', 'file_extensions' => array('tpl', 'js', 'css')),
+	array('path' => Config::Get('path.framework.server') . '/frontend/templates/', 'file_extensions' => array('tpl', 'js', 'css', 'xml')),
 	/*
 	 * файлы инклуда
 	 */
@@ -79,7 +79,7 @@ $config['encoding_checking_dirs'] = array(
 	/*
 	 * файлы шаблонов
 	 */
-	array('path' => Config::Get('path.application.server') . '/frontend/skin/', 'file_extensions' => array('tpl', 'js', 'css')),
+	array('path' => Config::Get('path.application.server') . '/frontend/skin/', 'file_extensions' => array('tpl', 'js', 'css', 'xml')),
 	/*
 	 * файлы инклуда
 	 */
@@ -111,6 +111,10 @@ $config['encoding_checking_dirs'] = array(
 	 * файлы шаблонов плагинов
 	 */
 	array('path' => Config::Get('path.application.server') . '/plugins/*/templates/skin/', 'file_extensions' => array('tpl', 'js', 'css')),
+	/*
+	 * xml файлы плагинов
+	 */
+	array('path' => Config::Get('path.application.server') . '/plugins/*/', 'file_extensions' => 'xml'),
 );
 
 return $config;
