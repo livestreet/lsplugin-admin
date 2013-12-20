@@ -456,6 +456,44 @@ class PluginAdmin_ModuleUsers extends Module {
 	 */
 
 	/**
+	 * Проверка на бан указанного пользователя или айпи на указанную дату
+	 *
+	 * @param $oUser			сущность пользователя
+	 * @param $sIp				указанный айпи
+	 * @param $sDate			на указанную дату
+	 * @return mixed
+	 */
+	protected function IsUserBanned($oUser = null, $sIp = null, $sDate = null) {
+		/*
+		 * если пользователь не указан - проверять текущего
+		 */
+		if (is_null($oUser)) {
+			$oUser = $this->User_GetUserCurrent();
+		}
+		/*
+		 * если айпи не указан - использовать текущий айпи
+		 */
+		if (is_null($sIp)) {
+			$sIp = func_getIp();
+		}
+		/*
+		 * если не указана дата - значит проверять на текущий момент
+		 */
+		if (is_null($sDate)) {
+			$sDate = date('Y-m-d H:i:s');
+		}
+		/*
+		 * ip представляется в бд в виде целого числа
+		 */
+		$mIp = convert_ip2long($sIp);
+		/*
+		 * кешированию не подлежит
+		 */
+		return $this->oMapper->IsUserBanned($oUser, $mIp, $sDate);
+	}
+
+
+	/**
 	 * Проверить является ли ТЕКУЩИЙ пользователь забаненным (поиск по текущему пользователю (если есть) и текущему айпи)
 	 *
 	 * tip: использовать этот метод для проверки на бан ТЕКУЩЕГО пользователя, не обьеденять с GetUserBannedByUser
@@ -465,13 +503,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * @return object        объект бана
 	 */
 	public function IsCurrentUserBanned() {
-		/*
-		 * кешированию не подлежит
-		 */
-		$oUserCurrent = $this->User_GetUserCurrent();
-		$mIp = convert_ip2long(func_getIp());
-		$sCurrentDate = date('Y-m-d H:i:s');
-		return $this->oMapper->IsUserBanned($oUserCurrent, $mIp, $sCurrentDate);
+		return $this->IsUserBanned();
 	}
 
 
@@ -486,16 +518,14 @@ class PluginAdmin_ModuleUsers extends Module {
 	 */
 	public function GetUserBannedByUser($oUser) {
 		/*
-		 * кешированию не подлежит
+		 * для указанного пользователя брать айпи либо из последней сессии либо регистрации
 		 */
 		if ($oSession = $oUser->getSession()) {
-			$mIp = $oSession->getIpLast();
+			$sIp = $oSession->getIpLast();
 		} else {
-			$mIp = $oUser->getIpRegister();
+			$sIp = $oUser->getIpRegister();
 		}
-		$mIp = convert_ip2long($mIp);
-		$sCurrentDate = date('Y-m-d H:i:s');
-		return $this->oMapper->IsUserBanned($oUser, $mIp, $sCurrentDate);
+		return $this->IsUserBanned($oUser, $sIp);
 	}
 
 
@@ -1875,6 +1905,7 @@ class PluginAdmin_ModuleUsers extends Module {
 				return false;
 		}
 	}
+
 
 }
 
