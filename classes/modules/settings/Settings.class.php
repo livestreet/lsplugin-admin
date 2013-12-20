@@ -183,15 +183,10 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 		if (is_null($aOriginalSettingsFromConfig)) return false;
 
 		/*
-		 * Применить настройки, обьеденив их с существующими
+		 * Применить настройки, специальным методом рекурсивно обьеденив их с существующими
+		 * tip: не использовать "array_merge_recursive"
 		 */
-
-		/*
-		 * todo: переделать на рекурсивную замену со сравнением ключей (как при сохранении в SaveConfigByKey)
-		 * см. полное описание в своем todo
-		 * пример для тестов - в config/bans.php
-		 */
-		$aMixedSettings = array_merge($aOriginalSettingsFromConfig, $aSavedSettingsFromDB);
+		$aMixedSettings = array_replace_recursive_distinct($aOriginalSettingsFromConfig, $aSavedSettingsFromDB);
 		Config::Set('plugin.' . $sPluginName, $aMixedSettings);
 	}
 	
@@ -589,8 +584,9 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 			/*
 			 * обьеденить сохраненные ранее настройки с новыми
 			 * это необходимо если настройки разбиты на группы и показываются в разных разделах частями (например, настройки ядра)
+			 * tip: не использовать "array_merge_recursive"
 			 */
-			$aData = array_replace_recursive_distinct($aConfigOldData, $aData);							// dont use "array_merge_recursive"
+			$aData = array_replace_recursive_distinct($aConfigOldData, $aData);
 		}
 		return $this->SaveConfigData($sConfigName, $aData);
 	}

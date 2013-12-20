@@ -66,7 +66,7 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 	 * @return bool
 	 */
 	protected function NeedToGatherStatsForThisMethod($sFuncName) {
-		return !in_array($sFuncName, Config::Get('plugin.admin.acl_exclude_methods_from_gather_bans_stats'));
+		return !in_array($sFuncName, Config::Get('plugin.admin.bans.acl_exclude_methods_from_gather_stats'));
 	}
 
 
