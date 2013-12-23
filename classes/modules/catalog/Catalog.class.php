@@ -196,7 +196,6 @@ class PluginAdmin_ModuleCatalog extends Module {
 		foreach ($aPlugins as $oPlugin) {
 			$aRequestData[] = array('code' => $oPlugin->getCode(), 'version' => $oPlugin->getVersion());
 		}
-
 		return $aRequestData;
 	}
 
@@ -270,6 +269,9 @@ class PluginAdmin_ModuleCatalog extends Module {
 			/*
 			 * кеширование обновлений на 5 минут
 			 */
+
+			// todo: сбрасывать после (де)активации, обновлении плагинов
+
 			$this->Cache_Set($mData, $sCacheKey, array('plugin_update', 'plugin_new'), $this->aCacheLiveTime['plugin_updates_check']);
 		}
 		return $mData;

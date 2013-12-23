@@ -272,6 +272,10 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 */
 		$this->AddEventPreg('#^plugins$#iu', '#^(?:list)?$#iu', 'Plugins::EventPluginsList');
 		/*
+		 * установка плагинов (каталог)
+		 */
+		$this->AddEventPreg('#^plugins$#iu', '#^install?$#iu', 'Plugins::EventPluginsInstall');
+		/*
 		 * активация/деактивация плагина
 		 */
 		$this->AddEventPreg('#^plugins$#iu', '#^toggle$#iu', 'Plugins::EventTogglePlugin');
@@ -383,7 +387,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 				Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Плагины')->SetName('plugins')->SetUrl('plugins')
 				
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Список плагинов')->SetUrl('list'))
-				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Установить плагин')->SetUrl('install'))
+				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Установить')->SetUrl('install'))
 			)	// /AddSection
 			->AddSection(
 				Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Шаблоны')->SetName('skins')->SetUrl('skins')
@@ -642,6 +646,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$sPluginTemplatePath . '/js/admin_stream.js',
 			$sPluginTemplatePath . '/js/admin_users_stats_living.js',
 			$sPluginTemplatePath . '/js/admin_profile_edit.js',
+			$sPluginTemplatePath . '/js/admin_catalog.js',
 			$sPluginTemplatePath . '/js/nav.main.js',
 			$sPluginTemplatePath . '/js/more.js',
 			$sPluginTemplatePath . '/js/property.js',

@@ -20,7 +20,9 @@
  */
 
 /*
- *	Работа с плагинами
+ *
+ * Работа с плагинами
+ *
  */
 
 class PluginAdmin_ActionAdmin_EventPlugins extends Event {
@@ -119,6 +121,17 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 			return $this->Message_AddError($this->Lang('errors.plugins.plugin_not_found'), $this->Lang_Get('error'));
 		}
 		$this->Viewer_Assign('oPlugin', $oPlugin);
+	}
+
+
+	/**
+	 * Установка плагинов (каталог)
+	 *
+	 * @return mixed
+	 */
+	public function EventPluginsInstall() {
+		$this->SetTemplateAction('plugins/install');
+
 	}
 
 }

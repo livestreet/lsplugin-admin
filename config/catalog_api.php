@@ -32,7 +32,9 @@ $config['catalog']['base_api_url'] = 'https://catalog.livestreetcms.com/api/';
 
 /*
  * Методы для работы с каталогом
- * tip: ключ {plugin_code} - код плагина (имя папки плагина)
+ * tip:
+ * 		1. строка "{plugin_code}" - код плагина (имя папки плагина)
+ * 		2. ключи в массивах нужны для формирования метода для доступа к АПИ каталога, в значениях указывается относительный урл
  */
 $config['catalog']['methods_pathes'] = array(
 	/*
@@ -40,7 +42,7 @@ $config['catalog']['methods_pathes'] = array(
 	 */
 	'plugin' => array(
 		/*
-		 * полный урл: получить лого плагина (180х180)
+		 * относительный урл: получить лого плагина (180х180)
 		 */
 		'logo' => 'plugin/{plugin_code}/get-logo/',
 	),
@@ -49,9 +51,13 @@ $config['catalog']['methods_pathes'] = array(
 	 */
 	'addons' => array(
 		/*
-		 * полный урл: получить обновления списка плагинов
+		 * относительный урл: получить обновления списка плагинов
 		 */
 		'check_version' => 'addons/check-version/',
+		/*
+		 * относительный урл: получить список плагинов из каталога по фильтру
+		 */
+		'filter' => 'addons/filter/',			// todo:
 	),
 );
 
@@ -60,15 +66,20 @@ $config['catalog']['methods_pathes'] = array(
  */
 $config['catalog']['cache_live_time'] = array(
 	/*
-	 * получение обновлений (5 минут)
+	 * получение обновлений (1 час)
 	 */
-	'plugin_updates_check' => 60*5
+	'plugin_updates_check' => 60*60*1
 );
 
 /*
  * Проверять наличие новых версий плагинов в каталоге
  */
 $config['catalog']['allow_plugin_updates_checking'] = true;
+
+/*
+ * Добавить кнопку в тулбар с количеством обновлений плагинов
+ */
+$config['catalog']['show_updates_count_in_toolbar'] = true;
 
 return $config;
 
