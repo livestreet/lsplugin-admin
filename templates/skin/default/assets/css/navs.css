@@ -51,6 +51,8 @@
 .nav-main-item-root.active .nav-main-item-icon.nav-main-item-icon-settings { background-image: url(../images/icons/nav-main-settings-active.png); }
 .nav-main-item-icon.nav-main-item-icon-utils    { background-image: url(../images/icons/nav-main-settings.png); }
 .nav-main-item-root.active .nav-main-item-icon.nav-main-item-icon-utils    { background-image: url(../images/icons/nav-main-settings-active.png); }
+.nav-main-item-icon.nav-main-item-icon-skins    { background-image: url(../images/icons/nav-main-skins.png); }
+.nav-main-item-root.active .nav-main-item-icon.nav-main-item-icon-skins    { background-image: url(../images/icons/nav-main-skins-active.png); }
 
 .nav-main-item-icon.nav-main-item-icon-fold    { background-image: url(../images/icons/nav-main-fold.png); }
 .is-nav-main-folded .nav-main-item-icon.nav-main-item-icon-fold { background-image: url(../images/icons/nav-main-fold-active.png); }
