@@ -6,12 +6,9 @@
 
 {extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
 
-{*
-todo: нужно ли два заголовка на странице? есть уже page-sub-header
 {block name='layout_page_title'}
 	{$aLang.plugin.admin.users_stats.title}
 {/block}
-*}
 
 {block name='layout_content_actionbar'}
 	{include file="{$aTemplatePathPlugin.admin}stats.brief.tpl"}
@@ -22,9 +19,8 @@ todo: нужно ли два заголовка на странице? есть 
 	{**
 	 * График регистраций
 	 *}
-	<h3 class="page-sub-header">{$aLang.plugin.admin.users_stats.title}: {$aLang.plugin.admin.users_stats.registrations}</h3>
-
 	{include file="{$aTemplatePathPlugin.admin}charts/graph.tpl"
+		sGraphTitle             = $aLang.plugin.admin.users_stats.registrations
 		sValueSuffix            = $aLang.plugin.admin.users_stats.users
 		aStats                  = $aDataStats
 		sName                   = $aLang.plugin.admin.users_stats.registrations

@@ -1,6 +1,6 @@
-{*
-	Вывод настроек движка или плагина
-*}
+{**
+ * Вывод настроек движка или плагина
+ *}
 
 {if $aSettingsAll and count($aSettingsAll) > 0}
 	<form action="{router page="admin/settings/save/{$sConfigName}"}" method="post" enctype="application/x-www-form-urlencoded" id="admin_settings_save">

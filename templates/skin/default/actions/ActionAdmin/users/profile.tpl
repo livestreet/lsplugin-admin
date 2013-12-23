@@ -13,7 +13,7 @@
 	<ul>
 		<li><a href="#"><i class="icon-white icon-pencil"></i></a></li>
 
-		{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/user_operations.tpl"}
+		{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/user.actions.tpl"}
 
 		<li class="fl-r"><a href="#"><i class="icon-white icon-chevron-right"></i></a></li>
 		<li class="fl-r"><a href="#"><i class="icon-white icon-chevron-left"></i></a></li>
@@ -104,10 +104,8 @@
 
 
 	<div class="user-info-body">
-		<div class="get-user-baneed">
-			{* Для вывода информации бана *}
-			{hook run='admin_user_profile_brief_aside' oUserProfile=$oUser}        {* todo: review: hook names *}
-		</div>
+		{* Для вывода информации бана *}
+		{hook run='admin_user_profile_brief_aside' oUserProfile=$oUser}        {* todo: review: hook names *}
 
 		{* Базовая информация *}
 		<div class="user-info-block user-info-block-resume">

@@ -11,18 +11,17 @@
 
 
 {block name='layout_content'}
-	<h3 class="page-sub-header">{$aLang.plugin.admin.index.title}</h3>
-
 	{**
 	 * График
 	 *}
 	{include file="{$aTemplatePathPlugin.admin}charts/graph.tpl"
-		sValueSuffix=$aLang.plugin.admin.users_stats.graph_suffix.$sCurrentGraphType
-		aStats=$aDataStats
-		sName=$aLang.plugin.admin.users_stats.graph_labels.$sCurrentGraphType
-		sUrl="{router page='admin'}"
-		bShowGraphTypeSelect=true
-		bShowCustomPeriodFields=true
+		sGraphTitle             = $aLang.plugin.admin.index.title
+		sValueSuffix            = $aLang.plugin.admin.users_stats.graph_suffix.$sCurrentGraphType
+		aStats                  = $aDataStats
+		sName                   = $aLang.plugin.admin.users_stats.graph_labels.$sCurrentGraphType
+		sUrl                    = "{router page='admin'}"
+		bShowGraphTypeSelect    = true
+		bShowCustomPeriodFields = true
 	}
 
 
@@ -30,10 +29,8 @@
 	 * Уведомления
 	 *}
 	<ul class="stats-notifications">
-		{*
-			обновления плагинов
-		*}
-		<li class="stats-notifications-item-plugins">
+		{* Обновления плагинов *}
+		<li class="stats-notifications-item stats-notifications-item-plugins {if $iPluginUpdates}active{/if}">
 			<figure class="stats-notifications-image"></figure>
 			<h3><a href="{router page='admin/plugins/list'}" class="link-border"><span>{$aLang.plugin.admin.index.updates.plugins.title}</span></a></h3>
 			{if $iPluginUpdates}
@@ -43,12 +40,12 @@
 				<p><a href="{router page='admin/plugins/list'}" class="link-border"><span>{$aLang.plugin.admin.index.updates.plugins.no_updates}</span></a></p>
 			{/if}
 		</li>
-		<li class="stats-notifications-item-users">
+		<li class="stats-notifications-item stats-notifications-item-users">
 			<figure class="stats-notifications-image"></figure>
 			<h3><a href="#" class="link-border"><span>Пользователи</span></a></h3>
 			<p><a href="#" class="link-border"><span>Есть 2 обновления</span></a></p>
 		</li>
-		<li class="stats-notifications-item-support">
+		<li class="stats-notifications-item stats-notifications-item-support">
 			<figure class="stats-notifications-image"></figure>
 			<h3><a href="#" class="link-border"><span>Обратная связь</span></a></h3>
 			<p><a href="#" class="link-border"><span>Есть 2 обновления</span></a></p>

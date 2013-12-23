@@ -9,15 +9,11 @@
 		<h4 class="skin-list-item-title">{$oSkin->getViewName()|escape:'html'}</h4>
 
 		<div class="mb-15">
-			{*
-				если это не текущий включенный шаблон (независимо от предпросмотра)
-			*}
+			{* Если это не текущий включенный шаблон (независимо от предпросмотра) *}
 			{if !$oSkin->getIsCurrent()}
 				<a href="{$oSkin->getChangeSkinUrl()}" class="button button-primary">{$aLang.plugin.admin.skin.use_skin}</a>
 
-				{*
-					чтобы можно было назад "отжать" кнопку
-				*}
+				{* Чтобы можно было назад "отжать" кнопку *}
 				{if $oSkin->getInPreview()}
 					<a href="{$oSkin->getTurnOffPreviewUrl()}" class="button button-primary active">{$aLang.plugin.admin.skin.preview_skin}</a>
 				{else}
@@ -26,9 +22,7 @@
 			{/if}
 		</div>
 
-		{*
-			все методы ниже используют xml файл
-		*}
+		{* Все методы ниже используют xml файл *}
 		{if $oSkin->getXml()}
 			<div class="skin-list-item-info">
 				<dl>
@@ -53,9 +47,7 @@
 						<dt>{$aLang.plugin.admin.skin.themes}:</dt>
 						<dd>
 							{if $oSkin->getIsCurrent()}
-								{*
-									для текущего шаблона можно менять список тем
-								*}
+								{* Для текущего шаблона можно менять список тем *}
 								<form action="{router page="admin/skins/changetheme/{$oSkin->getName()}"}" enctype="application/x-www-form-urlencoded" method="post">
 									<input type="hidden" name="security_ls_key" value="{$LIVESTREET_SECURITY_KEY}" />
 
@@ -70,9 +62,7 @@
 									<button type="submit" class="button">{$aLang.plugin.admin.skin.change_theme}</button>
 								</form>
 							{else}
-								{*
-									для неактивного шаблона нужно только вывести список тем, т.к. включить их для неактивного шаблона нельзя
-								*}
+								{* Для неактивного шаблона нужно только вывести список тем, т.к. включить их для неактивного шаблона нельзя *}
 								{foreach from=$oSkin->getThemes() item=aTheme}
 									<span>{$aTheme.value}</span>
 									<i class="icon-info-sign" title="{$aTheme.description|escape:'html'}"></i>

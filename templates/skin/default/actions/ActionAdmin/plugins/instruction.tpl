@@ -1,3 +1,7 @@
+{**
+ * Инструкция по установке плагина
+ *}
+
 {extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
 
 {block name='layout_page_title'}
@@ -15,10 +19,12 @@
 		<div class="mb-30">
 			{$aLang.plugin.admin.plugins.instructions.description}
 		</div>
-		<div class="mb-30 plugin-instructions">
-			{$oPlugin->getInstallInstructionsText()|escape:'html'|nl2br}
+
+		<div class="mb-30 text plugin-instructions">
+			{$oPlugin->getInstallInstructionsText()|escape|nl2br}
 		</div>
-		<div class="Controls">
+
+		<div>
 			<a href="{$oPlugin->getActivateUrl(false)}" title="{$aLang.plugins_plugin_activate}"
 			   class="button button-primary">{$aLang.plugin.admin.plugins.instructions.controls.activate}</a>
 

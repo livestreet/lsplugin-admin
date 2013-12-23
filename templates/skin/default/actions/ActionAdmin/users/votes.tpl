@@ -1,3 +1,7 @@
+{**
+ * Голосования
+ *}
+
 {extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
 
 {block name='layout_page_title'}
@@ -25,9 +29,7 @@
 
 
 {block name='layout_content'}
-
 	{if aVotingList and count($aVotingList)>0}
-
 		<table class="table">
 			<thead>
 				<tr>
@@ -103,5 +105,4 @@
 	}
 
 	{include file="{$aTemplatePathPlugin.admin}pagination.tpl" aPaging=$aPaging}
-
 {/block}

@@ -1,3 +1,6 @@
+{**
+ * Плагин / Элементы управления
+ *}
 
 {if $oPlugin->getActive()}
 	<a href="{$oPlugin->getDeactivateUrl()}" title="{$aLang.plugins_plugin_deactivate}" class="button">{$aLang.plugins_plugin_deactivate}</a>

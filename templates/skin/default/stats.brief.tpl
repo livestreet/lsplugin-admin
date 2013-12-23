@@ -10,9 +10,7 @@
 		<p>{$aLang.plugin.admin.index.users}</p>
 	</li>
 
-	{*
-		прирост пользователей за неделю
-	*}
+	{* Прирост пользователей за неделю *}
 	{if $aUserGrowth}
 		<li>
 			<h3>

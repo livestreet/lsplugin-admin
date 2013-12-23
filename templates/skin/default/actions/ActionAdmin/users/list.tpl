@@ -1,4 +1,4 @@
-{*
+{**
  * Список пользователей
  *}
 
@@ -22,7 +22,7 @@
 			{/foreach}
 		</select>
 
-		{*
+		{**
 		 * Кнопка отключения фильтра поиска
 		 *}
 		{if $_aRequest.filter.$sSearchField}
@@ -178,7 +178,7 @@
 						<div class="dropdown-circle js-dropdown" data-dropdown-target="dropdown-user-menu-{$oUser->getId()}"></div>
 
 						<ul class="dropdown-menu" id="dropdown-user-menu-{$oUser->getId()}">
-							{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/user_operations.tpl"}
+							{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/user.actions.tpl"}
 						</ul>
 
 						<p class="user-rating {if $oUser->getRating() < 0}user-rating-negative{/if}" title="{$aLang.plugin.admin.users.table_header.user_rating}">

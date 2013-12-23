@@ -114,7 +114,7 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 	 * @return mixed
 	 */
 	public function EventPluginInstructions() {
-		$this->SetTemplateAction('plugins/show_install_txt');
+		$this->SetTemplateAction('plugins/instruction');
 		if (!$oPlugin = $this->PluginAdmin_Plugins_GetPluginByCode(getRequestStr('plugin'))) {
 			return $this->Message_AddError($this->Lang('errors.plugins.plugin_not_found'), $this->Lang_Get('error'));
 		}

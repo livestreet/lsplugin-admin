@@ -1,6 +1,6 @@
-{*
-	Вывод информации об существовании обновления для плагина этой версии
-*}
+{**
+ * Вывод информации об существовании обновления для плагина этой версии
+ *}
 
 {if $aPluginUpdates and $oPlugin and isset($aPluginUpdates[$oPlugin->getCode()])}
 	{$oUpdateInfo = $aPluginUpdates[$oPlugin->getCode()]}

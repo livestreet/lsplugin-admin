@@ -1,3 +1,7 @@
+{**
+ * Список плагинов
+ *}
+
 {extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
 
 {block name='layout_page_title'}
@@ -25,7 +29,7 @@
 		<table class="table table-plugins">
 			<tbody>
 				{foreach from=$aPluginsInfo.collection item=oPlugin}
-					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/plugins/one_plugin.tpl"}
+					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/plugins/plugin.tpl"}
 				{/foreach}
 			</tbody>
 		</table>
