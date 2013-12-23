@@ -33,16 +33,17 @@ class PluginAdmin_HookUserban extends Hook {
 	public function RegisterHook() {
 		/*
 		 * обработка старых банов, сообщение текущему пользователю что он под баном
+		 * tip: наименьший приоритет, который можно установить
 		 */
-		$this->AddHook('engine_init_complete', 'EngineInitComplete', __CLASS__, -PHP_INT_MAX);	// наименьший приоритет, который можно установить
+		$this->AddHook('engine_init_complete', 'EngineInitComplete', __CLASS__, -PHP_INT_MAX);
 		/*
 		 * чтобы в профиле админки указать забанен пользователь или нет
 		 */
-		$this->AddHook('template_admin_user_profile_brief_aside', 'AdminUserProfileBriefAside');
+		$this->AddHook('template_admin_user_profile_center_info', 'AdminUserProfileCenterInfo');
 		/*
 		 * чтобы в профиле пользователя на сайте указать забанен пользователь или нет
 		 */
-		$this->AddHook('template_user_info_begin', 'AdminUserProfileBriefAside');
+		$this->AddHook('template_user_info_begin', 'AdminUserProfileCenterInfo');
 	}
 
 
@@ -110,7 +111,7 @@ class PluginAdmin_HookUserban extends Hook {
 	 * @param $aVars	передаваемые параметры
 	 * @return mixed
 	 */
-	public function AdminUserProfileBriefAside($aVars) {
+	public function AdminUserProfileCenterInfo($aVars) {
 		/*
 		 * видно либо хозяину профиля либо админам (этот метод добавлен в профиль админки и на сайте)
 		 */

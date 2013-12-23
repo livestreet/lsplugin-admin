@@ -105,7 +105,7 @@
 
 	<div class="user-info-body">
 		{* Для вывода информации бана *}
-		{hook run='admin_user_profile_brief_aside' oUserProfile=$oUser}        {* todo: review: hook names *}
+		{hook run='admin_user_profile_center_info' oUserProfile=$oUser}
 
 		{* Базовая информация *}
 		<div class="user-info-block user-info-block-resume">
