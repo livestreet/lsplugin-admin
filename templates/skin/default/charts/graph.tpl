@@ -5,19 +5,25 @@
  *
  * Необходимые переменные:
  *
- * 		$sValueSuffix - суфикс для вывода тултипа ($aLang.plugin.admin.users_stats.users)
- * 		$aStats - массив с данными для графика ($aUserRegistrationStats)
- * 		$sName - имя графика ($aLang.plugin.admin.users_stats.registrations)
- * 		$sUrl - URL для сабмита формы ({router page='admin'})
- * 		$bShowGraphTypeSelect - показывать ли селект выбора типа графика
- * 		$bShowCustomPeriodFields - показывать ли поля для ручного выбора дат
- * 		$bShowTable - показывать таблицу с данными графика или нет
- *
+ * @param string  $sGraphTitle  Заголовок графика
+ * @param string  $sValueSuffix  суфикс для вывода тултипа ($aLang.plugin.admin.users_stats.users)
+ * @param string  $aStats  массив с данными для графика ($aUserRegistrationStats)
+ * @param string  $sName  имя графика ($aLang.plugin.admin.users_stats.registrations)
+ * @param string  $sUrl  URL для сабмита формы ({router page='admin'})
+ * @param boolean $bShowGraphTypeSelect  показывать ли селект выбора типа графика
+ * @param boolean $bShowCustomPeriodFields  показывать ли поля для ручного выбора дат
+ * @param boolean $bShowTable  показывать таблицу с данными графика или нет
  *}
 
 <div class="graph-wrapper">
-	<div class="graph">
+	{if $sGraphTitle}
 		<header class="graph-header">
+			<h2 class="graph-title">{$sGraphTitle}</h2>
+		</header>
+	{/if}
+
+	<div class="graph">
+		<div class="graph-filter">
 			<form action="{$sUrl}" enctype="application/x-www-form-urlencoded" method="get">
 				{*
 					нужно ли отображать селект с типами графика для выбора
@@ -74,7 +80,7 @@
 
 				<button type="submit" class="button button-primary">{$aLang.plugin.admin.show}</button>
 			</form>
-		</header>
+		</div>
 
 		<div class="graph-body">
 			<div id="admin_graph_container"></div>

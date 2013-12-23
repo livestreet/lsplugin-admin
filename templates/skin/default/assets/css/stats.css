@@ -10,14 +10,17 @@
 
 .graph-wrapper { margin-bottom: 40px; }
 .graph {
-	-webkit-box-shadow: 0 3px 15px rgba(0, 0, 0, .1);
+	/*-webkit-box-shadow: 0 3px 15px rgba(0, 0, 0, .1);
 	-moz-box-shadow: 0 3px 15px rgba(0, 0, 0, .1);
-	box-shadow: 0 3px 15px rgba(0, 0, 0, .1);
+	box-shadow: 0 3px 15px rgba(0, 0, 0, .1);*/
+	border: 1px solid #eee;
 }
 
-.graph-header { padding: 20px; }
+.graph-header { padding: 0 0 10px; }
+.graph-title { font: 300 20px/1em 'Open Sans', Arial, sans-serif; }
+.graph-filter { padding: 20px; }
 .graph-body { padding: 20px; }
-.graph-table { padding-top: 30px; }
+.graph-table { padding-top: 15px; }
 .graph-table .table { margin-top: 15px; }
 
 /**
@@ -75,10 +78,25 @@
 .stats-notifications li p .link-border:hover { color: #333; border-color: #ccc; }
 
 /* Image */
-[class^="stats-notifications"] .stats-notifications-image    { position: absolute; top: 0; left: 10px; width: 65px; height: 65px; background-repeat: no-repeat; }
+.stats-notifications-item .stats-notifications-image    { position: absolute; top: 0; left: 10px; width: 65px; height: 65px; background-repeat: no-repeat; }
 .stats-notifications-item-plugins .stats-notifications-image { background-image: url(../images/icons/stats-notifications-plugins.png); }
 .stats-notifications-item-users .stats-notifications-image   { background-image: url(../images/icons/stats-notifications-users.png); }
 .stats-notifications-item-support .stats-notifications-image { background-image: url(../images/icons/stats-notifications-support.png); }
+
+/* Active */
+/* TODO: Оформить; */
+.stats-notifications-item.active .stats-notifications-image:before {
+	content: '';
+	position: absolute;
+	top: 3px;
+	right: 4px;
+	width: 18px;
+	height: 18px;
+	background: #3185EA;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+}
 
 /* Responsive */
 @media (max-width: 999px)  {
