@@ -81,6 +81,16 @@ $config['catalog']['allow_plugin_updates_checking'] = true;
  */
 $config['catalog']['show_updates_count_in_toolbar'] = true;
 
+/*
+ * макс. время подключения к серверу, сек
+ */
+$config['catalog']['max_connect_timeout'] = 2;
+
+/*
+ * макс. время получения данных от сервера, сек
+ */
+$config['catalog']['max_work_timeout'] = 4;
+
 return $config;
 
 ?>

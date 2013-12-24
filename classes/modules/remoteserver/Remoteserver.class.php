@@ -28,29 +28,40 @@
 class PluginAdmin_ModuleRemoteserver extends Module {
 
 	/*
-	 * ключ массива запроса для ссылки
+	 *
+	 * --- Ключи массива запроса ---
+	 *
+	 */
+
+	/*
+	 * ссылка
 	 */
 	const REQUEST_URL = 'url';
 	/*
-	 * ключ массива запроса для массива передаваемых данных
+	 * массив передаваемых данных
 	 */
 	const REQUEST_DATA = 'data';
 	/*
-	 * ключ массива запроса настроек для curl
+	 * настройки для curl
 	 */
 	const REQUEST_CURL_OPTIONS = 'curl_options';
 
+	/*
+	 *
+	 * --- Ключи массива ответа ---
+	 *
+	 */
 
 	/*
-	 * ключ успеха массива ответа
+	 * флаг успеха операции
 	 */
 	const RESPONSE_SUCCESS = 'success';
 	/*
-	 * ключ текста ошибки массива ответа
+	 * текст ошибки
 	 */
 	const RESPONSE_ERROR_MESSAGE = 'error_message';
 	/*
-	 * ключ строки данных массива ответа
+	 * строка данных
 	 */
 	const RESPONSE_DATA = 'data';
 
@@ -98,7 +109,7 @@ class PluginAdmin_ModuleRemoteserver extends Module {
 				isset($aRequestData[self::REQUEST_CURL_OPTIONS]) ? $aRequestData[self::REQUEST_CURL_OPTIONS] : array()
 			);
 		}
-		return 'Error: no cURL extension installed on server';
+		return 'Admin: error: no cURL extension installed on server';
 	}
 
 
@@ -186,6 +197,8 @@ class PluginAdmin_ModuleRemoteserver extends Module {
 			 * макс. позволенное количество секунд для выполнения cURL-функций
 			 */
 			CURLOPT_TIMEOUT => self::WORK_TIMEOUT,
+
+
 			/*
 			 * мин. скорость передачи, байт/сек
 			 */
@@ -210,10 +223,6 @@ class PluginAdmin_ModuleRemoteserver extends Module {
 			 * подпись (заголовок)
 			 */
 			CURLOPT_USERAGENT => self::USER_AGENT,
-			/*
-			 * реферер
-			 */
-			CURLOPT_REFERER => Config::Get('path.root.web'),
 			/*
 			 * заголовки
 			 */

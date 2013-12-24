@@ -31,7 +31,6 @@ class PluginAdmin_ModuleCatalog extends Module {
 	 * строка замены на код плагина в урле метода
 	 */
 	const PLUGIN_CODE_PLACEHOLDER = '{plugin_code}';
-
 	/*
 	 * Префикс методов АПИ каталога
 	 */
@@ -41,7 +40,6 @@ class PluginAdmin_ModuleCatalog extends Module {
 	 * Базовый путь к АПИ каталога
 	 */
 	private $sCatalogBaseApiUrl = null;
-
 	/*
 	 * Методы для работы с каталогом
 	 */
@@ -52,11 +50,39 @@ class PluginAdmin_ModuleCatalog extends Module {
 	 */
 	protected $aCacheLiveTime = array();
 
+	/*
+	 * Макс. время подключения к серверу, сек
+	 */
+	protected $iConnectTimeout = 2;
+	/*
+	 * Макс. время получения данных от сервера, сек
+	 */
+	protected $iWorkTimeout = 4;
+
 
 	final public function Init() {
+		$this->Setup();
+	}
+
+
+	/**
+	 * Выполнить основную настройку модуля
+	 */
+	protected function Setup() {
+		/*
+		 * урлы АПИ
+		 */
 		$this->sCatalogBaseApiUrl = Config::Get('plugin.admin.catalog.base_api_url');
 		$this->aCatalogMethodPath = Config::Get('plugin.admin.catalog.methods_pathes');
+		/*
+		 * время жизни кешей
+		 */
 		$this->aCacheLiveTime = Config::Get('plugin.admin.catalog.cache_live_time');
+		/*
+		 * тайминги подключений к серверу
+		 */
+		$this->iConnectTimeout = Config::Get('plugin.admin.catalog.max_connect_timeout');
+		$this->iWorkTimeout = Config::Get('plugin.admin.catalog.max_work_timeout');
 	}
 
 
@@ -137,6 +163,35 @@ class PluginAdmin_ModuleCatalog extends Module {
 	 *
 	 */
 
+
+	/**
+	 * Послать запрос серверу с нужными таймингами
+	 *
+	 * @param $sApiUrl			урл нужного АПИ
+	 * @param $aRequestData		передаваемые данные
+	 * @return array			массив (RESPONSE_SUCCESS, RESPONSE_ERROR_MESSAGE, RESPONSE_DATA) см. модуль Remoteserver
+	 */
+	protected function SendDataToServer($sApiUrl, $aRequestData) {
+		return $this->PluginAdmin_Remoteserver_Send(array(
+			PluginAdmin_ModuleRemoteserver::REQUEST_URL => $sApiUrl,
+			PluginAdmin_ModuleRemoteserver::REQUEST_DATA => $aRequestData,
+			/*
+			 * установка кастомных опций для курла (таймингов)
+			 */
+			PluginAdmin_ModuleRemoteserver::REQUEST_CURL_OPTIONS => array(
+				CURLOPT_CONNECTTIMEOUT => $this->iConnectTimeout,
+				CURLOPT_TIMEOUT => $this->iWorkTimeout
+			)
+		));
+	}
+
+
+	/*
+	 *
+	 * --- Обновление плагинов ---
+	 *
+	 */
+
 	/**
 	 * Получить ответ от сервера по обновлениям для всех или указанных плагинов
 	 *
@@ -165,10 +220,7 @@ class PluginAdmin_ModuleCatalog extends Module {
 		/*
 		 * запросить данные
 		 */
-		$aResponseAnswer = $this->PluginAdmin_Remoteserver_Send(array(
-			PluginAdmin_ModuleRemoteserver::REQUEST_URL => $sApiUrl,
-			PluginAdmin_ModuleRemoteserver::REQUEST_DATA => $aRequestData
-		));
+		$aResponseAnswer = $this->SendDataToServer($sApiUrl, $aRequestData);
 		/*
 		 * если нет ошибок
 		 */
@@ -254,7 +306,7 @@ class PluginAdmin_ModuleCatalog extends Module {
 
 
 	/**
-	 * Получение массива кодов плагинов, для которых есть обновления в каталоге из кеша (обновление каждые 5 минут)
+	 * Получение массива кодов плагинов, для которых есть обновления в каталоге из кеша (обновление каждый 1 час)
 	 *
 	 * @param array $aPlugins		массив сущностей плагинов для проверки, если нужно
 	 * @return string|bool|array	массив кодов и версий плагинов с обновлениям, false если нет обновлений или строка ошибки
@@ -267,10 +319,11 @@ class PluginAdmin_ModuleCatalog extends Module {
 		if (($mData = $this->Cache_Get($sCacheKey)) === false) {
 			$mData = $this->GetPluginUpdates($aPlugins);
 			/*
-			 * кеширование обновлений на 5 минут
+			 * кеширование обновлений на час
+			 * tip: сбрасывать после (де)активации (это выполняется при Plugin_Toggle)
 			 */
 
-			// todo: сбрасывать после (де)активации, обновлении плагинов
+			// todo: сбрасывать при обновлении плагинов
 
 			$this->Cache_Set($mData, $sCacheKey, array('plugin_update', 'plugin_new'), $this->aCacheLiveTime['plugin_updates_check']);
 		}
