@@ -32,6 +32,10 @@ ls.admin_catalog = (function($) {
 		 */
 		tip_toggle_button: '.js-catalog-toggle-tip-button',
 		tip_message: '.js-catalog-tip-message',
+		/*
+			кнопка сортировки
+		 */
+		dropdown_admin_plugins_install_sorting_button: '#dropdown_admin_plugins_install_sorting_button',
 
 		/*
 			для удобства (последняя запятая отсутствует)
@@ -55,6 +59,13 @@ jQuery(document).ready(function($) {
 	$ (ls.admin_catalog.selectors.tip_toggle_button).click(function() {
 		$ (ls.admin_catalog.selectors.tip_message).slideToggle(150);
 		return false;
+	});
+
+	/*
+	 	добавлять класс "нажатия" кнопке открывающей дропдаун сортировки
+	 */
+	$ (ls.admin_catalog.selectors.dropdown_admin_plugins_install_sorting_button).on('dropdownbeforeshow.admin, dropdownafterhide.admin', function() {
+		$ (this).toggleClass('active');
 	});
 
 });

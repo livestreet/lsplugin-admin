@@ -85,11 +85,38 @@ $config['catalog']['show_updates_count_in_toolbar'] = true;
  * макс. время подключения к серверу, сек
  */
 $config['catalog']['max_connect_timeout'] = 2;
-
 /*
  * макс. время получения данных от сервера, сек
  */
 $config['catalog']['max_work_timeout'] = 4;
+
+/*
+ *
+ * --- Для отображения ---
+ *
+ */
+
+/*
+ * типы плагинов
+ */
+$config['catalog']['remote']['plugins']['type'] = array(
+	'all' => null,
+	'paid' => 2,
+	'free' => 1,
+);
+
+/*
+ * типы сортировок
+ */
+$config['catalog']['remote']['plugins']['sorting'] = array(
+	'new',
+	'review',
+	'update',
+	'download',
+	'buy',
+	'price'
+);
+
 
 return $config;
 

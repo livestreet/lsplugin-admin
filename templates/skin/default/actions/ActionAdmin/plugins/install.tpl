@@ -11,20 +11,32 @@
 
 {block name='layout_content_actionbar'}
 	<div class="fl-r">
-		<a class="button active" href="https://catalog.livestreetcms.com/addon/?order=update">Все</a>
-		<a class="button " href="https://catalog.livestreetcms.com/addon/?order=update&amp;type=2">Платные</a>
-		<a class="button " href="https://catalog.livestreetcms.com/addon/?order=update&amp;type=1">Бесплатные</a>
+		{*
+			тип плагинов
+		*}
+		{foreach array_keys($oConfig->Get('plugin.admin.catalog.remote.plugins.type')) as $sPluginType}
+			<a class="button {if $sPluginTypeCurrent==$sPluginType}active{/if}" href="{router page='admin/plugins/install'}{request_filter
+				name=array('order', 'type')
+				value=array($sSortOrderCurrent, $oConfig->Get("plugin.admin.catalog.remote.plugins.type.{$sPluginType}"))
+			}">{$aLang.plugin.admin.plugins.install.filter.type.$sPluginType}</a>
+		{/foreach}
 
 		&nbsp;&nbsp;&nbsp;
 
-		<select onchange="ls.main.changeAddonFilterOrder(jQuery(this).val());">
-			<option value="https://catalog.livestreetcms.com/addon/?order=new">Новые сверху</option>
-			<option value="https://catalog.livestreetcms.com/addon/?order=review">По отзывам</option>
-			<option value="https://catalog.livestreetcms.com/addon/?order=update" selected="selected">По дате обновления</option>
-			<option value="https://catalog.livestreetcms.com/addon/?order=download">По количеству загрузок</option>
-			<option value="https://catalog.livestreetcms.com/addon/?order=buy">По количеству покупок</option>
-			<option value="https://catalog.livestreetcms.com/addon/?order=price">По цене</option>
-		</select>
+		{*
+			сортировка
+		*}
+		<button class="button button-icon js-dropdown" data-dropdown-target="dropdown-admin-plugins-install-sorting" id="dropdown_admin_plugins_install_sorting_button">
+			<i class="icon-settings-14"></i>{* todo: sort icon or "A-z" *}
+		</button>
+		<div class="dropdown-menu p15" id="dropdown-admin-plugins-install-sorting">
+			{foreach $oConfig->Get('plugin.admin.catalog.remote.plugins.sorting') as $sSorting}
+				<a class="button {if $sSortOrderCurrent==$sSorting}active{/if}" href="{router page='admin/plugins/install'}{request_filter
+					name=array('order', 'type')
+					value=array($sSorting, $sPluginTypeCurrent)
+				}">{$aLang.plugin.admin.plugins.install.filter.sorting.$sSorting}</a>
+			{/foreach}
+		</div>
 	</div>
 
 	<a class="button" href="{router page='admin/plugins/list'}">&larr; {$aLang.plugin.admin.plugins.install.go_to_list}</a>

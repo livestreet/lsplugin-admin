@@ -132,6 +132,29 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 	public function EventPluginsInstall() {
 		$this->SetTemplateAction('plugins/install');
 
+		$sType = $this->GetDataFromFilter('type');
+		$sOrder = $this->GetDataFromFilter('order');
+
+		$this->SetPagingForApi(1);
+
+
+
+		$this->Viewer_Assign('sPluginTypeCurrent', 'all');
+		$this->Viewer_Assign('sSortOrderCurrent', 'update');
+	}
+
+
+	/**
+	 * Задать страницу и количество элементов в пагинации
+	 *
+	 * @param int	$iParamNum			номер параметра, в котором нужно искать номер страницы
+	 * @param int 	$iCustomPerPage		задаваемое количество элементов на страницу
+	 */
+	protected function SetPagingForApi($iParamNum = 1, $iCustomPerPage = 15) {
+		if (!$this->iPage = intval(preg_replace('#^page(\d+)$#iu', '$1', $this->GetParam($iParamNum)))) {
+			$this->iPage = 1;
+		}
+		$this->iPerPage = $iCustomPerPage;
 	}
 
 }
