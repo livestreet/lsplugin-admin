@@ -27,6 +27,7 @@
 
 class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 
+
 	/**
 	 * Список плагинов
 	 */
@@ -131,16 +132,58 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 	 */
 	public function EventPluginsInstall() {
 		$this->SetTemplateAction('plugins/install');
-
+		/*
+		 * тип плагинов (все, платные, бесплатные)
+		 */
 		$sType = $this->GetDataFromFilter('type');
-		$sOrder = $this->GetDataFromFilter('order');
+		/*
+		 * если сортировка не указана - использовать сортировку каталога по-умолчанию
+		 */
+		if (!$sOrder = $this->GetDataFromFilter('order')) {
+			$sOrder = Config::Get('plugin.admin.catalog.remote.plugins.default_sorting');
+		}
 
-		$this->SetPagingForApi(1);
+		$this->SetPagingForApi();
+		/*
+		 * передать весь фильтр в запрос серверу (считаем что он сам корректно распознает все свои get параметры)
+		 */
+		$mData = $this->PluginAdmin_Catalog_GetPluginsListFromCatalogByFilter($this->GetDataFromFilter());						// todo: пагинацию добавить
+		/*
+		 * есть ли корректный ответ
+		 */
+		if (is_array($mData)) {
+			$aPaging = $mData['paging'];
+			$aAddonsArray = $mData['addons'];
+		} else {
+			$aPaging = array();
+			$aAddonsArray = array();
+			/*
+			 * показать текст ошибки
+			 */
+			$this->Message_AddError($mData, $this->Lang_Get('error'));
+		}
 
+		/*
+		 * --- пост обработка данных ---
+		 */
+		/*
+		 * подставить путь в пагинации на админку
+		 * tip: пагинаци добавляет слеш, потому выходит "install//page1", пришлось вынести
+		 */
+		$aPaging['sBaseUrl'] = Router::GetPath('admin/plugins') . 'install';
+		/*
+		 * переделаем массив данных каждого плагина в сущность
+		 */
+		$aAddons = array();
+		foreach($aAddonsArray as $aAddon) {
+			$aAddons[$aAddon['code']] = Engine::GetEntity('PluginAdmin_Catalog_Addon', $aAddon);
+		}
 
+		$this->Viewer_Assign('sPluginTypeCurrent', $sType);
+		$this->Viewer_Assign('sSortOrderCurrent', $sOrder);
 
-		$this->Viewer_Assign('sPluginTypeCurrent', 'all');
-		$this->Viewer_Assign('sSortOrderCurrent', 'update');
+		$this->Viewer_Assign('aPaging', $aPaging);
+		$this->Viewer_Assign('aAddons', $aAddons);
 	}
 
 

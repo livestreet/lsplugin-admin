@@ -159,7 +159,7 @@ class PluginAdmin_ModuleCatalog extends Module {
 
 	/*
 	 *
-	 * --- Обработка и запросы по АПИ ---
+	 * --- Обработка запросов по АПИ ---
 	 *
 	 */
 
@@ -186,11 +186,110 @@ class PluginAdmin_ModuleCatalog extends Module {
 	}
 
 
+	/**
+	 * Распарсить ответ соединения с сервером
+	 *
+	 * @param $aResponseAnswer		массив данных ответа от SendDataToServer
+	 * @return mixed
+	 */
+	protected function ParseConnectResponse($aResponseAnswer) {
+		/*
+		 * если нет ошибок соединения
+		 */
+		if ($aResponseAnswer[PluginAdmin_ModuleRemoteserver::RESPONSE_SUCCESS]) {
+			/*
+			 * вернуть массив данных
+			 */
+			return json_decode($aResponseAnswer[PluginAdmin_ModuleRemoteserver::RESPONSE_DATA], true);
+		}
+		/*
+		 * вернуть текст ошибки соединения
+		 */
+		return $aResponseAnswer[PluginAdmin_ModuleRemoteserver::RESPONSE_ERROR_MESSAGE];
+	}
+
+
+	/**
+	 * Распарсить ответ АПИ от сервера
+	 *
+	 * @param $mData				массив данных от сервера, полученный от ParseConnectResponse
+	 * @return array|bool|string
+	 */
+	protected function ParseServerApiResponse($mData) {
+		/*
+		 * если получен ответ от сервера
+		 */
+		if (is_array($mData)) {
+			/*
+			 * если ошибка на стороне сервера
+			 */
+			if (isset($mData['bStateError']) and $mData['bStateError']) {
+				/*
+				 * вернуть её текст
+				 */
+				return $mData['sMsgTitle'] . ': ' . $mData['sMsg'];
+			}
+			/*
+			 * если переданы данные в ответ на запрос
+			 */
+			if (isset($mData['aData'])) {
+				return $mData['aData'];
+			}
+			/*
+			 * данных нет
+			 */
+			return false;
+		}
+		/*
+		 * текст ошибки соединения с сервером (полученной от ParseConnectResponse)
+		 */
+		return $mData;
+	}
+
+
+	/**
+	 * Получить ответ АПИ сервера или ошибку соединения или обработки запроса сервером
+	 *
+	 * @param $sApiUrl				полный урл к АПИ (получить через методы)
+	 * @param $aRequestData			массив данных POST запроса
+	 * @return array|bool|string
+	 */
+	protected function GetParsedAnswerForApiRequest($sApiUrl, $aRequestData) {
+		/*
+		 * запросить данные
+		 */
+		$aResponseAnswer = $this->SendDataToServer($sApiUrl, $aRequestData);
+		/*
+		 * получить строку ошибки соединения или асоциативный массив ответа
+		 */
+		$mData = $this->ParseConnectResponse($aResponseAnswer);
+		/*
+		 * получить ответ от АПИ
+		 */
+		return $this->ParseServerApiResponse($mData);
+	}
+
+
 	/*
 	 *
 	 * --- Обновление плагинов ---
 	 *
 	 */
+
+	/**
+	 * Сформировать массив со списком кодов плагинов и их версиями
+	 *
+	 * @param $aPlugins		массив сущностей плагинов
+	 * @return array
+	 */
+	protected function BuildPluginsRequestArray($aPlugins) {
+		$aRequestData = array();
+		foreach ($aPlugins as $oPlugin) {
+			$aRequestData[] = array('code' => $oPlugin->getCode(), 'version' => $oPlugin->getVersion());
+		}
+		return $aRequestData;
+	}
+
 
 	/**
 	 * Получить ответ от сервера по обновлениям для всех или указанных плагинов
@@ -218,37 +317,9 @@ class PluginAdmin_ModuleCatalog extends Module {
 		 */
 		$sApiUrl = $this->RequestUrlForAddonsCheckVersion();
 		/*
-		 * запросить данные
+		 * выполнить запрос, распарсить соединение и ответ
 		 */
-		$aResponseAnswer = $this->SendDataToServer($sApiUrl, $aRequestData);
-		/*
-		 * если нет ошибок
-		 */
-		if ($aResponseAnswer[PluginAdmin_ModuleRemoteserver::RESPONSE_SUCCESS]) {
-			/*
-			 * вернуть массив данных
-			 */
-			return json_decode($aResponseAnswer[PluginAdmin_ModuleRemoteserver::RESPONSE_DATA], true);
-		}
-		/*
-		 * вернуть текст ошибки
-		 */
-		return $aResponseAnswer[PluginAdmin_ModuleRemoteserver::RESPONSE_ERROR_MESSAGE];
-	}
-
-
-	/**
-	 * Сформировать массив со списком кодов плагинов и их версиями
-	 *
-	 * @param $aPlugins		массив сущностей плагинов
-	 * @return array
-	 */
-	protected function BuildPluginsRequestArray($aPlugins) {
-		$aRequestData = array();
-		foreach ($aPlugins as $oPlugin) {
-			$aRequestData[] = array('code' => $oPlugin->getCode(), 'version' => $oPlugin->getVersion());
-		}
-		return $aRequestData;
+		return $this->GetParsedAnswerForApiRequest($sApiUrl, $aRequestData);
 	}
 
 
@@ -268,27 +339,15 @@ class PluginAdmin_ModuleCatalog extends Module {
 		 */
 		$mData = $this->GetServerResponseForPluginsUpdates($aPlugins);
 		/*
-		 * если получен ответ от сервера
+		 * если передан список кодов плагинов, для которых есть обновления и их последние версии
 		 */
 		if (is_array($mData)) {
-			/*
-			 * если ошибка на стороне сервера
-			 */
-			if (isset($mData['bStateError']) and $mData['bStateError']) {
-				/*
-				 * вернуть её текст
-				 */
-				return $mData['sMsgTitle'] . ': ' . $mData['sMsg'];
-			}
-			/*
-			 * если передан список кодов плагинов, для которых есть обновления и их последние версии
-			 */
-			if (isset($mData['aData']) and is_array($mData['aData']) and count($mData['aData']) > 0) {
+			if (count($mData) > 0) {
 				/*
 				 * формирование массива сущностей, где в качестве ключа выступает код плагина
 				 */
 				$aPluginUpdates = array();
-				foreach ($mData['aData'] as $aPluginInfo) {
+				foreach ($mData as $aPluginInfo) {
 					$aPluginUpdates[$aPluginInfo['code']] = Engine::GetEntity('PluginAdmin_Plugins_Update', $aPluginInfo);
 				}
 				return $aPluginUpdates;
@@ -299,7 +358,7 @@ class PluginAdmin_ModuleCatalog extends Module {
 			return false;
 		}
 		/*
-		 * текст ошибки соединения с сервером
+		 * текст ошибки соединения с сервером или обработки АПИ
 		 */
 		return $mData;
 	}
@@ -320,7 +379,7 @@ class PluginAdmin_ModuleCatalog extends Module {
 			$mData = $this->GetPluginUpdates($aPlugins);
 			/*
 			 * кеширование обновлений на час
-			 * tip: сбрасывать после (де)активации (это выполняется при Plugin_Toggle)
+			 * tip: сбрасывать после (де)активации (это выполняется при Plugin_Toggle - сброс всего кеша)
 			 */
 
 			// todo: сбрасывать при обновлении плагинов
@@ -328,6 +387,32 @@ class PluginAdmin_ModuleCatalog extends Module {
 			$this->Cache_Set($mData, $sCacheKey, array('plugin_update', 'plugin_new'), $this->aCacheLiveTime['plugin_updates_check']);
 		}
 		return $mData;
+	}
+
+
+	/*
+	 *
+	 * --- Получение списков плагинов из каталога ---
+	 *
+	 */
+
+	/**
+	 * Получить список плагинов из каталога по фильтру
+	 *
+	 * @param $aRequestData			передаваемые данные
+	 * @return array|bool|string	ответ АПИ сервера, ошибка соединения или обработки запроса сервером
+	 */
+	public function GetPluginsListFromCatalogByFilter($aRequestData) {
+		/*
+		 * получить полный урл для АПИ каталога по запросу списка плагинов по фильтру
+		 */
+		$sApiUrl = $this->RequestUrlForAddonsFilter();
+		/*
+		 * выполнить запрос, распарсить соединение и ответ
+		 */
+		return $this->GetParsedAnswerForApiRequest($sApiUrl, $aRequestData);
+
+		// todo: cache, aCacheLiveTime
 	}
 
 

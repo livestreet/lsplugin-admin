@@ -14,10 +14,10 @@
 		{*
 			тип плагинов
 		*}
-		{foreach array_keys($oConfig->Get('plugin.admin.catalog.remote.plugins.type')) as $sPluginType}
+		{foreach $oConfig->Get('plugin.admin.catalog.remote.plugins.type') as $sPluginType}
 			<a class="button {if $sPluginTypeCurrent==$sPluginType}active{/if}" href="{router page='admin/plugins/install'}{request_filter
 				name=array('order', 'type')
-				value=array($sSortOrderCurrent, $oConfig->Get("plugin.admin.catalog.remote.plugins.type.{$sPluginType}"))
+				value=array($sSortOrderCurrent, $sPluginType)
 			}">{$aLang.plugin.admin.plugins.install.filter.type.$sPluginType}</a>
 		{/foreach}
 
@@ -49,6 +49,20 @@
 		{$aLang.plugin.admin.plugins.install.tip}
 	</div>
 
+	{*
+		вывод плагинов
+	*}
+	<div class="all-addons-container">
+		{foreach $aAddons as $oAddon}
+			<div class="one-addon">
+				<div class="width-200 fl-l">{$aLang.plugin.admin.plugins.install.filter.type[$oAddon->getType()]}</div>
+				{$oAddon->getTitle()}
 
+			</div>
+		{/foreach}
+	</div>
+
+
+	{include file="{$aTemplatePathPlugin.admin}pagination.tpl" aPaging=$aPaging}
 
 {/block}

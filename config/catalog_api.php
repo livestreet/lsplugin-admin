@@ -57,7 +57,7 @@ $config['catalog']['methods_pathes'] = array(
 		/*
 		 * относительный урл: получить список плагинов из каталога по фильтру
 		 */
-		'filter' => 'addons/filter/',			// todo:
+		'filter' => 'addons/filter/',
 	),
 );
 
@@ -100,9 +100,18 @@ $config['catalog']['max_work_timeout'] = 4;
  * типы плагинов
  */
 $config['catalog']['remote']['plugins']['type'] = array(
-	'all' => null,
-	'paid' => 2,
-	'free' => 1,
+	/*
+	 * все
+	 */
+	null,
+	/*
+	 * платные
+	 */
+	2,
+	/*
+	 * бесплатные
+	 */
+	1,
 );
 
 /*
@@ -116,6 +125,11 @@ $config['catalog']['remote']['plugins']['sorting'] = array(
 	'buy',
 	'price'
 );
+
+/*
+ * сортировка в каталоге по-умолчанию
+ */
+$config['catalog']['remote']['plugins']['default_sorting'] = 'update';
 
 
 return $config;
