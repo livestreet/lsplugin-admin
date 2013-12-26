@@ -271,10 +271,10 @@ class PluginAdmin_ModuleSkin extends Module {
 		 * проверить наличие активированных необходимых плагинов
 		 */
 		if($oXml->requires->plugins) {
-			$aActivePlugins = $this->Plugin_GetActivePlugins();
+			$aActivePluginsCodes = $this->PluginAdmin_Plugins_GetActivePluginsCodes();
 			$iConflict = 0;
 			foreach ($oXml->requires->plugins->children() as $sReqPlugin) {
-				if (!in_array($sReqPlugin,$aActivePlugins)) {
+				if (!in_array($sReqPlugin, $aActivePluginsCodes)) {
 					$iConflict++;
 					$this->Message_AddError(
 						$this->Lang_Get('plugin.admin.errors.skin.activation_requires_error', array('plugin'=>func_camelize($sReqPlugin))),
@@ -285,7 +285,6 @@ class PluginAdmin_ModuleSkin extends Module {
 			}
 			if ($iConflict) return false;
 		}
-
 		return true;
 	}
 

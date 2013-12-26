@@ -18,7 +18,71 @@
  *
  */
 
+/* instructions page */
+
 .ls-admin .plugin-instructions {
 	border-left: 3px solid #DDD;
 	padding-left: 20px;
 }
+
+/* install page */
+
+.ls-admin .catalog-install-info {
+	border-bottom: 1px dotted #BBB;
+	padding-bottom: 10px;
+}
+
+.ls-admin .all-addons-container {}
+
+.ls-admin .all-addons-container .catalog-one-addon {
+	border-bottom: 1px dotted #bbb;
+	clear: both;
+	overflow: hidden;
+	padding: 30px 0;
+}
+
+.ls-admin .all-addons-container .catalog-one-addon:last-child {
+	border-bottom: none;
+}
+
+.ls-admin .all-addons-container .catalog-one-addon .avatar {
+	float: left;
+	margin-right: 30px;
+}
+
+.ls-admin .all-addons-container .catalog-one-addon .avatar img {
+	display: block;
+	height: 180px;
+	width: 180px;
+}
+
+.ls-admin .all-addons-container .catalog-one-addon .more-info {
+	overflow: hidden;
+}
+
+.ls-admin .all-addons-container .catalog-one-addon .more-info .title {
+	font-size: 18px;
+	margin: 10px 0 15px;
+}
+
+.ls-admin .all-addons-container .catalog-one-addon .more-info .title .type-label {
+	background: none repeat scroll 0 0 #3EC5F9;
+	border-radius: 2px;
+	color: #FFF;
+	margin-left: 10px;
+	padding: 2px 5px;
+	text-transform: lowercase;
+}
+
+.ls-admin .all-addons-container .catalog-one-addon .more-info .title .type-label:before {
+	background: none repeat scroll 0 0 #FFFFFF;
+	border-radius: 20px;
+	content: "";
+	display: inline-block;
+	height: 8px;
+	margin-right: 10px;
+	vertical-align: middle;
+	width: 8px;
+}
+
+.ls-admin .all-addons-container .catalog-one-addon .more-info .author {}

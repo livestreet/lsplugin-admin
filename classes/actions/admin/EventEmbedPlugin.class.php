@@ -43,7 +43,7 @@ class PluginAdmin_ActionAdmin_EventEmbedPlugin extends Event {
 		/*
 		 * активирован ли плагин
 		 */
-		if (in_array($sPlugin, $this->PluginAdmin_Plugins_GetActivePlugins())) {
+		if (in_array($sPlugin, $this->PluginAdmin_Plugins_GetActivePluginsCodes())) {
 			/*
 			 * построить полное имя класса екшена (на него будет выполнен редирект)
 			 */

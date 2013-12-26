@@ -27,6 +27,11 @@
 
 class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 
+	/*
+	 * страница для получения списка плагинов из каталога
+	 */
+	private $iPage = null;
+
 
 	/**
 	 * Список плагинов
@@ -147,16 +152,18 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 		/*
 		 * передать весь фильтр в запрос серверу (считаем что он сам корректно распознает все свои get параметры)
 		 */
-		$mData = $this->PluginAdmin_Catalog_GetPluginsListFromCatalogByFilter($this->GetDataFromFilter());						// todo: пагинацию добавить
+		$mData = $this->PluginAdmin_Catalog_GetAddonsListFromCatalogByFilterCached(
+			array_merge(array('page' => $this->iPage), (array) $this->GetDataFromFilter())
+		);
 		/*
 		 * есть ли корректный ответ
 		 */
 		if (is_array($mData)) {
 			$aPaging = $mData['paging'];
-			$aAddonsArray = $mData['addons'];
+			$aAddons = $mData['addons'];
 		} else {
 			$aPaging = array();
-			$aAddonsArray = array();
+			$aAddons = array();
 			/*
 			 * показать текст ошибки
 			 */
@@ -168,16 +175,9 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 		 */
 		/*
 		 * подставить путь в пагинации на админку
-		 * tip: пагинаци добавляет слеш, потому выходит "install//page1", пришлось вынести
+		 * tip: пагинация добавляет слеш "/page1/, поэтому выходит "install//page1", пришлось вынести
 		 */
 		$aPaging['sBaseUrl'] = Router::GetPath('admin/plugins') . 'install';
-		/*
-		 * переделаем массив данных каждого плагина в сущность
-		 */
-		$aAddons = array();
-		foreach($aAddonsArray as $aAddon) {
-			$aAddons[$aAddon['code']] = Engine::GetEntity('PluginAdmin_Catalog_Addon', $aAddon);
-		}
 
 		$this->Viewer_Assign('sPluginTypeCurrent', $sType);
 		$this->Viewer_Assign('sSortOrderCurrent', $sOrder);
@@ -188,16 +188,14 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 
 
 	/**
-	 * Задать страницу и количество элементов в пагинации
+	 * Задать страницу в пагинации (к-во на страницу фиксировано каталогом
 	 *
 	 * @param int	$iParamNum			номер параметра, в котором нужно искать номер страницы
-	 * @param int 	$iCustomPerPage		задаваемое количество элементов на страницу
 	 */
-	protected function SetPagingForApi($iParamNum = 1, $iCustomPerPage = 15) {
+	protected function SetPagingForApi($iParamNum = 1) {
 		if (!$this->iPage = intval(preg_replace('#^page(\d+)$#iu', '$1', $this->GetParam($iParamNum)))) {
 			$this->iPage = 1;
 		}
-		$this->iPerPage = $iCustomPerPage;
 	}
 
 }

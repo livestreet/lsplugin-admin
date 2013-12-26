@@ -1,5 +1,5 @@
 {**
- * Инструкция по установке плагина
+ * Установка дополнений из каталога
  *}
 
 {extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
@@ -44,21 +44,20 @@
 
 
 {block name='layout_content'}
+	{*
+		справка
+	*}
 	<a href="#" class="fl-r js-catalog-toggle-tip-button" title="{$aLang.plugin.admin.plugins.install.tip_button}"><i class="icon-question-sign"></i></a>
-	<div class="info js-catalog-tip-message" style="display: none;">
+	<div class="catalog-install-info js-catalog-tip-message" style="display: none;">
 		{$aLang.plugin.admin.plugins.install.tip}
 	</div>
 
 	{*
-		вывод плагинов
+		вывод дополнений
 	*}
 	<div class="all-addons-container">
 		{foreach $aAddons as $oAddon}
-			<div class="one-addon">
-				<div class="width-200 fl-l">{$aLang.plugin.admin.plugins.install.filter.type[$oAddon->getType()]}</div>
-				{$oAddon->getTitle()}
-
-			</div>
+			{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/plugins/install.addon.tpl"}
 		{/foreach}
 	</div>
 

@@ -290,6 +290,23 @@ class PluginAdmin_ModuleTools extends Module {
 		$oXml->$sProperty->data = $this->Text_JevixParser(trim((string)array_shift($mData)));
 	}
 
+
+	/**
+	 * Получить массив сущностей по ассоциативному массиву с возможностью построения ключа результирующего массива на основе значения из ассоциативного массива по указанному ключу
+	 *
+	 * @param      $aData			массив массивов
+	 * @param      $sEntity			имя сущности (любой формат)
+	 * @param null $sIndexKey		имя ключа ассоциативного массива, значение которого будет ключом результирующего массива (не обязательно)
+	 * @return array
+	 */
+	public function GetArrayOfEntitiesByAssocArray($aData, $sEntity, $sIndexKey = null) {
+		$aEntities = array();
+		foreach($aData as $aArray) {
+			$aEntities[$sIndexKey ? $aArray[$sIndexKey] : null] = Engine::GetEntity($sEntity, $aArray);
+		}
+		return $aEntities;
+	}
+
 }
 
 ?>

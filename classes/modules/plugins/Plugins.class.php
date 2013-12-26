@@ -101,7 +101,7 @@ class PluginAdmin_ModulePlugins extends Module {
 	 *
 	 * @return array
 	 */
-	protected function GetAllPluginsCodes() {
+	public function GetAllPluginsCodes() {
 		return array_map('basename', glob($this->sPluginPath . '*', GLOB_ONLYDIR));
 	}
 
@@ -187,7 +187,7 @@ class PluginAdmin_ModulePlugins extends Module {
 		/*
 		 * коды активных плагинов (так быстрее)
 		 */
-		$aActivePluginsCodes = $this->GetActivePlugins();
+		$aActivePluginsCodes = $this->GetActivePluginsCodes();
 		/*
 		 * коды всех плагинов
 		 */
@@ -257,7 +257,7 @@ class PluginAdmin_ModulePlugins extends Module {
 		/*
 		 * если список активных плагинов не был передан - получить коды активных плагинов
 		 */
-		$aActivePluginsCodes = empty($aActivePluginsCodes) ? $this->GetActivePlugins() : $aActivePluginsCodes;
+		$aActivePluginsCodes = empty($aActivePluginsCodes) ? $this->GetActivePluginsCodes() : $aActivePluginsCodes;
 		/*
 		 * собрать данные по плагину
 		 */
@@ -298,11 +298,11 @@ class PluginAdmin_ModulePlugins extends Module {
 
 
 	/**
-	 * Возвращает список активированных плагинов в системе
+	 * Возвращает список кодов активированных плагинов в системе
 	 *
 	 * @return array
 	 */
-	public function GetActivePlugins() {
+	public function GetActivePluginsCodes() {
 		/*
 		 * данные из файла PLUGINS.DAT
 		 */

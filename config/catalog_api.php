@@ -68,7 +68,11 @@ $config['catalog']['cache_live_time'] = array(
 	/*
 	 * получение обновлений (1 час)
 	 */
-	'plugin_updates_check' => 60*60*1
+	'plugin_updates_check' => 60*60*1,
+	/*
+	 * получение дополнений из каталога (1 час)
+	 */
+	'catalog_addons_list' => 60*60*1,
 );
 
 /*
@@ -92,7 +96,7 @@ $config['catalog']['max_work_timeout'] = 4;
 
 /*
  *
- * --- Для отображения ---
+ * --- Для отображения дополнений из каталога ---
  *
  */
 

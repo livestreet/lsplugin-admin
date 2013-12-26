@@ -392,17 +392,17 @@ class PluginAdmin_ModuleCatalog extends Module {
 
 	/*
 	 *
-	 * --- Получение списков плагинов из каталога ---
+	 * --- Получение списков дополнений из каталога ---
 	 *
 	 */
 
 	/**
-	 * Получить список плагинов из каталога по фильтру
+	 * Получить список дополнений из каталога по фильтру
 	 *
 	 * @param $aRequestData			передаваемые данные
 	 * @return array|bool|string	ответ АПИ сервера, ошибка соединения или обработки запроса сервером
 	 */
-	public function GetPluginsListFromCatalogByFilter($aRequestData) {
+	public function GetAddonsListFromCatalogByFilter($aRequestData) {
 		/*
 		 * получить полный урл для АПИ каталога по запросу списка плагинов по фильтру
 		 */
@@ -410,9 +410,46 @@ class PluginAdmin_ModuleCatalog extends Module {
 		/*
 		 * выполнить запрос, распарсить соединение и ответ
 		 */
-		return $this->GetParsedAnswerForApiRequest($sApiUrl, $aRequestData);
+		$mData = $this->GetParsedAnswerForApiRequest($sApiUrl, $aRequestData);
+		/*
+		 * есть ли корректный ответ
+		 */
+		if (is_array($mData)) {
+			/*
+			 * переделаем массив данных каждого плагина в сущность
+			 */
+			$mData['addons'] = $this->PluginAdmin_Tools_GetArrayOfEntitiesByAssocArray($mData['addons'], 'PluginAdmin_Catalog_Addon', 'code');
+			/*
+			 * установить свойство "установлен ли уже этот плагин"
+			 */
+			$aAllPluginsCodes = $this->PluginAdmin_Plugins_GetAllPluginsCodes();
+			foreach($mData['addons'] as $oAddon) {
+				if (in_array($oAddon->getCode(), $aAllPluginsCodes)) $oAddon->setAlreadyInstalled(true);
+			}
+		}
+		return $mData;
+	}
 
-		// todo: cache, aCacheLiveTime
+
+	/**
+	 * Получить список дополнений из каталога по фильтру из кеша (обновление каждый 1 час)
+	 *
+	 * @param $aRequestData			передаваемые данные
+	 * @return array|bool|string	ответ АПИ сервера, ошибка соединения или обработки запроса сервером
+	 */
+	public function GetAddonsListFromCatalogByFilterCached($aRequestData) {
+		$sCacheKey = 'admin_get_addons_by_filter_' . serialize($aRequestData);
+		/*
+		 * есть ли в кеше
+		 */
+		if (($mData = $this->Cache_Get($sCacheKey)) === false) {
+			$mData = $this->GetAddonsListFromCatalogByFilter($aRequestData);
+			/*
+			 * кеширование полученных дополнений на час
+			 */
+			$this->Cache_Set($mData, $sCacheKey, array('catalog_addons_update', 'catalog_addons_new'), $this->aCacheLiveTime['catalog_addons_list']);
+		}
+		return $mData;
 	}
 
 
