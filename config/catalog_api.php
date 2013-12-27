@@ -135,6 +135,31 @@ $config['catalog']['remote']['plugins']['sorting'] = array(
  */
 $config['catalog']['remote']['plugins']['default_sorting'] = 'update';
 
+/*
+ * категории дополнений
+ */
+$config['catalog']['remote']['addons']['categories'] = array(
+	/*
+	 * все
+	 */
+	null,
+	/*
+	 * плагины
+	 */
+	1,
+	/*
+	 * шаблоны
+	 */
+	2,
+	/*
+	 * локализации
+	 */
+	3,
+	/*
+	 * дизайны
+	 */
+	4,
+);
 
 return $config;
 
