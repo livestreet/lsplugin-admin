@@ -2,6 +2,7 @@
 {*
 	Вывод информации об одном дополнении из каталога
 *}
+
 <div class="catalog-one-addon code-{$oAddon->getCode()}">
 	<div class="avatar">
 		<img src="{$oAddon->getAvatar()}" alt="{$oAddon->getTitle()|escape}" title="{$oAddon->getTitle()|escape}" />

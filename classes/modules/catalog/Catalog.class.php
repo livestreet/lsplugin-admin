@@ -346,11 +346,7 @@ class PluginAdmin_ModuleCatalog extends Module {
 				/*
 				 * формирование массива сущностей, где в качестве ключа выступает код плагина
 				 */
-				$aPluginUpdates = array();
-				foreach ($mData as $aPluginInfo) {
-					$aPluginUpdates[$aPluginInfo['code']] = Engine::GetEntity('PluginAdmin_Plugins_Update', $aPluginInfo);
-				}
-				return $aPluginUpdates;
+				return $this->PluginAdmin_Tools_GetArrayOfEntitiesByAssocArray($mData, 'PluginAdmin_Plugins_Update', 'code');
 			}
 			/*
 			 * обновлений нет

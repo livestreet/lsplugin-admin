@@ -178,6 +178,14 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 		 * tip: пагинация добавляет слеш "/page1/, поэтому выходит "install//page1", пришлось вынести
 		 */
 		$aPaging['sBaseUrl'] = Router::GetPath('admin/plugins') . 'install';
+		/*
+		 * подставить сам фильтр в пагинацию, чтобы, например, сортировка не падала
+		 */
+		//$aPaging['sGetParams'] .= '&' . http_build_query(array('filter' => (array) $this->GetDataFromFilter()));
+		/*
+		 * каталог устанавливает свои параметры типа и сортировки, которые есть в фильтре, админке эти параметры не нужны т.к. она их получает из фильтра
+		 */
+		$aPaging['sGetParams'] = '?' . http_build_query(array('filter' => (array) $this->GetDataFromFilter()));
 
 		$this->Viewer_Assign('sPluginTypeCurrent', $sType);
 		$this->Viewer_Assign('sSortOrderCurrent', $sOrder);
@@ -188,7 +196,7 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 
 
 	/**
-	 * Задать страницу в пагинации (к-во на страницу фиксировано каталогом
+	 * Задать страницу в пагинации (к-во на страницу фиксировано каталогом)
 	 *
 	 * @param int	$iParamNum			номер параметра, в котором нужно искать номер страницы
 	 */
