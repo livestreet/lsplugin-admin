@@ -33,10 +33,3 @@
 	border-left: 3px solid #DDD;
 	padding-left: 20px;
 }
-
-/* install page */
-
-.ls-admin .catalog-install-info {
-	border-bottom: 1px dotted #BBB;
-	padding-bottom: 10px;
-}

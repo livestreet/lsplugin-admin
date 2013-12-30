@@ -74,5 +74,5 @@
 		{/foreach}
 	</div>
 
-	{include file="{$aTemplatePathPlugin.admin}pagination.tpl" aPaging=$aPaging}
+	{include file="{$aTemplatePathPlugin.admin}pagination.tpl"}
 {/block}

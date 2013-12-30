@@ -207,23 +207,23 @@ $config['core_config_groups'] = array(
 	),
 
 
-	'db' => array(
+/*	'db' => array(
 		'allowed' => array(
 			'db',
 		),
 		'exclude' => array(
 		),
-	),
+	),*/
 
 
-	'blocksrule' => array(
+/*	'blocksrule' => array(
 		'allowed' => array(
 			'block.rule_',
 		),
 		'exclude' => array(
 
 		),
-	),
+	),*/
 
 
 	'compress' => array(

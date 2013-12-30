@@ -137,6 +137,7 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 	 */
 	public function EventPluginsInstall() {
 		$this->SetTemplateAction('plugins/install');
+		$aFilter = (array) $this->GetDataFromFilter();
 		/*
 		 * тип аддонов (все, платные, бесплатные)
 		 */
@@ -156,9 +157,7 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 		/*
 		 * передать весь фильтр в запрос серверу (считаем что он сам корректно распознает все свои get параметры)
 		 */
-		$mData = $this->PluginAdmin_Catalog_GetAddonsListFromCatalogByFilterCached(
-			array_merge(array('page' => $this->iPage), (array) $this->GetDataFromFilter())
-		);
+		$mData = $this->PluginAdmin_Catalog_GetAddonsListFromCatalogByFilterCached(array_merge(array('page' => $this->iPage), $aFilter));
 		/*
 		 * есть ли корректный ответ
 		 */
@@ -175,19 +174,16 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 		}
 
 		/*
-		 * --- пост обработка данных ---
-		 */
-		/*
 		 * подставить путь в пагинации на админку
-		 * tip: пагинация добавляет слеш "/page1/, поэтому выходит "install//page1", пришлось вынести
+		 * tip: пагинация добавляет спереди слеш "/page1/, поэтому выходит "install//page1", пришлось вынести из метода
 		 */
-		$aPaging['sBaseUrl'] = Router::GetPath('admin/plugins') . 'install';
+		$aPaging['sBaseUrl'] = Router::GetPath('admin') . 'plugins/install';
 		/*
-		 * подставить сам фильтр в пагинацию, чтобы, например, сортировка не падала
-		 * tip: каталог устанавливает свои параметры типа и сортировки, которые есть в фильтре, админке эти параметры не нужны т.к. она их получает из фильтра
-		 * 		поэтому параметры заменены
+		 * подставить сам фильтр в пагинацию, чтобы, например, корректно работала сортировка
+		 * tip: каталог устанавливает свои параметры типа и сортировки, которые есть в фильтре,
+		 * 		админке эти параметры не нужны т.к. она их получает из фильтра, поэтому параметры заменяются
 		 */
-		$aPaging['sGetParams'] = '?' . http_build_query(array('filter' => (array) $this->GetDataFromFilter()));
+		$aPaging['sGetParams'] = $aFilter ? '?' . http_build_query(array('filter' => $aFilter)) : null;
 
 		$this->Viewer_Assign('sPluginTypeCurrent', $sType);
 		$this->Viewer_Assign('sSortOrderCurrent', $sOrder);

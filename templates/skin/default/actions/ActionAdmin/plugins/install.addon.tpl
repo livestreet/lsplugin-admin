@@ -2,6 +2,8 @@
  * Вывод информации об одном дополнении из каталога
  *}
 
+{* todo: export langs *}
+
 <div class="addon-full addon-code-{$oAddon->getCode()} {if $oAddon->getAlreadyInstalled()}addon-installed{/if}">
 	{* Image *}
 	<a href="#" class="addon-image">
@@ -22,20 +24,20 @@
     	{include file="{$aTemplatePathPlugin.admin}rating.stars.tpl" iRating=$oAddon->getMark() * 20}
 
 		{if $oAddon->getCountMark()}
-    		<span>{$oAddon->getCountMark()} {$oAddon->getCountMark()|declension:$aLang.plugin.admin.plugins.reviews_declension:'russian'}</span>
+    		<span>{$oAddon->getCountMark()} {$oAddon->getCountMark()|declension:$aLang.plugin.admin.plugins.install.reviews_declension:'russian'}</span>
 		{/if}
 	</div>
 
 	{* Actions *}
 	<div class="addon-actions">
-		{if ! $oAddon->getAlreadyInstalled()}
-			{if $oAddon->getCost()}
-				<a href="#" class="button button-primary addon-price">Купить за {$oAddon->getCost()|round} {$aLang.price_rubles}</a>
-			{else}
-				<a href="#" class="button button-primary addon-price">Установить</a>
-			{/if}
-		{else}
+		{if $oAddon->getAlreadyInstalled()}
 			{include file="{$aTemplatePathPlugin.admin}alert.tpl" mAlerts="Уже установлен"}
+		{else}
+			{if $oAddon->getCost()}
+				<a href="#" class="button button-primary addon-price">Купить за {$oAddon->getCost()|round} {$aLang.plugin.admin.plugins.install.rubles}</a>
+			{else}
+				<a href="#" class="button button-primary">Установить</a>
+			{/if}
 		{/if}
 	</div>
 
