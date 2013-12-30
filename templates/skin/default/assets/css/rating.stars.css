@@ -1,0 +1,9 @@
+/**
+ * Star rating
+ */
+
+.stars            { overflow: hidden; width: 102px; height: 17px; }
+.star             { float: left; margin-left: 3px; width: 18px; height: 17px; background: url(../images/icons/star-empty.png) no-repeat; }
+.star:first-child { margin-left: 0; }
+.star-full        { background: url(../images/icons/star-full.png) no-repeat; }
+.star-half        { background: url(../images/icons/star-half.png) no-repeat; }

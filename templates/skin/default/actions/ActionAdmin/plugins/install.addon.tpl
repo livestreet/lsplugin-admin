@@ -1,67 +1,62 @@
+{**
+ * Вывод информации об одном дополнении из каталога
+ *}
 
-{*
-	Вывод информации об одном дополнении из каталога
-*}
+<div class="addon-full addon-code-{$oAddon->getCode()} {if $oAddon->getAlreadyInstalled()}addon-installed{/if}">
+	{* Image *}
+	<a href="#" class="addon-image">
+		<img src="{$oAddon->getAvatar()}" alt="{$oAddon->getTitle()|escape}" title="{$oAddon->getTitle()|escape}">
+	</a>
 
-<div class="catalog-one-addon code-{$oAddon->getCode()}">
-	<div class="avatar">
-		<img src="{$oAddon->getAvatar()}" alt="{$oAddon->getTitle()|escape}" title="{$oAddon->getTitle()|escape}" />
+	{* Title *}
+	<h3 class="addon-title"><a href="#">{$oAddon->getTitle()}</a></h3>
+
+	{* Author *}
+	{$aUserData = $oAddon->getUser()}
+	<div class="addon-author">
+		от <a href="{$aUserData.profile}" target="_blank">{$aUserData.login}</a>
 	</div>
-	<div class="more-info">
-		{*
-			todo: lang
-		*}
 
-		{*
-			заголовок и тип аддона (платный, бесплатный)
-		*}
-		<div class="title">
-			{$oAddon->getTitle()} <span class="type-label fl-r">{$aLang.plugin.admin.plugins.install.filter.type[$oAddon->getType()]}</span>
-			{*
-				установлен ли уже этот плагин
-			*}
-			{if $oAddon->getAlreadyInstalled()}
-				<span class="installed type-label">уже установлен</span>
-			{/if}
-		</div>
-		{*
-			автор
-		*}
-		{$aUserData = $oAddon->getUser()}
-		<div class="author">
-			от <a href="{$aUserData.profile}" target="_blank">{$aUserData.login}</a>
-		</div>
-		{*
-			оценка и количество оценок
-		*}
-		<div class="mark">
-			средняя оценка: {$oAddon->getMark()}, всего оценок: {$oAddon->getCountMark()}
-		</div>
-		{*
-			стоимость (если платный)
-		*}
-		{if $oAddon->getCost()}
-			<div class="costs">
-				стоимость: {$oAddon->getCost()}
-			</div>
+	{* Rating *}
+	<div class="addon-rating">
+    	{include file="{$aTemplatePathPlugin.admin}rating.stars.tpl" iRating=$oAddon->getMark() * 20}
+
+		{if $oAddon->getCountMark()}
+    		<span>{$oAddon->getCountMark()} {$oAddon->getCountMark()|declension:$aLang.plugin.admin.plugins.reviews_declension:'russian'}</span>
 		{/if}
-		{*
-			дополнительная информация
-		*}
-		<div class="misc-info">
-			{*
-				todo: check for current version
-			*}
-			версия: {$oAddon->getVersion()}, совместимость: {implode(',', $oAddon->getCompatibilities())}
-			<br />
-			добавлен: {$oAddon->getDateAdd()}, обновлен: {$oAddon->getDateUpdate()}
-		</div>
-		{*
-			короткое описание
-		*}
-		<div class="mt-20 description-short">
-			{$oAddon->getDescriptionShort()}
-		</div>
+	</div>
 
+	{* Actions *}
+	<div class="addon-actions">
+		{if ! $oAddon->getAlreadyInstalled()}
+			{if $oAddon->getCost()}
+				<a href="#" class="button button-primary addon-price">Купить за {$oAddon->getCost()|round} {$aLang.price_rubles}</a>
+			{else}
+				<a href="#" class="button button-primary addon-price">Установить</a>
+			{/if}
+		{else}
+			{include file="{$aTemplatePathPlugin.admin}alert.tpl" mAlerts="Уже установлен"}
+		{/if}
+	</div>
+
+	{* Info *}
+	<div class="addon-full-info">
+		Версия {$oAddon->getVersion()} | 
+
+		<span {*if ! $oAddon->checkCompatibilityLastVersion()}class="addon-not-compatible"{/if*}>
+			Совместимость: {implode(',', $oAddon->getCompatibilities())}
+		</span>
+		<br>
+
+		Добавлен: {date_format date=$oAddon->getDateAdd() format="j F Y"}
+		{if $oAddon->getDateUpdate()}
+			| Обновлен: {date_format date=$oAddon->getDateUpdate() format="j F Y"}
+		{/if}
+		<br>
+	</div>
+
+	{* Description *}
+	<div class="text pt-20">
+		{$oAddon->getDescriptionShort()}
 	</div>
 </div>

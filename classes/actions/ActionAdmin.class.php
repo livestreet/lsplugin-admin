@@ -579,6 +579,8 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$sPluginTemplatePath . '/css/helpers.css',
 			$sPluginTemplatePath . '/css/stats.css',
 			$sPluginTemplatePath . '/css/plugins.css',
+			$sPluginTemplatePath . '/css/addon.css',
+			$sPluginTemplatePath . '/css/rating.stars.css',
 			$sPluginTemplatePath . '/css/_temp.css',
 			
 			$sPluginTemplatePath . '/css/vendor/jquery.notifier.css',

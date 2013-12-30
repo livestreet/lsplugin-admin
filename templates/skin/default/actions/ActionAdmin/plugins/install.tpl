@@ -1,4 +1,3 @@
-
 {**
  * Установка дополнений из каталога
  *}
@@ -62,24 +61,18 @@
 
 
 {block name='layout_content'}
-	{*
-		справка
-	*}
-	<a href="#" class="fl-r js-catalog-toggle-tip-button" title="{$aLang.plugin.admin.plugins.install.tip_button}"><i class="icon-question-sign"></i></a>
-	<div class="catalog-install-info js-catalog-tip-message" style="display: none;">
+	{* Справка *}
+	<a href="#" class="link-dotted js-catalog-toggle-tip-button">{$aLang.plugin.admin.plugins.install.tip_button}</a>
+	<div class="alert alert-info mt-15 js-catalog-tip-message" style="display: none;">
 		{$aLang.plugin.admin.plugins.install.tip}
 	</div>
 
-	{*
-		вывод дополнений
-	*}
-	<div class="all-addons-container">
+	{* Вывод дополнений *}
+	<div class="addon-list-full">
 		{foreach $aAddons as $oAddon}
 			{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/plugins/install.addon.tpl"}
 		{/foreach}
 	</div>
 
-
 	{include file="{$aTemplatePathPlugin.admin}pagination.tpl" aPaging=$aPaging}
-
 {/block}
