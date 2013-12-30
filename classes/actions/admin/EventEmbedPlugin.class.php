@@ -49,13 +49,9 @@ class PluginAdmin_ActionAdmin_EventEmbedPlugin extends Event {
 			 */
 			$sActionClass = 'Plugin' . func_camelize($sPlugin) . '_ActionAdmin';
 			/*
-			 * получить массив родительских классов экшена плагина "ActionAdmin" (с автозагрузкой класса)
-			 */
-			$aParentActionClasses = class_parents($sActionClass);
-			/*
 			 * наследует ли екшен плагина "PluginИмяплагина_ActionAdmin" требуемый класс "PluginAdmin_ActionPlugin" этой админки
 			 */
-			if (in_array(self::ACTION_PLUGIN_NAME, $aParentActionClasses)) {
+			if (class_exists($sActionClass) and $aParentActionClasses = class_parents($sActionClass) and in_array(self::ACTION_PLUGIN_NAME, $aParentActionClasses)) {
 				/*
 				 * в роутер добавить новую запись для экшена плагина, на которую будет выполнен редирект
 				 */

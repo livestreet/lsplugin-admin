@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+	<name>
+		<lang name="default">Статьи - пример использования свойств</lang>
+	</name>
+	<author>
+		<lang name="default">Mzhelskiy Maxim</lang>
+	</author>
+	<homepage></homepage>
+	<settings></settings>
+	<version>1.0</version>
+	<requires>
+		<livestreet>1.0</livestreet>
+		<plugins>
+		</plugins>
+	</requires>
+	<description>
+		<lang name="default">Пример на основе статей, который использует новый функционал LS по динамическим полям</lang>
+	</description>
+</plugin>
