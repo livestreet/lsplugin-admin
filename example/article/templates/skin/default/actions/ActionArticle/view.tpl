@@ -1,24 +1,37 @@
+{**
+ * Отображение статьи
+ *}
+
 {extends file='layouts/layout.base.tpl'}
 
+{block name='layout_options'}
+	{$bNoSidebar = true}
+{/block}
+
+{block name='layout_page_title'}
+	{$oArticle->getTitle()}
+{/block}
+
 {block name='layout_content'}
+	<h4 class="h4">Дополнительные свойства</h4>
 
-	Статья: <b>{$oArticle->getTitle()}</b>
-	<br/>
-	<br/>
-
-	Дополнительные свойства:<br/>
-	{$aProperties=$oArticle->getPropertyList()}
+	{$aProperties = $oArticle->getPropertyList()}
 	{foreach $aProperties as $oProperty}
-		<b>{$oProperty->getTitle()}</b>: {$oProperty->getValue()->getValueForDisplay()}<br/>
+		{$mValue = $oProperty->getValue()->getValueForDisplay()}
+		
+		{if $mValue}
+			<b>{$oProperty->getTitle()}</b>: {$oProperty->getValue()->getValueForDisplay()}<br/>
+		{/if}
 	{/foreach}
 
 	<br/>
 	<br/>
-	Свойство "Стоимость":
-	{if $oProperty=$oArticle->getProperty('price')}
+
+	<h4 class="h4">Свойство "Стоимость"</h4>
+
+	{if $oProperty = $oArticle->getProperty('price')}
 		{$oProperty->getValue()->getValueForDisplay()}
 	{else}
-		значение не определено
+		Значение не определено
 	{/if}
-
 {/block}
