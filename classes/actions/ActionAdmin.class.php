@@ -381,7 +381,6 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Весь список')->SetUrl('list'))
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Бан-листы')->SetUrl('bans'))
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Администраторы')->SetUrl('admins'))
-				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Инвайты')->SetUrl('invite'))
 			)	// /AddSection
 			->AddSection(
 				Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Плагины')->SetName('plugins')->SetUrl('plugins')
@@ -412,8 +411,6 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Модуль изображений')->SetUrl('moduleimage'))
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Модуль стены')->SetUrl('modulewall'))
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Модули разные')->SetUrl('moduleother'))
-				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Таблицы БД')->SetUrl('db'))
-				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Правила блоков')->SetUrl('blocksrule'))
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Обработка JS и CSS')->SetUrl('compress'))
 			)	// /AddSection
 			->AddSection(

@@ -31,7 +31,7 @@ class PluginAdmin_ModuleSkin extends Module {
 	 * файлы описания и превью шаблона, которые должны быть в корне папки шаблона
 	 */
 	const PREVIEW_IMAGE_FILE = 'template_preview.png';
-	const XML_FILE = 'template_info.xml';
+	const XML_FILE = 'template.xml';
 
 	/*
 	 * ключ сессии, в котором хранится имя шаблона для предпросмотра

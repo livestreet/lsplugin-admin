@@ -1215,11 +1215,13 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		if (!$oUser = $this->User_GetUserById((int) getRequestStr('user_id'))) {
 			return $this->Message_AddError($this->Lang('errors.profile_edit.wrong_user_id'));
 		}
+		$sValue = getRequestStr('value');
 		/*
 		 * проверить значение
+		 * TODO: проверка должна быть отдельно для каждого поля
 		 */
-		if (!$sValue = getRequestStr('value') or !$this->Validate_Validate('string', $sValue, array('min' => 1, 'max' => 2000, 'allowEmpty' => false))) {
-			return $this->Message_AddError($this->Lang('errors.profile_edit.disallowed_value') . '. ' . $this->Validate_GetErrorLast());
+		if (!$sValue or !$this->Validate_Validate('string', $sValue, array('min' => 1, 'max' => 2000, 'allowEmpty' => false))) {
+			//return $this->Message_AddError($this->Lang('errors.profile_edit.disallowed_value') . '. ' . $this->Validate_GetErrorLast());
 		}
 		/*
 		 * изменить данные
