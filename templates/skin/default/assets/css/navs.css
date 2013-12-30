@@ -62,7 +62,7 @@
 .nav-main-item-root.nav-main-item-fold > a span { border: none; border-bottom: 1px dotted #C3C3C3; line-height: 1.3em; }
 
 /* Sub */
-.nav-main ul                  { margin-bottom: 10px; padding-bottom: 10px; position: relative; display: none; }
+.nav-main ul                  { margin: 1px 0 10px; padding-bottom: 10px; position: relative; display: none; }
 .nav-main ul li               { font-family: Verdana; font-size: 13px; }
 .nav-main ul li a             { color: #6c6c6c; padding: 5px 0 5px 42px; }
 .nav-main ul li a span        { display: inline-block; border-bottom: 1px solid #ccc; line-height: 14px; }
