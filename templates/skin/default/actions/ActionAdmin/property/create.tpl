@@ -28,7 +28,7 @@
 			[ 'value' => 'video_link', 'text' => 'Ссылка на видео' ]
 		]}
 
-		{include file='forms/form.field.select.tpl'
+		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.select.tpl"
 				 sFieldName          = 'property[type]'
 				 sFieldLabel         = 'Тип поля'
 				 sFieldClasses       = 'width-200'
