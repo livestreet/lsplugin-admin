@@ -41,11 +41,9 @@ class PluginAdmin extends Plugin {
 		 */
 		if (!$this->CheckDependencies()) return false;
 		/*
-		 * дамп таблицы для банов пользователя
+		 * импортировать дампы таблиц
 		 */
-		if (!$this->isTableExists('prefix_admin_users_ban')) {
-			$this->ExportSQL(dirname(__FILE__) . '/sql_dumps/admin_users_ban.sql');
-		}
+		$this->ImportSqlDumps();
 		return true;
 	}
 
@@ -114,11 +112,28 @@ class PluginAdmin extends Plugin {
 		 * блокировка от использования одновременно другой админки т.к. возможны конфликты/коллизии
 		 * tip: не включать одновременно несколько админок т.к. могут быть самые непредсказуемые последствия
 		 */
-		if (defined('ACEADMINPANEL_VERSION')) {
-			Engine::getInstance()->Message_AddError('You should fully remove old AceAdminPanel plugin and its tables before enabling this admin panel', 'Error', true);
+		if (defined('ACEADMINPANEL_VERSION') or $this->isTableExists('prefix_adminset') or $this->isTableExists('prefix_adminban') or $this->isTableExists('prefix_adminips')) {
+			Engine::getInstance()->Message_AddError(
+				'You should fully remove old AceAdminPanel plugin and its all tables (prefix_adminset, prefix_adminban, prefix_adminips) before enabling this admin panel',
+				'Error',
+				true
+			);
 			return false;
 		}
 		return true;
+	}
+
+
+	/**
+	 * Импортировать дампы таблиц админки
+	 */
+	protected function ImportSqlDumps() {
+		/*
+		 * дамп таблицы для банов пользователя
+		 */
+		if (!$this->isTableExists('prefix_admin_users_ban')) {
+			$this->ExportSQL(dirname(__FILE__) . '/sql_dumps/admin_users_ban.sql');
+		}
 	}
 
 }
