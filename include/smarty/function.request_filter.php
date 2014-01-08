@@ -73,7 +73,7 @@ function smarty_function_request_filter($aParams, &$oSmarty) {
 			 * удалить значения из фильтра по имени ключей
 			 */
 			foreach ($aParams['name'] as $iKey => $sVal) {
-				unset($aFilter[$aParams['name'][$iKey]]);
+				unset($aFilter[$sVal]);
 			}
 		}
 	}
