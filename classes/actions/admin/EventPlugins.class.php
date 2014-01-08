@@ -146,7 +146,7 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 		 * если сортировка не указана - использовать сортировку каталога по-умолчанию
 		 */
 		if (!$sOrder = $this->GetDataFromFilter('order')) {
-			$sOrder = Config::Get('plugin.admin.catalog.remote.plugins.default_sorting');
+			$sOrder = Config::Get('plugin.admin.catalog.remote.addons.default_sorting');
 		}
 		/*
 		 * категория аддонов (все, плагины, шаблоны и т.п.)

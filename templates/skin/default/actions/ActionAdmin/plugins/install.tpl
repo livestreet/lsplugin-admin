@@ -14,7 +14,7 @@
 		{*
 			тип плагинов
 		*}
-		{foreach $oConfig->Get('plugin.admin.catalog.remote.plugins.type') as $sPluginType}
+		{foreach $oConfig->Get('plugin.admin.catalog.remote.addons.type') as $sPluginType}
 			<a class="button {if $sPluginTypeCurrent==$sPluginType}active{/if}" href="{router page='admin/plugins/install'}{request_filter
 				name=array('order', 'type', 'category')
 				value=array($sSortOrderCurrent, $sPluginType, $sCategoryCurrent)
@@ -34,7 +34,7 @@
 				сортировка
 			*}
 			<div class="addons-sorting mb-15">
-				{foreach $oConfig->Get('plugin.admin.catalog.remote.plugins.sorting') as $sSorting}
+				{foreach $oConfig->Get('plugin.admin.catalog.remote.addons.sorting') as $sSorting}
 					<a class="button {if $sSortOrderCurrent==$sSorting}active{/if}" href="{router page='admin/plugins/install'}{request_filter
 						name=array('order', 'type', 'category')
 						value=array($sSorting, $sPluginTypeCurrent, $sCategoryCurrent)

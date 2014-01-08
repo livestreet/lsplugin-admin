@@ -103,7 +103,7 @@ $config['catalog']['max_work_timeout'] = 4;
 /*
  * типы плагинов
  */
-$config['catalog']['remote']['plugins']['type'] = array(
+$config['catalog']['remote']['addons']['type'] = array(
 	/*
 	 * все
 	 */
@@ -121,7 +121,7 @@ $config['catalog']['remote']['plugins']['type'] = array(
 /*
  * типы сортировок
  */
-$config['catalog']['remote']['plugins']['sorting'] = array(
+$config['catalog']['remote']['addons']['sorting'] = array(
 	'new',
 	'review',
 	'update',
@@ -133,7 +133,7 @@ $config['catalog']['remote']['plugins']['sorting'] = array(
 /*
  * сортировка в каталоге по-умолчанию
  */
-$config['catalog']['remote']['plugins']['default_sorting'] = 'update';
+$config['catalog']['remote']['addons']['default_sorting'] = 'update';
 
 /*
  * категории дополнений
