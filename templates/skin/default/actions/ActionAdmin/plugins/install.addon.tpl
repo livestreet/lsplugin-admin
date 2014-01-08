@@ -5,21 +5,21 @@
 {* todo: export langs *}
 
 <div class="addon-full addon-code-{$oAddon->getCode()} {if $oAddon->getAlreadyInstalled()}addon-installed{/if}">
-	{* Image *}
+	{* Изображение *}
 	<a href="#" class="addon-image">
 		<img src="{$oAddon->getAvatar()}" alt="{$oAddon->getTitle()|escape}" title="{$oAddon->getTitle()|escape}">
 	</a>
 
-	{* Title *}
-	<h3 class="addon-title"><a href="#">{$oAddon->getTitle()}</a></h3>
+	{* Заголовок *}
+	<h3 class="addon-title"><a href="{$oAddon->getUrl()}">{$oAddon->getTitle()}</a></h3>
 
-	{* Author *}
+	{* Автор *}
 	{$aUserData = $oAddon->getUser()}
 	<div class="addon-author">
 		от <a href="{$aUserData.profile}" target="_blank">{$aUserData.login}</a>
 	</div>
 
-	{* Rating *}
+	{* Рейтинг *}
 	<div class="addon-rating">
     	{include file="{$aTemplatePathPlugin.admin}rating.stars.tpl" iRating=$oAddon->getMark() * 20}
 
@@ -28,20 +28,20 @@
 		{/if}
 	</div>
 
-	{* Actions *}
+	{* Действия *}
 	<div class="addon-actions">
 		{if $oAddon->getAlreadyInstalled()}
 			{include file="{$aTemplatePathPlugin.admin}alert.tpl" mAlerts="Уже установлен"}
 		{else}
 			{if $oAddon->getCost()}
-				<a href="#" class="button button-primary addon-price">Купить за {$oAddon->getCost()|round} {$aLang.plugin.admin.plugins.install.rubles}</a>
+				<a href="{$oAddon->getUrlUse()}" class="button button-primary addon-price">Купить за {$oAddon->getCost()|round} {$aLang.plugin.admin.plugins.install.rubles}</a>
 			{else}
-				<a href="#" class="button button-primary">Установить</a>
+				<a href="{$oAddon->getUrlUse()}" class="button button-primary">Установить</a>
 			{/if}
 		{/if}
 	</div>
 
-	{* Info *}
+	{* Общая информация *}
 	<div class="addon-full-info">
 		Версия {$oAddon->getVersion()} | 
 
@@ -57,7 +57,7 @@
 		<br>
 	</div>
 
-	{* Description *}
+	{* Описание *}
 	<div class="text pt-20">
 		{$oAddon->getDescriptionShort()}
 	</div>
