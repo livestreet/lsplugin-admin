@@ -18,10 +18,8 @@
 	{$aProperties = $oArticle->getPropertyList()}
 	{foreach $aProperties as $oProperty}
 		{$mValue = $oProperty->getValue()->getValueForDisplay()}
-		
-		{if $mValue}
-			<b>{$oProperty->getTitle()}</b>: {$oProperty->getValue()->getValueForDisplay()}<br/>
-		{/if}
+
+    	<b>{$oProperty->getTitle()}</b>: {$mValue}<br/>
 	{/foreach}
 
 	<br/>

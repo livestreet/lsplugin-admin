@@ -12,7 +12,7 @@
 	<a href="{router page="admin/properties/{$sPropertyTargetType}/create"}" class="button button-primary">{$aLang.plugin.admin.add}</a>
 {/block}
 
-{block name='layout_page_title'}Список полей типа &laquo;{$sPropertyTargetParams.name}&raquo;{/block}
+{block name='layout_page_title'}Список полей типа &laquo;{$aPropertyTargetParams.name}&raquo;{/block}
 
 {block name='layout_content'}
 	{if $aPropertyItems}
@@ -24,6 +24,7 @@
 					<td>{$oPropertyItem->getType()}</td>
 					<td class="ta-r">
 						<a href="{$oPropertyItem->getUrlAdminUpdate()}" class="icon-edit" title="{$aLang.plugin.admin.edit}"></a>
+						<a href="{$oPropertyItem->getUrlAdminRemove()}?security_ls_key={$LIVESTREET_SECURITY_KEY}" class="icon-remove" title="{$aLang.plugin.admin.delete}"></a>
 					</td>
 				</tr>
 			{/foreach}

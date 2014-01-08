@@ -11,7 +11,7 @@
 	<a href="{router page="admin/properties/{$sPropertyTargetType}"}" class="button">&larr; Назад к списку полей</a>
 {/block}
 
-{block name='layout_page_title'}Редактирование поля для типа &laquo;{$sPropertyTargetParams.name}&raquo;{/block}
+{block name='layout_page_title'}Редактирование поля для типа &laquo;{$aPropertyTargetParams.name}&raquo;{/block}
 
 {block name='layout_content'}
 	<form method="post">

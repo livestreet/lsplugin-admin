@@ -6,7 +6,6 @@
 		 sFieldId    = "property-value-tags-{$oProperty->getId()}"
 		 sFieldLabel = $oProperty->getTitle()}
 
-{* TODO: Автокомплит не работает *}
 <script>
 	jQuery(function($){
         ls.autocomplete.add($("#property-value-tags-{$oProperty->getId()}"), aRouter['ajax']+'property/tags/autocompleter/', true, { property_id: '{$oValue->getPropertyId()}' });
