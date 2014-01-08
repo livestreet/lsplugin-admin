@@ -5,7 +5,7 @@
 {extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
 
 {block name='layout_page_title'}
-	{$aLang.plugin.admin.plugins.list.title}
+	{$aLang.plugin.admin.plugins.list.titles[$_aRequest.type]} ({count($aPluginsInfo.collection)})
 {/block}
 
 

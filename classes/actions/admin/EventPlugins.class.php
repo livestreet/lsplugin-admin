@@ -50,7 +50,7 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 			/*
 			 * активные плагины
 			 */
-			case '':
+			case null:
 			case 'activated':
 				$aPluginsInfo = $this->PluginAdmin_Plugins_GetPluginsList(array('active' => true));
 				break;
@@ -78,7 +78,6 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 			default:
 				$this->Message_AddError($this->Lang('errors.plugins.unknown_filter_type'), $this->Lang_Get('error'));
 		}
-
 		$this->Viewer_Assign('aPluginsInfo', $aPluginsInfo);
 	}
 
@@ -146,7 +145,7 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 		 * если сортировка не указана - использовать сортировку каталога по-умолчанию
 		 */
 		if (!$sOrder = $this->GetDataFromFilter('order')) {
-			$sOrder = Config::Get('plugin.admin.catalog.remote.addons.default_sorting');
+			$sOrder = Config::Get('plugin.admin.catalog.remote.plugins.default_sorting');
 		}
 		/*
 		 * категория аддонов (все, плагины, шаблоны и т.п.)
