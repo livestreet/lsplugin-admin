@@ -6,7 +6,7 @@
 
 <div class="addon-full addon-code-{$oAddon->getCode()} {if $oAddon->getAlreadyInstalled()}addon-installed{/if}">
 	{* Изображение *}
-	<a href="#" class="addon-image">
+	<a href="{$oAddon->getUrl()}" class="addon-image">
 		<img src="{$oAddon->getAvatar()}" alt="{$oAddon->getTitle()|escape}" title="{$oAddon->getTitle()|escape}">
 	</a>
 
