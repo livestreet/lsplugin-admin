@@ -5,13 +5,13 @@
 {extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
 
 {block name='layout_page_title'}
-	{$aLang.plugin.admin.plugins.list.titles[$_aRequest.type]} ({count($aPluginsInfo.collection)})
+	{$aLang.plugin.admin.plugins.list.titles[$_aRequest.type]} <span>({count($aPluginsInfo.collection)})</span>
 {/block}
 
 
 {block name='layout_content_actionbar'}
 	<div class="fl-r">
-		<a class="button {if $_aRequest.type==''}active{/if}"
+		<a class="button {if $_aRequest.type==null}active{/if}"
 		   href="{router page='admin/plugins/list'}">{$aLang.plugin.admin.plugins.menu.filter.activated} ({$aPluginsInfo.count_active})</a>
 		<a class="button {if $_aRequest.type=='deactivated'}active{/if}"
 		   href="{router page='admin/plugins/list'}?type=deactivated">{$aLang.plugin.admin.plugins.menu.filter.deactivated} ({$aPluginsInfo.count_inactive})</a>
