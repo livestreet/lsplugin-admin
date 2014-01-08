@@ -27,6 +27,40 @@
 
 class PluginAdmin_ModuleCatalog_EntityAddon extends Entity {
 
+
+	/**
+	 * Проверить совместимость версий лс у дополнения с текущей версией лс сайта
+	 *
+	 * @return bool
+	 */
+	public function getCompatibleWithCurrentSitesLSVersion() {
+		/*
+		 * по всем версиям ЛС, с которыми совместим плагин
+		 */
+		foreach($this->getCompatibilities() as $sVersion) {
+			/*
+			 * если хоть одна из его версий больше или равна текущей версии сайта - совместим
+			 */
+			if (version_compare($sVersion, LS_VERSION, '>=')) return true;
+		}
+		/*
+		 * плагин не совместим с текущей версией ЛС сайта
+		 */
+		return false;
+	}
+
+
+	/**
+	 * Получить строку версий ЛС, с которыми совместимо дополнение
+	 *
+	 * @param string $sGlue		разделитель версий
+	 * @return string
+	 */
+	public function getCompatibleLSVersionsString($sGlue = ', ') {
+		return implode($sGlue, $this->getCompatibilities());
+	}
+
+
 }
 
 ?>

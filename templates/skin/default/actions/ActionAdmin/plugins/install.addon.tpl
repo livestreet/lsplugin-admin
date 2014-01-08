@@ -45,10 +45,10 @@
 	<div class="addon-full-info">
 		Версия {$oAddon->getVersion()} | 
 
-		<span {*if ! $oAddon->checkCompatibilityLastVersion()}class="addon-not-compatible"{/if*}>
-			Совместимость: {implode(',', $oAddon->getCompatibilities())}
+		<span {if !$oAddon->getCompatibleWithCurrentSitesLSVersion()}class="addon-not-compatible" title="Не совместим с установленной версией движка"{/if}>
+			Совместимость: {$oAddon->getCompatibleLSVersionsString()}
 		</span>
-		<br>
+		<br />
 
 		Добавлен: {date_format date=$oAddon->getDateAdd() format="j F Y"}
 		{if $oAddon->getDateUpdate()}
