@@ -124,6 +124,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 *
 		 */
 		$this->AddEventPreg('#^properties$#i', '#^\w+$#i', '#^$#i', 'Property::EventPropertiesTarget');
+		$this->AddEventPreg('#^properties$#i', '#^\w+$#i', '#^remove$#i', '#^\d{1,5}$#i', 'Property::EventPropertyRemove');
 		$this->AddEventPreg('#^properties$#i', '#^\w+$#i', '#^update$#i', '#^\d{1,5}$#i', 'Property::EventPropertyUpdate');
 		$this->AddEventPreg('#^properties$#i', '#^\w+$#i', '#^create$#i', '#^$#i', 'Property::EventPropertyCreate');
 

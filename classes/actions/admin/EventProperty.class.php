@@ -36,9 +36,31 @@ class PluginAdmin_ActionAdmin_EventProperty extends Event {
 		$aProperties=$this->Property_GetPropertyItemsByFilter(array('target_type'=>$sTargetType,'#order'=>array('sort'=>'desc')));
 		$this->Viewer_Assign('aPropertyItems',$aProperties);
 		$this->Viewer_Assign('sPropertyTargetType',$sTargetType);
-		$this->Viewer_Assign('sPropertyTargetParams',$this->Property_GetTargetTypeParams($sTargetType));
+		$this->Viewer_Assign('aPropertyTargetParams',$this->Property_GetTargetTypeParams($sTargetType));
 
 		$this->SetTemplateAction('property/list');
+	}
+
+	public function EventPropertyRemove() {
+		$this->Security_ValidateSendForm();
+
+		$sTargetType=$this->GetParam(0);
+		if (!$this->Property_IsAllowTargetType($sTargetType)) {
+			return $this->EventNotFound();
+		}
+		if (!($oProperty=$this->Property_GetPropertyById($this->GetParam(2)))) {
+			return $this->EventNotFound();
+		}
+		if ($oProperty->getTargetType()!=$sTargetType) {
+			return $this->EventNotFound();
+		}
+
+		/**
+		 * TODO: Удаляем все значения этого поля и само поле
+		 */
+
+
+		Router::Location(Router::GetPath("admin/properties/{$sTargetType}"));
 	}
 
 	public function EventPropertyUpdate() {
@@ -94,10 +116,27 @@ class PluginAdmin_ActionAdmin_EventProperty extends Event {
 							$aSelectItems=array_keys($aSelectItems);
 							foreach($aSelectItems as $iId) {
 								if (!in_array($iId,$aSelectItemsUse) and $oSelect=$this->Property_GetSelectById($iId)) {
-									$oSelect->Delete();
 									/**
-									 * TODO: Нужно пройтись по всем элементам с этим значением и удалить его
+									 * Проходимся по всем элементам с этим значением и удаляем его
 									 */
+									$aValueSelectItems=$this->Property_GetValueSelectItemsByFilter(array('select_id '=>$oSelect->getId()));
+									foreach($aValueSelectItems as $oValueSelect) {
+										/**
+										 * Формируем свойство для конкретной сущности
+										 */
+										$aProperties=array($oProperty);
+										$this->Property_AttachValueForProperties($aProperties,$oValueSelect->getTargetType(),$oValueSelect->getTargetId());
+
+										$oValue=$oProperty->getValue();
+										$oValueType=$oValue->getValueTypeObject();
+										$aValuesForSelect=$oValue->getDataOne('values');
+										if (is_array($aValuesForSelect)) {
+											unset($aValuesForSelect[$oSelect->getId()]);
+											$oValueType->setValue(array_keys($aValuesForSelect));
+											$this->Property_UpdatePropertiesValue($aProperties,$oValueSelect->getTargetId());
+										}
+									}
+									$oSelect->Delete();
 								}
 							}
 						}
@@ -114,7 +153,7 @@ class PluginAdmin_ActionAdmin_EventProperty extends Event {
 
 		$this->Viewer_Assign('oProperty',$oProperty);
 		$this->Viewer_Assign('sPropertyTargetType',$sTargetType);
-		$this->Viewer_Assign('sPropertyTargetParams',$this->Property_GetTargetTypeParams($sTargetType));
+		$this->Viewer_Assign('aPropertyTargetParams',$this->Property_GetTargetTypeParams($sTargetType));
 		$this->SetTemplateAction('property/update');
 	}
 
@@ -142,7 +181,7 @@ class PluginAdmin_ActionAdmin_EventProperty extends Event {
 			}
 		}
 		$this->Viewer_Assign('sPropertyTargetType',$sTargetType);
-		$this->Viewer_Assign('sPropertyTargetParams',$this->Property_GetTargetTypeParams($sTargetType));
+		$this->Viewer_Assign('aPropertyTargetParams',$this->Property_GetTargetTypeParams($sTargetType));
 		$this->SetTemplateAction('property/create');
 	}
 
