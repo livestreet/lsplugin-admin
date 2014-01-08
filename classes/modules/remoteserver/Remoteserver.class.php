@@ -88,7 +88,21 @@ class PluginAdmin_ModuleRemoteserver extends Module {
 
 
 	public function Init() {
-		$this->sCARootCertsPath = Config::Get('path.application.plugins.server') . '/admin/ssl_ca_certs/cacert.pem';
+		/*
+		 * выполнить настройку
+		 */
+		$this->Setup();
+	}
+
+
+	/**
+	 * Базовая настройка модуля
+	 */
+	protected function Setup() {
+		/*
+		 * задать путь к файлу с корневыми CA сертификатами для проверки сертификата каталога
+		 */
+		$this->sCARootCertsPath = Plugin::GetPath(__CLASS__) . 'ssl_ca_certs/cacert.pem';
 	}
 
 
@@ -109,7 +123,23 @@ class PluginAdmin_ModuleRemoteserver extends Module {
 				isset($aRequestData[self::REQUEST_CURL_OPTIONS]) ? $aRequestData[self::REQUEST_CURL_OPTIONS] : array()
 			);
 		}
-		return 'Admin: error: no cURL extension installed on server';
+		/*
+		 * вернуть стандартизированный ответ с ошибкой
+		 */
+		return array(
+			/*
+			 * флаг успеха
+			 */
+			self::RESPONSE_SUCCESS => false,
+			/*
+			 * текст ошибки
+			 */
+			self::RESPONSE_ERROR_MESSAGE => $this->Lang_Get('plugin.admin.errors.catalog.no_curl_found'),
+			/*
+			 * полученные данные
+			 */
+			self::RESPONSE_DATA => null
+		);
 	}
 
 
