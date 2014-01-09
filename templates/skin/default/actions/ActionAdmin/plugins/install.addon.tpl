@@ -54,7 +54,15 @@
 		{if $oAddon->getDateUpdate()}
 			| Обновлен: {date_format date=$oAddon->getDateUpdate() format="j F Y"}
 		{/if}
-		<br>
+		<br />
+		{* Количество установок (выводить только если есть) *}
+		{if $oAddon->getCountUse()}
+			{if $oAddon->getCost()}
+				Установлен {$oAddon->getCountUse()} раз 							{* TODO: DECLENSION *}
+			{else}
+				Скачан {$oAddon->getCountUse()} раз
+			{/if}
+		{/if}
 	</div>
 
 	{* Описание *}
