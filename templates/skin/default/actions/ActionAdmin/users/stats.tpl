@@ -26,7 +26,6 @@
 		sName                   = $aLang.plugin.admin.users_stats.registrations
 		sUrl                    = "{router page='admin/users/stats'}"
 		bShowCustomPeriodFields = true
-		bShowTable              = true
 	}
 
 
