@@ -217,5 +217,8 @@
 
 
 	{* {hook run='body_end'} *}
+
+	{* для вывода общей статистики *}
+	{hook run='admin_body_end'}
 </body>
 </html>
