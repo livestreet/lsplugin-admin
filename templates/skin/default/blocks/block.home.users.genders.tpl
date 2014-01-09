@@ -66,7 +66,7 @@
 						{
 							name: '{$aLang.plugin.admin.users_stats.sex_other}',
 							y: {$iUsersSexOtherPerc},
-							color: '#F5F1FF'
+							color: '#C5C5C5'
 						},
 						{
 							name: '{$aLang.plugin.admin.users_stats.sex_man}',
