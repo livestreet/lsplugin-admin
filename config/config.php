@@ -49,7 +49,7 @@ $config['dashboard'] = array(
 		/*
 		 * количество событий по-умолчанию
 		 */
-		'count_default' => 2
+		'count_default' => 5
 	)
 );
 
