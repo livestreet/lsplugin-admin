@@ -35,7 +35,7 @@ class PluginAdmin_ModuleStats_MapperStats extends Mapper {
 			(
 				SELECT COUNT(*)
 				FROM
-					`' . $aFilter['table'] . '`
+					`' . $aFilter['table'] . '` as o
 				WHERE
 					' . $sWhere . '
 					AND
@@ -44,7 +44,7 @@ class PluginAdmin_ModuleStats_MapperStats extends Mapper {
 			(
 				SELECT COUNT(*)
 				FROM
-					`' . $aFilter['table'] . '`
+					`' . $aFilter['table'] . '` as o
 				WHERE
 					' . $sWhere . '
 					AND
@@ -63,8 +63,12 @@ class PluginAdmin_ModuleStats_MapperStats extends Mapper {
 	 */
 	protected function BuildWhereQuery($aConditions) {
 		$sSql = '1 = 1';
-		foreach($aConditions as $sField => $mValue) {
-			$sSql .= ' AND `' . $sField . '`' . $this->GetCorrectSyntaxForValue($mValue);
+		foreach($aConditions as $sFieldRaw => $mValue) {
+			/*
+			 * если поле указано с алиасом таблицы (o.`field_id`), то не экранировать его
+			 */
+			$sField = strpos($sFieldRaw, '.') === false ? $this->oDb->escape($sFieldRaw, true) : $sFieldRaw;
+			$sSql .= ' AND ' . $sField . $this->GetCorrectSyntaxForValue($mValue);
 		}
 		return $sSql;
 	}
@@ -138,7 +142,7 @@ class PluginAdmin_ModuleStats_MapperStats extends Mapper {
 			(
 				SELECT COUNT(*)
 				FROM
-					`' . $aFilter['table'] . '`
+					`' . $aFilter['table'] . '` as o
 				WHERE
 					' . $sWhere . '
 					AND
@@ -149,7 +153,7 @@ class PluginAdmin_ModuleStats_MapperStats extends Mapper {
 			(
 				SELECT COUNT(*)
 				FROM
-					`' . $aFilter['table'] . '`
+					`' . $aFilter['table'] . '` as o
 				WHERE
 					' . $sWhere . '
 					AND
@@ -160,7 +164,7 @@ class PluginAdmin_ModuleStats_MapperStats extends Mapper {
 			(
 				SELECT COUNT(*)
 				FROM
-					`' . $aFilter['table'] . '`
+					`' . $aFilter['table'] . '` as o
 				WHERE
 					' . $sWhere . '
 					AND
