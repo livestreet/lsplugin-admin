@@ -149,8 +149,7 @@
 						
 						<div class="content-padding">
 							{* {hook run='content_begin'} *}
-							{hook run='admin_content_begin'}        {* todo: review: hook names (temp) *}
-							
+
 							{block name='layout_content_begin'}{/block}
 
 							{block name='layout_page_title' hide}
