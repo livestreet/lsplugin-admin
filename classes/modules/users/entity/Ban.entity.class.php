@@ -129,6 +129,16 @@ class PluginAdmin_ModuleUsers_EntityBan extends Entity {
 		return $this->getRestrictionType() == PluginAdmin_ModuleUsers::BAN_RESTRICTION_TYPE_READ_ONLY;
 	}
 
+
+	/**
+	 * Получить урл на страницу полных данных бана
+	 *
+	 * @return string
+	 */
+	public function getBanViewUrl() {
+		return Router::GetPath('admin/users/bans/view') . $this->getId();
+	}
+
 }
 
 ?>

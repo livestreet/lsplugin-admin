@@ -12,7 +12,7 @@
 	{if $oBan->getComment()}
 		{$sBanMessage = $sBanMessage|cat:'<br />'|cat:$oBan->getComment()}
 	{/if}
-	{$sBanMessage = $sBanMessage|cat:"<br /><a href=\"{router page="admin/users/bans/view/{$oBan->getId()}"}\">{$aLang.plugin.admin.bans.more_info}</a>"}
+	{$sBanMessage = $sBanMessage|cat:"<br /><a href=\"{$oBan->getBanViewUrl()}\">{$aLang.plugin.admin.bans.more_info}</a>"}
 
 {elseif $oUserCurrent->getId() == $oUserProfile->getId()}
 	{* Сообщение для хозяина профиля *}

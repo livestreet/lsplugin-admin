@@ -119,8 +119,8 @@
 									<i class="icon-user-admin" title="{$aLang.plugin.admin.users.admin}"></i>
 								{/if}
 
-								{if $oUser->getBannedCached()}
-									<i class="icon-lock" title="{$aLang.plugin.admin.users.banned}"></i>
+								{if $oBan = $oUser->getBannedCached()}
+									<a href="{$oBan->getBanViewUrl()}"><i class="icon-lock" title="{$aLang.plugin.admin.users.banned}"></i></a>
 								{/if}
 							</p>
 
