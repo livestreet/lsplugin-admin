@@ -20,7 +20,9 @@
  */
 
 /*
- *	Разные утилиты
+ *
+ * Разные утилиты
+ *
  */
 
 class PluginAdmin_ActionAdmin_EventUtils extends Event {
@@ -62,18 +64,19 @@ class PluginAdmin_ActionAdmin_EventUtils extends Event {
 				 * Очистить таблицу комментариев и все связанные с ней от поврежденных записей комментариев
 				 */
 				$this->PluginAdmin_Deletecontent_PerformRepairCommentsStructure();
+				$this->Message_AddNotice($this->Lang('notices.utils.tables.checking_comments_done'), '', true);
 				break;
 			case 'cleanstream':
 				/*
 				 * Очистка активности (стрима) от ссылок на записи, которых больше нет
 				 */
 				$this->PluginAdmin_Deletecontent_PerformCleanStreamEventsRecords();
+				$this->Message_AddNotice($this->Lang('notices.utils.tables.checking_stream_done'), '', true);
 				break;
 			default:
 				$this->Message_AddError($this->Lang('errors.utils.unknown_tables_clean_action'));
 				return false;
 		}
-		$this->Message_AddNotice('Ok', '', true);
 		$this->RedirectToReferer();
 	}
 
@@ -115,7 +118,7 @@ class PluginAdmin_ActionAdmin_EventUtils extends Event {
 				 * проверить кодировку файлов
 				 */
 				if ($this->PluginAdmin_Tools_CheckFilesOfPluginsAndEngineHaveCorrectEncoding()) {
-					$this->Message_AddNotice('Ok', '', true);
+					$this->Message_AddNotice($this->Lang('notices.utils.files.checking_encoding_done'), '', true);
 				}
 				break;
 			default:
@@ -163,7 +166,7 @@ class PluginAdmin_ActionAdmin_EventUtils extends Event {
 				 * сбросить статистику срабатываний банов
 				 */
 				$this->PluginAdmin_Users_DeleteAllBansStats();
-				$this->Message_AddNotice('Ok', '', true);
+				$this->Message_AddNotice($this->Lang('notices.utils.datareset.bans_stats_cleared'), '', true);
 				break;
 			default:
 				$this->Message_AddError($this->Lang('errors.utils.unknown_datareset_action'));

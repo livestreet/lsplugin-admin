@@ -739,7 +739,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		}
 		$this->PluginAdmin_Users_AddBanRecord($oEnt);
 
-		$this->Message_AddNotice('Ok', '', true);
+		$this->Message_AddNotice($this->Lang('notices.bans.updated'), '', true);
 		Router::Location(Router::GetPath('admin') . 'users/bans');
 	}
 
@@ -892,7 +892,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 			$this->PluginAdmin_Users_DeleteBanStats($oBan);
 		}
 		$this->PluginAdmin_Users_DeleteBanById($oBan->getId());
-		$this->Message_AddNotice('Ok', '', true);
+		$this->Message_AddNotice($this->Lang('notices.bans.deleted'), '', true);
 		Router::Location(Router::GetPath('admin') . 'users/bans');
 	}
 
@@ -982,7 +982,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		} else {
 			$this->PluginAdmin_Users_DeleteAdmin($oUser);
 		}
-		$this->Message_AddNotice('Ok', '', true);
+		$this->Message_AddNotice($this->Lang('notices.admins.' . $sType), '', true);
 		$this->RedirectToReferer();
 	}
 
@@ -1007,7 +1007,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 */
 		if (isPost('submit_delete_user_contents')) {
 			if ($this->SubmitDeleteUser($oUser)) {
-				$this->Message_AddNotice('Ok', '', true);
+				$this->Message_AddNotice($this->Lang('notices.users.content_deleted'), '', true);
 				return Router::Location(Router::GetPath('admin'));
 			}
 		}
@@ -1237,6 +1237,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 * вернуть ответ
 		 */
 		$this->Viewer_AssignAjax('aData', $aResult['return_value']);
+		$this->Message_AddNotice($this->Lang('notices.user_profile_edit.updated'));
 	}
 
 

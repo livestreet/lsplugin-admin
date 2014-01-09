@@ -140,7 +140,7 @@ jQuery(document).ready(function($) {
 		вопрос при активации элементов интерфейса
 	 */
 	$ ('.js-question').bind ('click.admin', function() {
-		sQ = $ (this).attr ('data-question-title') ? $ (this).attr ('data-question-title') : 'Ok?';
+		var sQ = $ (this).attr ('data-question-title') ? $ (this).attr ('data-question-title') : 'Ok?';
 		if (!confirm (sQ)) return false;
 	});
 

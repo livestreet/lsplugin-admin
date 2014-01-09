@@ -89,7 +89,7 @@ jQuery(document).ready(function($) {
 			if (data.bStateError) {
 				ls.msg.error(data.sMsgTitle, data.sMsg);
 			} else {
-				ls.msg.notice('Ok');
+				ls.msg.notice('', ls.lang.get('plugin.admin.notices.items_per_page.value_changed'));
 			}
 		},
 		complete: function(xhr) {

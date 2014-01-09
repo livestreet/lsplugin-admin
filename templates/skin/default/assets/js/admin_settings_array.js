@@ -182,7 +182,7 @@ jQuery(document).ready(function($) {
 	 */
 	$ (document).on('click.admin', ls.admin_settings_array.selectors.ArrayValues + ' ' + ls.admin_settings_array.selectors.ArrayItemValue + ' .js-remove-previous', function() {
 		ls.admin_settings_array.RemoveArrayItem(this);
-		ls.msg.error('Ok', 'Deleted');
+		//ls.msg.error('Ok', 'Deleted');
 	});
 	
 	/**
@@ -190,7 +190,7 @@ jQuery(document).ready(function($) {
 	 */
 	$ (document).on('click.admin', ls.admin_settings_save.selectors.OneParameterContainer + ' .js-array-add-value', function() {
 		if (ls.admin_settings_array.AddArrayItem(this)) {
-			ls.msg.notice('Ok', 'Added');
+			//ls.msg.notice('Ok', 'Added');
 		}
 		return false;
 	});

@@ -156,7 +156,7 @@ jQuery(document).ready(function($) {
 						ls.msg.error('', ls.lang.get('plugin.admin.errors.some_fields_are_incorrect'));
 						return ;
 					}
-					ls.msg.notice('Ok');
+					ls.msg.notice(data.sMsgTitle, data.sMsg);
 				}
 			},
 			complete: function(xhr) {

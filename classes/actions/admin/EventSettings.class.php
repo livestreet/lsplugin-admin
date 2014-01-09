@@ -65,7 +65,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 
 
 	/**
-	 * Сохранить настройки (запрос может быть выполнен обычным способом так и через аякс, в зависимости от настройки соответствующего параметра в конфиге плагина)
+	 * Сохранить настройки (запрос может быть выполнен обычным способом так и через аякс, в зависимости от настройки соответствующего параметра в конфиге админки)
 	 *
 	 * @return mixed
 	 */
@@ -87,10 +87,13 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 			 */
 			$bResult = $this->SaveSettings();
 			/*
-			 * если успешно и это обычный запрос - написать "ок"
+			 * если успешно
 			 */
-			if ($bResult and !$bAjax) {
-				$this->Message_AddNotice('Ok', '', true);
+			if ($bResult) {
+				/*
+				 * вывести сообщение для аякса сразу, иначе - отложить сообщение в сессию
+				 */
+				$this->Message_AddNotice($this->Lang('notices.settings.saved'), '', !$bAjax);
 			}
 			/*
 			 * если это аякс - загрузить весь набор ошибок для показа на форме

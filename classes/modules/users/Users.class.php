@@ -727,6 +727,10 @@ class PluginAdmin_ModuleUsers extends Module {
 	protected function BanUserPermanently($oUser) {
 		$oEnt = Engine::GetEntity('PluginAdmin_Users_Ban');
 		/*
+		 * тип ограничения
+		 */
+		$oEnt->setRestrictionType(self::BAN_RESTRICTION_TYPE_FULL);
+		/*
 		 * тип блокировки
 		 */
 		$oEnt->setBlockType(PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_USER_ID);

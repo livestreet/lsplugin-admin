@@ -60,6 +60,12 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('plugin.admin.title'));
 		$this->InitMenu();
+		/*
+		 * добавить нужные текстовки
+		 */
+		$this->Lang_AddLangJs(array(
+			'plugin.admin.notices.items_per_page.value_changed'
+		));
 		$this->Hook_Run('init_action_admin');
 	}
 
