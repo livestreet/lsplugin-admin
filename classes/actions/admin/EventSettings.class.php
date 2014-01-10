@@ -27,6 +27,37 @@
 
 class PluginAdmin_ActionAdmin_EventSettings extends Event {
 
+
+	public function EventTopicTypeList() {
+		$aTopicTypeItems=$this->Topic_GetTopicTypeItems();
+		$this->Viewer_Assign('aTopicTypeItems',$aTopicTypeItems);
+
+		$this->SetTemplateAction('settings/topic/type.list');
+	}
+
+	public function EventTopicTypeCreate() {
+		$this->SetTemplateAction('settings/topic/type.create');
+
+		if (getRequest('type_create_submit')) {
+			$this->Security_ValidateSendForm();
+			$oType=Engine::GetEntity('ModuleTopic_EntityTopicType');
+			$oType->_setDataSafe(getRequest('type'));
+			$oType->setAllowRemove(1);
+			$oType->setState(ModuleTopic::TOPIC_TYPE_STATE_ACTIVE);
+			$oType->setDateCreate(date("Y-m-d H:i:s"));
+			if ($oType->_Validate()) {
+				if ($this->Topic_AddTopicType($oType)) {
+					$this->Message_AddNotice('Добавление прошло успешно',$this->Lang_Get('attention'),true);
+					Router::Location(Router::GetPath('admin/settings/topic-type'));
+				} else {
+					$this->Message_AddError('Возникла ошибка при добавлении',$this->Lang_Get('error'));
+				}
+			} else {
+				$this->Message_AddError($oType->_getValidateError(),$this->Lang_Get('error'));
+			}
+		}
+	}
+
 	/**
 	 * Показать настройки плагина
 	 *

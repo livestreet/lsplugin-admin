@@ -300,6 +300,11 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 * Сохранить настройки (плагина или движка)
 		 */
 		$this->AddEventPreg('#^settings$#iu', '#^save$#iu', 'Settings::EventSaveConfig');
+		/*
+		 * Настройки типов топиков
+		 */
+		$this->AddEventPreg('#^settings$#iu', '#^topic-type$#iu', '#^$#iu', 'Settings::EventTopicTypeList');
+		$this->AddEventPreg('#^settings$#iu', '#^topic-type$#iu', '#^create$#iu', 'Settings::EventTopicTypeCreate');
 
 		/*
 		 *
@@ -397,6 +402,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			->AddSection(
 				Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Настройки')->SetName('settings')->SetUrl('settings')
 				
+				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Типы топиков')->SetUrl('topic-type'))
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Внешний вид сайта')->SetUrl('view'))
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Интерфейс')->SetUrl('interface'))
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Системные')->SetUrl('system'))
