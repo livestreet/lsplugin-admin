@@ -20,7 +20,9 @@
  */
 
 /*
- *	От этого класса должны быть унаследованы все екшены плагинов, которые нужно интегрировать в админку
+ *
+ * От этого класса должны быть унаследованы все екшены плагинов, которые нужно интегрировать в админку
+ *
  */
 
 abstract class PluginAdmin_ActionPlugin extends ActionPlugin {
@@ -32,10 +34,10 @@ abstract class PluginAdmin_ActionPlugin extends ActionPlugin {
 			if (preg_match('/^Plugin([\w]+)_Action([\w]+)$/i',$sAction,$aMatches)) {
 				$sTemplatePath = 'actions/Action'.ucfirst($aMatches[2]).'/'.$sTemplate.'.tpl';
 
-				$sPath=Plugin::GetPath($sAction);
+				$sPath = Plugin::GetPath($sAction);
 				$aSkins=array('admin_default','default',Config::Get('view.skin'));
 				foreach($aSkins as $sSkin) {
-					$sTpl=$sPath.'templates/skin/'.$sSkin.'/'.$sTemplatePath;
+					$sTpl = $sPath.'templates/skin/'.$sSkin.'/'.$sTemplatePath;
 					if (is_file($sTpl)) {
 						$sActionTemplatePath = $sTpl;
 						break(2);
@@ -44,7 +46,7 @@ abstract class PluginAdmin_ActionPlugin extends ActionPlugin {
 			}
 		}
 		$this->Viewer_Assign('sAdminTemplateInclude',$sActionTemplatePath);
-		$this->sActionTemplate = Plugin::GetPath('admin').'templates/skin/default/actions/ActionAdmin/plugin.tpl';
+		$this->sActionTemplate = Plugin::GetPath('admin') . 'templates/skin/default/actions/ActionAdmin/embed_plugin/plugin.tpl';
 	}
 
 
@@ -52,9 +54,11 @@ abstract class PluginAdmin_ActionPlugin extends ActionPlugin {
 		return Router::Action('admin','error',array('404'));
 	}
 
+
 	protected function EventError() {
 		return Router::Action('admin','error');
 	}
+
 }
 
 ?>

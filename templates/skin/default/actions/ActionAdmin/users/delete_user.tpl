@@ -10,7 +10,7 @@
 
 
 {block name='layout_page_title'}
-	{$aLang.plugin.admin.users.deleteuser.title} #{$oUser->getId()} ({$oUser->getLogin()|escape:'html'}, {$oUser->getMail()|escape})
+	{$aLang.plugin.admin.users.deleteuser.title} #{$oUser->getId()} (<span>{$oUser->getLogin()|escape:'html'}</span>, {$oUser->getMail()|escape})
 {/block}
 
 

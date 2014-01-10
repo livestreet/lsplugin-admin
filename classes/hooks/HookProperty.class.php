@@ -21,21 +21,29 @@
 
 class PluginAdmin_HookProperty extends Hook {
 
+
 	public function RegisterHook() {
 		$this->AddHook('init_action_admin', 'InitActionAdmin');
 	}
 	
 	
 	public function InitActionAdmin() {
-		$aTypes = $this->Property_GetTargetTypes();
-		$oMenu = $this->PluginAdmin_Ui_GetMenuMain();
+		/*
+		 * если нет ни одного плагина, который использует дополнительные поля - не выводить соотв. пункт меню
+		 */
+		if (!$aTypes = $this->Property_GetTargetTypes()) {
+			return false;
+		}
 
 		$oSection = Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Дополнительные поля')->SetName('properties')->SetUrl('properties');
 		foreach($aTypes as $sKey => $aParams) {
 			$oSection->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption(isset($aParams['name']) ? $aParams['name'] : $sKey)->SetUrl($sKey));
 		}
+
+		$oMenu = $this->PluginAdmin_Ui_GetMenuMain();
 		$oMenu->AddSection($oSection);
 	}
+
 }
 
 ?>

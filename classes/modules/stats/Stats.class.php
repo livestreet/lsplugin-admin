@@ -453,7 +453,7 @@ class PluginAdmin_ModuleStats extends Module {
 				/*
 				 * неизвестный тип данных
 				 */
-				throw new Exception('admin: error: unknown graph type "' . $sGraphType . '" in ' . __METHOD__);
+				throw new Exception('Admin: error: unknown graph type "' . $sGraphType . '" in ' . __METHOD__);
 		}
 	}
 
@@ -550,7 +550,7 @@ class PluginAdmin_ModuleStats extends Module {
 
 
 	/**
-	 * Получить фильтр для объекта
+	 * Получить фильтр для объекта для построения графиков прироста
 	 *
 	 * @param $sType		тип объектов для получения фильтра
 	 * @return array		фильтр
@@ -558,6 +558,9 @@ class PluginAdmin_ModuleStats extends Module {
 	 */
 	protected function GetGrowthFilterForType($sType) {
 		switch ($sType) {
+			/*
+			 * топики
+			 */
 			case self::DATA_TYPE_TOPICS:
 				return array(
 					'table' => Config::Get('db.table.topic'),
@@ -571,11 +574,15 @@ class PluginAdmin_ModuleStats extends Module {
 					'target_type' => 'topic',
 					'join_table_primary_key' => 'topic_id',
 				);
+			/*
+			 * комментарии
+			 */
 			case self::DATA_TYPE_COMMENTS:
 				return array(
 					'table' => Config::Get('db.table.comment'),
 					'conditions' => array(
 						'comment_publish' => 1,
+						'o.`target_type`' => 'topic',
 					),
 					'period_row_name' => 'comment_date',
 					/*
@@ -584,6 +591,9 @@ class PluginAdmin_ModuleStats extends Module {
 					'target_type' => 'comment',
 					'join_table_primary_key' => 'comment_id',
 				);
+			/*
+			 * блоги
+			 */
 			case self::DATA_TYPE_BLOGS:
 				return array(
 					'table' => Config::Get('db.table.blog'),
@@ -597,6 +607,9 @@ class PluginAdmin_ModuleStats extends Module {
 					'target_type' => 'blog',
 					'join_table_primary_key' => 'blog_id',
 				);
+			/*
+			 * регистрации
+			 */
 			case self::DATA_TYPE_REGISTRATIONS:
 				return array(
 					'table' => Config::Get('db.table.user'),
@@ -610,8 +623,11 @@ class PluginAdmin_ModuleStats extends Module {
 					'target_type' => 'user',
 					'join_table_primary_key' => 'user_id',
 				);
+			/*
+			 * если тип не найден
+			 */
 			default:
-				throw new Exception('admin: error: unknow type in ' . __METHOD__ . ': ' . $sType);
+				throw new Exception('Admin: error: unknow type in ' . __METHOD__ . ': ' . $sType);
 		}
 	}
 

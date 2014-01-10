@@ -60,6 +60,12 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 
 		$this->Viewer_AddHtmlTitle($this->Lang_Get('plugin.admin.title'));
 		$this->InitMenu();
+		/*
+		 * добавить нужные текстовки
+		 */
+		$this->Lang_AddLangJs(array(
+			'plugin.admin.notices.items_per_page.value_changed'
+		));
 		$this->Hook_Run('init_action_admin');
 	}
 
@@ -491,7 +497,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		$this->Viewer_Assign('oMenuMain', $this->PluginAdmin_Ui_GetMenuMain());
 		$this->Viewer_Assign('oMenuAddition', $this->PluginAdmin_Ui_GetMenuAddition());
 
-		$this->Viewer_AddBlock('right','blocks/block.nav.tpl', array('plugin'=>'admin'));
+		$this->Viewer_AddBlock('right', 'blocks/block.nav.tpl', array('plugin'=>'admin'));
 
 		if (Router::GetActionEvent() != 'error') {
 			$this->PluginAdmin_Ui_HighlightMenus();

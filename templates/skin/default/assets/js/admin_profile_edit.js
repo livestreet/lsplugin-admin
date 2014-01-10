@@ -73,7 +73,7 @@ ls.admin_profile_edit = (function($) {
 		if (data.bStateError) {
 			ls.msg.error(data.sTitle, data.sMsg);
 		} else {
-			ls.msg.notice('Ok');
+			ls.msg.notice(data.sTitle, data.sMsg);
 		}
 		/*
 			все равно вернуть редактируемое значение, чтобы можно было исправить его и отправить снова

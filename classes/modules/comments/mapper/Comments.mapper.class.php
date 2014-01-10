@@ -21,6 +21,7 @@
 
 class PluginAdmin_ModuleComments_MapperComments extends Mapper {
 
+
 	/**
 	 * Получить статистику по новым комментариям
 	 *
@@ -40,6 +41,8 @@ class PluginAdmin_ModuleComments_MapperComments extends Mapper {
 				`comment_date` >= ?
 				AND
 				`comment_date` <= ?
+				AND
+				`target_type` IN (?a)
 			GROUP BY
 				`date`
 			ORDER BY
@@ -47,7 +50,8 @@ class PluginAdmin_ModuleComments_MapperComments extends Mapper {
 		';
 		if ($aResult = $this->oDb->query($sql,
 			$aPeriods['from'],
-			$aPeriods['to']
+			$aPeriods['to'],
+			array('topic')
 		)) {
 			return $aResult;
 		}

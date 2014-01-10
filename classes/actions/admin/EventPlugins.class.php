@@ -102,7 +102,7 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 		 * выполнить (де)активацию плагина
 		 */
 		if($bResult = $this->Plugin_Toggle($sPlugin, $sAction)) {
-			$this->Message_AddNotice('Ok', '', true);
+			$this->Message_AddNotice($this->Lang('notices.plugins.' . $sAction), '', true);
 		} else {
 			/*
 			 * проверить вывел ли ошибку сам плагин (метод активации класса плагина или движок из-за версии, например) или просто сообщить "ошибка"

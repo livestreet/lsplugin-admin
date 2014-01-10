@@ -5,7 +5,7 @@
 {extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
 
 {block name='layout_page_title'}
-	{$aLang.plugin.admin.plugins.instructions.title} {if $oPlugin}"{$oPlugin->getName()}"{/if}
+	{$aLang.plugin.admin.plugins.instructions.title} {if $oPlugin}"<span>{$oPlugin->getName()}</span>"{/if}
 {/block}
 
 
@@ -15,7 +15,7 @@
 
 
 {block name='layout_content'}
-	{if $oPlugin}
+	{if $oPlugin and !$oPlugin->getActive()}
 		<div class="mb-30">
 			{$aLang.plugin.admin.plugins.instructions.description}
 		</div>

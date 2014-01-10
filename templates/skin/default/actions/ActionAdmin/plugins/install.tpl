@@ -5,7 +5,7 @@
 {extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
 
 {block name='layout_page_title'}
-	{$aLang.plugin.admin.plugins.install.title} {if $aPaging and $aPaging.iCount}({$aPaging.iCount}){/if}
+	{$aLang.plugin.admin.plugins.install.title} {if $aPaging and $aPaging.iCount}<span>({$aPaging.iCount})</span>{/if}
 {/block}
 
 
