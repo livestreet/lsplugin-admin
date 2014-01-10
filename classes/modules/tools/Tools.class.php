@@ -302,7 +302,17 @@ class PluginAdmin_ModuleTools extends Module {
 	public function GetArrayOfEntitiesByAssocArray($aData, $sEntity, $sIndexKey = null) {
 		$aEntities = array();
 		foreach($aData as $aArray) {
-			$aEntities[$sIndexKey ? $aArray[$sIndexKey] : null] = Engine::GetEntity($sEntity, $aArray);
+			if (is_null($sIndexKey)) {
+				/*
+				 * просто добавить
+				 */
+				$aEntities[] = Engine::GetEntity($sEntity, $aArray);
+			} else {
+				/*
+				 * использовать значение из массива в качестве ключа массива
+				 */
+				$aEntities[$aArray[$sIndexKey]] = Engine::GetEntity($sEntity, $aArray);
+			}
 		}
 		return $aEntities;
 	}

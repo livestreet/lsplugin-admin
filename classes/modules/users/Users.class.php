@@ -1126,6 +1126,12 @@ class PluginAdmin_ModuleUsers extends Module {
 	}
 
 
+	/*
+	 *
+	 * --- Статистика стран и городов ---
+	 *
+	 */
+
 	/**
 	 * Получить статистику стран или городов
 	 *
@@ -1138,11 +1144,15 @@ class PluginAdmin_ModuleUsers extends Module {
 		 * кешировать здесь нечего - т.к. выборка идет по всей таблице, а данные пользователей меняются очень часто,
 		 * то смысла в кешировании нет, т.к. кеш будет постоянно сбрасываться, только лишние операции
 		 */
+		$aData = $this->oMapper->GetUsersLivingStats(
+			$this->GetLivingStatsSQLGroupCondition($sLivingSection),
+			$this->GetLivingStatsSQLSortingCondition($sSorting)
+		);
 		return array(
-			'collection' => $this->oMapper->GetUsersLivingStats(
-				$this->GetLivingStatsSQLGroupCondition($sLivingSection),
-				$this->GetLivingStatsSQLSortingCondition($sSorting)
-			)
+			/*
+			 * дополнить объектами
+			 */
+			'collection' => $this->GetLivingStatsObjects($aData, $sLivingSection)
 		);
 	}
 
@@ -1180,6 +1190,60 @@ class PluginAdmin_ModuleUsers extends Module {
 		return array('field' => 'count', 'way' => 'DESC');
 	}
 
+
+	/**
+	 * Получить объекты статистики проживаний за один запрос
+	 *
+	 * @param $aData			данные полученные при сборе статистики
+	 * @param $sLivingSection	тип отображаемых данных (города или страны)
+	 * @return mixed			дополненные данные
+	 */
+	protected function GetLivingStatsObjects($aData, $sLivingSection) {
+		/*
+		 * получить названия объектов
+		 */
+		$aItemsNames = my_array_column($aData, 'item');
+		/*
+		 * получить имя метода для сбора данных (по странам или городам)
+		 */
+		if ($sLivingSection == 'cities') {
+			$sMethodName = 'Geo_GetCitiesByArrayFilter';
+		} else {
+			$sMethodName = 'Geo_GetCountriesByArrayFilter';
+		}
+		/*
+		 * для отбора по нужному полю в зависимости от языка
+		 */
+		$sTableFieldName = 'name_en';
+		if ($this->Lang_GetLang() == 'ru') {
+			$sTableFieldName = 'name_ru';
+		}
+		/*
+		 * получить объекты по фильтру
+		 */
+		$aItems = $this->{$sMethodName}(array(
+			$sTableFieldName => $aItemsNames,
+			'page' => 1,
+			'per_page' => count($aItemsNames),
+		));
+		/*
+		 * собрать вместе данные
+		 */
+		foreach($aData as $iKey => &$aRow) {
+			/*
+			 * проверка нужна если у пользователя была запись, а данные таблицы гео изменили и их части нет
+			 */
+			$aRow['entity'] = isset($aItems[$iKey]) ? $aItems[$iKey] : null;
+		}
+		return $aData;
+	}
+
+
+	/*
+	 *
+	 * --- Статистика регистраций ---
+	 *
+	 */
 
 	/**
 	 * Получить статистику регистраций пользователей
