@@ -267,32 +267,31 @@
 			<div class="user-info-block-stats-row">
 				<div class="user-info-block-stats-header">{$aLang.plugin.admin.users.profile.info.created}</div>
 				<ul>
-					{* todo: fill hrefs in links or leave just a text? *}
-					<li><a href="#" class="link-border"><span>{$iCountTopicUser} {$aLang.plugin.admin.users.profile.info.topics}</span></a></li>
-					<li><a href="#" class="link-border"><span>{$iCountCommentUser} {$aLang.plugin.admin.users.profile.info.comments}</span></a></li>
-					<li><a href="#" class="link-border"><span>{$iCountBlogsUser} {$aLang.plugin.admin.users.profile.info.blogs}</span></a></li>
+					<li><a href="{$oUser->getUserWebPath()}created/topics/" class="link-border"><span>{$iCountTopicUser} {$aLang.plugin.admin.users.profile.info.topics}</span></a></li>
+					<li><a href="{$oUser->getUserWebPath()}created/comments/" class="link-border"><span>{$iCountCommentUser} {$aLang.plugin.admin.users.profile.info.comments}</span></a></li>
+					<li><span>{$iCountBlogsUser} {$aLang.plugin.admin.users.profile.info.blogs}</span></li>
 				</ul>
 			</div>
 
 			<div class="user-info-block-stats-row">
 				<div class="user-info-block-stats-header">{$aLang.plugin.admin.users.profile.info.fav}</div>
 				<ul>
-					<li><a href="#" class="link-border"><span>{$iCountTopicFavourite} {$aLang.plugin.admin.users.profile.info.topics}</span></a></li>
-					<li><a href="#" class="link-border"><span>{$iCountCommentFavourite} {$aLang.plugin.admin.users.profile.info.comments}</span></a></li>
+					<li><a href="{$oUser->getUserWebPath()}favourites/topics/" class="link-border"><span>{$iCountTopicFavourite} {$aLang.plugin.admin.users.profile.info.topics}</span></a></li>
+					<li><a href="{$oUser->getUserWebPath()}favourites/comments/" class="link-border"><span>{$iCountCommentFavourite} {$aLang.plugin.admin.users.profile.info.comments}</span></a></li>
 				</ul>
 			</div>
 
 			<div class="user-info-block-stats-row">
 				<div class="user-info-block-stats-header">{$aLang.plugin.admin.users.profile.info.reads}</div>
 				<ul>
-					<li><a href="#" class="link-border"><span>{$iCountBlogReads} {$aLang.plugin.admin.users.profile.info.blogs}</span></a></li>
+					<li><span>{$iCountBlogReads} {$aLang.plugin.admin.users.profile.info.blogs}</span></li>
 				</ul>
 			</div>
 
 			<div class="user-info-block-stats-row">
 				<div class="user-info-block-stats-header">{$aLang.plugin.admin.users.profile.info.has}</div>
 				<ul>
-					<li><a href="#" class="link-border"><span>{$iCountFriendsUser} {$aLang.plugin.admin.users.profile.info.friends}</span></a></li>
+					<li><a href="{$oUser->getUserWebPath()}friends/" class="link-border"><span>{$iCountFriendsUser} {$aLang.plugin.admin.users.profile.info.friends}</span></a></li>
 				</ul>
 			</div>
 		</div>
