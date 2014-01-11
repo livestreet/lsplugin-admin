@@ -605,28 +605,6 @@ return array(
 					'name' => 'Разрешать или нет не заполнять теги',
 					'description' => '',
 				),
-				'photoset' => array(
-					'photo_max_size' => array(
-						'name' => 'максимально допустимый размер фото, Kb',
-						'description' => '',
-					),
-					'count_photos_min' => array(
-						'name' => 'минимальное количество фоток',
-						'description' => '',
-					),
-					'count_photos_max' => array(
-						'name' => 'максимальное количество фоток',
-						'description' => '',
-					),
-					'per_page' => array(
-						'name' => 'число фоток для одновременной загрузки',
-						'description' => '',
-					),
-					'size' => array(
-						'name' => '',
-						'description' => '',
-					),
-				),
 			),
 			'user' => array(
 				'per_page' => array(
@@ -869,12 +847,6 @@ return array(
 					'round_corner' => array(
 						'name' => '',
 						'description' => '',
-					),
-				),
-				'photoset' => array(
-					'jpg_quality' => array(
-						'name' => 'настройка модуля Image, качество обработки фото',
-						'description' => 'Настройка топика-фотосета',
 					),
 				),
 			),
@@ -1254,10 +1226,6 @@ return array(
 					'description' => '',
 				),
 				'stream' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'photoset' => array(
 					'name' => '',
 					'description' => '',
 				),

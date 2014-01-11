@@ -36,4 +36,3 @@ class PluginAdmin_BlockPropertyUpdate extends Block {
 		$this->Viewer_Assign('aProperties',$aProperties);
 	}
 }
-?>

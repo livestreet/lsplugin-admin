@@ -1826,66 +1826,6 @@ return array(
 			),
 		),
 	),
-	'module.image.photoset.jpg_quality' => array(
-		'type' => 'integer',
-		'name' => 'config_parameters.module.image.photoset.jpg_quality.name',
-		'description' => 'config_parameters.module.image.photoset.jpg_quality.description',
-		'validator' => array(
-			'type' => 'Number',
-			'params' => array(
-			),
-		),
-	),
-	'module.topic.photoset.photo_max_size' => array(
-		'type' => 'integer',
-		'name' => 'config_parameters.module.topic.photoset.photo_max_size.name',
-		'description' => 'config_parameters.module.topic.photoset.photo_max_size.description',
-		'validator' => array(
-			'type' => 'Number',
-			'params' => array(
-			),
-		),
-	),
-	'module.topic.photoset.count_photos_min' => array(
-		'type' => 'integer',
-		'name' => 'config_parameters.module.topic.photoset.count_photos_min.name',
-		'description' => 'config_parameters.module.topic.photoset.count_photos_min.description',
-		'validator' => array(
-			'type' => 'Number',
-			'params' => array(
-			),
-		),
-	),
-	'module.topic.photoset.count_photos_max' => array(
-		'type' => 'integer',
-		'name' => 'config_parameters.module.topic.photoset.count_photos_max.name',
-		'description' => 'config_parameters.module.topic.photoset.count_photos_max.description',
-		'validator' => array(
-			'type' => 'Number',
-			'params' => array(
-			),
-		),
-	),
-	'module.topic.photoset.per_page' => array(
-		'type' => 'integer',
-		'name' => 'config_parameters.module.topic.photoset.per_page.name',
-		'description' => 'config_parameters.module.topic.photoset.per_page.description',
-		'validator' => array(
-			'type' => 'Number',
-			'params' => array(
-			),
-		),
-	),
-	'module.topic.photoset.size' => array(
-		'type' => 'array',
-		'name' => 'config_parameters.module.topic.photoset.size.name',
-		'description' => 'config_parameters.module.topic.photoset.size.description',
-		'validator' => array(
-			'type' => 'Array',
-			'params' => array(
-			),
-		),
-	),
 	'module.autoLoad' => array(
 		'type' => 'array',
 		'name' => 'config_parameters.module.autoLoad.name',
