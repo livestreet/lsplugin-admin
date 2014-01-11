@@ -66,13 +66,21 @@
 			*}
 			{foreach $aNormalViewLivingStats as $aDataItem}
 				{$iPercentage = number_format($aDataItem.count * 100 / $iTotal, 2, '.', '')}
+				{$oEnt = $aDataItem.entity}
 
 				<tr>
 					<td class="chart-bar-h-label" title="{$aDataItem.count} {$aLang.plugin.admin.users_stats.users}">
 						{*
 							название страны или города
 						*}
-						{$aDataItem.item}
+						{if $oEnt}
+							<a href="{router page='people'}{$oEnt->getType()}/{$oEnt->getId()}/"
+							   target="_blank"
+							   {* получить код страны для вывода флагов, например *}
+							   class="{$oEnt->getType()} {if $oEnt->getType()=='country'}{$oEnt->getCode()}{/if}">{$oEnt->getName()|escape:'html'}</a>
+						{else}
+							{$aDataItem.item}
+						{/if}
 					</td>
 					
 					<td class="chart-bar-h-count">

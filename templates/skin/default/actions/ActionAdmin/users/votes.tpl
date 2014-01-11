@@ -89,7 +89,7 @@
 						<td>
 							<a href="{$oVote->getTargetFullUrl()}"
 							   target="_blank"
-							   title="{$oVote->getTargetTitle()|escape:'html'}">{$oVote->getTargetTitle()|truncate:100:'...'}</a>
+							   title="{$oVote->getTargetTitle()|escape:'html'}">{$oVote->getTargetTitle()|escape:'html'|truncate:100:'...'}</a>
 						</td>
 					</tr>
 				{/foreach}

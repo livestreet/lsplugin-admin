@@ -1101,18 +1101,18 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	/**
 	 * Получить статистику по проживанию пользователей
 	 */
-	protected function GetLivingStats () {
+	protected function GetLivingStats() {
 		/*
 		 * если не указано показывать статистику по городам - показать по странам
 		 */
-		if (!$sLivingSection = $this->GetDataFromFilter ('living_section') or $sLivingSection != 'cities') {
+		if (!$sLivingSection = $this->GetDataFromFilter('living_section') or $sLivingSection != 'cities') {
 			$sLivingSection = 'countries';
 		}
 
 		/*
 		 * тип сортировки места жительства
 		 */
-		if (!$sSorting = $this->GetDataFromFilter ('living_sorting') or $sSorting != 'alphabetic') {
+		if (!$sSorting = $this->GetDataFromFilter('living_sorting') or $sSorting != 'alphabetic') {
 			$sSorting = 'top';
 		}
 		
@@ -1120,7 +1120,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 			/*
 			 * получить статистику стран или городов
 			 */
-			'aLivingStats' => $this->PluginAdmin_Users_GetUsersLivingStats ($sLivingSection, $sSorting),
+			'aLivingStats' => $this->PluginAdmin_Users_GetUsersLivingStats($sLivingSection, $sSorting),
 			/*
 			 * тип текущего отображения: страны или города
 			 */

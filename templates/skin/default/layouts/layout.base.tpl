@@ -195,13 +195,13 @@
 						{block name='layout_footer_begin'}{/block}
 
 						<ul>
-							<li>&copy; 2008-2013 LiveStreet CMS</li>
+							<li>&copy; 2008-{date("Y")} LiveStreet CMS</li>
 						</ul>
 
 						<ul>
-							<li><a href="#" class="link-border"><span>Каталог расширений</a></span></li>
-							<li><a href="#" class="link-border"><span>Сообщество</a></span></li>
-							<li><a href="#" class="link-border"><span>Работа</a></span></li>
+							<li><a href="https://catalog.livestreetcms.com/" class="link-border" target="_blank"><span>Каталог расширений</a></span></li>
+							<li><a href="http://livestreet.ru/" class="link-border" target="_blank"><span>Сообщество</a></span></li>
+							<li><a href="http://job.livestreetcms.com/" class="link-border" target="_blank"><span>Работа</a></span></li>
 						</ul>
 
 						<ul class="footer-right">

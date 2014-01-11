@@ -81,6 +81,16 @@ class PluginAdmin extends Plugin {
 			 * для реализации механизма read only банов для движка
 			 */
 			'ModuleACL',
+			/*
+			 * для дополнения методов, нужных для статистики пользователей
+			 */
+			'ModuleGeo',
+		),
+		'mapper' => array(
+			/*
+			 * для дополнения методов, нужных для статистики пользователей
+			 */
+			'ModuleGeo_MapperGeo',
 		),
 		'entity' => array(
 			/*

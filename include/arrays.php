@@ -63,4 +63,42 @@ function array_replace_recursive_distinct() {
 	return $aOriginal;
 }
 
+
+/**
+ * Получить из массива ассоциативных массивов значения по указанному имени столбца
+ * tip: аналог array_column из пхп 5.5
+ *
+ * @param $aArray				массив ассоциативных массивов
+ * @param $mColumnKeyName		ключ ассоциативного подмассива для получения значения
+ * @param $mIndexKeyName		ключ ассоциативного подмассива для получения значения, которое будет использовано в качестве ключа для получаемого значения
+ * @return array				массив значений из указанного столбца
+ */
+function my_array_column($aArray, $mColumnKeyName, $mIndexKeyName = null) {
+	$aData = array();
+	foreach($aArray as $aRow) {
+		/*
+		 * есть ли значение
+		 */
+		if (!isset($aRow[$mColumnKeyName])) {
+			continue;
+		}
+		$mValue = $aRow[$mColumnKeyName];
+		/*
+		 * если имя ключа ассоциативного массива указано и это значение существует
+		 */
+		if (!is_null($mIndexKeyName) and isset($aRow[$mIndexKeyName])) {
+			/*
+			 * добавить нужное значение с указанием ключа как значения другого ключа ассоциативного массива
+			 */
+			$aData[$aRow[$mIndexKeyName]] = $mValue;
+		} else {
+			/*
+			 * просто добавить значение
+			 */
+			$aData[] = $mValue;
+		}
+	}
+	return $aData;
+}
+
 ?>
