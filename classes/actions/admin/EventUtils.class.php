@@ -29,101 +29,58 @@ class PluginAdmin_ActionAdmin_EventUtils extends Event {
 
 	/*
 	 *
-	 * --- Проверка таблиц ---
+	 * --- Проверка и восстановление ---
 	 *
 	 */
 
 	/**
-	 * Показать список действий очистки таблиц от поврежденных связей
-	 *
-	 * @return mixed
+	 * Показать список действий для утилит раздела проверки и восстановления
 	 */
-	public function EventCheckTables() {
-		$this->SetTemplateAction('utils/tables');
+	public function EventCheckAndRepair() {
+		$this->SetTemplateAction('utils/check_n_repair');
 
 		/*
 		 * если нужно выполнить действие
 		 */
 		if ($sActionType = $this->GetParam(1)) {
 			$this->Security_ValidateSendForm();
-			$this->ProcessTablesAction($sActionType);
+			$this->ProcessCheckAndRepairAction($sActionType);
 		}
 	}
 
 
 	/**
-	 * Выполнить нужное действие очистки с таблицами
+	 * Выполнить нужное действие для утилит раздела проверки и восстановления
 	 *
 	 * @param $sActionType	тип действия
 	 * @return bool
 	 */
-	protected function ProcessTablesAction($sActionType) {
+	protected function ProcessCheckAndRepairAction($sActionType) {
 		switch ($sActionType) {
 			case 'repaircomments':
 				/*
-				 * Очистить таблицу комментариев и все связанные с ней от поврежденных записей комментариев
+				 * Очистить таблицу комментариев и все связанные с ней данные от поврежденных записей комментариев
 				 */
 				$this->PluginAdmin_Deletecontent_PerformRepairCommentsStructure();
-				$this->Message_AddNotice($this->Lang('notices.utils.tables.checking_comments_done'), '', true);
+				$this->Message_AddNotice($this->Lang('notices.utils.check_n_repair.tables.checking_comments_done'), '', true);
 				break;
 			case 'cleanstream':
 				/*
 				 * Очистка активности (стрима) от ссылок на записи, которых больше нет
 				 */
 				$this->PluginAdmin_Deletecontent_PerformCleanStreamEventsRecords();
-				$this->Message_AddNotice($this->Lang('notices.utils.tables.checking_stream_done'), '', true);
+				$this->Message_AddNotice($this->Lang('notices.utils.check_n_repair.tables.checking_stream_done'), '', true);
 				break;
-			default:
-				$this->Message_AddError($this->Lang('errors.utils.unknown_tables_clean_action'));
-				return false;
-		}
-		$this->RedirectToReferer();
-	}
-
-
-	/*
-	 *
-	 * --- Проверка файлов ---
-	 *
-	 */
-
-	/**
-	 * Показать список действий проверки файлов
-	 *
-	 * @return mixed
-	 */
-	public function EventCheckFiles() {
-		$this->SetTemplateAction('utils/files');
-
-		/*
-		 * если нужно выполнить действие
-		 */
-		if ($sActionType = $this->GetParam(1)) {
-			$this->Security_ValidateSendForm();
-			$this->ProcessFilesAction($sActionType);
-		}
-	}
-
-
-	/**
-	 * Выполнить нужное действие проверки файлов
-	 *
-	 * @param $sActionType	тип действия
-	 * @return bool
-	 */
-	protected function ProcessFilesAction($sActionType) {
-		switch ($sActionType) {
 			case 'checkencoding':
 				/*
-				 * проверить кодировку файлов
+				 * Проверить корректность кодировки файлов
 				 */
 				if ($this->PluginAdmin_Tools_CheckFilesOfPluginsAndEngineHaveCorrectEncoding()) {
-					$this->Message_AddNotice($this->Lang('notices.utils.files.checking_encoding_done'), '', true);
+					$this->Message_AddNotice($this->Lang('notices.utils.check_n_repair.files.checking_encoding_done'), '', true);
 				}
 				break;
 			default:
-				$this->Message_AddError($this->Lang('errors.utils.unknown_files_action'));
-				return false;
+				$this->Message_AddError($this->Lang('errors.utils.unknown_check_n_repair_action'), $this->Lang_Get('error'), true);
 		}
 		$this->RedirectToReferer();
 	}
@@ -131,46 +88,43 @@ class PluginAdmin_ActionAdmin_EventUtils extends Event {
 
 	/*
 	 *
-	 * --- Сброс данных ---
+	 * --- Сброс и очистка ---
 	 *
 	 */
 
 	/**
-	 * Показать список действий для сброса данных
-	 *
-	 * @return mixed
+	 * Показать список действий для утилит раздела сброса и очистки
 	 */
-	public function EventDataReset() {
-		$this->SetTemplateAction('utils/datareset');
+	public function EventResetAndClear() {
+		$this->SetTemplateAction('utils/reset_n_clear');
 
 		/*
 		 * если нужно выполнить действие
 		 */
 		if ($sActionType = $this->GetParam(1)) {
 			$this->Security_ValidateSendForm();
-			$this->ProcessDataResetAction($sActionType);
+			$this->ProcessResetAndClearAction($sActionType);
 		}
 	}
 
 
 	/**
-	 * Выполнить нужное действие сброса данных
+	 * Выполнить нужное действие для утилит раздела сброса и очистки
 	 *
 	 * @param $sActionType	тип действия
 	 * @return bool
 	 */
-	protected function ProcessDataResetAction($sActionType) {
+	protected function ProcessResetAndClearAction($sActionType) {
 		switch ($sActionType) {
 			case 'resetallbansstats':
 				/*
-				 * сбросить статистику срабатываний банов
+				 * Сбросить статистику срабатываний банов
 				 */
 				$this->PluginAdmin_Users_DeleteAllBansStats();
-				$this->Message_AddNotice($this->Lang('notices.utils.datareset.bans_stats_cleared'), '', true);
+				$this->Message_AddNotice($this->Lang('notices.utils.reset_n_clear.datareset.bans_stats_cleared'), '', true);
 				break;
 			default:
-				$this->Message_AddError($this->Lang('errors.utils.unknown_datareset_action'));
-				return false;
+				$this->Message_AddError($this->Lang('errors.utils.unknown_reset_n_clear_action'), $this->Lang_Get('error'), true);
 		}
 		$this->RedirectToReferer();
 	}

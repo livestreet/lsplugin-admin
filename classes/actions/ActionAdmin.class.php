@@ -337,17 +337,13 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 *
 		 */
 		/*
-		 * Проверка таблиц БД
+		 * Проверка и восстановление
 		 */
-		$this->AddEventPreg('#^utils$#iu', '#^tables$#iu', 'Utils::EventCheckTables');
+		$this->AddEventPreg('#^utils$#iu', '#^check_n_repair$#iu', 'Utils::EventCheckAndRepair');
 		/*
-		 * Проверка файлов на корректность их кодировки
+		 * Сброс и очистка
 		 */
-		$this->AddEventPreg('#^utils$#iu', '#^files$#iu', 'Utils::EventCheckFiles');
-		/*
-		 * Сброс данных
-		 */
-		$this->AddEventPreg('#^utils$#iu', '#^datareset$#iu', 'Utils::EventDataReset');
+		$this->AddEventPreg('#^utils$#iu', '#^reset_n_clear$#iu', 'Utils::EventResetAndClear');
 
 		/*
 		 *
@@ -433,9 +429,8 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			->AddSection(
 				Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Утилиты')->SetName('utils')->SetUrl('utils')
 
-				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Проверка таблиц')->SetUrl('tables'))
-				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Проверка файлов')->SetUrl('files'))
-				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Сброс данных')->SetUrl('datareset'))
+				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Проверка и восстановление')->SetUrl('check_n_repair'))
+				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Сброс и очистка')->SetUrl('reset_n_clear'))
 			)	// /AddSection
 		;
 	}
