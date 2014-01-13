@@ -19,16 +19,14 @@
  * 
  */
 
-
 /*
- *	Хранилище "ключ=значение"
+ * Хранилище "ключ => значение"
  *
- *	Позволяет легко и быстро работать с небольшими объемами данных,
- *	CRUD операции с которыми теперь занимают всего одну строку кода.
+ * Позволяет легко и быстро работать с небольшими объемами данных, CRUD операции с которыми теперь занимают всего одну строку кода.
  *
- *	Например:
- *		$this->Storage_Set('keyname', 'some_mixed_value', $this);	// сохранить 'some_mixed_value' под имененем 'keyname' для вашего плагина
- *		$this->Storage_Get('keyname', $this);						// получить данные по ключу 'keyname' для вашего плагина
+ * Например:
+ * 		$this->Storage_Set('keyname', 'some_mixed_value', $this);	// сохранить 'some_mixed_value' под имененем 'keyname' для вашего плагина
+ * 		$this->Storage_Get('keyname', $this);						// получить данные по ключу 'keyname' для вашего плагина
  *
  */
 
@@ -42,7 +40,7 @@ class ModuleStorage extends Module {
 	const DEFAULT_INSTANCE = 'default';
 	
 	/*
-	 * Префикс полей для кеша
+	 * Префикс ключей для кеша
 	 */
 	const CACHE_FIELD_DATA_PREFIX = 'storage_field_data_';
 	
@@ -64,6 +62,14 @@ class ModuleStorage extends Module {
 
 
 	public function Init() {
+		$this->Setup();
+	}
+
+
+	/**
+	 * Настройка
+	 */
+	protected function Setup() {
 		$this->oMapperStorage = Engine::GetMapper(__CLASS__);
 	}
 
@@ -72,7 +78,7 @@ class ModuleStorage extends Module {
 	 *
 	 * --- Низкоуровневые обертки для работы с БД ---
 	 *
-	 * Для highload проектов эти обертки можно будет переопределить через плагин чтобы подключить не РСУБД хранилища, такие, например, как Redis
+	 * tip: для highload проектов эти обертки можно переопределить через плагин чтобы подключить не РСУБД хранилища, такие как, например, Redis
 	 *
 	 */
 
@@ -85,13 +91,19 @@ class ModuleStorage extends Module {
 	 * @return mixed
 	 */
 	protected function SetFieldOne($sKey, $sValue, $sInstance = self::DEFAULT_INSTANCE) {
+		/*
+		 * низкоуровневая обработка данных происходит только со строковыми значениями
+		 */
 		$sKey = (string) $sKey;
 		$sValue = (string) $sValue;
 		$sInstance = (string) $sInstance;
-		
-		$sCacheKey = self::CACHE_FIELD_DATA_PREFIX . $sKey . '_' . $sInstance;
-		$this->Cache_Delete($sCacheKey);
-		
+		/*
+		 * сбросить кеш по тегу
+		 */
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array('storage_field_data'));
+		/*
+		 * добавить запись в хранилище для ключа
+		 */
 		return $this->oMapperStorage->SetData($sKey, $sValue, $sInstance);
 	}
 
@@ -106,19 +118,32 @@ class ModuleStorage extends Module {
 	protected function GetFieldOne($sKey, $sInstance = self::DEFAULT_INSTANCE) {
 		$sKey = (string) $sKey;
 		$sInstance = (string) $sInstance;
-		
+		/*
+		 * построить ключ для кеша
+		 */
 		$sCacheKey = self::CACHE_FIELD_DATA_PREFIX . $sKey . '_' . $sInstance;
+		/*
+		 * есть ли такие данные в кеше
+		 */
 		if (($mData = $this->Cache_Get($sCacheKey)) === false) {
-			$sFilter = $this->oMapperStorage->BuildFilter(array(
+			/*
+			 * построить строку части WHERE запроса
+			 */
+			$sWhere = $this->oMapperStorage->BuildFilter(array(
 				'key' => $sKey,
 				'instance' => $sInstance
 			));
 			$mData = null;
-			$aResult = $this->oMapperStorage->GetData($sFilter, 1, 1);
-			
+			/*
+			 * получить данные
+			 */
+			$aResult = $this->oMapperStorage->GetData($sWhere, 1, 1);
+			/*
+			 * есть ли данные
+			 */
 			if ($aResult['count'] != 0) {
 				$mData = $aResult['collection']['value'];
-				$this->Cache_Set($mData, $sCacheKey, array('storage_field_data'), 60 * 60 * 24 * 365);	// 1 year
+				$this->Cache_Set($mData, $sCacheKey, array('storage_field_data'), 60 * 60 * 24 * 365);	// 1 год
 			}
 		}
 		return $mData;
@@ -135,16 +160,21 @@ class ModuleStorage extends Module {
 	protected function DeleteFieldOne($sKey, $sInstance = self::DEFAULT_INSTANCE) {
 		$sKey = (string) $sKey;
 		$sInstance = (string) $sInstance;
-		
-		$sCacheKey = self::CACHE_FIELD_DATA_PREFIX . $sKey . '_' . $sInstance;
-		$this->Cache_Delete($sCacheKey);
-		
-		$sFilter = $this->oMapperStorage->BuildFilter(array(
+		/*
+		 * сбросить кеш по тегу
+		 */
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array('storage_field_data'));
+		/*
+		 * построить строку части WHERE запроса
+		 */
+		$sWhere = $this->oMapperStorage->BuildFilter(array(
 			'key' => $sKey,
 			'instance' => $sInstance
 		));
-		
-		return $this->oMapperStorage->DeleteData($sFilter, 1);
+		/*
+		 * удалить данные
+		 */
+		return $this->oMapperStorage->DeleteData($sWhere, 1);
 	}
 
 
@@ -156,14 +186,25 @@ class ModuleStorage extends Module {
 	 */
 	protected function GetFieldsAll($sInstance = self::DEFAULT_INSTANCE) {
 		$sInstance = (string) $sInstance;
-		
+		/*
+		 * построить ключ для кеша
+		 */
 		$sCacheKey = self::CACHE_FIELD_DATA_PREFIX . '_fields_all_' . $sInstance;
+		/*
+		 * есть ли такие данные в кеше
+		 */
 		if (($mData = $this->Cache_Get($sCacheKey)) === false) {
-			$sFilter = $this->oMapperStorage->BuildFilter(array(
+			/*
+			 * построить строку части WHERE запроса
+			 */
+			$sWhere = $this->oMapperStorage->BuildFilter(array(
 				'instance' => $sInstance
 			));
-			$mData = $this->oMapperStorage->GetData($sFilter);
-			$this->Cache_Set($mData, $sCacheKey, array('storage_field_data'), 60 * 60 * 24 * 365);	// 1 year
+			/*
+			 * получить данные
+			 */
+			$mData = $this->oMapperStorage->GetData($sWhere);
+			$this->Cache_Set($mData, $sCacheKey, array('storage_field_data'), 60 * 60 * 24 * 365);	// 1 год
 		}
 		return $mData;
 	}
@@ -270,7 +311,6 @@ class ModuleStorage extends Module {
 		if (isset($this->aSessionCache[$sInstance][$sKey])) {
 			return $this->aSessionCache[$sInstance][$sKey];
 		}
-		
 		/*
 		 * Если есть запись для ключа и она не повреждена и корректна
 		 */
@@ -295,18 +335,18 @@ class ModuleStorage extends Module {
 		 * Подготовить значение перед сохранением
 		 */
 		$mValueChecked = $this->PrepareParamValueBeforeSaving($mValue);
-
 		/*
 		 * Объеденить с остальными параметрами ключа
 		 */
 		$aParamsContainer = $this->GetParamsAll($sKey, $sInstance);
 		$aParamsContainer[$sParamName] = $mValueChecked;
-		
 		/*
 		 * Сохранить в кеше сессии оригинальное значение
 		 */
 		$this->aSessionCache[$sInstance][$sKey][$sParamName] = $mValue;
-		
+		/*
+		 * записать упакованные данные в строку
+		 */
 		return $this->SetFieldOne($sKey, $this->PackValue($aParamsContainer), $sInstance);
 	}
 
@@ -326,7 +366,9 @@ class ModuleStorage extends Module {
 		if (isset($this->aSessionCache[$sInstance][$sKey][$sParamName])) {
 			return $this->aSessionCache[$sInstance][$sKey][$sParamName];
 		}
-		
+		/*
+		 * Получить одно значение
+		 */
 		if ($aFieldData = $this->GetParamsAll($sKey, $sInstance) and isset($aFieldData[$sParamName])) {
 			return $aFieldData[$sParamName];
 		}
@@ -347,9 +389,14 @@ class ModuleStorage extends Module {
 		 * Удалить значение из кеша сессии
 		 */
 		unset($this->aSessionCache[$sInstance][$sKey][$sParamName]);
-		
+		/*
+		 * Удалить параметр
+		 */
 		$aParamsContainer = $this->GetParamsAll($sKey, $sInstance);
 		unset($aParamsContainer[$sParamName]);
+		/*
+		 * записать упакованные данные в строку
+		 */
 		return $this->SetFieldOne($sKey, $this->PackValue($aParamsContainer), $sInstance);
 	}
 
@@ -380,7 +427,7 @@ class ModuleStorage extends Module {
 	 */
 	protected function SetSmartParam($sKey, $sParamName, $mValue, $sInstance = self::DEFAULT_INSTANCE) {
 		/*
-		 * trick: В первый запрос все данные будут загружены в сессионное хранилище и при повторном вызове они не будут затираться
+		 * tip: В первый запрос все данные будут загружены в сессионное хранилище и при повторном вызове они не будут затираться
 		 */
 		$this->GetParamsAll($sKey, $sInstance);
 		/*
@@ -399,7 +446,7 @@ class ModuleStorage extends Module {
 	 */
 	protected function RemoveSmartParam($sKey, $sParamName, $sInstance = self::DEFAULT_INSTANCE) {
 		/*
-		 * trick: В первый запрос все данные будут загружены в сессионное хранилище и при повторном вызове они не будут затираться
+		 * tip: В первый запрос все данные будут загружены в сессионное хранилище и при повторном вызове они не будут затираться
 		 */
 		$this->GetParamsAll($sKey, $sInstance);
 		/*
@@ -436,13 +483,11 @@ class ModuleStorage extends Module {
 	}
 	
 	
-	
 	/*
 	 *
 	 * --- Хелперы ---
 	 *
 	 */
-
 
 	/**
 	 * Получить имя ключа из текущего, вызывающего метод, контекста
@@ -473,18 +518,16 @@ class ModuleStorage extends Module {
 	 */
 	protected function CheckCaller($oCaller) {
 		if (!is_object($oCaller)) {
-			throw new Exception('Storage: caller is not correct. Always use "$this"');
+			throw new Exception('Storage: caller is not correct. Always use "$this" for caller value');
 		}
 	}
-	
-	
+
 	
 	/*
 	 *
 	 * --- Конечные методы для использования в движке и плагинах ---
 	 *
 	 */
-
 
 	/**
 	 * Установить значение
@@ -555,13 +598,11 @@ class ModuleStorage extends Module {
 	}
 
 
-
 	/*
 	 *
 	 * --- Работа с параметрами только на момент сессии ---
 	 *
 	 */
-
 
 	/**
 	 * Сохранить значение параметра на время сессии (без записи в хранилище)
@@ -613,6 +654,7 @@ class ModuleStorage extends Module {
 		$sCallerName = $this->GetKeyForCaller($oCaller);
 		$this->ResetSessionCache($sCallerName, $sInstance);
 	}
+
 
 }
 
