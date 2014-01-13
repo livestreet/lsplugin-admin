@@ -6,7 +6,11 @@
 
 
 {block name='layout_page_title'}
-	Создание нового типа топика
+	{if $oTopicType}
+    	Редактирование типа топика: {$oTopicType->getName()}
+	{else}
+		Создание нового типа топика
+	{/if}
 {/block}
 
 {block name='layout_content_actionbar'}
@@ -35,10 +39,17 @@
 			sFieldValue = $_aRequest.type.code
 			sFieldLabel = 'Уникальный код/идентификатор'}
 
+		{* Активность *}
+		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.checkbox.tpl"
+			sFieldName  = 'type[active]'
+			bFieldChecked = $_aRequest.type.active
+			sFieldLabel = 'Активный'}
+
 		{* Кнопки *}
 		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.button.tpl"
-			sFieldName  = 'type_create_submit'
+			sFieldName  = 'type_submit'
 			sFieldText  = $aLang.plugin.admin.add
+			sFieldText  = {($oTopicType) ? $aLang.plugin.admin.edit : $aLang.plugin.admin.add }
 			sFieldValue = '1'
 			sFieldStyle = 'primary'}
 	</form>

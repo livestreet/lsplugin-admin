@@ -14,22 +14,34 @@
 {/block}
 
 {block name='layout_content'}
-	<table class="table">
+	<script type="text/javascript">
+		jQuery(function($){
+            ls.admin_topic.initTableType();
+		});
+	</script>
+	<table class="table" id="type-list">
+        <thead>
 		<tr>
 			<th>Название</th>
 			<th>Идентификатор</th>
 			<th>Состояние</th>
 			<th>Действие</th>
 		</tr>
+        </thead>
+		<tbody>
 		{foreach $aTopicTypeItems as $oTopicTypeItem}
-            <tr>
+            <tr data-type-id="{$oTopicTypeItem->getId()}">
                 <td>{$oTopicTypeItem->getName()}</td>
                 <td>{$oTopicTypeItem->getCode()}</td>
                 <td>{$oTopicTypeItem->getStateText()}</td>
                 <td>
-
+                    <a href="{router page="admin/settings/topic-type/update"}{$oTopicTypeItem->getId()}/" class="icon-edit" title="{$aLang.plugin.admin.edit}"></a>
+                    {if $oTopicTypeItem->getAllowRemove()}
+						<a href="{router page="admin/settings/topic-type/remove"}{$oTopicTypeItem->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}" class="icon-remove" title="{$aLang.plugin.admin.delete}"></a>
+					{/if}
                 </td>
             </tr>
 		{/foreach}
+        </tbody>
 	</table>
 {/block}

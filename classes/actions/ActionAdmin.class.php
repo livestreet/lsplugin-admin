@@ -311,6 +311,9 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 */
 		$this->AddEventPreg('#^settings$#iu', '#^topic-type$#iu', '#^$#iu', 'Settings::EventTopicTypeList');
 		$this->AddEventPreg('#^settings$#iu', '#^topic-type$#iu', '#^create$#iu', 'Settings::EventTopicTypeCreate');
+		$this->AddEventPreg('#^settings$#iu', '#^topic-type$#iu', '#^update$#iu', '#^\d{1,6}$#iu', 'Settings::EventTopicTypeUpdate');
+		$this->AddEventPreg('#^settings$#iu', '#^topic-type$#iu', '#^remove$#iu', '#^\d{1,6}$#iu', 'Settings::EventTopicTypeRemove');
+		$this->AddEventPreg('#^settings$#iu', '#^topic-type$#iu', '#^ajax-sort$#iu', 'Settings::EventTopicTypeAjaxSort');
 
 		/*
 		 *
@@ -662,6 +665,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$sPluginTemplatePath . '/js/nav.main.js',
 			$sPluginTemplatePath . '/js/more.js',
 			$sPluginTemplatePath . '/js/property.js',
+			$sPluginTemplatePath . '/js/topic.js',
 
 			/*
 			 * 3rd party vendor
