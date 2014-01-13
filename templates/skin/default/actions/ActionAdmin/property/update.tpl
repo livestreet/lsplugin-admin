@@ -43,6 +43,12 @@
 				 sFieldValue = $oProperty->getTitle()
 				 sFieldLabel = 'Название'}
 
+		{* Название *}
+		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
+			sFieldName  = 'property[description]'
+			sFieldValue = $oProperty->getDescription()
+			sFieldLabel = 'Краткое описание'}
+
 		{* Код *}
 		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
 				 sFieldName  = 'property[code]'

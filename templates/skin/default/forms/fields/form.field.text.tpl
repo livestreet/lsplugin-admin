@@ -8,7 +8,7 @@
 	<input type="{if $sFieldType}{$sFieldType}{else}text{/if}"
 		   id="{if $sFieldId}{$sFieldId}{else}{$sFieldName}{/if}" 
 		   name="{$sFieldName}" 
-		   value="{if isset($sFieldValue)}{$sFieldValue|escape:'html'}{elseif isset($_aRequest[$sFieldName])}{$_aRequest[$sFieldName]}{/if}"
+		   value="{if isset($sFieldValue)}{$sFieldValue}{elseif isset($_aRequest[$sFieldName])}{$_aRequest[$sFieldName]}{/if}"
 		   class="{if $sFieldClasses}{$sFieldClasses}{else}width-full{/if} js-input-{$sFieldName}"
 		   {if $sFieldPlaceholder}placeholder="{$sFieldPlaceholder}"{/if}
            {foreach $aFieldRules as $sRule}data-{$sRule}{/foreach}
