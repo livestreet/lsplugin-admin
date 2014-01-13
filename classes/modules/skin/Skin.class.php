@@ -172,7 +172,6 @@ class PluginAdmin_ModuleSkin extends Module {
 	}
 	
 
-
 	/**
 	 * Получает список шаблонов
 	 *
@@ -243,7 +242,6 @@ class PluginAdmin_ModuleSkin extends Module {
 	 * --- Управление шаблонами ---
 	 *
 	 */
-
 
 	/**
 	 * Проверяет зависимости шаблонов (версия движка и необходимые активированные плагины)
@@ -415,7 +413,6 @@ class PluginAdmin_ModuleSkin extends Module {
 	 * --- Темы шаблона ---
 	 *
 	 */
-
 
 	/**
 	 * Установить тему шаблона
