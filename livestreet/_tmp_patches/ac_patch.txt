@@ -1,5 +1,30 @@
+/**
+* LiveStreet CMS
+* Copyright © 2013 OOO "ЛС-СОФТ"
+*
+* ------------------------------------------------------
+*
+* Official site: www.livestreetcms.com
+* Contact e-mail: office@livestreetcms.com
+*
+* GNU General Public License, version 2:
+* http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+*
+* ------------------------------------------------------
+*
+* @link http://www.livestreetcms.com
+* @copyright 2013 OOO "ЛС-СОФТ"
+* @author Serge Pustovit (PSNet) <light.feel@gmail.com>
+*
+*/
 
-// Состряпано очень быстро и не вкрай не аккуратно
+/*
+	патч для админки Admin Config, которая умеет парсить конфиги, нужен чтобы пересоздать схему конфига под новую версию лс
+
+	НЕ РЕДАКТИРОВАТЬ
+*/
+
+// Состряпано очень быстро и не аккуратно
 
 // in LoadPluginConfig() , 244
 

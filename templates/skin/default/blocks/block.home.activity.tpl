@@ -41,5 +41,10 @@
 {/block}
 
 {block name='block_footer'}
-	<button class="button width-full" id="activity-get-more">{$aLang.stream_get_more}</button>
+	{*
+		если для всей активности (которая включена по-умолчанию) нет данных - убрать кнопку
+	*}
+	{if count($aStreamEvents)}
+		<button class="button width-full" id="activity-get-more">{$aLang.stream_get_more}</button>
+	{/if}
 {/block}

@@ -11,5 +11,7 @@
 		<input type="hidden" id="activity-last-id" value="{$iStreamLastId}" />
 	{/if}
 {else}
-	{$aLang.stream_no_events}
+	<div class="mt-10">
+		{$aLang.stream_no_events}
+	</div>
 {/if}
