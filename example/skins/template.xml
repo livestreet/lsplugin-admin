@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin>
+	<name>
+		<lang name="ru">Имя шаблона</lang>
+		<lang name="default">Template Name</lang>
+	</name>
+	<author>
+		<lang name="ru">Команда разработчиков LiveStreet CMS</lang>
+		<lang name="default">LiveStreet Developers Team</lang>
+	</author>
+	<homepage>http://livestreet.ru</homepage>
+	<version>1.0</version>
+	<requires>
+		<livestreet>2.0.*</livestreet>
+		<plugins>
+			<item>
+				plugin1
+			</item>
+			<item>
+				plugin2
+			</item>
+		</plugins>
+	</requires>
+	<description>
+		<lang name="ru">Описание шаблона для LiveStreet CMS</lang>
+		<lang name="default">Description about template for LiveStreet CMS</lang>
+	</description>
+	<themes>
+		<item>
+			<value>theme1</value>
+			<description>
+				<lang name="ru">тема № 1</lang>
+				<lang name="default">theme #1</lang>
+			</description>
+		</item>
+		<item>
+			<value>theme2</value>
+			<description>
+				<lang name="ru">тема № 2</lang>
+				<lang name="default">theme #2</lang>
+			</description>
+		</item>
+	</themes>
+</skin>
