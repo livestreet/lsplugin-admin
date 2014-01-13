@@ -37,7 +37,7 @@ class PluginAdmin_HookProperty extends Hook {
 
 		$oSection = Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Дополнительные поля')->SetName('properties')->SetUrl('properties');
 		foreach($aTypes as $sKey => $aParams) {
-			$oSection->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption(isset($aParams['name']) ? $aParams['name'] : $sKey)->SetUrl($sKey));
+			$oSection->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption(isset($aParams['name']) ? htmlspecialchars_decode($aParams['name']) : $sKey)->SetUrl($sKey));
 		}
 
 		$oMenu = $this->PluginAdmin_Ui_GetMenuMain();
