@@ -27,103 +27,6 @@
 
 class PluginAdmin_ActionAdmin_EventSettings extends Event {
 
-	public function EventTopicTypeAjaxSort() {
-		$this->Viewer_SetResponseAjax('json');
-
-		$aData=getRequest('data');
-		if (is_array($aData)) {
-			foreach($aData as $aItem) {
-				if (isset($aItem['id']) and isset($aItem['sort'])) {
-					if ($oTopicType=$this->Topic_GetTopicTypeById($aItem['id'])) {
-						$oTopicType->setSort((int)$aItem['sort']);
-						$this->Topic_UpdateTopicType($oTopicType);
-					}
-				}
-			}
-			$this->Message_AddNotice('Сортировка сохранена');
-		}
-	}
-
-	public function EventTopicTypeList() {
-		$aTopicTypeItems=$this->Topic_GetTopicTypeItems();
-		$this->Viewer_Assign('aTopicTypeItems',$aTopicTypeItems);
-
-		$this->SetTemplateAction('settings/topic/type.list');
-	}
-
-	public function EventTopicTypeCreate() {
-		$this->SetTemplateAction('settings/topic/type.create');
-
-		if (getRequest('type_submit')) {
-			$this->Security_ValidateSendForm();
-			$oType=Engine::GetEntity('ModuleTopic_EntityTopicType');
-			$oType->_setDataSafe(getRequest('type'));
-			$oType->setAllowRemove(1);
-			$oType->setState(isset($_REQUEST['type']['active']) ? ModuleTopic::TOPIC_TYPE_STATE_ACTIVE : ModuleTopic::TOPIC_TYPE_STATE_NOT_ACTIVE);
-			$oType->setDateCreate(date("Y-m-d H:i:s"));
-			if ($oType->_Validate()) {
-				if ($this->Topic_AddTopicType($oType)) {
-					$this->Message_AddNotice('Добавление прошло успешно',$this->Lang_Get('attention'),true);
-					Router::Location(Router::GetPath('admin/settings/topic-type'));
-				} else {
-					$this->Message_AddError('Возникла ошибка при добавлении',$this->Lang_Get('error'));
-				}
-			} else {
-				$this->Message_AddError($oType->_getValidateError(),$this->Lang_Get('error'));
-			}
-		}
-	}
-
-	public function EventTopicTypeUpdate() {
-		if (!($oType=$this->Topic_GetTopicTypeById($this->GetParam(2)))) {
-			return parent::EventNotFound();
-		}
-		$this->Viewer_Assign('oTopicType',$oType);
-		$this->SetTemplateAction('settings/topic/type.create');
-
-		if (getRequest('type_submit')) {
-			$this->Security_ValidateSendForm();
-			$sTypeOld=$oType->getPropertyTargetType();
-			$sCodeOld=$oType->getCode();
-
-			$oType->_setDataSafe(getRequest('type'));
-			$oType->setState(isset($_REQUEST['type']['active']) ? ModuleTopic::TOPIC_TYPE_STATE_ACTIVE : ModuleTopic::TOPIC_TYPE_STATE_NOT_ACTIVE);
-			if ($oType->_Validate()) {
-				if ($this->Topic_UpdateTopicType($oType)) {
-					if ($sTypeOld!=$oType->getPropertyTargetType()) {
-						/**
-						 * Меняем тип у дополнительных полей
-						 */
-						$this->Property_ChangeTargetType($sTypeOld,$oType->getPropertyTargetType());
-						/**
-						 * Меняем тип у топиков
-						 */
-						$this->Topic_UpdateTopicByType($sCodeOld,$oType->getCode());
-					}
-					$this->Message_AddNotice('Обновление прошло успешно',$this->Lang_Get('attention'),true);
-					Router::Location(Router::GetPath('admin/settings/topic-type'));
-				} else {
-					$this->Message_AddError('Возникла ошибка при обновлении',$this->Lang_Get('error'));
-				}
-			} else {
-				$this->Message_AddError($oType->_getValidateError(),$this->Lang_Get('error'));
-			}
-		} else {
-			$_REQUEST['type']['name']=htmlspecialchars_decode($oType->getName());
-			$_REQUEST['type']['name_many']=htmlspecialchars_decode($oType->getNameMany());
-			$_REQUEST['type']['code']=$oType->getCode();
-			$_REQUEST['type']['active']=$oType->getState()==ModuleTopic::TOPIC_TYPE_STATE_ACTIVE ? true : false;
-		}
-	}
-
-	public function EventTopicTypeRemove() {
-		$this->Security_ValidateSendForm();
-		/**
-		 * TODO: Сделать удаление типов топиков - удалять топики?
-		 */
-		return parent::EventNotFound();
-	}
-
 	/**
 	 * Показать настройки плагина
 	 *
@@ -327,6 +230,117 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 		 */
 		return parent::__call($sName, $aArgs);
 	}
+
+
+	/*
+	 *
+	 * --- Типы топиков ---
+	 *
+	 */
+
+	public function EventTopicTypeAjaxSort() {
+		$this->Viewer_SetResponseAjax('json');
+
+		$aData = getRequest('data');
+		if (is_array($aData)) {
+			foreach ($aData as $aItem) {
+				if (isset($aItem['id']) and isset($aItem['sort'])) {
+					if ($oTopicType = $this->Topic_GetTopicTypeById($aItem['id'])) {
+						$oTopicType->setSort((int) $aItem['sort']);
+						$this->Topic_UpdateTopicType($oTopicType);
+					}
+				}
+			}
+			$this->Message_AddNotice('Сортировка сохранена');	// todo: add lang
+		}
+	}
+
+
+	public function EventTopicTypeList() {
+		$aTopicTypeItems = $this->Topic_GetTopicTypeItems();
+		$this->Viewer_Assign('aTopicTypeItems', $aTopicTypeItems);
+
+		$this->SetTemplateAction('settings/topic/type.list');
+	}
+
+
+	public function EventTopicTypeCreate() {
+		$this->SetTemplateAction('settings/topic/type.create');
+
+		if (getRequest('type_submit')) {
+			$this->Security_ValidateSendForm();
+			$oType = Engine::GetEntity('ModuleTopic_EntityTopicType');
+			$oType->_setDataSafe(getRequest('type'));
+			$oType->setAllowRemove(1);
+			$oType->setState(isset($_REQUEST['type']['active']) ? ModuleTopic::TOPIC_TYPE_STATE_ACTIVE : ModuleTopic::TOPIC_TYPE_STATE_NOT_ACTIVE);
+			$oType->setDateCreate(date("Y-m-d H:i:s"));
+			if ($oType->_Validate()) {
+				if ($this->Topic_AddTopicType($oType)) {
+					$this->Message_AddNotice('Добавление прошло успешно', $this->Lang_Get('attention'), true);// todo: add lang
+					Router::Location(Router::GetPath('admin/settings/topic-type'));
+				} else {
+					$this->Message_AddError('Возникла ошибка при добавлении', $this->Lang_Get('error'));// todo: add lang
+				}
+			} else {
+				$this->Message_AddError($oType->_getValidateError(), $this->Lang_Get('error'));
+			}
+		}
+	}
+
+
+	public function EventTopicTypeUpdate() {
+		if (!($oType = $this->Topic_GetTopicTypeById($this->GetParam(2)))) {
+			return parent::EventNotFound();
+		}
+		$this->Viewer_Assign('oTopicType', $oType);
+		$this->SetTemplateAction('settings/topic/type.create');
+
+		if (getRequest('type_submit')) {
+			$this->Security_ValidateSendForm();
+			$sTypeOld = $oType->getPropertyTargetType();
+			$sCodeOld = $oType->getCode();
+
+			$oType->_setDataSafe(getRequest('type'));
+			$oType->setState(isset($_REQUEST['type']['active']) ? ModuleTopic::TOPIC_TYPE_STATE_ACTIVE : ModuleTopic::TOPIC_TYPE_STATE_NOT_ACTIVE);
+			if ($oType->_Validate()) {
+				if ($this->Topic_UpdateTopicType($oType)) {
+					if ($sTypeOld != $oType->getPropertyTargetType()) {
+						/**
+						 * Меняем тип у дополнительных полей
+						 */
+						$this->Property_ChangeTargetType($sTypeOld, $oType->getPropertyTargetType());
+						/**
+						 * Меняем тип у топиков
+						 */
+						$this->Topic_UpdateTopicByType($sCodeOld, $oType->getCode());
+					}
+					$this->Message_AddNotice('Обновление прошло успешно', $this->Lang_Get('attention'), true);// todo: add lang
+					Router::Location(Router::GetPath('admin/settings/topic-type'));
+				} else {
+					$this->Message_AddError('Возникла ошибка при обновлении', $this->Lang_Get('error'));// todo: add lang
+				}
+			} else {
+				$this->Message_AddError($oType->_getValidateError(), $this->Lang_Get('error'));
+			}
+		} else {
+			$_REQUEST['type']['name'] = htmlspecialchars_decode($oType->getName());
+			$_REQUEST['type']['name_many'] = htmlspecialchars_decode($oType->getNameMany());
+			$_REQUEST['type']['code'] = $oType->getCode();
+			$_REQUEST['type']['active'] = $oType->getState() == ModuleTopic::TOPIC_TYPE_STATE_ACTIVE ? true : false;
+		}
+	}
+
+
+	public function EventTopicTypeRemove() {
+		$this->Security_ValidateSendForm();
+
+		/**
+		 * TODO: Сделать удаление типов топиков - удалять топики?
+		 */
+
+		return parent::EventNotFound();
+	}
+
 
 }
 

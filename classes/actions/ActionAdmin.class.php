@@ -358,7 +358,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		/*
 		 * для каждой группы настроек добавим виртуальный эвент и будем ловить их через __call()
 		 * чтобы не плодить полупустых методов, так компактнее и удобнее.
-		 * todo: нужно что-то ещё с меню придумать чтобы полностью автоматизировать процесс создания групп
+		 * todo: нужно что-то ещё с меню придумать чтобы полностью автоматизировать процесс создания групп.
 		 * пока в меню нужно прописывать вручную пункты групп
 		 */
 		foreach(array_keys(Config::Get('plugin.admin.core_config_groups')) as $sKey) {
@@ -515,17 +515,17 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 
 
 	public function EventError() {
-		$aHttpErrors=array(
+		$aHttpErrors = array(
 			'404' => array(
 				'header' => '404 Not Found',
 			),
 		);
-		$iNumber=$this->GetParam(0);
-		if (array_key_exists($iNumber,$aHttpErrors)) {
-			$this->Message_AddErrorSingle($this->Lang_Get('system_error_'.$iNumber),$iNumber);
-			$aHttpError=$aHttpErrors[$iNumber];
+		$iNumber = $this->GetParam(0);
+		if (array_key_exists($iNumber, $aHttpErrors)) {
+			$this->Message_AddErrorSingle($this->Lang_Get('system_error_'.$iNumber), $iNumber);
+			$aHttpError = $aHttpErrors[$iNumber];
 			if (isset($aHttpError['header'])) {
-				$sProtocol=isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
+				$sProtocol = isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
 				header("{$sProtocol} {$aHttpError['header']}");
 			}
 		}
@@ -650,7 +650,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			/*
 			 * for managing user note
 			 */
-			//Config::Get('path.application.web') . '/frontend/common/js/usernote.js',	// todo: review
+			//Config::Get('path.application.web') . '/frontend/common/js/usernote.js',	// todo: когда отремонтирует Денис показ заметок на девелопере - тогда заработает в и профиле
 
 			/*
 			 * скрипты плагина
