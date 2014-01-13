@@ -109,8 +109,8 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 				$this->Message_AddError($oType->_getValidateError(),$this->Lang_Get('error'));
 			}
 		} else {
-			$_REQUEST['type']['name']=$oType->getName();
-			$_REQUEST['type']['name_many']=$oType->getNameMany();
+			$_REQUEST['type']['name']=htmlspecialchars_decode($oType->getName());
+			$_REQUEST['type']['name_many']=htmlspecialchars_decode($oType->getNameMany());
 			$_REQUEST['type']['code']=$oType->getCode();
 			$_REQUEST['type']['active']=$oType->getState()==ModuleTopic::TOPIC_TYPE_STATE_ACTIVE ? true : false;
 		}
