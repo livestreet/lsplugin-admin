@@ -16,9 +16,23 @@
 
 {block name='layout_content'}
 	{if $aPropertyItems}
-		<table class="table">
+		<script type="text/javascript">
+			jQuery(function($){
+				ls.admin_property.initTableProperty();
+			});
+		</script>
+		<table class="table" id="property-list">
+            <thead>
+            <tr>
+                <th>Название</th>
+                <th>Идентификатор</th>
+                <th>Тип</th>
+                <th>Действие</th>
+            </tr>
+            </thead>
+            <tbody>
 			{foreach $aPropertyItems as $oPropertyItem}
-				<tr>
+				<tr data-id="{$oPropertyItem->getId()}">
 					<td>{$oPropertyItem->getTitle()}</td>
 					<td>{$oPropertyItem->getCode()}</td>
 					<td>{$oPropertyItem->getType()}</td>
@@ -28,6 +42,7 @@
 					</td>
 				</tr>
 			{/foreach}
+            </tbody>
 		</table>
 	{else}
 		{include file="{$aTemplatePathPlugin.admin}alert.tpl" sAlertStyle='info' mAlerts='Нет дополнительных полей'}

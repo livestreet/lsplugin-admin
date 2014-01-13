@@ -37,5 +37,37 @@ ls.admin_property = ( function ($) {
 		return false;
 	};
 
+	this.initTableProperty = function() {
+		var fixHelper = function(e, ui) {
+			ui.children().each(function() {
+				$(this).width($(this).width());
+			});
+			return ui;
+		};
+
+		$('#property-list tbody').sortable({
+			helper: fixHelper,
+			stop: this.stopTableTypeSort
+		}).disableSelection();
+	};
+
+	this.stopTableTypeSort = function(e,ui) {
+		var items=$('#property-list tbody tr');
+		var data=[];
+		items.each(function(k,v){
+			data.push({ id: $(v).data('id'), sort: items.length-k });
+		});
+		console.log(data);
+		if (data.length) {
+			ls.ajax.load(aRouter.admin+'ajax/properties/sort-save/', { data: data }, function(result) {
+				if (result.bStateError) {
+					ls.msg.error(null, result.sMsg);
+				} else {
+					ls.msg.notice(null, result.sMsg);
+				}
+			});
+		}
+	};
+
 	return this;
 }).call(ls.admin_property || {},jQuery);

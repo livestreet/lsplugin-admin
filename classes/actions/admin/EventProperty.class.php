@@ -25,6 +25,23 @@
 
 class PluginAdmin_ActionAdmin_EventProperty extends Event {
 
+	public function EventAjaxSortSave() {
+		$this->Viewer_SetResponseAjax('json');
+
+		$aData=getRequest('data');
+		if (is_array($aData)) {
+			foreach($aData as $aItem) {
+				if (isset($aItem['id']) and isset($aItem['sort'])) {
+					if ($oProperty=$this->Property_GetPropertyById($aItem['id'])) {
+						$oProperty->setSort((int)$aItem['sort']);
+						$oProperty->Update();
+					}
+				}
+			}
+			$this->Message_AddNotice('Сортировка сохранена');
+		}
+	}
+
 	public function EventPropertiesTarget() {
 		$sTargetType=$this->GetParam(0);
 		if (!$this->Property_IsAllowTargetType($sTargetType)) {

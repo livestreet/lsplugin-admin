@@ -48,13 +48,6 @@
 				 sFieldName  = 'property[code]'
 				 sFieldValue = $oProperty->getCode()
 				 sFieldLabel = 'Код'}
-
-		{* Сортировка *}
-		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
-				 sFieldName    = 'property[sort]'
-				 sFieldClasses = 'width-100'
-				 sFieldValue   = $oProperty->getSort()
-				 sFieldLabel   = 'Сортировка'}
 		
 		{* Правила валидации *}
 		<h3 class="page-sub-header mt-30">Правила валидации</h3>
