@@ -44,7 +44,7 @@
 	{*
 		если для всей активности (которая включена по-умолчанию) нет данных - убрать кнопку
 	*}
-	{if count($aStreamEvents)}
+	{if count($aStreamEvents) and !$bDisableGetMoreButton}
 		<button class="button width-full" id="activity-get-more">{$aLang.stream_get_more}</button>
 	{/if}
 {/block}
