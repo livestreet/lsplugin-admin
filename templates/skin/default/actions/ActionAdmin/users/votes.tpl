@@ -1,11 +1,11 @@
 {**
- * Голосования
+ * Голоса пользователя
  *}
 
 {extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
 
 {block name='layout_page_title'}
-	{$aLang.plugin.admin.users.votes.title} {$aLang.plugin.admin.users.votes.votes_type.$sVotingTargetType}
+	{$aLang.plugin.admin.users.votes.title} <span>{$aLang.plugin.admin.users.votes.votes_type.$sVotingTargetType}</span>
 {/block}
 
 {block name='layout_content_actionbar'}
@@ -33,31 +33,31 @@
 		<table class="table">
 			<thead>
 				<tr>
-					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
+					{include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
 						sCellClassName='targetid'
 						mSortingOrder='target_id'
 						mLinkHtml=$aLang.plugin.admin.users.votes.table_header.target_id
 						sBaseUrl="{router page="admin/users/votes/{$oUser->getId()}"}"
 					}
-					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
+					{include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
 						sCellClassName='vote_direction'
 						mSortingOrder='vote_direction'
 						mLinkHtml=$aLang.plugin.admin.users.votes.table_header.vote_direction
 						sBaseUrl="{router page="admin/users/votes/{$oUser->getId()}"}"
 					}
-					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
+					{include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
 						sCellClassName='vote_value'
 						mSortingOrder='vote_value'
 						mLinkHtml=$aLang.plugin.admin.users.votes.table_header.vote_value
 						sBaseUrl="{router page="admin/users/votes/{$oUser->getId()}"}"
 					}
-					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
+					{include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
 						sCellClassName='vote_date'
 						mSortingOrder='vote_date'
 						mLinkHtml=$aLang.plugin.admin.users.votes.table_header.vote_date
 						sBaseUrl="{router page="admin/users/votes/{$oUser->getId()}"}"
 					}
-					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
+					{include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
 						sCellClassName='vote_ip'
 						mSortingOrder='vote_ip'
 						mLinkHtml=$aLang.plugin.admin.users.votes.table_header.vote_ip

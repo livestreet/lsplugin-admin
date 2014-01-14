@@ -19,6 +19,12 @@
  * 
  */
 
+/*
+ *
+ * Работа с пользователями
+ *
+ */
+
 class PluginAdmin_ActionAdmin_EventUsers extends Event {
 
 	/*
@@ -71,11 +77,11 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * получить правила (фильтр для поиска)
 		 */
-		$aSearchRules = $aValidatedSearchRules ['filter_queries'];
+		$aSearchRules = $aValidatedSearchRules['filter_queries'];
 		/*
 		 * получить правила только с оригинальными тектовыми запросами
 		 */
-		$aSearchRulesWithOriginalQueries = $aValidatedSearchRules ['filter_queries_with_original_values'];
+		$aSearchRulesWithOriginalQueries = $aValidatedSearchRules['filter_queries_with_original_values'];
 
 		/*
 		 * получение пользователей

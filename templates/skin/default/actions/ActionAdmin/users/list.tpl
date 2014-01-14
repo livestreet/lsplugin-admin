@@ -38,7 +38,7 @@
 
 
 {block name='layout_page_title'}
-	{$aLang.plugin.admin.users.title} <span>{$iUsersTotalCount}</span>
+	{$aLang.plugin.admin.users.title} <span>({$iUsersTotalCount})</span>
 {/block}
 
 
@@ -49,7 +49,7 @@
 				<th class="cell-check">
 					<input type="checkbox" class="js-check-all" data-checkboxes-class="js-user-list-item" />
 				</th>
-				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
+				{include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
 					sCellClassName='user'
 					mSortingOrder=array('u.user_id', 'u.user_login', 'u.user_profile_name', 'u.user_mail')
 					mLinkHtml=array(
@@ -61,27 +61,27 @@
 					sDropDownHtml=$aLang.plugin.admin.users.table_header.name
 					sBaseUrl=$sFullPagePathToEvent
 				}
-				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
+				{include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
 					sCellClassName='birth'
 					mSortingOrder='u.user_profile_birthday'
 					mLinkHtml=$aLang.plugin.admin.users.table_header.birth
 					sBaseUrl=$sFullPagePathToEvent
 				}
-				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
+				{include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
 					sCellClassName='signup'
 					mSortingOrder=array('u.user_date_register', 's.session_date_last')
 					mLinkHtml=array($aLang.plugin.admin.users.table_header.reg, $aLang.plugin.admin.users.table_header.last_visit)
 					sDropDownHtml=$aLang.plugin.admin.users.table_header.reg_and_last_visit
 					sBaseUrl=$sFullPagePathToEvent
 				}
-				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
+				{include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
 					sCellClassName='ip'
 					mSortingOrder=array('u.user_ip_register', 's.session_ip_last')
 					mLinkHtml=array($aLang.plugin.admin.users.table_header.user_ip_register, $aLang.plugin.admin.users.table_header.session_ip_last)
 					sDropDownHtml=$aLang.plugin.admin.users.table_header.ip
 					sBaseUrl=$sFullPagePathToEvent
 				}
-				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
+				{include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
 					sCellClassName='rating'
 					mSortingOrder=array('u.user_rating', 'u.user_skill')
 					mLinkHtml=array($aLang.plugin.admin.users.table_header.user_rating, $aLang.plugin.admin.users.table_header.user_skill)
@@ -178,7 +178,7 @@
 						<div class="dropdown-circle js-dropdown" data-dropdown-target="dropdown-user-menu-{$oUser->getId()}"></div>
 
 						<ul class="dropdown-menu" id="dropdown-user-menu-{$oUser->getId()}">
-							{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/user.actions.tpl"}
+							{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/user_actions.tpl"}
 						</ul>
 
 						<p class="user-rating {if $oUser->getRating() < 0}user-rating-negative{/if}" title="{$aLang.plugin.admin.users.table_header.user_rating}">

@@ -13,7 +13,7 @@
 	<div class="fl-r">
 		{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/bans_controls.tpl"}
 	</div>
-	{$aLang.plugin.admin.bans.view.title} #{$oBan->getId()}
+	{$aLang.plugin.admin.bans.view.title} <span>#{$oBan->getId()}</span>
 {/block}
 
 

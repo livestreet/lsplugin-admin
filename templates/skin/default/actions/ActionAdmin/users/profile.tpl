@@ -13,7 +13,7 @@
 	<ul>
 		<li><a href="#"><i class="icon-white icon-pencil"></i></a></li>
 
-		{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/user.actions.tpl"}
+		{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/user_actions.tpl"}
 
 		<li class="fl-r"><a href="#"><i class="icon-white icon-chevron-right"></i></a></li>
 		<li class="fl-r"><a href="#"><i class="icon-white icon-chevron-left"></i></a></li>

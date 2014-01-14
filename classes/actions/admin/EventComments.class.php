@@ -19,6 +19,12 @@
  * 
  */
 
+/*
+ *
+ * Работа с комментариями
+ *
+ */
+
 class PluginAdmin_ActionAdmin_EventComments extends Event {
 
 	/**

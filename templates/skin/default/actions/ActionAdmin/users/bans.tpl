@@ -6,7 +6,7 @@
 
 
 {block name='layout_page_title'}
-	{$aLang.plugin.admin.bans.title} <span>{$iBansTotalCount}</span>
+	{$aLang.plugin.admin.bans.title} <span>({$iBansTotalCount})</span>
 {/block}
 
 
@@ -67,7 +67,7 @@
 					{*
 						правило бана
 					*}
-					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
+					{include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
 						sCellClassName='block_rule'
 						mSortingOrder=array('block_type', 'user_id', 'ip', 'ip_start', 'ip_finish', 'add_date', 'edit_date')
 						mLinkHtml=array(
@@ -86,7 +86,7 @@
 					{*
 						тип ограничения пользования сайтом бана
 					*}
-					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
+					{include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
 						sCellClassName='restriction_type'
 						mSortingOrder='restriction_type'
 						mLinkHtml=$aLang.plugin.admin.bans.table_header.restriction_type
@@ -96,7 +96,7 @@
 					{*
 						тип временного интервала для бана
 					*}
-					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
+					{include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
 						sCellClassName='time_type'
 						mSortingOrder='time_type'
 						mLinkHtml=$aLang.plugin.admin.bans.table_header.time_type
@@ -105,13 +105,13 @@
 					{*
 						даты начала и конца
 					*}
-					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
+					{include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
 						sCellClassName='date_start'
 						mSortingOrder='date_start'
 						mLinkHtml=$aLang.plugin.admin.bans.table_header.date_start
 						sBaseUrl=$sFullPagePathToEvent
 					}
-					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
+					{include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
 						sCellClassName='date_finish'
 						mSortingOrder='date_finish'
 						mLinkHtml=$aLang.plugin.admin.bans.table_header.date_finish
@@ -121,13 +121,13 @@
 					{*
 						дата создания и редактирования
 					*}
-					{*include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
+					{*include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
 						sCellClassName='add_date'
 						mSortingOrder='add_date'
 						mLinkHtml=$aLang.plugin.admin.bans.table_header.add_date
 						sBaseUrl=$sFullPagePathToEvent
 					*}
-					{*include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
+					{*include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
 						sCellClassName='edit_date'
 						mSortingOrder='edit_date'
 						mLinkHtml=$aLang.plugin.admin.bans.table_header.edit_date
@@ -137,13 +137,13 @@
 					{*
 						причина и комментарий для себя
 					*}
-					{*include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
+					{*include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
 						sCellClassName='reason_for_user'
 						mSortingOrder='reason_for_user'
 						mLinkHtml=$aLang.plugin.admin.bans.table_header.reason_for_user
 						sBaseUrl=$sFullPagePathToEvent
 					*}
-					{*include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/sorting_cell.tpl"
+					{*include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
 						sCellClassName='comment'
 						mSortingOrder='comment'
 						mLinkHtml=$aLang.plugin.admin.bans.table_header.comment
