@@ -20,7 +20,9 @@
  */
 
 /*
+ *
  * Модуль для расчета статистики
+ *
  */
 
 class PluginAdmin_ModuleStats extends Module {
@@ -29,51 +31,51 @@ class PluginAdmin_ModuleStats extends Module {
 
 	/*
 	 *
-	 * тип данных для получения
+	 * --- Тип данных для получения ---
 	 *
 	 */
 
 	/*
-	 * регистрации пользователей
+	 * Регистрации пользователей
 	 */
 	const DATA_TYPE_REGISTRATIONS = 'registrations';
 	/*
-	 * топики
+	 * Топики
 	 */
 	const DATA_TYPE_TOPICS = 'topics';
 	/*
-	 * комментарии
+	 * Комментарии
 	 */
 	const DATA_TYPE_COMMENTS = 'comments';
 	/*
-	 * голосование
+	 * Голосование
 	 */
 	const DATA_TYPE_VOTINGS = 'votings';
 	/*
-	 * блоги
+	 * Блоги
 	 */
 	const DATA_TYPE_BLOGS = 'blogs';
 
 	/*
 	 *
-	 * предустановленные временные интервалы
+	 * --- Предустановленные временные интервалы ---
 	 *
 	 */
 
 	/*
-	 * вчера
+	 * Вчера
 	 */
 	const TIME_INTERVAL_YESTERDAY = 'yesterday';
 	/*
-	 * сегодня
+	 * Сегодня
 	 */
 	const TIME_INTERVAL_TODAY = 'today';
 	/*
-	 * неделя
+	 * Неделя
 	 */
 	const TIME_INTERVAL_WEEK = 'week';
 	/*
-	 * месяц
+	 * Месяц
 	 */
 	const TIME_INTERVAL_MONTH = 'month';
 
@@ -106,8 +108,9 @@ class PluginAdmin_ModuleStats extends Module {
 					'format' => 'H:i',
 					/*
 					 * интервал для периода 30 мин
+					 * tip: используется формат дат для strtotime
 					 */
-					'interval' => 60*30
+					'interval' => '+30 minutes'
 				);
 				break;
 			/*
@@ -125,7 +128,7 @@ class PluginAdmin_ModuleStats extends Module {
 					/*
 					 * интервал для периода 30 мин
 					 */
-					'interval' => 60*30
+					'interval' => '+30 minutes'
 				);
 				break;
 			/*
@@ -146,7 +149,7 @@ class PluginAdmin_ModuleStats extends Module {
 					/*
 					 * интервал для периода 1 день
 					 */
-					'interval' => 60*60*24
+					'interval' => '+1 day'
 				);
 				break;
 			/*
@@ -172,7 +175,7 @@ class PluginAdmin_ModuleStats extends Module {
 					/*
 					 * интервал для периода 1 день
 					 */
-					'interval' => 60*60*24
+					'interval' => '+1 day'
 				);
 				break;
 		}
@@ -187,9 +190,9 @@ class PluginAdmin_ModuleStats extends Module {
 	 */
 	protected function FillDatesRangeForPeriod($aPeriod) {
 		/*
-		 * интервал прохода по датам
+		 * интервал прохода по датам указанный как прирост для strtotime ("+1 day")
 		 */
-		$iInterval = $aPeriod['interval'];
+		$sInterval = $aPeriod['interval'];
 		/*
 		 * дата начала и счетчик
 		 */
@@ -219,7 +222,7 @@ class PluginAdmin_ModuleStats extends Module {
 			/*
 			 * увеличить интервал
 			 */
-			$iCurrentTime += $iInterval;
+			$iCurrentTime = strtotime($sInterval, $iCurrentTime);
 		} while ($iCurrentTime <= $iFinishTime);
 		return $aData;
 	}
@@ -268,6 +271,32 @@ class PluginAdmin_ModuleStats extends Module {
 		 * поэтому нужно указать макс. время суток вручную
 		 */
 		$aPeriod['to'] = date('Y-m-d 23:59:59', strtotime($sDateFinish));
+		/*
+		 *
+		 * группировка для очень больших выбранных периодов
+		 *
+		 */
+		/*
+		 * если диапазон больше 1 месяца, то группируем по неделям
+		 */
+		if (strtotime('+1 month', strtotime($sDateStart)) <= strtotime($sDateFinish)) {
+			/*
+			 * формат с указанием недели года в скобках
+			 */
+			$aPeriod['format'] = 'Y (W)';
+			/*
+			 * интервал для периода - 1 неделя
+			 * tip: используется формат дат для strtotime
+			 */
+			$aPeriod['interval'] = '+1 week';
+		}
+		/*
+		 * если диапазон больше 5 месяцев, то группируем по месяцам
+		 */
+		if (strtotime('+5 month', strtotime($sDateStart)) <= strtotime($sDateFinish)) {
+			$aPeriod['format'] = 'Y-m';
+			$aPeriod['interval'] = '+1 month';
+		}
 		return $aPeriod;
 	}
 
@@ -275,20 +304,33 @@ class PluginAdmin_ModuleStats extends Module {
 	/**
 	 * Отконвертировать описание форматирования даты из php в mysql
 	 *
-	 * @param $sFormat		строка форматирования как в php ("Y-m-d")
-	 * @return mixed		строка для мускула ("%Y-%m-%d")
+	 * @param $sFormat			строка форматирования как в php ("Y-m-d")
+	 * @return mixed			строка для мускула ("%Y-%m-%d")
 	 */
 	public function BuildDateFormatFromPHPToMySQL($sFormat) {
 		/*
-		 * не использовать литерал \w т.к. он содержит цифры, а их экранировать не нужно!
+		 * таблица соответствий формата даты из php (date) в mysql (DATE_FORMAT)
+		 * docs: http://dev.mysql.com/doc/refman/5.5/en/date-and-time-functions.html#function_date-format
 		 */
-		$sFormat = preg_replace('#([a-z])#iu', '%$1', $sFormat);
-		/*
-		 * хак: если формат даты содежит часы и минуты,
-		 * то чтобы не округлять даты в бд к получасам (ведь действие может быть и в 55 минут) - ставим минуты в 30 как среднее
-		 * и привязываем действие только к часу (т.е. каждое действие будет в Х часов 30 минут для однодневных интервалов)
-		 */
-		return str_replace('%i', '30', $sFormat);
+		$aDateFormatConvertation = array(
+			/*
+			 * прямая конвертация
+			 */
+			'Y' => '%Y',
+			'm' => '%m',
+			'd' => '%d',
+			'H' => '%H',
+			/*
+			 * недели для пхп и мускула отличаются
+			 */
+			'W' => '%u',
+			/*
+			 * хак: если формат даты содежит минуты, то чтобы не округлять даты в бд к получасам (ведь действие может быть и в 55 минут) -
+			 * ставим минуты в 30 как среднее и привязываем действие только к часу (т.е. каждое действие будет в Х часов 30 минут для интервалов, где указаны минуты)
+			 */
+			'i' => '30',
+		);
+		return strtr($sFormat, $aDateFormatConvertation);
 	}
 
 
@@ -307,14 +349,12 @@ class PluginAdmin_ModuleStats extends Module {
 		if (!in_array($sGraphPeriod, array(self::TIME_INTERVAL_YESTERDAY, self::TIME_INTERVAL_TODAY, self::TIME_INTERVAL_WEEK, self::TIME_INTERVAL_MONTH))) {
 			$sGraphPeriod = self::TIME_INTERVAL_MONTH;
 		}
-
 		/*
 		 * тип данных для графика
 		 */
 		if (!in_array($sGraphType, array(self::DATA_TYPE_REGISTRATIONS, self::DATA_TYPE_TOPICS, self::DATA_TYPE_COMMENTS, self::DATA_TYPE_VOTINGS))) {
 			$sGraphType = self::DATA_TYPE_REGISTRATIONS;
 		}
-
 
 		/*
 		 * если указан ручной интервал дат
@@ -329,7 +369,7 @@ class PluginAdmin_ModuleStats extends Module {
 				/*
 				 * проверить чтобы дата начала была меньше чем дата конца
 				 */
-				if ($sDateStart > $sDateFinish) {
+				if (strtotime($sDateStart) > strtotime($sDateFinish)) {
 					$this->Message_AddError($this->Lang_Get('plugin.admin.errors.stats.wrong_date_range'), $this->Lang_Get('error'));
 				} else {
 					/*
@@ -343,7 +383,7 @@ class PluginAdmin_ModuleStats extends Module {
 
 		/*
 		 *
-		 * рассчет данных
+		 * Рассчет данных
 		 *
 		 */
 
@@ -362,7 +402,7 @@ class PluginAdmin_ModuleStats extends Module {
 		 */
 		$aDataStats = $this->GetStatsDataForGraphCorrespondingOnType($sGraphType, $aPeriod);
 		/*
-		 * объеденить данные
+		 * объеденить данные с пустым интервалом (чтобы исключить "дыры" в промежутке)
 		 */
 		$aDataStats = $this->MixEmptyPeriodsWithData($aFilledWithZerosPeriods, $aDataStats);
 		/*
@@ -432,7 +472,7 @@ class PluginAdmin_ModuleStats extends Module {
 	 * Получить реальные существующие данные о типе на основе периода
 	 *
 	 * tip: если нужно добавить свой тип данных - необходимо наследовать этот метод и проверять в нём $sGraphType
-	 * и если $sGraphType == типу данных плагина - вернуть результат, иначе - вызвать родительский метод
+	 * 		и если $sGraphType == типу данных плагина - вернуть результат, иначе - вызвать родительский метод
 	 *
 	 * @param $sGraphType		тип данных для графика
 	 * @param $aPeriod			данные периода
@@ -627,7 +667,7 @@ class PluginAdmin_ModuleStats extends Module {
 			 * если тип не найден
 			 */
 			default:
-				throw new Exception('Admin: error: unknow type in ' . __METHOD__ . ': ' . $sType);
+				throw new Exception('Admin: error: unknown type "' . $sType . '" in ' . __METHOD__);
 		}
 	}
 
