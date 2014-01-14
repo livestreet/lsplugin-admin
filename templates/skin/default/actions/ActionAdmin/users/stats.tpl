@@ -21,7 +21,6 @@
 	 *}
 	{include file="{$aTemplatePathPlugin.admin}charts/graph.tpl"
 		sGraphTitle             = $aLang.plugin.admin.users_stats.registrations
-		sValueSuffix            = $aLang.plugin.admin.users_stats.users
 		aStats                  = $aDataStats
 		sName                   = $aLang.plugin.admin.users_stats.registrations
 		sUrl                    = "{router page='admin/users/stats'}"

@@ -16,9 +16,8 @@
 	 *}
 	{include file="{$aTemplatePathPlugin.admin}charts/graph.tpl"
 		sGraphTitle             = $aLang.plugin.admin.index.title
-		sValueSuffix            = $aLang.plugin.admin.users_stats.graph_suffix.$sCurrentGraphType
 		aStats                  = $aDataStats
-		sName                   = $aLang.plugin.admin.users_stats.graph_labels.$sCurrentGraphType
+		sName                   = $aLang.plugin.admin.graph.graph_type.$sCurrentGraphType
 		sUrl                    = "{router page='admin'}"
 		bShowGraphTypeSelect    = true
 		bShowCustomPeriodFields = true

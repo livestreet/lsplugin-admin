@@ -5,14 +5,14 @@
  *
  * Необходимые переменные:
  *
- * @param string  $sGraphTitle  Заголовок графика
- * @param string  $sValueSuffix  суфикс для вывода тултипа ($aLang.plugin.admin.users_stats.users)
- * @param string  $aStats  массив с данными для графика ($aUserRegistrationStats)
- * @param string  $sName  имя графика ($aLang.plugin.admin.users_stats.registrations)
- * @param string  $sUrl  URL для сабмита формы ({router page='admin'})
- * @param boolean $bShowGraphTypeSelect  показывать ли селект выбора типа графика
- * @param boolean $bShowCustomPeriodFields  показывать ли поля для ручного выбора дат
- * @param boolean $bShowTable  показывать таблицу с данными графика или нет
+ * @param string  $sGraphTitle  					Заголовок графика
+ * @param string  $sName  							имя графика ($aLang.plugin.admin.users_stats.registrations)
+ * @param string  $sValueSuffix  					суфикс для вывода тултипа ($aLang.plugin.admin.users_stats.users) (не обязательно)
+ * @param string  $aStats  							массив с данными для графика ($aUserRegistrationStats)
+ * @param string  $sUrl  							URL для сабмита формы ({router page='admin'})
+ * @param boolean $bShowGraphTypeSelect  			показывать ли селект выбора типа графика
+ * @param boolean $bShowCustomPeriodFields  		показывать ли поля для ручного выбора дат
+ * @param boolean $bShowTable  						показывать таблицу с данными графика или нет
  *}
 
 <div class="graph-wrapper">
