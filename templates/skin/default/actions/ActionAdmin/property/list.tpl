@@ -16,32 +16,32 @@
 
 {block name='layout_content'}
 	{if $aPropertyItems}
-		<script type="text/javascript">
+		<script>
 			jQuery(function($){
 				ls.admin_property.initTableProperty();
 			});
 		</script>
-		<table class="table" id="property-list">
+		<table class="table" id="property-list">{* todo: ид переименовать т.к. может использоваться глобально, добавить префикс "admin_" *}
             <thead>
-            <tr>
-                <th>Название</th>
-                <th>Идентификатор</th>
-                <th>Тип</th>
-                <th>Действие</th>
-            </tr>
+				<tr>
+					<th>Название</th>
+					<th>Идентификатор</th>
+					<th>Тип</th>
+					<th>Действие</th>
+				</tr>
             </thead>
             <tbody>
-			{foreach $aPropertyItems as $oPropertyItem}
-				<tr data-id="{$oPropertyItem->getId()}">
-					<td>{$oPropertyItem->getTitle()}</td>
-					<td>{$oPropertyItem->getCode()}</td>
-					<td>{$oPropertyItem->getType()}</td>
-					<td class="ta-r">
-						<a href="{$oPropertyItem->getUrlAdminUpdate()}" class="icon-edit" title="{$aLang.plugin.admin.edit}"></a>
-						<a href="{$oPropertyItem->getUrlAdminRemove()}?security_ls_key={$LIVESTREET_SECURITY_KEY}" class="icon-remove" title="{$aLang.plugin.admin.delete}"></a>
-					</td>
-				</tr>
-			{/foreach}
+				{foreach $aPropertyItems as $oPropertyItem}
+					<tr data-id="{$oPropertyItem->getId()}">
+						<td>{$oPropertyItem->getTitle()}</td>
+						<td>{$oPropertyItem->getCode()}</td>
+						<td>{$oPropertyItem->getType()}</td>
+						<td class="ta-r">
+							<a href="{$oPropertyItem->getUrlAdminUpdate()}" class="icon-edit" title="{$aLang.plugin.admin.edit}"></a>
+							<a href="{$oPropertyItem->getUrlAdminRemove()}?security_ls_key={$LIVESTREET_SECURITY_KEY}" class="icon-remove" title="{$aLang.plugin.admin.delete}"></a>
+						</td>
+					</tr>
+				{/foreach}
             </tbody>
 		</table>
 	{else}

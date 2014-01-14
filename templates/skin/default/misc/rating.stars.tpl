@@ -5,7 +5,7 @@
  * @param boolean $bNoTitle Отображать подсказку или нет
  *}
 
-<ul class="stars" {if ! $bNoTitle}title="Средняя оценка: {$iRating / 20}"{/if}>
+<ul class="stars" {if ! $bNoTitle}title="Средняя оценка: {$iRating / 20}"{/if}>{* todo: add langs *}
 	<li class="star {if $iRating >= 20}star-full{elseif $iRating >= 10}star-half{/if}"></li>
 	<li class="star {if $iRating >= 40}star-full{elseif $iRating >= 30}star-half{/if}"></li>
 	<li class="star {if $iRating >= 60}star-full{elseif $iRating >= 50}star-half{/if}"></li>

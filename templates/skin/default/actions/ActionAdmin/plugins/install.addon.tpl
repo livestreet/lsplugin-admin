@@ -21,7 +21,7 @@
 
 	{* Рейтинг *}
 	<div class="addon-rating">
-    	{include file="{$aTemplatePathPlugin.admin}rating.stars.tpl" iRating=$oAddon->getMark() * 20}
+    	{include file="{$aTemplatePathPlugin.admin}misc/rating.stars.tpl" iRating=$oAddon->getMark() * 20}
 
 		{if $oAddon->getCountMark()}
     		<span>{$oAddon->getCountMark()} {$oAddon->getCountMark()|declension:$aLang.plugin.admin.plugins.install.reviews_declension:'russian'}</span>

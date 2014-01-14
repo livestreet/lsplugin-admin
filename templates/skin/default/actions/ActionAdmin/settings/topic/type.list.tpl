@@ -1,5 +1,5 @@
 {**
- * Настройки
+ * Настройки для типов топиков
  *}
 
 {extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
@@ -14,35 +14,35 @@
 {/block}
 
 {block name='layout_content'}
-	<script type="text/javascript">
+	<script>
 		jQuery(function($){
             ls.admin_topic.initTableType();
 		});
 	</script>
-	<table class="table" id="type-list">
+	<table class="table" id="type-list">{* todo: ид переименовать т.к. может использоваться глобально, добавить префикс "admin_" *}
         <thead>
-		<tr>
-			<th>Название</th>
-			<th>Идентификатор</th>
-			<th>Состояние</th>
-			<th>Действие</th>
-		</tr>
+			<tr>
+				<th>Название</th>
+				<th>Идентификатор</th>
+				<th>Состояние</th>
+				<th>Действие</th>
+			</tr>
         </thead>
 		<tbody>
-		{foreach $aTopicTypeItems as $oTopicTypeItem}
-            <tr data-type-id="{$oTopicTypeItem->getId()}">
-                <td>{$oTopicTypeItem->getName()}</td>
-                <td>{$oTopicTypeItem->getCode()}</td>
-                <td>{$oTopicTypeItem->getStateText()}</td>
-                <td>
-                    <a href="{router page="admin/settings/topic-type/update"}{$oTopicTypeItem->getId()}/" class="icon-edit" title="{$aLang.plugin.admin.edit}"></a>
-                    <a href="{router page="admin/properties"}{$oTopicTypeItem->getPropertyTargetType()}/" class="icon-th-list" title="Настройка дополнительных полей"></a>
-                    {if $oTopicTypeItem->getAllowRemove()}
-						<a href="{router page="admin/settings/topic-type/remove"}{$oTopicTypeItem->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}" class="icon-remove" title="{$aLang.plugin.admin.delete}"></a>
-					{/if}
-                </td>
-            </tr>
-		{/foreach}
+			{foreach $aTopicTypeItems as $oTopicTypeItem}
+				<tr data-type-id="{$oTopicTypeItem->getId()}">
+					<td>{$oTopicTypeItem->getName()}</td>
+					<td>{$oTopicTypeItem->getCode()}</td>
+					<td>{$oTopicTypeItem->getStateText()}</td>
+					<td>
+						<a href="{router page="admin/settings/topic-type/update"}{$oTopicTypeItem->getId()}/" class="icon-edit" title="{$aLang.plugin.admin.edit}"></a>
+						<a href="{router page="admin/properties"}{$oTopicTypeItem->getPropertyTargetType()}/" class="icon-th-list" title="Настройка дополнительных полей"></a>
+						{if $oTopicTypeItem->getAllowRemove()}
+							<a href="{router page="admin/settings/topic-type/remove"}{$oTopicTypeItem->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}" class="icon-remove" title="{$aLang.plugin.admin.delete}"></a>
+						{/if}
+					</td>
+				</tr>
+			{/foreach}
         </tbody>
 	</table>
 {/block}

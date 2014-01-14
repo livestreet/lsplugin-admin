@@ -6,7 +6,7 @@
 
 
 {block name='layout_content_actionbar'}
-	{include file="{$aTemplatePathPlugin.admin}stats.brief.tpl"}
+	{include file="{$aTemplatePathPlugin.admin}misc/stats.brief.tpl"}
 {/block}
 
 
