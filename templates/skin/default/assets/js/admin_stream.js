@@ -70,6 +70,12 @@ jQuery(document).ready(function($) {
 		success: function(data) {
 			if (data.bStateError) {
 				ls.msg.error(data.sMsgTitle, data.sMsg);
+				/*
+					вывести текст ошибки
+				 */
+				$ (ls.admin_stream.selectors.admin_index_activity_event_list).html(
+					$ ('<div />', {class: 'mt-10', html: data.sMsg})
+				);
 			} else {
 				/*
 					если есть события - показать
