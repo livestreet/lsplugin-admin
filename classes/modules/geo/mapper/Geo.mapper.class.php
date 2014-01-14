@@ -35,6 +35,15 @@ class PluginAdmin_ModuleGeo_MapperGeo extends PluginAdmin_Inherits_ModuleGeo_Map
 	 * @return mixed
 	 */
 	public function GetCountriesByArrayFilter($aFilter) {
+		/*
+		 * разрешенные ключи условий фильтра
+		 */
+		$aAllowedFilterKeys = array('id', 'name_ru', 'name_en', 'code');
+		/*
+		 * проверить условия фильтра
+		 */
+		$aFilter = $this->CheckArrayFilter($aFilter, $aAllowedFilterKeys);
+
 		$sSql = 'SELECT *
 			FROM
 				?#
@@ -55,7 +64,10 @@ class PluginAdmin_ModuleGeo_MapperGeo extends PluginAdmin_Inherits_ModuleGeo_Map
 			LIMIT
 				?d, ?d
 		';
-		if ($aData = $this->oDb->select($sSql,
+		/*
+		 * проверить есть ли данные для запроса т.к. сортировка идет по значению поля, а дбсимпл пропускает пустые массивы
+		 */
+		if ($this->CheckArrayFilterDataExists($aFilter, $aAllowedFilterKeys) and $aData = $this->oDb->select($sSql,
 			Config::Get('db.table.geo_country'),
 			/*
 			 * поле для поиска
@@ -90,6 +102,15 @@ class PluginAdmin_ModuleGeo_MapperGeo extends PluginAdmin_Inherits_ModuleGeo_Map
 	 * @return mixed
 	 */
 	public function GetCitiesByArrayFilter($aFilter) {
+		/*
+		 * разрешенные ключи условий фильтра
+		 */
+		$aAllowedFilterKeys = array('id', 'name_ru', 'name_en', 'country_id', 'region_id');
+		/*
+		 * проверить условия фильтра
+		 */
+		$aFilter = $this->CheckArrayFilter($aFilter, $aAllowedFilterKeys);
+
 		$sSql = 'SELECT *
 			FROM
 				?#
@@ -112,7 +133,10 @@ class PluginAdmin_ModuleGeo_MapperGeo extends PluginAdmin_Inherits_ModuleGeo_Map
 			LIMIT
 				?d, ?d
 		';
-		if ($aData = $this->oDb->select($sSql,
+		/*
+		 * проверить есть ли данные для запроса т.к. сортировка идет по значению поля, а дбсимпл пропускает пустые массивы
+		 */
+		if ($this->CheckArrayFilterDataExists($aFilter, $aAllowedFilterKeys) and $aData = $this->oDb->select($sSql,
 			Config::Get('db.table.geo_city'),
 			/*
 			 * поле для поиска
@@ -139,6 +163,64 @@ class PluginAdmin_ModuleGeo_MapperGeo extends PluginAdmin_Inherits_ModuleGeo_Map
 			return Engine::getInstance()->PluginAdmin_Tools_GetArrayOfEntitiesByAssocArray($aData, 'ModuleGeo_EntityCity');
 		}
 		return array();
+	}
+
+
+	/*
+	 *
+	 * --- Хелперы ---
+	 *
+	 */
+
+	/**
+	 * Вернуть проверенный фильтр чтобы значения условий всегда были массивом
+	 *
+	 * @param $aFilter				фильтр
+	 * @param $aAllowedFilter		разрешенные ключи условий фильтра для проверки
+	 * @return mixed				проверенный фильтр
+	 */
+	protected function CheckArrayFilter($aFilter, $aAllowedFilter) {
+		foreach($aFilter as $sKey => &$mValue) {
+			/*
+			 * все параметры должны быть массивом
+			 */
+			if (in_array($sKey, $aAllowedFilter) and !is_array($mValue)) {
+				$mValue = (array) $mValue;
+			}
+		}
+		/*
+		 * должна быть задана страница
+		 */
+		if (!isset($aFilter['page'])) {
+			$aFilter['page'] = 1;
+		}
+		/*
+		 * должно быть задано количество элементов на страницу
+		 */
+		if (!isset($aFilter['per_page'])) {
+			$aFilter['per_page'] = PHP_INT_MAX;
+		}
+		return $aFilter;
+	}
+
+
+	/**
+	 * Есть ли данные для запроса
+	 *
+	 * @param $aFilter				фильтр
+	 * @param $aAllowedFilter		разрешенные ключи условий фильтра для проверки
+	 * @return bool
+	 */
+	protected function CheckArrayFilterDataExists($aFilter, $aAllowedFilter) {
+		foreach($aFilter as $sKey => $mValue) {
+			/*
+			 * есть ли значения для запроса
+			 */
+			if (in_array($sKey, $aAllowedFilter) and !empty($mValue)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 
