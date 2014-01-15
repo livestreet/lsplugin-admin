@@ -121,9 +121,13 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * сортировка
 		 */
-		$this->Viewer_Assign('sReverseOrder', $this->PluginAdmin_Users_GetReversedOrderDirection ($sWay));
-		$this->Viewer_Assign('sOrder', $sOrder);
-		$this->Viewer_Assign('sWay', $this->PluginAdmin_Users_GetDefaultOrderDirectionIfIncorrect ($sWay));
+		$this->Viewer_Assign('sOrder', $this->PluginAdmin_Users_GetDefaultSortingOrderIfIncorrect(
+			$sOrder,
+			Config::Get('plugin.admin.correct_sorting_order_for_users'),
+			Config::Get('plugin.admin.default_sorting_order_for_users')
+		));
+		$this->Viewer_Assign('sWay', $this->PluginAdmin_Users_GetDefaultOrderDirectionIfIncorrect($sWay));
+		$this->Viewer_Assign('sReverseOrder', $this->PluginAdmin_Users_GetReversedOrderDirection($sWay));
 
 		/*
 		 * поиск
@@ -313,7 +317,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	 *
 	 * @return string
 	 */
-	public function EventUserVotesList () {
+	public function EventUserVotesList() {
 		$this->SetTemplateAction('users/votes');
 		$this->SetPaging(2, 'votes.per_page');
 
@@ -322,7 +326,6 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 */
 		$sOrder = $this->GetDataFromFilter('order_field');
 		$sWay = $this->GetDataFromFilter('order_way');
-
 
 		/*
 		 * проверяем корректность id пользователя
@@ -389,13 +392,16 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		$this->Viewer_Assign('sVotingTargetType', $sVotingTargetType);
 		$this->Viewer_Assign('sVotingDirection', $sVotingDirection);
 
-
 		/*
 		 * сортировка
 		 */
-		$this->Viewer_Assign('sReverseOrder', $this->PluginAdmin_Users_GetReversedOrderDirection ($sWay));
-		$this->Viewer_Assign('sOrder', $sOrder);
-		$this->Viewer_Assign('sWay', $this->PluginAdmin_Users_GetDefaultOrderDirectionIfIncorrect ($sWay));
+		$this->Viewer_Assign('sOrder', $this->PluginAdmin_Users_GetDefaultSortingOrderIfIncorrect(
+			$sOrder,
+			Config::Get('plugin.admin.correct_sorting_order_for_votes'),
+			Config::Get('plugin.admin.default_sorting_order_for_votes')
+		));
+		$this->Viewer_Assign('sWay', $this->PluginAdmin_Users_GetDefaultOrderDirectionIfIncorrect($sWay));
+		$this->Viewer_Assign('sReverseOrder', $this->PluginAdmin_Users_GetReversedOrderDirection($sWay));
 	}
 
 
@@ -530,9 +536,13 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * сортировка
 		 */
-		$this->Viewer_Assign('sReverseOrder', $this->PluginAdmin_Users_GetReversedOrderDirection ($sWay));
-		$this->Viewer_Assign('sOrder', $sOrder);
-		$this->Viewer_Assign('sWay', $this->PluginAdmin_Users_GetDefaultOrderDirectionIfIncorrect ($sWay));
+		$this->Viewer_Assign('sOrder', $this->PluginAdmin_Users_GetDefaultSortingOrderIfIncorrect(
+			$sOrder,
+			Config::Get('plugin.admin.correct_sorting_bans'),
+			Config::Get('plugin.admin.default_sorting_bans')
+		));
+		$this->Viewer_Assign('sWay', $this->PluginAdmin_Users_GetDefaultOrderDirectionIfIncorrect($sWay));
+		$this->Viewer_Assign('sReverseOrder', $this->PluginAdmin_Users_GetReversedOrderDirection($sWay));
 
 		/*
 		 * статистика

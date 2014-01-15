@@ -15,7 +15,7 @@
 	 * Проверка таблиц БД
 	 *}
 	{* todo: добавить иконки *}
-	<h2 class="page-header">{$aLang.plugin.admin.utils.check_n_repair.tables.title}</h2>
+	<h2 class="page-header"><span>{$aLang.plugin.admin.utils.check_n_repair.tables.title}</span></h2>
 
 	<div class="mb-20">
 		{$aLang.plugin.admin.utils.check_n_repair.tables.info}
@@ -38,7 +38,7 @@
 	 * Проверка файлов
 	 *}
 	{* todo: добавить иконки *}
-	<h2 class="page-header mt-30">{$aLang.plugin.admin.utils.check_n_repair.files.title}</h2>
+	<h2 class="page-header mt-30"><span>{$aLang.plugin.admin.utils.check_n_repair.files.title}</span></h2>
 
 	<div class="mb-20">
 		{$aLang.plugin.admin.utils.check_n_repair.files.info}

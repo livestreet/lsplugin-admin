@@ -15,7 +15,7 @@
 	 * Сброс данных
 	 *}
 	{* todo: добавить иконки *}
-	<h2 class="page-header">{$aLang.plugin.admin.utils.reset_n_clear.datareset.title}</h2>
+	<h2 class="page-header"><span>{$aLang.plugin.admin.utils.reset_n_clear.datareset.title}</span></h2>
 	
 	<div class="mb-20">
 		{$aLang.plugin.admin.utils.reset_n_clear.datareset.info}

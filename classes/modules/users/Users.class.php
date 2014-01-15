@@ -83,14 +83,14 @@ class PluginAdmin_ModuleUsers extends Module {
 		if (is_null($aAllowData)) {
 			$aAllowData = array('session');
 		}
-		$sOrder = $this -> GetCorrectSortingOrder(
+		$sOrder = $this->GetCorrectSortingOrder(
 			$aOrder,
 			Config::Get('plugin.admin.correct_sorting_order_for_users'),
 			Config::Get('plugin.admin.default_sorting_order_for_users')
 		);
-		$mData = $this -> oMapper -> GetUsersByFilter($aFilter, $sOrder, $iCurrPage, $iPerPage);
+		$mData = $this->oMapper->GetUsersByFilter($aFilter, $sOrder, $iCurrPage, $iPerPage);
 
-		$mData['collection'] = $this -> User_GetUsersAdditionalData($mData['collection'], $aAllowData);
+		$mData['collection'] = $this->User_GetUsersAdditionalData($mData['collection'], $aAllowData);
 		return $mData;
 	}
 
@@ -98,26 +98,51 @@ class PluginAdmin_ModuleUsers extends Module {
 	/**
 	 * Проверяет корректность сортировки и возращает часть sql запроса для сортировки
 	 *
-	 * @param array 	$aOrder						поля, по которым нужно сортировать вывод пользователей
-	 * 												(array('login' => 'desc', 'rating' => 'desc'))
+	 * @param array 	$aOrder						поля, по которым нужно сортировать вывод пользователей (array('login' => 'desc', 'rating' => 'desc'))
 	 * @param array 	$aCorrectSortingOrderList	список разрешенных сортировок
-	 * @param			$sSortingOrderByDefault		строка сортировки по-умолчанию
+	 * @param			$sSortingOrderByDefault		сортировка по-умолчанию
 	 * @return string								часть sql запроса
 	 */
-	protected function GetCorrectSortingOrder($aOrder = array (), $aCorrectSortingOrderList = array(), $sSortingOrderByDefault) {
+	protected function GetCorrectSortingOrder($aOrder = array(), $aCorrectSortingOrderList = array(), $sSortingOrderByDefault) {
 		$sOrder = '';
 		foreach($aOrder as $sRow => $sDir) {
 			if (!in_array($sRow, $aCorrectSortingOrderList)) {
 				unset($aOrder[$sRow]);
-			} elseif (in_array($sDir, $this -> aSortingOrderWays)) {
+			} elseif (in_array($sDir, $this->aSortingOrderWays)) {
 				$sOrder .= " {$sRow} {$sDir},";
 			}
 		}
 		$sOrder = rtrim($sOrder, ',');
 		if (empty($sOrder)) {
-			$sOrder = $sSortingOrderByDefault;
+			$sOrder = $sSortingOrderByDefault . ' ' . $this->sSortingWayByDefault;
 		}
 		return $sOrder;
+	}
+
+
+	/**
+	 * Получить поле сортировки по-умолчанию, если оно не указано или некорректно
+	 *
+	 * @param $sOrder					текущее поле сортировки
+	 * @param $aAllowedSortingOrders	массив разрешенных сортировок
+	 * @param $sSortingOrderByDefault	сортировка по-умолчанию (будет выбрана, если сортировка не входит в список разрешенных)
+	 * @return mixed					поле сортировки по-умолчанию (если не корректно) или указанное
+	 */
+	public function GetDefaultSortingOrderIfIncorrect($sOrder, $aAllowedSortingOrders, $sSortingOrderByDefault) {
+		if (!in_array($sOrder, $aAllowedSortingOrders)) return $sSortingOrderByDefault;
+		return $sOrder;
+	}
+
+
+	/**
+	 * Получить направление сортировки по-умолчанию, если она не задана или некорректна
+	 *
+	 * @param $sWay			текущий тип сортировки
+	 * @return string		текущий или по-умолчанию (если не корректен)
+	 */
+	public function GetDefaultOrderDirectionIfIncorrect($sWay) {
+		if (!in_array($sWay, $this->aSortingOrderWays)) return $this->sSortingWayByDefault;
+		return $sWay;
 	}
 
 
@@ -128,20 +153,8 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * @return string		противоположный
 	 */
 	public function GetReversedOrderDirection($sWay) {
-		if ($sDefaultWay = $this->GetDefaultOrderDirectionIfIncorrect($sWay) !== $sWay) return $sDefaultWay;
-		return $this -> aSortingOrderWays[(int) ($sWay == $this->sSortingWayByDefault)];
-	}
-
-
-	/**
-	 * Получить сортировку по-умолчанию, если она не задана или некорректна
-	 *
-	 * @param $sWay			текущий тип сортировки
-	 * @return string		текущий или по-умолчанию (если не корректен)
-	 */
-	public function GetDefaultOrderDirectionIfIncorrect($sWay) {
-		if (!in_array($sWay, $this -> aSortingOrderWays)) return $this->sSortingWayByDefault;
-		return $sWay;
+		$sWay = $this->GetDefaultOrderDirectionIfIncorrect($sWay);
+		return $this->aSortingOrderWays[(int) ($sWay == $this->sSortingWayByDefault)];
 	}
 
 
@@ -199,7 +212,7 @@ class PluginAdmin_ModuleUsers extends Module {
 					$aVotingStats[$aData['target_type']]['abstain'] = $aData['count'];
 					break;
 				default:
-					throw new Exception('admin: error: unknown voting direction in ' . __METHOD__);
+					throw new Exception('Admin: error: unknown voting direction "' . $aData['vote_direction'] . '" in ' . __METHOD__);
 			}
 		}
 		return $aVotingStats;
@@ -299,7 +312,6 @@ class PluginAdmin_ModuleUsers extends Module {
 					break;
 				default:
 					throw new Exception('Admin: error: unsupported target type: "' . $oVote->getTargetType() . '" in ' . __METHOD__);
-					break;
 			}
 		}
 	}
@@ -310,7 +322,6 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * --- Изменение количества элементов на страницу ---
 	 *
 	 */
-
 
 	/**
 	 * Установить количество пользователей на странице
@@ -371,7 +382,6 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * --- Баны ---
 	 *
 	 */
-
 
 	/**
 	 * Добавить запись о бане
@@ -569,7 +579,6 @@ class PluginAdmin_ModuleUsers extends Module {
 	 *
 	 */
 
-
 	/**
 	 * Добавить запись о срабатывании бана в статистику
 	 *
@@ -638,7 +647,6 @@ class PluginAdmin_ModuleUsers extends Module {
 	 *
 	 */
 
-
 	/**
 	 * Добавить права админа пользователю
 	 *
@@ -670,7 +678,6 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * --- Удаление контента ---
 	 *
 	 */
-
 
 	/**
 	 * Удалить контент пользователя и самого пользователя
@@ -1048,7 +1055,6 @@ class PluginAdmin_ModuleUsers extends Module {
 	 *
 	 */
 
-
 	/**
 	 * Возвращает данные последнего входа на основе даты и ip персонально для каждого пользователя
 	 *
@@ -1099,7 +1105,6 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * --- Статистика ---
 	 *
 	 */
-
 
 	/**
 	 * Получить статистику пользователей по возрасту
@@ -1273,7 +1278,6 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * --- Редактирование данных пользователя ---
 	 *
 	 */
-
 
 	/**
 	 * Выполнить изменение данных в таблице пользователя
@@ -1741,7 +1745,6 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * --- Получение данных пользователя ---
 	 *
 	 */
-
 
 	/**
 	 * Сравнить ключ и текущее значение. Вернуть 'selected' если ключ и текущее значение совпадают, иначе вернуть ключ
