@@ -85,8 +85,8 @@ class PluginAdmin_ModuleUsers extends Module {
 		}
 		$sOrder = $this->GetCorrectSortingOrder(
 			$aOrder,
-			Config::Get('plugin.admin.correct_sorting_order_for_users'),
-			Config::Get('plugin.admin.default_sorting_order_for_users')
+			Config::Get('plugin.admin.users.correct_sorting_order'),
+			Config::Get('plugin.admin.users.default_sorting_order')
 		);
 		$mData = $this->oMapper->GetUsersByFilter($aFilter, $sOrder, $iCurrPage, $iPerPage);
 
@@ -237,8 +237,8 @@ class PluginAdmin_ModuleUsers extends Module {
 				$this->BuildFilterForVotingList($aFilter),
 				$this->GetCorrectSortingOrder(
 					$aOrder,
-					Config::Get('plugin.admin.correct_sorting_order_for_votes'),
-					Config::Get('plugin.admin.default_sorting_order_for_votes')
+					Config::Get('plugin.admin.votes.correct_sorting_order'),
+					Config::Get('plugin.admin.votes.default_sorting_order')
 				),
 				$iPage,
 				$iPerPage
@@ -408,8 +408,8 @@ class PluginAdmin_ModuleUsers extends Module {
 		// todo: cache
 		$sOrder = $this -> GetCorrectSortingOrder(
 			$aOrder,
-			Config::Get('plugin.admin.correct_sorting_bans'),
-			Config::Get('plugin.admin.default_sorting_bans')
+			Config::Get('plugin.admin.bans.correct_sorting_order'),
+			Config::Get('plugin.admin.bans.default_sorting_order')
 		);
 		$mData = $this->oMapper->GetBansByFilter($aFilter, $sOrder, $iPage, $iPerPage);
 		return $mData;
@@ -423,16 +423,10 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * @return mixed
 	 */
 	public function GetBanById($iId) {
-		// todo: cache
 		$aFilter = array(
 			'id' => $iId,
 		);
-		$sOrder = $this -> GetCorrectSortingOrder(
-			array(),
-			Config::Get('plugin.admin.correct_sorting_bans'),
-			Config::Get('plugin.admin.default_sorting_bans')
-		);
-		$aData = $this->oMapper->GetBansByFilter($aFilter, $sOrder, 1, 1);
+		$aData = $this->GetBansByFilter($aFilter, array(), 1, 1);
 		return ($aData['count'] ? array_shift($aData['collection']) : null);
 	}
 

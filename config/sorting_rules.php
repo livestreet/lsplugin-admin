@@ -37,7 +37,7 @@
  * параметр "search_as_part_of_string" разрешает искать по данному полю как по части строки запроса
  * (при изменении необходимы правки в маппере модуля юзеров плагина - изменить присваивание на LIKE)
  */
-$config['user_search_allowed_types'] = array(
+$config['users']['search_allowed_types'] = array(
 	'id' => array('search_as_part_of_string' => false),
 	'mail' => array('search_as_part_of_string' => true),
 	'password' => array('search_as_part_of_string' => false),
@@ -55,7 +55,7 @@ $config['user_search_allowed_types'] = array(
 /*
  * Корректные значения (поля) для сортировок пользователей
  */
-$config['correct_sorting_order_for_users'] = array(
+$config['users']['correct_sorting_order'] = array(
 	'u.user_id',
 	'u.user_login',
 	'u.user_mail',
@@ -74,7 +74,7 @@ $config['correct_sorting_order_for_users'] = array(
 /*
  * Сортировка пользователей по-умолчанию (если указанная сортировка некорректна или не разрешена)
  */
-$config['default_sorting_order_for_users'] = 'u.user_id';
+$config['users']['default_sorting_order'] = 'u.user_id';
 
 
 /*
@@ -86,7 +86,7 @@ $config['default_sorting_order_for_users'] = 'u.user_id';
 /*
  * Корректные значения (поля) для сортировки голосов пользователя
  */
-$config['correct_sorting_order_for_votes'] = array(
+$config['votes']['correct_sorting_order'] = array(
 	'target_id',
 	'target_type',
 	'vote_direction',
@@ -98,7 +98,7 @@ $config['correct_sorting_order_for_votes'] = array(
 /*
  * Сортировка для вывода голосов по-умолчанию
  */
-$config['default_sorting_order_for_votes'] = 'vote_date';
+$config['votes']['default_sorting_order'] = 'vote_date';
 
 
 /*
@@ -110,7 +110,7 @@ $config['default_sorting_order_for_votes'] = 'vote_date';
 /*
  * Корректные значения (поля) для сортировки банов
  */
-$config['correct_sorting_bans'] = array(
+$config['bans']['correct_sorting_order'] = array(
 	'restriction_type',
 
 	'block_type',
@@ -133,7 +133,7 @@ $config['correct_sorting_bans'] = array(
 /*
  * Сортировка для вывода банов по-умолчанию
  */
-$config['default_sorting_bans'] = 'edit_date';
+$config['bans']['default_sorting_order'] = 'edit_date';
 
 return $config;
 

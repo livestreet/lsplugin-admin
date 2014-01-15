@@ -123,8 +123,8 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 */
 		$this->Viewer_Assign('sOrder', $this->PluginAdmin_Users_GetDefaultSortingOrderIfIncorrect(
 			$sOrder,
-			Config::Get('plugin.admin.correct_sorting_order_for_users'),
-			Config::Get('plugin.admin.default_sorting_order_for_users')
+			Config::Get('plugin.admin.users.correct_sorting_order'),
+			Config::Get('plugin.admin.users.default_sorting_order')
 		));
 		$this->Viewer_Assign('sWay', $this->PluginAdmin_Users_GetDefaultOrderDirectionIfIncorrect($sWay));
 		$this->Viewer_Assign('sReverseOrder', $this->PluginAdmin_Users_GetReversedOrderDirection($sWay));
@@ -265,7 +265,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	 * @return array							правило для фильтра
 	 */
 	protected function GetSearchRule($aFilter) {
-		$aUserSearchFieldsRules = Config::Get('plugin.admin.user_search_allowed_types');
+		$aUserSearchFieldsRules = Config::Get('plugin.admin.users.search_allowed_types');
 		/*
 		 * здесь будут пары "поле=>запрос" для запроса через фильтр
 		 */
@@ -397,8 +397,8 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 */
 		$this->Viewer_Assign('sOrder', $this->PluginAdmin_Users_GetDefaultSortingOrderIfIncorrect(
 			$sOrder,
-			Config::Get('plugin.admin.correct_sorting_order_for_votes'),
-			Config::Get('plugin.admin.default_sorting_order_for_votes')
+			Config::Get('plugin.admin.votes.correct_sorting_order'),
+			Config::Get('plugin.admin.votes.default_sorting_order')
 		));
 		$this->Viewer_Assign('sWay', $this->PluginAdmin_Users_GetDefaultOrderDirectionIfIncorrect($sWay));
 		$this->Viewer_Assign('sReverseOrder', $this->PluginAdmin_Users_GetReversedOrderDirection($sWay));
@@ -538,8 +538,8 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 */
 		$this->Viewer_Assign('sOrder', $this->PluginAdmin_Users_GetDefaultSortingOrderIfIncorrect(
 			$sOrder,
-			Config::Get('plugin.admin.correct_sorting_bans'),
-			Config::Get('plugin.admin.default_sorting_bans')
+			Config::Get('plugin.admin.bans.correct_sorting_order'),
+			Config::Get('plugin.admin.bans.default_sorting_order')
 		));
 		$this->Viewer_Assign('sWay', $this->PluginAdmin_Users_GetDefaultOrderDirectionIfIncorrect($sWay));
 		$this->Viewer_Assign('sReverseOrder', $this->PluginAdmin_Users_GetReversedOrderDirection($sWay));
