@@ -51,7 +51,14 @@ class PluginAdmin extends Plugin {
 	/**
 	 * Инициализация плагина
 	 */
-	public function Init() {}
+	public function Init() {
+		/*
+		 * блокировка использования одновременно с другой админкой (для особо умных, включивших вторую админку после активации этой)
+		 */
+		if (defined('ACEADMINPANEL_VERSION')) {
+			throw new Exception('Admin: error: You must fully remove old AceAdminPanel plugin and never use two admin panels at the same time');
+		}
+	}
 
 
 	/**
