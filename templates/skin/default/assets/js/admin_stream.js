@@ -71,11 +71,15 @@ jQuery(document).ready(function($) {
 			if (data.bStateError) {
 				ls.msg.error(data.sMsgTitle, data.sMsg);
 				/*
-					вывести текст ошибки
+					вывести текст ошибки в самом блоке активности
 				 */
 				$ (ls.admin_stream.selectors.admin_index_activity_event_list).html(
 					$ ('<div />', {class: 'mt-10', html: data.sMsg})
 				);
+				/*
+				 	спрятать кнопку "показать ещё"
+				 */
+				$ (ls.admin_stream.selectors.admin_index_activity_get_more_button).hide();
 			} else {
 				/*
 					если есть события - показать
@@ -86,7 +90,7 @@ jQuery(document).ready(function($) {
 				}
 
 				/*
-					 нужно ли спрятать кнопку "показать ещё события"
+					 нужно ли спрятать кнопку "показать ещё"
 				 */
 				if (!data.events_count || data.bDisableGetMoreButton) {
 					$ (ls.admin_stream.selectors.admin_index_activity_get_more_button).hide();
@@ -100,12 +104,12 @@ jQuery(document).ready(function($) {
 	});
 
 	/*
-		аякс реакция на нажатие на кнопку "показать ещё новости"
+		аякс реакция на нажатие на кнопку "показать ещё"
 	 */
 	$ (ls.admin_stream.selectors.admin_index_activity_get_more_button).bind('click.admin', function() {
-		oGetMoreButton = $ (this);
-		oLastId = $ (ls.admin_stream.selectors.admin_index_activity_last_id);
-		iLastId = oLastId.val();
+		var oGetMoreButton = $ (this);
+		var oLastId = $ (ls.admin_stream.selectors.admin_index_activity_last_id);
+		var iLastId = oLastId.val();
 
 		if (!iLastId) return;
 
@@ -119,12 +123,12 @@ jQuery(document).ready(function($) {
 				если нет ошибки и есть данные
 			 */
 			if (!data.bStateError && data.events_count) {
-				$(ls.admin_stream.selectors.admin_index_activity_event_list).append(data.result);
+				$ (ls.admin_stream.selectors.admin_index_activity_event_list).append(data.result);
 				oLastId.attr('value', data.iStreamLastId);
 			}
 
 			/*
-			 	нужно ли спрятать кнопку "показать ещё события"
+			 	нужно ли спрятать кнопку "показать ещё"
 			 */
 			if (!data.events_count || data.bDisableGetMoreButton) {
 				oGetMoreButton.hide();
