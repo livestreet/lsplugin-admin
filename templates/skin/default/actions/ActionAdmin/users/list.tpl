@@ -164,10 +164,20 @@
 						IP
 					*}
 					<td class="cell-ip">
-						<p title="{$aLang.plugin.admin.users.table_header.user_ip_register}">{$oUser->getIpRegister()}</p>
+						<p title="{$aLang.plugin.admin.users.table_header.user_ip_register}">
+							<a href="{router page='admin/users/list'}{request_filter
+								name=array('ip_register')
+								value=array($oUser->getIpRegister())
+							}">{$oUser->getIpRegister()}</a>
+						</p>
 						{if $oSession}
 							{* <p title="sess ip create">{$oSession->getIpCreate()}</p> *}
-							<p title="{$aLang.plugin.admin.users.table_header.session_ip_last}">{$oSession->getIpLast()}</p>
+							<p title="{$aLang.plugin.admin.users.table_header.session_ip_last}">
+								<a href="{router page='admin/users/list'}{request_filter
+									name=array('session_ip_last')
+									value=array($oSession->getIpLast())
+								}" title="{$aLang.plugin.admin.users.profile.info.search_this_ip}">{$oSession->getIpLast()}</a>
+							</p>
 						{/if}
 					</td>
 
