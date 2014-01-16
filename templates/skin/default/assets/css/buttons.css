@@ -146,6 +146,8 @@ a.button-large { padding-top: 8px; }
 /**
  * Loading
  */
+/*
+	todo: удалить, не работает (нету /images/loader.gif, поэтому 404 в консоли)
 .button[disabled].loading,
 .button.loading {
 	color: transparent;
@@ -153,3 +155,4 @@ a.button-large { padding-top: 8px; }
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
 }
+*/
