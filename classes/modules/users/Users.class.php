@@ -158,6 +158,12 @@ class PluginAdmin_ModuleUsers extends Module {
 	}
 
 
+	/*
+	 *
+	 * --- Голосования ---
+	 *
+	 */
+
 	/**
 	 * Получить статистическую информацию о том, за что, как и сколько раз голосовал пользователь
 	 *
@@ -196,7 +202,7 @@ class PluginAdmin_ModuleUsers extends Module {
 			'blog' => array('plus' => 0, 'minus' => 0, 'abstain' => 0),
 			'user' => array('plus' => 0, 'minus' => 0, 'abstain' => 0),
 		);
-		$aResult = $this->oMapper->GetUserVotingStats ($oUser->getId());
+		$aResult = $this->oMapper->GetUserVotingStats($oUser->getId());
 		/*
 		 * собрать данные в удобном виде
 		 */
@@ -259,14 +265,33 @@ class PluginAdmin_ModuleUsers extends Module {
 	 *
 	 * @param $aFilter			фильтр
 	 * @return string			строка sql запроса
+	 * @throws Exception
 	 */
 	protected function BuildFilterForVotingList($aFilter) {
 		$sWhere = '';
+		/*
+		 * тип голосования (топик, блог и т.п.)
+		 */
 		if (isset($aFilter['type']) and $aFilter['type']) {
 			$sWhere .= ' AND `target_type` = "' . $aFilter['type'] . '"';
 		}
+		/*
+		 * направление голосов (плюс, минус, воздержался)
+		 */
 		if (isset($aFilter['direction']) and $aFilter['direction']) {
-			$sWhere .= ' AND `vote_direction` = ' . ($aFilter['direction'] == 'plus' ? '1' : '-1');
+			switch($aFilter['direction']) {
+				case 'plus':
+					$sWhere .= ' AND `vote_direction` = 1';
+					break;
+				case 'minus':
+					$sWhere .= ' AND `vote_direction` = -1';
+					break;
+				case 'abstain':
+					$sWhere .= ' AND `vote_direction` = 0';
+					break;
+				default:
+					throw new Exception('Admin: error: unknown direction type "' . $aFilter['direction'] . '" for votings in ' . __METHOD__);
+			}
 		}
 		return $sWhere;
 	}

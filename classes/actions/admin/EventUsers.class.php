@@ -364,7 +364,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * получаем данные голосований
 		 */
-		$aResult = $this->PluginAdmin_Users_GetUserVotingByFilter (
+		$aResult = $this->PluginAdmin_Users_GetUserVotingByFilter(
 			$oUser,
 			$aFilter,
 			array($sOrder => $sWay),
@@ -375,7 +375,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * дополнить данные голосований названиями обьектов и ссылками на них
 		 */
-		$this->PluginAdmin_Users_GetTargetObjectsFromVotingList($aResult ['collection']);
+		$this->PluginAdmin_Users_GetTargetObjectsFromVotingList($aResult['collection']);
 
 		/*
 		 * Формируем постраничность
