@@ -16,3 +16,9 @@
 	<li><a href="{router page='admin/users/deleteuser'}?user_id={$oUser->getId()}">{$aLang.plugin.admin.users.profile.top_bar.user_delete}...</a></li>
 	<li><a href="{router page='admin/users/bans/add'}?user_id={$oUser->getId()}">{$aLang.plugin.admin.users.profile.top_bar.ban}...</a></li>
 {/if}
+
+{* Активация пользователя *}
+{if !$oUser->getActivate()}
+	<li><a class="js-question" href="{router page='admin/users/activate'}?user_id={$oUser->getId()}&security_ls_key={$LIVESTREET_SECURITY_KEY}"
+				>{$aLang.plugin.admin.users.profile.top_bar.activate}</a></li>
+{/if}

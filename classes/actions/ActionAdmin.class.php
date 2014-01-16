@@ -222,6 +222,10 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 * статистика пользователей
 		 */
 		$this->AddEventPreg('#^users$#iu', '#^stats$#iu', 'Users::EventShowUserStats');
+		/*
+		 * активировать пользователя
+		 */
+		$this->AddEventPreg('#^users$#iu', '#^activate$#iu', 'Users::EventActivateUser');
 
 		/*
 		 *

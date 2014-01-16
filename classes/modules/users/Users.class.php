@@ -1385,6 +1385,17 @@ class PluginAdmin_ModuleUsers extends Module {
 
 
 	/**
+	 * Сменить статус активированности пользователя
+	 *
+	 * @param $oUser		объект пользователя
+	 * @param $sNewValue	новое значение
+	 */
+	public function ChangeUserActivate($oUser, $sNewValue) {
+		$this->ModifyUserData($oUser, array('user_activate' => $sNewValue));
+	}
+
+
+	/**
 	 * Сменить geo-данные пользователя
 	 *
 	 * @param $oUser		объект пользователя
