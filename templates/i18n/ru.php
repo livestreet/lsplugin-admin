@@ -448,9 +448,9 @@ return array(
 					'user' => 'За юзеров',
 				),
 				'votings_direction' => array(
-					'plus' => '+',
-					'minus' => '-',
-					'abstain' => '0',
+					'plus' => '<i class="icon-stats-up"></i>',
+					'minus' => '<i class="icon-stats-down"></i>',
+					'abstain' => '&mdash',
 				),
 			),
 

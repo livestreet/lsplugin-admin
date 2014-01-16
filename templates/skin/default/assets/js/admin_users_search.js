@@ -142,21 +142,21 @@ jQuery(document).ready(function($) {
 	 */
 	if (typeof(aAdminUsersSearchRules) == 'object') {
 		/*
-		 добавление скрытого поля для поиска по пользователям (поле имеет имя filter[profile_name])
+		 	добавление скрытого поля для поиска по пользователям (поле имеет имя filter[profile_name])
 		 */
 		$ (ls.admin_users_search.selectors.form_id).bind('submit.admin', function() {
 			return ls.admin_users_search.SubmitFormHandler(this);
 		});
 
 		/*
-		 изменение типа элемента для ввода для разных типов данных
+		 	изменение типа элемента для ввода для разных типов данных
 		 */
 		$ (ls.admin_users_search.selectors.field_name).change(function() {
 			ls.admin_users_search.ChangeFieldNameTrigger(this);
 		});
 
 		/*
-		 сразу выставить нужный тип поля если был поиск по нему
+		 	сразу выставить нужный тип поля если был поиск по нему
 		 */
 		ls.admin_users_search.ChangeFieldNameTrigger(ls.admin_users_search.selectors.field_name);
 	}

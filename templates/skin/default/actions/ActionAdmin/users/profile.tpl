@@ -310,7 +310,7 @@
 					<ul>
 						{foreach from=array('plus', 'minus', 'abstain') item=sVoteDir}
 							{if $aUserVotedStat[$sType][$sVoteDir]}
-								<li>
+								<li title="{$sVoteDir}">
 									<a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]={$sType}&filter[dir]={$sVoteDir}">{$aUserVotedStat[$sType][$sVoteDir]}</a>
 									{$aLang.plugin.admin.users.profile.info.votings_direction[$sVoteDir]}
 								</li>
