@@ -6,15 +6,24 @@
 
 
 {block name='layout_content_actionbar'}
-	<form action="{$sFullPagePathToEvent}" method="get" enctype="application/x-www-form-urlencoded" id="admin_user_list_search_form">
+	<form action="{$sFullPagePathToEvent}" method="get" enctype="application/x-www-form-urlencoded" id="js-admin-users-list-search-form-id">
+		{*
+			нужна только первая пара ключ => значение
+		*}
 		{$sSearchValueItems=array_values($aSearchRulesWithOriginalQueries)}
 		{$sSearchFieldItems=array_keys($aSearchRulesWithOriginalQueries)}
-		{$sSearchValue = array_shift($sSearchValueItems)}			{* need only first field=>value *}
+		{$sSearchValue = array_shift($sSearchValueItems)}
 		{$sSearchField = array_shift($sSearchFieldItems)}
 
-		<input type="text" class="width-200" value="{$sSearchValue}" id="admin_user_list_search_form_q" placeholder="{$aLang.plugin.admin.users.search}" />
+		<script>
+			var aAdminUsersSearchRules = {json var=$oConfig->Get('plugin.admin.users.search_allowed_types')};
+		</script>
 
-		<select class="width-200" id="admin_user_list_search_form_field">
+		<span id="js-admin-users-list-search-form-q-wrapper">
+			<input type="text" class="width-200" value="{$sSearchValue}" placeholder="{$aLang.plugin.admin.users.search}" />
+		</span>
+
+		<select class="width-200" id="js-admin-users-list-search-form-field-name">
 			{foreach array_keys($oConfig->Get('plugin.admin.users.search_allowed_types')) as $sSearchIn}
 				<option value="{$sSearchIn}" {if $sSearchIn == $sSearchField}selected="selected"{/if}>
 					{$aLang.plugin.admin.users.search_allowed_in.$sSearchIn}
@@ -25,8 +34,8 @@
 		{**
 		 * Кнопка отключения фильтра поиска
 		 *}
-		{if $_aRequest.filter.$sSearchField}
-			<a href="{router page='admin/users/list'}{request_filter
+		{if $sSearchField}
+			<a href="{$sFullPagePathToEvent}{request_filter
 				name=array($sSearchField)
 				value=array(null)
 			}" class="button button-icon"><i class="icon-remove"></i></a>

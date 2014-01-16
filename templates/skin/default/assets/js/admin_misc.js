@@ -36,13 +36,6 @@ ls.admin_misc = (function($) {
 		on_page_count: '#admin_onpage select',
 
 		/*
-			форма поиска по пользователям на странице пользователей
-		 */
-		user_search_form_id: '#admin_user_list_search_form',
-		user_search_form_q: '#admin_user_list_search_form_q',
-		user_search_form_field: '#admin_user_list_search_form_field',
-
-		/*
 			проверка правила для бана
 		 */
 		bans_user_sign: '#admin_bans_user_sign',
@@ -101,34 +94,6 @@ jQuery(document).ready(function($) {
 	 */
 	$ (document).on ('change.admin', ls.admin_misc.selectors.on_page_count, function () {
 		$ (ls.admin_misc.selectors.on_page_form_id).submit();
-	});
-
-
-	/*
-		добавление скрытого поля для поиска по пользователям (поле имеет имя filter[profile_name])
-	 */
-	$ (ls.admin_misc.selectors.user_search_form_id).bind('submit.admin', function() {
-		var q = $ (ls.admin_misc.selectors.user_search_form_q);
-		var field = $ (ls.admin_misc.selectors.user_search_form_field);
-		/*
-			список разрешенных типов поиска, по которым можно искать без указания искомого значения
-		 */
-		var aAllowedEmptySearchTypes = ['profile_sex', 'admins_only'];
-		/*
-			флаг, который указывает что для данного типа поиска разрешено не указывать поисковый запрос
-		 */
-		var bAllowEmptyRequest = $.inArray(field.val(), aAllowedEmptySearchTypes) !== -1;
-		/*
-			запретить поиск с пустым условием
-		 */
-		if ($.trim(q.val()) === '' && !bAllowEmptyRequest) return false;
-		$ (ls.admin_misc.selectors.user_search_form_id).prepend(
-			$ ('<input />', {
-				type: 'hidden',
-				name: 'filter[' + field.val() + ']',
-				value: q.val()
-			})
-		);
 	});
 
 

@@ -133,6 +133,14 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 * поиск
 		 */
 		$this->Viewer_Assign('aSearchRulesWithOriginalQueries', $aSearchRulesWithOriginalQueries);
+
+		/*
+		 * добавить нужные текстовки
+		 */
+		$this->Lang_AddLangJs(array(
+			'plugin.admin.users.restricted_values',
+			'plugin.admin.users.search',
+		));
 	}
 
 

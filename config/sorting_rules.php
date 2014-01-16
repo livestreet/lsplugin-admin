@@ -34,21 +34,25 @@
 /*
  * Разрешенные имена полей для поиска по пользователям
  *
- * параметр "search_as_part_of_string" разрешает искать по данному полю как по части строки запроса
- * (при изменении необходимы правки в маппере модуля юзеров плагина - изменить присваивание на LIKE)
+ * Параметры:
+ *
+ * "search_as_part_of_string"	разрешает искать по данному полю как по части строки запроса
+ * 								(при изменении необходимы правки в маппере модуля юзеров плагина - изменить присваивание на LIKE)
+ * "restricted_values"			список всех возможных значений для этого поля (текстовки задаются в языковом файле в массиве plugin.admin.users.restricted_values),
+ * 								которые будут показаны в селекте, если не указано - будет простой инпут
+ * "allow_empty_search"			разрешить ли поиск с пустым значением для этого поля (по-умолчанию запрещено)
  */
 $config['users']['search_allowed_types'] = array(
 	'id' => array('search_as_part_of_string' => false),
 	'mail' => array('search_as_part_of_string' => true),
 	'password' => array('search_as_part_of_string' => false),
 	'ip_register' => array('search_as_part_of_string' => true),
-	'activate' => array('search_as_part_of_string' => false),
+	'activate' => array('search_as_part_of_string' => false, 'restricted_values' => array('1', '0')),
 	'activate_key' => array('search_as_part_of_string' => false),
-	'profile_sex' => array('search_as_part_of_string' => false),
+	'profile_sex' => array('search_as_part_of_string' => false, 'restricted_values' => array('man', 'woman', 'other')),
 	'login' => array('search_as_part_of_string' => true),
-	'profile_name' => array('search_as_part_of_string' => true),
+	'profile_name' => array('search_as_part_of_string' => true, 'allow_empty_search' => true),
 	'session_ip_last' => array('search_as_part_of_string' => true),
-	'admins_only' => array('search_as_part_of_string' => false),
 );
 
 
