@@ -2,21 +2,21 @@
 /**
  * LiveStreet CMS
  * Copyright © 2013 OOO "ЛС-СОФТ"
- * 
+ *
  * ------------------------------------------------------
- * 
+ *
  * Official site: www.livestreetcms.com
  * Contact e-mail: office@livestreetcms.com
- * 
+ *
  * GNU General Public License, version 2:
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * 
+ *
  * ------------------------------------------------------
- * 
+ *
  * @link http://www.livestreetcms.com
  * @copyright 2013 OOO "ЛС-СОФТ"
  * @author Serge Pustovit (PSNet) <light.feel@gmail.com>
- * 
+ *
  */
 
 /*
@@ -28,16 +28,16 @@
 abstract class PluginAdmin_ActionPlugin extends ActionPlugin {
 
 	protected function SetTemplateAction($sTemplate) {
-		$aDelegates = $this->Plugin_GetDelegationChain('action',$this->GetActionClass());
-		$sActionTemplatePath = $sTemplate.'.tpl';
-		foreach($aDelegates as $sAction) {
-			if (preg_match('/^Plugin([\w]+)_Action([\w]+)$/i',$sAction,$aMatches)) {
-				$sTemplatePath = 'actions/Action'.ucfirst($aMatches[2]).'/'.$sTemplate.'.tpl';
+		$aDelegates = $this->Plugin_GetDelegationChain('action', $this->GetActionClass());
+		$sActionTemplatePath = $sTemplate . '.tpl';
+		foreach ($aDelegates as $sAction) {
+			if (preg_match('/^Plugin([\w]+)_Action([\w]+)$/i', $sAction, $aMatches)) {
+				$sTemplatePath = 'actions/Action' . ucfirst($aMatches[2]) . '/' . $sTemplate . '.tpl';
 
 				$sPath = Plugin::GetPath($sAction);
-				$aSkins=array('admin_default','default',Config::Get('view.skin'));
-				foreach($aSkins as $sSkin) {
-					$sTpl = $sPath.'templates/skin/'.$sSkin.'/'.$sTemplatePath;
+				$aSkins = array('admin_default', 'default', Config::Get('view.skin'));
+				foreach ($aSkins as $sSkin) {
+					$sTpl = $sPath . 'templates/skin/' . $sSkin . '/' . $sTemplatePath;
 					if (is_file($sTpl)) {
 						$sActionTemplatePath = $sTpl;
 						break(2);
@@ -45,18 +45,18 @@ abstract class PluginAdmin_ActionPlugin extends ActionPlugin {
 				}
 			}
 		}
-		$this->Viewer_Assign('sAdminTemplateInclude',$sActionTemplatePath);
+		$this->Viewer_Assign('sAdminTemplateInclude', $sActionTemplatePath);
 		$this->sActionTemplate = Plugin::GetPath('admin') . 'templates/skin/default/actions/ActionAdmin/embed_plugin/plugin.tpl';
 	}
 
 
 	protected function EventNotFound() {
-		return Router::Action('admin','error',array('404'));
+		return Router::Action('admin', 'error', array('404'));
 	}
 
 
 	protected function EventError() {
-		return Router::Action('admin','error');
+		return Router::Action('admin', 'error');
 	}
 
 }

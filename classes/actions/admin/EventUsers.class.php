@@ -163,8 +163,8 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * проверяем корректность id пользователя
 		 */
-		if (!$iUserId = (int) $this->GetParam(1) or !$oUser = $this->User_GetUserById($iUserId)) {
-			return Router::Action('error');
+		if (!$oUser = $this->User_GetUserById((int) $this->GetParam(1))) {
+			return $this->EventNotFound();
 		}
 		/*
 		 * получить гео-запись данных пользователя, которые он указал в профиле
@@ -339,19 +339,19 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 * проверяем корректность id пользователя
 		 */
 		if (!$oUser = $this->User_GetUserById((int) $this->GetParam(1))) {
-			return Router::Action('error');
+			return $this->EventNotFound();
 		}
 		/*
 		 * проверяем корректность типа обьекта, голоса по которому нужно показать
 		 */
 		if (!$sVotingTargetType = $this->GetDataFromFilter('type') or !in_array($sVotingTargetType, array('topic', 'comment', 'blog', 'user'))) {
-			return Router::Action('error');
+			return $this->EventNotFound();
 		}
 		/*
 		 * проверяем направление голосования
 		 */
 		if ($sVotingDirection = $this->GetDataFromFilter('dir') and !in_array($sVotingDirection, array('plus', 'minus', 'abstain'))) {
-			return Router::Action('error');
+			return $this->EventNotFound();
 		}
 		/*
 		 * строим фильтр
