@@ -430,7 +430,7 @@ class PluginAdmin_ModulePlugins extends Module {
 		 */
 		if ($aPluginMainClassFiles = @glob($this->GetPluginFolderFullPath($sPluginCode) . $sPrefix . '*' . $sPostfix)) {
 			$sFirstClassFile = basename(array_shift($aPluginMainClassFiles));
-			return strtolower(str_replace($sPrefix, '', str_replace($sPostfix, '', $sFirstClassFile)));
+			return strtolower(str_replace(array($sPrefix, $sPostfix), '', $sFirstClassFile));
 		}
 		return null;
 	}
