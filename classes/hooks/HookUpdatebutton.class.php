@@ -43,8 +43,11 @@ class PluginAdmin_HookUpdatebutton extends Hook {
 		if (!Config::Get('plugin.admin.catalog.show_updates_count_in_toolbar')) return false;
 		/*
 		 * если это админ и он не в админке (там про обновления пишется отдельно)
+		 *
+		 * tip: проверка на включенный кеш нужна для того, чтобы не задергать сервер каталога если на сайте активный админ (т.к. запросы будет посылаться при каждом открытии страницы),
+		 * todo: нужно принудительное кеширование (в самом модуле каталога)
 		 */
-		if ($oUserCurrent = $this->User_GetUserCurrent() and $oUserCurrent->isAdministrator() and Router::GetAction() != 'admin') {
+		if ($this->User_GetIsAdmin() and Router::GetAction() != 'admin' and Config::Get('sys.cache.use')) {
 			/*
 			 * если есть обновления для плагинов
 			 */
