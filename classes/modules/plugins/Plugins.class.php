@@ -44,10 +44,26 @@ class PluginAdmin_ModulePlugins extends Module {
 	 */
 	protected $sLang = null;
 
+	/*
+	 * закешированные на время сессии плагины для каждого фильтра
+	 */
+	private $aPluginsData = array();
+
 
 	public function Init() {
 		$this->sPluginPath = Config::Get('path.application.plugins.server') . '/';
 		$this->sLang = $this->Lang_GetLang();
+	}
+
+
+	/**
+	 * Получить полный путь к каталогу плагина
+	 *
+	 * @param $sPluginCode	код плагина
+	 * @return string
+	 */
+	protected function GetPluginFolderFullPath($sPluginCode) {
+		return $this->sPluginPath . $sPluginCode . '/';
 	}
 
 
@@ -59,7 +75,7 @@ class PluginAdmin_ModulePlugins extends Module {
 	 * @return string		полный путь с именем файла
 	 */
 	protected function GetPluginRootFolderFileFullPath($sPluginCode, $sFilename) {
-		return $this->sPluginPath . $sPluginCode . '/' . $sFilename;
+		return $this->GetPluginFolderFullPath($sPluginCode) . $sFilename;
 	}
 
 
@@ -174,7 +190,8 @@ class PluginAdmin_ModulePlugins extends Module {
 
 
 	/**
-	 * Получает список плагинов по фильтру
+	 * Получает список плагинов по фильтру из сессионного кеша
+	 * tip: на время сессии списки плагинов не меняются, поэтому можно закешировать и обращатся к списку сколько угодно раз
 	 * Ключи $aFilter:
 	 * 		active						bool - включен или нет
 	 * 		plugins_codes				array - коды нужных плагинов
@@ -183,6 +200,27 @@ class PluginAdmin_ModulePlugins extends Module {
 	 * @return array
 	 */
 	public function GetPluginsList($aFilter = array()) {
+		$sCacheKey = serialize($aFilter);
+		/*
+		 * есть ли в сессионном кеше данные
+		 */
+		if (!isset($this->aPluginsData[$sCacheKey])) {
+			$this->aPluginsData[$sCacheKey] = $this->GetPluginsListRaw($aFilter);
+		}
+		return $this->aPluginsData[$sCacheKey];
+	}
+
+
+	/**
+	 * Получает список плагинов по фильтру
+	 * Ключи $aFilter:
+	 * 		active						bool - включен или нет
+	 * 		plugins_codes				array - коды нужных плагинов
+	 *
+	 * @param array $aFilter			фильтр
+	 * @return array
+	 */
+	public function GetPluginsListRaw($aFilter = array()) {
 		$aPlugins = array();
 		/*
 		 * коды активных плагинов (так быстрее)
@@ -195,18 +233,23 @@ class PluginAdmin_ModulePlugins extends Module {
 		/*
 		 * количество активных плагинов
 		 */
-		$iActive = 0;
+		$iActivePlugins = 0;
+		/*
+		 * количество плагинов, которые исключены из списка из-за ошибок
+		 */
+		$iExcludedPlugins = 0;
 		foreach($aAllPluginsCodes as $sPluginCode) {
 			/*
 			 * получить сущность плагина
 			 */
-			if (($oPlugin = $this->GetPluginByCode($sPluginCode, $aActivePluginsCodes, false, false)) === false) {
+			if (($oPlugin = $this->GetPluginByCode($sPluginCode, $aActivePluginsCodes, false)) === false) {
 				/*
-				 * ошибка распознавания xml-файла плагина
+				 * ошибка распознавания xml-файла плагина или некорректный код плагина
 				 */
+				$iExcludedPlugins++;
 				continue;
 			}
-			if ($oPlugin->getActive()) $iActive++;
+			if ($oPlugin->getActive()) $iActivePlugins++;
 			/*
 			 * tip: фильтры использовать только после этого комментария т.к. нужно общее количество
 			 */
@@ -230,11 +273,15 @@ class PluginAdmin_ModulePlugins extends Module {
 			 */
 			$aPlugins[$sPluginCode] = $oPlugin;
 		}
+		/*
+		 * общее число плагинов
+		 */
+		$iTotalCount = count($aAllPluginsCodes) - $iExcludedPlugins;
 		return array(
 			'collection' => $aPlugins,
-			'count_active' => $iActive,
-			'count_inactive' => count($aAllPluginsCodes) - $iActive,
-			'count_all' => count($aAllPluginsCodes)
+			'count_active' => $iActivePlugins,
+			'count_inactive' => $iTotalCount - $iActivePlugins,
+			'count_all' => $iTotalCount
 		);
 	}
 
@@ -245,15 +292,34 @@ class PluginAdmin_ModulePlugins extends Module {
 	 * @param       $sPluginCode				код плагина
 	 * @param array $aActivePluginsCodes		массив кодов активированных плагинов (для метода "active"), может быть пропущен
 	 * @param bool $bCheckPluginFolder			нужно ли проверять есть ли такой плагин в системе
-	 * @param bool $bThrowExceptionOnWrongXml	бросать исключение если xml файл плагина поврежден
-	 * @return bool|Entity						сущность плагина или false в случае ошибки или не попадание под условия фильтра
-	 * @throws Exception
+	 * @param bool $bShowErrorMessages			выводить сообщения об ошибках (некорректный код плагина или поврежденный xml файл)
+	 * @return bool|Entity						сущность плагина или false в случае ошибки
 	 */
-	public function GetPluginByCode($sPluginCode, $aActivePluginsCodes = array(), $bCheckPluginFolder = true, $bThrowExceptionOnWrongXml = true) {
+	public function GetPluginByCode($sPluginCode, $aActivePluginsCodes = array(), $bCheckPluginFolder = true, $bShowErrorMessages = true) {
 		/*
 		 * нужно ли проверять есть ли такой плагин в системе
 		 */
 		if ($bCheckPluginFolder and !in_array($sPluginCode, $this->GetAllPluginsCodes())) return false;
+		/*
+		 * проверить корректность кода плагина (и директории, соответственно)
+		 */
+		if (!$this->CheckPluginCodeToBeCorrect($sPluginCode)) {
+			/*
+			 * если нужно вывести сообщение об ошибке
+			 */
+			if ($bShowErrorMessages) {
+				/*
+				 * если найден корректный код плагина
+				 */
+				if ($sFoundCorrectCode = $this->GetCorrectPluginCodeFromMainPluginClass($sPluginCode)) {
+					$sMsg = $this->Lang_Get('plugin.admin.errors.plugins.plugin_code_is_wrong_but_found_correct', array('code' => $sPluginCode, 'new_dir' => $sFoundCorrectCode));
+				} else {
+					$sMsg = $this->Lang_Get('plugin.admin.errors.plugins.plugin_code_is_wrong', array('code' => $sPluginCode));
+				}
+				$this->Message_AddErrorUnique($sMsg, $this->Lang_Get('error'));
+			}
+			return false;
+		}
 		/*
 		 * если список активных плагинов не был передан - получить коды активных плагинов
 		 */
@@ -277,8 +343,8 @@ class PluginAdmin_ModulePlugins extends Module {
 			/*
 			 * если xml файл плагина некорректен или поврежден - исключить из списка
 			 */
-			if ($bThrowExceptionOnWrongXml) {
-				throw new Exception('Admin: error: plugin`s xml file is incorrect for plugin "' . $sPluginCode . '" in ' . __METHOD__);
+			if ($bShowErrorMessages) {
+				$this->Message_AddErrorUnique($this->Lang_Get('plugin.admin.errors.plugins.wrong_xml_file', array('code' => $sPluginCode)), $this->Lang_Get('error'));
 			}
 			return false;
 		}
@@ -309,6 +375,64 @@ class PluginAdmin_ModulePlugins extends Module {
 		$aPlugins = @file($this->sPluginPath . Config::Get('sys.plugins.activation_file'));
 		$aPlugins = (is_array($aPlugins)) ? array_unique(array_map('trim', $aPlugins)) : array();
 		return $aPlugins;
+	}
+
+
+	/**
+	 * Проверить корректность кода плагина (соответственно и его директории)
+	 *
+	 * @param $sPluginCode		код плагина
+	 * @return bool
+	 */
+	protected function CheckPluginCodeToBeCorrect($sPluginCode) {
+		/*
+		 * проверить разрешенные символы кода плагина
+		 * например, если код (директория) плагина содержит дефис - скорее всего плагин скачали из Git-репозитория, а тот дает свои имена директориям, которые нужно переименовывать
+		 */
+		if (!preg_match('#^[\w\d]+$#iu', $sPluginCode)) {
+			return false;
+		}
+		/*
+		 * есть ли главный класс плагина с таким кодом (не была ли ошибочно названа директория с плагином)
+		 */
+		if (!file_exists($this->GetPluginRootFolderFileFullPath($sPluginCode, $this->GetFullFileNameForMainPluginClass($sPluginCode)))) {
+			return false;
+		}
+		return true;
+	}
+
+
+	/**
+	 * Получить полное имя главного класса плагина по коду
+	 *
+	 * @param $sPluginCode		код плагина
+	 * @return string
+	 */
+	protected function GetFullFileNameForMainPluginClass($sPluginCode) {
+		return 'Plugin' . ucfirst($sPluginCode) . '.class.php';
+	}
+
+
+	/**
+	 * Получить корректное имя плагина на основе имени главного класса плагина в указанной директории
+	 *
+	 * @param $sPluginCode		код плагина (в данном случае - директория)
+	 * @return null|string		найденное имя плагина или нулл
+	 */
+	protected function GetCorrectPluginCodeFromMainPluginClass($sPluginCode) {
+		/*
+		 * начало и конец имени искомого файла
+		 */
+		$sPrefix = 'Plugin';
+		$sPostfix = '.class.php';
+		/*
+		 * получить список всех главных классов в корне папки
+		 */
+		if ($aPluginMainClassFiles = @glob($this->GetPluginFolderFullPath($sPluginCode) . $sPrefix . '*' . $sPostfix)) {
+			$sFirstClassFile = basename(array_shift($aPluginMainClassFiles));
+			return strtolower(str_replace($sPrefix, '', str_replace($sPostfix, '', $sFirstClassFile)));
+		}
+		return null;
 	}
 
 

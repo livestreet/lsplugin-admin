@@ -20,14 +20,14 @@
  */
 
 /*
- *	Модуль сообщений, в зависимости от типа запроса(аякс или нет) добавляет сообщения об ошибках
+ *	Модуль сообщений, в зависимости от типа запроса (аякс или нет) добавляет сообщения об ошибках
  *	Используется при получении данных формы настроек
  */
 
 class PluginAdmin_ModuleMessage extends PluginAdmin_Inherits_ModuleMessage {
 	
 	/*
-	 * список ошибок по полям
+	 * Список ошибок по полям настроек
 	 */
 	private $aParamErrors = array();
 
@@ -39,7 +39,7 @@ class PluginAdmin_ModuleMessage extends PluginAdmin_Inherits_ModuleMessage {
 	 * @param $sKey		ключ, у которого эта ошибка возникла
 	 */
 	private function AddParamError($sMsg, $sKey) {
-		$this->aParamErrors [] = array(
+		$this->aParamErrors[] = array(
 			'key' => $sKey,
 			'msg' => $sMsg
 		);
@@ -55,10 +55,12 @@ class PluginAdmin_ModuleMessage extends PluginAdmin_Inherits_ModuleMessage {
 	 */
 	public function AddOneParamError($sMsg, $sKey) {
 		if (isAjaxRequest()) {
-			// add errors into special array list
+			/*
+			 * добавить ошибку в специальный список
+			 */
 			$this->AddParamError($sMsg, $sKey);
 		} else {
-			$this->Message_AddError($sMsg, $this->Lang_Get('error'), true);
+			$this->AddError($sMsg, $this->Lang_Get('error'), true);
 		}
 	}
 
@@ -70,6 +72,70 @@ class PluginAdmin_ModuleMessage extends PluginAdmin_Inherits_ModuleMessage {
 	 */
 	public function GetParamsErrors() {
 		return $this->aParamErrors;
+	}
+
+
+	/*
+	 *
+	 * --- Дополнение к стандартным методам ---
+	 *
+	 */
+
+	/**
+	 * Добавить сообщение об ошибке с проверкой текста на уникальность и пропустить в случае дубля
+	 *
+	 * @param      $sMsg			сообщение
+	 * @param null $sTitle			заголовок
+	 * @param bool $bUseSession		отложить в сессию
+	 * @return bool
+	 */
+	public function AddErrorUnique($sMsg, $sTitle = null, $bUseSession = false) {
+		return $this->AddMessageUnique('error', $sMsg, $sTitle, $bUseSession);
+	}
+
+
+	/**
+	 * Добавить уведомление с проверкой текста на уникальность и пропустить в случае дубля
+	 *
+	 * @param      $sMsg			сообщение
+	 * @param null $sTitle			заголовок
+	 * @param bool $bUseSession		отложить в сессию
+	 * @return bool
+	 */
+	public function AddNoticeUnique($sMsg, $sTitle = null, $bUseSession = false) {
+		return $this->AddMessageUnique('notice', $sMsg, $sTitle, $bUseSession);
+	}
+
+
+	/**
+	 * Добавить сообщение указанного типа с проверкой на уникальность
+	 *
+	 * @param $sType				тип
+	 * @param $sMsg					сообщение
+	 * @param $sTitle				заголовок
+	 * @param $bUseSession			отложить в сессию
+	 * @return bool					добавлено или нет
+	 */
+	private function AddMessageUnique($sType, $sMsg, $sTitle, $bUseSession) {
+		$sType = ucfirst(strtolower($sType));
+		/*
+		 * получить имя массива, в котором искать
+		 */
+		$sMessageArrayName = $bUseSession ? 'aMsg' . $sType . 'Session' : 'aMsg' . $sType;
+		/*
+		 * искать в массиве
+		 */
+		foreach($this->{$sMessageArrayName} as $aMsgRecord) {
+			/*
+			 * если такой текст уже есть - не добавлять
+			 */
+			if ($sMsg == $aMsgRecord['msg']) {
+				return false;
+			}
+		}
+		$sMethodName = 'Add' . $sType;
+		$this->{$sMethodName}($sMsg, $sTitle, $bUseSession);
+		return true;
 	}
 
 }
