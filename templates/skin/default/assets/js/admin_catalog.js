@@ -33,9 +33,17 @@ ls.admin_catalog = (function($) {
 		tip_toggle_button: '.js-catalog-toggle-tip-button',
 		tip_message: '.js-catalog-tip-message',
 		/*
-			кнопка сортировки
+			кнопка опций
 		 */
-		dropdown_admin_plugins_install_sorting_button: '#dropdown_admin_plugins_install_sorting_button',
+		dropdown_admin_plugins_install_options_button: '#dropdown_admin_plugins_install_options_button',
+		/*
+			ид селекта сортировки
+		 */
+		admin_plugins_install_sorting: '#admin_plugins_install_sorting',
+		/*
+			ид селекта категории
+		 */
+		admin_plugins_install_category: '#admin_plugins_install_category',
 
 		/*
 			для удобства (последняя запятая отсутствует)
@@ -62,10 +70,24 @@ jQuery(document).ready(function($) {
 	});
 
 	/*
-	 	добавлять класс "нажатия" кнопке открывающей дропдаун сортировки
+	 	добавлять класс "нажатия" кнопке открывающей дропдаун опций
 	 */
-	$ (ls.admin_catalog.selectors.dropdown_admin_plugins_install_sorting_button).on('dropdownbeforeshow.admin, dropdownafterhide.admin', function() {
+	$ (ls.admin_catalog.selectors.dropdown_admin_plugins_install_options_button).on('dropdownbeforeshow.admin, dropdownafterhide.admin', function() {
 		$ (this).toggleClass('active');
+	});
+
+	/*
+		изменеие сортировки
+	 */
+	$ (ls.admin_catalog.selectors.admin_plugins_install_sorting).change(function() {
+		window.location.href = $ (this).val();
+	});
+
+	/*
+	 	изменеие категории
+	 */
+	$ (ls.admin_catalog.selectors.admin_plugins_install_category).change(function() {
+		window.location.href = $ (this).val();
 	});
 
 });

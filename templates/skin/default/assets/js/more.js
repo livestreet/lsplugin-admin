@@ -23,6 +23,7 @@ ls.admin_process =( function ($) {
 	};
 
 	this.init = function() {
+		// todo: все переделать
 		this.$process=$('<div id="fsdfsfsfs" style="display: none;z-index: 9999; background-color: #C5C5C5;color: #FF0000;height: 100px;position: fixed;text-align: center;top: 0;width: 100%;"></div>');
 		this.$process.append($('<div style="margin-top: 30px;font-size: 22px;"><img src="'+PATH_FRAMEWORK_FRONTEND+'/images/modal-loader.gif"> Идет обработка запроса...</div>'));
 		this.$process.appendTo('body');

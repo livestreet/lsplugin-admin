@@ -11,7 +11,7 @@
 	</a>
 
 	{* Заголовок *}
-	<h3 class="addon-title"><a href="{$oAddon->getUrl()}">{$oAddon->getTitle()}</a></h3>
+	<h3 class="addon-title"><a href="{$oAddon->getUrl()}">{$oAddon->getTitle()}</a></h3>{* todo: add category label *}
 
 	{* Автор *}
 	{$aUserData = $oAddon->getUser()}

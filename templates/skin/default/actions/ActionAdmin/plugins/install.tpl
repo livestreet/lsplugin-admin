@@ -26,38 +26,39 @@
 		{*
 			дропдаун с сортировков и категорией аддонов
 		*}
-		<button class="button button-icon js-dropdown" data-dropdown-target="dropdown-admin-plugins-install-sorting" id="dropdown_admin_plugins_install_sorting_button">
-			<i class="icon-settings-14"></i>{* todo: sort icon or "A-z" *}
+		<button class="button button-icon js-dropdown" data-dropdown-target="dropdown-admin-plugins-install-options" id="dropdown_admin_plugins_install_options_button">
+			<i class="icon-settings-14"></i>{* todo: add special icon *}
 		</button>
-		<div class="dropdown-menu p15" id="dropdown-admin-plugins-install-sorting">
+		<div class="dropdown-menu p15" id="dropdown-admin-plugins-install-options">
 			{*
 				сортировка
 			*}
-			<div class="addons-sorting mb-15">
+			<select id="admin_plugins_install_sorting" class="width-200">
 				{foreach $oConfig->Get('plugin.admin.catalog.remote.addons.sorting') as $sSorting}
-					<a class="button {if $sSortOrderCurrent==$sSorting}active{/if}" href="{router page='admin/plugins/install'}{request_filter
+					<option value="{router page='admin/plugins/install'}{request_filter
 						name=array('order', 'type', 'category')
 						value=array($sSorting, $sPluginTypeCurrent, $sCategoryCurrent)
-					}">{$aLang.plugin.admin.plugins.install.filter.sorting.$sSorting}</a>
+					}" {if $sSortOrderCurrent==$sSorting}selected="selected"{/if}>{$aLang.plugin.admin.plugins.install.filter.sorting.$sSorting}</option>
 				{/foreach}
-			</div>
+			</select>
 			{*
 				категория аддонов
 			*}
-			<div class="addons-category">
+			<select id="admin_plugins_install_category" class="width-150">
 				{foreach $oConfig->Get('plugin.admin.catalog.remote.addons.categories') as $sCategory}
-					<a class="button {if $sCategoryCurrent==$sCategory}active{/if}" href="{router page='admin/plugins/install'}{request_filter
+					<option value="{router page='admin/plugins/install'}{request_filter
 						name=array('order', 'type', 'category')
 						value=array($sSortOrderCurrent, $sPluginTypeCurrent, $sCategory)
-					}">{$aLang.plugin.admin.plugins.install.filter.categories.$sCategory}</a>
+					}" {if $sCategoryCurrent==$sCategory}selected="selected"{/if}>{$aLang.plugin.admin.plugins.install.filter.categories.$sCategory}</option>
 				{/foreach}
-			</div>
-
+			</select>
 		</div>
 		{*
-			кнопка сброса кеша списка плагинов
+			кнопка сброса кеша списка плагинов (нужна только если включен кеш)
 		*}
-		<a class="button" href="{router page='admin/plugins/install/resetcache'}?security_ls_key={$LIVESTREET_SECURITY_KEY}">Обновить</a>
+		{if Config::Get('sys.cache.use')}
+			<a class="button" href="{router page='admin/plugins/install/resetcache'}?security_ls_key={$LIVESTREET_SECURITY_KEY}">Обновить</a>
+		{/if}
 	</div>
 
 	<a class="button" href="{router page='admin/plugins/list'}">&larr; {$aLang.plugin.admin.plugins.install.go_to_list}</a>
