@@ -474,7 +474,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	public function DeleteOldBanRecords() {
 		if (!Config::Get('plugin.admin.auto_delete_old_ban_records')) return false;
 		// todo: cache
-		$this->oMapper->DeleteOldBanRecords();
+		return $this->oMapper->DeleteOldBanRecords();
 	}
 
 
