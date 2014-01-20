@@ -204,6 +204,17 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 		}
 	}
 
+
+	/**
+	 * Сброс кеша списка дополнений из каталога
+	 */
+	public function EventPluginsResetCache() {
+		$this->Security_ValidateSendForm();
+		$this->PluginAdmin_Catalog_ResetCatalogCache();
+		$this->Message_AddNotice($this->Lang('notices.plugins.reset_catalog_cache_done'), '', true);
+		$this->RedirectToReferer();
+	}
+
 }
 
 ?>

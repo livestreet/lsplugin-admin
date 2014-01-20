@@ -484,6 +484,14 @@ class PluginAdmin_ModuleCatalog extends Module {
 		return $mUpdatesList;
 	}
 
+
+	/**
+	 * Сброс кеша списка дополнений из каталога
+	 */
+	public function ResetCatalogCache() {
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG, array('catalog_addons_update'));
+	}
+
 }
 
 ?>

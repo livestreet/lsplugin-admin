@@ -193,6 +193,7 @@ return array(
 		'plugins' => array(
 			'activate' => 'Плагин активирован',
 			'deactivate' => 'Плагин деактивирован',
+			'reset_catalog_cache_done' => 'Список плагинов обновлен',
 		),
 		/*
 		 * настройки

@@ -280,13 +280,17 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 */
 		$this->AddEventPreg('#^plugin$#i', '#^[\w-]+$#i', 'EmbedPlugin::EventShowEmbedPlugin');
 		/*
-		 * список плагинов (по фильтру)
+		 * список установленных плагинов (по фильтру)
 		 */
 		$this->AddEventPreg('#^plugins$#iu', '#^(?:list)?$#iu', 'Plugins::EventPluginsList');
 		/*
-		 * установка плагинов (каталог)
+		 * сброс кеша списка дополнений из каталога
 		 */
-		$this->AddEventPreg('#^plugins$#iu', '#^install?$#iu', 'Plugins::EventPluginsInstall');
+		$this->AddEventPreg('#^plugins$#iu', '#^install$#iu', '#^resetcache$#iu', 'Plugins::EventPluginsResetCache');
+		/*
+		 * установка дополнений из каталога
+		 */
+		$this->AddEventPreg('#^plugins$#iu', '#^install$#iu', 'Plugins::EventPluginsInstall');
 		/*
 		 * активация/деактивация плагина
 		 */

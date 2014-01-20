@@ -54,6 +54,10 @@
 			</div>
 
 		</div>
+		{*
+			кнопка сброса кеша списка плагинов
+		*}
+		<a class="button" href="{router page='admin/plugins/install/resetcache'}?security_ls_key={$LIVESTREET_SECURITY_KEY}">Обновить</a>
 	</div>
 
 	<a class="button" href="{router page='admin/plugins/list'}">&larr; {$aLang.plugin.admin.plugins.install.go_to_list}</a>

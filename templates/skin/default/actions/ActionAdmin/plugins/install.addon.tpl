@@ -43,6 +43,10 @@
 
 	{* Общая информация *}
 	<div class="addon-full-info">
+		{if !$oAddon->getCompatibleWithCurrentSitesLSVersion()}
+			{include file="{$aTemplatePathPlugin.admin}alert.tpl" mAlerts="Не совместим с установленной версией движка" sAlertStyle='info'}
+		{/if}
+
 		Версия {$oAddon->getVersion()} | 
 
 		<span {if !$oAddon->getCompatibleWithCurrentSitesLSVersion()}class="addon-not-compatible" title="Не совместим с установленной версией движка"{/if}>
