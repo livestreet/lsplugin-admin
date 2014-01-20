@@ -866,7 +866,7 @@ class PluginAdmin_ModuleUsers extends Module {
 		 * удаление личных сообщений
 		 */
 		$aTalks = $this->Talk_GetTalksByFilter(array('user_id' => $oUser->getId()), 1, PHP_INT_MAX);
-		if ($aTalks ['count']) {
+		if ($aTalks['count']) {
 			/*
 			 * получить ид всех личных сообщений
 			 */
@@ -885,7 +885,7 @@ class PluginAdmin_ModuleUsers extends Module {
 		$this->Vote_DeleteVoteByTarget($oUser->getId(), 'user');
 
 		/*
-		 * review: если будут проблемы с удалением объектов выше - можно весь процесс удаления перевести на модуль удаления (как в вызовах ниже)
+		 * tip: если будут проблемы с удалением объектов выше - можно весь процесс удаления перевести на модуль удаления (как в вызовах ниже)
 		 */
 
 		/*
@@ -901,7 +901,7 @@ class PluginAdmin_ModuleUsers extends Module {
 		 */
 		$this->PluginAdmin_Deletecontent_DeleteUserFavourite($oUser);
 		/*
-		 * удалить избранные теги пользователя
+		 * удалить теги избранного пользователя
 		 */
 		$this->PluginAdmin_Deletecontent_DeleteUserFavouriteTag($oUser);
 
@@ -1005,19 +1005,14 @@ class PluginAdmin_ModuleUsers extends Module {
 
 		/*
 		 *
-		 * Удаление комментариев
+		 * Удалить комментарии пользователя и все дочерние ответы на них и связанные с ними данные
 		 *
 		 * Комментарии - не линейная структура, поэтому процесс удаления будет состоять из удаления комментариев пользователя,
 		 * очистки оставшихся дочерних комментариев (ответов) и перестроения структуры дерева (если используется "nested set")
 		 * и удаляения записей голосований и избранного для удаленных веток комментариев
 		 *
 		 */
-
-		/*
-		 * удалить комментарии пользователя и все дочерние ответы на них и связанные с ними данные
-		 */
 		$this->DeleteUserCommentsTree($oUser);
-
 
 		/*
 		 *
@@ -1025,6 +1020,24 @@ class PluginAdmin_ModuleUsers extends Module {
 		 *
 		 */
 		$this->PluginAdmin_Deletecontent_CleanStreamForEventsNotExists();
+		/*
+		 *
+		 * Очистка голосов, которые указывают на объекты, которых больше нет
+		 *
+		 */
+		$this->PluginAdmin_Deletecontent_CleanVotingsTableTargetingObjectsNotExists();
+		/*
+		 *
+		 * Очистить записи избранного, указывающие на несуществующие объекты
+		 *
+		 */
+		$this->PluginAdmin_Deletecontent_CleanFavouritesTargetingObjectsNotExists();
+		/*
+		 *
+		 * Очистить записи тегов для избранного, указывающие на несуществующие объекты
+		 *
+		 */
+		$this->PluginAdmin_Deletecontent_CleanFavouritesTagsTargetingObjectsNotExists();
 	}
 
 

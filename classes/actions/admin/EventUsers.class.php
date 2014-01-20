@@ -258,7 +258,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	 * @param int		$iParamNum					номер параметра, в котором нужно искать номер страницы
 	 * @param string 	$sConfigKeyPerPage			ключ конфига, в котором хранится количество элементов на страницу
 	 */
-	protected function SetPaging ($iParamNum = 1, $sConfigKeyPerPage = 'user.per_page') {
+	protected function SetPaging($iParamNum = 1, $sConfigKeyPerPage = 'user.per_page') {
 		if (!$this->iPage = intval(preg_replace('#^page(\d+)$#iu', '$1', $this->GetParam ($iParamNum)))) {
 			$this->iPage = 1;
 		}
@@ -419,7 +419,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	 * @param array $aParams		набор параметров ключ=>значение
 	 * @return array|null			массив параметров, которые имеют значение
 	 */
-	protected function GetPagingAdditionalParamsByArray ($aParams = array()) {
+	protected function GetPagingAdditionalParamsByArray($aParams = array()) {
 		$aFilter = array();
 		foreach ($aParams as $sKey => $mData) {
 			if ($mData) {
@@ -838,7 +838,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	/**
 	 * Изменить количество банов на странице
 	 */
-	public function EventAjaxBansOnPage () {
+	public function EventAjaxBansOnPage() {
 		$this->Viewer_SetResponseAjax('json');
 		$this->PluginAdmin_Users_ChangeBansPerPage(getRequestStr('onpage'));
 	}
@@ -847,7 +847,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	/**
 	 * Изменить количество голосов на странице
 	 */
-	public function EventAjaxVotesOnPage () {
+	public function EventAjaxVotesOnPage() {
 		$this->Viewer_SetResponseAjax('json');
 		$this->PluginAdmin_Users_ChangeVotesPerPage(getRequestStr('onpage'));
 	}
@@ -942,7 +942,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	/**
 	 * Проверить правило бана на корректность
 	 */
-	public function EventAjaxBansCheckUserSign () {
+	public function EventAjaxBansCheckUserSign() {
 		$this->Viewer_SetResponseAjax('json');
 		$sResponse = '';
 		/*
@@ -1160,7 +1160,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	/**
 	 * Получить данные графика
 	 */
-	protected function GetGraphStats () {
+	protected function GetGraphStats() {
 		/*
 		 * получить данные для графика
 		 */

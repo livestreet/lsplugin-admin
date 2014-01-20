@@ -555,7 +555,6 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 	 *
 	 */
 
-
 	/**
 	 * Удаляет комментарии у которых указаны несуществующие родительские ид комментариев в comment_pid
 	 * (выполнять пока возвращает результат чтобы удалить всю поврежденную цепочку)
@@ -603,66 +602,6 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 			self::FILTER_CONDITIONS => array(),
 			self::FILTER_TABLE => Config::Get('db.table.comment_online'),
 			self::FILTER_CONNECTED_FIELD => 'comment_id',
-
-			self::FILTER_SUBQUERY_FIELD => 'comment_id',
-			self::FILTER_SUBQUERY_TABLE => Config::Get('db.table.comment'),
-		);
-		return $this->DeleteReferencesToOtherTableRecordsNotExists($aFilter);
-	}
-
-
-	/**
-	 * Удаляет записи голосований, указывающие на несуществующие комментарии
-	 *
-	 * @return bool
-	 */
-	protected function DeleteVotingsTargetingCommentsNotExists() {
-		$aFilter = array(
-			self::FILTER_CONDITIONS => array(
-				'target_type' => 'comment',
-			),
-			self::FILTER_TABLE => Config::Get('db.table.vote'),
-			self::FILTER_CONNECTED_FIELD => 'target_id',
-
-			self::FILTER_SUBQUERY_FIELD => 'comment_id',
-			self::FILTER_SUBQUERY_TABLE => Config::Get('db.table.comment'),
-		);
-		return $this->DeleteReferencesToOtherTableRecordsNotExists($aFilter);
-	}
-
-
-	/**
-	 * Удаляет записи избранного, указывающие на несуществующие комментарии
-	 *
-	 * @return bool
-	 */
-	protected function DeleteFavouriteTargetingCommentsNotExists() {
-		$aFilter = array(
-			self::FILTER_CONDITIONS => array(
-				'target_type' => 'comment',
-			),
-			self::FILTER_TABLE => Config::Get('db.table.favourite'),
-			self::FILTER_CONNECTED_FIELD => 'target_id',
-
-			self::FILTER_SUBQUERY_FIELD => 'comment_id',
-			self::FILTER_SUBQUERY_TABLE => Config::Get('db.table.comment'),
-		);
-		return $this->DeleteReferencesToOtherTableRecordsNotExists($aFilter);
-	}
-
-
-	/**
-	 * Удаляет записи тегов избранного, указывающие на несуществующие комментарии
-	 *
-	 * @return bool
-	 */
-	protected function DeleteFavouriteTagsTargetingCommentsNotExists() {
-		$aFilter = array(
-			self::FILTER_CONDITIONS => array(
-				'target_type' => 'comment',
-			),
-			self::FILTER_TABLE => Config::Get('db.table.favourite_tag'),
-			self::FILTER_CONNECTED_FIELD => 'target_id',
 
 			self::FILTER_SUBQUERY_FIELD => 'comment_id',
 			self::FILTER_SUBQUERY_TABLE => Config::Get('db.table.comment'),
@@ -1019,6 +958,285 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 
 	/*
 	 *
+	 * --- Очистка таблицы голосований ---
+	 *
+	 */
+
+	/**
+	 * Удаляет записи голосований, указывающие на несуществующие комментарии
+	 *
+	 * @return bool
+	 */
+	protected function DeleteVotingsTargetingCommentsNotExists() {
+		$aFilter = array(
+			self::FILTER_CONDITIONS => array(
+				'target_type' => 'comment',
+			),
+			self::FILTER_TABLE => Config::Get('db.table.vote'),
+			self::FILTER_CONNECTED_FIELD => 'target_id',
+
+			self::FILTER_SUBQUERY_FIELD => 'comment_id',
+			self::FILTER_SUBQUERY_TABLE => Config::Get('db.table.comment'),
+		);
+		return $this->DeleteReferencesToOtherTableRecordsNotExists($aFilter);
+	}
+
+
+	/**
+	 * Удаляет записи голосований, указывающие на несуществующие топики
+	 *
+	 * @return bool
+	 */
+	protected function DeleteVotingsTargetingTopicsNotExists() {
+		$aFilter = array(
+			self::FILTER_CONDITIONS => array(
+				'target_type' => 'topic',
+			),
+			self::FILTER_TABLE => Config::Get('db.table.vote'),
+			self::FILTER_CONNECTED_FIELD => 'target_id',
+
+			self::FILTER_SUBQUERY_FIELD => 'topic_id',
+			self::FILTER_SUBQUERY_TABLE => Config::Get('db.table.topic'),
+		);
+		return $this->DeleteReferencesToOtherTableRecordsNotExists($aFilter);
+	}
+
+
+	/**
+	 * Удаляет записи голосований, указывающие на несуществующие блоги
+	 *
+	 * @return bool
+	 */
+	protected function DeleteVotingsTargetingBlogsNotExists() {
+		$aFilter = array(
+			self::FILTER_CONDITIONS => array(
+				'target_type' => 'blog',
+			),
+			self::FILTER_TABLE => Config::Get('db.table.vote'),
+			self::FILTER_CONNECTED_FIELD => 'target_id',
+
+			self::FILTER_SUBQUERY_FIELD => 'blog_id',
+			self::FILTER_SUBQUERY_TABLE => Config::Get('db.table.blog'),
+		);
+		return $this->DeleteReferencesToOtherTableRecordsNotExists($aFilter);
+	}
+
+
+	/**
+	 * Удаляет записи голосований, указывающие на несуществующих пользователей
+	 *
+	 * @return bool
+	 */
+	protected function DeleteVotingsTargetingUsersNotExists() {
+		$aFilter = array(
+			self::FILTER_CONDITIONS => array(
+				'target_type' => 'user',
+			),
+			self::FILTER_TABLE => Config::Get('db.table.vote'),
+			self::FILTER_CONNECTED_FIELD => 'target_id',
+
+			self::FILTER_SUBQUERY_FIELD => 'user_id',
+			self::FILTER_SUBQUERY_TABLE => Config::Get('db.table.user'),
+		);
+		return $this->DeleteReferencesToOtherTableRecordsNotExists($aFilter);
+	}
+
+
+	/**
+	 * Удалить все голосования, указывающие на несуществующие объекты
+	 */
+	public function CleanVotingsTableTargetingObjectsNotExists() {
+		/*
+		 * удалить голоса за несуществующие топики
+		 */
+		$this->DeleteVotingsTargetingTopicsNotExists();
+		/*
+		 * удалить голоса за несуществующие блоги
+		 */
+		$this->DeleteVotingsTargetingBlogsNotExists();
+		/*
+		 * удалить голоса за несуществующих пользователей
+		 */
+		$this->DeleteVotingsTargetingUsersNotExists();
+		/*
+		 * удалить голоса за несуществующие комментарии
+		 */
+		$this->DeleteVotingsTargetingCommentsNotExists();
+	}
+
+
+	/*
+	 *
+	 * --- Чистка избранного ---
+	 *
+	 */
+
+	/**
+	 * Удаляет записи избранного, указывающие на несуществующие топики
+	 *
+	 * @return bool
+	 */
+	protected function DeleteFavouriteTargetingTopicsNotExists() {
+		$aFilter = array(
+			self::FILTER_CONDITIONS => array(
+				'target_type' => 'topic',
+			),
+			self::FILTER_TABLE => Config::Get('db.table.favourite'),
+			self::FILTER_CONNECTED_FIELD => 'target_id',
+
+			self::FILTER_SUBQUERY_FIELD => 'topic_id',
+			self::FILTER_SUBQUERY_TABLE => Config::Get('db.table.topic'),
+		);
+		return $this->DeleteReferencesToOtherTableRecordsNotExists($aFilter);
+	}
+
+
+	/**
+	 * Удаляет записи избранного, указывающие на несуществующие комментарии
+	 *
+	 * @return bool
+	 */
+	protected function DeleteFavouriteTargetingCommentsNotExists() {
+		$aFilter = array(
+			self::FILTER_CONDITIONS => array(
+				'target_type' => 'comment',
+			),
+			self::FILTER_TABLE => Config::Get('db.table.favourite'),
+			self::FILTER_CONNECTED_FIELD => 'target_id',
+
+			self::FILTER_SUBQUERY_FIELD => 'comment_id',
+			self::FILTER_SUBQUERY_TABLE => Config::Get('db.table.comment'),
+		);
+		return $this->DeleteReferencesToOtherTableRecordsNotExists($aFilter);
+	}
+
+
+	/**
+	 * Удаляет записи избранного, указывающие на несуществующие личные сообщения
+	 *
+	 * @return bool
+	 */
+	protected function DeleteFavouriteTargetingTalksNotExists() {
+		$aFilter = array(
+			self::FILTER_CONDITIONS => array(
+				'target_type' => 'talk',
+			),
+			self::FILTER_TABLE => Config::Get('db.table.favourite'),
+			self::FILTER_CONNECTED_FIELD => 'target_id',
+
+			self::FILTER_SUBQUERY_FIELD => 'talk_id',
+			self::FILTER_SUBQUERY_TABLE => Config::Get('db.table.talk'),
+		);
+		return $this->DeleteReferencesToOtherTableRecordsNotExists($aFilter);
+	}
+
+
+	/**
+	 * Очистить записи избранного, указывающие на несуществующие объекты
+	 */
+	public function CleanFavouritesTargetingObjectsNotExists() {
+		/*
+		 * удалить записи избранного, указывающие на несуществующие топики
+		 */
+		$this->DeleteFavouriteTargetingTopicsNotExists();
+		/*
+		 * удалить записи избранного, указывающие на несуществующие комментарии
+		 */
+		$this->DeleteFavouriteTargetingCommentsNotExists();
+		/*
+		 * удалить записи избранного, указывающие на несуществующие личные сообщения
+		 */
+		$this->DeleteFavouriteTargetingTalksNotExists();
+	}
+
+
+	/*
+	 *
+	 * --- Очистка тегов для избранного, указывающих на записи, которых больше нет
+	 *
+	 */
+
+	/**
+	 * Удаляет записи тегов избранного, указывающие на несуществующие топики
+	 *
+	 * @return bool
+	 */
+	protected function DeleteFavouriteTagsTargetingTopicsNotExists() {
+		$aFilter = array(
+			self::FILTER_CONDITIONS => array(
+				'target_type' => 'topic',
+			),
+			self::FILTER_TABLE => Config::Get('db.table.favourite_tag'),
+			self::FILTER_CONNECTED_FIELD => 'target_id',
+
+			self::FILTER_SUBQUERY_FIELD => 'topic_id',
+			self::FILTER_SUBQUERY_TABLE => Config::Get('db.table.topic'),
+		);
+		return $this->DeleteReferencesToOtherTableRecordsNotExists($aFilter);
+	}
+
+
+	/**
+	 * Удаляет записи тегов избранного, указывающие на несуществующие комментарии
+	 *
+	 * @return bool
+	 */
+	protected function DeleteFavouriteTagsTargetingCommentsNotExists() {
+		$aFilter = array(
+			self::FILTER_CONDITIONS => array(
+				'target_type' => 'comment',
+			),
+			self::FILTER_TABLE => Config::Get('db.table.favourite_tag'),
+			self::FILTER_CONNECTED_FIELD => 'target_id',
+
+			self::FILTER_SUBQUERY_FIELD => 'comment_id',
+			self::FILTER_SUBQUERY_TABLE => Config::Get('db.table.comment'),
+		);
+		return $this->DeleteReferencesToOtherTableRecordsNotExists($aFilter);
+	}
+
+
+	/**
+	 * Удаляет записи тегов избранного, указывающие на несуществующие личные сообщения
+	 *
+	 * @return bool
+	 */
+	protected function DeleteFavouriteTagsTargetingTalksNotExists() {
+		$aFilter = array(
+			self::FILTER_CONDITIONS => array(
+				'target_type' => 'talk',
+			),
+			self::FILTER_TABLE => Config::Get('db.table.favourite_tag'),
+			self::FILTER_CONNECTED_FIELD => 'target_id',
+
+			self::FILTER_SUBQUERY_FIELD => 'talk_id',
+			self::FILTER_SUBQUERY_TABLE => Config::Get('db.table.talk'),
+		);
+		return $this->DeleteReferencesToOtherTableRecordsNotExists($aFilter);
+	}
+
+
+	/**
+	 * Очистить записи тегов для избранного, указывающие на несуществующие объекты
+	 */
+	public function CleanFavouritesTagsTargetingObjectsNotExists() {
+		/*
+		 * удалить записи тегов избранного, которые указывают на несуществующие топики
+		 */
+		$this->DeleteFavouriteTagsTargetingTopicsNotExists();
+		/*
+		 * удалить записи тегов избранного, которые указывают на несуществующие комментарии
+		 */
+		$this->DeleteFavouriteTagsTargetingCommentsNotExists();
+		/*
+		 * удалить записи тегов избранного, которые указывают на несуществующие личные сообщения
+		 */
+		$this->DeleteFavouriteTagsTargetingTalksNotExists();
+	}
+
+
+	/*
+	 *
 	 * --- Методы очистки верхнего уровня ---
 	 *
 	 */
@@ -1034,16 +1252,16 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 		/*
 		 * отключить проверку внешних связей
 		 */
-		$this->PluginAdmin_Deletecontent_DisableForeignKeysChecking();
+		$this->DisableForeignKeysChecking();
 		/*
 		 * в таблице комментариев могут быть ответы у которых comment_pid указывает на несуществующий комментарий,
 		 * очистка таблицы прямого эфира - там могут быть записи, указывающие на несуществующие комментарии
 		 */
-		$this->PluginAdmin_Deletecontent_DeleteBrokenChainsFromCommentsTreeAndOnlineCommentsAndCleanUpOtherTables();
+		$this->DeleteBrokenChainsFromCommentsTreeAndOnlineCommentsAndCleanUpOtherTables();
 		/*
 		 * включить проверку внешних связей
 		 */
-		$this->PluginAdmin_Deletecontent_EnableForeignKeysChecking();
+		$this->EnableForeignKeysChecking();
 		/*
 		 * удалить весь кеш - слишком много зависимостей
 		 */
@@ -1062,15 +1280,15 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 		/*
 		 * отключить проверку внешних связей
 		 */
-		$this->PluginAdmin_Deletecontent_DisableForeignKeysChecking();
+		$this->DisableForeignKeysChecking();
 		/*
 		 * Очистка активности (стрима) от ссылок на записи, которых больше нет
 		 */
-		$this->PluginAdmin_Deletecontent_CleanStreamForEventsNotExists();
+		$this->CleanStreamForEventsNotExists();
 		/*
 		 * включить проверку внешних связей
 		 */
-		$this->PluginAdmin_Deletecontent_EnableForeignKeysChecking();
+		$this->EnableForeignKeysChecking();
 		/*
 		 * удалить весь кеш - слишком много зависимостей
 		 */
