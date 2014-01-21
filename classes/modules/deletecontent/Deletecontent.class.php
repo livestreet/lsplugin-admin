@@ -1235,6 +1235,15 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 	}
 
 
+	/**
+	 * Очистить записи избранного и тегов для избранного, указывающие на несуществующие объекты
+	 */
+	public function CleanFavouritesAndItsTagsTargetingObjectsNotExists() {
+		$this->CleanFavouritesTargetingObjectsNotExists();
+		$this->CleanFavouritesTagsTargetingObjectsNotExists();
+	}
+
+
 	/*
 	 *
 	 * --- Методы очистки верхнего уровня ---

@@ -56,6 +56,7 @@ class PluginAdmin_ActionAdmin_EventUtils extends Event {
 	 * @return bool
 	 */
 	protected function ProcessCheckAndRepairAction($sActionType) {
+		set_time_limit(0);
 		switch ($sActionType) {
 			case 'repaircomments':
 				/*
@@ -70,6 +71,20 @@ class PluginAdmin_ActionAdmin_EventUtils extends Event {
 				 */
 				$this->PluginAdmin_Deletecontent_PerformCleanStreamEventsRecords();
 				$this->Message_AddNotice($this->Lang('notices.utils.check_n_repair.tables.checking_stream_done'), '', true);
+				break;
+			case 'cleanvotings':
+				/*
+				 * Удалить все голосования, указывающие на несуществующие объекты
+				 */
+				$this->PluginAdmin_Deletecontent_CleanVotingsTableTargetingObjectsNotExists();
+				$this->Message_AddNotice($this->Lang('notices.utils.check_n_repair.tables.checking_votings_done'), '', true);
+				break;
+			case 'cleanfavourites':
+				/*
+				 * Очистить записи избранного и тегов для избранного, указывающие на несуществующие объекты
+				 */
+				$this->PluginAdmin_Deletecontent_CleanFavouritesAndItsTagsTargetingObjectsNotExists();
+				$this->Message_AddNotice($this->Lang('notices.utils.check_n_repair.tables.checking_favourites_done'), '', true);
 				break;
 			case 'checkencoding':
 				/*
@@ -115,6 +130,7 @@ class PluginAdmin_ActionAdmin_EventUtils extends Event {
 	 * @return bool
 	 */
 	protected function ProcessResetAndClearAction($sActionType) {
+		set_time_limit(0);
 		switch ($sActionType) {
 			case 'resetallbansstats':
 				/*

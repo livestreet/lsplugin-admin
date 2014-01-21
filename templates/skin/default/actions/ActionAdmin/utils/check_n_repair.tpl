@@ -31,6 +31,16 @@
 				>{$aLang.plugin.admin.utils.check_n_repair.tables.clean_stream}</a>
 	</div>
 
+	<div class="mb-10">
+		<a class="js-question" href="{router page='admin/utils/check_n_repair/cleanvotings'}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
+				>{$aLang.plugin.admin.utils.check_n_repair.tables.clean_votings}</a>
+	</div>
+
+	<div class="mb-10">
+		<a class="js-question" href="{router page='admin/utils/check_n_repair/cleanfavourites'}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
+				>{$aLang.plugin.admin.utils.check_n_repair.tables.clean_favourites}</a>
+	</div>
+
 	{hook run='admin_utils_check_n_repair_tables_item'}
 
 

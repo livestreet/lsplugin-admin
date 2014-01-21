@@ -1002,7 +1002,6 @@ class PluginAdmin_ModuleUsers extends Module {
 		 */
 		$this->PluginAdmin_Deletecontent_DeleteUserWroteOnWalls($oUser);
 
-
 		/*
 		 *
 		 * Удалить комментарии пользователя и все дочерние ответы на них и связанные с ними данные
@@ -1015,29 +1014,17 @@ class PluginAdmin_ModuleUsers extends Module {
 		$this->DeleteUserCommentsTree($oUser);
 
 		/*
-		 *
 		 * Очистка активности (стрима) от ссылок на записи, которых больше нет
-		 *
 		 */
 		$this->PluginAdmin_Deletecontent_CleanStreamForEventsNotExists();
 		/*
-		 *
 		 * Очистка голосов, которые указывают на объекты, которых больше нет
-		 *
 		 */
 		$this->PluginAdmin_Deletecontent_CleanVotingsTableTargetingObjectsNotExists();
 		/*
-		 *
-		 * Очистить записи избранного, указывающие на несуществующие объекты
-		 *
+		 * Очистить записи избранного и тегов для избранного, указывающие на несуществующие объекты
 		 */
-		$this->PluginAdmin_Deletecontent_CleanFavouritesTargetingObjectsNotExists();
-		/*
-		 *
-		 * Очистить записи тегов для избранного, указывающие на несуществующие объекты
-		 *
-		 */
-		$this->PluginAdmin_Deletecontent_CleanFavouritesTagsTargetingObjectsNotExists();
+		$this->PluginAdmin_Deletecontent_CleanFavouritesAndItsTagsTargetingObjectsNotExists();
 	}
 
 
