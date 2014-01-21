@@ -16,8 +16,8 @@
 		*}
 		{foreach $oConfig->Get('plugin.admin.catalog.remote.addons.type') as $sPluginType}
 			<a class="button {if $sPluginTypeCurrent==$sPluginType}active{/if}" href="{router page='admin/plugins/install'}{request_filter
-				name=array('order', 'type', 'category')
-				value=array($sSortOrderCurrent, $sPluginType, $sCategoryCurrent)
+				name=array('order', 'type', 'category', 'version', 'section')
+				value=array($sSortOrderCurrent, $sPluginType, $sCategoryCurrent, $sVersionCurrent, $sSectionCurrent)
 			}">{$aLang.plugin.admin.plugins.install.filter.type.$sPluginType}</a>
 		{/foreach}
 
@@ -36,8 +36,8 @@
 			<select id="admin_plugins_install_sorting" class="width-200">
 				{foreach $oConfig->Get('plugin.admin.catalog.remote.addons.sorting') as $sSorting}
 					<option value="{router page='admin/plugins/install'}{request_filter
-						name=array('order', 'type', 'category')
-						value=array($sSorting, $sPluginTypeCurrent, $sCategoryCurrent)
+						name=array('order', 'type', 'category', 'version', 'section')
+						value=array($sSorting, $sPluginTypeCurrent, $sCategoryCurrent, $sVersionCurrent, $sSectionCurrent)
 					}" {if $sSortOrderCurrent==$sSorting}selected="selected"{/if}>{$aLang.plugin.admin.plugins.install.filter.sorting.$sSorting}</option>
 				{/foreach}
 			</select>
@@ -47,9 +47,31 @@
 			<select id="admin_plugins_install_category" class="width-150">
 				{foreach $oConfig->Get('plugin.admin.catalog.remote.addons.categories') as $sCategory}
 					<option value="{router page='admin/plugins/install'}{request_filter
-						name=array('order', 'type', 'category')
-						value=array($sSortOrderCurrent, $sPluginTypeCurrent, $sCategory)
+						name=array('order', 'type', 'category', 'version', 'section')
+						value=array($sSortOrderCurrent, $sPluginTypeCurrent, $sCategory, $sVersionCurrent, $sSectionCurrent)
 					}" {if $sCategoryCurrent==$sCategory}selected="selected"{/if}>{$aLang.plugin.admin.plugins.install.filter.categories.$sCategory}</option>
+				{/foreach}
+			</select>
+			{*
+				версия
+			*}
+			<select id="admin_plugins_install_version" class="width-150">
+				{foreach $oConfig->Get('plugin.admin.catalog.remote.addons.versions') as $sVersion}
+					<option value="{router page='admin/plugins/install'}{request_filter
+						name=array('order', 'type', 'category', 'version', 'section')
+						value=array($sSortOrderCurrent, $sPluginTypeCurrent, $sCategoryCurrent, $sVersion, $sSectionCurrent)
+					}" {if $sVersionCurrent==$sVersion}selected="selected"{/if}>{$aLang.plugin.admin.plugins.install.filter.versions.$sVersion}</option>
+				{/foreach}
+			</select>
+			{*
+				секция
+			*}
+			<select id="admin_plugins_install_section" class="width-150">
+				{foreach $oConfig->Get('plugin.admin.catalog.remote.addons.sections') as $sSection}
+					<option value="{router page='admin/plugins/install'}{request_filter
+						name=array('order', 'type', 'category', 'version', 'section')
+						value=array($sSortOrderCurrent, $sPluginTypeCurrent, $sCategoryCurrent, $sVersionCurrent, $sSection)
+					}" {if $sSectionCurrent==$sSection}selected="selected"{/if}>{$aLang.plugin.admin.plugins.install.filter.sections.$sSection}</option>
 				{/foreach}
 			</select>
 		</div>
@@ -57,7 +79,7 @@
 			кнопка сброса кеша списка плагинов (нужна только если включен кеш)
 		*}
 		{if Config::Get('sys.cache.use')}
-			<a class="button" href="{router page='admin/plugins/install/resetcache'}?security_ls_key={$LIVESTREET_SECURITY_KEY}">Обновить</a>
+			<a class="button" href="{router page='admin/plugins/install/resetcache'}?security_ls_key={$LIVESTREET_SECURITY_KEY}">{$aLang.plugin.admin.plugins.install.update}</a>
 		{/if}
 	</div>
 
@@ -74,9 +96,13 @@
 
 	{* Вывод дополнений *}
 	<div class="addon-list-full">
-		{foreach $aAddons as $oAddon}
-			{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/plugins/install.addon.tpl"}
-		{/foreach}
+		{if $aAddons and count($aAddons) > 0}
+			{foreach $aAddons as $oAddon}
+				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/plugins/install.addon.tpl"}
+			{/foreach}
+		{else}
+			{include file="{$aTemplatePathPlugin.admin}alert.tpl" mAlerts=$aLang.plugin.admin.plugins.install.no_addons sAlertStyle='info'}
+		{/if}
 	</div>
 
 	{include file="{$aTemplatePathPlugin.admin}pagination.tpl"}

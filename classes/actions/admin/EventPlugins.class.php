@@ -144,13 +144,19 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 		/*
 		 * если сортировка не указана - использовать сортировку каталога по-умолчанию
 		 */
-		if (!$sOrder = $this->GetDataFromFilter('order')) {
-			$sOrder = Config::Get('plugin.admin.catalog.remote.addons.default_sorting');
-		}
+		$sOrder = $this->GetDataFromFilter('order') ? $this->GetDataFromFilter('order') : Config::Get('plugin.admin.catalog.remote.addons.default_sorting');
 		/*
 		 * категория аддонов (все, плагины, шаблоны и т.п.)
 		 */
 		$sCategory = $this->GetDataFromFilter('category');
+		/*
+		 * версия дополнений
+		 */
+		$sVersion = $this->GetDataFromFilter('version');
+		/*
+		 * секция
+		 */
+		$sSection = $this->GetDataFromFilter('section');
 
 		$this->SetPagingForApi();
 		/*
@@ -187,6 +193,8 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 		$this->Viewer_Assign('sPluginTypeCurrent', $sType);
 		$this->Viewer_Assign('sSortOrderCurrent', $sOrder);
 		$this->Viewer_Assign('sCategoryCurrent', $sCategory);
+		$this->Viewer_Assign('sVersionCurrent', $sVersion);
+		$this->Viewer_Assign('sSectionCurrent', $sSection);
 
 		$this->Viewer_Assign('aPaging', $aPaging);
 		$this->Viewer_Assign('aAddons', $aAddons);

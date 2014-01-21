@@ -44,6 +44,14 @@ ls.admin_catalog = (function($) {
 			ид селекта категории
 		 */
 		admin_plugins_install_category: '#admin_plugins_install_category',
+		/*
+		 	ид селекта версии
+		 */
+		admin_plugins_install_version: '#admin_plugins_install_version',
+		/*
+		 	ид селекта секции
+		 */
+		admin_plugins_install_section: '#admin_plugins_install_section',
 
 		/*
 			для удобства (последняя запятая отсутствует)
@@ -77,16 +85,30 @@ jQuery(document).ready(function($) {
 	});
 
 	/*
-		изменеие сортировки
+		изменение сортировки
 	 */
 	$ (ls.admin_catalog.selectors.admin_plugins_install_sorting).change(function() {
 		window.location.href = $ (this).val();
 	});
 
 	/*
-	 	изменеие категории
+	 	изменение категории
 	 */
 	$ (ls.admin_catalog.selectors.admin_plugins_install_category).change(function() {
+		window.location.href = $ (this).val();
+	});
+
+	/*
+	 	изменение версии
+	 */
+	$ (ls.admin_catalog.selectors.admin_plugins_install_version).change(function() {
+		window.location.href = $ (this).val();
+	});
+
+	/*
+	 	изменение секции
+	 */
+	$ (ls.admin_catalog.selectors.admin_plugins_install_section).change(function() {
 		window.location.href = $ (this).val();
 	});
 
