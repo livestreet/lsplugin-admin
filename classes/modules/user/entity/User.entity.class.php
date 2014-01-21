@@ -82,6 +82,16 @@ class PluginAdmin_ModuleUser_EntityUser extends PluginAdmin_Inherits_ModuleUser_
 		return null;
 	}
 
+
+	/**
+	 * Получить ссылку на страницу добавления новой жалобы
+	 *
+	 * @return string
+	 */
+	public function getAddClaimPageUrl() {
+		return Router::GetPath('tickets/claim/add') . $this->getId();
+	}
+
 }
 
 ?>
