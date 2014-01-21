@@ -74,9 +74,14 @@
 							название страны или города
 						*}
 						{if $oEnt}
+							{*
+								вывод флага для страны
+							*}
+							{if $oEnt->getType()=='country'}
+								<span class="flag styled flag-{strtolower($oEnt->getCode())}"></span>
+							{/if}
 							<a href="{router page='people'}{$oEnt->getType()}/{$oEnt->getId()}/"
 							   target="_blank"
-							   {* получить код страны для вывода флагов, например *}
 							   class="{$oEnt->getType()} {if $oEnt->getType()=='country'}{$oEnt->getCode()}{/if}">{$oEnt->getName()|escape:'html'}</a>
 						{else}
 							{$aDataItem.item}
