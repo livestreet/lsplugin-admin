@@ -41,10 +41,6 @@ ls.admin_catalog = (function($) {
 		 */
 		admin_plugins_install_sorting: '#admin_plugins_install_sorting',
 		/*
-			ид селекта категории
-		 */
-		admin_plugins_install_category: '#admin_plugins_install_category',
-		/*
 		 	ид селекта версии
 		 */
 		admin_plugins_install_version: '#admin_plugins_install_version',
@@ -88,13 +84,6 @@ jQuery(document).ready(function($) {
 		изменение сортировки
 	 */
 	$ (ls.admin_catalog.selectors.admin_plugins_install_sorting).change(function() {
-		window.location.href = $ (this).val();
-	});
-
-	/*
-	 	изменение категории
-	 */
-	$ (ls.admin_catalog.selectors.admin_plugins_install_category).change(function() {
 		window.location.href = $ (this).val();
 	});
 

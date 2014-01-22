@@ -146,10 +146,6 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 		 */
 		$sOrder = $this->GetDataFromFilter('order') ? $this->GetDataFromFilter('order') : Config::Get('plugin.admin.catalog.remote.addons.default_sorting');
 		/*
-		 * категория аддонов (все, плагины, шаблоны и т.п.)
-		 */
-		$sCategory = $this->GetDataFromFilter('category');
-		/*
 		 * версия дополнений
 		 */
 		$sVersion = $this->GetDataFromFilter('version');
@@ -162,7 +158,16 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 		/*
 		 * передать весь фильтр в запрос серверу (считаем что он сам корректно распознает все свои get параметры)
 		 */
-		$mData = $this->PluginAdmin_Catalog_GetAddonsListFromCatalogByFilterCached(array_merge(array('page' => $this->iPage), $aFilter));
+		$mData = $this->PluginAdmin_Catalog_GetAddonsListFromCatalogByFilterCached(array_merge(
+			$aFilter,
+			array(
+				'page' => $this->iPage,
+				/*
+				 * показывать только плагины
+				 */
+				'category' => 1
+			)
+		));
 		/*
 		 * есть ли корректный ответ
 		 */
@@ -192,7 +197,6 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 
 		$this->Viewer_Assign('sPluginTypeCurrent', $sType);
 		$this->Viewer_Assign('sSortOrderCurrent', $sOrder);
-		$this->Viewer_Assign('sCategoryCurrent', $sCategory);
 		$this->Viewer_Assign('sVersionCurrent', $sVersion);
 		$this->Viewer_Assign('sSectionCurrent', $sSection);
 
