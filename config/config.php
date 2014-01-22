@@ -94,7 +94,6 @@ $config['block_managing_admin_rights_user_ids'] = array(1);
  * роутер
  */
 $config['$root$']['router']['page']['admin'] = 'PluginAdmin_ActionAdmin';
-$config['$root$']['router']['page']['tickets'] = 'PluginAdmin_ActionTickets';
 
 /*
  * таблицы
