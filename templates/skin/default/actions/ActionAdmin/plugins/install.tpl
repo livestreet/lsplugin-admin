@@ -16,8 +16,8 @@
 		*}
 		{foreach $oConfig->Get('plugin.admin.catalog.remote.addons.type') as $sPluginType}
 			<a class="button {if $sPluginTypeCurrent==$sPluginType}active{/if}" href="{router page='admin/plugins/install'}{request_filter
-				name=array('order', 'type', 'category', 'version', 'section')
-				value=array($sSortOrderCurrent, $sPluginType, $sCategoryCurrent, $sVersionCurrent, $sSectionCurrent)
+				name=array('order', 'type', 'version', 'section')
+				value=array($sSortOrderCurrent, $sPluginType, $sVersionCurrent, $sSectionCurrent)
 			}">{$aLang.plugin.admin.plugins.install.filter.type.$sPluginType}</a>
 		{/foreach}
 
@@ -36,20 +36,9 @@
 			<select id="admin_plugins_install_sorting" class="width-200">
 				{foreach $oConfig->Get('plugin.admin.catalog.remote.addons.sorting') as $sSorting}
 					<option value="{router page='admin/plugins/install'}{request_filter
-						name=array('order', 'type', 'category', 'version', 'section')
-						value=array($sSorting, $sPluginTypeCurrent, $sCategoryCurrent, $sVersionCurrent, $sSectionCurrent)
+						name=array('order', 'type', 'version', 'section')
+						value=array($sSorting, $sPluginTypeCurrent, $sVersionCurrent, $sSectionCurrent)
 					}" {if $sSortOrderCurrent==$sSorting}selected="selected"{/if}>{$aLang.plugin.admin.plugins.install.filter.sorting.$sSorting}</option>
-				{/foreach}
-			</select>
-			{*
-				категория аддонов
-			*}
-			<select id="admin_plugins_install_category" class="width-150">
-				{foreach $oConfig->Get('plugin.admin.catalog.remote.addons.categories') as $sCategory}
-					<option value="{router page='admin/plugins/install'}{request_filter
-						name=array('order', 'type', 'category', 'version', 'section')
-						value=array($sSortOrderCurrent, $sPluginTypeCurrent, $sCategory, $sVersionCurrent, $sSectionCurrent)
-					}" {if $sCategoryCurrent==$sCategory}selected="selected"{/if}>{$aLang.plugin.admin.plugins.install.filter.categories.$sCategory}</option>
 				{/foreach}
 			</select>
 			{*
@@ -58,8 +47,8 @@
 			<select id="admin_plugins_install_version" class="width-150">
 				{foreach $oConfig->Get('plugin.admin.catalog.remote.addons.versions') as $sVersion}
 					<option value="{router page='admin/plugins/install'}{request_filter
-						name=array('order', 'type', 'category', 'version', 'section')
-						value=array($sSortOrderCurrent, $sPluginTypeCurrent, $sCategoryCurrent, $sVersion, $sSectionCurrent)
+						name=array('order', 'type', 'version', 'section')
+						value=array($sSortOrderCurrent, $sPluginTypeCurrent, $sVersion, $sSectionCurrent)
 					}" {if $sVersionCurrent==$sVersion}selected="selected"{/if}>{$aLang.plugin.admin.plugins.install.filter.versions.$sVersion}</option>
 				{/foreach}
 			</select>
@@ -69,8 +58,8 @@
 			<select id="admin_plugins_install_section" class="width-150">
 				{foreach $oConfig->Get('plugin.admin.catalog.remote.addons.sections') as $sSection}
 					<option value="{router page='admin/plugins/install'}{request_filter
-						name=array('order', 'type', 'category', 'version', 'section')
-						value=array($sSortOrderCurrent, $sPluginTypeCurrent, $sCategoryCurrent, $sVersionCurrent, $sSection)
+						name=array('order', 'type', 'version', 'section')
+						value=array($sSortOrderCurrent, $sPluginTypeCurrent, $sVersionCurrent, $sSection)
 					}" {if $sSectionCurrent==$sSection}selected="selected"{/if}>{$aLang.plugin.admin.plugins.install.filter.sections.$sSection}</option>
 				{/foreach}
 			</select>

@@ -136,32 +136,6 @@ $config['catalog']['remote']['addons']['sorting'] = array(
 $config['catalog']['remote']['addons']['default_sorting'] = 'update';
 
 /*
- * категории дополнений
- */
-$config['catalog']['remote']['addons']['categories'] = array(
-	/*
-	 * все
-	 */
-	null,
-	/*
-	 * плагины
-	 */
-	1,
-	/*
-	 * шаблоны
-	 */
-	2,
-	/*
-	 * локализации
-	 */
-	3,
-	/*
-	 * дизайны
-	 */
-	4,
-);
-
-/*
  * версии
  */
 $config['catalog']['remote']['addons']['versions'] = array(
