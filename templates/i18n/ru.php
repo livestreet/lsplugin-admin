@@ -143,6 +143,7 @@ return array(
 			'mail_is_incorrect' => 'Почта введена неверно',
 			'mail_already_exists' => 'Эта почта уже занята',
 			'password_is_too_weak' => 'Этот пароль слишком простой',
+			'wrong_number' => 'Некорректное число',
 		),
 		/*
 		 * Ошибки проверки файлов на некорректную кодировку
@@ -409,6 +410,9 @@ return array(
 		 * страница данных о пользователе (профиль пользователя в админке)
 		 */
 		'profile' => array(
+			/*
+			 * верхнее меню и контекстное
+			 */
 			'top_bar' => array(
 				'msg' => 'Сообщение',
 				'admin_delete' => 'Удалить из админов',
@@ -417,6 +421,9 @@ return array(
 				'ban' => 'Блокировать',
 				'activate' => 'Активировать',
 			),
+			/*
+			 * стандартные ссылки
+			 */
 			'middle_bar' => array(
 				'profile' => 'Профиль',
 				'publications' => 'Публикации',
@@ -426,8 +433,14 @@ return array(
 				'fav' => 'Избранное',
 			),
 			'user_no' => 'Пользователь №',
+			/*
+			 * редактируемая информация
+			 */
 			'info' => array(
 				'resume' => 'Досье',
+
+				'login' => 'Логин',
+				'profile_name' => 'Имя',
 				'mail' => 'Почта',
 				'sex' => 'Пол',
 				'birthday' => 'Родился',
@@ -455,6 +468,9 @@ return array(
 					'blog' => 'За блоги',
 					'user' => 'За юзеров',
 				),
+				/*
+				 * направление голосов
+				 */
 				'votings_direction' => array(
 					'plus' => '<i class="icon-stats-up"></i>',
 					'minus' => '<i class="icon-stats-down"></i>',
@@ -494,24 +510,6 @@ return array(
 			'password' => 'Пароль',
 			'about_user' => 'О себе',
 			'no_profile_name' => 'имя не указано',
-			/*
-			 * др
-			 */
-			'no_bidthday_set' => 'не указано',
-			'bidthday_parts' => array(
-				'day' => 'день',
-				'month' => 'месяц',
-				'year' => 'год',
-			),
-			/*
-			 * проживание
-			 */
-			'no_living_set' => 'не указано польностью или частично',
-			'living_parts' => array(
-				'country' => 'страна',
-				'region' => 'регион',
-				'city' => 'город',
-			),
 		),
 
 	),

@@ -184,6 +184,9 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		$iCountCommentFavourite = $this->Comment_GetCountCommentsFavouriteByUserId($oUser->getId());
 
 		/*
+		 * todo: почистить, если не нужно будет
+		 */
+		/*
 		 * создал заметок
 		 */
 		//$iCountNoteUser = $this->User_GetCountUserNotesByUserId($oUser->getId());
@@ -245,10 +248,150 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 */
 		$aVotedStats = $this->PluginAdmin_Users_GetUserVotingStats($oUser);
 
+		/*
+		 * загрузить начальный список гео данных
+		 */
+		$aCountries = $this->Geo_GetCountries(array(), array('sort' => 'asc'), 1, 300);
+		if ($oGeoTarget) {
+			if ($oGeoTarget->getCountryId()) {
+				$aRegions = $this->Geo_GetRegions(array('country_id' => $oGeoTarget->getCountryId()), array('sort' => 'asc'), 1, 500);
+				$this->Viewer_Assign('aGeoRegions', $aRegions['collection']);
+			}
+			if ($oGeoTarget->getRegionId()) {
+				$aCities = $this->Geo_GetCities(array('region_id' => $oGeoTarget->getRegionId()), array('sort' => 'asc'), 1, 500);
+				$this->Viewer_Assign('aGeoCities', $aCities['collection']);
+			}
+		}
+		$this->Viewer_Assign('aGeoCountries', $aCountries['collection']);
+		$this->Viewer_Assign('oGeoTarget', $oGeoTarget);
 
 		$this->Viewer_Assign('aUserVotedStat', $aVotedStats);
-		$this->Viewer_Assign('oGeoTarget', $oGeoTarget);
 		$this->Viewer_Assign('oUser', $oUser);
+
+		/*
+		 * если была отправлена форма редактирования
+		 */
+		if (isPost('submit_edit')) {
+			$this->SubmitEditProfile($oUser);
+		}
+	}
+
+
+	/**
+	 * Выполнить редактирование профиля пользователя
+	 *
+	 * @param $oUser		объект пользователя
+	 */
+	protected function SubmitEditProfile($oUser) {
+		$this->Security_ValidateSendForm();
+		/*
+		 * массив полей с новыми значениями
+		 */
+		$aDataToChange = array();
+		/*
+		 * проверить логин
+		 */
+		if (($sErrorMsg = $this->PluginAdmin_Users_ValidateUserLoginChange(getRequestStr('login'), $oUser)) === true) {
+			$aDataToChange['user_login'] = getRequestStr('login');
+		} else {
+			$this->Message_AddError($sErrorMsg, '', true);
+			$this->RedirectToReferer();
+		}
+		/*
+		 * проверить имя
+		 */
+		if ($this->Validate_Validate('string', getRequestStr('profile_name'), array('allowEmpty' => false, 'min' => 2, 'max' => Config::Get('module.user.name_max')))) {
+			$aDataToChange['user_profile_name'] = getRequestStr('profile_name');
+		}
+		/*
+		 * проверить почту
+		 */
+		if (($sErrorMsg = $this->PluginAdmin_Users_ValidateUserMailChange(getRequestStr('mail'), $oUser)) === true) {
+			$aDataToChange['user_mail'] = getRequestStr('mail');
+		} else {
+			$this->Message_AddError($sErrorMsg, '', true);
+			$this->RedirectToReferer();
+		}
+		/*
+		 * проверить пол
+		 */
+		if (in_array(getRequestStr('profile_sex'), array('man', 'woman', 'other'))) {
+			$aDataToChange['user_profile_sex'] = getRequestStr('profile_sex');
+		}
+		/*
+		 * проверить др
+		 */
+		if (
+			$this->Validate_Validate('number', getRequestStr('profile_birthday_day'), array('allowEmpty' => false, 'integerOnly' => true, 'min' => 1, 'max' => 31)) and
+			$this->Validate_Validate('number', getRequestStr('profile_birthday_month'), array('allowEmpty' => false, 'integerOnly' => true, 'min' => 1, 'max' => 12)) and
+			$this->Validate_Validate('number', getRequestStr('profile_birthday_year'), array('allowEmpty' => false, 'integerOnly' => true, 'min' => date("Y") - 100, 'max' => date("Y")))
+		) {
+			$aDataToChange['user_profile_birthday'] = date(
+				"Y-m-d H:i:s",
+				mktime(0, 0, 0, getRequestStr('profile_birthday_month'), getRequestStr('profile_birthday_day'), getRequestStr('profile_birthday_year'))
+			);
+		}
+		/*
+		 * получить гео-данные
+		 */
+		if (getRequest('geo_city')) {
+			$oGeoObject = $this->Geo_GetGeoObject('city', getRequestStr('geo_city'));
+		} elseif (getRequest('geo_region')) {
+			$oGeoObject = $this->Geo_GetGeoObject('region', getRequestStr('geo_region'));
+		} elseif (getRequest('geo_country')) {
+			$oGeoObject = $this->Geo_GetGeoObject('country', getRequestStr('geo_country'));
+		} else {
+			$oGeoObject = null;
+		}
+		/*
+		 * если задан смена пароля
+		 */
+		if (getRequestStr('password')) {
+			if (($sErrorMsg = $this->PluginAdmin_Users_ValidateUserPasswordChange(getRequestStr('password'))) === true) {
+				$aDataToChange['user_password'] = func_encrypt(getRequestStr('password'));
+			} else {
+				$this->Message_AddError($sErrorMsg, '', true);
+				$this->RedirectToReferer();
+			}
+		}
+		/*
+		 * поле "о себе"
+		 */
+		if ($this->Validate_Validate('string', getRequestStr('profile_about'), array('allowEmpty' => false, 'min' => 1, 'max' => 3000))) {
+			$aDataToChange['user_profile_about'] = $this->Text_JevixParser(getRequestStr('profile_about'));
+		}
+		/*
+		 * последнего изменения профиля
+		 */
+		$aDataToChange['user_profile_date'] = date("Y-m-d H:i:s");
+
+		/*
+		 * записать гео-данные
+		 * tip: делаем это первым, чтобы вносить изменения в пользователя только один раз и избежать двойного обновления как в стандартном варианте настроек лс
+		 */
+		if ($oGeoObject) {
+			$this->Geo_CreateTarget($oGeoObject, 'user', $oUser->getId());
+			$aDataToChange['user_profile_country'] = '';
+			if ($oCountry = $oGeoObject->getCountry()) {
+				$aDataToChange['user_profile_country'] = $oCountry->getName();
+			}
+			$aDataToChange['user_profile_region'] = '';
+			if ($oRegion = $oGeoObject->getRegion()) {
+				$aDataToChange['user_profile_region'] = $oRegion->getName();
+			}
+			$aDataToChange['user_profile_city'] = '';
+			if ($oCity = $oGeoObject->getCity()) {
+				$aDataToChange['user_profile_city'] = $oCity->getName();
+			}
+		} else {
+			$this->Geo_DeleteTargetsByTarget('user', $oUser->getId());
+			$aDataToChange['user_profile_country'] = '';
+			$aDataToChange['user_profile_region'] = '';
+			$aDataToChange['user_profile_city'] = '';
+		}
+		$this->PluginAdmin_Users_ModifyUserData($oUser, $aDataToChange);
+		$this->Message_AddNotice($this->Lang('notices.user_profile_edit.updated'), '', true);
+		$this->RedirectToReferer();
 	}
 
 
@@ -1222,14 +1365,8 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	}
 
 
-	/*
-	 *
-	 * --- Инлайн редактирование данных профиля ---
-	 *
-	 */
-
 	/**
-	 * Редактирование профиля пользователя
+	 * Инлайн редактирование данных профиля пользователя
 	 */
 	public function EventAjaxProfileEdit() {
 		$this->Viewer_SetResponseAjax('json');
@@ -1239,13 +1376,12 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		if (!$oUser = $this->User_GetUserById((int) getRequestStr('user_id'))) {
 			return $this->Message_AddError($this->Lang('errors.profile_edit.wrong_user_id'));
 		}
-		$sValue = getRequestStr('value');
+		;
 		/*
 		 * проверить значение
-		 * TODO: проверка должна быть отдельно для каждого поля
 		 */
-		if (!$sValue or !$this->Validate_Validate('string', $sValue, array('min' => 1, 'max' => 2000, 'allowEmpty' => false))) {
-			//return $this->Message_AddError($this->Lang('errors.profile_edit.disallowed_value') . '. ' . $this->Validate_GetErrorLast());
+		if (!$sValue = getRequestStr('value') or !$this->Validate_Validate('string', $sValue, array('min' => 1, 'max' => 2000, 'allowEmpty' => false))) {
+			return $this->Message_AddError($this->Lang('errors.profile_edit.disallowed_value') . '. ' . $this->Validate_GetErrorLast());
 		}
 		/*
 		 * изменить данные
@@ -1262,27 +1398,6 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 */
 		$this->Viewer_AssignAjax('aData', $aResult['return_value']);
 		$this->Message_AddNotice($this->Lang('notices.user_profile_edit.updated'));
-	}
-
-
-	/**
-	 * Получение данных профиля пользователя для редактирования (выбора) в селекте
-	 */
-	public function EventAjaxProfileGetData() {
-		$this->Viewer_SetResponseAjax('json');
-		/*
-		 * есть ли редактируемый пользователь
-		 */
-		if (!$oUser = $this->User_GetUserById((int) getRequestStr('user_id'))) {
-			return $this->Message_AddError($this->Lang('errors.profile_edit.wrong_user_id'));
-		}
-		/*
-		 * получить данные на основе его типа
-		 */
-		if (($aData = $this->PluginAdmin_Users_GetUserDataByType(getRequestStr('type'), $oUser)) === false) {
-			return $this->Message_AddError ($this->Lang ('errors.profile_edit.unknown_action_type'));
-		}
-		$this->Viewer_AssignAjax('aData', $aData);
 	}
 
 

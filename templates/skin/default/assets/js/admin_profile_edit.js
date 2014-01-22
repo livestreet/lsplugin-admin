@@ -34,10 +34,6 @@ ls.admin_profile_edit = (function($) {
 			селектор элементов, которые можно редактировать как текст
 		 */
 		editable_elements: '.js-profile-inline-edit-input',
-		/*
-			селектор элементов, которые нужно редактировать в выпадающем списке, предварительно получая их от сервера
-		 */
-		editable_elements_select: '.js-profile-inline-edit-select',
 
 
 		/*
@@ -86,25 +82,6 @@ ls.admin_profile_edit = (function($) {
 
 
 	/**
-	 * Разбирает ответ получения данных от сервера
-	 * tip: похож на предыдущий метод, но они не одинаковы, не обьеденять
-	 *
-	 * @param data
-	 * @returns {*}		новое значение
-	 * @constructor
-	 */
-	this.GetDataHandler = function(data) {
-		if (data.bStateError) {
-			ls.msg.error(data.sTitle, data.sMsg);
-			return false;
-		} else if (data.aData) {
-			return data.aData;
-		}
-		return false;
-	};
-
-
-	/**
 	 * Хендлер изменения значения и отправки нового значения на сервер
 	 *
 	 * @param value		новое значение
@@ -137,45 +114,6 @@ ls.admin_profile_edit = (function($) {
 		return aData;
 	};
 
-
-	/**
-	 * Получает данные для селекта от сервера
-	 *
-	 * @param value
-	 * @param settings
-	 * @returns {*}
-	 * @constructor
-	 */
-	this.GetSelectDataFromServer = function(value, settings) {
-		var aData = false;
-		ls.ajax.load(
-			aRouter['admin'] + 'users/ajax-profile-get-data',
-			{
-				/*
-				 	получить данные для типа
-				 */
-				type: $ (this).attr(ls.admin_profile_edit.data_attr.item_type),
-				/*
-					нужного пользователя
-				 */
-				user_id: $ (this).attr(ls.admin_profile_edit.data_attr.item_id)
-			},
-			function(data) {
-				aData = ls.admin_profile_edit.GetDataHandler(data);
-			},
-			/*
-				дополнительные параметры для $.ajax
-			 */
-			{
-				/*
-					важно - отключить асинхронную загрузку т.к. нужно ждать ответа чтобы вернуть данные
-				 */
-				async : false
-			}
-		);
-		return aData;
-	};
-
 	// ---
 
 	return this;
@@ -200,62 +138,11 @@ jQuery(document).ready(function($) {
 		 */
 		{
 			/*
-				для получения исходника редактируемого значения вместо хтмл данных
-			 */
-			//loadurl : 'http://www.example.com/load.php',
-			//loaddata : function(value, settings) { return {foo: "bar"}; }
-			/*
-				при отправке данных добавить параметры
-			 */
-			//submitdata : function(value, settings) { return {foo: "bar"}; }
-
-			/*
 				тип поля для редактирования
 			 */
-			type: 'text',	// textarea, select
+			type: 'text',
 
-			/*
-				тексты кнопок
-			 */
-			//cancel: 'Отмена',
-			//submit: 'OK',
-
-			indicator: 'Сохранение...',	// todo: add langs
-			tooltip: 'Нажмите для редактирования',
-			placeholder: 'Редактировать',
-
-			//cssclass: 'someclass'
-			style: 'inherit'
-		}
-	);
-
-
-	/*
-	 	инлайн редактирование полей в профиле пользователя, которые требуют подгрузки данных для своих значений
-	 	т.е. для селектов (пол, дата рождения и страны)
-	 */
-	// docs: http://www.appelsiini.net/projects/jeditable
-	$ (ls.admin_profile_edit.selectors.editable_elements_select).editable(
-		ls.admin_profile_edit.PerformServerSaveRequest,
-		{
-			/*
-			 	для получения исходника редактируемого значения.
-			 	можно использовать loadurl, а вместе с ним и loaddata, но те требуют в ответ строго json массив.
-			 	ЛС не отдает такие данные по нормальному т.к. в ответе будут как минимум три ключа ассоциативного массива:
-			 	флаг ошибки, текст ошибки и заголовок ошибки + ещё один ключ с нужными данными.
-			 	Поэтому библиотека предоставляет возможность в виде метода получения данных, а в нем возврат данных в удобном для библиотеки виде
-			 */
-			data: ls.admin_profile_edit.GetSelectDataFromServer,
-			/*
-			 	выпадающий список
-			 */
-			type: 'select',
-			/*
-				для селекта кнопка нужна для подтверждения редактирования
-			 */
-			submit: 'OK',
-
-			indicator: 'Сохранение...',	// todo: add langs
+			indicator: 'Сохранение...',				// todo: add langs
 			tooltip: 'Нажмите для редактирования',
 			placeholder: 'Редактировать',
 

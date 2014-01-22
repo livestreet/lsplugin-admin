@@ -238,11 +238,6 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 */
 		$this->AddEventPreg('#^users$#iu', '#^ajax-profile-edit$#iu', 'Users::EventAjaxProfileEdit');
 		/*
-		 * получение данных профиля пользователя для редактирования
-		 */
-		$this->AddEventPreg('#^users$#iu', '#^ajax-profile-get-data$#iu', 'Users::EventAjaxProfileGetData');
-
-		/*
 		 * изменение количества пользователей на страницу
 		 */
 		$this->AddEventPreg('#^users$#iu', '#^ajax-on-page$#iu', 'Users::EventAjaxUsersOnPage');
@@ -654,7 +649,11 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			/*
 			 * for managing user note
 			 */
-			//Config::Get('path.application.web') . '/frontend/common/js/usernote.js',	// todo: когда отремонтирует Денис показ заметок на девелопере - тогда заработает в и профиле
+			//Config::Get('path.application.web') . '/frontend/common/js/usernote.js',	// todo: пересмотреть
+			/*
+			 * для редактирования профиля пользователя
+			 */
+			Config::Get('path.application.web') . '/frontend/common/js/geo.js',
 
 			/*
 			 * скрипты плагина

@@ -1304,53 +1304,9 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * @param $oUser		объект пользователя
 	 * @param $aChanges		массив необходимых изменений field => value
 	 */
-	protected function ModifyUserData($oUser, $aChanges) {
+	public function ModifyUserData($oUser, $aChanges) {
 		$this->oMapper->Update($oUser, $aChanges);
 		$this->Cache_Clean();
-	}
-
-
-	/**
-	 * Сменить логин пользователя на новый
-	 *
-	 * @param $oUser		объект пользователя
-	 * @param $sNewValue	новое значение
-	 */
-	protected function ChangeUserLogin($oUser, $sNewValue) {
-		$this->ModifyUserData($oUser, array('user_login' => $sNewValue));
-	}
-
-
-	/**
-	 * Сменить имя пользователя
-	 *
-	 * @param $oUser		объект пользователя
-	 * @param $sNewValue	новое значение
-	 */
-	protected function ChangeUserName($oUser, $sNewValue) {
-		$this->ModifyUserData($oUser, array('user_profile_name' => $sNewValue));
-	}
-
-
-	/**
-	 * Сменить почту пользователя
-	 *
-	 * @param $oUser		объект пользователя
-	 * @param $sNewValue	новое значение
-	 */
-	protected function ChangeUserMail($oUser, $sNewValue) {
-		$this->ModifyUserData($oUser, array('user_mail' => $sNewValue));
-	}
-
-
-	/**
-	 * Сменить пароль пользователя
-	 *
-	 * @param $oUser		объект пользователя
-	 * @param $sNewValue	новое значение
-	 */
-	protected function ChangeUserPassword($oUser, $sNewValue) {
-		$this->ModifyUserData($oUser, array('user_password' => func_encrypt($sNewValue)));
 	}
 
 
@@ -1377,39 +1333,6 @@ class PluginAdmin_ModuleUsers extends Module {
 
 
 	/**
-	 * Сменить описание пользователя
-	 *
-	 * @param $oUser		объект пользователя
-	 * @param $sNewValue	новое значение
-	 */
-	protected function ChangeUserAbout($oUser, $sNewValue) {
-		$this->ModifyUserData($oUser, array('user_profile_about' => $sNewValue));
-	}
-
-
-	/**
-	 * Сменить стать пользователя
-	 *
-	 * @param $oUser		объект пользователя
-	 * @param $sNewValue	новое значение
-	 */
-	protected function ChangeUserSex($oUser, $sNewValue) {
-		$this->ModifyUserData($oUser, array('user_profile_sex' => $sNewValue));
-	}
-
-
-	/**
-	 * Сменить дату рождения пользователя
-	 *
-	 * @param $oUser		объект пользователя
-	 * @param $sNewValue	новое значение
-	 */
-	protected function ChangeUserBirthday($oUser, $sNewValue) {
-		$this->ModifyUserData($oUser, array('user_profile_birthday' => $sNewValue));
-	}
-
-
-	/**
 	 * Сменить статус активированности пользователя
 	 *
 	 * @param $oUser		объект пользователя
@@ -1417,111 +1340,6 @@ class PluginAdmin_ModuleUsers extends Module {
 	 */
 	public function ChangeUserActivate($oUser, $sNewValue) {
 		$this->ModifyUserData($oUser, array('user_activate' => $sNewValue));
-	}
-
-
-	/**
-	 * Сменить geo-данные пользователя
-	 *
-	 * @param $oUser		объект пользователя
-	 * @param $oGeo			новое значение
-	 */
-	protected function ChangeUserGeo($oUser, $oGeo) {
-		/*
-		 * установить связь "пользователь - гео-привязка"
-		 */
-		$this->Geo_CreateTarget($oGeo, 'user', $oUser->getId());
-		/*
-		 * задать страну
-		 */
-		if ($oCountry = $oGeo->getCountry()) {
-			$oUser->setProfileCountry($oCountry->getName());
-		} else {
-			$oUser->setProfileCountry(null);
-		}
-		/*
-		 * задать регион
-		 */
-		if ($oRegion = $oGeo->getRegion()) {
-			$oUser->setProfileRegion($oRegion->getName());
-		} else {
-			$oUser->setProfileRegion(null);
-		}
-		/*
-		 * задать город
-		 */
-		if ($oCity = $oGeo->getCity()) {
-			$oUser->setProfileCity($oCity->getName());
-		} else {
-			$oUser->setProfileCity(null);
-		}
-		$this->User_Update($oUser);
-	}
-
-
-	/**
-	 * Задать для пользователя гео-данные на основе типа
-	 *
-	 * @param $oUser		объект пользователя
-	 * @param $sType		тип ('country', 'region', 'city')
-	 * @param $iId			ид объекта (типа)
-	 * @throws Exception
-	 * @return string
-	 */
-	protected function SetUserGeoToType($oUser, $sType, $iId) {
-		/*
-		 * проверить тип
-		 */
-		if (!in_array($sType, array('country', 'region', 'city'))) {
-			throw new Exception('Admin: error: unknown geo type "' . $sType . '" in ' . __METHOD__);
-		}
-		/*
-		 * установить связь "пользователь - гео-запись" и обновить профиль пользователя
-		 */
-		if ($oGeo = $this->Geo_GetGeoObject($sType, $iId)) {
-			$this->ChangeUserGeo($oUser, $oGeo);
-			/*
-			 * вернуть отображаемое значение
-			 */
-			return $oGeo->getName();
-		}
-		return null;
-	}
-
-
-	/**
-	 * Задать для пользователя гео-данные на основе страны
-	 *
-	 * @param $oUser	объект пользователя
-	 * @param $iId		ид страны
-	 * @return string
-	 */
-	protected function SetUserGeoToCountry($oUser, $iId) {
-		return $this->SetUserGeoToType($oUser, 'country', $iId);
-	}
-
-
-	/**
-	 * Задать для пользователя гео-данные на основе региона
-	 *
-	 * @param $oUser	объект пользователя
-	 * @param $iId		ид региона
-	 * @return string
-	 */
-	protected function SetUserGeoToRegion($oUser, $iId) {
-		return $this->SetUserGeoToType($oUser, 'region', $iId);
-	}
-
-
-	/**
-	 * Задать для пользователя гео-данные на основе города
-	 *
-	 * @param $oUser	объект пользователя
-	 * @param $iId		ид города
-	 * @return string
-	 */
-	protected function SetUserGeoToCity($oUser, $iId) {
-		return $this->SetUserGeoToType($oUser, 'city', $iId);
 	}
 
 
@@ -1551,137 +1369,31 @@ class PluginAdmin_ModuleUsers extends Module {
 		 */
 		switch($sType) {
 			/*
-			 * редактировать логин пользователя
-			 */
-			case 'login':
-				/*
-				 * корректен и свободен ли новый логин
-				 */
-				if (($sErrorMsg = $this->ValidateUserLoginChange($sValue, $oUser)) !== true) {
-					$bError = true;
-					$sReturnValue = $oUser->getLogin();
-				} else {
-					$this->ChangeUserLogin($oUser, $sValue);
-				}
-				break;
-			/*
-			 * редактировать имя пользователя
-			 */
-			case 'profile_name':
-				$this->ChangeUserName($oUser, $sValue);
-				break;
-			/*
-			 * редактировать почту пользователя
-			 */
-			case 'mail':
-				/*
-				 * корректна и свободна ли новая почта
-				 */
-				if (($sErrorMsg = $this->ValidateUserMailChange($sValue, $oUser)) !== true) {
-					$bError = true;
-					$sReturnValue = $oUser->getMail();
-				} else {
-					$this->ChangeUserMail($oUser, $sValue);
-				}
-				break;
-			/*
-			 * редактировать пароль пользователя
-			 */
-			case 'password':
-				/*
-				 * проверить новый пароль
-				 */
-				if (($sErrorMsg = $this->ValidateUserPasswordChange($sValue, $oUser)) !== true) {
-					$bError = true;
-					$sReturnValue = '*******';
-				} else {
-					$this->ChangeUserPassword($oUser, $sValue);
-				}
-				break;
-			/*
 			 * редактировать рейтинг пользователя
 			 */
 			case 'rating':
-				$this->ChangeUserRating($oUser, $sValue);
+				// todo: export in method
+				if ($this->Validate_Validate('number', $sValue, array('allowEmpty' => false, 'integerOnly' => false))) {
+					$this->ChangeUserRating($oUser, $sValue);
+				} else {
+					$bError = true;
+					$sErrorMsg = $this->Lang_Get('plugin.admin.errors.profile_edit.wrong_number');
+					$sReturnValue = $oUser->getRating();
+				}
 				break;
 			/*
 			 * редактировать силу пользователя
 			 */
 			case 'skill':
-				$this->ChangeUserSkill($oUser, $sValue);
+				// todo: export in method
+				if ($this->Validate_Validate('number', $sValue, array('allowEmpty' => false, 'integerOnly' => false))) {
+					$this->ChangeUserSkill($oUser, $sValue);
+				} else {
+					$bError = true;
+					$sErrorMsg = $this->Lang_Get('plugin.admin.errors.profile_edit.wrong_number');
+					$sReturnValue = $oUser->getSkill();
+				}
 				break;
-			/*
-			 * редактировать описание о себе пользователя
-			 */
-			case 'about':
-				$this->ChangeUserAbout($oUser, $sValue);
-				break;
-			/*
-			 * редактировать стать пользователя
-			 */
-			case 'sex':
-				$this->ChangeUserSex($oUser, $sValue);
-				/*
-				 * вернуть текстовое отображение
-				 */
-				$sReturnValue = $this->Lang_Get('plugin.admin.users.sex.' . $sValue);
-				break;
-
-
-			/*
-			 * др пользователя (день)
-			 */
-			case 'birthday_day':
-				$this->ChangeUserBirthday($oUser, date('Y-m-d H:i:s', mktime(0, 0, 0,
-					date('m', strtotime($oUser->getProfileBirthday())),
-					$sValue,
-					date('Y', strtotime($oUser->getProfileBirthday()))
-				)));
-				break;
-			/*
-			 * др пользователя (месяц)
-			 */
-			case 'birthday_month':
-				$this->ChangeUserBirthday($oUser, date('Y-m-d H:i:s', mktime(0, 0, 0,
-					$sValue,
-					date('d', strtotime($oUser->getProfileBirthday())),
-					date('Y', strtotime($oUser->getProfileBirthday()))
-				)));
-				/*
-				 * вернуть текстовое отображение
-				 */
-				$sReturnValue = $this->Lang_Get('month_array.' . (string) $sValue . '.0');
-				break;
-			/*
-			 * др пользователя (год)
-			 */
-			case 'birthday_year':
-				$this->ChangeUserBirthday($oUser, date('Y-m-d H:i:s', mktime(0, 0, 0,
-					date('m', strtotime($oUser->getProfileBirthday())),
-					date('d', strtotime($oUser->getProfileBirthday())),
-					$sValue
-				)));
-				break;
-
-			/*
-			 * место проживания: страна
-			 */
-			case 'living_country':
-				$sReturnValue = $this->SetUserGeoToCountry($oUser, $sValue);
-				break;
-			/*
-			 * место проживания: регион
-			 */
-			case 'living_region':
-				$sReturnValue = $this->SetUserGeoToRegion($oUser, $sValue);
-				break;
-			/*
-			 * место проживания: город
-			 */
-			case 'living_city':
-				$sReturnValue = $this->SetUserGeoToCity($oUser, $sValue);
-				break;
-
 			/*
 			 * действие не найдено
 			 */
@@ -1710,7 +1422,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * @param $oUser		объект пользователя, которому будут применять изменение
 	 * @return bool
 	 */
-	protected function ValidateUserLoginChange($sNewLogin, $oUser) {
+	public function ValidateUserLoginChange($sNewLogin, $oUser) {
 		/*
 		 * проверить на корректность написания логина
 		 */
@@ -1720,7 +1432,7 @@ class PluginAdmin_ModuleUsers extends Module {
 		/*
 		 * проверить не занят ли логин (даже если этим же пользователем)
 		 */
-		if ($this->User_GetUserByLogin($sNewLogin)) {
+		if ($oUserFound = $this->User_GetUserByLogin($sNewLogin) and $oUserFound->getId() != $oUser->getId()) {
 			return $this->Lang_Get('plugin.admin.errors.profile_edit.login_already_exists');
 		}
 		return true;
@@ -1734,7 +1446,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * @param $oUser		объект пользователя, которому будут применять изменение
 	 * @return bool
 	 */
-	protected function ValidateUserMailChange($sNewMail, $oUser) {
+	public function ValidateUserMailChange($sNewMail, $oUser) {
 		/*
 		 * проверить на корректность почту
 		 */
@@ -1744,7 +1456,7 @@ class PluginAdmin_ModuleUsers extends Module {
 		/*
 		 * проверить не занята ли эта почта
 		 */
-		if ($this->User_GetUserByMail($sNewMail)) {
+		if ($oUserFound = $this->User_GetUserByMail($sNewMail) and $oUserFound->getId() != $oUser->getId()) {
 			return $this->Lang_Get('plugin.admin.errors.profile_edit.mail_already_exists');
 		}
 		return true;
@@ -1755,264 +1467,16 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * Проверить новый пароль пользователя
 	 *
 	 * @param $sNewPassword		новый пароль
-	 * @param $oUser			объект пользователя, которому будут применять изменение
 	 * @return bool
 	 */
-	protected function ValidateUserPasswordChange($sNewPassword, $oUser) {
+	public function ValidateUserPasswordChange($sNewPassword) {
 		/*
-		 * проверить - не послали ли случайно пароль из звездочек, который подставляется по-умолчанию
-		 * и длина пароля должна быть больше 5 символов
+		 * длина пароля должна быть больше 5 символов
 		 */
-		if (strpos($sNewPassword, '*') !== false or mb_strlen($sNewPassword, 'utf-8') <= 5) {
+		if (mb_strlen($sNewPassword, 'utf-8') < 5) {
 			return $this->Lang_Get('plugin.admin.errors.profile_edit.password_is_too_weak');
 		}
 		return true;
-	}
-
-
-	/*
-	 *
-	 * --- Получение данных пользователя ---
-	 *
-	 */
-
-	/**
-	 * Сравнить ключ и текущее значение. Вернуть 'selected' если ключ и текущее значение совпадают, иначе вернуть ключ
-	 *
-	 * @param $sKey			ключ
-	 * @param $sCurrentKey	текущее значение
-	 * @return string
-	 */
-	protected function GetArrayKeyComparedWithCurrentValue($sKey, $sCurrentKey) {
-		return $sKey == $sCurrentKey ? 'selected' : $sKey;
-	}
-
-
-	/**
-	 * Получить массив данных для выбора стати пользователя
-	 *
-	 * @param $oUser		объект пользователя
-	 * @return array
-	 */
-	protected function GetDataForUserSexAndSelectedByUser($oUser) {
-		return array(
-			$this->GetArrayKeyComparedWithCurrentValue('man', $oUser->getProfileSex()) => $this->Lang_Get('plugin.admin.users.sex.man'),
-			$this->GetArrayKeyComparedWithCurrentValue('woman', $oUser->getProfileSex()) => $this->Lang_Get('plugin.admin.users.sex.woman'),
-			$this->GetArrayKeyComparedWithCurrentValue('other', $oUser->getProfileSex()) => $this->Lang_Get('plugin.admin.users.sex.other'),
-		);
-	}
-
-
-	/**
-	 * Получить массив данных для выбора даты рождения пользователя по частям
-	 *
-	 * @param $oUser		объект пользователя
-	 * @param $sPart		часть даты ('day', 'month', 'year')
-	 * @return array
-	 * @throws Exception
-	 */
-	protected function GetDataForUserBirthdayAndSelectedByUserAndPart($oUser, $sPart) {
-		/*
-		 * набор частей даты
-		 */
-		$aDates = array();
-		/*
-		 * текущая, установленная пользователем, часть (число дня, месяца или года)
-		 */
-		$sCurrentDatePart = null;
-		/*
-		 * найти параметры даты для нужной её части (текущее значение, границы от и до)
-		 * tip: цикл специально внесен в каждый кейс т.к. для месяцев нужно отображать их названия, а не числа
-		 */
-		switch ($sPart) {
-			case 'day':
-				/*
-				 * если пользователь указал дату рождения - получить текущее значение
-				 */
-				if ($oUser->getProfileBirthday()) {
-					$sCurrentDatePart = date('d', strtotime($oUser->getProfileBirthday()));
-				}
-				/*
-				 * заполнить набор нужных частей даты
-				 */
-				for ($i = 1; $i <= 31; $i ++) {
-					$aDates[$this->GetArrayKeyComparedWithCurrentValue($i, $sCurrentDatePart)] = $i;
-				}
-				break;
-			case 'month':
-				/*
-				 * если пользователь указал дату рождения - получить текущее значение
-				 */
-				if ($oUser->getProfileBirthday()) {
-					$sCurrentDatePart = date('m', strtotime($oUser->getProfileBirthday()));
-				}
-				/*
-				 * заполнить набор нужных частей даты
-				 */
-				for ($i = 1; $i <= 12; $i ++) {
-					$aDates[$this->GetArrayKeyComparedWithCurrentValue($i, $sCurrentDatePart)] = $this->Lang_Get('month_array.' . (string) $i . '.0');
-				}
-				break;
-			case 'year':
-				/*
-				 * если пользователь указал дату рождения - получить текущее значение
-				 */
-				if ($oUser->getProfileBirthday()) {
-					$sCurrentDatePart = date('Y', strtotime($oUser->getProfileBirthday()));
-				}
-				/*
-				 * заполнить набор нужных частей даты
-				 */
-				for ($i = 1940; $i <= date('Y'); $i ++) {
-					$aDates[$this->GetArrayKeyComparedWithCurrentValue($i, $sCurrentDatePart)] = $i;
-				}
-				break;
-			default:
-				throw new Exception('Admin: error: unknown birthday part "' . $sPart . '" in ' . __METHOD__);
-		}
-		return $aDates;
-	}
-
-
-	/**
-	 * Получить массив данных для выбора места проживания пользователя по частям
-	 *
-	 * @param $oUser		объект пользователя
-	 * @param $sPart		часть места проживания ('country', 'region', 'city')
-	 * @return array
-	 * @throws Exception
-	 */
-	protected function GetDataForUserLivingAndSelectedByUserAndPart($oUser, $sPart) {
-		/*
-		 * набор данных
-		 */
-		$aData = array();
-		/*
-		 * найти параметры для нужного типа
-		 */
-		switch ($sPart) {
-			case 'country':
-				$aCountries = $this->Geo_GetCountries(array(), array('sort' => 'asc'), 1, 300);
-				/*
-				 * получить набор данных, пометив текущий ключ
-				 */
-				foreach ($aCountries['collection'] as $oCountry) {
-					/*
-					 * tip: гео-данные автоматически были подгружены при получении пользователя по ид
-					 */
-					$aData[$this->GetArrayKeyComparedWithCurrentValue($oCountry->getId(), $this->_GetUserGEODataOrNull($oUser, 'country_id'))] = $oCountry->getName();
-				}
-				break;
-			case 'region':
-				/*
-				 * tip: гео-данные автоматически были подгружены при получении пользователя по ид
-				 */
-				$aRegions = $this->Geo_GetRegions(array('country_id' => $this->_GetUserGEODataOrNull($oUser, 'country_id')), array('sort' => 'asc'), 1, 500);
-				/*
-				 * получить набор данных, пометив текущий ключ
-				 */
-				foreach ($aRegions['collection'] as $oRegion) {
-					/*
-					 * tip: гео-данные автоматически были подгружены при получении пользователя по ид
-					 */
-					$aData[$this->GetArrayKeyComparedWithCurrentValue($oRegion->getId(), $this->_GetUserGEODataOrNull($oUser, 'region_id'))] = $oRegion->getName();
-				}
-				break;
-			case 'city':
-				/*
-				 * tip: гео-данные автоматически были подгружены при получении пользователя по ид
-				 */
-				$aCities = $this->Geo_GetCities(array('region_id' => $this->_GetUserGEODataOrNull($oUser, 'region_id')), array('sort' => 'asc'), 1, 500);
-				/*
-				 * получить набор данных, пометив текущий ключ
-				 */
-				foreach ($aCities['collection'] as $oCity) {
-					/*
-					 * tip: гео-данные автоматически были подгружены при получении пользователя по ид
-					 */
-					$aData[$this->GetArrayKeyComparedWithCurrentValue($oCity->getId(), $this->_GetUserGEODataOrNull($oUser, 'city_id'))] = $oCity->getName();
-				}
-				break;
-			default:
-				throw new Exception('Admin: error: unknown living part "' . $sPart . '" in ' . __METHOD__);
-		}
-		return $aData;
-	}
-
-
-	/**
-	 * Получить ид страны, региона или города гео-данных пользователя или null если их нет
-	 *
-	 * @param $oUser	объект пользователя
-	 * @param $sType	тип запроса (ид страны, региона или города)
-	 * @return int|null
-	 * @throws Exception
-	 */
-	protected function _GetUserGEODataOrNull($oUser, $sType) {
-		if (!$oUser->getGeoTarget()) return null;
-		switch ($sType) {
-			case 'country_id':
-				return $oUser->getGeoTarget()->getCountryId();
-			case 'region_id':
-				return $oUser->getGeoTarget()->getRegionId();
-			case 'city_id':
-				return $oUser->getGeoTarget()->getCityId();
-			default:
-				throw new Exception('Admin: error: unknown living type "' . $sType . '" in ' . __METHOD__);
-		}
-	}
-
-
-	/**
-	 * Получить данные пользователя на основе типа вместе с текущим значением (ключ "selected")
-	 *
-	 * @param $sType	тип
-	 * @param $oUser	объект пользователя
-	 * @return mixed
-	 */
-	public function GetUserDataByType($sType, $oUser) {
-		switch ($sType) {
-			/*
-			 * пол пользователя
-			 */
-			case 'sex':
-				return $this->GetDataForUserSexAndSelectedByUser($oUser);
-			/*
-			 * др пользователя (день)
-			 */
-			case 'birthday_day':
-				return $this->GetDataForUserBirthdayAndSelectedByUserAndPart($oUser, 'day');
-			/*
-			 * др пользователя (месяц)
-			 */
-			case 'birthday_month':
-				return $this->GetDataForUserBirthdayAndSelectedByUserAndPart($oUser, 'month');
-			/*
-			 * др пользователя (год)
-			 */
-			case 'birthday_year':
-				return $this->GetDataForUserBirthdayAndSelectedByUserAndPart($oUser, 'year');
-			/*
-			 * место проживания: страна
-			 */
-			case 'living_country':
-				return $this->GetDataForUserLivingAndSelectedByUserAndPart($oUser, 'country');
-			/*
-			 * место проживания: регион
-			 */
-			case 'living_region':
-				return $this->GetDataForUserLivingAndSelectedByUserAndPart($oUser, 'region');
-			/*
-			 * место проживания: город
-			 */
-			case 'living_city':
-				return $this->GetDataForUserLivingAndSelectedByUserAndPart($oUser, 'city');
-			/*
-			 * действие не найдено
-			 */
-			default:
-				return false;
-		}
 	}
 
 
