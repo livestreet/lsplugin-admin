@@ -45,18 +45,18 @@ class ModuleStorage extends Module {
 	const CACHE_FIELD_DATA_PREFIX = 'storage_field_data_';
 	
 	/*
-	 *	Имя ключа для ядра
+	 * Имя ключа для ядра
 	 */
 	const DEFAULT_KEY_NAME = '__default__';
-	
+
 	/*
-	 *	Префикс для плагина в таблице
+	 * Префикс для плагина в таблице
 	 */
 	const PLUGIN_PREFIX = 'plugin_';
 
 	/*
-	 *	Кеширование параметров на время работы сессии
-	 *	структура: array('instance' => array('key' => array('param1' => 'value1', 'param2' => 'value2')))
+	 * Кеширование параметров на время работы сессии
+	 * структура: array('instance' => array('key' => array('param1' => 'value1', 'param2' => 'value2')))
 	 */
 	protected $aSessionCache = array();
 

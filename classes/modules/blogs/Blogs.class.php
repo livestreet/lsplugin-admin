@@ -23,6 +23,7 @@ class PluginAdmin_ModuleBlogs extends Module {
 
 	protected $oMapper = null;
 
+
 	public function Init() {
 		$this->oMapper = Engine::GetMapper(__CLASS__);
 	}

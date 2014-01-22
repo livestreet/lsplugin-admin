@@ -20,7 +20,9 @@
  */
 
 /*
- *	Для ручного управления конфигами, переопределим методы хранилища
+ *
+ * Для ручного управления конфигами, переопределим методы хранилища
+ *
  */
 
 class PluginAdmin_ModuleStorage extends PluginAdmin_Inherits_ModuleStorage {
@@ -108,13 +110,11 @@ class PluginAdmin_ModuleStorage extends PluginAdmin_Inherits_ModuleStorage {
 	}
 	
 	
-	
 	/*
 	 *
 	 * --- Работа с параметрами только на момент сессии ---
 	 *
 	 */
-
 
 	/**
 	 * Сохранить значение параметра на время сессии (без записи в хранилище)

@@ -20,7 +20,9 @@
  */
 
 /*
- *	Модуль для работы с настройками
+ *
+ * Модуль для работы с настройками
+ *
  */
 
 class PluginAdmin_ModuleSettings extends ModuleStorage {
@@ -47,22 +49,22 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 
 
 	/*
-	 * индекс массива с подписью параметра
+	 * Индекс массива с подписью параметра
 	 */
 	const POST_RAW_DATA_ARRAY_SIGNATURE = 0;
 
 	/*
-	 * индекс массива с ключем параметра
+	 * Индекс массива с ключем параметра
 	 */
 	const POST_RAW_DATA_ARRAY_KEY = 1;
 
 	/*
-	 * индекс массива с данными параметра (от этого номера и до конца массива)
+	 * Индекс массива с данными параметра (от этого номера и до конца массива)
 	 */
 	const POST_RAW_DATA_ARRAY_VALUE_FIRST = 2;
 
 	/*
-	 * путь к схеме и языковым файлам главного конфига относительно корня папки плагина
+	 * Путь к схеме и языковым файлам главного конфига относительно корня папки плагина
 	 */
 	const PATH_TO_ROOT_CONFIG_SCHEME = 'config/root_config/';
 	
@@ -196,7 +198,6 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 *	--- Хелперы ---
 	 *
 	 */
-
 
 	/**
 	 * Проверка активирован ли плагин
@@ -652,7 +653,6 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 *	--- Функции работы с описанием главного конфига ---
 	 *
 	 */
-
 
 	/**
 	 * Получить путь к схеме главного конфига движка
