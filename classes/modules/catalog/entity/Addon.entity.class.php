@@ -60,6 +60,13 @@ class PluginAdmin_ModuleCatalog_EntityAddon extends Entity {
 		return implode($sGlue, $this->getCompatibilities());
 	}
 
+	public function getMarkPercent() {
+		if ($this->getCountMark()==0) {
+			return 0;
+		} else {
+			return number_format(round(20*$this->getMark()/$this->getCountMark(),1), 1, '.', '');
+		}
+	}
 
 }
 
