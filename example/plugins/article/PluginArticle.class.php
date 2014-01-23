@@ -46,7 +46,7 @@ class PluginArticle extends Plugin {
 	}
 
 	public function Deactivate() {
-
+		$this->Property_RemoveTargetType('article',ModuleProperty::TARGET_STATE_NOT_ACTIVE);
 		return true;
 	}
 }
