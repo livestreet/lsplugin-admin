@@ -31,8 +31,7 @@ class PluginAdmin_BlockPropertyUpdate extends Block {
 		/**
 		 * Получаем набор свойств
 		 */
-		$aProperties=$this->Property_GetPropertyItemsByFilter(array('target_type'=>$sTargetType));
-		$this->Property_AttachValueForProperties($aProperties,$sTargetType,$iTargetId);
+		$aProperties=$this->Property_GetPropertiesForUpdate($sTargetType,$iTargetId);
 		$this->Viewer_Assign('aProperties',$aProperties);
 	}
 }

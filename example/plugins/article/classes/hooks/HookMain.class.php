@@ -21,15 +21,7 @@
  */
 class PluginArticle_HookMain extends Hook {
 	public function RegisterHook() {
-		$this->AddHook('lang_init_start','InitStart');
 		$this->AddHook('init_action_admin','InitActionAdmin');
-	}
-
-	public function InitStart() {
-		/**
-		 * Добавляем тип в свойства
-		 */
-		$this->Property_AddTargetType(Config::Get('plugin.article.property_target_type'),array('entity'=>'PluginArticle_ModuleMain_EntityArticle','name'=>'Статьи'));
 	}
 
 	public function InitActionAdmin() {

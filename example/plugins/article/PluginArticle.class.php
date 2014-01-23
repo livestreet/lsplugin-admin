@@ -35,7 +35,18 @@ class PluginArticle extends Plugin {
 			 */
 			$this->ExportSQL(dirname(__FILE__).'/dump.sql');
 		}
+		/**
+		 * Создаем новый тип для дополнительных полей
+		 * Третий параметр true ознает перезапись параметров, если такой тип уже есть в БД
+		 */
+		if (!$this->Property_CreateTargetType('article',array('entity'=>'PluginArticle_ModuleMain_EntityArticle','name'=>'Статьи'),true)) {
+			return false;
+		}
+		return true;
+	}
+
+	public function Deactivate() {
+
 		return true;
 	}
 }
-?>
