@@ -126,7 +126,7 @@ jQuery(document).ready(function($) {
 	/*
 		нужно ли использовать аякс для сохранения настроек
 	 */
-	if (ls.registry.get('admin_save_form_ajax_use')) {
+	if (ls.registry.get('settings.admin_save_form_ajax_use')) {
 
 		/*
 			установить слушатель сабмита формы для обработки её через аякс

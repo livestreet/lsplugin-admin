@@ -3,6 +3,10 @@
  *}
 
 {if $aSettingsAll and count($aSettingsAll) > 0}
+	<script>
+		ls.registry.set('settings.admin_save_form_ajax_use', {json var=$oConfig->Get('plugin.admin.settings.admin_save_form_ajax_use')});
+	</script>
+
 	<form action="{router page="admin/settings/save/{$sConfigName}"}" method="post" enctype="application/x-www-form-urlencoded" id="admin_settings_save">
 		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.hidden.security_key.tpl"}
 

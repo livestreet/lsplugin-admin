@@ -25,10 +25,12 @@
  *
  */
 
+$config = array();
+
 /*
  * Базовый путь к АПИ каталога
  */
-$config['catalog']['base_api_url'] = 'https://catalog.livestreetcms.com/api/';
+$config['catalog']['api']['base_url'] = 'https://catalog.livestreetcms.com/api/';
 
 /*
  * Методы для работы с каталогом
@@ -36,7 +38,7 @@ $config['catalog']['base_api_url'] = 'https://catalog.livestreetcms.com/api/';
  * 		1. строка "{plugin_code}" - код плагина (имя папки плагина)
  * 		2. ключи в массивах нужны для формирования метода для доступа к АПИ каталога, в значениях указывается относительный урл
  */
-$config['catalog']['methods_pathes'] = array(
+$config['catalog']['api']['methods'] = array(
 	/*
 	 * Группа: работа с одним плагином с указанием его кода
 	 */
@@ -64,7 +66,7 @@ $config['catalog']['methods_pathes'] = array(
 /*
  * Время кеширования запросов из каталога
  */
-$config['catalog']['cache_live_time'] = array(
+$config['catalog']['cache']['time'] = array(
 	/*
 	 * получение обновлений (1 час)
 	 */
@@ -78,21 +80,21 @@ $config['catalog']['cache_live_time'] = array(
 /*
  * Проверять наличие новых версий плагинов в каталоге
  */
-$config['catalog']['allow_plugin_updates_checking'] = true;
+$config['catalog']['updates']['allow_plugin_updates_checking'] = true;
 
 /*
  * Добавить кнопку в тулбар с количеством обновлений плагинов
  */
-$config['catalog']['show_updates_count_in_toolbar'] = true;
+$config['catalog']['updates']['show_updates_count_in_toolbar'] = true;
 
 /*
  * макс. время подключения к серверу, сек
  */
-$config['catalog']['max_connect_timeout'] = 2;
+$config['catalog']['timeouts']['max_connect_timeout'] = 2;
 /*
  * макс. время получения данных от сервера, сек
  */
-$config['catalog']['max_work_timeout'] = 4;
+$config['catalog']['timeouts']['max_work_timeout'] = 4;
 
 /*
  *

@@ -21,7 +21,7 @@
 
 /*
  *
- * Настройка банов
+ * --- Баны ---
  *
  */
 
@@ -35,12 +35,12 @@ $config['bans']['per_page'] = 10;
 /*
  * Автоматически удалять старые записи банов если дата окончания бана уже прошла
  */
-$config['auto_delete_old_ban_records'] = true;
+$config['bans']['auto_delete_old_ban_records'] = true;
 
 /*
  * Собирать статистку по срабатываниям банов
  */
-$config['gather_bans_running_stats'] = true;
+$config['bans']['gather_bans_running_stats'] = true;
 
 /*
  * Список методов из модуля ACL для которых не нужно подсчитывать количество срабатываний бана типа "только чтение"
@@ -53,6 +53,40 @@ $config['bans']['acl_exclude_methods_from_gather_stats'] = array(
 	'IsAllowEditTopic',
 	'IsAllowDeleteTopic',
 );
+
+/*
+ *
+ * --- Сортировка ---
+ *
+ */
+
+/*
+ * Корректные значения (поля) для сортировки банов
+ */
+$config['bans']['correct_sorting_order'] = array(
+	'restriction_type',
+
+	'block_type',
+	'user_id',
+	'ip',
+	'ip_start',
+	'ip_finish',
+
+	'time_type',
+	'date_start',
+	'date_finish',
+
+	'add_date',
+	'edit_date',
+
+	'reason_for_user',
+	'comment'
+);
+
+/*
+ * Сортировка для вывода банов по-умолчанию
+ */
+$config['bans']['default_sorting_order'] = 'edit_date';
 
 return $config;
 

@@ -455,11 +455,11 @@ class PluginAdmin_ModuleStats extends Module {
 		/*
 		 * если точек больше, чем нужно
 		 */
-		if (count($aDataStats) > Config::Get('plugin.admin.max_points_on_graph')) {
+		if (count($aDataStats) > Config::Get('plugin.admin.stats.max_points_on_graph')) {
 			/*
 			 * подсчитать во сколько раз больше точек, чем нужно
 			 */
-			return (int) round(count($aDataStats) / Config::Get('plugin.admin.max_points_on_graph'));
+			return (int) round(count($aDataStats) / Config::Get('plugin.admin.stats.max_points_on_graph'));
 		}
 		/*
 		 * выводить каждую точку

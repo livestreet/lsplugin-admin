@@ -486,20 +486,20 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 				TIMESTAMPDIFF(YEAR, `user_profile_birthday`, NOW()) as years_old,
 				COUNT(*) as count
 			FROM
-				`' . Config::Get('db.table.user') . '`
+				?#
 			WHERE
 				`user_activate` = 1
 				AND
 				`user_profile_birthday` IS NOT NULL
 				AND
 				-- trick: dont show users that are not correctly set theirs birthday date in profiles
-				`user_profile_birthday` <= CURRENT_DATE - INTERVAL ' . Config::Get('plugin.admin.min_years_diff_between_current_date_and_users_birthday_to_show_users_age_stats') . ' YEAR
+				`user_profile_birthday` <= CURRENT_DATE - INTERVAL ?d YEAR
 				AND
 				`user_id` NOT IN (
 					SELECT
 						`user_id`
 					FROM
-						`' . Config::Get('db.table.users_ban') . '`
+						?#
 					WHERE
 						`block_type` = ?d
 				)
@@ -508,7 +508,25 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 			ORDER BY
 				`years_old` ASC
 		';
-		if ($aResult = $this->oDb->query($sql, PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_USER_ID)) {
+		if ($aResult = $this->oDb->query(
+			$sql,
+			/*
+			 * основная таблица
+			 */
+			Config::Get('db.table.user'),
+			/*
+			 * разрешенная корректная разница лет от текущей даты, которой можно верить (минимальный корректный возраст)
+			 */
+			Config::Get('plugin.admin.users.min_user_age_difference_to_show_users_age_stats'),
+			/*
+			 * таблица субзапроса
+			 */
+			Config::Get('db.table.users_ban'),
+			/*
+			 * тип бана
+			 */
+			PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_USER_ID
+		)) {
 			return $aResult;
 		}
 		return array();

@@ -40,7 +40,7 @@ class PluginAdmin_HookUpdatebutton extends Hook {
 		/*
 		 * включена ли кнопка
 		 */
-		if (!Config::Get('plugin.admin.catalog.show_updates_count_in_toolbar')) return false;
+		if (!Config::Get('plugin.admin.catalog.updates.show_updates_count_in_toolbar')) return false;
 		/*
 		 * если это админ и он не в админке (там про обновления пишется отдельно)
 		 *
