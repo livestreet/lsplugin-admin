@@ -160,21 +160,22 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 
 
 	/**
-	 * Получение настроек ядра по группе (показ группы настроек ядра)
+	 * Получить настройки ядра по данным группы
 	 *
-	 * @param array $aKeysToShow			ключи группы для показа (множество)
-	 * @param array $aKeysToExcludeFromList	ключи, которые необходимо исключить (подмножество)
+	 * @param $aGroupData			данные группы
 	 * @return bool
 	 */
-	protected function ShowSystemSettings($aKeysToShow = array(), $aKeysToExcludeFromList = array()) {
+	protected function ShowSystemSettings($aGroupData) {
 		$this->SetTemplateAction('settings/list');
-
+		/*
+		 * это настройки ядра
+		 */
 		$sConfigName = ModuleStorage::DEFAULT_KEY_NAME;
-		$aSettingsAll = $this->PluginAdmin_Settings_GetConfigSettings($sConfigName, $aKeysToShow, $aKeysToExcludeFromList);
+		$aSections = $this->PluginAdmin_Settings_GetSectionsAndItsSettings($aGroupData, $sConfigName);
 
-		$this->Viewer_Assign('aSettingsAll', $aSettingsAll);
+		$this->Viewer_Assign('aSections', $aSections);
 		$this->Viewer_Assign('sConfigName', $sConfigName);
-		$this->Viewer_Assign('aKeysToShow', $aKeysToShow);
+		//$this->Viewer_Assign('aKeysToShow', $aKeysToShow);		// todo: delete
 
 		$this->Viewer_Assign('sAdminSettingsFormSystemId', PluginAdmin_ModuleSettings::ADMIN_SETTINGS_FORM_SYSTEM_ID);
 		$this->Viewer_Assign('sAdminSystemConfigId', ModuleStorage::DEFAULT_KEY_NAME);
@@ -184,16 +185,13 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 
 
 	/**
-	 * Получить ключи для показа и исключенные по группе
+	 * Показать системные настройки ядра по имени группы
 	 *
-	 * @param $sGroupName	имя группы, как она записана в конфиге админки
+	 * @param $sGroupName			имя группы, как она записана в конфиге групп
 	 * @return bool
 	 */
-	protected function GetGroupsListAndShowSettings($sGroupName) {
-		return $this->ShowSystemSettings(
-			$this->aCoreSettingsGroups[$sGroupName]['allowed'],
-			$this->aCoreSettingsGroups[$sGroupName]['exclude']
-		);
+	protected function GetGroupDataAndShowItsSettings($sGroupName) {
+		return $this->ShowSystemSettings($this->aCoreSettingsGroups[$sGroupName]);
 	}
 
 
@@ -218,7 +216,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 			 * если такая группа настроек существует
 			 */
 			if (isset($this->aCoreSettingsGroups[$sGroupName])) {
-				return $this->GetGroupsListAndShowSettings($sGroupName);
+				return $this->GetGroupDataAndShowItsSettings($sGroupName);
 			}
 			/*
 			 * это сообщение не будет никогда показано при текущих настройках, но пусть будет для отладки
