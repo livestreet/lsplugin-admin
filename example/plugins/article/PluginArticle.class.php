@@ -24,6 +24,8 @@ if (!class_exists('Plugin')) {
 
 class PluginArticle extends Plugin {
 
+	protected $sPropertyTargetType='article';
+
 	public function Init() {
 
 	}
@@ -39,14 +41,46 @@ class PluginArticle extends Plugin {
 		 * Создаем новый тип для дополнительных полей
 		 * Третий параметр true ознает перезапись параметров, если такой тип уже есть в БД
 		 */
-		if (!$this->Property_CreateTargetType('article',array('entity'=>'PluginArticle_ModuleMain_EntityArticle','name'=>'Статьи'),true)) {
+		if (!$this->Property_CreateTargetType($this->sPropertyTargetType,array('entity'=>'PluginArticle_ModuleMain_EntityArticle','name'=>'Статьи'),true)) {
 			return false;
 		}
+		/**
+		 * Добавляем новые поля к статьям, далее пользователь может делать это через интерфейс админки
+		 */
+		$aProperties=array(
+			array(
+				'data'=>array(
+					'type'=>ModuleProperty::PROPERTY_TYPE_INT,
+					'title'=>'Номер',
+					'code'=>'number',
+					'sort'=>100
+				),
+				'validate_rule'=>array(
+					'min'=>10
+				),
+				'params'=>array(),
+				'additional'=>array()
+			)
+		);
+		foreach($aProperties as $aProperty) {
+			$sResultMsg=$this->Property_CreateTargetProperty($this->sPropertyTargetType,$aProperty['data'],true,$aProperty['validate_rule'],$aProperty['params'],$aProperty['additional']);
+			if ($sResultMsg!==true and !is_object($sResultMsg)) {
+				if (is_string($sResultMsg)) {
+					$this->Message_AddErrorSingle($sResultMsg, $this->Lang_Get('error'), true);
+				}
+				/**
+				 * Отменяем добавление типа
+				 */
+				$this->Property_RemoveTargetType($this->sPropertyTargetType,ModuleProperty::TARGET_STATE_NOT_ACTIVE);
+				return false;
+			}
+		}
+
 		return true;
 	}
 
 	public function Deactivate() {
-		$this->Property_RemoveTargetType('article',ModuleProperty::TARGET_STATE_NOT_ACTIVE);
+		$this->Property_RemoveTargetType($this->sPropertyTargetType,ModuleProperty::TARGET_STATE_NOT_ACTIVE);
 		return true;
 	}
 }
