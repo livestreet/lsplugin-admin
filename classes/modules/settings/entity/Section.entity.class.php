@@ -20,22 +20,13 @@
  */
 
 /*
- * Маппинг нового формата записи языка сайта на старый формат
- * Используется для корректного чтения данных xml файлов плагинов и шаблонов
+ *
+ * Сущность для работы с разделами группы настроек
+ *
  */
 
-$config = array();
+class PluginAdmin_ModuleSettings_EntitySection extends Entity {
 
-$config['lang']['i18n_mapping'] = array(
-	/*
-	 * новый формат записи => старый
-	 */
-	'ru' => 'russian',
-	'ua' => 'ukrainian',
-	'en' => 'english',
-	'de' => 'deutsch',
-);
-
-return $config;
+}
 
 ?>

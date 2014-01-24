@@ -70,19 +70,19 @@ class PluginAdmin_ModuleCatalog extends Module {
 	 */
 	protected function Setup() {
 		/*
-		 * урлы АПИ
+		 * настройки АПИ
 		 */
-		$this->sCatalogBaseApiUrl = Config::Get('plugin.admin.catalog.base_api_url');
-		$this->aCatalogMethodPath = Config::Get('plugin.admin.catalog.methods_pathes');
+		$this->sCatalogBaseApiUrl = Config::Get('plugin.admin.catalog.api.base_url');
+		$this->aCatalogMethodPath = Config::Get('plugin.admin.catalog.api.methods');
 		/*
-		 * время жизни кешей
+		 * время жизни кеша
 		 */
-		$this->aCacheLiveTime = Config::Get('plugin.admin.catalog.cache_live_time');
+		$this->aCacheLiveTime = Config::Get('plugin.admin.catalog.cache.time');
 		/*
 		 * тайминги подключений к серверу
 		 */
-		$this->iConnectTimeout = Config::Get('plugin.admin.catalog.max_connect_timeout');
-		$this->iWorkTimeout = Config::Get('plugin.admin.catalog.max_work_timeout');
+		$this->iConnectTimeout = Config::Get('plugin.admin.catalog.timeouts.max_connect_timeout');
+		$this->iWorkTimeout = Config::Get('plugin.admin.catalog.timeouts.max_work_timeout');
 	}
 
 
@@ -162,7 +162,6 @@ class PluginAdmin_ModuleCatalog extends Module {
 	 * --- Обработка запросов по АПИ ---
 	 *
 	 */
-
 
 	/**
 	 * Послать запрос серверу с нужными таймингами
@@ -333,7 +332,7 @@ class PluginAdmin_ModuleCatalog extends Module {
 		/*
 		 * нужно ли проверять на наличие обновлений для плагинов
 		 */
-		if (!Config::Get('plugin.admin.catalog.allow_plugin_updates_checking')) return false;
+		if (!Config::Get('plugin.admin.catalog.updates.allow_plugin_updates_checking')) return false;
 		/*
 		 * послать запрос на сервер для получения списка обновлений
 		 */

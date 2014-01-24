@@ -97,7 +97,7 @@ class PluginAdmin_ModuleTools extends Module {
 		/*
 		 * получить массив масок для проверки
 		 */
-		$aFilesMasksToCheck = Config::Get('plugin.admin.encoding_checking_dirs');
+		$aFilesMasksToCheck = Config::Get('plugin.admin.utils.encoding_checking_dirs');
 		/*
 		 * проверить файлы
 		 */
@@ -273,7 +273,7 @@ class PluginAdmin_ModuleTools extends Module {
 			/*
 			 * получить язык в старом формате (полностью)
 			 */
-			$sLangFull = Config::Get('plugin.admin.i18n_mapping.' . $sLang);
+			$sLangFull = Config::Get('plugin.admin.lang.i18n_mapping.' . $sLang);
 			/*
 			 * есть ли язык в старом формате
 			 */

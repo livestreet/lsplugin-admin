@@ -51,7 +51,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		/*
 		 * получить группы настроек системного конфига
 		 */
-		$this->aCoreSettingsGroups = Config::Get('plugin.admin.core_config_groups');
+		$this->aCoreSettingsGroups = Config::Get('plugin.admin.settings.core_config_groups');
 
 		/*
 		 * по-умолчанию показывать главную страницу
@@ -360,7 +360,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 * todo: нужно что-то ещё с меню придумать чтобы полностью автоматизировать процесс создания групп.
 		 * пока в меню нужно прописывать вручную пункты групп
 		 */
-		foreach(array_keys(Config::Get('plugin.admin.core_config_groups')) as $sKey) {
+		foreach(array_keys(Config::Get('plugin.admin.settings.core_config_groups')) as $sKey) {
 			$this->AddEventPreg('#^settings$#iu', '#^' . $sKey . '$#iu', 'Settings::' . $this->sCallbackMethodToShowSystemSettings . $sKey);
 		}
 

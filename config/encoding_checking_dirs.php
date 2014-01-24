@@ -25,10 +25,12 @@
  *
  */
 
+$config = array();
+
 /*
  * Список масок поиска файлов для проверки
  */
-$config['encoding_checking_dirs'] = array(
+$config['utils']['encoding_checking_dirs'] = array(
 	/*
 	 *
 	 * --- Проверка файлов фреймворка ---

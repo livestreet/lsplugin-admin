@@ -58,7 +58,7 @@ $config['$config_scheme$'] = array(
 	/*
 	 * todo: delete (TEMP TEST)
 	 */
-	'user.per_page' => array(
+	'users.per_page' => array(
 		'type' => 'integer',															// integer, string, array, boolean, float
 		'name' => 'config_parameters.test.subarr.name',									// отображаемое имя параметра, ключ языкового файла
 		'description' => '',

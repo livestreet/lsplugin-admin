@@ -401,7 +401,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	 * @param int		$iParamNum					номер параметра, в котором нужно искать номер страницы
 	 * @param string 	$sConfigKeyPerPage			ключ конфига, в котором хранится количество элементов на страницу
 	 */
-	protected function SetPaging($iParamNum = 1, $sConfigKeyPerPage = 'user.per_page') {
+	protected function SetPaging($iParamNum = 1, $sConfigKeyPerPage = 'users.per_page') {
 		if (!$this->iPage = intval(preg_replace('#^page(\d+)$#iu', '$1', $this->GetParam ($iParamNum)))) {
 			$this->iPage = 1;
 		}
@@ -1055,7 +1055,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * Удалить статистику бана
 		 */
-		if (Config::Get('plugin.admin.gather_bans_running_stats')) {
+		if (Config::Get('plugin.admin.bans.gather_bans_running_stats')) {
 			$this->PluginAdmin_Users_DeleteBanStats($oBan);
 		}
 		$this->PluginAdmin_Users_DeleteBanById($oBan->getId());
@@ -1140,7 +1140,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * проверка id пользователя (нельзя удалять права админа у пользователей из спец. списка из конфига)
 		 */
-		if (!$iUserId = (int) $this->GetParam(2) or in_array($iUserId, Config::Get('plugin.admin.block_managing_admin_rights_user_ids')) or !$oUser = $this->User_GetUserById($iUserId)) {
+		if (!$iUserId = (int) $this->GetParam(2) or in_array($iUserId, Config::Get('plugin.admin.users.block_managing_admin_rights_user_ids')) or !$oUser = $this->User_GetUserById($iUserId)) {
 			$this->Message_AddError($this->Lang('errors.bans.incorrect_user_id'));				// todo: lang error array group - export from "bans"
 			return false;
 		}
@@ -1164,7 +1164,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * проверка id пользователя (нельзя удалять контент у пользователей из спец. списка из конфига)
 		 */
-		if (!$iUserId = (int) getRequestStr('user_id') or in_array($iUserId, Config::Get('plugin.admin.block_deleting_user_ids')) or !$oUser = $this->User_GetUserById($iUserId)) {
+		if (!$iUserId = (int) getRequestStr('user_id') or in_array($iUserId, Config::Get('plugin.admin.users.block_deleting_user_ids')) or !$oUser = $this->User_GetUserById($iUserId)) {
 			$this->Message_AddError($this->Lang('errors.bans.incorrect_user_id'));				// todo: lang error array group - export from "bans"
 			return $this->EventError();
 		}

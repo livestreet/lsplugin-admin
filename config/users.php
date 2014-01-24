@@ -2,26 +2,20 @@
 /**
  * LiveStreet CMS
  * Copyright © 2013 OOO "ЛС-СОФТ"
- * 
+ *
  * ------------------------------------------------------
- * 
+ *
  * Official site: www.livestreetcms.com
  * Contact e-mail: office@livestreetcms.com
- * 
+ *
  * GNU General Public License, version 2:
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * 
+ *
  * ------------------------------------------------------
- * 
+ *
  * @link http://www.livestreetcms.com
  * @copyright 2013 OOO "ЛС-СОФТ"
  * @author Serge Pustovit (PSNet) <light.feel@gmail.com>
- * 
- */
-
-/*
- *
- * Разрешенные списки имен полей для сортировки, поиска по ним и сортировок по-умолчанию
  *
  */
 
@@ -30,6 +24,13 @@
  * --- Пользователи ---
  *
  */
+
+$config = array();
+
+/*
+ * количество пользователей на страницу
+ */
+$config['users']['per_page'] = 10;
 
 /*
  * Разрешенные имена полей для поиска по пользователям
@@ -55,6 +56,11 @@ $config['users']['search_allowed_types'] = array(
 	'session_ip_last' => array('search_as_part_of_string' => true),
 );
 
+/*
+ *
+ * --- Сортировка ---
+ *
+ */
 
 /*
  * Корректные значения (поля) для сортировок пользователей
@@ -80,64 +86,45 @@ $config['users']['correct_sorting_order'] = array(
  */
 $config['users']['default_sorting_order'] = 'u.user_id';
 
-
 /*
  *
- * --- Голоса ---
- *
- */
-
-/*
- * Корректные значения (поля) для сортировки голосов пользователя
- */
-$config['votes']['correct_sorting_order'] = array(
-	'target_id',
-	'target_type',
-	'vote_direction',
-	'vote_value',
-	'vote_date',
-	'vote_ip'
-);
-
-/*
- * Сортировка для вывода голосов по-умолчанию
- */
-$config['votes']['default_sorting_order'] = 'vote_date';
-
-
-/*
- *
- * --- Баны ---
+ * --- Статистика ---
  *
  */
 
 /*
- * Корректные значения (поля) для сортировки банов
+ * Минимальный корректный возраст пользователя (минимальная разница между текущей датой и указанным в профиле днем рождения пользователя),
+ * чтобы учитывать такую запись в показе статистики пользователей в графике возрастного распределения.
+ *
+ * Считается что пользователь, которому исполнилось 7 (значение по-умолчанию) и больше лет - это верно указанная дата рождения в профиле пользователя.
+ * Другие количества лет (меньше данного значения т.е. 0 - 6 лет или минусовые) не будут учитываться и будут отброшены как некорректные
+ * в формировании графика возрастного распределения на странице статистики пользователей
  */
-$config['bans']['correct_sorting_order'] = array(
-	'restriction_type',
-
-	'block_type',
-	'user_id',
-	'ip',
-	'ip_start',
-	'ip_finish',
-
-	'time_type',
-	'date_start',
-	'date_finish',
-
-	'add_date',
-	'edit_date',
-
-	'reason_for_user',
-	'comment'
-);
+$config['users']['min_user_age_difference_to_show_users_age_stats'] = 7;		// лет
 
 /*
- * Сортировка для вывода банов по-умолчанию
+ * максимальное количество элементов при показе статистики проживаний пользователей
+ * все остальные элементы будут спрятаны в селект
  */
-$config['bans']['default_sorting_order'] = 'edit_date';
+$config['users']['max_items_in_living_users_stats'] = 20;
+
+/*
+ *
+ * --- Управление пользователями ---
+ *
+ */
+
+/*
+ * id пользователей, которых нельзя удалять из сайта
+ * значение по-умолчанию - 1 (это автоматически создаваемый при установке движка пользователь "admin")
+ */
+$config['users']['block_deleting_user_ids'] = array(1);
+
+/*
+ * id пользователей, у которых нельзя удалять/добавлять права администратора
+ * значение по-умолчанию - 1 (это автоматически создаваемый при установке движка пользователь "admin")
+ */
+$config['users']['block_managing_admin_rights_user_ids'] = array(1);
 
 return $config;
 

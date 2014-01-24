@@ -20,77 +20,66 @@
  */
 
 /*
- *	Списки групп настроек главного конфига движка и принадлежащих им параметров
+ * Списки групп настроек главного конфига движка и принадлежащих им параметров
  *
- *	Для каждой группы в ключе "allowed" необходимо указать первые символы разрешенных параметров
- *	Для ключа "exclude" нужно указать начала параметров, которые необходимо исключить из группы (правило работает после списка разрешенных)
+ * Для каждой группы в ключе "allowed_keys" необходимо указать первые символы разрешенных параметров
+ * Для ключа "excluded_keys" нужно указать начала параметров, которые необходимо исключить из группы (правило работает после списка разрешенных)
  */
+
 /*
  *
  * ВАЖНО: Имя ключа массива для группы не может быть "plugin" и "save" - эти эвенты зарегистрированы для показа настроек плагинов и сохранения настроек соответственно
  *
  */
-$config['core_config_groups'] = array(
+$config['settings']['core_config_groups'] = array(
 
 	/*
+	 * группа настроек
 	 * tip: имя группы идентично её урлу
 	 */
 	'system' => array(
 		/*
-		 * начала параметров, разрешенных для показа в этой группе
+		 * раздел на странице настроек
 		 */
-		'allowed' => array(
-			//'view',
-			//'seo',
-			//'block',
-			//'pagination',
-			//'path',
-			'smarty',
-			//'sys',
-			//'general',
-			//'lang',
-			//'acl',
-			//'module',
-			//'db',
-			'memcache',
-			//'router',
-			//'head',			// dont allow editing this param - it consists js and css files that need to be able changed by config.php from skins etc
-			//'compress',
+		'smarty' => array(
+			/*
+			 * начала параметров, разрешенных для показа в этой группе
+			 */
+			'allowed_keys' => array(
+				'smarty',
+			),
+			/*
+			 * начала параметров, которые необходимо исключить из группы(правило работает после списка разрешенных)
+			 */
+			'excluded_keys' => array(),
 		),
-		/*
-		 * начала параметров, которые необходимо исключить из группы(правило работает после списка разрешенных)
-		 */
-		'exclude' => array(
-			//'path.',
-			//'sys.plugins.activation_file',
-			//'sys.logs.',
-			//'router',
-			//'sys.cache',
-			//'sys.session',
-			//'sys.cookie',
-
+		'memcache' => array(
+			'allowed_keys' => array(
+				'memcache',
+			),
+			'excluded_keys' => array(),
 		),
 	),	// /system
 
 
 	'view' => array(
-		'allowed' => array(
+		'allowed_keys' => array(
 			'view',
 		),
-		'exclude' => array(
+		'excluded_keys' => array(
 		),
 	),
 
 
 	'interface' => array(
-		'allowed' => array(
+		'allowed_keys' => array(
 			'seo',
 			'block',
 			'pagination',
 			'general',
 			'lang',
 		),
-		'exclude' => array(
+		'excluded_keys' => array(
 			'lang.path',
 			'block.rule_',
 
@@ -99,141 +88,141 @@ $config['core_config_groups'] = array(
 
 
 	'sysmail' => array(
-		'allowed' => array(
+		'allowed_keys' => array(
 			'sys.mail.',
 		),
-		'exclude' => array(
+		'excluded_keys' => array(
 		),
 	),
 
 
 	'aclcreate' => array(
-		'allowed' => array(
+		'allowed_keys' => array(
 			'acl.create.',
 		),
-		'exclude' => array(
+		'excluded_keys' => array(
 		),
 	),
 
 
 	'aclvote' => array(
-		'allowed' => array(
+		'allowed_keys' => array(
 			'acl.vote.',
 		),
-		'exclude' => array(
+		'excluded_keys' => array(
 		),
 	),
 
 
 	'moduleblog' => array(
-		'allowed' => array(
+		'allowed_keys' => array(
 			'module.blog.',
 		),
-		'exclude' => array(
+		'excluded_keys' => array(
 		),
 	),
 
 
 	'moduletopic' => array(
-		'allowed' => array(
+		'allowed_keys' => array(
 			'module.topic.',
 		),
-		'exclude' => array(
+		'excluded_keys' => array(
 		),
 	),
 
 
 	'moduleuser' => array(
-		'allowed' => array(
+		'allowed_keys' => array(
 			'module.user.',
 		),
-		'exclude' => array(
+		'excluded_keys' => array(
 		),
 	),
 
 
 	'modulecomment' => array(
-		'allowed' => array(
+		'allowed_keys' => array(
 			'module.comment.',
 		),
-		'exclude' => array(
+		'excluded_keys' => array(
 		),
 	),
 
 
 	'moduletalk' => array(
-		'allowed' => array(
+		'allowed_keys' => array(
 			'module.talk.',
 		),
-		'exclude' => array(
+		'excluded_keys' => array(
 		),
 	),
 
 
 	'modulenotify' => array(
-		'allowed' => array(
+		'allowed_keys' => array(
 			'module.notify.',
 		),
-		'exclude' => array(
+		'excluded_keys' => array(
 		),
 	),
 
 
 	'moduleimage' => array(
-		'allowed' => array(
+		'allowed_keys' => array(
 			'module.image.',
 		),
-		'exclude' => array(
+		'excluded_keys' => array(
 			'module.image.default.path.',
 		),
 	),
 
 
 	'modulewall' => array(
-		'allowed' => array(
+		'allowed_keys' => array(
 			'module.wall.',
 		),
-		'exclude' => array(
+		'excluded_keys' => array(
 		),
 	),
 
 
 	'moduleother' => array(
-		'allowed' => array(
+		'allowed_keys' => array(
 			'module.security.',
 			'module.userfeed.',
 			'module.stream.',
 			'module.ls.',
 		),
-		'exclude' => array(
+		'excluded_keys' => array(
 		),
 	),
 
 
 /*	'db' => array(
-		'allowed' => array(
+		'allowed_keys' => array(
 			'db',
 		),
-		'exclude' => array(
+		'excluded_keys' => array(
 		),
 	),*/
 
 
 /*	'blocksrule' => array(
-		'allowed' => array(
+		'allowed_keys' => array(
 			'block.rule_',
 		),
-		'exclude' => array(
+		'excluded_keys' => array(
 
 		),
 	),*/
 
 
 	'compress' => array(
-		'allowed' => array(
+		'allowed_keys' => array(
 			'compress',
 		),
-		'exclude' => array(
+		'excluded_keys' => array(
 		),
 	),
 

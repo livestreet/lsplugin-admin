@@ -19,19 +19,22 @@
  * Обработка блока с редактированием свойств объекта
  *
  * @package blocks
- * @since 1.0
+ * @since   1.0
  */
+
 class PluginAdmin_BlockPropertyUpdate extends Block {
 	/**
 	 * Запуск обработки
 	 */
 	public function Exec() {
-		$sTargetType=$this->GetParam('target_type');
-		$iTargetId=$this->GetParam('target_id');
+		$sTargetType = $this->GetParam('target_type');
+		$iTargetId = $this->GetParam('target_id');
 		/**
 		 * Получаем набор свойств
 		 */
-		$aProperties=$this->Property_GetPropertiesForUpdate($sTargetType,$iTargetId);
-		$this->Viewer_Assign('aProperties',$aProperties);
+		$aProperties = $this->Property_GetPropertiesForUpdate($sTargetType, $iTargetId);
+		$this->Viewer_Assign('aProperties', $aProperties);
 	}
 }
+
+?>

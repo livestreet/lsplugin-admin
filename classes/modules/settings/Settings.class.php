@@ -211,6 +211,31 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 
 
 	/**
+	 * Получить полное имя префикса ключа по имени конфига (имя плагина или ядра),
+	 * вернет для плагинов префикс "plugin.имяплагина." или пустое значение для ядра (без префикса)
+	 *
+	 * @param			$sConfigName		имя конфига
+	 * @param bool 		$bAddDot			добавлять ли точку в конце (удобно для получения всего конфига)
+	 * @return string						полное представление ключа
+	 */
+	private function GetFullConfigKeyPrefix($sConfigName, $bAddDot = true) {
+		return $sConfigName == ModuleStorage::DEFAULT_KEY_NAME ? '' : 'plugin.' . $sConfigName . ($bAddDot ? '.' : '');
+	}
+
+
+	/**
+	 * Получить полное имя ключа по имени конфига и нужному его ключу
+	 *
+	 * @param $sConfigName					имя конфига
+	 * @param $sConfigKey					ключ конфига
+	 * @return string
+	 */
+	private function GetFullConfigKey($sConfigName, $sConfigKey) {
+		return $this->GetFullConfigKeyPrefix($sConfigName) . $sConfigKey;
+	}
+
+
+	/**
 	 * Получить текущее значение из конфига, учитывая имя конфига
 	 *
 	 * @param $sConfigName			имя конфига (имя плагина или ядра)
@@ -219,7 +244,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 * @return mixed				значение
 	 */
 	private function GetConfigKeyValue($sConfigName, $sConfigKey, $sInstance = Config::DEFAULT_CONFIG_INSTANCE) {
-		return Config::Get($this->GetRealFullKey($sConfigName) . $sConfigKey, $sInstance);
+		return Config::Get($this->GetFullConfigKey($sConfigName, $sConfigKey), $sInstance);
 	}
 
 
@@ -232,20 +257,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 * @param $sInstance			инстанция
 	 */
 	private function SetConfigKeyValue($sConfigName, $sConfigKey, $mValue, $sInstance = Config::DEFAULT_CONFIG_INSTANCE) {
-		Config::Set($this->GetRealFullKey($sConfigName) . $sConfigKey, $mValue, $sInstance);
-	}
-
-
-	/**
-	 * Получить полное название ключа по имени конфига (имя плагина или ядра),
-	 * вернет для плагинов префикс "plugin.имяплагина." или пустое значение для ядра (без префикса)
-	 *
-	 * @param			$sConfigName		имя конфига
-	 * @param bool 		$bAddDot			добавлять ли точку в конце (удобно для получения всего конфига)
-	 * @return string						полное представление ключа
-	 */
-	private function GetRealFullKey($sConfigName, $bAddDot = true) {
-		return $sConfigName == ModuleStorage::DEFAULT_KEY_NAME ? '' : 'plugin.' . $sConfigName .($bAddDot ? '.' : '');
+		Config::Set($this->GetFullConfigKey($sConfigName, $sConfigKey), $mValue, $sInstance);
 	}
 
 
@@ -259,9 +271,15 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 * @return mixed					параметр с текстовками вместо ключей, указывающих на них
 	 */
 	private function ConvertLangKeysToTexts($sConfigName, $aParam, $aKeys = array('name', 'description')) {
-		foreach($aKeys as $sNamesToExtend) {
-			if (!isset($aParam [$sNamesToExtend]) or empty($aParam [$sNamesToExtend])) continue;
-			$aParam [$sNamesToExtend] = $this->Lang_Get($this->GetRealFullKey($sConfigName) . $aParam [$sNamesToExtend]);
+		foreach($aKeys as $sNameToExtend) {
+			/*
+			 * если такой ключ не был задан - пропустить
+			 */
+			if (!isset($aParam[$sNameToExtend]) or empty($aParam[$sNameToExtend])) continue;
+			/*
+			 * установить вместо ключа, указывающего на текстовку её отображаемое значение
+			 */
+			$aParam[$sNameToExtend] = $this->Lang_Get($this->GetFullConfigKeyPrefix($sConfigName) . $aParam[$sNameToExtend]);
 		}
 		return $aParam;
 	}
@@ -287,11 +305,11 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 * @return bool					результат проверки
 	 */
 	private function ValidateParameter($aValidatorInfo, $mValue) {
-		if (!isset($aValidatorInfo ['type'])) return true;
+		if (!isset($aValidatorInfo['type'])) return true;
 		return $this->Validate_Validate(
-			$aValidatorInfo ['type'],
+			$aValidatorInfo['type'],
 			$mValue,
-			isset($aValidatorInfo ['params']) ? $aValidatorInfo ['params'] : array()
+			isset($aValidatorInfo['params']) ? $aValidatorInfo['params'] : array()
 		);
 	}
 
@@ -319,40 +337,41 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 		 * Получить описание настроек из конфига
 		 */
 		$aSettingsInfo = $this->GetConfigSettingsSchemeInfo($sConfigName);
-		
+		/*
+		 * все настройки
+		 */
 		$aSettingsAll = array();
+		/*
+		 * по всем записям описаний каждого параметра получить дополнительные данные
+		 */
 		foreach($aSettingsInfo as $sConfigKey => $aOneParamInfo) {
 			/*
 			 * Получить только нужные ключи
 			 */
 			if (!empty($aOnlyThisKeysAllowed) and !$this->CheckIfThisKeyInArray($sConfigKey, $aOnlyThisKeysAllowed)) continue;
-			
 			/*
 			 * Исключить не нужные ключи
 			 */
 			if (!empty($aExcludeKeys) and $this->CheckIfThisKeyInArray($sConfigKey, $aExcludeKeys)) continue;
-			
+
 			/*
 			 * Получить текущее значение параметра
 			 */
 			if (($mValue = $this->GetConfigKeyValue($sConfigName, $sConfigKey)) === null) {
-				$this->Message_AddError(
-					$this->Lang_Get('plugin.admin.errors.wrong_description_key', array('key' => $sConfigKey)),
-					$this->Lang_Get('error')
-				);
+				$this->Message_AddError($this->Lang_Get('plugin.admin.errors.wrong_description_key', array('key' => $sConfigKey)), $this->Lang_Get('error'));
 				continue;
 			}
-			
+
 			/*
 			 * Получить текстовки имени и описания параметра из ключей, указывающих на языковый файл
 			 */
 			$aOneParamInfo = $this->ConvertLangKeysToTexts($sConfigName, $aOneParamInfo);
-			
+
 			/*
 			 * Собрать данные параметра и получить сущность
 			 */
 			$aParamData = array_merge($aOneParamInfo, array('key' => $sConfigKey, 'value' => $mValue));
-			$aSettingsAll [$sConfigKey] = Engine::GetEntity('PluginAdmin_Settings', $aParamData);
+			$aSettingsAll[$sConfigKey] = Engine::GetEntity('PluginAdmin_Settings', $aParamData);
 		}
 		return $aSettingsAll;
 	}
@@ -373,6 +392,84 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 		return false;
 	}
 
+
+	/*
+	 *
+	 * --- Обработка разделов настроек ---
+	 *
+	 */
+
+	/**
+	 * Получить разделы с их настройками по данным группы и имени конфига
+	 *
+	 * @param $aSections		массив разделов
+	 * @param $sConfigName		имя конфига
+	 * @return array
+	 */
+	// todo: переименовать в что-то более осмысленное
+	public function GetSectionsAndItsSettings($aSections, $sConfigName) {
+		/*
+		 * разделы настроек
+		 */
+		$aSectionsAndSettings = array();
+		/*
+		 * по всем разделам группы
+		 */
+		foreach ($aSections as $sSectionName => $aSectionKeyOptions) {
+			$aData = array();
+			/*
+			 * код раздела
+			 */
+			$aData['code'] = $sSectionName;
+			/*
+			 * получить имя раздела настроек
+			 */
+			$aData['section_name'] = 'config_section.' . $sSectionName;
+			/*
+			 * получить текстовки
+			 */
+			$aData = $this->ConvertLangKeysToTexts($sConfigName, $aData, array('section_name'));
+			/*
+			 * получить настройки этого раздела
+			 */
+			$aData['settings'] = $this->PluginAdmin_Settings_GetConfigSettings(
+				$sConfigName,
+				$this->GetAllowedKeysForGroupSection($aSectionKeyOptions),
+				$this->GetExcludedKeysForGroupSection($aSectionKeyOptions)
+			);
+			$aSectionsAndSettings[$sSectionName] = Engine::GetEntity('PluginAdmin_Settings_Section', $aData);
+		}
+		return $aSectionsAndSettings;
+	}
+
+
+	/**
+	 * Получить список разрешенных ключей для раздела
+	 *
+	 * @param $aSectionData		данные раздела
+	 * @return array
+	 */
+	private function GetAllowedKeysForGroupSection($aSectionData) {
+		return isset($aSectionData['allowed_keys']) ? $aSectionData['allowed_keys'] : array();
+	}
+
+
+	/**
+	 * Получить список исключенных ключей для раздела
+	 *
+	 * @param $aSectionData		данные раздела
+	 * @return array
+	 */
+	private function GetExcludedKeysForGroupSection($aSectionData) {
+		return isset($aSectionData['excluded_keys']) ? $aSectionData['excluded_keys'] : array();
+	}
+
+
+	/*
+	 *
+	 * --- Получение настроек ---
+	 *
+	 */
 
 	/**
 	 * Весь процесс получения настроек из формы
@@ -560,7 +657,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 		/*
 		 * Все параметры из формы сохранены в отдельной инстанции конфига
 		 */
-		return Config::Get($this->GetRealFullKey($sConfigName, false), self::ADMIN_TEMP_CONFIG_INSTANCE);
+		return Config::Get($this->GetFullConfigKeyPrefix($sConfigName, false), self::ADMIN_TEMP_CONFIG_INSTANCE);
 	}
 
 
@@ -777,8 +874,8 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 		}
 		return true;
 	}
-	
-	
+
+
 }
 
 ?>

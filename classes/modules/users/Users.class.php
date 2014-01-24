@@ -472,7 +472,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * Удалить старые записи банов, дата окончания которых уже прошла
 	 */
 	public function DeleteOldBanRecords() {
-		if (!Config::Get('plugin.admin.auto_delete_old_ban_records')) return false;
+		if (!Config::Get('plugin.admin.bans.auto_delete_old_ban_records')) return false;
 		// todo: cache
 		return $this->oMapper->DeleteOldBanRecords();
 	}
@@ -605,7 +605,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * @return bool
 	 */
 	public function AddBanTriggering($oBan) {
-		if (!Config::Get('plugin.admin.gather_bans_running_stats')) return false;
+		if (!Config::Get('plugin.admin.bans.gather_bans_running_stats')) return false;
 		/*
 		 * получить статистику по банам
 		 */

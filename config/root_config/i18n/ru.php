@@ -24,6 +24,17 @@
  */
 
 return array(
+	/*
+	 * Описание разделов
+	 */
+	'config_section' => array(
+		'smarty' => 'Смарти',
+		'memcache' => 'Мемкеш',
+
+	),
+	/*
+	 * Описание каждого параметра конфига для отображения в админке LiveStreet CMS
+	 */
 	'config_parameters' => array(
 		'view' => array(
 			'skin' => array(

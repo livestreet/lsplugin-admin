@@ -20,10 +20,17 @@
  */
 
 /*
- *	Сущность для работы с настройками
+ *
+ * Сущность для работы с настройками
+ *
  */
 
 class PluginAdmin_ModuleSettings_EntitySettings extends Entity {
+
+	/*
+	 * максимальное количество элементов для селекта типа "целое число", если диапазон больше - будет показан простой текстовый ввод
+	 */
+	const INTEGER_MAX_SELECT_ELEMENTS = 500;
 
 
 	/**
@@ -33,23 +40,32 @@ class PluginAdmin_ModuleSettings_EntitySettings extends Entity {
 	 */
 	public function getNeedToShowSpecialArrayForm() {
 		$aValidatorData = $this->getValidator();
-		
-		if ($aValidatorData ['type'] != 'Array') {
+		/*
+		 * является ли этот параметр массивом
+		 */
+		if ($aValidatorData['type'] != 'Array') {
 			return false;
 		}
-		
-		if (!isset($aValidatorData ['params'])) {
+		/*
+		 * для специального отображения нужны параметры валидатора
+		 */
+		if (!isset($aValidatorData['params'])) {
 			return false;
 		}
-		
+		/*
+		 * если указано выводить как обычный массив
+		 */
 		if ($this->getShowAsPhpArray()) {
 			return false;
 		}
+		/*
+		 * если массив не является простым (имеет вложенные массивы)
+		 */
 		if (!$this->IsArraySimple()) {
 			return false;
 		}
 		/*
-		 * разрешить перечисление (если задано) или текстовое поле для добавления значений в противном случае
+		 * разрешить перечисление (если задано) или текстовое поле для добавления значений
 		 */
 		return true;
 	}
@@ -77,25 +93,34 @@ class PluginAdmin_ModuleSettings_EntitySettings extends Entity {
 	 */
 	public function getNeedToShowSpecialIntegerForm() {
 		$aValidatorData = $this->getValidator();
-		
-		if ($aValidatorData ['type'] != 'Number') {
+		/*
+		 * является ли этот параметр числом
+		 */
+		if ($aValidatorData['type'] != 'Number') {
 			return false;
 		}
-		
-		if (!isset($aValidatorData ['params'])) {
+		/*
+		 * для специального отображения нужны параметры валидатора
+		 */
+		if (!isset($aValidatorData['params'])) {
 			return false;
 		}
-		
-		$aValidatorParams = $aValidatorData ['params'];
-		if (!isset($aValidatorParams ['min']) or !isset($aValidatorParams ['max'])) {
+		/*
+		 * нужны границы числа
+		 */
+		$aValidatorParams = $aValidatorData['params'];
+		if (!isset($aValidatorParams['min']) or !isset($aValidatorParams['max'])) {
 			return false;
 		}
 		/*
 		 * чтобы не нагружать браузер слишком большими списками чисел
 		 */
-		if ($aValidatorParams ['max'] - $aValidatorParams ['min'] > 500) {
+		if ($aValidatorParams['max'] - $aValidatorParams['min'] > self::INTEGER_MAX_SELECT_ELEMENTS) {
 			return false;
 		}
+		/*
+		 * разрешить использование селекта для чисел
+		 */
 		return true;
 	}
 

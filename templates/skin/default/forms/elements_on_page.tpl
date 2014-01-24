@@ -16,7 +16,7 @@
 
 	{$aLang.plugin.admin.on_page}
 	<select name="onpage" class="width-75">
-		{foreach from=$oConfig->Get('plugin.admin.values_for_select_elements_on_page') item=iVal}
+		{foreach from=$oConfig->Get('plugin.admin.pagination.values_for_select_elements_on_page') item=iVal}
 			<option value="{$iVal}" {if $iVal==$iCurrentValue}selected="selected"{/if}>{$iVal}</option>
 		{/foreach}
 	</select>
