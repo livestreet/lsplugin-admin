@@ -44,16 +44,15 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 		/*
 		 * активирован ли этот плагин
 		 */
-		if (!$this->PluginAdmin_Settings_CheckPluginNameIsActive($sConfigName)) {
+		if (!$this->PluginAdmin_Settings_CheckPluginCodeIsActive($sConfigName)) {
 			$this->Message_AddError($this->Lang_Get('plugin.admin.errors.plugin_need_to_be_activated'), $this->Lang_Get('error'));
 			return false;
 		}
 		/*
-		 * получить набор настроек
+		 * получить разделы и их настройки
 		 */
-		$aSettingsAll = $this->PluginAdmin_Settings_GetConfigSettings($sConfigName);
-		
-		$this->Viewer_Assign('aSettingsAll', $aSettingsAll);
+		$aSections = $this->PluginAdmin_Settings_GetPluginSectionsAndItsSettings($sConfigName);
+		$this->Viewer_Assign('aSections', $aSections);
 		$this->Viewer_Assign('sConfigName', $sConfigName);
 		$this->Viewer_Assign('oPlugin', $this->PluginAdmin_Plugins_GetPluginByCode($sConfigName));
 
@@ -138,7 +137,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 		/*
 		 * является ли набор настроек настройками движка или это активированный плагин
 		 */
-		if ($sConfigName != ModuleStorage::DEFAULT_KEY_NAME and !$this->PluginAdmin_Settings_CheckPluginNameIsActive($sConfigName)) {
+		if ($sConfigName != ModuleStorage::DEFAULT_KEY_NAME and !$this->PluginAdmin_Settings_CheckPluginCodeIsActive($sConfigName)) {
 			$this->Message_AddError($this->Lang_Get('plugin.admin.errors.plugin_need_to_be_activated'), $this->Lang_Get('error'));
 			return false;
 		}
@@ -159,6 +158,12 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 	}
 
 
+	/*
+	 *
+	 * --- Настройки движка ---
+	 *
+	 */
+
 	/**
 	 * Получить системные настройки ядра по имени группы
 	 *
@@ -168,21 +173,25 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 	protected function ShowSystemSettings($sGroupName) {
 		$this->SetTemplateAction('settings/list');
 		/*
-		 * данные группы
+		 * данные разделов группы
 		 */
-		$aGroupData = $this->aCoreSettingsGroups[$sGroupName];
+		$aSectionsInfo = $this->aCoreSettingsGroups[$sGroupName];
 		/*
 		 * это настройки ядра
 		 */
 		$sConfigName = ModuleStorage::DEFAULT_KEY_NAME;
-		$aSections = $this->PluginAdmin_Settings_GetSectionsAndItsSettings($aGroupData, $sConfigName);
+		$aSections = $this->PluginAdmin_Settings_GetSectionsAndItsSettings($aSectionsInfo, $sConfigName);
 
 		$this->Viewer_Assign('aSections', $aSections);
 		$this->Viewer_Assign('sConfigName', $sConfigName);
-		//$this->Viewer_Assign('aKeysToShow', $aKeysToShow);		// todo: удалить, только для раздела ядра и использовалось
 
 		$this->Viewer_Assign('sAdminSettingsFormSystemId', PluginAdmin_ModuleSettings::ADMIN_SETTINGS_FORM_SYSTEM_ID);
 		$this->Viewer_Assign('sAdminSystemConfigId', ModuleStorage::DEFAULT_KEY_NAME);
+
+		/*
+		 * todo: check when validators will be set
+		 */
+		$this->Lang_AddLangJs(array('plugin.admin.errors.some_fields_are_incorrect'));
 	}
 
 

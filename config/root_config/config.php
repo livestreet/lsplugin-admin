@@ -29,7 +29,8 @@ return array(
 	/*
 	 * --- Списки групп настроек главного конфига движка и принадлежащих им разделов и их параметров ---
 	 *
-	 * Для каждой группы указывается как минимум один раздел, в котором указываются
+	 * Для каждой группы указывается как минимум один раздел, в котором указываются:
+	 * 		в ключе "name" - ключ языкового файла для названия раздела группы
 	 * 		в ключе "allowed_keys" - первые символы разрешенных параметров
 	 * 		в ключе "excluded_keys" - начала параметров, которые необходимо исключить из группы (правило работает после списка разрешенных, исключаемое подмножество)
 	 */
@@ -39,10 +40,12 @@ return array(
 		 * tip: имя группы идентично её урлу и не может быть "plugin" и "save" - эти эвенты зарегистрированы для показа настроек плагинов и сохранения настроек соответственно
 		 */
 		'system' => array(
-			/*
-			 * раздел "smarty" на странице настроек для группы с кодом "system"
-			 */
-			'smarty' => array(
+			array(
+				/*
+				 * раздел "smarty" на странице настроек для группы с кодом "system"
+				 * tip: ключ, указывающий на текстовку конфига
+				 */
+				'name' => 'config_sections.system.smarty',
 				/*
 				 * начала параметров, разрешенных для показа в этой группе
 				 */
@@ -54,10 +57,12 @@ return array(
 				 */
 				'excluded_keys' => array(),
 			),
-			/*
-			 * раздел "memcache" на странице настроек для группы с кодом "system"
-			 */
-			'memcache' => array(
+			array(
+				/*
+				 * раздел "memcache" на странице настроек для группы с кодом "system"
+				 * tip: ключ, указывающий на текстовку конфига
+				 */
+				'name' => 'config_sections.system.memcache',
 				'allowed_keys' => array(
 					'memcache',
 				),
@@ -67,7 +72,8 @@ return array(
 
 
 		'view' => array(
-			'view' => array(
+			array(
+				'name' => 'config_sections.view.view',
 				'allowed_keys' => array(
 					'view',
 				),
@@ -76,18 +82,25 @@ return array(
 
 
 		'interface' => array(
-			'interface' => array(
+			array(
+				'name' => 'config_sections.interface.gen',
 				'allowed_keys' => array(
 					'seo',
-					'block',
-					'pagination',
 					'general',
 					'lang',
 				),
 				'excluded_keys' => array(
 					'lang.path',
+				),
+			),
+			array(
+				'name' => 'config_sections.interface.misc',
+				'allowed_keys' => array(
+					'block',
+					'pagination',
+				),
+				'excluded_keys' => array(
 					'block.rule_',
-
 				),
 			),
 
@@ -95,7 +108,8 @@ return array(
 
 
 		'sysmail' => array(
-			'mail' => array(
+			array(
+				'name' => 'config_sections.sysmail.mail',
 				'allowed_keys' => array(
 					'sys.mail.',
 				),
@@ -104,7 +118,8 @@ return array(
 
 
 		'aclcreate' => array(
-			'aclcreate' => array(
+			array(
+				'name' => 'config_sections.aclcreate.aclcreate',
 				'allowed_keys' => array(
 					'acl.create.',
 				),
@@ -113,7 +128,8 @@ return array(
 
 
 		'aclvote' => array(
-			'aclvote' => array(
+			array(
+				'name' => 'config_sections.aclvote.aclvote',
 				'allowed_keys' => array(
 					'acl.vote.',
 				),
@@ -122,7 +138,8 @@ return array(
 
 
 		'moduleblog' => array(
-			'moduleblog' => array(
+			array(
+				'name' => 'config_sections.moduleblog.moduleblog',
 				'allowed_keys' => array(
 					'module.blog.',
 				),
@@ -131,7 +148,8 @@ return array(
 
 
 		'moduletopic' => array(
-			'moduletopic' => array(
+			array(
+				'name' => 'config_sections.moduletopic.moduletopic',
 				'allowed_keys' => array(
 					'module.topic.',
 				),
@@ -140,7 +158,8 @@ return array(
 
 
 		'moduleuser' => array(
-			'moduleuser' => array(
+			array(
+				'name' => 'config_sections.moduleuser.moduleuser',
 				'allowed_keys' => array(
 					'module.user.',
 				),
@@ -149,7 +168,8 @@ return array(
 
 
 		'modulecomment' => array(
-			'modulecomment' => array(
+			array(
+				'name' => 'config_sections.modulecomment.modulecomment',
 				'allowed_keys' => array(
 					'module.comment.',
 				),
@@ -158,7 +178,8 @@ return array(
 
 
 		'moduletalk' => array(
-			'moduletalk' => array(
+			array(
+				'name' => 'config_sections.moduletalk.moduletalk',
 				'allowed_keys' => array(
 					'module.talk.',
 				),
@@ -167,7 +188,8 @@ return array(
 
 
 		'modulenotify' => array(
-			'modulenotify' => array(
+			array(
+				'name' => 'config_sections.modulenotify.modulenotify',
 				'allowed_keys' => array(
 					'module.notify.',
 				),
@@ -176,7 +198,8 @@ return array(
 
 
 		'moduleimage' => array(
-			'moduleimage' => array(
+			array(
+				'name' => 'config_sections.moduleimage.moduleimage',
 				'allowed_keys' => array(
 					'module.image.',
 				),
@@ -188,7 +211,8 @@ return array(
 
 
 		'modulewall' => array(
-			'modulewall' => array(
+			array(
+				'name' => 'config_sections.modulewall.modulewall',
 				'allowed_keys' => array(
 					'module.wall.',
 				),
@@ -197,7 +221,8 @@ return array(
 
 
 		'moduleother' => array(
-			'moduleother' => array(
+			array(
+				'name' => 'config_sections.moduleother.moduleother',
 				'allowed_keys' => array(
 					'module.security.',
 					'module.userfeed.',
@@ -209,13 +234,15 @@ return array(
 
 
 		'compress' => array(
-			'compress' => array(
+			array(
+				'name' => 'config_sections.compress.compress',
 				'allowed_keys' => array(
 					'compress',
 				),
 			),
 		),
 	),
+
 
 	/*
 	 *

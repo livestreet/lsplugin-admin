@@ -17,6 +17,5 @@
 
 
 {block name='layout_content'}
-	{include file="{$aTemplatePathPlugin.admin}settings/keys_to_show.tpl"}
 	{include file="{$aTemplatePathPlugin.admin}settings/settings.list.tpl"}
 {/block}

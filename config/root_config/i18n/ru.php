@@ -32,25 +32,59 @@ return array(
 	 *
 	 */
 	'config_sections' => array(
-		'smarty' => 'Смарти',
-		'memcache' => 'Мемкеш',
-		'view' => 'Внешний вид',
-		'interface' => 'Интерфейс',
-		'mail' => 'Почта',
-		'aclcreate' => 'acl create',
-		'aclvote' => 'acl vote',
-		'moduleblog' => 'module blog',
-		'moduletopic' => 'module topic',
-		'moduleuser' => 'module user',
-		'modulecomment' => 'module comment',
-		'moduletalk' => 'module talk',
-		'modulenotify' => 'module notify',
-		'moduleimage' => 'module image',
-		'modulewall' => 'module wall',
-		'moduleother' => 'module other',
-		'compress' => 'compress',
+		'system' => array(
+			'smarty' => 'Смарти',
+			'memcache' => 'Мемкеш',
+		),
+		'view' => array(
+			'view' => 'Внешний вид',
+		),
+		'interface' => array(
+			'gen' => 'Интерфейс: общие',
+			'misc' => 'Интерфейс: доп',
+		),
+		'sysmail' => array(
+			'mail' => 'Почта',
+		),
+		'aclcreate' => array(
+			'aclcreate' => 'acl create',
+		),
+		'aclvote' => array(
+			'aclvote' => 'acl vote',
+		),
+		'moduleblog' => array(
+			'moduleblog' => 'module blog',
+		),
+		'moduletopic' => array(
+			'moduletopic' => 'module topic',
+		),
+		'moduleuser' => array(
+			'moduleuser' => 'module user',
+		),
+		'modulecomment' => array(
+			'modulecomment' => 'module comment'
+		),
+		'moduletalk' => array(
+			'moduletalk' => 'module talk'
+		),
+		'modulenotify' => array(
+			'modulenotify' => 'module notify'
+		),
+		'moduleimage' => array(
+			'moduleimage' => 'module image'
+		),
+		'modulewall' => array(
+			'modulewall' => 'module wall'
+		),
+		'moduleother' => array(
+			'moduleother' => 'module other'
+		),
+		'compress' => array(
+			'compress' => 'compress'
+		),
 
 	),
+
 
 	/*
 	 *

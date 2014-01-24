@@ -28,14 +28,17 @@
 class PluginAdmin_ModuleSettings extends ModuleStorage {
 
 	/*
-	 * Ключ конфига, который хранит описатели настроек каждого конфига
+	 * Ключ конфига, который хранит описатели настроек (схему) каждого конфига
 	 */
 	const CONFIG_SCHEME_KEY = '$config_scheme$';
-
 	/*
 	 * Ключ конфига движка, который указывает на список групп главного конфига
 	 */
 	const ROOT_CONFIG_GROUPS_KEY = '$config_groups$';
+	/*
+	 * Ключ конфига плагина, который хранит список разделов настроек для плагина
+	 */
+	const PLUGIN_CONFIG_SECTIONS = '$config_sections$';
 
 	/*
 	 * Имя параметра для плагина или ядра для сохранения конфига в хранилище
@@ -52,17 +55,14 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 */
 	const ADMIN_TEMP_CONFIG_INSTANCE = 'temporary_instance';
 
-
 	/*
 	 * Индекс массива с подписью параметра
 	 */
 	const POST_RAW_DATA_ARRAY_SIGNATURE = 0;
-
 	/*
 	 * Индекс массива с ключем параметра
 	 */
 	const POST_RAW_DATA_ARRAY_KEY = 1;
-
 	/*
 	 * Индекс массива с данными параметра (от этого номера и до конца массива)
 	 */
@@ -72,7 +72,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 * Путь к схеме и языковым файлам главного конфига относительно корня папки плагина
 	 */
 	const PATH_TO_ROOT_CONFIG_SCHEME = 'config/root_config/';
-	
+
 
 	public function Init() {
 		parent::Init();
@@ -210,7 +210,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 * @param $sConfigName		имя плагина
 	 * @return bool
 	 */
-	public function CheckPluginNameIsActive($sConfigName) {
+	public function CheckPluginCodeIsActive($sConfigName) {
 		return array_key_exists($sConfigName, Engine::getInstance()->GetPlugins());
 	}
 
@@ -276,15 +276,15 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 * @return mixed					параметр с текстовками вместо ключей, указывающих на них
 	 */
 	private function ConvertLangKeysToTexts($sConfigName, $aParam, $aKeys = array('name', 'description')) {
-		foreach($aKeys as $sNameToExtend) {
+		foreach($aKeys as $sKey) {
 			/*
 			 * если такой ключ не был задан - пропустить
 			 */
-			if (!isset($aParam[$sNameToExtend]) or empty($aParam[$sNameToExtend])) continue;
+			if (!isset($aParam[$sKey]) or empty($aParam[$sKey])) continue;
 			/*
 			 * установить вместо ключа, указывающего на текстовку её отображаемое значение
 			 */
-			$aParam[$sNameToExtend] = $this->Lang_Get($this->GetFullConfigKeyPrefix($sConfigName) . $aParam[$sNameToExtend]);
+			$aParam[$sKey] = $this->Lang_Get($this->GetFullConfigKeyPrefix($sConfigName) . $aParam[$sKey]);
 		}
 		return $aParam;
 	}
@@ -343,21 +343,21 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 		 */
 		$aSettingsInfo = $this->GetConfigSettingsSchemeInfo($sConfigName);
 		/*
-		 * все настройки
+		 * Все настройки
 		 */
 		$aSettingsAll = array();
 		/*
-		 * по всем записям описаний каждого параметра получить дополнительные данные
+		 * По всем записям описаний каждого параметра получить дополнительные данные
 		 */
 		foreach($aSettingsInfo as $sConfigKey => $aOneParamInfo) {
 			/*
 			 * Получить только нужные ключи
 			 */
-			if (!empty($aOnlyThisKeysAllowed) and !$this->CheckIfThisKeyInArray($sConfigKey, $aOnlyThisKeysAllowed)) continue;
+			if (!empty($aOnlyThisKeysAllowed) and !$this->CheckIfPartOfKeyExistsInArray($sConfigKey, $aOnlyThisKeysAllowed)) continue;
 			/*
 			 * Исключить не нужные ключи
 			 */
-			if (!empty($aExcludeKeys) and $this->CheckIfThisKeyInArray($sConfigKey, $aExcludeKeys)) continue;
+			if (!empty($aExcludeKeys) and $this->CheckIfPartOfKeyExistsInArray($sConfigKey, $aExcludeKeys)) continue;
 
 			/*
 			 * Получить текущее значение параметра
@@ -383,15 +383,17 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 
 
 	/**
-	 * Сравнение начала ключей из массива с текущим ключем, в списке ключей массива можно использовать первые символы ключей
+	 * Сравнение начала ключей из массива с указанным ключем (в списке ключей массива можно использовать первые символы ключей)
 	 *
 	 * @param $sCurrentKey				текущий ключ (в виде ключ1.ключ2.ключ3...)
-	 * @param $aOnlyThisKeysAllowed		список разрешенных ключей
+	 * @param $aKeysAllowed				массив разрешенных ключей
 	 * @return bool						результат проверки
 	 */
-	private function CheckIfThisKeyInArray($sCurrentKey, $aOnlyThisKeysAllowed) {
-		if (empty($aOnlyThisKeysAllowed)) return false;
-		foreach($aOnlyThisKeysAllowed as $sKey) {
+	private function CheckIfPartOfKeyExistsInArray($sCurrentKey, $aKeysAllowed) {
+		foreach($aKeysAllowed as $sKey) {
+			/*
+			 * сравнивать по длине ключа из массива разрешенных ключей с текущим
+			 */
 			if (substr_compare($sKey, $sCurrentKey, 0, strlen($sKey), true) === 0) return true;
 		}
 		return false;
@@ -405,43 +407,34 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 */
 
 	/**
-	 * Получить разделы с их настройками по данным группы и имени конфига
+	 * Получить разделы с их настройками по данным массива разделов и имени конфига
 	 *
-	 * @param $aSectionsRaw		массив разделов
+	 * @param $aSectionsInfo	массив разделов
 	 * @param $sConfigName		имя конфига
 	 * @return array
 	 */
-	public function GetSectionsAndItsSettings($aSectionsRaw, $sConfigName) {
+	public function GetSectionsAndItsSettings($aSectionsInfo, $sConfigName) {
 		/*
-		 * разделы настроек
+		 * разделы и их настройки
 		 */
 		$aSections = array();
 		/*
 		 * по всем разделам группы
 		 */
-		foreach ($aSectionsRaw as $sSectionName => $aSectionKeyOptions) {
-			$aData = array();
+		foreach ($aSectionsInfo as $aSectionOptions) {
 			/*
-			 * код раздела
+			 * получить текстовку имени раздела настроек
 			 */
-			$aData['code'] = $sSectionName;
-			/*
-			 * получить имя раздела настроек
-			 */
-			$aData['section_name'] = $this->GetRelativeSectionNameLangKey($sSectionName);		// todo: переделать, т.к. в таком случае имя должно быть уникальным
-			/*
-			 * получить текстовки
-			 */
-			$aData = $this->ConvertLangKeysToTexts($sConfigName, $aData, array('section_name'));
+			$aData = $this->ConvertLangKeysToTexts($sConfigName, $aSectionOptions, array('name'));
 			/*
 			 * получить настройки этого раздела
 			 */
 			$aData['settings'] = $this->GetConfigSettings(
 				$sConfigName,
-				$this->GetAllowedKeysForGroupSection($aSectionKeyOptions),
-				$this->GetExcludedKeysForGroupSection($aSectionKeyOptions)
+				$this->GetAllowedKeysForGroupSection($aSectionOptions),
+				$this->GetExcludedKeysForGroupSection($aSectionOptions)
 			);
-			$aSections[$sSectionName] = Engine::GetEntity('PluginAdmin_Settings_Section', $aData);
+			$aSections[] = Engine::GetEntity('PluginAdmin_Settings_Section', $aData);
 		}
 		return $aSections;
 	}
@@ -470,13 +463,23 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 
 
 	/**
-	 * Получить ключ для текстовки заголовка раздела
+	 * Получить разделы с их настройками для ключа плагина
 	 *
-	 * @param $sKey				код раздела
-	 * @return string
+	 * @param $sConfigName		имя конфига (плагина)
+	 * @return array
 	 */
-	private function GetRelativeSectionNameLangKey($sKey) {
-		return 'config_sections.' . $sKey;
+	public function GetPluginSectionsAndItsSettings($sConfigName) {
+		/*
+		 * получить список разделов настроек плагина
+		 */
+		$aSectionsInfo = $this->GetConfigKeyValue($sConfigName, self::PLUGIN_CONFIG_SECTIONS);
+		/*
+		 * разрешить плагинам не заполнять разделы
+		 */
+		if (is_null($aSectionsInfo)) {
+			$aSectionsInfo = array(array());
+		}
+		return $this->GetSectionsAndItsSettings($aSectionsInfo, $sConfigName);
 	}
 
 
