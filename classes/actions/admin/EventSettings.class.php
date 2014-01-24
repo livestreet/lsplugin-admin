@@ -160,13 +160,17 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 
 
 	/**
-	 * Получить настройки ядра по данным группы
+	 * Получить системные настройки ядра по имени группы
 	 *
-	 * @param $aGroupData			данные группы
+	 * @param $sGroupName			имя группы, как она записана в конфиге групп
 	 * @return bool
 	 */
-	protected function ShowSystemSettings($aGroupData) {
+	protected function ShowSystemSettings($sGroupName) {
 		$this->SetTemplateAction('settings/list');
+		/*
+		 * данные группы
+		 */
+		$aGroupData = $this->aCoreSettingsGroups[$sGroupName];
 		/*
 		 * это настройки ядра
 		 */
@@ -175,23 +179,10 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 
 		$this->Viewer_Assign('aSections', $aSections);
 		$this->Viewer_Assign('sConfigName', $sConfigName);
-		//$this->Viewer_Assign('aKeysToShow', $aKeysToShow);		// todo: delete
+		//$this->Viewer_Assign('aKeysToShow', $aKeysToShow);		// todo: удалить, только для раздела ядра и использовалось
 
 		$this->Viewer_Assign('sAdminSettingsFormSystemId', PluginAdmin_ModuleSettings::ADMIN_SETTINGS_FORM_SYSTEM_ID);
 		$this->Viewer_Assign('sAdminSystemConfigId', ModuleStorage::DEFAULT_KEY_NAME);
-
-		return true;
-	}
-
-
-	/**
-	 * Показать системные настройки ядра по имени группы
-	 *
-	 * @param $sGroupName			имя группы, как она записана в конфиге групп
-	 * @return bool
-	 */
-	protected function GetGroupDataAndShowItsSettings($sGroupName) {
-		return $this->ShowSystemSettings($this->aCoreSettingsGroups[$sGroupName]);
 	}
 
 
@@ -216,7 +207,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 			 * если такая группа настроек существует
 			 */
 			if (isset($this->aCoreSettingsGroups[$sGroupName])) {
-				return $this->GetGroupDataAndShowItsSettings($sGroupName);
+				return $this->ShowSystemSettings($sGroupName);
 			}
 			/*
 			 * это сообщение не будет никогда показано при текущих настройках, но пусть будет для отладки

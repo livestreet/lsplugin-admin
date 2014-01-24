@@ -20,20 +20,42 @@
  */
 
 /*
- *	Описание каждого параметра конфига для отображения в админке LiveStreet CMS
+ *
+ * Дополнительные текстовки движка, содержащие заголовки разделов групп и описание настроек главного конфига
+ *
  */
 
 return array(
 	/*
-	 * Описание разделов
+	 *
+	 * --- Заголовки разделов групп настроек ---
+	 *
 	 */
-	'config_section' => array(
+	'config_sections' => array(
 		'smarty' => 'Смарти',
 		'memcache' => 'Мемкеш',
+		'view' => 'Внешний вид',
+		'interface' => 'Интерфейс',
+		'mail' => 'Почта',
+		'aclcreate' => 'acl create',
+		'aclvote' => 'acl vote',
+		'moduleblog' => 'module blog',
+		'moduletopic' => 'module topic',
+		'moduleuser' => 'module user',
+		'modulecomment' => 'module comment',
+		'moduletalk' => 'module talk',
+		'modulenotify' => 'module notify',
+		'moduleimage' => 'module image',
+		'modulewall' => 'module wall',
+		'moduleother' => 'module other',
+		'compress' => 'compress',
 
 	),
+
 	/*
-	 * Описание каждого параметра конфига для отображения в админке LiveStreet CMS
+	 *
+	 * --- Описание каждого параметра конфига для отображения в админке LiveStreet CMS ---
+	 *
 	 */
 	'config_parameters' => array(
 		'view' => array(
