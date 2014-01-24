@@ -33,6 +33,11 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	const CONFIG_SCHEME_KEY = '$config_scheme$';
 
 	/*
+	 * Ключ конфига движка, который указывает на список групп главного конфига
+	 */
+	const ROOT_CONFIG_GROUPS_KEY = '$config_groups$';
+
+	/*
 	 * Имя параметра для плагина или ядра для сохранения конфига в хранилище
 	 */
 	const CONFIG_DATA_PARAM_NAME = '__config__';
@@ -402,20 +407,19 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	/**
 	 * Получить разделы с их настройками по данным группы и имени конфига
 	 *
-	 * @param $aSections		массив разделов
+	 * @param $aSectionsRaw		массив разделов
 	 * @param $sConfigName		имя конфига
 	 * @return array
 	 */
-	// todo: переименовать в что-то более осмысленное
-	public function GetSectionsAndItsSettings($aSections, $sConfigName) {
+	public function GetSectionsAndItsSettings($aSectionsRaw, $sConfigName) {
 		/*
 		 * разделы настроек
 		 */
-		$aSectionsAndSettings = array();
+		$aSections = array();
 		/*
 		 * по всем разделам группы
 		 */
-		foreach ($aSections as $sSectionName => $aSectionKeyOptions) {
+		foreach ($aSectionsRaw as $sSectionName => $aSectionKeyOptions) {
 			$aData = array();
 			/*
 			 * код раздела
@@ -424,7 +428,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 			/*
 			 * получить имя раздела настроек
 			 */
-			$aData['section_name'] = 'config_section.' . $sSectionName;
+			$aData['section_name'] = $this->GetRelativeSectionNameLangKey($sSectionName);		// todo: переделать, т.к. в таком случае имя должно быть уникальным
 			/*
 			 * получить текстовки
 			 */
@@ -432,14 +436,14 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 			/*
 			 * получить настройки этого раздела
 			 */
-			$aData['settings'] = $this->PluginAdmin_Settings_GetConfigSettings(
+			$aData['settings'] = $this->GetConfigSettings(
 				$sConfigName,
 				$this->GetAllowedKeysForGroupSection($aSectionKeyOptions),
 				$this->GetExcludedKeysForGroupSection($aSectionKeyOptions)
 			);
-			$aSectionsAndSettings[$sSectionName] = Engine::GetEntity('PluginAdmin_Settings_Section', $aData);
+			$aSections[$sSectionName] = Engine::GetEntity('PluginAdmin_Settings_Section', $aData);
 		}
-		return $aSectionsAndSettings;
+		return $aSections;
 	}
 
 
@@ -462,6 +466,17 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 */
 	private function GetExcludedKeysForGroupSection($aSectionData) {
 		return isset($aSectionData['excluded_keys']) ? $aSectionData['excluded_keys'] : array();
+	}
+
+
+	/**
+	 * Получить ключ для текстовки заголовка раздела
+	 *
+	 * @param $sKey				код раздела
+	 * @return string
+	 */
+	private function GetRelativeSectionNameLangKey($sKey) {
+		return 'config_sections.' . $sKey;
 	}
 
 
@@ -778,7 +793,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 * @throws Exception
 	 */
 	private function AddConfigSchemeToRootConfig() {
-		$sPathRootConfigScheme = $this->GetRootConfigSchemePath() . 'scheme.php';
+		$sPathRootConfigScheme = $this->GetRootConfigSchemePath() . 'config.php';
 		if (!is_readable($sPathRootConfigScheme)) {
 			throw new Exception('Admin: error: can`t read root config scheme "' . $sPathRootConfigScheme . '". Check rights for this file.');
 		}
@@ -787,8 +802,10 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 		if (!is_array($aRootConfigScheme)) {
 			throw new Exception('Admin: error: scheme of root config is not an array. Last error: ' . print_r(error_get_last(), true));
 		}
-		
-		Config::Set('$config_scheme$', $aRootConfigScheme);
+		/*
+		 * объеденить с главным конфигом движка
+		 */
+		$this->LoadRootConfig($aRootConfigScheme);
 	}
 
 
@@ -807,11 +824,14 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 		}
 		
 		$aRootConfigLang = require_once($sPathRootConfigLang);
-		if (is_array($aRootConfigLang)) {
-			$this->Lang_AddMessages($aRootConfigLang);
-			return true;
+		if (!is_array($aRootConfigLang)) {
+			return false;
 		}
-		return false;
+		/*
+		 * объеденить с текстовками движка
+		 */
+		$this->Lang_AddMessages($aRootConfigLang);
+		return true;
 	}
 
 
@@ -823,6 +843,12 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 		$this->AddConfigLanguageToRootConfig();
 	}
 
+
+	/*
+	 *
+	 * --- События ---
+	 *
+	 */
 
 	/**
 	 * Сверка нового значения параметра и предыдущего, оповещение подписчикам о смене
