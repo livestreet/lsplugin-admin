@@ -11,9 +11,9 @@
 		{$aValidatorParams = $aValidatorData['params']}
 
 		{* Скрытая копия для структуры одного элемента массива *}
-		<div class="js-hidden-array-item-copy" style="display: none;">
+		<div class="js-hidden-array-item-copy" style="display: none;" data-key="{$sKey}">
 			<div class="form-field-settings-array-value js-array-item-value">
-				<input type="text" class="input-text width-150" readonly="readonly" value="" data-name-original="{$sInputDataName}" />
+				<input type="text" class="input-text width-100" readonly="readonly" value="" data-name-original="{$sInputDataName}" />
 				<button type="button" class="button button-primary form-field-settings-array-remove js-remove-previous">x</button>
 			</div>
 		</div>
@@ -22,7 +22,7 @@
 		<div class="form-field-settings-array-values js-array-values" data-key="{$sKey}">
 			{foreach from=$oParameter->getValue() item=mValue}
 				<div class="form-field-settings-array-value js-array-item-value">
-					<input type="text" name="{$sInputDataName}" class="input-text width-150" readonly="readonly" value="{$mValue}" />
+					<input type="text" name="{$sInputDataName}" class="input-text width-100" readonly="readonly" value="{$mValue}" />
 					<button type="button" class="button button-primary form-field-settings-array-remove js-remove-previous">x</button>
 				</div>
 			{/foreach}

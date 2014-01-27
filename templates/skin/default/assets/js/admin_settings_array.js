@@ -59,12 +59,25 @@ ls.admin_settings_array = (function($) {
 
 
 	/**
-	 * Получить копию структуры одного элемента массива
-	 * 
+	 * Получить правило для отбора по ключу
+	 *
+	 * @param sKey
+	 * @returns {string}
 	 * @constructor
 	 */
-	this.GetArrayItemBaseStructure = function() {
-		return $ (this.selectors.HiddenArrayItemCopy).children().clone();
+	this.GetDataKeySelectorRule = function(sKey) {
+		return '[data-key="' + sKey + '"]';
+	};
+
+
+	/**
+	 * Получить копию структуры одного элемента массива
+	 *
+	 * @param sKey
+	 * @constructor
+	 */
+	this.GetArrayItemBaseStructure = function(sKey) {
+		return $ (this.selectors.HiddenArrayItemCopy + this.GetDataKeySelectorRule(sKey)).children().clone();
 	};
 
 
@@ -75,7 +88,7 @@ ls.admin_settings_array = (function($) {
 	 * @constructor
 	 */
 	this.GetEnumSelector = function(sKey) {
-		return $ (this.selectors.ArrayEnum + '[data-key="' + sKey + '"]');
+		return $ (this.selectors.ArrayEnum + this.GetDataKeySelectorRule(sKey));
 	};
 
 
@@ -103,10 +116,10 @@ ls.admin_settings_array = (function($) {
 		if (!sValue) return false;
 		oSelectInput.find('option[value=' + sValue + ']').attr('disabled', true);
 		
-		var oNewItem = this.GetArrayItemBaseStructure();
+		var oNewItem = this.GetArrayItemBaseStructure(sKey);
 		this.SwitchOriginalNameToInput(oNewItem.find('input')).val(sValue);
 		
-		$ (this.selectors.ArrayValues + '[data-key="' + sKey + '"]').append(oNewItem);
+		$ (this.selectors.ArrayValues + this.GetDataKeySelectorRule(sKey)).append(oNewItem);
 		return true;
 	};
 
@@ -119,15 +132,15 @@ ls.admin_settings_array = (function($) {
 	 * @constructor
 	 */
 	this.AddArrayItemFromTextInput = function(sKey) {
-		var oTextInput = $ (this.selectors.ArrayInputText + '[data-key="' + sKey + '"]');
+		var oTextInput = $ (this.selectors.ArrayInputText + this.GetDataKeySelectorRule(sKey));
 		var sValue = oTextInput.val();
 		if (!sValue) return false;
 		oTextInput.val('');
 		
-		var oNewItem = this.GetArrayItemBaseStructure();
+		var oNewItem = this.GetArrayItemBaseStructure(sKey);
 		this.SwitchOriginalNameToInput(oNewItem.find('input')).val(sValue);
 		
-		$ (this.selectors.ArrayValues + '[data-key="' + sKey + '"]').append(oNewItem);
+		$ (this.selectors.ArrayValues + this.GetDataKeySelectorRule(sKey)).append(oNewItem);
 		return true;
 	};
 
@@ -140,7 +153,7 @@ ls.admin_settings_array = (function($) {
 	 * @constructor
 	 */
 	this.GetArrayInputType = function(sKey) {
-		return $ (this.selectors.ArrayInputType + '[data-key="' + sKey + '"]').val();
+		return $ (this.selectors.ArrayInputType + this.GetDataKeySelectorRule(sKey)).val();
 	};
 
 
