@@ -282,9 +282,18 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 			 */
 			if (!isset($aParam[$sKey]) or empty($aParam[$sKey])) continue;
 			/*
-			 * установить вместо ключа, указывающего на текстовку её отображаемое значение
+			 * получить текстовку по её ключу
 			 */
-			$aParam[$sKey] = $this->Lang_Get($this->GetFullConfigKeyPrefix($sConfigName) . $aParam[$sKey]);
+			$sText = $this->Lang_Get($this->GetFullConfigKeyPrefix($sConfigName) . $aParam[$sKey]);
+			/*
+			 * если текстовка существует (проверка позволяет не использовать языковый файл и прописывать текстовки прямо в ключах)
+			 */
+			if ($sText != 'NOT_FOUND_LANG_TEXT') {
+				/*
+				 * установить вместо ключа, указывающего на текстовку, её отображаемое значение
+				 */
+				$aParam[$sKey] = $sText;
+			}
 		}
 		return $aParam;
 	}
