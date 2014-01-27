@@ -21,7 +21,9 @@
 
 /*
  *
- * --- Схема конфига админки ---
+ * --- Настройки конфига админки ---
+ *
+ * tip: за полным описанием и примерами следует смотреть конфиг "config_scheme_sandbox.php"
  *
  */
 
@@ -32,7 +34,187 @@ $config = array();
  */
 $config['$config_scheme$'] = array(
 
+	/*
+	 * Баны
+	 */
+
+	'bans.auto_delete_old_ban_records' => array(
+		/*
+		 * тип: integer, string, array, boolean, float
+		 */
+		'type' => 'boolean',
+		'name' => 'config_parameters.bans.auto_delete_old_ban_records.name',
+		'description' => 'config_parameters.bans.auto_delete_old_ban_records.description',
+		'validator' => array(
+			/*
+			 * тип валидатора: Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url, Array (специальный валидатор, см. документацию)
+			 */
+			'type' => 'Boolean',
+			'params' => array(),
+		),
+	),
+
+	'bans.gather_bans_running_stats' => array(
+		/*
+		 * тип: integer, string, array, boolean, float
+		 */
+		'type' => 'boolean',
+		'name' => 'config_parameters.bans.gather_bans_running_stats.name',
+		'description' => 'config_parameters.bans.gather_bans_running_stats.description',
+		'validator' => array(
+			/*
+			 * тип валидатора: Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url, Array (специальный валидатор, см. документацию)
+			 */
+			'type' => 'Boolean',
+			'params' => array(),
+		),
+	),
+
+	/*
+	 * Каталог
+	 */
+
+	'catalog.updates.allow_plugin_updates_checking' => array(
+		/*
+		 * тип: integer, string, array, boolean, float
+		 */
+		'type' => 'boolean',
+		'name' => 'config_parameters.catalog.updates.allow_plugin_updates_checking.name',
+		'description' => 'config_parameters.catalog.updates.allow_plugin_updates_checking.description',
+		'validator' => array(
+			/*
+			 * тип валидатора: Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url, Array (специальный валидатор, см. документацию)
+			 */
+			'type' => 'Boolean',
+			'params' => array(),
+		),
+	),
+
+	'catalog.updates.show_updates_count_in_toolbar' => array(
+		/*
+		 * тип: integer, string, array, boolean, float
+		 */
+		'type' => 'boolean',
+		'name' => 'config_parameters.catalog.updates.show_updates_count_in_toolbar.name',
+		'description' => 'config_parameters.catalog.updates.show_updates_count_in_toolbar.description',
+		'validator' => array(
+			/*
+			 * тип валидатора: Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url, Array (специальный валидатор, см. документацию)
+			 */
+			'type' => 'Boolean',
+			'params' => array(),
+		),
+	),
+
+	/*
+	 * Настройки настроек
+	 */
+
+	'settings.admin_save_form_ajax_use' => array(
+		/*
+		 * тип: integer, string, array, boolean, float
+		 */
+		'type' => 'boolean',
+		'name' => 'config_parameters.settings.admin_save_form_ajax_use.name',
+		'description' => 'config_parameters.settings.admin_save_form_ajax_use.description',
+		'validator' => array(
+			/*
+			 * тип валидатора: Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url, Array (специальный валидатор, см. документацию)
+			 */
+			'type' => 'Boolean',
+			'params' => array(),
+		),
+	),
+
+	'settings.show_section_keys' => array(
+		/*
+		 * тип: integer, string, array, boolean, float
+		 */
+		'type' => 'boolean',
+		'name' => 'config_parameters.settings.show_section_keys.name',
+		'description' => 'config_parameters.settings.show_section_keys.description',
+		'validator' => array(
+			/*
+			 * тип валидатора: Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url, Array (специальный валидатор, см. документацию)
+			 */
+			'type' => 'Boolean',
+			'params' => array(),
+		),
+	),
+
+	/*
+	 * Пользователи
+	 */
+
+	'users.min_user_age_difference_to_show_users_age_stats' => array(
+		/*
+		 * тип: integer, string, array, boolean, float
+		 */
+		'type' => 'integer',
+		'name' => 'config_parameters.users.min_user_age_difference_to_show_users_age_stats.name',
+		'description' => 'config_parameters.users.min_user_age_difference_to_show_users_age_stats.description',
+		'validator' => array(
+			/*
+			 * тип валидатора: Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url, Array (специальный валидатор, см. документацию)
+			 */
+			'type' => 'Number',
+			'params' => array(
+				'min' => 5,
+				'max' => 18,
+				'integerOnly' => true,
+				'allowEmpty' => false,
+			),
+		),
+	),
+
 );
 
+/*
+ * Разделы настроек
+ */
+$config['$config_sections$'] = array(
+	/*
+	 * раздел "Баны"
+	 *
+	 * tip: ключ "bans" указывать не обязательно, здесь он нужен чтобы лоадер движка корректно загрузил два конфига (песочницы и реальных настроек),
+	 * 		т.к. ассоциативные массивы обьеденяются при загрузке.
+	 * 		В плагинах нужно указывать ключ для группы настроек только если группы настроек разделены в нескольких файлах
+	 */
+	'bans' => array(
+		'name' => 'config_sections.bans.title',
+		'allowed_keys' => array(
+			'bans',
+		),
+	),
+	/*
+	 * раздел "каталог"
+	 */
+	'catalog' => array(
+		'name' => 'config_sections.catalog.title',
+		'allowed_keys' => array(
+			'catalog',
+		),
+	),
+	/*
+	 * раздел "настройки"
+	 */
+	'settings' => array(
+		'name' => 'config_sections.settings.title',
+		'allowed_keys' => array(
+			'settings',
+		),
+	),
+	/*
+	 * раздел "пользователи"
+	 */
+	'users' => array(
+		'name' => 'config_sections.users.title',
+		'allowed_keys' => array(
+			'users',
+		),
+	),
+);
+
+return $config;
 
 ?>

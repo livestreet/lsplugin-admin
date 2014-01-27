@@ -16,6 +16,6 @@
 
 		{$sText = $sText|cat:"</strong>"}
 
-		{include file="{$aTemplatePathPlugin.admin}alert.tpl" mAlerts=$sText sAlertStyle='info'}
+		{include file="{$aTemplatePathPlugin.admin}alert.tpl" mAlerts=$sText sAlertStyle='empty'}
 	</div>
 {/if}
