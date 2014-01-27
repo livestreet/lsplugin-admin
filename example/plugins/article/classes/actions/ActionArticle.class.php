@@ -1,19 +1,23 @@
 <?php
-/*-------------------------------------------------------
-*
-*   LiveStreet Engine Social Networking
-*   Copyright © 2008 Mzhelskiy Maxim
-*
-*--------------------------------------------------------
-*
-*   Official site: www.livestreet.ru
-*   Contact e-mail: rus.engine@gmail.com
-*
-*   GNU General Public License, version 2:
-*   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
-*
----------------------------------------------------------
-*/
+/**
+ * LiveStreet CMS
+ * Copyright © 2013 OOO "ЛС-СОФТ"
+ *
+ * ------------------------------------------------------
+ *
+ * Official site: www.livestreetcms.com
+ * Contact e-mail: office@livestreetcms.com
+ *
+ * GNU General Public License, version 2:
+ * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ *
+ * ------------------------------------------------------
+ *
+ * @link http://www.livestreetcms.com
+ * @copyright 2013 OOO "ЛС-СОФТ"
+ * @author Maxim Mzhelskiy <rus.engine@gmail.com>
+ *
+ */
 
 class PluginArticle_ActionArticle extends ActionPlugin {
 
@@ -34,38 +38,61 @@ class PluginArticle_ActionArticle extends ActionPlugin {
 		$this->AddEventPreg('/^tag$/i','/^.+$/i','/^(page([1-9]\d{0,5}))?$/i',"/^$/i",'EventTag');
 	}
 
-
-	/**********************************************************************************
-	 ************************ РЕАЛИЗАЦИЯ ЭКШЕНА ***************************************
-	 **********************************************************************************
+	/**
+	 * Отображение списка статей
 	 */
-
-
 	protected function EventIndex() {
+		/**
+		 * Получаем номер страницы из урла
+		 */
 		$iPage=$this->GetEventMatch(2) ? $this->GetEventMatch(2) : 1;
-
+		/**
+		 * Формируем фильтр для запроса статей. Используется функционал ORM
+		 */
 		$aFilter=array('#properties'=>true,'#order'=>array('id'=>'desc'));
 		$aFilter['#page']=array($iPage,Config::Get('plugin.article.per_page'));
-
+		/**
+		 * Получаем статьи
+		 */
 		$aResult=$this->PluginArticle_Main_GetArticleItemsByFilter($aFilter);
+		/**
+		 * Формируем постраничность
+		 */
 		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('plugin.article.per_page'),Config::Get('pagination.pages.count'),Router::GetPath('article'));
-
+		/**
+		 * Прогружаем переменные в шаблон
+		 */
 		$this->Viewer_Assign('aPaging',$aPaging);
 		$this->Viewer_Assign('aArticleItems',$aResult['collection']);
+		/**
+		 * Устанавливаем шаблон вывода
+		 */
 		$this->SetTemplateAction('index');
 	}
 
+	/**
+	 * Обработка детального вывода статьи
+	 */
 	protected function EventArticleShow() {
 		$iId=$this->GetParam(0);
+		/**
+		 * Проверяем статью на существование
+		 */
 		if (!($oArticle=$this->PluginArticle_Main_GetArticleById($iId))) {
 			return $this->EventNotFound();
 		}
-
+		/**
+		 * Прогружаем переменные в шаблон, устанавливает title страницы и нужный шаблон вывода
+		 */
 		$this->Viewer_Assign('oArticle',$oArticle);
 		$this->Viewer_AddHtmlTitle(htmlspecialchars_decode($oArticle->getTitle()));
 		$this->SetTemplateAction('view');
 	}
 
+	/**
+	 * Обработка поиска статей по тегам
+	 * Теги создаются как отдельное дополнительно поле через модуль Property
+	 */
 	protected function EventTag() {
 		/**
 		 * Получаем тег из УРЛа
@@ -97,5 +124,4 @@ class PluginArticle_ActionArticle extends ActionPlugin {
 		 */
 		$this->SetTemplateAction('tag');
 	}
-
 }

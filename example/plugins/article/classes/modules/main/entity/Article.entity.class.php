@@ -1,22 +1,31 @@
 <?php
-/*-------------------------------------------------------
-*
-*   LiveStreet Engine Social Networking
-*   Copyright © 2008 Mzhelskiy Maxim
-*
-*--------------------------------------------------------
-*
-*   Official site: www.livestreet.ru
-*   Contact e-mail: rus.engine@gmail.com
-*
-*   GNU General Public License, version 2:
-*   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
-*
----------------------------------------------------------
-*/
+/**
+ * LiveStreet CMS
+ * Copyright © 2013 OOO "ЛС-СОФТ"
+ *
+ * ------------------------------------------------------
+ *
+ * Official site: www.livestreetcms.com
+ * Contact e-mail: office@livestreetcms.com
+ *
+ * GNU General Public License, version 2:
+ * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ *
+ * ------------------------------------------------------
+ *
+ * @link http://www.livestreetcms.com
+ * @copyright 2013 OOO "ЛС-СОФТ"
+ * @author Maxim Mzhelskiy <rus.engine@gmail.com>
+ *
+ */
 
 class PluginArticle_ModuleMain_EntityArticle extends EntityORM {
 
+	/**
+	 * Правила валидации полей
+	 *
+	 * @var array
+	 */
 	protected $aValidateRules=array(
 		array('user_id','number','min'=>1,'allowEmpty'=>false,'integerOnly'=>true),
 		array('title','string','allowEmpty'=>false,'min'=>1,'max'=>250,'label'=>'Заголовок'),
@@ -25,17 +34,35 @@ class PluginArticle_ModuleMain_EntityArticle extends EntityORM {
 		array('title','title_check'),
 	);
 
+	/**
+	 * Связи с другими таблицами
+	 *
+	 * @var array
+	 */
 	protected $aRelations=array(
 		'user' => array(self::RELATION_TYPE_BELONGS_TO,'ModuleUser_EntityUser','user_id'),
 	);
 
+	/**
+	 * Метод автоматически выполняется перед сохранением объекта сущности (статьи)
+	 *
+	 * @return bool
+	 */
 	protected function beforeSave() {
+		/**
+		 * Если статья новая, то устанавливаем дату создания
+		 */
 		if ($this->_isNew()) {
 			$this->setDateCreate(date("Y-m-d H:i:s"));
 		}
 		return true;
 	}
 
+	/**
+	 * Валидация автора статьи
+	 *
+	 * @return bool|string
+	 */
 	public function ValidateUserCheck() {
 		if ($this->User_GetUserById($this->getUserId())) {
 			return true;
@@ -43,15 +70,32 @@ class PluginArticle_ModuleMain_EntityArticle extends EntityORM {
 		return 'Пользователь не найден';
 	}
 
+	/**
+	 * Валидация заголовка статьи - простое экранирование символов
+	 * TODO: выполнять только при отсутствии других ошибок валидации
+	 *
+	 * @return bool
+	 */
 	public function ValidateTitleCheck() {
 		$this->setTitle(htmlspecialchars($this->getTitle()));
 		return true;
 	}
 
+	/**
+	 * Возвращает полный URL до детального просмотра статьи
+	 *
+	 * @return string
+	 */
 	public function getWebUrl() {
 		return Router::GetPath('article/view').$this->getId().'/';
 	}
 
+	/**
+	 * Возвращает тип для дополнительных полей.
+	 * Необходим для интеграции с дополнительными полями.
+	 *
+	 * @return string
+	 */
 	public function getPropertyTargetType() {
 		return $this->PluginArticle_Main_GetPropertyTargetType();
 	}
