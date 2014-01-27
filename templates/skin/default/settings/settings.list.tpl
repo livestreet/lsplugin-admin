@@ -30,6 +30,8 @@
 				по всем параметрам раздела
 			*}
 			{foreach $oSection->getSettings() as $oParameter}
+				{$bSettingsExist = true}
+
 				{$sKey = $oParameter->getKey()}
 				{$sInputDataName = "Settings_Sec{$oSection@iteration}_Num{$oParameter@iteration}[]"}
 
@@ -42,12 +44,17 @@
 		{/foreach}
 
 
-		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.button.tpl"
-			sFieldId='admin_settings_submit'
-			sFieldName='submit_save_settings'
-			sFieldStyle='primary'
-			sFieldText=$aLang.plugin.admin.save
-		}
+		{if $bSettingsExist}
+			{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.button.tpl"
+				sFieldId='admin_settings_submit'
+				sFieldName='submit_save_settings'
+				sFieldStyle='primary'
+				sFieldText=$aLang.plugin.admin.save
+			}
+		{else}
+			{include file="{$aTemplatePathPlugin.admin}alert.tpl" mAlerts=$aLang.plugin.admin.settings.no_settings_for_this_plugin sAlertStyle='info'}
+		{/if}
+
 	</form>
 {else}
 	{include file="{$aTemplatePathPlugin.admin}alert.tpl" mAlerts=$aLang.plugin.admin.settings.no_settings_for_this_plugin sAlertStyle='info'}
