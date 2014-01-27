@@ -1,31 +1,49 @@
 <?php
-/*-------------------------------------------------------
-*
-*   LiveStreet Engine Social Networking
-*   Copyright © 2008 Mzhelskiy Maxim
-*
-*--------------------------------------------------------
-*
-*   Official site: www.livestreet.ru
-*   Contact e-mail: rus.engine@gmail.com
-*
-*   GNU General Public License, version 2:
-*   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
-*
----------------------------------------------------------
-*/
-
 /**
- * Регистрация хука
+ * LiveStreet CMS
+ * Copyright © 2013 OOO "ЛС-СОФТ"
+ *
+ * ------------------------------------------------------
+ *
+ * Official site: www.livestreetcms.com
+ * Contact e-mail: office@livestreetcms.com
+ *
+ * GNU General Public License, version 2:
+ * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ *
+ * ------------------------------------------------------
+ *
+ * @link http://www.livestreetcms.com
+ * @copyright 2013 OOO "ЛС-СОФТ"
+ * @author Maxim Mzhelskiy <rus.engine@gmail.com>
  *
  */
+
+/**
+ * Хуки
+ */
 class PluginArticle_HookMain extends Hook {
+	/**
+	 * Регистрация необходимых хуков
+	 */
 	public function RegisterHook() {
+		/**
+		 * Хук на отображение админки
+		 */
 		$this->AddHook('init_action_admin','InitActionAdmin');
 	}
 
+	/**
+	 * Добавляем в главное меню админки свой раздел с подпунктами
+	 */
 	public function InitActionAdmin() {
+		/**
+		 * Получаем объект главного меню
+		 */
 		$oMenu = $this->PluginAdmin_Ui_GetMenuMain();
+		/**
+		 * Добавляем новый раздел
+		 */
 		$oMenu->AddSection(
 			Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Статьи')->SetName('article')->SetUrl('plugin/article')
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Список статей')->SetUrl(''))
