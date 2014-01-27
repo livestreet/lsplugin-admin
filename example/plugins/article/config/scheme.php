@@ -94,8 +94,7 @@ $config['$config_sections$'] = array(
 	array(
 		'name' => 'config_sections.two',
 		'allowed_keys' => array(
-			'param_string_1',
-			'param_string_2',
+			'param_string_',
 		),
 	),
 );
