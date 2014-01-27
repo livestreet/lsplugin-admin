@@ -5,7 +5,8 @@
 {extends file="{$aTemplatePathPlugin.admin}settings/fields/settings.field.base.tpl"}
 
 {block name="field_holder"}
-	{* Особый вид отображения массив *}
+
+	{* Особый вид отображения массива *}
 	{if $oParameter->getNeedToShowSpecialArrayForm()}
 		{$aValidatorData = $oParameter->getValidator()}
 		{$aValidatorParams = $aValidatorData['params']}
@@ -56,6 +57,12 @@
 		{*
 		<textarea name="{$sInputDataName}" class="input-text width-250">{var_export($oParameter->getValue())|escape:'html'}</textarea>
 		*}
-		Простой вывод значений массива как есть в виде php array - на данный момент не доступно.
+
+		{include file="{$aTemplatePathPlugin.admin}alert.tpl"
+			mAlerts="Ошибка: обработка сложных массивов не доступна. Этот массив следует сделать простым (без вложенных массивов) или удалить из схемы конфига"
+			sAlertStyle='alert'
+		}
+
 	{/if}
+
 {/block}
