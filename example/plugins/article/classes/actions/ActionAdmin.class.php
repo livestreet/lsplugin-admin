@@ -25,9 +25,11 @@ class PluginArticle_ActionAdmin extends PluginAdmin_ActionPlugin {
 	 * Объект УРЛа админки, позволяет удобно получать УРЛы на страницы управления плагином
 	 */
 	public $oAdminUrl;
+	public $oUserCurrent;
 
 	public function Init() {
 		$this->oAdminUrl=Engine::GetEntity('PluginAdmin_ModuleUi_EntityAdminUrl');
+		$this->oUserCurrent=$this->User_GetUserCurrent();
 		$this->Viewer_AppendScript(Plugin::GetWebPath(__CLASS__) . 'js/admin.js');
 	}
 
