@@ -46,7 +46,7 @@
 
 		{if $oPlugin->getOwnSettingsPageUrl() and $oPlugin->getActive()}
 			<br />
-			<a href="{$oPlugin->getOwnSettingsPageUrl()}" class="button" target="_blank">{$aLang.plugin.admin.plugins.list.settings}</a>
+			<a href="{$oPlugin->getOwnSettingsPageUrl()}" class="button">{$aLang.plugin.admin.plugins.list.settings}</a>
 		{/if}
 	</td>
 </tr>

@@ -23,14 +23,23 @@ class PluginAdmin_ModuleUi_EntityMenuItem extends Entity {
 	public function GetUrlArray(){
 		$oMenuSection = $this->GetSection();
 		$oMenu = $oMenuSection->GetMenu();
-		$aUrl = array_filter(array_map(
-								 'urlencode',
-								 array_merge(
-									 $oMenu->GetUrlPrefix(),
-									 explode('/',$oMenuSection->GetUrl()),
-									 array($this->GetUrl())
-								 )
-							 ));
+		$sUrlItem=$this->GetUrl();
+		if (strpos($sUrlItem,'/')===0) {
+			$aUrl = array_filter(array_map(
+									 'urlencode',
+									 explode('/',$sUrlItem)
+								 ));
+		} else {
+			$aUrl = array_filter(array_map(
+									 'urlencode',
+									 array_merge(
+										 $oMenu->GetUrlPrefix(),
+										 explode('/',$oMenuSection->GetUrl()),
+										 explode('/',$sUrlItem)
+									 )
+								 ));
+		}
+
 		return $aUrl;
 	}
 	
