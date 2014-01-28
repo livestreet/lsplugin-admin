@@ -32,16 +32,19 @@ return array(
 	 *
 	 */
 	'config_sections' => array(
-		'system' => array(
-			'smarty' => 'Смарти',
-			'memcache' => 'Мемкеш',
-		),
 		'view' => array(
 			'view' => 'Внешний вид',
+			'metas' => 'Meta-теги',
+			'editor' => 'Редактор',
+			'image' => 'Изображения',
 		),
 		'interface' => array(
 			'gen' => 'Интерфейс: общие',
 			'misc' => 'Интерфейс: доп',
+		),
+		'system' => array(
+			'smarty' => 'Смарти',
+			'memcache' => 'Мемкеш',
 		),
 		'sysmail' => array(
 			'mail' => 'Почта',
@@ -93,45 +96,41 @@ return array(
 	 */
 	'config_parameters' => array(
 		'view' => array(
-			'skin' => array(
-				'name' => 'шаблон (скин)',
-				'description' => 'Настройки HTML вида',
-			),
 			'name' => array(
-				'name' => 'название сайта',
-				'description' => '',
+				'name' => 'Название сайта',
+				'description' => 'Выводится в шапке шаблона, письмах и т.п.',
 			),
 			'description' => array(
-				'name' => 'seo description',
-				'description' => '',
+				'name' => 'Описание',
+				'description' => 'Мета-тег "description"',
 			),
 			'keywords' => array(
-				'name' => 'seo keywords',
-				'description' => '',
+				'name' => 'Ключевые слова',
+				'description' => 'Мета-тег "keywords"',
 			),
 			'wysiwyg' => array(
-				'name' => 'использовать или нет визуальный редактор TinyMCE',
+				'name' => 'Использовать визуальный редактор TinyMCE',
 				'description' => '',
 			),
 			'noindex' => array(
-				'name' => '"прятать" или нет ссылки от поисковиков, оборачивая их в тег &lt;noindex&gt; и добавляя rel="nofollow"',
+				'name' => 'Отключить индексирование ссылок в текстах, добавляя атрибут rel="nofollow"',
 				'description' => '',
 			),
 			'img_resize_width' => array(
-				'name' => 'до какого размера в пикселях ужимать картинку по щирине при загрузки её в топики и комменты',
-				'description' => '',
+				'name' => 'Ширина изображений',
+				'description' => 'До какого размера в пикселях ужимать картинку при загрузке по ширине',
 			),
 			'img_max_width' => array(
-				'name' => 'максимальная ширина загружаемых изображений в пикселях',
-				'description' => '',
+				'name' => 'Максимальная ширина загружаемых изображений в пикселях',
+				'description' => 'Иначе будет выведено сообщение об ошибке',
 			),
 			'img_max_height' => array(
-				'name' => 'максимальная высота загружаемых изображений в пикселях',
-				'description' => '',
+				'name' => 'Максимальная высота загружаемых изображений в пикселях',
+				'description' => 'Иначе будет выведено сообщение об ошибке',
 			),
 			'img_max_size_url' => array(
-				'name' => 'максимальный размер картинки в kB для загрузки по URL',
-				'description' => '',
+				'name' => 'Максимальный размер картинки в kB для загрузки по ссылке',
+				'description' => 'Иначе будет выведено сообщение об ошибке',
 			),
 		),
 		'seo' => array(

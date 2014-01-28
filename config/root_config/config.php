@@ -29,28 +29,30 @@ return array(
 	/*
 	 * --- Списки групп настроек главного конфига движка и принадлежащих им разделов и их параметров ---
 	 *
-	 * Для каждой группы указывается как минимум один раздел, в котором указываются:
-	 * 		в ключе "name" - ключ языкового файла для названия раздела группы
-	 * 		в ключе "allowed_keys" - первые символы разрешенных параметров
-	 * 		в ключе "excluded_keys" - начала параметров, которые необходимо исключить из группы (правило работает после списка разрешенных, исключаемое подмножество)
+	 * Для каждой группы указывается как минимум один раздел, в котором указываются ключи:
+	 *
+	 * 		"name" 				ключ языкового файла для названия раздела группы
+	 * 		"allowed_keys"		первые символы разрешенных параметров (ключей)
+	 * 		"excluded_keys" 	начала параметров, которые необходимо исключить из группы (правило работает после списка разрешенных, исключаемое подмножество)
 	 */
 	'$config_groups$' => array(
+
 		/*
 		 * группа настроек
 		 * tip: имя группы идентично её урлу и не может быть "plugin" и "save" - эти эвенты зарегистрированы для показа настроек плагинов и сохранения настроек соответственно
 		 */
-		'system' => array(
+		'view' => array(
 			array(
 				/*
-				 * раздел "smarty" на странице настроек для группы с кодом "system"
+				 * раздел "view" на странице настроек для группы с кодом "view"
 				 * tip: ключ, указывающий на текстовку
 				 */
-				'name' => 'config_sections.system.smarty',
+				'name' => 'config_sections.view.view',
 				/*
 				 * начала параметров, разрешенных для показа в этой группе
 				 */
 				'allowed_keys' => array(
-					'smarty',
+					'view.name',
 				),
 				/*
 				 * начала параметров, которые необходимо исключить из раздела (правило работает после списка разрешенных)
@@ -59,23 +61,28 @@ return array(
 			),
 			array(
 				/*
-				 * раздел "memcache" на странице настроек для группы с кодом "system"
-				 * tip: ключ, указывающий на текстовку
+				 * раздел "metas" на странице настроек для группы с кодом "view"
 				 */
-				'name' => 'config_sections.system.memcache',
+				'name' => 'config_sections.view.metas',
 				'allowed_keys' => array(
-					'memcache',
+					'view.description',
+					'view.keywords',
 				),
-				'excluded_keys' => array(),
 			),
-		),
-
-
-		'view' => array(
 			array(
-				'name' => 'config_sections.view.view',
+				'name' => 'config_sections.view.editor',
 				'allowed_keys' => array(
-					'view',
+					'view.wysiwyg',
+					'view.noindex',
+				),
+			),
+			array(
+				'name' => 'config_sections.view.image',
+				'allowed_keys' => array(
+					'view.img_resize_width',
+					'view.img_max_width',
+					'view.img_max_height',
+					'view.img_max_size_url',
 				),
 			),
 		),
@@ -104,6 +111,22 @@ return array(
 				),
 			),
 
+		),
+
+
+		'system' => array(
+			array(
+				'name' => 'config_sections.system.smarty',
+				'allowed_keys' => array(
+					'smarty',
+				),
+			),
+			array(
+				'name' => 'config_sections.system.memcache',
+				'allowed_keys' => array(
+					'memcache',
+				),
+			),
 		),
 
 
