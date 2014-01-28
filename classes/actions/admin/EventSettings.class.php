@@ -188,9 +188,6 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 		$this->Viewer_Assign('sAdminSettingsFormSystemId', PluginAdmin_ModuleSettings::ADMIN_SETTINGS_FORM_SYSTEM_ID);
 		$this->Viewer_Assign('sAdminSystemConfigId', ModuleStorage::DEFAULT_KEY_NAME);
 
-		/*
-		 * todo: check when validators will be set
-		 */
 		$this->Lang_AddLangJs(array('plugin.admin.errors.some_fields_are_incorrect'));
 	}
 

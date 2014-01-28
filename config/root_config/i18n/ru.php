@@ -39,8 +39,9 @@ return array(
 			'image' => 'Изображения',
 		),
 		'interface' => array(
-			'gen' => 'Интерфейс: общие',
-			'misc' => 'Интерфейс: доп',
+			'options' => 'Обработка',
+			'blocks' => 'Блоки',
+			'paging' => 'Постраничная навигация',
 		),
 		'system' => array(
 			'smarty' => 'Смарти',
@@ -135,166 +136,89 @@ return array(
 		),
 		'seo' => array(
 			'description_words_count' => array(
-				'name' => 'количество слов из топика для вывода в метатег description',
-				'description' => 'Настройки СЕО для вывода топиков',
+				'name' => 'Количество слов из топика для вывода в метатег description',
+				'description' => 'Метатег description будет автоматически заполнен указанным количеством слов из отображаемого топика',
+			),
+		),
+		'general' => array(
+			'close' => array(
+				'name' => 'Использовать закрытый режим работы сайта',
+				'description' => 'Сайт будет доступен только авторизованным пользователям',
+			),
+			'reg' => array(
+				'invite' => array(
+					'name' => 'Использовать режим регистрации по приглашению',
+					'description' => 'Регистрация будет доступна ТОЛЬКО по приглашениям!',
+				),
+				'activation' => array(
+					'name' => 'Использовать активацию при регистрации',
+					'description' => 'На почту, указанную при регистрации будет выслано письмо',
+				),
+			),
+			'login' => array(
+				'captcha' => array(
+					'name' => 'Использовать каптчу при входе',
+					'description' => '',
+				),
+			),
+			'admin_mail' => array(
+				'name' => 'Почта администратора',
+				'description' => 'На неё будут приходить письма, например, при жалобах на пользователей',
 			),
 		),
 		'block' => array(
 			'stream' => array(
 				'row' => array(
-					'name' => 'сколько записей выводить в блоке "Прямой эфир"',
-					'description' => 'Настройка основных блоков',
+					'name' => 'Сколько записей выводить в блоке "Прямой эфир"',
+					'description' => '',
 				),
 				'show_tip' => array(
-					'name' => 'выводить или нет всплывающие сообщения в блоке "Прямой эфир"',
+					'name' => 'Выводить всплывающие сообщения в блоке "Прямой эфир"',
 					'description' => '',
 				),
 			),
 			'blogs' => array(
 				'row' => array(
-					'name' => 'сколько записей выводить в блоке "Блоги"',
+					'name' => 'Сколько записей выводить в блоке "Блоги"',
 					'description' => '',
 				),
 			),
 			'tags' => array(
 				'tags_count' => array(
-					'name' => 'сколько тегов выводить в блоке "теги"',
+					'name' => 'Сколько тегов выводить в блоке "теги"',
 					'description' => '',
 				),
 				'personal_tags_count' => array(
-					'name' => 'сколько тегов пользователя выводить в блоке "теги"',
+					'name' => 'Сколько тегов пользователя выводить в блоке "теги"',
 					'description' => '',
 				),
-			),
-			'rule_index_blog' => array(
-				'name' => '',
-				'description' => 'Настройки вывода блоков',
-			),
-			'rule_index' => array(
-				'name' => '',
-				'description' => '',
-			),
-			'rule_topic_type' => array(
-				'name' => '',
-				'description' => '',
-			),
-			'rule_personal_blog' => array(
-				'name' => '',
-				'description' => '',
-			),
-			'rule_tag' => array(
-				'name' => '',
-				'description' => '',
-			),
-			'rule_blogs' => array(
-				'name' => '',
-				'description' => '',
-			),
-			'userfeedBlogs' => array(
-				'name' => '',
-				'description' => '',
-			),
-			'userfeedUsers' => array(
-				'name' => '',
-				'description' => '',
-			),
-			'rule_blog_info' => array(
-				'name' => '',
-				'description' => '',
-			),
-			'rule_users' => array(
-				'name' => '',
-				'description' => '',
-			),
-			'rule_profile' => array(
-				'name' => '',
-				'description' => '',
 			),
 		),
 		'pagination' => array(
 			'pages' => array(
 				'count' => array(
-					'name' => 'количество ссылок на другие страницы в пагинации',
-					'description' => 'Настройка пагинации',
-				),
-			),
-		),
-		'path' => array(
-			'root' => array(
-/*				'web' => array(
-					'name' => '',
-					'description' => '',
-				),*/
-				'server' => array(
-					'name' => 'полный путь до сайта в файловой системе',
-					'description' => '',
-				),
-				'engine' => array(
-					'name' => 'полный путь до сайта в файловой системе;',
-					'description' => 'Для CLI режима использовать<br />$config[\'path\'][\'root\'][\'server\'] = dirname(dirname(__FILE__));',
-				),
-				'engine_lib' => array(
-					'name' => 'полный путь до сайта в файловой системе',
-					'description' => '',
-				),
-			),
-			'static' => array(
-				'root' => array(
-					'name' => 'чтоб можно было статику засунуть на отдельный сервер',
-					'description' => '',
-				),
-				'skin' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'assets' => array(
-					'name' => 'Папка с ассетами (js, css, images)',
-					'description' => '',
-				),
-				'framework' => array(
-					'name' => 'Front-end framework',
-					'description' => '',
-				),
-			),
-			'uploads' => array(
-				'root' => array(
-					'name' => 'директория для загрузки файлов',
-					'description' => '',
-				),
-				'images' => array(
-					'name' => '',
-					'description' => '',
-				),
-			),
-			'offset_request_url' => array(
-				'name' => 'иногда помогает если сервер использует внутренние реврайты',
-				'description' => '',
-			),
-			'smarty' => array(
-				'template' => array(
-					'name' => '',
-					'description' => 'Настройки шаблонизатора Smarty',
-				),
-				'compiled' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'cache' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'plug' => array(
-					'name' => '',
+					'name' => 'Количество ссылок на другие страницы в пагинации',
 					'description' => '',
 				),
 			),
 		),
 		'smarty' => array(
 			'compile_check' => array(
-				'name' => 'Проверять или нет файлы шаблона на изменения перед компиляцией, false может значительно увеличить быстродействие, но потребует ручного удаления кеша при изменения шаблона',
+				'name' => 'Проверять файлы шаблона на изменения перед компиляцией',
+				'description' => 'Отключение может значительно увеличить быстродействие, но потребует ручного удаления кеша при изменении шаблона',
+			),
+			'force_compile' => array(
+				'name' => 'Принудительно компилировать шаблоны при каждом запросе',
+				'description' => 'Включение существенно снижает производительность',
+			),
+		),
+		'memcache' => array(
+			'compression' => array(
+				'name' => 'Сжатие',
 				'description' => '',
 			),
 		),
+
 		'sys' => array(
 			'plugins' => array(
 				'activation_file' => array(
@@ -303,10 +227,6 @@ return array(
 				),
 			),
 			'cookie' => array(
-/*				'host' => array(
-					'name' => 'хост для установки куков',
-					'description' => 'Настройки куков',
-				),*/
 				'path' => array(
 					'name' => 'путь для установки куков',
 					'description' => '',
@@ -325,10 +245,6 @@ return array(
 					'name' => 'название сессии',
 					'description' => '',
 				),
-/*				'timeout' => array(
-					'name' => 'Тайм-аут сессии в секундах',
-					'description' => '',
-				),*/
 				'host' => array(
 					'name' => 'хост сессии в куках',
 					'description' => '',
@@ -459,26 +375,6 @@ return array(
 				),
 			),
 		),
-		'general' => array(
-			'close' => array(
-				'name' => 'использовать закрытый режим работы сайта, сайт будет доступен только авторизованным пользователям',
-				'description' => 'Общие настройки',
-			),
-			'rss_editor_mail' => array(
-				'name' => 'мыло редактора РСС',
-				'description' => '',
-			),
-			'reg' => array(
-				'invite' => array(
-					'name' => 'использовать режим регистрации по приглашению или нет. Если использовать, то регистрация будет доступна ТОЛЬКО по приглашениям!',
-					'description' => '',
-				),
-				'activation' => array(
-					'name' => 'использовать активацию при регистрации или нет',
-					'description' => '',
-				),
-			),
-		),
 		'lang' => array(
 			'current' => array(
 				'name' => 'текущий язык текстовок',
@@ -486,14 +382,6 @@ return array(
 			),
 			'default' => array(
 				'name' => 'язык, который будет использовать на сайте по умолчанию',
-				'description' => '',
-			),
-			'path' => array(
-				'name' => 'полный путь до языковых файлов',
-				'description' => '',
-			),
-			'load_to_js' => array(
-				'name' => 'Массив текстовок, которые необходимо прогружать на страницу в виде JS хеша, позволяет использовать текстовки внутри js',
 				'description' => '',
 			),
 		),
@@ -1169,28 +1057,6 @@ return array(
 					'name' => 'InnoDB или MyISAM',
 					'description' => '',
 				),
-			),
-		),
-		'memcache' => array(
-			'servers' => array(
-				0 => array(
-					'host' => array(
-						'name' => '',
-						'description' => 'Настройка memcache',
-					),
-					'port' => array(
-						'name' => 'port',
-						'description' => '',
-					),
-					'persistent' => array(
-						'name' => 'persistent',
-						'description' => '',
-					),
-				),
-			),
-			'compression' => array(
-				'name' => 'compression',
-				'description' => '',
 			),
 		),
 		'router' => array(

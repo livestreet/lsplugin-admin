@@ -67,6 +67,7 @@ return array(
 				'allowed_keys' => array(
 					'view.description',
 					'view.keywords',
+					'seo.description_words_count',
 				),
 			),
 			array(
@@ -89,25 +90,39 @@ return array(
 
 
 		'interface' => array(
-			array(
+/*			array(
 				'name' => 'config_sections.interface.gen',
 				'allowed_keys' => array(
-					'seo',
-					'general',
 					'lang',
 				),
 				'excluded_keys' => array(
 					'lang.path',
 				),
+			),*/
+			array(
+				'name' => 'config_sections.interface.options',
+				'allowed_keys' => array(
+					'general.close',
+					'general.reg.invite',
+					'general.reg.activation',
+					'general.login.captcha',
+					'general.admin_mail',
+				),
 			),
 			array(
-				'name' => 'config_sections.interface.misc',
+				'name' => 'config_sections.interface.blocks',
 				'allowed_keys' => array(
-					'block',
-					'pagination',
+					'block.stream.row',
+					'block.stream.show_tip',
+					'block.blogs.row',
+					'block.tags.tags_count',
+					'block.tags.personal_tags_count',
 				),
-				'excluded_keys' => array(
-					'block.rule_',
+			),
+			array(
+				'name' => 'config_sections.interface.paging',
+				'allowed_keys' => array(
+					'pagination',
 				),
 			),
 
@@ -293,6 +308,9 @@ return array(
 			'validator' => array(
 				'type' => 'String',
 				'params' => array(
+					'min' => 2,
+					'max' => 1000,
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -303,6 +321,9 @@ return array(
 			'validator' => array(
 				'type' => 'String',
 				'params' => array(
+					'min' => 2,
+					'max' => 500,
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -312,8 +333,7 @@ return array(
 			'description' => 'config_parameters.view.wysiwyg.description',
 			'validator' => array(
 				'type' => 'Boolean',
-				'params' => array(
-				),
+				'params' => array(),
 			),
 		),
 		'view.noindex' => array(
@@ -322,8 +342,7 @@ return array(
 			'description' => 'config_parameters.view.noindex.description',
 			'validator' => array(
 				'type' => 'Boolean',
-				'params' => array(
-				),
+				'params' => array(),
 			),
 		),
 		'view.img_resize_width' => array(
@@ -333,6 +352,10 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
+					'min' => 100,
+					'max' => 5000,
+					'integerOnly' => true,
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -343,6 +366,10 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
+					'min' => 100,
+					'max' => 5000,
+					'integerOnly' => true,
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -353,6 +380,10 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
+					'min' => 100,
+					'max' => 5000,
+					'integerOnly' => true,
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -363,6 +394,10 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
+					'min' => 10,
+					'max' => 7000,
+					'integerOnly' => true,
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -373,6 +408,57 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
+					'min' => 5,
+					'max' => 300,
+					'integerOnly' => true,
+					'allowEmpty' => false,
+				),
+			),
+		),
+		'general.close' => array(
+			'type' => 'boolean',
+			'name' => 'config_parameters.general.close.name',
+			'description' => 'config_parameters.general.close.description',
+			'validator' => array(
+				'type' => 'Boolean',
+				'params' => array(),
+			),
+		),
+		'general.reg.invite' => array(
+			'type' => 'boolean',
+			'name' => 'config_parameters.general.reg.invite.name',
+			'description' => 'config_parameters.general.reg.invite.description',
+			'validator' => array(
+				'type' => 'Boolean',
+				'params' => array(),
+			),
+		),
+		'general.reg.activation' => array(
+			'type' => 'boolean',
+			'name' => 'config_parameters.general.reg.activation.name',
+			'description' => 'config_parameters.general.reg.activation.description',
+			'validator' => array(
+				'type' => 'Boolean',
+				'params' => array(),
+			),
+		),
+		'general.login.captcha' => array(
+			'type' => 'boolean',
+			'name' => 'config_parameters.general.login.captcha.name',
+			'description' => 'config_parameters.general.login.captcha.description',
+			'validator' => array(
+				'type' => 'Boolean',
+				'params' => array(),
+			),
+		),
+		'general.admin_mail' => array(
+			'type' => 'string',
+			'name' => 'config_parameters.general.admin_mail.name',
+			'description' => 'config_parameters.general.admin_mail.description',
+			'validator' => array(
+				'type' => 'Email',
+				'params' => array(
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -383,6 +469,10 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
+					'min' => 3,
+					'max' => 100,
+					'integerOnly' => true,
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -392,8 +482,7 @@ return array(
 			'description' => 'config_parameters.block.stream.show_tip.description',
 			'validator' => array(
 				'type' => 'Boolean',
-				'params' => array(
-				),
+				'params' => array(),
 			),
 		),
 		'block.blogs.row' => array(
@@ -403,6 +492,10 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
+					'min' => 3,
+					'max' => 100,
+					'integerOnly' => true,
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -413,6 +506,10 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
+					'min' => 5,
+					'max' => 500,
+					'integerOnly' => true,
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -423,6 +520,10 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
+					'min' => 5,
+					'max' => 500,
+					'integerOnly' => true,
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -433,126 +534,10 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
-				),
-			),
-		),
-		'path.root.server' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.path.root.server.name',
-			'description' => 'config_parameters.path.root.server.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'path.root.engine' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.path.root.engine.name',
-			'description' => 'config_parameters.path.root.engine.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'path.root.engine_lib' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.path.root.engine_lib.name',
-			'description' => 'config_parameters.path.root.engine_lib.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'path.static.root' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.path.static.root.name',
-			'description' => 'config_parameters.path.static.root.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'path.static.skin' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.path.static.skin.name',
-			'description' => 'config_parameters.path.static.skin.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'path.uploads.root' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.path.uploads.root.name',
-			'description' => 'config_parameters.path.uploads.root.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'path.uploads.images' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.path.uploads.images.name',
-			'description' => 'config_parameters.path.uploads.images.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'path.offset_request_url' => array(
-			'type' => 'integer',
-			'name' => 'config_parameters.path.offset_request_url.name',
-			'description' => 'config_parameters.path.offset_request_url.description',
-			'validator' => array(
-				'type' => 'Number',
-				'params' => array(
-				),
-			),
-		),
-		'path.smarty.template' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.path.smarty.template.name',
-			'description' => 'config_parameters.path.smarty.template.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'path.smarty.compiled' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.path.smarty.compiled.name',
-			'description' => 'config_parameters.path.smarty.compiled.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'path.smarty.cache' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.path.smarty.cache.name',
-			'description' => 'config_parameters.path.smarty.cache.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'path.smarty.plug' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.path.smarty.plug.name',
-			'description' => 'config_parameters.path.smarty.plug.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
+					'min' => 3,
+					'max' => 100,
+					'integerOnly' => true,
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -566,6 +551,16 @@ return array(
 				),
 			),
 		),
+		'smarty.force_compile' => array(
+			'type' => 'boolean',
+			'name' => 'config_parameters.smarty.force_compile.name',
+			'description' => 'config_parameters.smarty.force_compile.description',
+			'validator' => array(
+				'type' => 'Boolean',
+				'params' => array(),
+			),
+		),
+
 		'sys.plugins.activation_file' => array(
 			'type' => 'string',
 			'name' => 'config_parameters.sys.plugins.activation_file.name',
@@ -916,46 +911,7 @@ return array(
 				),
 			),
 		),
-		'general.close' => array(
-			'type' => 'boolean',
-			'name' => 'config_parameters.general.close.name',
-			'description' => 'config_parameters.general.close.description',
-			'validator' => array(
-				'type' => 'Boolean',
-				'params' => array(
-				),
-			),
-		),
-		'general.rss_editor_mail' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.general.rss_editor_mail.name',
-			'description' => 'config_parameters.general.rss_editor_mail.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'general.reg.invite' => array(
-			'type' => 'boolean',
-			'name' => 'config_parameters.general.reg.invite.name',
-			'description' => 'config_parameters.general.reg.invite.description',
-			'validator' => array(
-				'type' => 'Boolean',
-				'params' => array(
-				),
-			),
-		),
-		'general.reg.activation' => array(
-			'type' => 'boolean',
-			'name' => 'config_parameters.general.reg.activation.name',
-			'description' => 'config_parameters.general.reg.activation.description',
-			'validator' => array(
-				'type' => 'Boolean',
-				'params' => array(
-				),
-			),
-		),
+
 		'lang.current' => array(
 			'type' => 'string',
 			'name' => 'config_parameters.lang.current.name',
