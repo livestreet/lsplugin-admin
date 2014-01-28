@@ -413,8 +413,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Интерфейс')->SetUrl('interface'))
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Системные')->SetUrl('system'))
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Почта')->SetUrl('sysmail'))
-				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('ACL создания')->SetUrl('aclcreate'))
-				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('ACL голосования')->SetUrl('aclvote'))
+				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('ACL')->SetUrl('acl'))
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Модуль блогов')->SetUrl('moduleblog'))
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Модуль топиков')->SetUrl('moduletopic'))
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Модуль пользователей')->SetUrl('moduleuser'))
@@ -510,6 +509,9 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 
 
 	public function EventError() {
+		/*
+		 * todo: исправить на новые ключи текстовок
+		 */
 		$aHttpErrors = array(
 			'404' => array(
 				'header' => '404 Not Found',

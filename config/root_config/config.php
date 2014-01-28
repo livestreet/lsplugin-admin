@@ -149,27 +149,81 @@ return array(
 			array(
 				'name' => 'config_sections.sysmail.mail',
 				'allowed_keys' => array(
-					'sys.mail.',
+					'sys.mail.type',
+					'sys.mail.from_email',
+					'sys.mail.from_name',
+					'sys.mail.charset',
+				),
+			),
+			array(
+				'name' => 'config_sections.sysmail.smtp',
+				'allowed_keys' => array(
+					'sys.mail.smtp.',
+				),
+			),
+			array(
+				'name' => 'config_sections.sysmail.options',
+				'allowed_keys' => array(
+					'sys.mail.include_comment',
+					'sys.mail.include_talk',
 				),
 			),
 		),
 
 
-		'aclcreate' => array(
+		'acl' => array(
 			array(
-				'name' => 'config_sections.aclcreate.aclcreate',
+				'name' => 'config_sections.acl.blog',
 				'allowed_keys' => array(
-					'acl.create.',
+					'acl.create.blog.rating',
+					'acl.vote.blog.rating',
 				),
 			),
-		),
-
-
-		'aclvote' => array(
 			array(
-				'name' => 'config_sections.aclvote.aclvote',
+				'name' => 'config_sections.acl.comment',
 				'allowed_keys' => array(
-					'acl.vote.',
+					'acl.create.comment.rating',
+					'acl.create.comment.limit_time',
+					'acl.create.comment.limit_time_rating',
+					'acl.vote.comment.rating',
+					'acl.vote.comment.limit_time',
+				),
+			),
+			array(
+				'name' => 'config_sections.acl.topic',
+				'allowed_keys' => array(
+					'acl.create.topic.rating',
+					'acl.create.topic.limit_time',
+					'acl.create.topic.limit_time_rating',
+					'acl.vote.topic.rating',
+					'acl.vote.topic.limit_time',
+				),
+			),
+			array(
+				'name' => 'config_sections.acl.talk',
+				'allowed_keys' => array(
+					'acl.create.talk.limit_time',
+					'acl.create.talk.limit_time_rating',
+				),
+			),
+			array(
+				'name' => 'config_sections.acl.talk_comment',
+				'allowed_keys' => array(
+					'acl.create.talk_comment.limit_time',
+					'acl.create.talk_comment.limit_time_rating',
+				),
+			),
+			array(
+				'name' => 'config_sections.acl.wall',
+				'allowed_keys' => array(
+					'acl.create.wall.limit_time',
+					'acl.create.wall.limit_time_rating',
+				),
+			),
+			array(
+				'name' => 'config_sections.acl.user',
+				'allowed_keys' => array(
+					'acl.vote.user.rating',
 				),
 			),
 		),
@@ -560,77 +614,6 @@ return array(
 				'params' => array(),
 			),
 		),
-
-		'sys.plugins.activation_file' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.sys.plugins.activation_file.name',
-			'description' => 'config_parameters.sys.plugins.activation_file.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'sys.cookie.path' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.sys.cookie.path.name',
-			'description' => 'config_parameters.sys.cookie.path.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'sys.cookie.time' => array(
-			'type' => 'integer',
-			'name' => 'config_parameters.sys.cookie.time.name',
-			'description' => 'config_parameters.sys.cookie.time.description',
-			'validator' => array(
-				'type' => 'Number',
-				'params' => array(
-				),
-			),
-		),
-		'sys.session.standart' => array(
-			'type' => 'boolean',
-			'name' => 'config_parameters.sys.session.standart.name',
-			'description' => 'config_parameters.sys.session.standart.description',
-			'validator' => array(
-				'type' => 'Boolean',
-				'params' => array(
-				),
-			),
-		),
-		'sys.session.name' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.sys.session.name.name',
-			'description' => 'config_parameters.sys.session.name.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'sys.session.host' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.sys.session.host.name',
-			'description' => 'config_parameters.sys.session.host.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'sys.session.path' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.sys.session.path.name',
-			'description' => 'config_parameters.sys.session.path.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
 		'sys.mail.type' => array(
 			'type' => 'string',
 			'name' => 'config_parameters.sys.mail.type.name',
@@ -638,6 +621,9 @@ return array(
 			'validator' => array(
 				'type' => 'String',
 				'params' => array(
+					'min' => 2,
+					'max' => 12,
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -646,8 +632,9 @@ return array(
 			'name' => 'config_parameters.sys.mail.from_email.name',
 			'description' => 'config_parameters.sys.mail.from_email.description',
 			'validator' => array(
-				'type' => 'String',
+				'type' => 'Email',
 				'params' => array(
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -658,6 +645,9 @@ return array(
 			'validator' => array(
 				'type' => 'String',
 				'params' => array(
+					'min' => 2,
+					'max' => 70,
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -668,6 +658,9 @@ return array(
 			'validator' => array(
 				'type' => 'String',
 				'params' => array(
+					'min' => 2,
+					'max' => 10,
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -678,6 +671,9 @@ return array(
 			'validator' => array(
 				'type' => 'String',
 				'params' => array(
+					'min' => 2,
+					'max' => 100,
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -688,6 +684,9 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
+					'min' => 0,
+					'max' => 65535,
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -698,6 +697,9 @@ return array(
 			'validator' => array(
 				'type' => 'String',
 				'params' => array(
+					'min' => 0,
+					'max' => 50,
+					'allowEmpty' => true,
 				),
 			),
 		),
@@ -708,6 +710,9 @@ return array(
 			'validator' => array(
 				'type' => 'String',
 				'params' => array(
+					'min' => 0,
+					'max' => 50,
+					'allowEmpty' => true,
 				),
 			),
 		),
@@ -718,6 +723,9 @@ return array(
 			'validator' => array(
 				'type' => 'String',
 				'params' => array(
+					'min' => 0,
+					'max' => 10,
+					'allowEmpty' => true,
 				),
 			),
 		),
@@ -727,8 +735,7 @@ return array(
 			'description' => 'config_parameters.sys.mail.smtp.auth.description',
 			'validator' => array(
 				'type' => 'Boolean',
-				'params' => array(
-				),
+				'params' => array(),
 			),
 		),
 		'sys.mail.include_comment' => array(
@@ -737,8 +744,7 @@ return array(
 			'description' => 'config_parameters.sys.mail.include_comment.description',
 			'validator' => array(
 				'type' => 'Boolean',
-				'params' => array(
-				),
+				'params' => array(),
 			),
 		),
 		'sys.mail.include_talk' => array(
@@ -747,10 +753,11 @@ return array(
 			'description' => 'config_parameters.sys.mail.include_talk.description',
 			'validator' => array(
 				'type' => 'Boolean',
-				'params' => array(
-				),
+				'params' => array(),
 			),
 		),
+
+		// ?
 		'sys.cache.use' => array(
 			'type' => 'boolean',
 			'name' => 'config_parameters.sys.cache.use.name',
@@ -932,26 +939,8 @@ return array(
 				),
 			),
 		),
-		'lang.path' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.lang.path.name',
-			'description' => 'config_parameters.lang.path.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'lang.load_to_js' => array(
-			'type' => 'array',
-			'name' => 'config_parameters.lang.load_to_js.name',
-			'description' => 'config_parameters.lang.load_to_js.description',
-			'validator' => array(
-				'type' => 'Array',
-				'params' => array(
-				),
-			),
-		),
+
+
 		'acl.create.blog.rating' => array(
 			'type' => 'integer',
 			'name' => 'config_parameters.acl.create.blog.rating.name',
@@ -959,6 +948,10 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
+					'min' => -100,
+					'max' => 100,
+					'integerOnly' => true,
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -969,6 +962,10 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
+					'min' => -100,
+					'max' => 100,
+					'integerOnly' => true,
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -979,6 +976,10 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
+					'min' => 0,
+					'max' => 60*60*24,
+					'integerOnly' => true,
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -989,6 +990,10 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
+					'min' => -100,
+					'max' => 100,
+					'integerOnly' => true,
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -999,6 +1004,10 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
+					'min' => 0,
+					'max' => 60*60*24,
+					'integerOnly' => true,
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -1009,6 +1018,10 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
+					'min' => -100,
+					'max' => 100,
+					'integerOnly' => true,
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -1019,6 +1032,10 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
+					'min' => -100,
+					'max' => 100,
+					'integerOnly' => true,
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -1029,6 +1046,10 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
+					'min' => 0,
+					'max' => 60*60*24,
+					'integerOnly' => true,
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -1039,6 +1060,10 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
+					'min' => -100,
+					'max' => 100,
+					'integerOnly' => true,
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -1049,6 +1074,10 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
+					'min' => 0,
+					'max' => 60*60*24,
+					'integerOnly' => true,
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -1059,6 +1088,10 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
+					'min' => -100,
+					'max' => 100,
+					'integerOnly' => true,
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -1069,6 +1102,10 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
+					'min' => 0,
+					'max' => 60*60*24,
+					'integerOnly' => true,
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -1079,9 +1116,14 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
+					'min' => -100,
+					'max' => 100,
+					'integerOnly' => true,
+					'allowEmpty' => false,
 				),
 			),
 		),
+
 		'acl.vote.comment.rating' => array(
 			'type' => 'integer',
 			'name' => 'config_parameters.acl.vote.comment.rating.name',
@@ -1089,6 +1131,10 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
+					'min' => -100,
+					'max' => 100,
+					'integerOnly' => true,
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -1099,6 +1145,10 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
+					'min' => -100,
+					'max' => 100,
+					'integerOnly' => true,
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -1109,6 +1159,10 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
+					'min' => -100,
+					'max' => 100,
+					'integerOnly' => true,
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -1119,6 +1173,10 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
+					'min' => -100,
+					'max' => 100,
+					'integerOnly' => true,
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -1129,6 +1187,10 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
+					'min' => 0,
+					'max' => 60*60*24*100,
+					'integerOnly' => true,
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -1139,9 +1201,14 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
+					'min' => 0,
+					'max' => 60*60*24*100,
+					'integerOnly' => true,
+					'allowEmpty' => false,
 				),
 			),
 		),
+
 		'module.blog.per_page' => array(
 			'type' => 'integer',
 			'name' => 'config_parameters.module.blog.per_page.name',
