@@ -33,16 +33,15 @@ class PluginArticle_ModuleMain extends ModuleORM {
 	/**
 	 * Возвращет список статей по тегу. Используется функционал дополнительных полей
 	 *
+	 * @param ModuleProperty_EntityProperty $oPropertyTags
 	 * @param string $sTag
 	 * @param int $iCurrPage
 	 * @param int $iPerPage
 	 *
 	 * @return array('collection'=>array(),'count'=>int)
 	 */
-	public function GetArticleItemsByTag($sTag,$iCurrPage,$iPerPage) {
-		// TODO: необходимо получить свойство(поле) с тегами
-		$iPropertyId=1;
-		$aResult=$this->Property_GetTargetsByTag($iPropertyId,$sTag,$iCurrPage,$iPerPage);
+	public function GetArticleItemsByTag($oPropertyTags,$sTag,$iCurrPage,$iPerPage) {
+		$aResult=$this->Property_GetTargetsByTag($oPropertyTags->getId(),$sTag,$iCurrPage,$iPerPage);
 		if ($aResult['collection']) {
 			$aResult['collection']=$this->GetArticleItemsByFilter(array('id in'=>$aResult['collection'],'#order'=>array('FIELD:id'=>$aResult['collection'])));
 		}

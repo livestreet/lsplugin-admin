@@ -43,6 +43,18 @@ $config['$config_scheme$'] = array(
 			),
 		),
 	),
+	'property_tags_code' => array(
+		'type' => 'string',
+		'name' => 'Код поля с тегами',
+		'description' => 'Код задается при создании дополнительного поля',
+		'validator' => array(
+			'type' => 'Regexp',
+			'params' => array(
+				'pattern' => '#^[a-z0-9\_]+$#i',
+				'allowEmpty' => true,
+			),
+		),
+	),
 	'param_string_1' => array(
 		'type' => 'string',
 		'name' => 'config.param_string_1.name',
@@ -89,6 +101,7 @@ $config['$config_sections$'] = array(
 		 */
 		'allowed_keys' => array(
 			'per_page',
+			'property_tags_code'
 		),
 	),
 	array(

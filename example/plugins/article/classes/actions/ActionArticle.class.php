@@ -26,6 +26,8 @@ class PluginArticle_ActionArticle extends ActionPlugin {
 		 * Получаем текущего пользователя
 		 */
 		$this->oUserCurrent=$this->User_GetUserCurrent();
+
+		$this->Viewer_AppendScript(Plugin::GetWebPath(__CLASS__) . 'js/main.js');
 	}
 
 	/**
@@ -95,6 +97,12 @@ class PluginArticle_ActionArticle extends ActionPlugin {
 	 */
 	protected function EventTag() {
 		/**
+		 * Проверяем есть ли у статей нужное поле с тегами
+		 */
+		if (!($oPropertyTags=$this->Property_GetPropertyByTargetTypeAndCode($this->PluginArticle_Main_GetPropertyTargetType(),Config::Get('plugin.article.property_tags_code')))) {
+			return $this->EventNotFound();
+		}
+		/**
 		 * Получаем тег из УРЛа
 		 */
 		$sTag=$this->GetParam(0);
@@ -105,7 +113,7 @@ class PluginArticle_ActionArticle extends ActionPlugin {
 		/**
 		 * Получаем список статей
 		 */
-		$aResult=$this->PluginArticle_Main_GetArticleItemsByTag($sTag,$iPage,Config::Get('plugin.article.per_page'));
+		$aResult=$this->PluginArticle_Main_GetArticleItemsByTag($oPropertyTags,$sTag,$iPage,Config::Get('plugin.article.per_page'));
 		$aArticles=$aResult['collection'];
 		/**
 		 * Формируем постраничность
@@ -117,6 +125,7 @@ class PluginArticle_ActionArticle extends ActionPlugin {
 		$this->Viewer_Assign('aPaging',$aPaging);
 		$this->Viewer_Assign('aArticleItems',$aArticles);
 		$this->Viewer_Assign('sTag',$sTag);
+		$this->Viewer_Assign('oPropertyTags',$oPropertyTags);
 		$this->Viewer_AddHtmlTitle('Поиск по тегу');
 		$this->Viewer_AddHtmlTitle($sTag);
 		/**

@@ -11,6 +11,10 @@ $config['$root$']['router']['page']['article']='PluginArticle_ActionArticle';
  * Тип для дополнительных полей
  */
 $config['property_target_type']='article';
+/**
+ * Код дополнительного поля для тегов статьи
+ */
+$config['property_tags_code']='tags';
 
 /**
  * Количество статей на одну страницу
