@@ -1436,9 +1436,16 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 
 		/*
 		 * фильтр
-		 * todo:
 		 */
 		$aFilter = array();
+
+		/*
+		 * статус
+		 */
+		$sStateCurrent = $this->GetDataFromFilter('state');
+		if (in_array($sStateCurrent, array(ModuleUser::COMPLAINT_STATE_NEW, ModuleUser::COMPLAINT_STATE_READ))) {
+			$aFilter['state'] = $sStateCurrent;
+		}
 
 		/*
 		 * получение жалоб на пользователей
@@ -1473,6 +1480,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		$this->Viewer_Assign('aPaging', $aPaging);
 		$this->Viewer_Assign('aUsersComplaints', $aResult['collection']);
 		$this->Viewer_Assign('iUsersComplaintsTotalCount', $aResult['count']);
+		$this->Viewer_Assign('sStateCurrent', $sStateCurrent);
 
 		/*
 		 * сортировка

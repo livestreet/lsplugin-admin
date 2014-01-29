@@ -15,20 +15,12 @@
 		{*
 			статус
 		*}
-{*		<a href="{"{router page='admin/users/complaints'}"}{request_filter
-			name=array('ban_restriction_type', 'ban_time_type')
-			value=array(null, $sBanTimeType)
-		}" class="button {if $sBanRestrictionType=='all'}active{/if}">{$aLang.plugin.admin.users.complaints.filter.restriction.all}</a>
-
-		<a href="{"{router page='admin/users/complaints'}"}{request_filter
-			name=array('ban_restriction_type', 'ban_time_type')
-			value=array('full', $sBanTimeType)
-		}" class="button {if $sBanRestrictionType=='full'}active{/if}">{$aLang.plugin.admin.users.complaints.filter.restriction.full}</a>
-
-		<a href="{"{router page='admin/users/complaints'}"}{request_filter
-			name=array('ban_restriction_type', 'ban_time_type')
-			value=array('readonly', $sBanTimeType)
-		}" class="button {if $sBanRestrictionType=='readonly'}active{/if}">{$aLang.plugin.admin.users.complaints.filter.restriction.readonly}</a>*}
+		{foreach array(null, ModuleUser::COMPLAINT_STATE_NEW, ModuleUser::COMPLAINT_STATE_READ) as $sState}
+			<a href="{router page='admin/users/complaints'}{request_filter
+				name=array('state')
+				value=array($sState)
+			}" class="button {if $sStateCurrent==$sState}active{/if}">{$aLang.plugin.admin.users.complaints.list.filter.state.$sState}</a>
+		{/foreach}
 	</div>
 {/block}
 
@@ -132,8 +124,9 @@
 							{$aLang.plugin.admin.users.complaints.list.state[$oComplaint->getState()]}
 						</td>
 						<td class="ta-r">
-							<a href="#" title="{$aLang.plugin.admin.show}"><i class="icon-list"></i></a>
-							<a href="#" title="{$aLang.plugin.admin.delete}" class="js-question"><i class="icon-remove"></i></a>
+							<a href="{router page="admin/users/complaints/view/{$oComplaint->getId()}"}" title="{$aLang.plugin.admin.show}"><i class="icon-list"></i></a>
+							<a href="{router page="admin/users/complaints/delete/{$oComplaint->getId()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}" title="{$aLang.plugin.admin.delete}"
+							   class="js-question"><i class="icon-remove"></i></a>
 						</td>
 					</tr>
 				{/foreach}
