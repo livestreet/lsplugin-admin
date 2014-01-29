@@ -62,7 +62,7 @@ return array(
 			'user' => 'Пользователь',
 		),
 		'moduleblog' => array(
-			'moduleblog' => 'module blog',
+			'moduleblog' => 'Блоги',
 		),
 		'moduletopic' => array(
 			'moduletopic' => 'module topic',
@@ -458,11 +458,12 @@ return array(
 				),
 			),
 		),
+
 		'module' => array(
 			'blog' => array(
 				'per_page' => array(
 					'name' => 'Число блогов на страницу',
-					'description' => 'Модуль Blog',
+					'description' => '',
 				),
 				'users_per_page' => array(
 					'name' => 'Число пользователей блога на страницу',
@@ -473,11 +474,11 @@ return array(
 					'description' => '',
 				),
 				'collective_good' => array(
-					'name' => 'рейтинг топика в коллективных блогах ниже которого он считается плохим',
+					'name' => 'Рейтинг топика в коллективных блогах ниже которого он считается плохим',
 					'description' => '',
 				),
 				'index_good' => array(
-					'name' => 'Рейтинг топика выше которого(включительно) он попадает на главную',
+					'name' => 'Рейтинг топика выше которого (включительно) он попадает на главную',
 					'description' => '',
 				),
 				'encrypt' => array(
@@ -489,7 +490,7 @@ return array(
 					'description' => '',
 				),
 				'category_allow' => array(
-					'name' => 'Разрешить использование категорий бля блогов',
+					'name' => 'Разрешить использование категорий для блогов',
 					'description' => '',
 				),
 				'category_only_admin' => array(
@@ -676,101 +677,87 @@ return array(
 			'image' => array(
 				'default' => array(
 					'watermark_use' => array(
-						'name' => '',
-						'description' => 'Модуль Image',
+						'name' => 'Использовать водяной знак',
+						'description' => '',
 					),
 					'watermark_type' => array(
-						'name' => '',
+						'name' => 'Тип',
 						'description' => '',
 					),
 					'watermark_position' => array(
-						'name' => '',
+						'name' => 'Координаты',
 						'description' => '',
 					),
 					'watermark_text' => array(
-						'name' => '',
+						'name' => 'Текст',
 						'description' => '',
 					),
 					'watermark_font' => array(
-						'name' => '',
+						'name' => 'Шрифт',
 						'description' => '',
 					),
 					'watermark_font_color' => array(
-						'name' => '',
+						'name' => 'Цвет шрифта',
 						'description' => '',
 					),
 					'watermark_font_size' => array(
-						'name' => '',
+						'name' => 'Размер шрифта',
 						'description' => '',
 					),
 					'watermark_font_alfa' => array(
-						'name' => '',
+						'name' => 'Прозрачность для шрифта',
 						'description' => '',
 					),
 					'watermark_back_color' => array(
-						'name' => '',
+						'name' => 'Цвет фона',
 						'description' => '',
 					),
 					'watermark_back_alfa' => array(
-						'name' => '',
+						'name' => 'Прозрачность фона',
 						'description' => '',
 					),
 					'watermark_image' => array(
-						'name' => '',
+						'name' => 'Изображение',
 						'description' => '',
 					),
 					'watermark_min_width' => array(
-						'name' => '',
+						'name' => 'Минимальная ширина для изображения',
 						'description' => '',
 					),
 					'watermark_min_height' => array(
-						'name' => '',
+						'name' => 'Минимальная высота для изображения',
 						'description' => '',
 					),
 					'round_corner' => array(
-						'name' => '',
+						'name' => 'Округлять углы',
 						'description' => '',
 					),
 					'round_corner_radius' => array(
-						'name' => '',
+						'name' => 'Радиус углов',
 						'description' => '',
-					),
-					'round_corner_rate' => array(
-						'name' => '',
-						'description' => '',
-					),
-					'path' => array(
-						'watermarks' => array(
-							'name' => '',
-							'description' => '',
-						),
-						'fonts' => array(
-							'name' => '',
-							'description' => '',
-						),
 					),
 					'jpg_quality' => array(
-						'name' => 'Число от 0 до 100',
-						'description' => '',
+						'name' => 'Качество для jpg изображений',
+						'description' => 'Число от 0 до 100',
 					),
 				),
 				'foto' => array(
 					'watermark_use' => array(
-						'name' => '',
+						'name' => 'Использовать водяной знак (фото)',
 						'description' => '',
 					),
 					'round_corner' => array(
-						'name' => '',
+						'name' => 'Округлять углы',
 						'description' => '',
 					),
 				),
 				'topic' => array(
 					'watermark_use' => array(
-						'name' => '',
+						'name' => 'Использовать водяной знак (топик)',
 						'description' => '',
 					),
 					'round_corner' => array(
-						'name' => '',
+						'name' => 'Округлять углы',
 						'description' => '',
 					),
 				),
@@ -793,7 +780,7 @@ return array(
 					'description' => '',
 				),
 				'disable_vote_events' => array(
-					'name' => '',
+					'name' => 'Отключить отображение голосований в ленте',
 					'description' => '',
 				),
 			),
@@ -830,206 +817,6 @@ return array(
 				'description' => 'Какие модули должны быть загружены на старте',
 			),
 		),
-		'db' => array(
-			'params' => array(
-				'host' => array(
-					'name' => '',
-					'description' => 'Настройка базы данных',
-				),
-				'port' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'user' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'pass' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'type' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'dbname' => array(
-					'name' => '',
-					'description' => '',
-				),
-			),
-			'table' => array(
-				'prefix' => array(
-					'name' => '',
-					'description' => 'Настройка таблиц базы данных',
-				),
-				'user' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'blog' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'blog_category' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'topic' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'topic_tag' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'comment' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'vote' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'topic_read' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'blog_user' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'favourite' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'favourite_tag' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'talk' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'talk_user' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'talk_blacklist' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'friend' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'topic_content' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'topic_question_vote' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'user_administrator' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'comment_online' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'invite' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'page' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'reminder' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'session' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'notify_task' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'userfeed_subscribe' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'stream_subscribe' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'stream_event' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'stream_user_type' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'user_field' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'user_field_value' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'topic_photo' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'subscribe' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'wall' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'user_note' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'geo_country' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'geo_region' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'geo_city' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'geo_target' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'user_changemail' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'storage' => array(
-					'name' => 'Таблица хранилища',
-					'description' => '',
-				),
-			),
-			'tables' => array(
-				'engine' => array(
-					'name' => 'InnoDB или MyISAM',
-					'description' => '',
-				),
-			),
-		),
 		'router' => array(
 			'rewrite' => array(
 				'name' => '',
@@ -1039,123 +826,13 @@ return array(
 				'name' => '',
 				'description' => 'Правила реврайта для REQUEST_URI',
 			),
-			'page' => array(
-				'error' => array(
-					'name' => '',
-					'description' => 'Распределение action',
-				),
-				'registration' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'profile' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'my' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'blog' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'personal_blog' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'index' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'topic' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'login' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'people' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'settings' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'tag' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'talk' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'comments' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'rss' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'link' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'question' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'blogs' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'search' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'admin' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'ajax' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'feed' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'stream' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'subscribe' => array(
-					'name' => '',
-					'description' => '',
-				),
-			),
 			'config' => array(
 				'action_default' => array(
 					'name' => '',
 					'description' => 'Глобальные настройки роутинга',
 				),
 				'action_not_found' => array(
-					'name' => '',
-					'description' => '',
-				),
-			),
-		),
-		'head' => array(
-			'default' => array(
-				'js' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'css' => array(
-					'name' => '',
+					'name' => 'Экшен не найден',
 					'description' => '',
 				),
 			),

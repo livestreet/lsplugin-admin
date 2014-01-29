@@ -1123,7 +1123,6 @@ return array(
 				),
 			),
 		),
-
 		'acl.vote.comment.rating' => array(
 			'type' => 'integer',
 			'name' => 'config_parameters.acl.vote.comment.rating.name',
@@ -1216,6 +1215,10 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
+					'min' => 5,
+					'max' => 100,
+					'integerOnly' => true,
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -1226,6 +1229,10 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
+					'min' => 5,
+					'max' => 100,
+					'integerOnly' => true,
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -1236,6 +1243,10 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
+					'min' => -100,
+					'max' => 100,
+					'integerOnly' => true,
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -1246,6 +1257,10 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
+					'min' => -100,
+					'max' => 100,
+					'integerOnly' => true,
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -1256,6 +1271,10 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
+					'min' => -100,
+					'max' => 100,
+					'integerOnly' => true,
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -1266,6 +1285,9 @@ return array(
 			'validator' => array(
 				'type' => 'String',
 				'params' => array(
+					'min' => 5,
+					'max' => 100,
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -1276,6 +1298,18 @@ return array(
 			'validator' => array(
 				'type' => 'Array',
 				'params' => array(
+					'min_items' => 1,
+					'max_items' => 20,
+					'item_validator' => array(
+						'type' => 'Number',
+						'params' => array(
+							'min' => 0,
+							'max' => 500,
+							'integerOnly' => true,
+							'allowEmpty' => false,
+						),
+					),
+					'allowEmpty' => false,
 				),
 			),
 		),
@@ -1285,8 +1319,7 @@ return array(
 			'description' => 'config_parameters.module.blog.category_allow.description',
 			'validator' => array(
 				'type' => 'Boolean',
-				'params' => array(
-				),
+				'params' => array(),
 			),
 		),
 		'module.blog.category_only_admin' => array(
@@ -1295,8 +1328,7 @@ return array(
 			'description' => 'config_parameters.module.blog.category_only_admin.description',
 			'validator' => array(
 				'type' => 'Boolean',
-				'params' => array(
-				),
+				'params' => array(),
 			),
 		),
 		'module.blog.category_only_children' => array(
@@ -1305,8 +1337,7 @@ return array(
 			'description' => 'config_parameters.module.blog.category_only_children.description',
 			'validator' => array(
 				'type' => 'Boolean',
-				'params' => array(
-				),
+				'params' => array(),
 			),
 		),
 		'module.blog.category_allow_empty' => array(
@@ -1315,10 +1346,10 @@ return array(
 			'description' => 'config_parameters.module.blog.category_allow_empty.description',
 			'validator' => array(
 				'type' => 'Boolean',
-				'params' => array(
-				),
+				'params' => array(),
 			),
 		),
+
 		'module.topic.new_time' => array(
 			'type' => 'integer',
 			'name' => 'config_parameters.module.topic.new_time.name',
@@ -2039,516 +2070,6 @@ return array(
 				),
 			),
 		),
-/*		'db.params.host' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.params.host.name',
-			'description' => 'config_parameters.db.params.host.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.params.port' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.params.port.name',
-			'description' => 'config_parameters.db.params.port.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.params.user' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.params.user.name',
-			'description' => 'config_parameters.db.params.user.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.params.pass' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.params.pass.name',
-			'description' => 'config_parameters.db.params.pass.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.params.type' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.params.type.name',
-			'description' => 'config_parameters.db.params.type.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.params.dbname' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.params.dbname.name',
-			'description' => 'config_parameters.db.params.dbname.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.prefix' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.prefix.name',
-			'description' => 'config_parameters.db.table.prefix.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.user' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.user.name',
-			'description' => 'config_parameters.db.table.user.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.blog' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.blog.name',
-			'description' => 'config_parameters.db.table.blog.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.blog_category' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.blog_category.name',
-			'description' => 'config_parameters.db.table.blog_category.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.topic' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.topic.name',
-			'description' => 'config_parameters.db.table.topic.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.topic_tag' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.topic_tag.name',
-			'description' => 'config_parameters.db.table.topic_tag.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.comment' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.comment.name',
-			'description' => 'config_parameters.db.table.comment.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.vote' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.vote.name',
-			'description' => 'config_parameters.db.table.vote.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.topic_read' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.topic_read.name',
-			'description' => 'config_parameters.db.table.topic_read.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.blog_user' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.blog_user.name',
-			'description' => 'config_parameters.db.table.blog_user.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.favourite' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.favourite.name',
-			'description' => 'config_parameters.db.table.favourite.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.favourite_tag' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.favourite_tag.name',
-			'description' => 'config_parameters.db.table.favourite_tag.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.talk' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.talk.name',
-			'description' => 'config_parameters.db.table.talk.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.talk_user' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.talk_user.name',
-			'description' => 'config_parameters.db.table.talk_user.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.talk_blacklist' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.talk_blacklist.name',
-			'description' => 'config_parameters.db.table.talk_blacklist.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.friend' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.friend.name',
-			'description' => 'config_parameters.db.table.friend.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.topic_content' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.topic_content.name',
-			'description' => 'config_parameters.db.table.topic_content.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.topic_question_vote' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.topic_question_vote.name',
-			'description' => 'config_parameters.db.table.topic_question_vote.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.user_administrator' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.user_administrator.name',
-			'description' => 'config_parameters.db.table.user_administrator.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.comment_online' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.comment_online.name',
-			'description' => 'config_parameters.db.table.comment_online.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.invite' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.invite.name',
-			'description' => 'config_parameters.db.table.invite.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.page' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.page.name',
-			'description' => 'config_parameters.db.table.page.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.reminder' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.reminder.name',
-			'description' => 'config_parameters.db.table.reminder.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.session' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.session.name',
-			'description' => 'config_parameters.db.table.session.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.notify_task' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.notify_task.name',
-			'description' => 'config_parameters.db.table.notify_task.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.userfeed_subscribe' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.userfeed_subscribe.name',
-			'description' => 'config_parameters.db.table.userfeed_subscribe.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.stream_subscribe' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.stream_subscribe.name',
-			'description' => 'config_parameters.db.table.stream_subscribe.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.stream_event' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.stream_event.name',
-			'description' => 'config_parameters.db.table.stream_event.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.stream_user_type' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.stream_user_type.name',
-			'description' => 'config_parameters.db.table.stream_user_type.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.user_field' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.user_field.name',
-			'description' => 'config_parameters.db.table.user_field.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.user_field_value' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.user_field_value.name',
-			'description' => 'config_parameters.db.table.user_field_value.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.topic_photo' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.topic_photo.name',
-			'description' => 'config_parameters.db.table.topic_photo.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.subscribe' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.subscribe.name',
-			'description' => 'config_parameters.db.table.subscribe.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.wall' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.wall.name',
-			'description' => 'config_parameters.db.table.wall.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.user_note' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.user_note.name',
-			'description' => 'config_parameters.db.table.user_note.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.geo_country' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.geo_country.name',
-			'description' => 'config_parameters.db.table.geo_country.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.geo_region' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.geo_region.name',
-			'description' => 'config_parameters.db.table.geo_region.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.geo_city' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.geo_city.name',
-			'description' => 'config_parameters.db.table.geo_city.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.geo_target' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.geo_target.name',
-			'description' => 'config_parameters.db.table.geo_target.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.user_changemail' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.user_changemail.name',
-			'description' => 'config_parameters.db.table.user_changemail.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.table.storage' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.table.storage.name',
-			'description' => 'config_parameters.db.table.storage.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'db.tables.engine' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.db.tables.engine.name',
-			'description' => 'config_parameters.db.tables.engine.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),*/
-		/*	'memcache.servers.0.host' => array(
-				'type' => 'string',
-				'name' => 'config_parameters.memcache.servers.0.host.name',
-				'description' => 'config_parameters.memcache.servers.0.host.description',
-				'validator' => array(
-					'type' => 'String',
-					'params' => array(
-					),
-				),
-			),
-			'memcache.servers.0.port' => array(
-				'type' => 'string',
-				'name' => 'config_parameters.memcache.servers.0.port.name',
-				'description' => 'config_parameters.memcache.servers.0.port.description',
-				'validator' => array(
-					'type' => 'String',
-					'params' => array(
-					),
-				),
-			),
-			'memcache.servers.0.persistent' => array(
-				'type' => 'boolean',
-				'name' => 'config_parameters.memcache.servers.0.persistent.name',
-				'description' => 'config_parameters.memcache.servers.0.persistent.description',
-				'validator' => array(
-					'type' => 'Boolean',
-					'params' => array(
-					),
-				),
-			),*/
 		'memcache.compression' => array(
 			'type' => 'boolean',
 			'name' => 'config_parameters.memcache.compression.name',
@@ -2578,256 +2099,6 @@ return array(
 				'params' => array(
 				),
 			),
-		),
-		'router.page.error' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.router.page.error.name',
-			'description' => 'config_parameters.router.page.error.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'router.page.registration' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.router.page.registration.name',
-			'description' => 'config_parameters.router.page.registration.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'router.page.profile' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.router.page.profile.name',
-			'description' => 'config_parameters.router.page.profile.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'router.page.my' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.router.page.my.name',
-			'description' => 'config_parameters.router.page.my.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'router.page.blog' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.router.page.blog.name',
-			'description' => 'config_parameters.router.page.blog.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'router.page.personal_blog' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.router.page.personal_blog.name',
-			'description' => 'config_parameters.router.page.personal_blog.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'router.page.index' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.router.page.index.name',
-			'description' => 'config_parameters.router.page.index.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'router.page.topic' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.router.page.topic.name',
-			'description' => 'config_parameters.router.page.topic.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'router.page.login' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.router.page.login.name',
-			'description' => 'config_parameters.router.page.login.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'router.page.people' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.router.page.people.name',
-			'description' => 'config_parameters.router.page.people.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'router.page.settings' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.router.page.settings.name',
-			'description' => 'config_parameters.router.page.settings.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'router.page.tag' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.router.page.tag.name',
-			'description' => 'config_parameters.router.page.tag.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'router.page.talk' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.router.page.talk.name',
-			'description' => 'config_parameters.router.page.talk.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'router.page.comments' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.router.page.comments.name',
-			'description' => 'config_parameters.router.page.comments.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'router.page.rss' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.router.page.rss.name',
-			'description' => 'config_parameters.router.page.rss.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'router.page.link' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.router.page.link.name',
-			'description' => 'config_parameters.router.page.link.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'router.page.question' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.router.page.question.name',
-			'description' => 'config_parameters.router.page.question.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'router.page.blogs' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.router.page.blogs.name',
-			'description' => 'config_parameters.router.page.blogs.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'router.page.search' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.router.page.search.name',
-			'description' => 'config_parameters.router.page.search.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'router.page.admin' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.router.page.admin.name',
-			'description' => 'config_parameters.router.page.admin.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'router.page.ajax' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.router.page.ajax.name',
-			'description' => 'config_parameters.router.page.ajax.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'router.page.feed' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.router.page.feed.name',
-			'description' => 'config_parameters.router.page.feed.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'router.page.stream' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.router.page.stream.name',
-			'description' => 'config_parameters.router.page.stream.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'router.page.photoset' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.router.page.photoset.name',
-			'description' => 'config_parameters.router.page.photoset.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'router.page.subscribe' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.router.page.subscribe.name',
-			'description' => 'config_parameters.router.page.subscribe.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
 		),*/
 /*		'router.config.action_default' => array(
 			'type' => 'string',
@@ -2849,136 +2120,6 @@ return array(
 				),
 			),
 		),*/
-		'block.rule_index_blog' => array(
-			'type' => 'array',
-			'name' => 'config_parameters.block.rule_index_blog.name',
-			'description' => 'config_parameters.block.rule_index_blog.description',
-			'validator' => array(
-				'type' => 'Array',
-				'params' => array(
-				),
-			),
-		),
-		'block.rule_index' => array(
-			'type' => 'array',
-			'name' => 'config_parameters.block.rule_index.name',
-			'description' => 'config_parameters.block.rule_index.description',
-			'validator' => array(
-				'type' => 'Array',
-				'params' => array(
-				),
-			),
-		),
-		'block.rule_topic_type' => array(
-			'type' => 'array',
-			'name' => 'config_parameters.block.rule_topic_type.name',
-			'description' => 'config_parameters.block.rule_topic_type.description',
-			'validator' => array(
-				'type' => 'Array',
-				'params' => array(
-				),
-			),
-		),
-		'block.rule_personal_blog' => array(
-			'type' => 'array',
-			'name' => 'config_parameters.block.rule_personal_blog.name',
-			'description' => 'config_parameters.block.rule_personal_blog.description',
-			'validator' => array(
-				'type' => 'Array',
-				'params' => array(
-				),
-			),
-		),
-		'block.rule_tag' => array(
-			'type' => 'array',
-			'name' => 'config_parameters.block.rule_tag.name',
-			'description' => 'config_parameters.block.rule_tag.description',
-			'validator' => array(
-				'type' => 'Array',
-				'params' => array(
-				),
-			),
-		),
-		'block.rule_blogs' => array(
-			'type' => 'array',
-			'name' => 'config_parameters.block.rule_blogs.name',
-			'description' => 'config_parameters.block.rule_blogs.description',
-			'validator' => array(
-				'type' => 'Array',
-				'params' => array(
-				),
-			),
-		),
-		'block.userfeedBlogs' => array(
-			'type' => 'array',
-			'name' => 'config_parameters.block.userfeedBlogs.name',
-			'description' => 'config_parameters.block.userfeedBlogs.description',
-			'validator' => array(
-				'type' => 'Array',
-				'params' => array(
-				),
-			),
-		),
-		'block.userfeedUsers' => array(
-			'type' => 'array',
-			'name' => 'config_parameters.block.userfeedUsers.name',
-			'description' => 'config_parameters.block.userfeedUsers.description',
-			'validator' => array(
-				'type' => 'Array',
-				'params' => array(
-				),
-			),
-		),
-		'block.rule_blog_info' => array(
-			'type' => 'array',
-			'name' => 'config_parameters.block.rule_blog_info.name',
-			'description' => 'config_parameters.block.rule_blog_info.description',
-			'validator' => array(
-				'type' => 'Array',
-				'params' => array(
-				),
-			),
-		),
-		'block.rule_users' => array(
-			'type' => 'array',
-			'name' => 'config_parameters.block.rule_users.name',
-			'description' => 'config_parameters.block.rule_users.description',
-			'validator' => array(
-				'type' => 'Array',
-				'params' => array(
-				),
-			),
-		),
-		'block.rule_profile' => array(
-			'type' => 'array',
-			'name' => 'config_parameters.block.rule_profile.name',
-			'description' => 'config_parameters.block.rule_profile.description',
-			'validator' => array(
-				'type' => 'Array',
-				'params' => array(
-				),
-			),
-		),
-		'head.default.js' => array(
-			'type' => 'array',
-			'name' => 'config_parameters.head.default.js.name',
-			'description' => 'config_parameters.head.default.js.description',
-			'validator' => array(
-				'type' => 'Array',
-				'params' => array(
-				),
-			),
-		),
-		'head.default.css' => array(
-			'type' => 'array',
-			'name' => 'config_parameters.head.default.css.name',
-			'description' => 'config_parameters.head.default.css.description',
-			'validator' => array(
-				'type' => 'Array',
-				'params' => array(
-				),
-			),
-		),
 		'compress.css.merge' => array(
 			'type' => 'boolean',
 			'name' => 'config_parameters.compress.css.merge.name',
