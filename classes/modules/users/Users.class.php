@@ -74,12 +74,12 @@ class PluginAdmin_ModuleUsers extends Module {
 	 *
 	 * @param array 	$aFilter		Фильтр
 	 * @param array 	$aOrder			Сортировка
-	 * @param int 		$iCurrPage		Номер страницы
+	 * @param int 		$iPage			Номер страницы
 	 * @param int 		$iPerPage		Количество элментов на страницу
 	 * @param array 	$aAllowData		Список типов данных для подгрузки к пользователям
-	 * @return array('collection'=>array,'count'=>int)
+	 * @return array('collection'=>array, 'count'=>int)
 	 */
-	public function GetUsersByFilter($aFilter = array(), $aOrder = array(), $iCurrPage = 1, $iPerPage = PHP_INT_MAX, $aAllowData = null) {
+	public function GetUsersByFilter($aFilter = array(), $aOrder = array(), $iPage = 1, $iPerPage = PHP_INT_MAX, $aAllowData = null) {
 		if (is_null($aAllowData)) {
 			$aAllowData = array('session');
 		}
@@ -88,7 +88,7 @@ class PluginAdmin_ModuleUsers extends Module {
 			Config::Get('plugin.admin.users.correct_sorting_order'),
 			Config::Get('plugin.admin.users.default_sorting_order')
 		);
-		$mData = $this->oMapper->GetUsersByFilter($aFilter, $sOrder, $iCurrPage, $iPerPage);
+		$mData = $this->oMapper->GetUsersByFilter($aFilter, $sOrder, $iPage, $iPerPage);
 
 		$mData['collection'] = $this->User_GetUsersAdditionalData($mData['collection'], $aAllowData);
 		return $mData;
@@ -1477,6 +1477,31 @@ class PluginAdmin_ModuleUsers extends Module {
 			return $this->Lang_Get('plugin.admin.errors.profile_edit.password_is_too_weak');
 		}
 		return true;
+	}
+
+
+	/*
+	 *
+	 * --- Жалобы на пользователя ---
+	 *
+	 */
+
+	/**
+	 * Возвращает список жалоб на пользователей по фильтру
+	 *
+	 * @param array 	$aFilter		Фильтр
+	 * @param array 	$aOrder			Сортировка
+	 * @param int 		$iPage			Номер страницы
+	 * @param int 		$iPerPage		Количество элментов на страницу
+	 * @return array('collection'=>array, 'count'=>int)
+	 */
+	public function GetUsersComplaintsByFilter($aFilter = array(), $aOrder = array(), $iPage = 1, $iPerPage = PHP_INT_MAX) {
+		$sOrder = $this->GetCorrectSortingOrder(
+			$aOrder,
+			Config::Get('plugin.admin.users.complaints.correct_sorting_order'),
+			Config::Get('plugin.admin.users.complaints.default_sorting_order')
+		);
+		return $this->oMapper->GetUsersComplaintsByFilter($aFilter, $sOrder, $iPage, $iPerPage);
 	}
 
 

@@ -21,17 +21,18 @@
 
 class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 
+
 	/**
 	 * Возвращает список пользователей по фильтру
 	 *
 	 * @param array $aFilter	Фильтр
 	 * @param array $sOrder		Сортировка
-	 * @param int $iCurrPage	Номер страницы
+	 * @param int $iPage		Номер страницы
 	 * @param int $iPerPage		Количество элментов на страницу
 	 * @return array
 	 */
-	public function GetUsersByFilter($aFilter, $sOrder, $iCurrPage, $iPerPage) {
-		$sql = "SELECT u.user_id
+	public function GetUsersByFilter($aFilter, $sOrder, $iPage, $iPerPage) {
+		$sSql = "SELECT u.user_id
 			FROM
 				`" . Config::Get('db.table.user') . "` AS u
 			LEFT JOIN
@@ -58,7 +59,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 		$iTotalCount = 0;
 		$aResult = array();
 
-		if ($aRows = $this->oDb->selectPage($iTotalCount, $sql,
+		if ($aRows = $this->oDb->selectPage($iTotalCount, $sSql,
 			isset($aFilter['id']) ? $aFilter['id'] : DBSIMPLE_SKIP,
 			isset($aFilter['mail']) ? $aFilter['mail'] : DBSIMPLE_SKIP,
 			isset($aFilter['password']) ? $aFilter['password'] : DBSIMPLE_SKIP,
@@ -70,12 +71,10 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 			isset($aFilter['profile_name']) ? $aFilter['profile_name'] : DBSIMPLE_SKIP,
 			isset($aFilter['session_ip_last']) ? $aFilter['session_ip_last'] : DBSIMPLE_SKIP,
 			isset($aFilter['admins_only']) ? 0 : DBSIMPLE_SKIP,
-			($iCurrPage-1) * $iPerPage,
+			($iPage-1) * $iPerPage,
 			$iPerPage
 		)) {
-			foreach($aRows as $aRow) {
-				$aResult[] = $aRow['user_id'];
-			}
+			$aResult = my_array_column($aRows, 'user_id');
 		}
 
 		return array(
@@ -92,7 +91,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 	 * @return array			ассоциативный массив
 	 */
 	public function GetUserVotingStats($iUserId) {
-		$sql = "SELECT
+		$sSql = "SELECT
 				`target_type`,
 				`vote_direction`,
 				COUNT(*) as count
@@ -103,7 +102,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 			GROUP BY
 				`target_type`, `vote_direction`
 		";
-		if ($aData = $this->oDb->select($sql,
+		if ($aData = $this->oDb->select($sSql,
 			$iUserId
 		)) {
 			return $aData;
@@ -123,7 +122,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 	 * @return array
 	 */
 	public function GetUserVotingListByFilter($iUserId, $sWhere, $sOrder, $iPage = 1, $iPerPage = PHP_INT_MAX) {
-		$sql = "SELECT
+		$sSql = "SELECT
 				`target_id`,
 				`target_type`,
 				`vote_direction`,
@@ -142,14 +141,12 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 		$aEntities = array();
 		$iTotalCount = 0;
 
-		if ($aData = $this->oDb->selectPage($iTotalCount, $sql,
+		if ($aData = $this->oDb->selectPage($iTotalCount, $sSql,
 			$iUserId,
 			($iPage - 1) * $iPerPage,
 			$iPerPage
 		)) {
-			foreach ($aData as $aRes) {
-				$aEntities[] = Engine::GetEntity('Vote', $aRes);
-			}
+			$aEntities = Engine::GetEntityItems('Vote', $aData);
 		}
 		return array(
 			'collection' => $aEntities,
@@ -165,7 +162,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 	 * @return array|null
 	 */
 	public function AddBanRecord($oBan) {
-		$sql = 'INSERT INTO
+		$sSql = 'INSERT INTO
 				`' . Config::Get('db.table.users_ban') . '`
 			(
 				`id`,
@@ -229,7 +226,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 				`reason_for_user` = ?,
 				`comment` = ?
 		';
-		return $this->oDb->query($sql,
+		return $this->oDb->query($sSql,
 			$oBan->getId(),
 
 			$oBan->getRestrictionType(),
@@ -282,7 +279,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 	 * @return array
 	 */
 	public function GetBansByFilter($aFilter, $sOrder, $iPage, $iPerPage) {
-		$sql = "SELECT *
+		$sSql = "SELECT *
 			FROM
 				`" . Config::Get('db.table.users_ban') . "`
 			WHERE
@@ -297,7 +294,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 		$aEntities = array();
 		$iTotalCount = 0;
 
-		if ($aData = $this->oDb->selectPage($iTotalCount, $sql,
+		if ($aData = $this->oDb->selectPage($iTotalCount, $sSql,
 			isset($aFilter['id']) ? $aFilter['id'] : DBSIMPLE_SKIP,
 			isset($aFilter['time_type']) ? $aFilter['time_type'] : DBSIMPLE_SKIP,
 			isset($aFilter['restriction_type']) ? $aFilter['restriction_type'] : DBSIMPLE_SKIP,
@@ -305,9 +302,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 			($iPage - 1) * $iPerPage,
 			$iPerPage
 		)) {
-			foreach ($aData as $aRes) {
-				$aEntities[] = Engine::GetEntity('PluginAdmin_Users_Ban', $aRes);
-			}
+			$aEntities = Engine::GetEntityItems('PluginAdmin_Users_Ban', $aData);
 		}
 		return array(
 			'collection' => $aEntities,
@@ -323,14 +318,14 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 	 * @return array|null
 	 */
 	public function DeleteBanById($iId) {
-		$sql = 'DELETE
+		$sSql = 'DELETE
 			FROM
 				`' . Config::Get('db.table.users_ban') . '`
 			WHERE
 				`id` = ?d
 			LIMIT 1;
 		';
-		return $this->oDb->query($sql,
+		return $this->oDb->query($sSql,
 			$iId
 		);
 	}
@@ -345,7 +340,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 	 * @return Entity|null
 	 */
 	public function IsUserBanned($oUser, $mIp, $sCurrentDate) {
-		$sql = "SELECT *
+		$sSql = "SELECT *
 			FROM
 				`" . Config::Get('db.table.users_ban') . "`
 			WHERE
@@ -382,7 +377,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 				`id` DESC
 			LIMIT 1
 		";
-		if ($aResult = $this->oDb->selectRow($sql,
+		if ($aResult = $this->oDb->selectRow($sSql,
 			/*
 			 * поиск по id текущего пользователя
 			 */
@@ -423,7 +418,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 	 * @return array|null
 	 */
 	public function DeleteOldBanRecords() {
-		$sql = 'DELETE
+		$sSql = 'DELETE
 			FROM
 				`' . Config::Get('db.table.users_ban') . '`
 			WHERE
@@ -431,7 +426,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 				AND
 				`date_finish` < NOW()
 		';
-		return $this->oDb->query($sql,
+		return $this->oDb->query($sSql,
 			PluginAdmin_ModuleUsers::BAN_TIME_TYPE_PERIOD
 		);
 	}
@@ -444,7 +439,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 	 * @return array|null
 	 */
 	public function AddAdmin($iUserId) {
-		$sql = 'INSERT INTO
+		$sSql = 'INSERT INTO
 				`' . Config::Get('db.table.user_administrator') . '`
 			(
 				`user_id`
@@ -454,7 +449,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 				?d
 			)
 		';
-		return $this->oDb->query($sql, $iUserId);
+		return $this->oDb->query($sSql, $iUserId);
 	}
 
 
@@ -465,14 +460,14 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 	 * @return array|null
 	 */
 	public function DeleteAdmin($iUserId) {
-		$sql = 'DELETE
+		$sSql = 'DELETE
 			FROM
 				`' . Config::Get('db.table.user_administrator') . '`
 			WHERE
 				`user_id` = ?d
 			LIMIT 1
 		';
-		return $this->oDb->query($sql, $iUserId);
+		return $this->oDb->query($sSql, $iUserId);
 	}
 
 
@@ -482,7 +477,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 	 * @return array|null
 	 */
 	public function GetUsersBirthdaysStats() {
-		$sql = 'SELECT
+		$sSql = 'SELECT
 				TIMESTAMPDIFF(YEAR, `user_profile_birthday`, NOW()) as years_old,
 				COUNT(*) as count
 			FROM
@@ -509,7 +504,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 				`years_old` ASC
 		';
 		if ($aResult = $this->oDb->query(
-			$sql,
+			$sSql,
 			/*
 			 * основная таблица
 			 */
@@ -541,7 +536,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 	 * @return array|null
 	 */
 	public function GetUsersLivingStats($sGroupRule, $aOrderBy) {
-		$sql = 'SELECT
+		$sSql = 'SELECT
 				`' . $sGroupRule . '` as item,
 				COUNT(*) AS count
 			FROM
@@ -564,7 +559,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 			ORDER BY
 				`' . $aOrderBy['field'] . '` ' . $aOrderBy['way'] . '
 		';
-		if ($aResult = $this->oDb->query($sql, PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_USER_ID)) {
+		if ($aResult = $this->oDb->query($sSql, PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_USER_ID)) {
 			return $aResult;
 		}
 		return array();
@@ -579,7 +574,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 	 * @return array|null
 	 */
 	public function GetUsersRegistrationStats($aPeriods, $sMySQLDateFormat) {
-		$sql = 'SELECT
+		$sSql = 'SELECT
 				DATE_FORMAT(`user_date_register`, "' . $sMySQLDateFormat . '") as date,
 				COUNT(*) as count
 			FROM
@@ -604,7 +599,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 			ORDER BY
 				`date` ASC
 		';
-		if ($aResult = $this->oDb->query($sql,
+		if ($aResult = $this->oDb->query($sSql,
 			$aPeriods['from'],
 			$aPeriods['to'],
 			PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_USER_ID
@@ -621,7 +616,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 	 * @return array
 	 */
 	public function GetCountGoodAndBadUsers() {
-		$sql = 'SELECT
+		$sSql = 'SELECT
 			(
 				SELECT COUNT(*)
 				FROM
@@ -641,7 +636,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 					`user_rating` < 0
 			) as bad_users
 		';
-		return (array) $this->oDb->selectRow($sql);
+		return (array) $this->oDb->selectRow($sSql);
 	}
 
 
@@ -662,6 +657,59 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 			LIMIT 1
 		';
 		return $this->oDb->query($sSql, $aChanges, $oUser->getId());
+	}
+
+
+	/**
+	 * Возвращает список жалоб на пользователей по фильтру
+	 *
+	 * @param array $aFilter	Фильтр
+	 * @param array $sOrder		Сортировка
+	 * @param int $iPage		Номер страницы
+	 * @param int $iPerPage		Количество элментов на страницу
+	 * @return array
+	 */
+	public function GetUsersComplaintsByFilter($aFilter, $sOrder, $iPage, $iPerPage) {
+		$sSql = "SELECT c.*
+			FROM
+				?# AS c
+			WHERE
+				1 = 1
+				{AND c.id = ?d}
+				{AND c.target_user_id = ?d}
+				{AND c.user_id = ?d}
+				{AND c.type = ?}
+				{AND c.date_add = ?}
+				{AND c.state = ?d}
+			ORDER BY
+				{$sOrder}
+			LIMIT ?d, ?d
+		";
+		$iTotalCount = 0;
+		$aEntities = array();
+
+		if ($aRows = $this->oDb->selectPage(
+			$iTotalCount,
+			$sSql,
+
+			Config::Get('db.table.user_complaint'),
+
+			isset($aFilter['id']) ? $aFilter['id'] : DBSIMPLE_SKIP,
+			isset($aFilter['target_user_id']) ? $aFilter['target_user_id'] : DBSIMPLE_SKIP,
+			isset($aFilter['user_id']) ? $aFilter['user_id'] : DBSIMPLE_SKIP,
+			isset($aFilter['type']) ? $aFilter['type'] : DBSIMPLE_SKIP,
+			isset($aFilter['date_add']) ? $aFilter['date_add'] : DBSIMPLE_SKIP,
+			isset($aFilter['state']) ? $aFilter['state'] : DBSIMPLE_SKIP,
+			($iPage-1) * $iPerPage,
+			$iPerPage
+		)) {
+			$aEntities = Engine::GetEntityItems('User_Complaint', $aRows);
+		}
+
+		return array(
+			'collection' => $aEntities,
+			'count' => $iTotalCount
+		);
 	}
 
 

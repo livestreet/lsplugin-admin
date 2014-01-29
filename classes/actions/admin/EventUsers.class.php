@@ -1420,6 +1420,73 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	}
 
 
+	/**
+	 * Жалобы на пользователей
+	 */
+	public function EventShowUserComplaints() {
+		$this->SetTemplateAction('users/complaints');
+
+		$this->SetPaging(1, 'users.complaints.per_page');
+
+		/*
+		 * сортировка
+		 */
+		$sOrder = $this->GetDataFromFilter('order_field');
+		$sWay = $this->GetDataFromFilter('order_way');
+
+		/*
+		 * фильтр
+		 * todo:
+		 */
+		$aFilter = array();
+
+		/*
+		 * получение жалоб на пользователей
+		 */
+		$aResult = $this->PluginAdmin_Users_GetUsersComplaintsByFilter(
+			$aFilter,
+			array($sOrder => $sWay),
+			$this->iPage,
+			$this->iPerPage
+		);
+
+		/*
+		 * Формируем постраничность
+		 */
+		$aPaging = $this->Viewer_MakePaging(
+			$aResult['count'],
+			$this->iPage,
+			$this->iPerPage,
+			Config::Get('pagination.pages.count'),
+			Router::GetPath('admin/users/complaints'),
+			$this->GetPagingAdditionalParamsByArray(
+				array_merge(
+					array(
+						'order_field' => $sOrder,
+						'order_way' => $sWay
+					),
+					$aFilter
+				)
+			)
+		);
+
+		$this->Viewer_Assign('aPaging', $aPaging);
+		$this->Viewer_Assign('aUsersComplaints', $aResult['collection']);
+		$this->Viewer_Assign('iUsersComplaintsTotalCount', $aResult['count']);
+
+		/*
+		 * сортировка
+		 */
+		$this->Viewer_Assign('sOrder', $this->PluginAdmin_Users_GetDefaultSortingOrderIfIncorrect(
+			$sOrder,
+			Config::Get('plugin.admin.users.complaints.correct_sorting_order'),
+			Config::Get('plugin.admin.users.complaints.default_sorting_order')
+		));
+		$this->Viewer_Assign('sWay', $this->PluginAdmin_Users_GetDefaultOrderDirectionIfIncorrect($sWay));
+		$this->Viewer_Assign('sReverseOrder', $this->PluginAdmin_Users_GetReversedOrderDirection($sWay));
+	}
+
+
 }
 
 ?>

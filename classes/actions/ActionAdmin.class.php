@@ -158,6 +158,10 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 */
 
 		/*
+		 * статистика пользователей
+		 */
+		$this->AddEventPreg('#^users$#iu', '#^stats$#iu', 'Users::EventShowUserStats');
+		/*
 		 * список пользователей
 		 */
 		$this->AddEventPreg('#^users$#iu', '#^list$#iu', '#^(page(\d{1,5}))?$#iu', 'Users::EventUsersList');
@@ -173,6 +177,10 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 * список админов
 		 */
 		$this->AddEventPreg('#^users$#iu', '#^admins$#iu', '#^(page(\d{1,5}))?$#iu', 'Users::EventAdminsList');
+		/*
+		 * жалобы на пользователей
+		 */
+		$this->AddEventPreg('#^users$#iu', '#^complaints$#iu', 'Users::EventShowUserComplaints');
 
 		/*
 		 *
@@ -215,10 +223,6 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 * удалить контент пользователя и самого пользователя
 		 */
 		$this->AddEventPreg('#^users$#iu', '#^deleteuser$#iu', 'Users::EventDeleteUserContent');
-		/*
-		 * статистика пользователей
-		 */
-		$this->AddEventPreg('#^users$#iu', '#^stats$#iu', 'Users::EventShowUserStats');
 		/*
 		 * активировать пользователя
 		 */
@@ -393,6 +397,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Весь список')->SetUrl('list'))
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Бан-листы')->SetUrl('bans'))
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Администраторы')->SetUrl('admins'))
+				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Жалобы')->SetUrl('complaints'))
 			)	// /AddSection
 			->AddSection(
 				Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Плагины')->SetName('plugins')->SetUrl('plugins')

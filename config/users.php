@@ -126,6 +126,34 @@ $config['users']['block_deleting_user_ids'] = array(1);
  */
 $config['users']['block_managing_admin_rights_user_ids'] = array(1);
 
+/*
+ *
+ * --- Жалобы на пользователей ---
+ *
+ */
+
+/*
+ * количество на страницу
+ */
+$config['users']['complaints']['per_page'] = 20;
+
+/*
+ * Корректные значения (поля) для сортировок жалоб на пользователей
+ */
+$config['users']['complaints']['correct_sorting_order'] = array(
+	'c.id',
+	'c.target_user_id',
+	'c.user_id',
+	'c.type',
+	'c.date_add',
+	'c.state',
+);
+
+/*
+ * Сортировка жалоб на пользователей по-умолчанию (если указанная сортировка некорректна или не разрешена)
+ */
+$config['users']['complaints']['default_sorting_order'] = 'c.date_add';
+
 return $config;
 
 ?>
