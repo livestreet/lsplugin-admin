@@ -83,11 +83,11 @@ $config['$config_scheme$'] = array(
 		 */
 		'type' => 'integer',
 		/*
-		 * отображаемое имя параметра, ключ языкового файла
+		 * отображаемое имя параметра, относительный ключ языкового файла
 		 */
 		'name' => 'config_parameters.sandbox.items_count.name',
 		/*
-		 * отображаемое описание параметра, ключ языкового файла
+		 * отображаемое описание параметра, относительный ключ языкового файла
 		 */
 		'description' => 'config_parameters.sandbox.items_count.description',
 		/*
@@ -400,7 +400,7 @@ $config['$config_sections$'] = array(
 	'sandbox' => array(
 		/*
 		 * раздел "Песочница" на странице настроек
-		 * tip: ключ, указывающий на текстовку
+		 * tip: относительный ключ, указывающий на текстовку
 		 */
 		'name' => 'config_sections.sandbox.title',
 		/*
