@@ -255,6 +255,10 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 */
 		$this->AddEventPreg('#^bans$#iu', '#^ajax-on-page$#iu', 'Users::EventAjaxBansOnPage');
 		/*
+		 * изменение количества жалоб на страницу
+		 */
+		$this->AddEventPreg('#^users$#i', '#^complaints$#iu', '#^ajax-on-page$#iu', 'Users::EventAjaxUsersComplaintsOnPage');
+		/*
 		 * проверить правило бана на корректность
 		 */
 		$this->AddEventPreg('#^bans$#iu', '#^ajax-check-user-sign$#iu', 'Users::EventAjaxBansCheckUserSign');

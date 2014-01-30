@@ -149,7 +149,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	 */
 	public function EventAjaxUsersOnPage() {
 		$this->Viewer_SetResponseAjax('json');
-		$this->PluginAdmin_Users_ChangeUsersPerPage(getRequestStr('onpage'));
+		$this->PluginAdmin_Users_ChangeUsersPerPage((int) getRequestStr('onpage'));
 	}
 
 
@@ -983,7 +983,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	 */
 	public function EventAjaxBansOnPage() {
 		$this->Viewer_SetResponseAjax('json');
-		$this->PluginAdmin_Users_ChangeBansPerPage(getRequestStr('onpage'));
+		$this->PluginAdmin_Users_ChangeBansPerPage((int) getRequestStr('onpage'));
 	}
 
 
@@ -992,7 +992,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	 */
 	public function EventAjaxVotesOnPage() {
 		$this->Viewer_SetResponseAjax('json');
-		$this->PluginAdmin_Users_ChangeVotesPerPage(getRequestStr('onpage'));
+		$this->PluginAdmin_Users_ChangeVotesPerPage((int) getRequestStr('onpage'));
 	}
 
 
@@ -1600,6 +1600,15 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		$this->PluginAdmin_Users_DeleteUsersComplaint($oComplaint);
 		$this->Message_AddNotice($this->Lang('notices.complaints.deleted'), '', true);
 		$this->RedirectToReferer();
+	}
+
+
+	/**
+	 * Изменить количество жалоб на странице
+	 */
+	public function EventAjaxUsersComplaintsOnPage() {
+		$this->Viewer_SetResponseAjax('json');
+		$this->PluginAdmin_Users_ChangeUsersComplaintsPerPage((int) getRequestStr('onpage'));
 	}
 
 

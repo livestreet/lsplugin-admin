@@ -1582,6 +1582,26 @@ class PluginAdmin_ModuleUsers extends Module {
 	}
 
 
+	/**
+	 * Установить количество жалоб на странице
+	 *
+	 * @param $iPerPage		количество
+	 */
+	public function ChangeUsersComplaintsPerPage($iPerPage) {
+		/*
+		 * установить количество жалоб на странице
+		 */
+		$aData = array(
+			'users' => array(
+				'complaints' => array(
+					'per_page' => $iPerPage,
+				),
+			)
+		);
+		$this->PluginAdmin_Settings_SaveConfigByKey('admin', $aData);
+	}
+
+
 }
 
 ?>

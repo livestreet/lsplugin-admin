@@ -142,7 +142,6 @@
 			</tbody>
 		</table>
 
-		{* todo: *}
 		{include file="{$aTemplatePathPlugin.admin}forms/elements_on_page.tpl"
 			sFormActionPath="{router page='admin/users/complaints/ajax-on-page'}"
 			iCurrentValue = $oConfig->Get('plugin.admin.users.complaints.per_page')
