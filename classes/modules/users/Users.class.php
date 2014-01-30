@@ -1505,6 +1505,40 @@ class PluginAdmin_ModuleUsers extends Module {
 	}
 
 
+	/**
+	 * Получить жалобу по ид
+	 *
+	 * @param $iId				ид жалобы на пользователя
+	 * @return mixed|null
+	 */
+	public function GetUserComplaintById($iId) {
+		$aData = $this->GetUsersComplaintsByFilter(array('id' => $iId), array(), 1, 1);
+		if ($aData['count'] != 0) {
+			return array_shift($aData['collection']);
+		}
+		return null;
+	}
+
+
+	/**
+	 * Выполнить изменение данных в таблице жалоб пользователя
+	 *
+	 * @param $aComplaints		массив сущностей жалоб
+	 * @param $aChanges			массив изменений
+	 * @return mixed
+	 */
+	public function UpdateComplaints($aComplaints, $aChanges) {
+		if (!is_array($aComplaints)) {
+			$aComplaints = (array) $aComplaints;
+		}
+		$aIds = array();
+		foreach($aComplaints as $oComplaint) {
+			$aIds[] = $oComplaint->getId();
+		}
+		return $this->oMapper->UpdateComplaint($aIds, $aChanges);
+	}
+
+
 }
 
 ?>

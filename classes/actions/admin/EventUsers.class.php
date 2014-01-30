@@ -1420,6 +1420,12 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	}
 
 
+	/*
+	 *
+	 * --- Жалобы на пользователей ---
+	 *
+	 */
+
 	/**
 	 * Жалобы на пользователей
 	 */
@@ -1442,10 +1448,10 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * статус
 		 */
-		$sStateCurrent = $this->GetDataFromFilter('state');
+/*		$sStateCurrent = $this->GetDataFromFilter('state');
 		if (in_array($sStateCurrent, array(ModuleUser::COMPLAINT_STATE_NEW, ModuleUser::COMPLAINT_STATE_READ))) {
 			$aFilter['state'] = $sStateCurrent;
-		}
+		}*/
 
 		/*
 		 * получение жалоб на пользователей
@@ -1456,6 +1462,11 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 			$this->iPage,
 			$this->iPerPage
 		);
+
+		/*
+		 * установить статус "прочтен" для отображаемой страницы
+		 */
+		$this->PluginAdmin_Users_UpdateComplaints($aResult['collection'], array('state' => ModuleUser::COMPLAINT_STATE_READ));
 
 		/*
 		 * Формируем постраничность
@@ -1480,7 +1491,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		$this->Viewer_Assign('aPaging', $aPaging);
 		$this->Viewer_Assign('aUsersComplaints', $aResult['collection']);
 		$this->Viewer_Assign('iUsersComplaintsTotalCount', $aResult['count']);
-		$this->Viewer_Assign('sStateCurrent', $sStateCurrent);
+		//$this->Viewer_Assign('sStateCurrent', $sStateCurrent);
 
 		/*
 		 * сортировка
@@ -1492,6 +1503,79 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		));
 		$this->Viewer_Assign('sWay', $this->PluginAdmin_Users_GetDefaultOrderDirectionIfIncorrect($sWay));
 		$this->Viewer_Assign('sReverseOrder', $this->PluginAdmin_Users_GetReversedOrderDirection($sWay));
+	}
+
+
+	/**
+	 * Аякс обработчик загрузки модального окна с жалобой на пользователя
+	 */
+	public function EventAjaxModalUserComplaintView() {
+		$this->Viewer_SetResponseAjax('json');
+
+		/*
+		 * есть ли такая жалоба
+		 */
+		if (!$oComplaint = $this->PluginAdmin_Users_GetUserComplaintById((int) getRequestStr('complaint_id'))) {
+			$this->Message_AddError($this->Lang('errors.complaints.not_found'));
+			return false;
+		}
+		/*
+		 * нужно ли отправлять ответ
+		 */
+		if (isPost('submit_answer')) {
+			return $this->SubmitComplaintAnswer($oComplaint);
+		}
+
+		$oViewer = $this->Viewer_GetLocalViewer();
+		$oViewer->Assign('oComplaint', $oComplaint);
+		$this->Viewer_AssignAjax('sText', $oViewer->Fetch(Plugin::GetTemplatePath(__CLASS__) . 'modals/modal.view_complaint_user.tpl'));
+	}
+
+
+	/**
+	 * Ответ на жалобу
+	 *
+	 * @param $oComplaint	сущность жалобы
+	 * @return bool
+	 */
+	protected function SubmitComplaintAnswer($oComplaint) {
+		$sText = $this->Text_JevixParser(getRequestStr('answer'));
+		/*
+		 * кому нужно отправить ответ
+		 */
+		switch(getRequestStr('type')) {
+			/*
+			 * на кого отправлена жалоба
+			 */
+			case 'target_user':
+				$oUser = $oComplaint->getTargetUser();
+				$sTemplateName = 'email.user_complaint_answer_target_user.tpl';
+				break;
+			/*
+			 * или тому, кто отправил жалобу
+			 */
+			default:
+				$oUser = $oComplaint->getUser();
+				$sTemplateName = 'email.user_complaint_answer_user.tpl';
+		}
+		/*
+		 * отправить письмо
+		 */
+		$this->Notify_Send(
+			$oUser,
+			$sTemplateName,
+			$this->Lang('users.complaints.mail.title'),
+			array(
+				'oUserTarget' => $oComplaint->getTargetUser(),
+				'oUserFrom' => $oComplaint->getUser(),
+				'oComplaint' => $oComplaint,
+				'sText' => $sText,
+			),
+			'admin',
+			true
+		);
+		$this->Message_AddNotice($this->Lang('notices.complaints.answer_sent'));
+		return true;
 	}
 
 

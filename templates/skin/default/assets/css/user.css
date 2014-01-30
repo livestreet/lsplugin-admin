@@ -91,3 +91,8 @@
  */
 .user-contact-list { width: 45%; margin-right: 5%; float: left; }
 .user-contact-list li { margin-bottom: 10px; }
+
+/* complaints */
+.table.complaints tr.new td {
+	background: none repeat scroll 0 0 #D8F1FF;
+}

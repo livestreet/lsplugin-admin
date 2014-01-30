@@ -180,7 +180,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		/*
 		 * жалобы на пользователей
 		 */
-		$this->AddEventPreg('#^users$#iu', '#^complaints$#iu', 'Users::EventShowUserComplaints');
+		$this->AddEventPreg('#^users$#iu', '#^complaints$#iu', '#^$#', 'Users::EventShowUserComplaints');
 
 		/*
 		 *
@@ -254,6 +254,10 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 * проверить правило бана на корректность
 		 */
 		$this->AddEventPreg('#^bans$#iu', '#^ajax-check-user-sign$#iu', 'Users::EventAjaxBansCheckUserSign');
+		/*
+		 * просмотр и ответ на жалобу пользователя
+		 */
+		$this->AddEventPreg('#^users$#iu', '#^complaints$#iu', '#^ajax-modal-view$#iu', 'Users::EventAjaxModalUserComplaintView');
 
 		/*
 		 *
@@ -658,6 +662,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$sPluginTemplatePath . '/js/admin_profile_edit.js',
 			$sPluginTemplatePath . '/js/admin_catalog.js',
 			$sPluginTemplatePath . '/js/admin_users_search.js',
+			$sPluginTemplatePath . '/js/admin_users_complaints.js',
 			$sPluginTemplatePath . '/js/nav.main.js',
 			$sPluginTemplatePath . '/js/more.js',
 			$sPluginTemplatePath . '/js/property.js',

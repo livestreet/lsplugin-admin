@@ -713,6 +713,31 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 	}
 
 
+	/**
+	 * Выполнить изменение данных в таблице жалоб пользователя
+	 *
+	 * @param $aIds			ид жалоб для изменения
+	 * @param $aChanges		массив изменений
+	 * @return array|null
+	 */
+	public function UpdateComplaint($aIds, $aChanges) {
+		$aIds = is_array($aIds) ? $aIds : (array) $aIds;
+		$sSql = 'UPDATE
+				?#
+			SET
+				?a
+			WHERE
+				`id` IN (?a)
+		';
+		return $this->oDb->query(
+			$sSql,
+			Config::Get('db.table.user_complaint'),
+			$aChanges,
+			$aIds
+		);
+	}
+
+
 }
 
 ?>

@@ -10,11 +10,11 @@
 {/block}
 
 
-{block name='layout_content_actionbar'}
+{*{block name='layout_content_actionbar'}
 	<div class="fl-r">
-		{*
+		*}{*
 			статус
-		*}
+		*}{*
 		{foreach array(null, ModuleUser::COMPLAINT_STATE_NEW, ModuleUser::COMPLAINT_STATE_READ) as $sState}
 			<a href="{router page='admin/users/complaints'}{request_filter
 				name=array('state')
@@ -22,12 +22,12 @@
 			}" class="button {if $sStateCurrent==$sState}active{/if}">{$aLang.plugin.admin.users.complaints.list.filter.state.$sState}</a>
 		{/foreach}
 	</div>
-{/block}
+{/block}*}
 
 
 {block name='layout_content'}
 	{if $aUsersComplaints and count($aUsersComplaints)>0}
-		<table class="table">
+		<table class="table complaints">
 			<thead>
 				<tr>
 					{*
@@ -97,9 +97,9 @@
 
 			<tbody>
 				{foreach from=$aUsersComplaints item=oComplaint}
-					<tr class="{if $oComplaint@iteration % 2 == 0}second{/if}">
+					<tr class="{if $oComplaint@iteration % 2 == 0}second{/if} {if $oComplaint->getState()==ModuleUser::COMPLAINT_STATE_NEW}new{/if}">
 						<td>
-							<a href="{router page="admin/users/complaints/view/{$oComplaint->getId()}"}">{$oComplaint->getId()}</a>
+							{$oComplaint->getId()}
 						</td>
 						<td>
 							{$oTargetUser = $oComplaint->getTargetUser()}
@@ -115,7 +115,11 @@
 							{$oComplaint->getTypeTitle()}
 						</td>
 						<td>
-							{$oComplaint->getText()|escape:'html'|truncate:20:'...'}
+							<a href="#"
+							   data-type="modal-toggle"
+							   data-modal-url="{router page="admin/users/complaints/ajax-modal-view"}"
+							   data-param-complaint_id="{$oComplaint->getId()}"
+							   title="{$aLang.plugin.admin.show}">{$oComplaint->getText()|escape:'html'|truncate:20:'...'}</a>
 						</td>
 						<td>
 							{date_format date=$oComplaint->getDateAdd() format="j.m.Y" notz=true}
@@ -124,7 +128,12 @@
 							{$aLang.plugin.admin.users.complaints.list.state[$oComplaint->getState()]}
 						</td>
 						<td class="ta-r">
-							<a href="{router page="admin/users/complaints/view/{$oComplaint->getId()}"}" title="{$aLang.plugin.admin.show}"><i class="icon-list"></i></a>
+							<a href="#"
+							   data-type="modal-toggle"
+							   data-modal-url="{router page="admin/users/complaints/ajax-modal-view"}"
+							   data-param-complaint_id="{$oComplaint->getId()}"
+							   title="{$aLang.plugin.admin.show}"><i class="icon-list"></i></a>
+
 							<a href="{router page="admin/users/complaints/delete/{$oComplaint->getId()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}" title="{$aLang.plugin.admin.delete}"
 							   class="js-question"><i class="icon-remove"></i></a>
 						</td>
