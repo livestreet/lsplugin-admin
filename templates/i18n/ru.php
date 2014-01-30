@@ -1050,7 +1050,7 @@ return array(
 	 */
 	'settings' => array(
 		'titles' => array(
-			'main_config' => 'Настройки движка LiveStreet',
+			'main_config' => 'Конфигурация сайта',
 			'plugin_config' => 'Настройки плагина',
 			'current_skin' => 'Текущий активный шаблон',
 			'skin_config' => 'Другие доступные шаблоны',

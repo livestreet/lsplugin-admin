@@ -184,6 +184,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 
 		$this->Viewer_Assign('aSections', $aSections);
 		$this->Viewer_Assign('sConfigName', $sConfigName);
+		$this->Viewer_Assign('sGroupName', $sGroupName);
 
 		$this->Viewer_Assign('sAdminSettingsFormSystemId', PluginAdmin_ModuleSettings::ADMIN_SETTINGS_FORM_SYSTEM_ID);
 		$this->Viewer_Assign('sAdminSystemConfigId', ModuleStorage::DEFAULT_KEY_NAME);

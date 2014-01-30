@@ -360,9 +360,10 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 * чтобы не плодить полупустых методов, так компактнее и удобнее.
 		 * todo: нужно что-то ещё с меню придумать чтобы полностью автоматизировать процесс создания групп.
 		 * пока в меню нужно прописывать вручную пункты групп
+		 * Все автоматические настройки конфига по урлу /settings/config/[name_group]/
 		 */
 		foreach(array_keys(Config::Get(PluginAdmin_ModuleSettings::ROOT_CONFIG_GROUPS_KEY)) as $sKey) {
-			$this->AddEventPreg('#^settings$#iu', '#^' . $sKey . '$#iu', 'Settings::' . $this->sCallbackMethodToShowSystemSettings . $sKey);
+			$this->AddEventPreg('#^settings$#iu','#^config$#iu', '#^' . $sKey . '$#iu', 'Settings::' . $this->sCallbackMethodToShowSystemSettings . $sKey);
 		}
 
 
@@ -412,23 +413,9 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			)	// /AddSection
 			->AddSection(
 				Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Настройки')->SetName('settings')->SetUrl('settings')
-				
+
+				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Конфигурация сайта')->SetUrl('config/main'))
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Типы топиков')->SetUrl('topic-type'))
-				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Внешний вид сайта')->SetUrl('view'))
-				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Интерфейс')->SetUrl('interface'))
-				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Системные')->SetUrl('system'))
-				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Почта')->SetUrl('sysmail'))
-				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('ACL')->SetUrl('acl'))
-				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Блоги')->SetUrl('moduleblog'))
-				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Модуль топиков')->SetUrl('moduletopic'))
-				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Модуль пользователей')->SetUrl('moduleuser'))
-				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Модуль комментариев')->SetUrl('modulecomment'))
-				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Модуль писем')->SetUrl('moduletalk'))
-				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Модуль уведомлений')->SetUrl('modulenotify'))
-				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Модуль изображений')->SetUrl('moduleimage'))
-				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Модуль стены')->SetUrl('modulewall'))
-				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Модули разные')->SetUrl('moduleother'))
-				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Обработка JS и CSS')->SetUrl('compress'))
 			)	// /AddSection
 			->AddSection(
 				Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Утилиты')->SetName('utils')->SetUrl('utils')
