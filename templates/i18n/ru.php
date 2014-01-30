@@ -834,7 +834,14 @@ return array(
 				'title' => 'Плагины',
 				'no_updates' => 'Обновлений нет',
 				'there_are_n_updates' => 'Есть %%count%% обновления',
-
+			),
+			/*
+			 * жалобы на пользователей
+			 */
+			'complaints' => array(
+				'title' => 'Пользователи',
+				'no_complaints' => 'Жалоб нет',
+				'there_are_n_complaints' => '%%count%% жалобы',
 			),
 		),
 

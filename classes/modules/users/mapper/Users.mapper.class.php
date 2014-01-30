@@ -714,13 +714,47 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 
 
 	/**
+	 * Получить количество жалоб на пользователей по фильтру
+	 * 
+	 * @param $aFilter			фильтр
+	 * @return int
+	 */
+	public function GetUsersComplaintsCountByFilter($aFilter) {
+		$sSql = 'SELECT COUNT(*)
+			FROM
+				?# AS c
+			WHERE
+				1 = 1
+				{AND c.id = ?d}
+				{AND c.target_user_id = ?d}
+				{AND c.user_id = ?d}
+				{AND c.type = ?}
+				{AND c.date_add = ?}
+				{AND c.state = ?d}
+		';
+		return (int) $this->oDb->selectCell(
+			$sSql,
+
+			Config::Get('db.table.user_complaint'),
+
+			isset($aFilter['id']) ? $aFilter['id'] : DBSIMPLE_SKIP,
+			isset($aFilter['target_user_id']) ? $aFilter['target_user_id'] : DBSIMPLE_SKIP,
+			isset($aFilter['user_id']) ? $aFilter['user_id'] : DBSIMPLE_SKIP,
+			isset($aFilter['type']) ? $aFilter['type'] : DBSIMPLE_SKIP,
+			isset($aFilter['date_add']) ? $aFilter['date_add'] : DBSIMPLE_SKIP,
+			isset($aFilter['state']) ? $aFilter['state'] : DBSIMPLE_SKIP
+		);
+	}
+
+
+	/**
 	 * Выполнить изменение данных в таблице жалоб пользователя
 	 *
 	 * @param $aIds			ид жалоб для изменения
 	 * @param $aChanges		массив изменений
 	 * @return array|null
 	 */
-	public function UpdateComplaint($aIds, $aChanges) {
+	public function UpdateUsersComplaints($aIds, $aChanges) {
 		$aIds = is_array($aIds) ? $aIds : (array) $aIds;
 		$sSql = 'UPDATE
 				?#

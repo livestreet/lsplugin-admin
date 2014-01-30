@@ -19,6 +19,6 @@
 
 {* Активация пользователя *}
 {if !$oUser->getActivate()}
-	<li><a class="js-question" href="{router page='admin/users/activate'}?user_id={$oUser->getId()}&security_ls_key={$LIVESTREET_SECURITY_KEY}"
+	<li><a href="{router page='admin/users/activate'}?user_id={$oUser->getId()}&security_ls_key={$LIVESTREET_SECURITY_KEY}"
 				>{$aLang.plugin.admin.users.profile.top_bar.activate}</a></li>
 {/if}

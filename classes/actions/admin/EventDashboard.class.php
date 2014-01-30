@@ -101,6 +101,10 @@ class PluginAdmin_ActionAdmin_EventDashboard extends Event {
 		 * получить информацию по обновлениям плагинов
 		 */
 		$this->PluginAdmin_Catalog_GetUpdatesInfo();
+		/*
+		 * получить информацию о новых жалобах на пользователей
+		 */
+		$this->Viewer_Assign('iUsersComplaintsCountNew', $this->PluginAdmin_Users_GetUsersComplaintsCountNew());
 	}
 
 

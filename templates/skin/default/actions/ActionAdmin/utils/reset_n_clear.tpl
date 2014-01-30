@@ -22,7 +22,7 @@
 	</div>
 
 	<div class="mb-10">
-		<a class="js-question" href="{router page='admin/utils/reset_n_clear/resetallbansstats'}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
+		<a href="{router page='admin/utils/reset_n_clear/resetallbansstats'}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
 				>{$aLang.plugin.admin.utils.reset_n_clear.datareset.resetallbansstats}</a>
 	</div>
 

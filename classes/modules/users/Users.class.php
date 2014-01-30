@@ -1506,7 +1506,7 @@ class PluginAdmin_ModuleUsers extends Module {
 
 
 	/**
-	 * Получить жалобу по ид
+	 * Получить жалобу на пользователя по ид
 	 *
 	 * @param $iId				ид жалобы на пользователя
 	 * @return mixed|null
@@ -1521,13 +1521,34 @@ class PluginAdmin_ModuleUsers extends Module {
 
 
 	/**
+	 * Получить количество жалоб на пользователей по фильтру
+	 *
+	 * @param array $aFilter			фильтр
+	 * @return int
+	 */
+	public function GetUsersComplaintsCountByFilter($aFilter = array()) {
+		return $this->oMapper->GetUsersComplaintsCountByFilter($aFilter);
+	}
+
+
+	/**
+	 * Получить количество новых жалоб на пользователей
+	 *
+	 * @return int
+	 */
+	public function GetUsersComplaintsCountNew() {
+		return $this->GetUsersComplaintsCountByFilter(array('state' => ModuleUser::COMPLAINT_STATE_NEW));
+	}
+
+
+	/**
 	 * Выполнить изменение данных в таблице жалоб пользователя
 	 *
 	 * @param $aComplaints		массив сущностей жалоб
 	 * @param $aChanges			массив изменений
 	 * @return mixed
 	 */
-	public function UpdateComplaints($aComplaints, $aChanges) {
+	public function UpdateUsersComplaints($aComplaints, $aChanges) {
 		if (!is_array($aComplaints)) {
 			$aComplaints = (array) $aComplaints;
 		}
@@ -1535,7 +1556,7 @@ class PluginAdmin_ModuleUsers extends Module {
 		foreach($aComplaints as $oComplaint) {
 			$aIds[] = $oComplaint->getId();
 		}
-		return $this->oMapper->UpdateComplaint($aIds, $aChanges);
+		return $this->oMapper->UpdateUsersComplaints($aIds, $aChanges);
 	}
 
 

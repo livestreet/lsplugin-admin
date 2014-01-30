@@ -247,7 +247,7 @@
 				<div class="mt-15 ta-r">
 					{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.button.tpl"
 						sFieldName='submit_edit'
-						sFieldStyle='primary js-question'
+						sFieldStyle='primary'
 						sFieldText=$aLang.settings_profile_submit
 					}
 				</div>

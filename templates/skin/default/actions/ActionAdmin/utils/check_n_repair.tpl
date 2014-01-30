@@ -22,22 +22,22 @@
 	</div>
 
 	<div class="mb-10">
-		<a class="js-question" href="{router page='admin/utils/check_n_repair/repaircomments'}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
+		<a href="{router page='admin/utils/check_n_repair/repaircomments'}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
 				>{$aLang.plugin.admin.utils.check_n_repair.tables.repair_comments}</a>
 	</div>
 
 	<div class="mb-10">
-		<a class="js-question" href="{router page='admin/utils/check_n_repair/cleanstream'}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
+		<a href="{router page='admin/utils/check_n_repair/cleanstream'}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
 				>{$aLang.plugin.admin.utils.check_n_repair.tables.clean_stream}</a>
 	</div>
 
 	<div class="mb-10">
-		<a class="js-question" href="{router page='admin/utils/check_n_repair/cleanvotings'}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
+		<a href="{router page='admin/utils/check_n_repair/cleanvotings'}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
 				>{$aLang.plugin.admin.utils.check_n_repair.tables.clean_votings}</a>
 	</div>
 
 	<div class="mb-10">
-		<a class="js-question" href="{router page='admin/utils/check_n_repair/cleanfavourites'}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
+		<a href="{router page='admin/utils/check_n_repair/cleanfavourites'}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
 				>{$aLang.plugin.admin.utils.check_n_repair.tables.clean_favourites}</a>
 	</div>
 
@@ -55,7 +55,7 @@
 	</div>
 
 	<div class="mb-10">
-		<a class="js-question" href="{router page='admin/utils/check_n_repair/checkencoding'}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
+		<a href="{router page='admin/utils/check_n_repair/checkencoding'}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
 				>{$aLang.plugin.admin.utils.check_n_repair.files.check_encoding}</a>
 	</div>
 

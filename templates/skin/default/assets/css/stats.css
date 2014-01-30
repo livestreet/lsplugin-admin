@@ -51,8 +51,8 @@
 .stats-notifications { overflow: hidden; margin-bottom: 35px; }
 
 /* Item */
-.stats-notifications li { 
-	width: 33.333%;
+.stats-notifications li {
+	width: 50%;
 	min-height: 65px;
 	position: relative; 
 	padding-left: 85px; 

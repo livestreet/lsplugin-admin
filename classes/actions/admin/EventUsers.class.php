@@ -1466,7 +1466,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * установить статус "прочтен" для отображаемой страницы
 		 */
-		$this->PluginAdmin_Users_UpdateComplaints($aResult['collection'], array('state' => ModuleUser::COMPLAINT_STATE_READ));
+		$this->PluginAdmin_Users_UpdateUsersComplaints($aResult['collection'], array('state' => ModuleUser::COMPLAINT_STATE_READ));
 
 		/*
 		 * Формируем постраничность
