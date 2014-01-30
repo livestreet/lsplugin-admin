@@ -5,16 +5,13 @@
 {extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
 
 {block name='layout_content_actionbar'}
-	<div class="fl-l">
-		{* todo: пока пусть полежит *}
-		{*		{foreach Config::Get(PluginAdmin_ModuleSettings::ROOT_CONFIG_GROUPS_KEY) as $sKey => $aGroupData}
-					<a href="{router page='admin/settings/config'}{$sKey}" class="button">{$aGroupData[0].name}</a>
-				{/foreach}*}
-		<a href="{router page='admin/settings/config'}main" class="button">Основные</a>
-		<a href="{router page='admin/settings/config'}blog" class="button">Блоги</a>
-		<a href="{router page='admin/settings/config'}user" class="button">Пользователи</a>
-		<a href="{router page='admin/settings/config'}system" class="button">Системные</a>
-	</div>
+	{if $sConfigName==$sAdminSystemConfigId}
+		<div class="fl-l">
+			{foreach Config::Get(PluginAdmin_ModuleSettings::ROOT_CONFIG_GROUPS_KEY) as $sKey => $aGroupData}
+				<a href="{router page='admin/settings/config'}{$sKey}" class="button {if $sKey==$sGroupName}active{/if}">{$aLang.config_sections.{$sKey}.name}</a>
+			{/foreach}
+		</div>
+	{/if}
 {/block}
 
 {block name='layout_page_title'}

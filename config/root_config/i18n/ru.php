@@ -32,66 +32,30 @@ return array(
 	 *
 	 */
 	'config_sections' => array(
-		'view' => array(
-			'view' => 'Внешний вид',
-			'metas' => 'Meta-теги',
-			'editor' => 'Редактор',
-			'image' => 'Изображения',
+		'main' => array(
+			'name' => 'Основные',
+			'groups' => array(
+
+			),
 		),
-		'interface' => array(
-			'options' => 'Обработка',
-			'blocks' => 'Блоки',
-			'paging' => 'Постраничная навигация',
+		'blog' => array(
+			'name' => 'Блоги',
+			'groups' => array(
+
+			),
+		),
+		'user' => array(
+			'name' => 'Пользователи',
+			'groups' => array(
+
+			),
 		),
 		'system' => array(
-			'smarty' => 'Смарти',
-			'memcache' => 'Мемкеш',
-		),
-		'sysmail' => array(
-			'mail' => 'Настройки почтовых уведомлений',
-			'smtp' => 'Настройки SMTP',
-			'options' => 'Включать тексты'
-		),
-		'acl' => array(
-			'blog' => 'Блоги',
-			'comment' => 'Комментарии',
-			'topic' => 'Топики',
-			'talk' => 'Личные сообщения',
-			'talk_comment' => 'Комментарии к ЛС',
-			'wall' => 'Стена',
-			'user' => 'Пользователь',
-		),
-		'moduleblog' => array(
-			'moduleblog' => 'Блоги',
-		),
-		'moduletopic' => array(
-			'moduletopic' => 'module topic',
-		),
-		'moduleuser' => array(
-			'moduleuser' => 'module user',
-		),
-		'modulecomment' => array(
-			'modulecomment' => 'module comment'
-		),
-		'moduletalk' => array(
-			'moduletalk' => 'module talk'
-		),
-		'modulenotify' => array(
-			'modulenotify' => 'module notify'
-		),
-		'moduleimage' => array(
-			'moduleimage' => 'module image'
-		),
-		'modulewall' => array(
-			'modulewall' => 'module wall'
-		),
-		'moduleother' => array(
-			'moduleother' => 'module other'
-		),
-		'compress' => array(
-			'compress' => 'compress'
-		),
+			'name' => 'Системные',
+			'groups' => array(
 
+			),
+		),
 	),
 
 
@@ -345,6 +309,17 @@ return array(
 					'description' => '',
 				),
 			),
+			'cookie' => array(
+				'path' => array(
+					'name' => 'путь для установки куков',
+					'description' => '',
+				),
+				'time' => array(
+					'name' => 'время жизни куки, когда пользователь остается залогиненым на сайте',
+					'description' => '',
+				),
+			),
+
 		),
 		'lang' => array(
 			'current' => array(
@@ -600,6 +575,26 @@ return array(
 				'captcha_use_registration' => array(
 					'name' => 'проверять поле капчи при регистрации пользователя',
 					'description' => '',
+				),
+				'complaint_captcha' => array(
+					'name' => 'Использовать или нет каптчу при написании жалобы',
+					'description' => '',
+				),
+				'complaint_notify_by_mail' => array(
+					'name' => 'Уведомлять администратора на емайл о поступлении новой жалобы',
+					'description' => '',
+				),
+				'complaint_text_required' => array(
+					'name' => 'Обязательно указывать текст при жалобе',
+					'description' => '',
+				),
+				'complaint_text_max' => array(
+					'name' => 'Максимальный размер текста жалобы',
+					'description' => '',
+				),
+				'complaint_type' => array(
+					'name' => 'Список типов жалоб на пользователя',
+					'description' => 'Расшифровка типов задается в языковом файле',
 				),
 			),
 			'comment' => array(

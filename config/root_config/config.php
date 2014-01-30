@@ -118,303 +118,145 @@ return array(
 			),
 		),
 
-
-		/*
-		 * группа настроек
-		 * tip: имя группы идентично её урлу и не может быть "plugin" и "save" - эти эвенты зарегистрированы для показа настроек плагинов и сохранения настроек соответственно
-		 */
-		'view' => array(
+		'user' => array(
 			array(
-				/*
-				 * раздел "view" на странице настроек для группы с кодом "view"
-				 * tip: ключ, указывающий на текстовку
-				 */
-				'name' => 'config_sections.view.view',
-				/*
-				 * начала параметров, разрешенных для показа в этой группе
-				 */
+				'name' => 'Пользователи',
 				'allowed_keys' => array(
-					'view.name',
-				),
-				/*
-				 * начала параметров, которые необходимо исключить из раздела (правило работает после списка разрешенных)
-				 */
-				'excluded_keys' => array(),
-			),
-			array(
-				/*
-				 * раздел "metas" на странице настроек для группы с кодом "view"
-				 */
-				'name' => 'config_sections.view.metas',
-				'allowed_keys' => array(
-					'view.description',
-					'view.keywords',
-					'seo.description_words_count',
+					'module.user.per_page',
+					'module.user.friend_on_profile',
+					'module.user.friend_notice.delete',
+					'module.user.friend_notice.accept',
+					'module.user.friend_notice.reject',
+					'module.user.login.min_size',
+					'module.user.login.max_size',
+					'module.user.login.charset',
+					'module.user.time_active',
+					'module.user.usernote_text_max',
+					'module.user.usernote_per_page',
+					'module.user.userfield_max_identical',
+					'module.user.profile_photo_width',
+					'module.user.name_max',
 				),
 			),
 			array(
-				'name' => 'config_sections.view.editor',
+				'name' => 'Жалобы на пользователя',
 				'allowed_keys' => array(
-					'view.wysiwyg',
-					'view.noindex',
+					'module.user.complaint_captcha',
+					'module.user.complaint_notify_by_mail',
+					'module.user.complaint_text_required',
+					'module.user.complaint_text_max',
+					'module.user.complaint_type',
 				),
 			),
 			array(
-				'name' => 'config_sections.view.image',
+				'name' => 'Личные сообщения',
 				'allowed_keys' => array(
-					'view.img_resize_width',
-					'view.img_max_width',
-					'view.img_max_height',
-					'view.img_max_size_url',
+					'module.talk.per_page',
+					'module.talk.encrypt',
+					'module.talk.max_users',
+				),
+			),
+			array(
+				'name' => 'Стена, активность и персональная лента',
+				'allowed_keys' => array(
+					'module.wall.count_last_reply',
+					'module.wall.per_page',
+					'module.wall.text_max',
+					'module.wall.text_min',
+					'module.stream.count_default',
+					'module.stream.disable_vote_events',
+					'module.userfeed.count_default',
+				),
+			),
+			array(
+				'name' => 'Права доступов',
+				'allowed_keys' => array(
+					'acl.vote.user.rating',
+					'acl.create.talk.limit_time',
+					'acl.create.talk.limit_time_rating',
+					'acl.create.talk_comment.limit_time',
+					'acl.create.talk_comment.limit_time_rating',
+					'acl.create.wall.limit_time',
+					'acl.create.wall.limit_time_rating',
 				),
 			),
 		),
-
-
-		'interface' => array(
-/*			array(
-				'name' => 'config_sections.interface.gen',
-				'allowed_keys' => array(
-					'lang',
-				),
-				'excluded_keys' => array(
-					'lang.path',
-				),
-			),*/
-			array(
-				'name' => 'config_sections.interface.options',
-				'allowed_keys' => array(
-					'general.close',
-					'general.reg.invite',
-					'general.reg.activation',
-					'general.login.captcha',
-					'general.admin_mail',
-				),
-			),
-			array(
-				'name' => 'config_sections.interface.blocks',
-				'allowed_keys' => array(
-					'block.stream.row',
-					'block.stream.show_tip',
-					'block.blogs.row',
-					'block.tags.tags_count',
-					'block.tags.personal_tags_count',
-				),
-			),
-			array(
-				'name' => 'config_sections.interface.paging',
-				'allowed_keys' => array(
-					'pagination',
-				),
-			),
-
-		),
-
 
 		'system' => array(
 			array(
-				'name' => 'config_sections.system.smarty',
+				'name' => 'Шаблонизатор',
 				'allowed_keys' => array(
-					'smarty',
+					'smarty.compile_check',
+					'smarty.force_compile',
 				),
 			),
 			array(
-				'name' => 'config_sections.system.memcache',
+				'name' => 'Настройка Cookie',
 				'allowed_keys' => array(
-					'memcache',
+					'sys.cookie.path',
+					'sys.cookie.time',
 				),
 			),
-		),
-
-
-		'sysmail' => array(
 			array(
-				'name' => 'config_sections.sysmail.mail',
+				'name' => 'Почта',
 				'allowed_keys' => array(
 					'sys.mail.type',
 					'sys.mail.from_email',
 					'sys.mail.from_name',
 					'sys.mail.charset',
+					'sys.mail.smtp.host',
+					'sys.mail.smtp.port',
+					'sys.mail.smtp.user',
+					'sys.mail.smtp.password',
+					'sys.mail.smtp.secure',
+					'sys.mail.smtp.auth',
+					'module.notify.delayed',
+					'module.notify.insert_single',
+					'module.notify.per_process',
 				),
 			),
 			array(
-				'name' => 'config_sections.sysmail.smtp',
+				'name' => 'Кеширование',
 				'allowed_keys' => array(
-					'sys.mail.smtp.',
+					'sys.cache.use',
+					'sys.cache.type',
+					'sys.cache.dir',
+					'sys.cache.prefix',
+					'sys.cache.directory_level',
 				),
 			),
 			array(
-				'name' => 'config_sections.sysmail.options',
+				'name' => 'Сжатие CSS, JS',
 				'allowed_keys' => array(
-					'sys.mail.include_comment',
-					'sys.mail.include_talk',
-				),
-			),
-		),
-
-
-		'acl' => array(
-			array(
-				'name' => 'config_sections.acl.blog',
-				'allowed_keys' => array(
-					'acl.create.blog.rating',
-					'acl.vote.blog.rating',
-				),
-			),
-			array(
-				'name' => 'config_sections.acl.comment',
-				'allowed_keys' => array(
-					'acl.create.comment.rating',
-					'acl.create.comment.limit_time',
-					'acl.create.comment.limit_time_rating',
-					'acl.vote.comment.rating',
-					'acl.vote.comment.limit_time',
-				),
-			),
-			array(
-				'name' => 'config_sections.acl.topic',
-				'allowed_keys' => array(
-					'acl.create.topic.rating',
-					'acl.create.topic.limit_time',
-					'acl.create.topic.limit_time_rating',
-					'acl.vote.topic.rating',
-					'acl.vote.topic.limit_time',
-				),
-			),
-			array(
-				'name' => 'config_sections.acl.talk',
-				'allowed_keys' => array(
-					'acl.create.talk.limit_time',
-					'acl.create.talk.limit_time_rating',
-				),
-			),
-			array(
-				'name' => 'config_sections.acl.talk_comment',
-				'allowed_keys' => array(
-					'acl.create.talk_comment.limit_time',
-					'acl.create.talk_comment.limit_time_rating',
-				),
-			),
-			array(
-				'name' => 'config_sections.acl.wall',
-				'allowed_keys' => array(
-					'acl.create.wall.limit_time',
-					'acl.create.wall.limit_time_rating',
-				),
-			),
-			array(
-				'name' => 'config_sections.acl.user',
-				'allowed_keys' => array(
-					'acl.vote.user.rating',
-				),
-			),
-		),
-
-
-		'moduleblog' => array(
-			array(
-				'name' => 'config_sections.moduleblog.moduleblog',
-				'allowed_keys' => array(
-					'module.blog.',
-				),
-			),
-		),
-
-
-		'moduletopic' => array(
-			array(
-				'name' => 'config_sections.moduletopic.moduletopic',
-				'allowed_keys' => array(
-					'module.topic.',
-				),
-			),
-		),
-
-
-		'moduleuser' => array(
-			array(
-				'name' => 'config_sections.moduleuser.moduleuser',
-				'allowed_keys' => array(
-					'module.user.',
-				),
-			),
-		),
-
-
-		'modulecomment' => array(
-			array(
-				'name' => 'config_sections.modulecomment.modulecomment',
-				'allowed_keys' => array(
-					'module.comment.',
-				),
-			),
-		),
-
-
-		'moduletalk' => array(
-			array(
-				'name' => 'config_sections.moduletalk.moduletalk',
-				'allowed_keys' => array(
-					'module.talk.',
-				),
-			),
-		),
-
-
-		'modulenotify' => array(
-			array(
-				'name' => 'config_sections.modulenotify.modulenotify',
-				'allowed_keys' => array(
-					'module.notify.',
-				),
-			),
-		),
-
-
-		'moduleimage' => array(
-			array(
-				'name' => 'config_sections.moduleimage.moduleimage',
-				'allowed_keys' => array(
-					'module.image.',
+					'compress.css.merge',
+					'compress.js.merge',
+					'compress.js.use',
 				),
 				'excluded_keys' => array(
-					'module.image.default.path.',
+					'compress.css.merge_selectors'
 				),
 			),
-		),
-
-
-		'modulewall' => array(
 			array(
-				'name' => 'config_sections.modulewall.modulewall',
+				'name' => 'Логирование',
 				'allowed_keys' => array(
-					'module.wall.',
+					'sys.logs.file',
+					'sys.logs.sql_query',
+					'sys.logs.sql_query_file',
+					'sys.logs.sql_error',
+					'sys.logs.sql_error_file',
+					'sys.logs.cron',
+					'sys.logs.cron_file',
 				),
 			),
-		),
-
-
-		'moduleother' => array(
 			array(
-				'name' => 'config_sections.moduleother.moduleother',
+				'name' => 'Отправка данных LS',
 				'allowed_keys' => array(
-					'module.security.',
-					'module.userfeed.',
-					'module.stream.',
-					'module.ls.',
+					'module.ls.send_general',
+					'module.ls.use_counter',
 				),
 			),
 		),
 
-
-		'compress' => array(
-			array(
-				'name' => 'config_sections.compress.compress',
-				'allowed_keys' => array(
-					'compress',
-				),
-			),
-		),
 	),
 
 
@@ -1000,7 +842,29 @@ return array(
 				),
 			),
 		),
-
+		'sys.cookie.path' => array(
+			'type' => 'string',
+			'name' => 'config_parameters.sys.cookie.path.name',
+			'description' => 'config_parameters.sys.cookie.path.description',
+			'validator' => array(
+				'type' => 'String',
+				'params' => array(
+					'min' => 1,
+					'allowEmpty' => false,
+				),
+			),
+		),
+		'sys.cookie.time' => array(
+			'type' => 'integer',
+			'name' => 'config_parameters.sys.cookie.time.name',
+			'description' => 'config_parameters.sys.cookie.time.description',
+			'validator' => array(
+				'type' => 'Number',
+				'params' => array(
+					'allowEmpty' => false,
+				),
+			),
+		),
 		'lang.current' => array(
 			'type' => 'string',
 			'name' => 'config_parameters.lang.current.name',
@@ -1030,8 +894,6 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
-					'min' => -100,
-					'max' => 100,
 					'integerOnly' => true,
 					'allowEmpty' => false,
 				),
@@ -1044,8 +906,6 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
-					'min' => -100,
-					'max' => 100,
 					'integerOnly' => true,
 					'allowEmpty' => false,
 				),
@@ -1072,8 +932,6 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
-					'min' => -100,
-					'max' => 100,
 					'integerOnly' => true,
 					'allowEmpty' => false,
 				),
@@ -1100,8 +958,6 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
-					'min' => -100,
-					'max' => 100,
 					'integerOnly' => true,
 					'allowEmpty' => false,
 				),
@@ -1114,8 +970,6 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
-					'min' => -100,
-					'max' => 100,
 					'integerOnly' => true,
 					'allowEmpty' => false,
 				),
@@ -1142,8 +996,6 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
-					'min' => -100,
-					'max' => 100,
 					'integerOnly' => true,
 					'allowEmpty' => false,
 				),
@@ -1170,8 +1022,6 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
-					'min' => -100,
-					'max' => 100,
 					'integerOnly' => true,
 					'allowEmpty' => false,
 				),
@@ -1198,8 +1048,6 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
-					'min' => -100,
-					'max' => 100,
 					'integerOnly' => true,
 					'allowEmpty' => false,
 				),
@@ -1212,8 +1060,6 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
-					'min' => -100,
-					'max' => 100,
 					'integerOnly' => true,
 					'allowEmpty' => false,
 				),
@@ -1226,8 +1072,6 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
-					'min' => -100,
-					'max' => 100,
 					'integerOnly' => true,
 					'allowEmpty' => false,
 				),
@@ -1240,8 +1084,6 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
-					'min' => -100,
-					'max' => 100,
 					'integerOnly' => true,
 					'allowEmpty' => false,
 				),
@@ -1254,8 +1096,6 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
-					'min' => -100,
-					'max' => 100,
 					'integerOnly' => true,
 					'allowEmpty' => false,
 				),
@@ -1325,8 +1165,6 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
-					'min' => -100,
-					'max' => 100,
 					'integerOnly' => true,
 					'allowEmpty' => false,
 				),
@@ -1339,8 +1177,6 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
-					'min' => -100,
-					'max' => 100,
 					'integerOnly' => true,
 					'allowEmpty' => false,
 				),
@@ -1353,8 +1189,6 @@ return array(
 			'validator' => array(
 				'type' => 'Number',
 				'params' => array(
-					'min' => -100,
-					'max' => 100,
 					'integerOnly' => true,
 					'allowEmpty' => false,
 				),
@@ -1652,6 +1486,69 @@ return array(
 				),
 			),
 		),
+		'module.user.complaint_captcha' => array(
+			'type' => 'boolean',
+			'name' => 'config_parameters.module.user.complaint_captcha.name',
+			'description' => 'config_parameters.module.user.complaint_captcha.description',
+			'validator' => array(
+				'type' => 'Boolean',
+				'params' => array(
+				),
+			),
+		),
+		'module.user.complaint_notify_by_mail' => array(
+			'type' => 'boolean',
+			'name' => 'config_parameters.module.user.complaint_notify_by_mail.name',
+			'description' => 'config_parameters.module.user.complaint_notify_by_mail.description',
+			'validator' => array(
+				'type' => 'Boolean',
+				'params' => array(
+				),
+			),
+		),
+		'module.user.complaint_text_required' => array(
+			'type' => 'boolean',
+			'name' => 'config_parameters.module.user.complaint_text_required.name',
+			'description' => 'config_parameters.module.user.complaint_text_required.description',
+			'validator' => array(
+				'type' => 'Boolean',
+				'params' => array(
+				),
+			),
+		),
+		'module.user.complaint_text_max' => array(
+			'type' => 'integer',
+			'name' => 'config_parameters.module.user.complaint_text_max.name',
+			'description' => 'config_parameters.module.user.complaint_text_max.description',
+			'validator' => array(
+				'type' => 'Number',
+				'params' => array(
+					'integerOnly' => true,
+					'allowEmpty' => false,
+				),
+			),
+		),
+		'module.user.complaint_type' => array(
+			'type' => 'array',
+			'name' => 'config_parameters.module.user.complaint_type.name',
+			'description' => 'config_parameters.module.user.complaint_type.description',
+			'validator' => array(
+				'type' => 'Array',
+				'params' => array(
+					'min_items' => 2,
+					'allowEmpty' => false,
+					'item_validator' => array(
+						'type' => 'String',
+						'params' => array(
+							'min' => 1,
+							'max' => 100,
+							'allowEmpty' => false,
+						),
+					),
+				),
+			),
+		),
+
 		'module.comment.per_page' => array(
 			'type' => 'integer',
 			'name' => 'config_parameters.module.comment.per_page.name',
