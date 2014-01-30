@@ -41,7 +41,7 @@ class PluginAdmin_ModuleStorage extends PluginAdmin_Inherits_ModuleStorage {
 	 */
 	private function CheckParamName($sParamName) {
 		if ($sParamName == PluginAdmin_ModuleSettings::CONFIG_DATA_PARAM_NAME) {
-			throw new Exception('Admin: You can`t access directly to config`s data in storage.');
+			throw new Exception('Admin: error: You can`t access directly to config`s data in storage.');
 		}
 	}
 
@@ -55,7 +55,7 @@ class PluginAdmin_ModuleStorage extends PluginAdmin_Inherits_ModuleStorage {
 	 * @param $sInstance	инстанция хранилища
 	 * @return mixed
 	 */
-	public function Set($sParamName, $mValue, $oCaller, $sInstance = self::DEFAULT_INSTANCE) {
+	public function Set($sParamName, $mValue, $oCaller = null, $sInstance = self::DEFAULT_INSTANCE) {
 		$this->CheckParamName($sParamName);
 		return parent::Set($sParamName, $mValue, $oCaller, $sInstance);
 	}
@@ -69,10 +69,15 @@ class PluginAdmin_ModuleStorage extends PluginAdmin_Inherits_ModuleStorage {
 	 * @param $sInstance	инстанция хранилища
 	 * @return mixed
 	 */
-	public function Get($sParamName, $oCaller, $sInstance = self::DEFAULT_INSTANCE) {
+	public function Get($sParamName, $oCaller = null, $sInstance = self::DEFAULT_INSTANCE) {
 		$this->CheckParamName($sParamName);
 		return parent::Get($sParamName, $oCaller, $sInstance);
 	}
+
+
+	/*
+	 * todo: inherit method GetAll
+	 */
 
 
 	/**
@@ -83,7 +88,7 @@ class PluginAdmin_ModuleStorage extends PluginAdmin_Inherits_ModuleStorage {
 	 * @param $sInstance	инстанция хранилища
 	 * @return mixed
 	 */
-	public function Remove($sParamName, $oCaller, $sInstance = self::DEFAULT_INSTANCE) {
+	public function Remove($sParamName, $oCaller = null, $sInstance = self::DEFAULT_INSTANCE) {
 		$this->CheckParamName($sParamName);
 		return parent::Remove($sParamName, $oCaller, $sInstance);
 	}
@@ -95,7 +100,7 @@ class PluginAdmin_ModuleStorage extends PluginAdmin_Inherits_ModuleStorage {
 	 * @param $oCaller		контекст, вызывающий метод
 	 * @param $sInstance	инстанция хранилища
 	 */
-	public function RemoveAll($oCaller, $sInstance = self::DEFAULT_INSTANCE) {
+	public function RemoveAll($oCaller = null, $sInstance = self::DEFAULT_INSTANCE) {
 		$sCallerName = $this->GetKeyForCaller($oCaller);
 		
 		/*
@@ -125,7 +130,7 @@ class PluginAdmin_ModuleStorage extends PluginAdmin_Inherits_ModuleStorage {
 	 * @param $sInstance	инстанция хранилища
 	 * @return mixed
 	 */
-	public function SetSmart($sParamName, $mValue, $oCaller, $sInstance = self::DEFAULT_INSTANCE) {
+	public function SetSmart($sParamName, $mValue, $oCaller = null, $sInstance = self::DEFAULT_INSTANCE) {
 		$this->CheckParamName($sParamName);
 		return parent::SetSmart($sParamName, $mValue, $oCaller, $sInstance);
 	}
@@ -139,7 +144,7 @@ class PluginAdmin_ModuleStorage extends PluginAdmin_Inherits_ModuleStorage {
 	 * @param $sInstance	инстанция хранилища
 	 * @return mixed
 	 */
-	public function RemoveSmart($sParamName, $oCaller, $sInstance = self::DEFAULT_INSTANCE) {
+	public function RemoveSmart($sParamName, $oCaller = null, $sInstance = self::DEFAULT_INSTANCE) {
 		$this->CheckParamName($sParamName);
 		return parent::RemoveSmart($sParamName, $oCaller, $sInstance);
 	}
@@ -151,13 +156,13 @@ class PluginAdmin_ModuleStorage extends PluginAdmin_Inherits_ModuleStorage {
 	 * @param $oCaller		контекст, вызывающий метод
 	 * @param $sInstance	инстанция хранилища
 	 */
-	public function Reset($oCaller, $sInstance = self::DEFAULT_INSTANCE) {
+	public function Reset($oCaller = null, $sInstance = self::DEFAULT_INSTANCE) {
 		$sCallerName = $this->GetKeyForCaller($oCaller);
 		
 		/*
 		 * Удалить все параметры, за исключением конфига (PluginAdmin_ModuleSettings::CONFIG_DATA_PARAM_NAME)
 		 */
-		foreach($this->aSessionCache [$sInstance][$sCallerName] as $sParamKeyName) {
+		foreach($this->aSessionCache[$sInstance][$sCallerName] as $sParamKeyName) {
 			if ($sParamKeyName != PluginAdmin_ModuleSettings::CONFIG_DATA_PARAM_NAME) {
 				$this->RemoveSmartParam($sCallerName, $sParamKeyName, $sInstance);
 			}

@@ -719,7 +719,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 
 	/**
 	 * Получить корректное имя ключа для сохранения в хранилище.
-	 * Для системного конфига название - ModuleStorage::DEFAULT_KEY_NAME.
+	 * Для системного конфига имя - ModuleStorage::DEFAULT_KEY_NAME.
 	 * Если же это плагин, то к его имени должен быть добавлен префикс ModuleStorage::PLUGIN_PREFIX
 	 *
 	 * @param $sConfigName		имя конфига
@@ -749,26 +749,26 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 		if ($aConfigDataOld = $this->GetOneParam($sCallerName, self::CONFIG_DATA_PARAM_NAME, $sInstance)) {
 			$aConfigData = $aConfigDataOld;
 		}
-		$sKey = $this->StripPluginPrefix($sCallerName);
+		$sConfigName = $this->StripPluginPrefix($sCallerName);
 		
 		/*
 		 * Получить текущие данные конфига по ключам
 		 */
 		$aDataToSave = array();
 		foreach($aKeysToSave as $sConfigKey) {
-			if (($mValue = $this->GetConfigKeyValue($sKey, $sConfigKey)) === null) {
+			if (($mValue = $this->GetConfigKeyValue($sConfigName, $sConfigKey)) === null) {
 				/*
 				 * Значение удалили, значит нужно удалить и из хранилища вместо добавления
 				 */
-				unset($aConfigData [$sConfigKey]);
+				unset($aConfigData[$sConfigKey]);
 				continue;
 			}
-			$aDataToSave [$sConfigKey] = $mValue;
+			$aDataToSave[$sConfigKey] = $mValue;
 		}
 		/*
 		 * Обьеденить и записать данные
 		 */
-		return $this->SaveConfigData($sKey, array_merge($aConfigData, $aDataToSave), $sInstance);
+		return $this->SaveConfigData($sConfigName, array_replace_recursive_distinct($aConfigData, $aDataToSave), $sInstance);
 	}
 	
 	

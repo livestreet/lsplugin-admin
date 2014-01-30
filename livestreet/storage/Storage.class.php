@@ -492,10 +492,10 @@ class ModuleStorage extends Module {
 	/**
 	 * Получить имя ключа из текущего, вызывающего метод, контекста
 	 *
-	 * @param $oCaller		контекст, вызывающий метод
+	 * @param $oCaller		контекст, вызывающий метод (для движка можно указывать null)
 	 * @return string
 	 */
-	protected function GetKeyForCaller($oCaller) {
+	protected function GetKeyForCaller($oCaller = null) {
 		$this->CheckCaller($oCaller);
 		/*
 		 * Получаем имя плагина, если возможно
@@ -517,8 +517,11 @@ class ModuleStorage extends Module {
 	 * @throws Exception	если не объект
 	 */
 	protected function CheckCaller($oCaller) {
-		if (!is_object($oCaller)) {
-			throw new Exception('Storage: caller is not correct. Always use "$this" for caller value');
+		/*
+		 * контекст должен быть указан или нулл для движка
+		 */
+		if (!is_object($oCaller) and !is_null($oCaller)) {
+			throw new Exception('Storage: caller is not correct. Always use "$this" for caller value. Also it can be set to NULL for engine calls');
 		}
 	}
 
@@ -538,7 +541,7 @@ class ModuleStorage extends Module {
 	 * @param string 	$sInstance			инстанция
 	 * @return mixed
 	 */
-	public function Set($sParamName, $mValue, $oCaller, $sInstance = self::DEFAULT_INSTANCE) {
+	public function Set($sParamName, $mValue, $oCaller = null, $sInstance = self::DEFAULT_INSTANCE) {
 		$sCallerName = $this->GetKeyForCaller($oCaller);
 		return $this->SetOneParam($sCallerName, $sParamName, $mValue, $sInstance);
 	}
@@ -552,7 +555,7 @@ class ModuleStorage extends Module {
 	 * @param string 	$sInstance			инстанция
 	 * @return null
 	 */
-	public function Get($sParamName, $oCaller, $sInstance = self::DEFAULT_INSTANCE) {
+	public function Get($sParamName, $oCaller = null, $sInstance = self::DEFAULT_INSTANCE) {
 		$sCallerName = $this->GetKeyForCaller($oCaller);
 		return $this->GetOneParam($sCallerName, $sParamName, $sInstance);
 	}
@@ -565,7 +568,7 @@ class ModuleStorage extends Module {
 	 * @param string 	$sInstance			инстанция
 	 * @return array
 	 */
-	public function GetAll($oCaller, $sInstance = self::DEFAULT_INSTANCE) {
+	public function GetAll($oCaller = null, $sInstance = self::DEFAULT_INSTANCE) {
 		$sCallerName = $this->GetKeyForCaller($oCaller);
 		return $this->GetParamsAll($sCallerName, $sInstance);
 	}
@@ -579,7 +582,7 @@ class ModuleStorage extends Module {
 	 * @param string 	$sInstance			инстанция
 	 * @return mixed
 	 */
-	public function Remove($sParamName, $oCaller, $sInstance = self::DEFAULT_INSTANCE) {
+	public function Remove($sParamName, $oCaller = null, $sInstance = self::DEFAULT_INSTANCE) {
 		$sCallerName = $this->GetKeyForCaller($oCaller);
 		return $this->RemoveOneParam($sCallerName, $sParamName, $sInstance);
 	}
@@ -592,7 +595,7 @@ class ModuleStorage extends Module {
 	 * @param string 	$sInstance			инстанция
 	 * @return mixed
 	 */
-	public function RemoveAll($oCaller, $sInstance = self::DEFAULT_INSTANCE) {
+	public function RemoveAll($oCaller = null, $sInstance = self::DEFAULT_INSTANCE) {
 		$sCallerName = $this->GetKeyForCaller($oCaller);
 		return $this->RemoveAllParams($sCallerName, $sInstance);
 	}
@@ -612,7 +615,7 @@ class ModuleStorage extends Module {
 	 * @param			$oCaller			контекст, вызывающий метод
 	 * @param string 	$sInstance			инстанция
 	 */
-	public function SetSmart($sParamName, $mValue, $oCaller, $sInstance = self::DEFAULT_INSTANCE) {
+	public function SetSmart($sParamName, $mValue, $oCaller = null, $sInstance = self::DEFAULT_INSTANCE) {
 		$sCallerName = $this->GetKeyForCaller($oCaller);
 		$this->SetSmartParam($sCallerName, $sParamName, $mValue, $sInstance);
 	}
@@ -625,7 +628,7 @@ class ModuleStorage extends Module {
 	 * @param			$oCaller			контекст, вызывающий метод
 	 * @param string 	$sInstance			инстанция
 	 */
-	public function RemoveSmart($sParamName, $oCaller, $sInstance = self::DEFAULT_INSTANCE) {
+	public function RemoveSmart($sParamName, $oCaller = null, $sInstance = self::DEFAULT_INSTANCE) {
 		$sCallerName = $this->GetKeyForCaller($oCaller);
 		$this->RemoveSmartParam($sCallerName, $sParamName, $sInstance);
 	}
@@ -638,7 +641,7 @@ class ModuleStorage extends Module {
 	 * @param string 	$sInstance			инстанция
 	 * @return mixed
 	 */
-	public function Store($oCaller, $sInstance = self::DEFAULT_INSTANCE) {
+	public function Store($oCaller = null, $sInstance = self::DEFAULT_INSTANCE) {
 		$sCallerName = $this->GetKeyForCaller($oCaller);
 		return $this->StoreParams($sCallerName, $sInstance);
 	}
@@ -650,7 +653,7 @@ class ModuleStorage extends Module {
 	 * @param			$oCaller			контекст, вызывающий метод
 	 * @param string 	$sInstance			инстанция
 	 */
-	public function Reset($oCaller, $sInstance = self::DEFAULT_INSTANCE) {
+	public function Reset($oCaller = null, $sInstance = self::DEFAULT_INSTANCE) {
 		$sCallerName = $this->GetKeyForCaller($oCaller);
 		$this->ResetSessionCache($sCallerName, $sInstance);
 	}
