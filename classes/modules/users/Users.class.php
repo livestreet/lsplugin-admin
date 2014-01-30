@@ -1542,6 +1542,28 @@ class PluginAdmin_ModuleUsers extends Module {
 
 
 	/**
+	 * Удалить записи жалоб по массиву ид
+	 *
+	 * @param $aIds				массив ид
+	 * @return mixed
+	 */
+	public function DeleteUsersComplaintsByArrayId($aIds) {
+		return $this->oMapper->DeleteUsersComplaintsByArrayId($aIds);
+	}
+
+
+	/**
+	 * Удалить жалобу
+	 *
+	 * @param $oComplaint		сущность жалобы
+	 * @return mixed
+	 */
+	public function DeleteUsersComplaint($oComplaint) {
+		return $this->DeleteUsersComplaintsByArrayId($oComplaint->getId());
+	}
+
+
+	/**
 	 * Выполнить изменение данных в таблице жалоб пользователя
 	 *
 	 * @param $aComplaints		массив сущностей жалоб

@@ -748,6 +748,28 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 
 
 	/**
+	 * Удалить записи жалоб по массиву ид
+	 *
+	 * @param $aIds			массив ид жалоб
+	 * @return array|null
+	 */
+	public function DeleteUsersComplaintsByArrayId($aIds) {
+		$aIds = is_array($aIds) ? $aIds : (array) $aIds;
+		$sSql = 'DELETE
+			FROM
+				?#
+			WHERE
+				`id` IN (?a)
+		';
+		return $this->oDb->query(
+			$sSql,
+			Config::Get('db.table.user_complaint'),
+			$aIds
+		);
+	}
+
+
+	/**
 	 * Выполнить изменение данных в таблице жалоб пользователя
 	 *
 	 * @param $aIds			ид жалоб для изменения

@@ -283,6 +283,7 @@ return array(
 		 */
 		'complaints' => array(
 			'answer_sent' => 'Ответ отправлен',
+			'deleted' => 'Жалоба удалена',
 		),
 	),
 	

@@ -181,6 +181,10 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 * жалобы на пользователей
 		 */
 		$this->AddEventPreg('#^users$#iu', '#^complaints$#iu', '#^$#', 'Users::EventShowUserComplaints');
+		/*
+		 * удалить жалобу
+		 */
+		$this->AddEventPreg('#^users$#iu', '#^complaints$#iu', '#^delete$#', '#^\d+$#i', 'Users::EventDeleteComplaint');
 
 		/*
 		 *

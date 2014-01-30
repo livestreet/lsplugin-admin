@@ -1466,7 +1466,9 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * установить статус "прочтен" для отображаемой страницы
 		 */
-		$this->PluginAdmin_Users_UpdateUsersComplaints($aResult['collection'], array('state' => ModuleUser::COMPLAINT_STATE_READ));
+		if ($aResult['count'] != 0) {
+			$this->PluginAdmin_Users_UpdateUsersComplaints($aResult['collection'], array('state' => ModuleUser::COMPLAINT_STATE_READ));
+		}
 
 		/*
 		 * Формируем постраничность
@@ -1525,7 +1527,9 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		if (isPost('submit_answer')) {
 			return $this->SubmitComplaintAnswer($oComplaint);
 		}
-
+		/*
+		 * получить код модального окна
+		 */
 		$oViewer = $this->Viewer_GetLocalViewer();
 		$oViewer->Assign('oComplaint', $oComplaint);
 		$this->Viewer_AssignAjax('sText', $oViewer->Fetch(Plugin::GetTemplatePath(__CLASS__) . 'modals/modal.view_complaint_user.tpl'));
@@ -1576,6 +1580,26 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		);
 		$this->Message_AddNotice($this->Lang('notices.complaints.answer_sent'));
 		return true;
+	}
+
+
+	/**
+	 * Удалить жалобу
+	 *
+	 * @return bool
+	 */
+	public function EventDeleteComplaint() {
+		$this->Security_ValidateSendForm();
+		/*
+		 * есть ли такая жалоба
+		 */
+		if (!$oComplaint = $this->PluginAdmin_Users_GetUserComplaintById((int) $this->GetParam(2))) {
+			$this->Message_AddError($this->Lang('errors.complaints.not_found'));
+			return false;
+		}
+		$this->PluginAdmin_Users_DeleteUsersComplaint($oComplaint);
+		$this->Message_AddNotice($this->Lang('notices.complaints.deleted'), '', true);
+		$this->RedirectToReferer();
 	}
 
 
