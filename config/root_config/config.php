@@ -37,6 +37,88 @@ return array(
 	 */
 	'$config_groups$' => array(
 
+		'main' => array(
+			array(
+				'name' => 'Общие',
+				'allowed_keys' => array(
+					'view.name',
+					'view.description',
+					'view.keywords',
+					'general.admin_mail',
+					'general.close',
+					'general.reg.invite',
+					'general.reg.activation',
+					'general.login.captcha',
+					'module.user.captcha_use_registration',
+				),
+			),
+		),
+
+		'blog' => array(
+			array(
+				'name' => 'Блоги',
+				'allowed_keys' => array(
+					'module.blog.category_allow',
+					'module.blog.category_only_children',
+					'module.blog.category_allow_empty',
+					'module.blog.per_page',
+					'module.blog.users_per_page',
+					'module.blog.personal_good',
+					'module.blog.collective_good',
+					'module.blog.index_good',
+				),
+			),
+			array(
+				'name' => 'Права доступа блогов',
+				'allowed_keys' => array(
+					'module.blog.category_only_admin',
+					'acl.create.blog.rating',
+					'acl.vote.blog.rating',
+				),
+			),
+			array(
+				'name' => 'Топики',
+				'allowed_keys' => array(
+					'module.topic.new_time',
+					'module.topic.per_page',
+					'module.topic.max_length',
+					'module.topic.allow_empty_tags',
+				),
+			),
+			array(
+				'name' => 'Права доступа топиков',
+				'allowed_keys' => array(
+					'acl.create.topic.limit_time',
+					'acl.create.topic.limit_time_rating',
+					'acl.create.topic.limit_rating',
+					'acl.vote.topic.rating',
+					'acl.vote.topic.limit_time',
+				),
+			),
+			array(
+				'name' => 'Комментарии',
+				'allowed_keys' => array(
+					'module.comment.per_page',
+					'module.comment.bad',
+					'module.comment.max_tree',
+					'module.comment.use_nested',
+					'module.comment.nested_per_page',
+					'module.comment.nested_page_reverse',
+				),
+			),
+			array(
+				'name' => 'Права доступов комментариев',
+				'allowed_keys' => array(
+					'acl.create.comment.rating',
+					'acl.create.comment.limit_time',
+					'acl.create.comment.limit_time_rating',
+					'acl.vote.comment.rating',
+					'acl.vote.comment.limit_time',
+				),
+			),
+		),
+
+
 		/*
 		 * группа настроек
 		 * tip: имя группы идентично её урлу и не может быть "plugin" и "save" - эти эвенты зарегистрированы для показа настроек плагинов и сохранения настроек соответственно
