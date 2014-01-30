@@ -17,7 +17,7 @@
 {block name='layout_page_title'}
 	{if $sConfigName}
 		{if $sConfigName==$sAdminSystemConfigId}
-			{$aLang.plugin.admin.settings.titles.main_config} &mdash; {$sGroupName}
+			{$aLang.plugin.admin.settings.titles.main_config} &mdash; {$aLang.config_sections.{$sGroupName}.name}
 		{else}
 			{$aLang.plugin.admin.settings.titles.plugin_config} "<span title="{$sConfigName}">{$oPlugin->getName()}</span>"
 		{/if}

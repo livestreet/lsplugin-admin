@@ -782,7 +782,7 @@ return array(
 			'ls' => array(
 				'send_general' => array(
 					'name' => 'Отправка на сервер LS общей информации о сайте(домен, версия LS и плагинов)',
-					'description' => 'Модуль Ls',
+					'description' => '',
 				),
 				'use_counter' => array(
 					'name' => 'Использование счетчика GA',
