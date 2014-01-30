@@ -220,7 +220,6 @@ return array(
 				'allowed_keys' => array(
 					'sys.cache.use',
 					'sys.cache.type',
-					'sys.cache.dir',
 					'sys.cache.prefix',
 					'sys.cache.directory_level',
 				),
