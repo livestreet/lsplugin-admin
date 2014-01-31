@@ -841,7 +841,7 @@ return array(
 			 */
 			'complaints' => array(
 				'title' => 'Пользователи',
-				'no_complaints' => 'Жалоб нет',
+				'no_complaints' => 'Новых жалоб нет',
 				'there_are_n_complaints' => '%%count%% жалобы',
 			),
 		),

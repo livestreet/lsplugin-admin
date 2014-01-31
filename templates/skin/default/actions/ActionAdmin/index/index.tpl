@@ -46,7 +46,7 @@
 		*}
 		<li class="stats-notifications-item stats-notifications-item-users {if $iUsersComplaintsCountNew}active{/if}">
 			<figure class="stats-notifications-image"></figure>
-			<h3><a href="{router page='admin/users/complaints'}" class="link-border"><span>{$aLang.plugin.admin.index.updates.complaints.title}</span></a></h3>
+			<h3><a href="{router page='admin/users/list'}" class="link-border"><span>{$aLang.plugin.admin.index.updates.complaints.title}</span></a></h3>
 			{if $iUsersComplaintsCountNew}
 				<p><a href="{router page='admin/users/complaints'}" class="link-border"
 						><span>{$aLang.plugin.admin.index.updates.complaints.there_are_n_complaints|ls_lang:"count%%`$iUsersComplaintsCountNew`"}</span></a></p>{* todo: declension *}
