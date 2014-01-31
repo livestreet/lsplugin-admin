@@ -52,7 +52,7 @@
 
 /* Item */
 .stats-notifications li {
-	width: 50%;
+	width: 33.333%;
 	min-height: 65px;
 	position: relative; 
 	padding-left: 85px; 

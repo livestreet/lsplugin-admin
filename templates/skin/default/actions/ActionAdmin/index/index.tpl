@@ -54,13 +54,14 @@
 				<p><a href="{router page='admin/users/complaints'}" class="link-border"><span>{$aLang.plugin.admin.index.updates.complaints.no_complaints}</span></a></p>
 			{/if}
 		</li>
-{*
-		todo: также удалить иконку
-		<li class="stats-notifications-item stats-notifications-item-support">
+
+		<li class="stats-notifications-item stats-notifications-item-support" title="Демонстрация интеграции другого плагина">
 			<figure class="stats-notifications-image"></figure>
-			<h3><a href="#" class="link-border"><span>Обратная связь</span></a></h3>
-			<p><a href="#" class="link-border"><span>Есть 2 обновления</span></a></p>
-		</li>*}
+			<h3><a href="#" class="link-border" onclick="return false;"><span>Обратная связь</span></a></h3>
+			<p><a href="#" class="link-border" onclick="return false;"><span>Есть 2 новых обращения</span></a></p>
+		</li>
+
+		{hook run='admin_stats_notification_item'}
 	</ul>
 
 
