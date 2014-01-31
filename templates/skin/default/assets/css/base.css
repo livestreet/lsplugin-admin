@@ -41,7 +41,7 @@ h1, h2, h3, h4, h5, h6 { font-family: "Open Sans"; }
 .h5 { font-size: 20px; }
 .h6 { font-size: 18px; }
 
-
+.settings-category-heading,
 .page-header {
 	color: #333333;
 	font-family: 'Open Sans';
@@ -160,3 +160,11 @@ h1, h2, h3, h4, h5, h6 { font-family: "Open Sans"; }
 	font: normal 11px/1em Verdana;
 	color: #a2a2a2;
 }
+
+
+/**
+ * Settings
+ */
+.settings-category-heading { font-size: 22px; border-bottom: 1px solid #ddd; padding-bottom: 10px; color: #000; }
+.settings-category { margin-bottom: 70px; }
+.settings-category.settings-category-last { margin-bottom: 0; }
