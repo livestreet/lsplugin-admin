@@ -55,7 +55,7 @@
 /**
  * User info
  */
-.user-info-body { margin-right: 270px; font-family: Verdana; }
+.user-info-body { margin-right: 270px; font-family: Verdana; overflow: hidden; }
 .user-info-body .dotted-list-item-value {  }
 .user-info-body .link-border { color: #3f67b9; }
 

@@ -117,99 +117,67 @@
 
 				<h2 class="user-info-heading">{$aLang.plugin.admin.users.profile.info.resume}</h2>
 
-				<dl class="dotted-list-item">
-					<dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile.info.login}</dt>
-					<dd class="dotted-list-item-value">
-						{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
-							sFieldName   = 'login'
-							sFieldValue  = $oUser->getLogin()|escape
-						}
-					</dd>
-				</dl>
+				{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
+					sFieldName   = 'login'
+					sFieldValue  = $oUser->getLogin()|escape
+					sFieldLabel  = $aLang.plugin.admin.users.profile.info.login
+				}
 
-				<dl class="dotted-list-item">
-					<dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile.info.profile_name}</dt>
-					<dd class="dotted-list-item-value">
-						{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
-							sFieldName   = 'profile_name'
-							sFieldValue  = $oUser->getProfileName()|escape
-						}
-					</dd>
-				</dl>
+				{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
+					sFieldName   = 'profile_name'
+					sFieldValue  = $oUser->getProfileName()|escape
+					sFieldLabel  = $aLang.plugin.admin.users.profile.info.profile_name
+				}
 
-				<dl class="dotted-list-item">
-					<dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile.info.mail}</dt>
-					<dd class="dotted-list-item-value">
-						{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
-							sFieldName='mail'
-							sFieldValue=$oUser->getMail()
-						}
-					</dd>
-				</dl>
+				{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
+					sFieldName='mail'
+					sFieldValue=$oUser->getMail()
+					sFieldLabel  = $aLang.plugin.admin.users.profile.info.mail
+				}
 
-				<dl class="dotted-list-item">
-					<dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile.info.sex}</dt>
-					<dd class="dotted-list-item-value">
-						{$aSex = [
-							[ 'value' => 'man',   'text' => $aLang.plugin.admin.users.sex.man ],
-							[ 'value' => 'woman', 'text' => $aLang.plugin.admin.users.sex.woman ],
-							[ 'value' => 'other', 'text' => $aLang.plugin.admin.users.sex.other ]
-						]}
-						{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.select.tpl"
-							sFieldName          = 'profile_sex'
-							aFieldItems         = $aSex
-							sFieldSelectedValue = $oUser->getProfileSex()
-						}
-					</dd>
-				</dl>
+				{$aSex = [
+					[ 'value' => 'man',   'text' => $aLang.plugin.admin.users.sex.man ],
+					[ 'value' => 'woman', 'text' => $aLang.plugin.admin.users.sex.woman ],
+					[ 'value' => 'other', 'text' => $aLang.plugin.admin.users.sex.other ]
+				]}
+				{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.select.tpl"
+					sFieldName          = 'profile_sex'
+					aFieldItems         = $aSex
+					sFieldSelectedValue = $oUser->getProfileSex()
+					sFieldLabel  = $aLang.plugin.admin.users.profile.info.sex
+				}
 
-				<dl class="dotted-list-item">
-					<dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile.info.birthday}</dt>
-					<dd class="dotted-list-item-value">
-						{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.select.date.tpl"
-							sFieldNamePrefix    = 'profile_birthday'
-							aFieldItems         = $oUser->getProfileBirthday()
-						}
-					</dd>
-				</dl>
+				{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.select.date.tpl"
+					sFieldNamePrefix    = 'profile_birthday'
+					aFieldItems         = $oUser->getProfileBirthday()
+					sFieldLabel  = $aLang.plugin.admin.users.profile.info.birthday
+				}
 
-				<dl class="dotted-list-item">
-					<dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile.info.living}</dt>
-					<dd class="dotted-list-item-value">
-						{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.select.geo.tpl"
-							sFieldNamePrefix    = 'geo'
-							oFieldGeoTarget     = $oGeoTarget
-						}
-						<script>
-							jQuery(document).ready(function ($) {
-								ls.lang.load({lang_load name="geo_select_city, geo_select_region"});
-								ls.geo.initSelect();
-							});
-						</script>
-					</dd>
-				</dl>
+				{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.select.geo.tpl"
+					sFieldNamePrefix    = 'geo'
+					oFieldGeoTarget     = $oGeoTarget
+					sFieldLabel  = $aLang.plugin.admin.users.profile.info.living
+				}
+				<script>
+					jQuery(document).ready(function ($) {
+						ls.lang.load({lang_load name="geo_select_city, geo_select_region"});
+						ls.geo.initSelect();
+					});
+				</script>
 
-				<dl class="dotted-list-item">
-					<dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile_edit.password}</dt>
-					<dd class="dotted-list-item-value">
-						{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
-							sFieldName='password'
-							sFieldValue=''
-							sFieldPlaceholder='*******'
-						}
-					</dd>
-				</dl>
+				{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
+					sFieldName='password'
+					sFieldValue=''
+					sFieldPlaceholder='*******'
+					sFieldLabel  = $aLang.plugin.admin.users.profile_edit.password
+				}
 
-				<dl class="dotted-list-item">
-					<dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile_edit.about_user}</dt>
-					<dd class="dotted-list-item-value">
-						{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.textarea.tpl"
-							sFieldName   = 'profile_about'
-							iFieldRows   = 4
-							sFieldValue  = $oUser->getProfileAbout()|strip_tags|escape
-						}
-					</dd>
-				</dl>
+				{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.textarea.tpl"
+					sFieldName   = 'profile_about'
+					iFieldRows   = 4
+					sFieldValue  = $oUser->getProfileAbout()|strip_tags|escape
+					sFieldLabel  = $aLang.plugin.admin.users.profile_edit.about_user
+				}
 
 				<dl class="dotted-list-item mt-20">
 					<dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile.info.reg_date}</dt>
@@ -244,7 +212,7 @@
 				{/if}
 
 				{* Кнопки *}
-				<div class="mt-15 ta-r">
+				<div class="mt-15">
 					{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.button.tpl"
 						sFieldName='submit_edit'
 						sFieldStyle='primary'
