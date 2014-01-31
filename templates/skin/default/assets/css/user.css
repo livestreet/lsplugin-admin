@@ -84,6 +84,7 @@
 .user-info-block-stats { overflow: hidden; font-family: Verdana; }
 .user-info-block-stats-row { float: left; width: 25%; }
 .user-info-block-stats-row li { margin-bottom: 3px; }
+.user-info-block-stats-row li i { position: relative; top: 4px; }
 .user-info-block-stats-header { font-weight: bold; margin-bottom: 3px; }
 
 /**

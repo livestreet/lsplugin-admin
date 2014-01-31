@@ -11,14 +11,7 @@
 {block name='layout_content_actionbar_class'}actionbar-user{/block}
 {block name='layout_content_actionbar'}
 	<ul>
-		{* todo: delete if not needed *}
-		<li><a href="#"><i class="icon-white icon-pencil"></i></a></li>
-
 		{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/user_actions.tpl"}
-
-		{* todo: delete if not needed *}
-		<li class="fl-r"><a href="#"><i class="icon-white icon-chevron-right"></i></a></li>
-		<li class="fl-r"><a href="#"><i class="icon-white icon-chevron-left"></i></a></li>
 	</ul>
 {/block}
 
@@ -47,8 +40,7 @@
 				</p>
 
 				<p class="user-mail">
-					{$oUser->getMail()}
-					<a href="mailto:{$oUser->getMail()}" target="_blank"><i class="icon-envelope"></i></a>
+					<a href="mailto:{$oUser->getMail()}" target="_blank" class="link-border"><span>{$oUser->getMail()}</span></a>
 				</p>
 
 				<p class="user-id">{$aLang.plugin.admin.users.profile.user_no}{$oUser->getId()}</p>
