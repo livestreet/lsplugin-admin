@@ -513,20 +513,28 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 
 
 	public function EventError() {
-		/*
-		 * todo: исправить на новые ключи текстовок
-		 */
 		$aHttpErrors = array(
 			'404' => array(
 				'header' => '404 Not Found',
 			),
+			'403' => array(
+				'header' => '403 Forbidden',
+			),
+			'500' => array(
+				'header' => '500 Internal Server Error',
+			),
 		);
 		$iNumber = $this->GetParam(0);
 		if (array_key_exists($iNumber, $aHttpErrors)) {
-			$this->Message_AddErrorSingle($this->Lang_Get('system_error_'.$iNumber), $iNumber);
+			/**
+			 * Смотрим есть ли сообщения об ошибках
+			 */
+			if (!$this->Message_GetError()) {
+				$this->Message_AddErrorSingle($this->Lang_Get('common.error.system.code.'.$iNumber),$iNumber);
+			}
 			$aHttpError = $aHttpErrors[$iNumber];
 			if (isset($aHttpError['header'])) {
-				$sProtocol = isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
+				$sProtocol=isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
 				header("{$sProtocol} {$aHttpError['header']}");
 			}
 		}
