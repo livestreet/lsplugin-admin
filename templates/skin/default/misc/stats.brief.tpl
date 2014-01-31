@@ -28,21 +28,21 @@
 
 	{if $iTotalTopicsCount}
 		<li>
-			<h3>{$iTotalTopicsCount}</h3>
+			<h3>{number_format($iTotalTopicsCount, 0, '.', ' ')}</h3>
 			<p>{$aLang.plugin.admin.index.topics}</p>
 		</li>
 	{/if}
 
 	{if $iTotalBlogsCount}
 		<li>
-			<h3>{$iTotalBlogsCount}</h3>
+			<h3>{number_format($iTotalBlogsCount, 0, '.', ' ')}</h3>
 			<p>{$aLang.plugin.admin.index.blogs}</p>
 		</li>
 	{/if}
 
 	{if $iTotalCommentsCount}
 		<li>
-			<h3>{$iTotalCommentsCount}</h3>
+			<h3>{number_format($iTotalCommentsCount, 0, '.', ' ')}</h3>
 			<p>{$aLang.plugin.admin.index.comments}</p>
 		</li>
 	{/if}
