@@ -1001,6 +1001,14 @@ class PluginAdmin_ModuleUsers extends Module {
 		 * удалить записи пользователя на других стенах
 		 */
 		$this->PluginAdmin_Deletecontent_DeleteUserWroteOnWalls($oUser);
+		/*
+		 * удалить жалобы от пользователя
+		 */
+		$this->PluginAdmin_Deletecontent_DeleteUsersComplaintsFrom($oUser);
+		/*
+		 * удалить жалобы на пользователя
+		 */
+		$this->PluginAdmin_Deletecontent_DeleteUsersComplaintsTarget($oUser);
 
 		/*
 		 *

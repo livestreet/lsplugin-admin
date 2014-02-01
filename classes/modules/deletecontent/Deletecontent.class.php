@@ -533,6 +533,40 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 
 
 	/**
+	 * Удаление жалоб от пользователя
+	 *
+	 * @param $oUser	объект пользователя
+	 * @return bool
+	 */
+	public function DeleteUsersComplaintsFrom($oUser) {
+		$aFilter = array(
+			self::FILTER_CONDITIONS => array(
+				'user_id' => $oUser->getId(),
+			),
+			self::FILTER_TABLE => Config::Get('db.table.user_complaint')
+		);
+		return $this->DeleteContentByFilter($aFilter);
+	}
+
+
+	/**
+	 * Удаление жалоб на пользователя
+	 *
+	 * @param $oUser	объект пользователя
+	 * @return bool
+	 */
+	public function DeleteUsersComplaintsTarget($oUser) {
+		$aFilter = array(
+			self::FILTER_CONDITIONS => array(
+				'target_user_id' => $oUser->getId(),
+			),
+			self::FILTER_TABLE => Config::Get('db.table.user_complaint')
+		);
+		return $this->DeleteContentByFilter($aFilter);
+	}
+
+
+	/**
 	 * Удаление комментария
 	 *
 	 * @param $oComment	объект комментария
