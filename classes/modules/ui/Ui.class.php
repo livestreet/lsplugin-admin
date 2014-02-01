@@ -8,13 +8,11 @@
 class PluginAdmin_ModuleUi extends Module {
 	
 	protected $oMenuMain;
-	protected $oMenuAddition;
 	protected $oCursor;
 
 	public function Init() {
 		$this->oCursor = Engine::GetEntity('PluginAdmin_Ui_Cursor');
 		$this->oMenuMain = $this->oCursor->GetMenu('main')->SetUrlPrefix('admin');
-		$this->oMenuAddition = $this->oCursor->GetMenu('addition')->SetUrlPrefix('admin/p')->SetCaption('Дополнительно');
 	}
 	
 	
@@ -23,13 +21,17 @@ class PluginAdmin_ModuleUi extends Module {
 		return $this->oMenuMain;
 	}
 	
-	
-	
-	public function GetMenuAddition() {
-		return $this->oMenuAddition;
+	public function AddItemMenuAddition($oItem) {
+		if (!($oSection=$this->oMenuMain->GetSection('addition'))) {
+			/**
+			 * Если секции еще нет, то добавляем
+			 */
+			$this->oMenuMain->AddSection(
+				$oSection=Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Дополнительно')->SetName('addition')->SetUrl('plugin')
+			);
+		}
+		$oSection->AddItem($oItem);
 	}
-	
-	
 	
 	public function GetCursor() {
 		return $this->oCursor;

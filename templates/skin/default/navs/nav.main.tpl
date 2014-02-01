@@ -13,48 +13,47 @@
 <ul class="nav-main js-nav-main">
 	{* Основные пункты меню *}
 	{foreach $oMenuMain->GetSections() as $oMenuSection}
-		<li class="nav-main-item nav-main-item-root {if $oMenuSection->HasItems()}js-nav-main-item-root{/if} {if $oMenuSection->GetActive()}active{/if}" data-item-id="{$oMenuSection@index}">
-			<a {if ! $oMenuSection->HasItems()}href="{$oMenuSection->GetUrlFull()}"{else}href="#"{/if} 
-			   {if $oMenuSection->HasItems()}class="js-dropdown-nav-main" data-dropdown-target="dropdown-menu-nav-main-{$oMenuSection@index}"{/if}>
-				<i class="nav-main-item-icon nav-main-item-icon-{$oMenuSection->GetName()}" title="{$oMenuSection->GetCaption()|escape}"></i>
-				<span>{$oMenuSection->GetCaption()|escape}</span>
-			</a>
+		{if $oMenuSection->getName()!='addition'}
+            <li class="nav-main-item nav-main-item-root {if $oMenuSection->HasItems()}js-nav-main-item-root{/if} {if $oMenuSection->GetActive()}active{/if}" data-item-id="{$oMenuSection@index}">
+                <a {if ! $oMenuSection->HasItems()}href="{$oMenuSection->GetUrlFull()}"{else}href="#"{/if}
+				   {if $oMenuSection->HasItems()}class="js-dropdown-nav-main" data-dropdown-target="dropdown-menu-nav-main-{$oMenuSection@index}"{/if}>
+                    <i class="nav-main-item-icon nav-main-item-icon-{$oMenuSection->GetName()}" title="{$oMenuSection->GetCaption()|escape}"></i>
+                    <span>{$oMenuSection->GetCaption()|escape}</span>
+                </a>
 
 			{* Подменю *}
-			{if $oMenuSection->HasItems()}
-				<ul class="js-nav-main-submenu">
-					{foreach $oMenuSection->GetItems() as $oMenuItem}
-						<li {if $oMenuItem->GetActive()}class="active"{/if}>
-							<a href="{$oMenuItem->GetUrlFull()}"><span>{$oMenuItem->GetCaption()|escape}</span></a>
-						</li>
-					{/foreach}
-				</ul>
-			{/if}
-		</li>
+				{if $oMenuSection->HasItems()}
+                    <ul class="js-nav-main-submenu">
+						{foreach $oMenuSection->GetItems() as $oMenuItem}
+                            <li {if $oMenuItem->GetActive()}class="active"{/if}>
+                                <a href="{$oMenuItem->GetUrlFull()}"><span>{$oMenuItem->GetCaption()|escape}</span></a>
+                            </li>
+						{/foreach}
+                    </ul>
+				{/if}
+            </li>
+		{/if}
 	{/foreach}
 
-	{* Дополнительные пункты меню *}
-	{if $oMenuAddition->GetSections()}
-		<li {if $oMenuSection->GetActive()}class="active"{/if}>
-			<a href="#">{$oMenuAddition->GetCaption()|escape:'html'}</a>
+	{if $oMenuSection=$oMenuMain->GetSection('addition')}
+        <li class="nav-main-item nav-main-item-root {if $oMenuSection->HasItems()}js-nav-main-item-root{/if} {if $oMenuSection->GetActive()}active{/if}" data-item-id="{$oMenuSection@index + 1}">
+            <a {if ! $oMenuSection->HasItems()}href="{$oMenuSection->GetUrlFull()}"{else}href="#"{/if}
+			   {if $oMenuSection->HasItems()}class="js-dropdown-nav-main" data-dropdown-target="dropdown-menu-nav-main-{$oMenuSection@index + 1}"{/if}>
+                <i class="nav-main-item-icon nav-main-item-icon-{$oMenuSection->GetName()}" title="{$oMenuSection->GetCaption()|escape}"></i>
+                <span>{$oMenuSection->GetCaption()|escape}</span>
+            </a>
 
-			{foreach from=$oMenuAddition->GetSections() item=oMenuSection key=section_index}
-				<a {if ! $oMenuSection->HasItems()}href="{$oMenuSection->GetUrlFull()}"{else}href="#"{/if}>
-					<span>{$oMenuSection->GetCaption()|escape:'html'}</span>
-				</a>
-
-				{* Подменю *}
-				{if $oMenuSection->HasItems()}
-					<ul>
-						{foreach $oMenuSection->GetItems() as $oMenuItem}
-							<li {if $oMenuItem->GetActive()}class="active"{/if}>
-								<a href="{$oMenuItem->GetUrlFull()}"><span>{$oMenuItem->GetCaption()|escape}</span></a>
-							</li>
-						{/foreach}
-					</ul>
-				{/if}
-			{/foreach}
-		</li>
+		{* Подменю *}
+			{if $oMenuSection->HasItems()}
+                <ul class="js-nav-main-submenu">
+					{foreach $oMenuSection->GetItems() as $oMenuItem}
+                        <li {if $oMenuItem->GetActive()}class="active"{/if}>
+                            <a href="{$oMenuItem->GetUrlFull()}"><span>{$oMenuItem->GetCaption()|escape}</span></a>
+                        </li>
+					{/foreach}
+                </ul>
+			{/if}
+        </li>
 	{/if}
 
 	<li class="nav-main-item-root nav-main-item-fold">

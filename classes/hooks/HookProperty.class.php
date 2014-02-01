@@ -35,7 +35,7 @@ class PluginAdmin_HookProperty extends Hook {
 			return false;
 		}
 
-		$oSection = Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Дополнительные поля')->SetName('properties')->SetUrl('properties');
+		$oSection = Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Пользовательские поля')->SetName('properties')->SetUrl('properties');
 		foreach($aTypes as $sKey => $aParams) {
 			$oSection->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption(isset($aParams['name']) ? htmlspecialchars_decode($aParams['name']) : $sKey)->SetUrl($sKey));
 		}
@@ -45,5 +45,3 @@ class PluginAdmin_HookProperty extends Hook {
 	}
 
 }
-
-?>
