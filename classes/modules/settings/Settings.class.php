@@ -401,9 +401,19 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	private function CheckIfPartOfKeyExistsInArray($sCurrentKey, $aKeysAllowed) {
 		foreach($aKeysAllowed as $sKey) {
 			/*
-			 * сравнивать по длине ключа из массива разрешенных ключей с текущим
+			 * если используется маска (может быть только в конце ключа!)
 			 */
-			if (substr_compare($sKey, $sCurrentKey, 0, strlen($sKey), true) === 0) return true;
+			if (strpos($sKey, '*') !== false) {
+				/*
+				 * сравнивать по длине ключа (минус символ маски) из массива разрешенных ключей с текущим
+				 */
+				if (substr_compare($sKey, $sCurrentKey, 0, strlen($sKey) - 1, true) === 0) return true;
+			} else {
+				/*
+				 * сравнивать ключи как есть
+				 */
+				if ($sKey == $sCurrentKey) return true;
+			}
 		}
 		return false;
 	}

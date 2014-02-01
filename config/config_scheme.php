@@ -183,7 +183,7 @@ $config['$config_sections$'] = array(
 	'bans' => array(
 		'name' => 'config_sections.bans.title',
 		'allowed_keys' => array(
-			'bans',
+			'bans*',
 		),
 	),
 	/*
@@ -192,7 +192,7 @@ $config['$config_sections$'] = array(
 	'catalog' => array(
 		'name' => 'config_sections.catalog.title',
 		'allowed_keys' => array(
-			'catalog',
+			'catalog*',
 		),
 	),
 	/*
@@ -201,7 +201,7 @@ $config['$config_sections$'] = array(
 	'settings' => array(
 		'name' => 'config_sections.settings.title',
 		'allowed_keys' => array(
-			'settings',
+			'settings*',
 		),
 	),
 	/*
@@ -210,7 +210,7 @@ $config['$config_sections$'] = array(
 	'users' => array(
 		'name' => 'config_sections.users.title',
 		'allowed_keys' => array(
-			'users',
+			'users*',
 		),
 	),
 );
