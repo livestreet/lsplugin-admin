@@ -12,8 +12,8 @@
 		{* Заголовок *}
 		<h4 class="plugin-list-item-title mb-15">
 			{* Редактировать настройки можно только активированного плагина *}
-			{if $oPlugin->getActive()}
-				<a href="{$oPlugin->getConfigSettingsPageUrl()}">{$oPlugin->getName()}</a>
+			{if $oPlugin->getActive() && $oPlugin->getOwnSettingsPageUrl()}
+				<a href="{$oPlugin->getOwnSettingsPageUrl()}">{$oPlugin->getName()}</a>
 			{else}
 				{$oPlugin->getName()}
 			{/if}
@@ -44,9 +44,16 @@
 	<td class="ta-r">
 		{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/plugins/plugin.actions.tpl"}
 
+		{* TODO: проработать юзабилити
 		{if $oPlugin->getOwnSettingsPageUrl() and $oPlugin->getActive()}
 			<br />
 			<a href="{$oPlugin->getOwnSettingsPageUrl()}" class="button">{$aLang.plugin.admin.plugins.list.settings}</a>
+		{/if}
+		*}
+
+		{if $oPlugin->getActive()}
+            <br />
+            <a href="{$oPlugin->getConfigSettingsPageUrl()}" class="button">{$aLang.plugin.admin.plugins.list.config}</a>
 		{/if}
 	</td>
 </tr>
