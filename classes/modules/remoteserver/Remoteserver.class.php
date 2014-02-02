@@ -208,15 +208,15 @@ class PluginAdmin_ModuleRemoteserver extends Module {
 			 * следовать редиректам
 			 * tip: при включенном в пхп.ини "safe_mode" или "open_basedir" могут быть проблемы с CURLOPT_FOLLOWLOCATION и CURLOPT_MAXREDIRS на старых версиях пхп
 			 */
-			CURLOPT_FOLLOWLOCATION => true,
+			//CURLOPT_FOLLOWLOCATION => true,
 			/*
 			 * макс. количество редиректов
 			 */
-			CURLOPT_MAXREDIRS => 3,
+			//CURLOPT_MAXREDIRS => 3,
 			/*
 			 * установить рефер при редиректе
 			 */
-			CURLOPT_AUTOREFERER => true,
+			//CURLOPT_AUTOREFERER => true,
 
 
 			/*
