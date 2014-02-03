@@ -345,7 +345,7 @@ class PluginAdmin_ModuleCatalog extends Module {
 				/*
 				 * формирование массива сущностей, где в качестве ключа выступает код плагина
 				 */
-				return $this->PluginAdmin_Tools_GetArrayOfEntitiesByAssocArray($mData, 'PluginAdmin_Plugins_Update', 'code');
+				return Engine::GetEntityItems('PluginAdmin_Plugins_Update', $mData, 'code');
 			}
 			/*
 			 * обновлений нет
@@ -413,7 +413,7 @@ class PluginAdmin_ModuleCatalog extends Module {
 			/*
 			 * переделаем массив данных каждого плагина в сущность
 			 */
-			$mData['addons'] = $this->PluginAdmin_Tools_GetArrayOfEntitiesByAssocArray($mData['addons'], 'PluginAdmin_Catalog_Addon', 'code');
+			$mData['addons'] = Engine::GetEntityItems('PluginAdmin_Catalog_Addon', $mData['addons'], 'code');
 			/*
 			 * установить свойство "установлен ли уже этот плагин"
 			 */

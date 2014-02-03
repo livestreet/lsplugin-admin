@@ -89,7 +89,7 @@ class PluginAdmin_ModuleGeo_MapperGeo extends PluginAdmin_Inherits_ModuleGeo_Map
 			($aFilter['page'] - 1) * $aFilter['per_page'],
 			$aFilter['per_page']
 		)) {
-			return Engine::getInstance()->PluginAdmin_Tools_GetArrayOfEntitiesByAssocArray($aData, 'ModuleGeo_EntityCountry');
+			return Engine::GetEntityItems('Geo_Country', $aData);
 		}
 		return array();
 	}
@@ -160,7 +160,7 @@ class PluginAdmin_ModuleGeo_MapperGeo extends PluginAdmin_Inherits_ModuleGeo_Map
 			($aFilter['page'] - 1) * $aFilter['per_page'],
 			$aFilter['per_page']
 		)) {
-			return Engine::getInstance()->PluginAdmin_Tools_GetArrayOfEntitiesByAssocArray($aData, 'ModuleGeo_EntityCity');
+			return Engine::GetEntityItems('Geo_City', $aData);
 		}
 		return array();
 	}
