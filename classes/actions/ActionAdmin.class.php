@@ -581,6 +581,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$sFrameworkPath . '/css/alerts.css',
 			$sFrameworkPath . '/css/toolbar.css',
 			$sFrameworkPath . '/js/vendor/jquery-ui/css/smoothness/jquery-ui-1.10.2.custom.css', 			// todo: review (needed for datepicker)
+			$sFrameworkPath . '/js/vendor/nprogress/nprogress.css',
 
 			/*
 			 * стили плагина
@@ -637,6 +638,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$sFrameworkPath . '/js/vendor/prettify/prettify.js',
 			$sFrameworkPath . '/js/vendor/prettyphoto/js/jquery.prettyphoto.js',
 			$sFrameworkPath . '/js/vendor/parsley/parsley.js',
+			$sFrameworkPath . '/js/vendor/nprogress/nprogress.js',
 
 			$sFrameworkPath . '/js/core/main.js',
 			$sFrameworkPath . '/js/core/hook.js',
@@ -679,7 +681,6 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$sPluginTemplatePath . '/js/admin_users_search.js',
 			$sPluginTemplatePath . '/js/admin_users_complaints.js',
 			$sPluginTemplatePath . '/js/nav.main.js',
-			$sPluginTemplatePath . '/js/more.js',
 			$sPluginTemplatePath . '/js/property.js',
 			$sPluginTemplatePath . '/js/topic.js',
 

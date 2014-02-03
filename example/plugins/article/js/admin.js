@@ -6,9 +6,6 @@ ls.plugin.article.admin =( function ($) {
 
 	this.ajaxSubmitSimple = function(url,form) {
 		form='#'+form;
-		if (!ls.admin_process.start('ajaxSubmitSimple-'+url)) {
-			return false;
-		}
 		ls.ajax.submit(url,form,function(res){
 			if (res.sUrlRedirect) {
 				window.location.href=res.sUrlRedirect;
@@ -16,9 +13,7 @@ ls.plugin.article.admin =( function ($) {
 			if (res.bReloadPage) {
 				window.location.reload();
 			}
-		}.bind(this),{ complete: function() {
-			ls.admin_process.stop('ajaxSubmitSimple-'+url);
-		}.bind(this), validate: false });
+		}.bind(this),{ validate: false });
 	};
 
 	this.createArticle = function(form) {
@@ -30,9 +25,6 @@ ls.plugin.article.admin =( function ($) {
 	};
 
 	this.removeArticle = function(id) {
-		if (!ls.admin_process.start('removeArticle-'+id)) {
-			return false;
-		}
 		ls.ajax.load(ls.registry.get('sAdminUrl')+'ajax/article-remove/',{ id: id },function(res){
 			if (res.bStateError) {
 				ls.msg.error(null, res.sMsg);
@@ -48,9 +40,7 @@ ls.plugin.article.admin =( function ($) {
 			if (res.bReloadPage) {
 				window.location.reload();
 			}
-		}.bind(this),{ complete: function() {
-			ls.admin_process.stop('removeArticle-'+id);
-		}.bind(this) });
+		}.bind(this));
 	};
 
 	return this;
