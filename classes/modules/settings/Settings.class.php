@@ -342,11 +342,11 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 * Получение обьектов информации о настройках конфига
 	 *
 	 * @param			$sConfigName				имя конфига
-	 * @param array 	$aOnlyThisKeysAllowed		список разрешенных ключей для показа из этого конфига
-	 * @param array 	$aExcludeKeys				список запрещенных ключей для показа из этого конфига
+	 * @param array 	$aAllowedKeys				список разрешенных ключей для показа из схемы конфига
+	 * @param array 	$aExcludedKeys				список запрещенных ключей для показа из схемы конфига
 	 * @return array								настройки конфига
 	 */
-	final public function GetConfigSettings($sConfigName, $aOnlyThisKeysAllowed = array(), $aExcludeKeys = array()) {
+	private function GetConfigSettings($sConfigName, $aAllowedKeys = array(), $aExcludedKeys = array()) {
 		/*
 		 * Получить описание настроек из конфига
 		 */
@@ -362,11 +362,11 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 			/*
 			 * Получить только нужные ключи
 			 */
-			if (!empty($aOnlyThisKeysAllowed) and !$this->CheckIfPartOfKeyExistsInArray($sConfigKey, $aOnlyThisKeysAllowed)) continue;
+			if (!empty($aAllowedKeys) and !$this->CheckIfPartOfKeyExistsInArray($sConfigKey, $aAllowedKeys)) continue;
 			/*
 			 * Исключить не нужные ключи
 			 */
-			if (!empty($aExcludeKeys) and $this->CheckIfPartOfKeyExistsInArray($sConfigKey, $aExcludeKeys)) continue;
+			if (!empty($aExcludedKeys) and $this->CheckIfPartOfKeyExistsInArray($sConfigKey, $aExcludedKeys)) continue;
 
 			/*
 			 * Получить текущее значение параметра
@@ -387,6 +387,10 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 			$aParamData = array_merge($aOneParamInfo, array('key' => $sConfigKey, 'value' => $mValue));
 			$aSettingsAll[$sConfigKey] = Engine::GetEntity('PluginAdmin_Settings', $aParamData);
 		}
+		/*
+		 * отсортировать настройки согласно списку разрешенных ключей
+		 */
+		$aSettingsAll = $this->SortSettingsByAllowedKeysList($aSettingsAll, $aAllowedKeys);
 		return $aSettingsAll;
 	}
 
@@ -395,11 +399,11 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 * Сравнение начала ключей из массива с указанным ключем (в списке ключей массива можно использовать первые символы ключей)
 	 *
 	 * @param $sCurrentKey				текущий ключ (в виде ключ1.ключ2.ключ3...)
-	 * @param $aKeysAllowed				массив разрешенных ключей
+	 * @param $aKeys					массив ключей
 	 * @return bool						результат проверки
 	 */
-	private function CheckIfPartOfKeyExistsInArray($sCurrentKey, $aKeysAllowed) {
-		foreach($aKeysAllowed as $sKey) {
+	private function CheckIfPartOfKeyExistsInArray($sCurrentKey, $aKeys) {
+		foreach($aKeys as $sKey) {
 			/*
 			 * если используется маска (может быть только в конце ключа!)
 			 */
@@ -416,6 +420,39 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 			}
 		}
 		return false;
+	}
+
+
+	/**
+	 * Сортировать массив настроек согласно массиву ключей настроек
+	 *
+	 * @param $aSettings		массив сущностей настроек
+	 * @param $aAllowedKeys		массив ключей
+	 * @return array			новый отсортированный массив сущностей настроек
+	 */
+	private function SortSettingsByAllowedKeysList($aSettings, $aAllowedKeys) {
+		/*
+		 * если разрешенные ключи не заданы - вернуть все настройки как есть
+		 */
+		if (empty($aAllowedKeys)) return $aSettings;
+		/*
+		 * новый набор отсортированных настроек
+		 */
+		$aSettingsSorted = array();
+		/*
+		 * по всему списку ключей
+		 */
+		foreach($aAllowedKeys as $sKey) {
+			foreach($aSettings as $sParamKey => $oParameter) {
+				/*
+				 * совпадают ли ключи по правилам записи
+				 */
+				if ($this->CheckIfPartOfKeyExistsInArray($oParameter->getKey(), (array) $sKey)) {
+					$aSettingsSorted[$sParamKey] = $oParameter;
+				}
+			}
+		}
+		return $aSettingsSorted;
 	}
 
 
