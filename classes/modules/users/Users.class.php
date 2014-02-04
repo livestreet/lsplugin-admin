@@ -362,7 +362,7 @@ class PluginAdmin_ModuleUsers extends Module {
 		 * установить количество пользователей на странице
 		 */
 		$aData = array(
-			'user' => array(
+			'users' => array(
 				'per_page' => $iPerPage,
 			)
 		);
