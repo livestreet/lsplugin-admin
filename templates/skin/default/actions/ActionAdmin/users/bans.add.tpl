@@ -30,6 +30,21 @@
 				sFieldId	  = 'admin_bans_user_sign'
 		}
 
+		{*
+			если блокировка по сущности - добавить возможность одновременного бана по айпи
+			tip: битовое логическое И
+		*}
+		<div id="js_admin_users_bans_secondary_rule_wrapper" {if !($_aRequest.block_type & PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_USER_ID)}style="display: none;"{/if}>
+			{* Допоплнительное правило бана *}
+			{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
+				sFieldName    = 'secondary_rule'
+				sFieldClasses = 'width-250'
+				sFieldNote    = $aLang.plugin.admin.bans.add.secondary_rule_info
+				sFieldLabel   = $aLang.plugin.admin.bans.add.secondary_rule
+				sFieldId	  = 'admin_bans_secondary_rule'
+			}
+		</div>
+
 		{* Результат ajax-проверки поля *}
 		<div id="admin_bans_checking_msg" class="alert alert-info" style="display: none;"></div>
 

@@ -35,6 +35,10 @@ class PluginAdmin_ModuleUsers extends Module {
 	const BAN_BLOCK_TYPE_USER_ID = 1;
 	const BAN_BLOCK_TYPE_IP = 2;
 	const BAN_BLOCK_TYPE_IP_RANGE = 4;
+	/*
+	 * смешанный тип: пользователь + айпи
+	 */
+	const BAN_BLOCK_TYPE_USER_ID_AND_IP = 3;
 
 	/*
 	 * типы времени бана (постоянный и на период)

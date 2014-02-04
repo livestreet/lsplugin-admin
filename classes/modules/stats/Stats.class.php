@@ -440,7 +440,7 @@ class PluginAdmin_ModuleStats extends Module {
 		/*
 		 * параметры для валидатора дат: формат даты мускула date и datetime
 		 */
-		$aDateValidatorParams = array('format' => array ('yyyy-MM-dd hh:mm:ss', 'yyyy-MM-dd'), 'allowEmpty' => false);
+		$aDateValidatorParams = array('format' => array('yyyy-MM-dd hh:mm:ss', 'yyyy-MM-dd'), 'allowEmpty' => false);
 		return $this->Validate_Validate('date', $sDateStart, $aDateValidatorParams) and $this->Validate_Validate('date', $sDateFinish, $aDateValidatorParams);
 	}
 

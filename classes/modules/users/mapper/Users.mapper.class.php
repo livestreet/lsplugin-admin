@@ -340,25 +340,25 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 	 * @return Entity|null
 	 */
 	public function IsUserBanned($oUser, $mIp, $sCurrentDate) {
-		$sSql = "SELECT *
+		$sSql = 'SELECT *
 			FROM
-				`" . Config::Get('db.table.users_ban') . "`
+				`' . Config::Get('db.table.users_ban') . '`
 			WHERE
 				(
 					(								-- user condition
-						`block_type` = ?d
+						`block_type` & ?d
 						AND
 						`user_id` = ?d
 					)
 					OR
 					(								-- ip
-						`block_type` = ?d
+						`block_type` & ?d
 						AND
 						`ip` = ?d
 					)
 					OR
 					(								-- ip range
-						`block_type` = ?d
+						`block_type` & ?d
 						AND
 						?d BETWEEN `ip_start` AND `ip_finish`
 					)
@@ -376,7 +376,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper {
 			ORDER BY
 				`id` DESC
 			LIMIT 1
-		";
+		';
 		if ($aResult = $this->oDb->selectRow($sSql,
 			/*
 			 * поиск по id текущего пользователя

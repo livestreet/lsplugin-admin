@@ -40,6 +40,8 @@ ls.admin_misc = (function($) {
 		 */
 		bans_user_sign: '#admin_bans_user_sign',
 		bans_answer_id: '#admin_bans_checking_msg',
+		bans_secondary_rule_wrapper: '#js_admin_users_bans_secondary_rule_wrapper',
+		bans_secondary_rule_field_id: '#admin_bans_secondary_rule',
 
 		/*
 			табличный вывод данных графика
@@ -106,7 +108,7 @@ jQuery(document).ready(function($) {
 
 		if (sVal === '') return false;
 		$ (this).addClass('loading');
-		oUserInfo.show().html('Loading...');
+		oUserInfo.show().html('Загрузка...');		// todo: add lang
 		ls.ajax.load(
 			aRouter ['admin'] + 'bans/ajax-check-user-sign',
 			{
@@ -118,6 +120,15 @@ jQuery(document).ready(function($) {
 					oUserInfo.hide();
 				} else {
 					oUserInfo.html('<i class="icon-check"></i>&nbsp;' + data.sResponse);
+					/*
+						разрешено ли добавлять дополнительное правило
+					 */
+					if (data.bAllowSecondaryRule) {
+						$ (ls.admin_misc.selectors.bans_secondary_rule_wrapper).show(100);
+						$ (ls.admin_misc.selectors.bans_secondary_rule_field_id).val(data.sSecondaryRuleFieldData);
+					} else {
+						$ (ls.admin_misc.selectors.bans_secondary_rule_wrapper).hide(100);
+					}
 				}
 				$ (ls.admin_misc.selectors.bans_user_sign).removeClass('loading');
 			}

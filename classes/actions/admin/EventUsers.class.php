@@ -436,7 +436,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 				/*
 				 * до начала обработки поискового запроса сохранить оригинал для каждого корректного поля из данных фильтра
 				 */
-				$aCorrectFieldsWithOriginalValues [$sField] = $sQuery;
+				$aCorrectFieldsWithOriginalValues[$sField] = $sQuery;
 				/*
 				 * экранировать спецсимволы
 				 */
@@ -453,7 +453,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 				/*
 				 * добавить новую поисковую пару "поле=>запрос" для фильтра
 				 */
-				$aQueries [$sField] = $sQuery;
+				$aQueries[$sField] = $sQuery;
 			}
 		}
 		return array(
@@ -553,6 +553,15 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		));
 		$this->Viewer_Assign('sWay', $this->PluginAdmin_Users_GetDefaultOrderDirectionIfIncorrect($sWay));
 		$this->Viewer_Assign('sReverseOrder', $this->PluginAdmin_Users_GetReversedOrderDirection($sWay));
+	}
+
+
+	/**
+	 * Изменить количество голосов на странице
+	 */
+	public function EventAjaxVotesOnPage() {
+		$this->Viewer_SetResponseAjax('json');
+		$this->PluginAdmin_Users_ChangeVotesPerPage((int) getRequestStr('onpage'));
 	}
 
 
@@ -701,6 +710,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		$this->Viewer_Assign('aBansStats', $this->PluginAdmin_Users_GetBanStats());
 	}
 
+
 	/**
 	 * Добавить новую запись о бане пользователя
 	 * 
@@ -751,10 +761,12 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 			$iRestrictionType = PluginAdmin_ModuleUsers::BAN_RESTRICTION_TYPE_FULL;
 		}
 		/*
-		 * тип бана (unlimited, period, days)
+		 * тип временной блокировки бана (unlimited, period, days)
 		 */
 		$sBanType = getRequest('bantype');
-		if (is_array($sBanType)) $sBanType = array_shift($sBanType);
+		if (is_array($sBanType)) {
+			$sBanType = array_shift($sBanType);
+		}
 		/*
 		 * получить временные интервалы для типа бана "period"
 		 */
@@ -773,64 +785,76 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 */
 		$sBlockingComment = getRequestStr('comment');
 
-
 		/*
 		 * проверить правило бана
 		 */
-		if (!$aRuleData = $this->GetUserDataByUserRule($sUserSign)) {
+		if (!$aRuleData = $this->GetBanRuleTypeByRawBanRule($sUserSign)) {
 			$this->Message_AddError($this->Lang('errors.bans.unknown_rule_sign'));
 			return false;
 		}
 		/*
 		 * проверить тип бана
 		 */
-		if (!in_array($sBanType, array('unlimited', 'period', 'days'))) {
-			$this->Message_AddError($this->Lang('errors.bans.unknown_ban_timing_rule', array('type' => $sBanType)));
-			return false;
-		}
-		/*
-		 * проверить временные интервалы
-		 */
-		$aMatches = array();
-		/*
-		 * если включен режим периода для бана
-		 */
-		if ($sBanType == 'period') {
+		switch($sBanType) {
 			/*
-			 * проверить корректность даты начала
+			 * постоянный
 			 */
-			if (!$sPeriodFrom or !preg_match('#^\d{4}-\d{1,2}-\d{1,2}(?: \d{2}:\d{2}:\d{2})?$#iu', $sPeriodFrom, $aMatches)) {
-				$this->Message_AddError($this->Lang('errors.bans.incorrect_period_from'));
-				return false;
-			}
+			case 'unlimited':
+				break;
 			/*
-			 * проверить корректность даты финиша
+			 * интервал дат
 			 */
-			if (!$sPeriodTo or !preg_match('#^\d{4}-\d{1,2}-\d{1,2}(?: \d{2}:\d{2}:\d{2})?$#iu', $sPeriodTo, $aMatches)) {
-				$this->Message_AddError($this->Lang('errors.bans.incorrect_period_to'));
-				return false;
-			}
+			case 'period':
+				/*
+				 * параметры для валидатора дат: формат даты мускула date и datetime
+				 */
+				$aDateValidatorParams = array('format' => array('yyyy-MM-dd hh:mm:ss', 'yyyy-MM-dd'), 'allowEmpty' => false);
+				/*
+				 * проверить корректность даты начала
+				 */
+				if (!$sPeriodFrom or !$this->Validate_Validate('date', $sPeriodFrom, $aDateValidatorParams)) {
+					$this->Message_AddError($this->Lang('errors.bans.incorrect_period_from'));
+					return false;
+				}
+				/*
+				 * проверить корректность даты финиша
+				 */
+				if (!$sPeriodTo or !$this->Validate_Validate('date', $sPeriodTo, $aDateValidatorParams)) {
+					$this->Message_AddError($this->Lang('errors.bans.incorrect_period_to'));
+					return false;
+				}
+				/*
+				 * проверить чтобы дата финиша была больше даты старта
+				 */
+				if (strtotime($sPeriodTo) <= strtotime($sPeriodFrom)) {
+					$this->Message_AddError($this->Lang('errors.bans.period_to_must_be_greater_than_from'));
+					return false;
+				}
+				break;
 			/*
-			 * проверить чтобы дата финиша была больше даты старта
+			 * количество дней, начиная с текущего
 			 */
-			if (strtotime($sPeriodTo) <= strtotime($sPeriodFrom)) {
-				$this->Message_AddError($this->Lang('errors.bans.period_to_must_be_greater_than_from'));
+			case 'days':
+				/*
+				 * проверить количество дней
+				 */
+				if (!$iDaysCount) {
+					$this->Message_AddError($this->Lang('errors.bans.incorrect_days_count'));
+					return false;
+				}
+				break;
+			/*
+			 * неизвестный временной интервал
+			 */
+			default:
+				$this->Message_AddError($this->Lang('errors.bans.unknown_ban_timing_rule', array('type' => $sBanType)));
 				return false;
-			}
-		}
-		/*
-		 * проверить количество дней
-		 */
-		if ($sBanType == 'days' and !$iDaysCount) {
-			$this->Message_AddError($this->Lang('errors.bans.incorrect_days_count'));
-			return false;
 		}
 		/*
 		 * парсинг комментариев
 		 */
-		$sBlockingReasonForUser = $this->Text_Parser($sBlockingReasonForUser);
-		$sBlockingComment = $this->Text_Parser($sBlockingComment);
-
+		$sBlockingReasonForUser = $this->Text_JevixParser($sBlockingReasonForUser);
+		$sBlockingComment = $this->Text_JevixParser($sBlockingComment);
 
 		/*
 		 * заполнение сущности
@@ -843,7 +867,15 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 */
 		switch ($aRuleData['type']) {
 			case 'user':
-				$oEnt->setBlockType(PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_USER_ID);
+				/*
+				 * если установлено дополнительное правило бана по айпи
+				 */
+				if ($aSecondaryRule = $this->GetBanRuleTypeByRawBanRule(getRequestStr('secondary_rule')) and $aSecondaryRule['type'] == 'ip') {
+					$oEnt->setBlockType(PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_USER_ID_AND_IP);
+					$oEnt->setIp(convert_ip2long($aSecondaryRule['ip']));											// todo: review for ipv6
+				} else {
+					$oEnt->setBlockType(PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_USER_ID);
+				}
 				$oEnt->setUserId($aRuleData['user']->getId());
 				break;
 			case 'ip':
@@ -890,7 +922,6 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		} else {
 			$oEnt->setAddDate(date('Y-m-d H:i:s'));
 		}
-
 		/*
 		 * причина бана и комментарий
 		 */
@@ -900,14 +931,14 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * валидация внесенных данных
 		 */
-		if (!$oEnt -> _Validate ()) {
-			$this -> Message_AddError ($oEnt -> _getValidateError ());
+		if (!$oEnt->_Validate()) {
+			$this->Message_AddError($oEnt->_getValidateError());
 			return false;
 		}
 		$this->PluginAdmin_Users_AddBanRecord($oEnt);
 
 		$this->Message_AddNotice($this->Lang('notices.bans.updated'), '', true);
-		Router::Location(Router::GetPath('admin') . 'users/bans');
+		Router::LocationAction('admin/users/bans');
 	}
 
 
@@ -917,7 +948,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 	 * @param $sSign			правило бана (строка)
 	 * @return array|bool		тип бана
 	 */
-	protected function GetUserDataByUserRule($sSign) {
+	protected function GetBanRuleTypeByRawBanRule($sSign) {
 		$aMatches = array();
 		if (preg_match('#^\d++$#iu', $sSign, $aMatches)) {
 			/*
@@ -988,15 +1019,6 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 
 
 	/**
-	 * Изменить количество голосов на странице
-	 */
-	public function EventAjaxVotesOnPage() {
-		$this->Viewer_SetResponseAjax('json');
-		$this->PluginAdmin_Users_ChangeVotesPerPage((int) getRequestStr('onpage'));
-	}
-
-
-	/**
 	 * Редактирование бана
 	 *
 	 * @return string
@@ -1022,10 +1044,13 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 			case PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_IP_RANGE:
 				$_REQUEST['user_sign'] = convert_long2ip($oBan->getIpStart()) . ' - ' . convert_long2ip($oBan->getIpFinish());	// todo: ipv6
 				break;
+			case PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_USER_ID_AND_IP:
+				$_REQUEST['user_sign'] = $this->User_GetUserById($oBan->getUserId())->getLogin();
+				$_REQUEST['secondary_rule'] = convert_long2ip($oBan->getIp());													// todo: ipv6
+				break;
 			default:
 				throw new Exception('Admin: error: wrong block type "' . $oBan->getBlockType() . '" in ' . __METHOD__);
 		}
-
 		/*
 		 * Получить временной интервал (количество дней будет превращено в интервал)
 		 */
@@ -1037,7 +1062,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		/*
 		 * Остальные данные уже в удобном формате
 		 */
-		$_REQUEST = array_merge($_REQUEST, $oBan -> _getDataArray ());
+		$_REQUEST = array_merge($_REQUEST, $oBan->_getDataArray());
 	}
 
 
@@ -1095,7 +1120,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 			/*
 			 * распознать правило
 			 */
-			if (!$aData = $this->GetUserDataByUserRule($sUserSign)) {
+			if (!$aData = $this->GetBanRuleTypeByRawBanRule($sUserSign)) {
 				return $this->Message_AddError($this->Lang('bans.user_sign_check.wrong_rule'));
 			}
 			/*
@@ -1113,6 +1138,11 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 						'reg_ip' => $oUser->getIpRegister(),
 						'session_ip' => $oSession ? $oSession->getIpLast() : null,
 					));
+					/*
+					 * для использования дополнительного правила
+					 */
+					$this->Viewer_AssignAjax('bAllowSecondaryRule', true);
+					$this->Viewer_AssignAjax('sSecondaryRuleFieldData', $oSession ? $oSession->getIpLast() : $oUser->getIpRegister());
 					break;
 				default:
 					$sResponse = $this->Lang('bans.user_sign_check.' . $aData['type']);
@@ -1186,7 +1216,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 
 
 	/**
-	 * Хендлер сабмита формы удаление пользователя
+	 * Хендлер сабмита формы удаления пользователя
 	 *
 	 * @param $oUser			объект пользователя
 	 * @return bool
