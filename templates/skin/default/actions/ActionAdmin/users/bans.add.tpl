@@ -31,11 +31,11 @@
 		}
 
 		{*
-			если блокировка по сущности - добавить возможность одновременного бана по айпи
+			если блокировка по сущности пользователя - добавить возможность одновременного бана по айпи
 			tip: битовое логическое И
 		*}
 		<div id="js_admin_users_bans_secondary_rule_wrapper" {if !($_aRequest.block_type & PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_USER_ID)}style="display: none;"{/if}>
-			{* Допоплнительное правило бана *}
+			{* Дополнительное правило бана *}
 			{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
 				sFieldName    = 'secondary_rule'
 				sFieldClasses = 'width-250'
