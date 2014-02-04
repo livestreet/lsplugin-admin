@@ -267,6 +267,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 			$this->Security_ValidateSendForm();
 			$oType = Engine::GetEntity('ModuleTopic_EntityTopicType');
 			$oType->_setDataSafe(getRequest('type'));
+			$oType->setParams(getRequest('params'));
 			$oType->setAllowRemove(1);
 			$oType->setState(isset($_REQUEST['type']['active']) ? ModuleTopic::TOPIC_TYPE_STATE_ACTIVE : ModuleTopic::TOPIC_TYPE_STATE_NOT_ACTIVE);
 			$oType->setDateCreate(date("Y-m-d H:i:s"));
@@ -297,6 +298,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 			$sCodeOld = $oType->getCode();
 
 			$oType->_setDataSafe(getRequest('type'));
+			$oType->setParams(getRequest('params'));
 			$oType->setState(isset($_REQUEST['type']['active']) ? ModuleTopic::TOPIC_TYPE_STATE_ACTIVE : ModuleTopic::TOPIC_TYPE_STATE_NOT_ACTIVE);
 			if ($oType->_Validate()) {
 				if ($this->Topic_UpdateTopicType($oType)) {
@@ -323,6 +325,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 			$_REQUEST['type']['name_many'] = htmlspecialchars_decode($oType->getNameMany());
 			$_REQUEST['type']['code'] = $oType->getCode();
 			$_REQUEST['type']['active'] = $oType->getState() == ModuleTopic::TOPIC_TYPE_STATE_ACTIVE ? true : false;
+			$_REQUEST['params']=$oType->getParamsArray();
 		}
 	}
 
