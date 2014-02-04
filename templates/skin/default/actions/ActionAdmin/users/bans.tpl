@@ -18,7 +18,7 @@
 		<a href="{$sFullPagePathToEvent}{request_filter
 			name=array('ban_restriction_type', 'ban_time_type')
 			value=array(null, $sBanTimeType)
-		}" class="button {if $sBanRestrictionType=='all'}active{/if}">{$aLang.plugin.admin.bans.filter.restriction.all}</a>
+		}" class="button {if $sBanRestrictionType==null}active{/if}">{$aLang.plugin.admin.bans.filter.restriction.all}</a>
 
 		<a href="{$sFullPagePathToEvent}{request_filter
 			name=array('ban_restriction_type', 'ban_time_type')
@@ -38,7 +38,7 @@
 		<a href="{$sFullPagePathToEvent}{request_filter
 			name=array('ban_restriction_type', 'ban_time_type')
 			value=array($sBanRestrictionType, null)
-		}" class="button {if $sBanTimeType=='all'}active{/if}">{$aLang.plugin.admin.bans.filter.time.all}</a>
+		}" class="button {if $sBanTimeType==null}active{/if}">{$aLang.plugin.admin.bans.filter.time.all}</a>
 
 		<a href="{$sFullPagePathToEvent}{request_filter
 			name=array('ban_restriction_type', 'ban_time_type')

@@ -618,7 +618,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 				/*
 				 * показывать баны всех типов ограничений
 				 */
-				$sBanRestrictionType = 'all';
+				$sBanRestrictionType = null;
 		}
 
 		/*
@@ -642,7 +642,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 				/*
 				 * показывать все баны
 				 */
-				$sBanTimeType = 'all';
+				$sBanTimeType = null;
 		}
 
 		/*
