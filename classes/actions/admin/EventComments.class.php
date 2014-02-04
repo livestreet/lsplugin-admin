@@ -52,7 +52,7 @@ class PluginAdmin_ActionAdmin_EventComments extends Event {
 			$this->PluginAdmin_Comments_DeleteComment($oComment);
 
 			$this->Message_AddNotice($this->Lang('notices.comments.comment_deleted'), '', true);
-			Router::Location(Router::GetPath('admin'));
+			Router::LocationAction('admin');
 		}
 	}
 

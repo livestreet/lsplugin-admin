@@ -8,7 +8,10 @@
 
 {block name='field_holder' prepend}
 	{hookb run="captcha"}
-		<span style="background-image: url({cfg name='path.framework.libs_vendor.web'}/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId}&n={rand()}&name={$sCaptchaName});" data-type="captcha" data-captcha-name="{$sCaptchaName}" class="form-auth-captcha"></span>
+		<span style="background-image: url({Config::Get('path.framework.libs_vendor.web')}/kcaptcha/index.php?{$_sPhpSessionName}={$_sPhpSessionId}&n={rand()}&name={$sCaptchaName});"
+			  data-type="captcha"
+			  data-captcha-name="{$sCaptchaName}"
+			  class="form-auth-captcha"></span>
 		<input type="text"
 			   id="{if $sFieldId}{$sFieldId}{/if}"
 			   name="{$sFieldName}"

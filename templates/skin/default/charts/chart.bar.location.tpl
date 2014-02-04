@@ -12,7 +12,7 @@
 	{*
 		получить массив со списком объектов для короткого представления (в селекте)
 	*}
-	{$aShortViewLivingStats = array_splice($aData.collection, $oConfig->Get('plugin.admin.users.max_items_in_living_users_stats'))}
+	{$aShortViewLivingStats = array_splice($aData.collection, Config::Get('plugin.admin.users.max_items_in_living_users_stats'))}
 	{*
 		получить массив со списком объектов для полного вида (графиком)
 	*}

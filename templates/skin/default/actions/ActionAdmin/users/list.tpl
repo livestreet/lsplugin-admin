@@ -16,7 +16,7 @@
 		{$sSearchField = array_shift($sSearchFieldItems)}
 
 		<script>
-			var aAdminUsersSearchRules = {json var=$oConfig->Get('plugin.admin.users.search_allowed_types')};
+			var aAdminUsersSearchRules = {json var=Config::Get('plugin.admin.users.search_allowed_types')};
 		</script>
 
 		<span id="js-admin-users-list-search-form-q-wrapper">
@@ -24,7 +24,7 @@
 		</span>
 
 		<select class="width-200" id="js-admin-users-list-search-form-field-name">
-			{foreach array_keys($oConfig->Get('plugin.admin.users.search_allowed_types')) as $sSearchIn}
+			{foreach array_keys(Config::Get('plugin.admin.users.search_allowed_types')) as $sSearchIn}
 				<option value="{$sSearchIn}" {if $sSearchIn == $sSearchField}selected="selected"{/if}>
 					{$aLang.plugin.admin.users.search_allowed_in.$sSearchIn}
 				</option>
@@ -214,7 +214,7 @@
 
 	{include file="{$aTemplatePathPlugin.admin}forms/elements_on_page.tpl"
 		sFormActionPath="{router page='admin/users/ajax-on-page'}"
-		iCurrentValue = $oConfig->Get('plugin.admin.users.per_page')
+		iCurrentValue = Config::Get('plugin.admin.users.per_page')
 	}
 
 	{include file="{$aTemplatePathPlugin.admin}pagination.tpl" aPaging=$aPaging}

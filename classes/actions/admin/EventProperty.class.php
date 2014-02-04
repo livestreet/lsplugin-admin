@@ -77,7 +77,7 @@ class PluginAdmin_ActionAdmin_EventProperty extends Event {
 		 */
 
 
-		Router::Location(Router::GetPath("admin/properties/{$sTargetType}"));
+		Router::LocationAction("admin/properties/{$sTargetType}");
 	}
 
 	public function EventPropertyUpdate() {

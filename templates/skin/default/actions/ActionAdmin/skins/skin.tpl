@@ -53,7 +53,7 @@
 
 									<select name="theme" class="width-150">
 										{foreach from=$oSkin->getThemes() item=aTheme}
-											<option value="{$aTheme.value}" {if $oConfig->Get('view.theme')==$aTheme.value}selected="selected"{/if}>
+											<option value="{$aTheme.value}" {if Config::Get('view.theme')==$aTheme.value}selected="selected"{/if}>
 												{$aTheme.description}
 											</option>
 										{/foreach}

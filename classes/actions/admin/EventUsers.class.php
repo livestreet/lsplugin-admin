@@ -1085,7 +1085,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		}
 		$this->PluginAdmin_Users_DeleteBanById($oBan->getId());
 		$this->Message_AddNotice($this->Lang('notices.bans.deleted'), '', true);
-		Router::Location(Router::GetPath('admin') . 'users/bans');
+		Router::LocationAction('admin/users/bans');
 	}
 
 
@@ -1205,7 +1205,8 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		if (isPost('submit_delete_user_contents')) {
 			if ($this->SubmitDeleteUser($oUser)) {
 				$this->Message_AddNotice($this->Lang('notices.users.content_deleted'), '', true);
-				return Router::Location(Router::GetPath('admin'));
+				Router::LocationAction('admin');
+				return true;
 			}
 		}
 		/*

@@ -14,7 +14,7 @@
 		{*
 			тип плагинов
 		*}
-		{foreach $oConfig->Get('plugin.admin.catalog.remote.addons.type') as $sPluginType}
+		{foreach Config::Get('plugin.admin.catalog.remote.addons.type') as $sPluginType}
 			<a class="button {if $sPluginTypeCurrent==$sPluginType}active{/if}" href="{router page='admin/plugins/install'}{request_filter
 				name=array('order', 'type', 'version', 'section')
 				value=array($sSortOrderCurrent, $sPluginType, $sVersionCurrent, $sSectionCurrent)
@@ -34,7 +34,7 @@
 				сортировка
 			*}
 			<select id="admin_plugins_install_sorting" class="width-200">
-				{foreach $oConfig->Get('plugin.admin.catalog.remote.addons.sorting') as $sSorting}
+				{foreach Config::Get('plugin.admin.catalog.remote.addons.sorting') as $sSorting}
 					<option value="{router page='admin/plugins/install'}{request_filter
 						name=array('order', 'type', 'version', 'section')
 						value=array($sSorting, $sPluginTypeCurrent, $sVersionCurrent, $sSectionCurrent)
@@ -45,7 +45,7 @@
 				версия
 			*}
 			<select id="admin_plugins_install_version" class="width-150">
-				{foreach $oConfig->Get('plugin.admin.catalog.remote.addons.versions') as $sVersion}
+				{foreach Config::Get('plugin.admin.catalog.remote.addons.versions') as $sVersion}
 					<option value="{router page='admin/plugins/install'}{request_filter
 						name=array('order', 'type', 'version', 'section')
 						value=array($sSortOrderCurrent, $sPluginTypeCurrent, $sVersion, $sSectionCurrent)
@@ -56,7 +56,7 @@
 				секция
 			*}
 			<select id="admin_plugins_install_section" class="width-150">
-				{foreach $oConfig->Get('plugin.admin.catalog.remote.addons.sections') as $sSection}
+				{foreach Config::Get('plugin.admin.catalog.remote.addons.sections') as $sSection}
 					<option value="{router page='admin/plugins/install'}{request_filter
 						name=array('order', 'type', 'version', 'section')
 						value=array($sSortOrderCurrent, $sPluginTypeCurrent, $sVersionCurrent, $sSection)

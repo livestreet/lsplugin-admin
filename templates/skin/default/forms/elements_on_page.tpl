@@ -2,7 +2,7 @@
  * Форма изменения количества элементов на страницу
  *
  * @param $sFormActionPath Путь к екшену ({router page='admin/bans/ajax-on-page'})
- * @param $iCurrentValue   Текущее значение ($oConfig->Get('plugin.admin.bans.per_page'))
+ * @param $iCurrentValue   Текущее значение (Config::Get('plugin.admin.bans.per_page'))
  * @param $sFormId         id формы (не обязательно, по-умолчанию "admin_onpage")
  *}
 
@@ -16,7 +16,7 @@
 
 	{$aLang.plugin.admin.on_page}
 	<select name="onpage" class="width-75">
-		{foreach from=$oConfig->Get('plugin.admin.pagination.values_for_select_elements_on_page') item=iVal}
+		{foreach from=Config::Get('plugin.admin.pagination.values_for_select_elements_on_page') item=iVal}
 			<option value="{$iVal}" {if $iVal==$iCurrentValue}selected="selected"{/if}>{$iVal}</option>
 		{/foreach}
 	</select>

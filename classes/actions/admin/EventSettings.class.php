@@ -274,7 +274,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 			if ($oType->_Validate()) {
 				if ($this->Topic_AddTopicType($oType)) {
 					$this->Message_AddNotice('Добавление прошло успешно', $this->Lang_Get('attention'), true);// todo: add lang
-					Router::Location(Router::GetPath('admin/settings/topic-type'));
+					Router::LocationAction('admin/settings/topic-type');
 				} else {
 					$this->Message_AddError('Возникла ошибка при добавлении', $this->Lang_Get('error'));// todo: add lang
 				}
@@ -313,7 +313,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 						$this->Topic_UpdateTopicByType($sCodeOld, $oType->getCode());
 					}
 					$this->Message_AddNotice('Обновление прошло успешно', $this->Lang_Get('attention'), true);// todo: add lang
-					Router::Location(Router::GetPath('admin/settings/topic-type'));
+					Router::LocationAction('admin/settings/topic-type');
 				} else {
 					$this->Message_AddError('Возникла ошибка при обновлении', $this->Lang_Get('error'));// todo: add lang
 				}

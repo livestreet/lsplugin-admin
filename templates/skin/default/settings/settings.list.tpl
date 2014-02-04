@@ -4,7 +4,7 @@
 
 {if $aSections and count($aSections) > 0}
 	<script>
-		ls.registry.set('settings.admin_save_form_ajax_use', {json var=$oConfig->Get('plugin.admin.settings.admin_save_form_ajax_use')});
+		ls.registry.set('settings.admin_save_form_ajax_use', {json var=Config::Get('plugin.admin.settings.admin_save_form_ajax_use')});
 	</script>
 
 	<br>
@@ -21,7 +21,7 @@
 				{/if}
 
 				{* Показывать ли ключи раздела *}
-				{if $oConfig->Get('plugin.admin.settings.show_section_keys')}
+				{if Config::Get('plugin.admin.settings.show_section_keys')}
 					{include file="{$aTemplatePathPlugin.admin}settings/keys_to_show.tpl" aKeysToShow=$oSection->getAllowedKeys()}
 				{/if}
 

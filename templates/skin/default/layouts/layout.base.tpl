@@ -26,8 +26,8 @@
 	{$aHtmlHeadFiles.css}
 
 	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
-	<link href="{cfg name='path.static.skin'}/images/favicon.ico?v1" rel="shortcut icon" />
-	<link rel="search" type="application/opensearchdescription+xml" href="{router page="search/opensearch"}" title="{cfg name='view.name'}" />
+	{*<link href="{Config::Get('path.static.skin')}/images/favicon.ico?v1" rel="shortcut icon" />*}
+	<link rel="search" type="application/opensearchdescription+xml" href="{router page="search/opensearch"}" title="{Config::Get('view.name')}" />
 
 	{**
 	 * RSS
@@ -42,26 +42,26 @@
 
 
 	<script>
-        var		PATH_ROOT 					= '{cfg name="path.root.web"}',
-                PATH_SKIN		 			= '{cfg name="path.skin.web"}',
-                PATH_FRAMEWORK_FRONTEND		= '{cfg name="path.framework.frontend.web"}',
-                PATH_FRAMEWORK_LIBS_VENDOR	= '{cfg name="path.framework.libs_vendor.web"}',
+        var		PATH_ROOT 					= '{Config::Get("path.root.web")}',
+                PATH_SKIN		 			= '{Config::Get("path.skin.web")}',
+                PATH_FRAMEWORK_FRONTEND		= '{Config::Get("path.framework.frontend.web")}',
+                PATH_FRAMEWORK_LIBS_VENDOR	= '{Config::Get("path.framework.libs_vendor.web")}',
                 /**
                  * Для совместимости с прошлыми версиями. БУДУТ УДАЛЕНЫ
                  */
-                DIR_WEB_ROOT 				= '{cfg name="path.root.web"}',
-                DIR_STATIC_SKIN 			= '{cfg name="path.skin.web"}',
-                DIR_STATIC_FRAMEWORK 		= '{cfg name="path.framework.frontend.web"}',
-                DIR_ENGINE_LIBS	 			= '{cfg name="path.framework.web"}/libs',
+                DIR_WEB_ROOT 				= '{Config::Get("path.root.web")}',
+                DIR_STATIC_SKIN 			= '{Config::Get("path.skin.web")}',
+                DIR_STATIC_FRAMEWORK 		= '{Config::Get("path.framework.frontend.web")}',
+                DIR_ENGINE_LIBS	 			= '{Config::Get("path.framework.web")}/libs',
 
                 LIVESTREET_SECURITY_KEY = '{$LIVESTREET_SECURITY_KEY}',
                 SESSION_ID				= '{$_sPhpSessionId}',
                 SESSION_NAME			= '{$_sPhpSessionName}',
-                LANGUAGE				= '{$oConfig->Get('lang.current')}',
-                WYSIWYG					= {if $oConfig->Get('view.wysiwyg')}true{else}false{/if};
+                LANGUAGE				= '{Config::Get('lang.current')}',
+                WYSIWYG					= {if Config::Get('view.wysiwyg')}true{else}false{/if};
 
 		var aRouter = [];
-		{foreach from=$aRouter key=sPage item=sPath}
+		{foreach $aRouter as $sPage => $sPath}
 			aRouter['{$sPage}'] = '{$sPath}';
 		{/foreach}
 	</script>
@@ -75,9 +75,6 @@
 	<script>
 		ls.lang.load({json var = $aLangJs});
 		ls.lang.load({lang_load name="blog"});
-
-		ls.registry.set('comment_max_tree', {json var=$oConfig->Get('module.comment.max_tree')});
-		ls.registry.set('block_stream_show_tip', {json var=$oConfig->Get('block.stream.show_tip')});
 	</script>
 	
 
@@ -87,7 +84,7 @@
 </head>
 
 
-<body class="{$sBodyClasses} {* layout-{cfg name='view.grid.type'} *} {block name='layout_body_classes'}{/block} ls-admin">
+<body class="{$sBodyClasses} {block name='layout_body_classes'}{/block} ls-admin">
 	{* {hook run='body_begin'} *}
 
 	{block name='layout_body'}
@@ -97,11 +94,11 @@
 			 *}
 			<header id="header" class="clearfix" role="banner">
 				<ul class="breadcrumbs">
-					<li><a href="{cfg name='path.root.web'}" class="link-dotted">Перейти на сайт</a></li>
+					<li><a href="{Config::Get('path.root.web')}" class="link-dotted">Перейти на сайт</a></li>	{* todo: add lang *}
 				</ul>
 
 				<div class="site-info">
-					<h1 class="site-name"><a href="{cfg name='path.root.web'}/admin">{cfg name="view.name"}</a></h1>
+					<h1 class="site-name"><a href="{Config::Get('path.root.web')}/admin">{Config::Get("view.name")}</a></h1>
 				</div>
 
 				{* Юзербар *}
@@ -113,9 +110,11 @@
 
 				<ul class="dropdown-menu" id="dropdown-menu-userbar">
 					<li>
-						<a href="{router page="admin/users/profile/{$oUserCurrent->getId()}"}">Мой профиль</a>
+						<a href="{router page="admin/users/profile/{$oUserCurrent->getId()}"}">Мой профиль</a>	{* todo: add lang *}
 					</li>
-					<li><a href="{router page='login'}exit/?security_ls_key={$LIVESTREET_SECURITY_KEY}">Выйти</a></li>
+					<li>
+						<a href="{router page='login/exit'}?security_ls_key={$LIVESTREET_SECURITY_KEY}">Выйти</a>
+					</li>
 				</ul>
 			</header>
 
@@ -195,13 +194,13 @@
 						</ul>
 
 						<ul>
-							<li><a href="https://catalog.livestreetcms.com/" class="link-border" target="_blank"><span>Каталог расширений</a></span></li>
+							<li><a href="https://catalog.livestreetcms.com/" class="link-border" target="_blank"><span>Каталог расширений</a></span></li>{* todo: add lang *}
 							<li><a href="http://livestreet.ru/" class="link-border" target="_blank"><span>Сообщество</a></span></li>
 							<li><a href="http://job.livestreetcms.com/" class="link-border" target="_blank"><span>Работа</a></span></li>
 						</ul>
 
 						<ul class="footer-right">
-							<li><a href="{cfg name='path.root.web'}" class="link-border"><span>Перейти на сайт</a></span></li>
+							<li><a href="{Config::Get('path.root.web')}" class="link-border"><span>Перейти на сайт</a></span></li>
 						</ul>
 
 						{block name='layout_footer_end'}{/block}
