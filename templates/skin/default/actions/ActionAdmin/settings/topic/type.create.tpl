@@ -45,6 +45,14 @@
 			bFieldChecked = $_aRequest.type.active
 			sFieldLabel = 'Активный'}
 
+		<h5 class="h5">Дополнительные параметры:</h5>
+
+		{* Возможность подключать опросы *}
+		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.checkbox.tpl"
+			sFieldName  = 'params[allow_poll]'
+			bFieldChecked = $_aRequest.params.allow_poll
+			sFieldLabel = 'Разрешить добавлять опросы'}
+
 		{* Кнопки *}
 		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.button.tpl"
 			sFieldName  = 'type_submit'
