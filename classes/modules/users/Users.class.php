@@ -493,7 +493,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * @param $oUser			сущность пользователя
 	 * @param $sIp				указанный айпи
 	 * @param $sDate			на указанную дату
-	 * @return mixed
+	 * @return Entity|null
 	 */
 	protected function IsUserBanned($oUser = null, $sIp = null, $sDate = null) {
 		/*
@@ -532,7 +532,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * 		т.к. этот метод работает с текущим айпи, что позволит сработать правилам и для не залогиненного пользователя
 	 * 		потому что GetUserBannedByUser использует данные сущности пользователя, в т.ч. и айпи - либо последнего входа либо регистрации
 	 *
-	 * @return object        	объект бана
+	 * @return Entity|null        	объект бана или нулл
 	 */
 	public function IsCurrentUserBanned() {
 		return $this->IsUserBanned();
@@ -546,7 +546,7 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * 		из которой будет получен айпи для проверки - либо последнего входа либо регистрации (но не текущий айпи!)
 	 *
 	 * @param $oUser			объект пользователя
-	 * @return mixed
+	 * @return Entity|null
 	 */
 	public function GetUserBannedByUser($oUser) {
 		/*
@@ -561,11 +561,18 @@ class PluginAdmin_ModuleUsers extends Module {
 	}
 
 
+	/*
+	 *
+	 * --- Обертки для проверки на бан ТЕКУЩЕГО пользователя с указанным типом ограничений ---
+	 * tip: системные методы, не для использования плагинами. Плагинам следует использовать методы из сущности пользователя
+	 *
+	 */
+
 	/**
 	 * Попадает ли ТЕКУЩИЙ пользователь под полный бан с лишением доступа ко всему сайту, возвращает объект бана в случае успеха
 	 * tip: используется в хуке банов для общей блокировки доступа
 	 *
-	 * @return bool
+	 * @return Entity|bool
 	 */
 	public function IsCurrentUserBannedFully() {
 		if ($oBan = $this->IsCurrentUserBanned() and $oBan->getIsFull()) {
@@ -578,9 +585,9 @@ class PluginAdmin_ModuleUsers extends Module {
 	/**
 	 * Попадает ли ТЕКУЩИЙ пользователь под "read only" бан (есть возможность читать сайт, без возможности что либо публиковать, комментировать и т.п.),
 	 * возвращает объект бана в случае успеха
-	 * tip: используется в наследуемом модуле ACL, а может быть вызван плагинами для проверки возможности публикации для текущего (!) пользователя
+	 * tip: используется в наследуемом модуле ACL, может быть вызван плагинами для проверки возможности публикации для текущего (!) пользователя
 	 *
-	 * @return bool
+	 * @return Entity|bool
 	 */
 	public function IsCurrentUserBannedForReadOnly() {
 		if ($oBan = $this->IsCurrentUserBanned() and $oBan->getIsReadOnly()) {

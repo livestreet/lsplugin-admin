@@ -28,6 +28,29 @@
 
 class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 
+	/*
+	 * Кешированная сущность бана на время сессии
+	 */
+	private $oBan = null;
+	/*
+	 * Флаг одноразовой проверки бана типа "только чтение"
+	 */
+	private $bBanChecked = false;
+
+
+	/**
+	 * Проверка текущего пользователя на бан типа "только чтение" с использованием кеширования ответа на момент сессии
+	 *
+	 * @return Entity|bool
+	 */
+	private function CheckReadOnlyBanOnce() {
+		if (!$this->bBanChecked) {
+			$this->oBan = $this->PluginAdmin_Users_IsCurrentUserBannedForReadOnly();
+			$this->bBanChecked = true;
+		}
+		return $this->oBan;
+	}
+
 
 	/**
 	 * Проверить включен ли для текущего пользователя режим "только чтение"
@@ -39,7 +62,7 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 		/*
 		 * если пользователь переведен в режим "только чтение" - запретить ему любое действие
 		 */
-		if ($oBan = $this->PluginAdmin_Users_IsCurrentUserBannedForReadOnly()) {
+		if ($oBan = $this->CheckReadOnlyBanOnce()) {
 			/*
 			 * нужно ли увеличить счетчик срабатываний для этого метода
 			 */
@@ -65,7 +88,7 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 	 * @param $sFuncName	имя метода из ACL
 	 * @return bool
 	 */
-	protected function NeedToGatherStatsForThisMethod($sFuncName) {
+	private function NeedToGatherStatsForThisMethod($sFuncName) {
 		return !in_array($sFuncName, Config::Get('plugin.admin.bans.acl_exclude_methods_from_gather_stats'));
 	}
 
