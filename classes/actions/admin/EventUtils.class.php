@@ -139,6 +139,13 @@ class PluginAdmin_ActionAdmin_EventUtils extends Event {
 				$this->PluginAdmin_Users_DeleteAllBansStats();
 				$this->Message_AddNotice($this->Lang('notices.utils.reset_n_clear.datareset.bans_stats_cleared'), '', true);
 				break;
+			case 'deleteoldbanrecords':
+				/*
+				 * Удалить старые записи банов, дата окончания которых уже прошла
+				 */
+				$this->PluginAdmin_Users_DeleteOldBanRecords();
+				$this->Message_AddNotice($this->Lang('notices.utils.reset_n_clear.datareset.old_ban_records_deleted'), '', true);
+				break;
 			default:
 				$this->Message_AddError($this->Lang('errors.utils.unknown_reset_n_clear_action'), $this->Lang_Get('error'), true);
 		}

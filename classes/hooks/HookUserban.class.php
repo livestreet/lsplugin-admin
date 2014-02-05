@@ -30,7 +30,7 @@ class PluginAdmin_HookUserban extends Hook {
 
 	public function RegisterHook() {
 		/*
-		 * обработка старых банов, сообщение текущему пользователю что он под баном
+		 * сообщение текущему пользователю что он под баном
 		 * tip: наименьший приоритет, который можно установить
 		 */
 		$this->AddHook('engine_init_complete', 'EngineInitComplete', __CLASS__, -PHP_INT_MAX);
@@ -46,13 +46,9 @@ class PluginAdmin_HookUserban extends Hook {
 
 
 	/**
-	 * Обработка старых банов, сообщение текущему пользователю что он под баном
+	 * Сообщение текущему пользователю что он под баном
 	 */
 	public function EngineInitComplete() {
-		/*
-		 * удалить старые записи банов
-		 */
-		$this->PluginAdmin_Users_DeleteOldBanRecords();
 		/*
 		 * если текущий пользователь попадает под условия бана - показать ему сообщение
 		 */

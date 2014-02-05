@@ -476,7 +476,6 @@ class PluginAdmin_ModuleUsers extends Module {
 	 * Удалить старые записи банов, дата окончания которых уже прошла
 	 */
 	public function DeleteOldBanRecords() {
-		if (!Config::Get('plugin.admin.bans.auto_delete_old_ban_records')) return false;
 		// todo: cache
 		return $this->oMapper->DeleteOldBanRecords();
 	}

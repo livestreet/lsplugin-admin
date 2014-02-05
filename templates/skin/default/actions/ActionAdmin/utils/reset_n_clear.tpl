@@ -26,6 +26,11 @@
 				>{$aLang.plugin.admin.utils.reset_n_clear.datareset.resetallbansstats}</a>
 	</div>
 
+	<div class="mb-10">
+		<a href="{router page='admin/utils/reset_n_clear/deleteoldbanrecords'}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
+				>{$aLang.plugin.admin.utils.reset_n_clear.datareset.deleteoldbanrecords}</a>
+	</div>
+
 	{hook run='admin_utils_reset_n_clear_datareset_item'}
 
 {/block}
