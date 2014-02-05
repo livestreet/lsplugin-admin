@@ -55,6 +55,17 @@ $config['bans']['acl_exclude_methods_from_gather_stats'] = array(
 );
 
 /*
+ * дата старта бана должна быть не меньше текущей даты
+ */
+$config['bans']['date_from_must_gte_current_date'] = false;
+
+/*
+ * id пользователей, которых нельзя банить
+ * значение по-умолчанию - 1 (это автоматически создаваемый при установке движка пользователь "admin")
+ */
+$config['bans']['block_ban_user_ids'] = array(1);
+
+/*
  *
  * --- Сортировка ---
  *

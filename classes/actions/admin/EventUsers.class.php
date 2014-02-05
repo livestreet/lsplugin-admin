@@ -817,6 +817,14 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 					return false;
 				}
 				/*
+				 * проверить чтобы дата начала была не меньше текущей даты
+				 * tip: при редактировании старого бана (например, при смене причины бана) может вызывать неудобства смены даты старта
+				 */
+				if (Config::Get('plugin.admin.bans.date_from_must_gte_current_date') and strtotime($sPeriodFrom) < strtotime(date("Y-m-d"))) {
+					$this->Message_AddError($this->Lang('errors.bans.period_from_must_be_gte_current_day'));
+					return false;
+				}
+				/*
 				 * проверить корректность даты финиша
 				 */
 				if (!$sPeriodTo or !$this->Validate_Validate('date', $sPeriodTo, $aDateValidatorParams)) {
@@ -867,6 +875,13 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 */
 		switch ($aRuleData['type']) {
 			case 'user':
+				/*
+				 * можно ли банить этого пользователя
+				 */
+				if (in_array($aRuleData['user']->getId(), Config::Get('plugin.admin.bans.block_ban_user_ids'))) {
+					$this->Message_AddError($this->Lang('errors.bans.this_user_id_blocked_for_bans'));
+					return false;
+				}
 				/*
 				 * если установлено дополнительное правило бана по айпи
 				 */
