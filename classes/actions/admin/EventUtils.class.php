@@ -146,6 +146,13 @@ class PluginAdmin_ActionAdmin_EventUtils extends Event {
 				$this->PluginAdmin_Users_DeleteOldBanRecords();
 				$this->Message_AddNotice($this->Lang('notices.utils.reset_n_clear.datareset.old_ban_records_deleted'), '', true);
 				break;
+			case 'resetalllscache':
+				/*
+				 * Сбросить весь кеш движка (данные, компилированные шаблоны, сжатые CSS и JS файлы)
+				 */
+				$this->PluginAdmin_Tools_ResetAllLSCache();
+				$this->Message_AddNotice($this->Lang('notices.utils.reset_n_clear.datareset.reset_all_ls_cache_done'), '', true);
+				break;
 			default:
 				$this->Message_AddError($this->Lang('errors.utils.unknown_reset_n_clear_action'), $this->Lang_Get('error'), true);
 		}

@@ -294,6 +294,26 @@ class PluginAdmin_ModuleTools extends Module {
 	}
 
 
+	/**
+	 * Сбросить весь кеш движка (данные, компилированные шаблоны, сжатые CSS и JS файлы)
+	 */
+	public function ResetAllLSCache() {
+		/*
+		 * выбрать все файлы и директории во временной директории движка, без учета самой директории
+		 * tip: файлы, начинающихся на точку (.htaccess) будут пропущены
+		 */
+		if ($aDirsAndFiles = $this->GetDirsRecursiveListing(Config::Get('path.tmp.server') . '/', null, false)) {
+			foreach($aDirsAndFiles as $sDirItem) {
+				if (is_dir($sDirItem)) {
+					@rmdir($sDirItem);
+				} else {
+					@unlink($sDirItem);
+				}
+			}
+		}
+	}
+
+
 }
 
 ?>
