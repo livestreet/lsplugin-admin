@@ -167,4 +167,9 @@ jQuery(document).ready(function($) {
 	 * Main navigation
 	 */
 	ls.plugin.admin.navMain.init();
+
+	/**
+	 * Механизм заметок для пользователей
+	 */
+	ls.usernote.init();
 });

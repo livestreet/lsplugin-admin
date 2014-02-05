@@ -401,7 +401,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			return;
 		}
 		$oMenu->AddSection(
-				Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Главная')->SetUrl('')
+				Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Главная')->SetUrl('')		// todo: add lang
 			)	// /AddSection
 			->AddSection(
 				Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Пользователи')->SetName('users')->SetUrl('users')
@@ -458,9 +458,9 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 	/**
 	 * Быстрое получение текстовки плагина без указания префикса
 	 *
-	 * @param $sKey		ключ языкового файла (без префикса plugin.имяплагина.)
-	 * @param $aParams	параметры подстановки значений для передачи в текстовку
-	 * @return mixed	значение
+	 * @param $sKey					ключ языкового файла (без префикса plugin.имяплагина.)
+	 * @param $aParams				параметры подстановки значений для передачи в текстовку
+	 * @return mixed				значение
 	 */
 	public function Lang($sKey, $aParams = array()) {
 		return $this->Lang_Get('plugin.admin.' . $sKey, $aParams);
@@ -557,6 +557,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		$this->Viewer_ClearStyle(true);
 
 		$sFrameworkPath = Config::Get('path.framework.frontend.web');
+		$sApplicationPath = Config::Get('path.application.web');
 		$sPluginTemplatePath = Plugin::GetTemplatePath(__CLASS__) . 'assets';
 
 		/*
@@ -580,7 +581,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$sFrameworkPath . '/css/grid.css',
 			$sFrameworkPath . '/css/alerts.css',
 			$sFrameworkPath . '/css/toolbar.css',
-			$sFrameworkPath . '/js/vendor/jquery-ui/css/smoothness/jquery-ui-1.10.2.custom.css', 			// todo: review (needed for datepicker)
+			$sFrameworkPath . '/js/vendor/jquery-ui/css/smoothness/jquery-ui-1.10.2.custom.css',
 			$sFrameworkPath . '/js/vendor/nprogress/nprogress.css',
 
 			/*
@@ -604,7 +605,6 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$sPluginTemplatePath . '/css/plugins.css',
 			$sPluginTemplatePath . '/css/addon.css',
 			$sPluginTemplatePath . '/css/rating.stars.css',
-			$sPluginTemplatePath . '/css/_temp.css',
 			$sPluginTemplatePath . '/css/flags.css',
 			
 			$sPluginTemplatePath . '/css/vendor/jquery.notifier.css',
@@ -659,13 +659,13 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$sFrameworkPath . '/js/ui/modal.js',
 			$sFrameworkPath . '/js/ui/toolbar.js',
 			/*
-			 * for managing user note
+			 * для редактирования заметок пользователей
 			 */
-			//Config::Get('path.application.web') . '/frontend/common/js/usernote.js',	// todo: пересмотреть
+			$sApplicationPath . '/frontend/common/js/usernote.js',
 			/*
 			 * для редактирования профиля пользователя
 			 */
-			Config::Get('path.application.web') . '/frontend/common/js/geo.js',
+			$sApplicationPath . '/frontend/common/js/geo.js',
 
 			/*
 			 * скрипты плагина
