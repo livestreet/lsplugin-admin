@@ -11,7 +11,7 @@
 {block name='layout_content_actionbar'}
 	<a href="{router page="admin/properties/{$sPropertyTargetType}/create"}" class="button button-primary">{$aLang.plugin.admin.add}</a>
 {/block}
-
+{* todo: add lang *}
 {block name='layout_page_title'}Список полей типа &laquo;{$aPropertyTargetParams.name}&raquo;{/block}
 
 {block name='layout_content'}
@@ -38,7 +38,10 @@
 						<td>{$oPropertyItem->getType()}</td>
 						<td class="ta-r">
 							<a href="{$oPropertyItem->getUrlAdminUpdate()}" class="icon-edit" title="{$aLang.plugin.admin.edit}"></a>
-							<a href="{$oPropertyItem->getUrlAdminRemove()}?security_ls_key={$LIVESTREET_SECURITY_KEY}" class="icon-remove" title="{$aLang.plugin.admin.delete}" onclick="return confirm('Действительно удалить?');"></a>
+							<a href="{$oPropertyItem->getUrlAdminRemove()}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
+							   class="icon-remove js-question"
+							   title="{$aLang.plugin.admin.delete}"
+							   data-question-title="Действительно удалить?"></a>
 						</td>
 					</tr>
 				{/foreach}

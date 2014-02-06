@@ -174,6 +174,12 @@ return array(
 		'complaints' => array(
 			'not_found' => 'Жалоба не найдена',
 		),
+		/*
+		 * ошибки дополнительных полей
+		 */
+		'properties' => array(
+			'not_removed' => 'Произошла ошибка при удалении',
+		),
 
 	),
 	
@@ -181,6 +187,9 @@ return array(
 	 * Уведомления
 	 */
 	'notices' => array(
+		/*
+		 * шаблон
+		 */
 		'template_changed' => 'Шаблон изменён',
 		'template_preview_turned_off' => 'Предпросмотр шаблона отключен',
 		'theme_changed' => 'Тема изменёна',
@@ -289,6 +298,12 @@ return array(
 		'complaints' => array(
 			'answer_sent' => 'Ответ отправлен',
 			'deleted' => 'Жалоба удалена',
+		),
+		/*
+		 * дополнительные поля
+		 */
+		'properties' => array(
+			'remove_done' => 'Удаление завершено',
 		),
 	),
 	
