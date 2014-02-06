@@ -38,22 +38,6 @@ $config['$config_scheme$'] = array(
 	 * Баны
 	 */
 
-	'bans.auto_delete_old_ban_records' => array(
-		/*
-		 * тип: integer, string, array, boolean, float
-		 */
-		'type' => 'boolean',
-		'name' => 'config_parameters.bans.auto_delete_old_ban_records.name',
-		'description' => 'config_parameters.bans.auto_delete_old_ban_records.description',
-		'validator' => array(
-			/*
-			 * тип валидатора: Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url, Array (специальный валидатор, см. документацию)
-			 */
-			'type' => 'Boolean',
-			'params' => array(),
-		),
-	),
-
 	'bans.gather_bans_running_stats' => array(
 		/*
 		 * тип: integer, string, array, boolean, float

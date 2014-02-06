@@ -21,7 +21,7 @@
 		</div>
 
 		<div class="mb-30 text plugin-instructions">
-			{$oPlugin->getInstallInstructionsText()|escape|nl2br}
+			{$oPlugin->getInstallInstructionsText()|trim|escape|nl2br}
 		</div>
 
 		<div>
