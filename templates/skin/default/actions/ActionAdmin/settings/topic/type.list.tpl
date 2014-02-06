@@ -38,7 +38,7 @@
 						<a href="{router page="admin/settings/topic-type/update"}{$oTopicTypeItem->getId()}/" class="icon-edit" title="{$aLang.plugin.admin.edit}"></a>
 						<a href="{router page="admin/properties"}{$oTopicTypeItem->getPropertyTargetType()}/" class="icon-th-list" title="Настройка дополнительных полей"></a>
 						{if $oTopicTypeItem->getAllowRemove()}
-							<a href="{router page="admin/settings/topic-type/remove"}{$oTopicTypeItem->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}" class="icon-remove" title="{$aLang.plugin.admin.delete}"></a>
+							<a href="{router page="admin/settings/topic-type/remove"}{$oTopicTypeItem->getId()}/" class="icon-remove" title="{$aLang.plugin.admin.delete}"></a>
 						{/if}
 					</td>
 				</tr>

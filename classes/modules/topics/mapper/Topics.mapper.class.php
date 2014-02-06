@@ -54,6 +54,17 @@ class PluginAdmin_ModuleTopics_MapperTopics extends Mapper {
 		return array();
 	}
 
+	public function ReplaceTopicsType($sTypeNew,$sTypeOld) {
+		$sql = "UPDATE ".Config::Get('db.table.topic')."
+			SET
+				topic_type= ?
+			WHERE
+				topic_type = ?
+		";
+		$res=$this->oDb->query($sql,$sTypeNew,$sTypeOld);
+		if ($res!==false and !is_null($res)) {
+			return true;
+		}
+		return false;
+	}
 }
-
-?>
