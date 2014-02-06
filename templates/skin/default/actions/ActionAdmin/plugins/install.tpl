@@ -33,7 +33,7 @@
 			{*
 				сортировка
 			*}
-			<select id="admin_plugins_install_sorting" class="width-200">
+			<select class="width-200 js-admin-url-to-go-in-select">
 				{foreach Config::Get('plugin.admin.catalog.remote.addons.sorting') as $sSorting}
 					<option value="{router page='admin/plugins/install'}{request_filter
 						name=array('order', 'type', 'version', 'section')
@@ -44,7 +44,7 @@
 			{*
 				версия
 			*}
-			<select id="admin_plugins_install_version" class="width-150">
+			<select class="width-150 js-admin-url-to-go-in-select">
 				{foreach Config::Get('plugin.admin.catalog.remote.addons.versions') as $sVersion}
 					<option value="{router page='admin/plugins/install'}{request_filter
 						name=array('order', 'type', 'version', 'section')
@@ -55,7 +55,7 @@
 			{*
 				секция
 			*}
-			<select id="admin_plugins_install_section" class="width-150">
+			<select class="width-150 js-admin-url-to-go-in-select">
 				{foreach Config::Get('plugin.admin.catalog.remote.addons.sections') as $sSection}
 					<option value="{router page='admin/plugins/install'}{request_filter
 						name=array('order', 'type', 'version', 'section')

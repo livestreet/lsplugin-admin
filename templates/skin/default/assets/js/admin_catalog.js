@@ -35,19 +35,11 @@ ls.admin_catalog = (function($) {
 		/*
 			кнопка опций
 		 */
-		dropdown_admin_plugins_install_options_button: '#dropdown_admin_plugins_install_options_button',
+		options_button: '#dropdown_admin_plugins_install_options_button',
 		/*
-			ид селекта сортировки
+		 	класс селекта для перехода по урлу в значении селекта
 		 */
-		admin_plugins_install_sorting: '#admin_plugins_install_sorting',
-		/*
-		 	ид селекта версии
-		 */
-		admin_plugins_install_version: '#admin_plugins_install_version',
-		/*
-		 	ид селекта секции
-		 */
-		admin_plugins_install_section: '#admin_plugins_install_section',
+		url_to_go_in_select: '.js-admin-url-to-go-in-select',
 
 		/*
 			для удобства (последняя запятая отсутствует)
@@ -76,28 +68,14 @@ jQuery(document).ready(function($) {
 	/*
 	 	добавлять класс "нажатия" кнопке открывающей дропдаун опций
 	 */
-	$ (ls.admin_catalog.selectors.dropdown_admin_plugins_install_options_button).on('dropdownbeforeshow.admin, dropdownafterhide.admin', function() {
+	$ (ls.admin_catalog.selectors.options_button).on('dropdownbeforeshow.admin, dropdownafterhide.admin', function() {
 		$ (this).toggleClass('active');
 	});
 
 	/*
-		изменение сортировки
+		переход по урлу из значения селекта
 	 */
-	$ (ls.admin_catalog.selectors.admin_plugins_install_sorting).change(function() {
-		window.location.href = $ (this).val();
-	});
-
-	/*
-	 	изменение версии
-	 */
-	$ (ls.admin_catalog.selectors.admin_plugins_install_version).change(function() {
-		window.location.href = $ (this).val();
-	});
-
-	/*
-	 	изменение секции
-	 */
-	$ (ls.admin_catalog.selectors.admin_plugins_install_section).change(function() {
+	$ (ls.admin_catalog.selectors.url_to_go_in_select).change(function() {
 		window.location.href = $ (this).val();
 	});
 
