@@ -602,6 +602,50 @@ class PluginAdmin_ModuleUsers extends Module {
 	 */
 
 
+	/**
+	 * Попадает ли текущий пользователь под одно из правил бана
+	 *
+	 * @param $oBan			сущность бана
+	 * @return bool
+	 * @throws Exception
+	 */
+	public function IsCurrentUserMatchAnyRuleOfBan($oBan) {
+		$oUser = $this->User_GetUserCurrent();
+		switch($oBan->getBlockType()) {
+			/*
+			 * бан по сущности пользователя
+			 */
+			case PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_USER_ID:
+				if ($oUser and $oBan->getUserId() == $oUser->getId()) return true;
+				break;
+			/*
+			 * бан по айпи
+			 */
+			case PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_IP:
+				if (convert_long2ip($oBan->getIp()) == func_getIp()) return true;
+				break;
+			/*
+			 * бан по диапазону айпи адресов
+			 */
+			case PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_IP_RANGE:
+				if ($oBan->getIpStart() <= convert_ip2long(func_getIp()) and $oBan->getIpFinish() >= convert_ip2long(func_getIp())) return true;
+				break;
+			/*
+			 * бан по сущности пользователя и по айпи (смешанный тип)
+			 */
+			case PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_USER_ID_AND_IP:
+				if (($oUser and $oBan->getUserId() == $oUser->getId()) or convert_long2ip($oBan->getIp()) == func_getIp()) return true;
+				break;
+			/*
+			 * тип не распознан
+			 */
+			default:
+				throw new Exception('Admin: error: unknown ban type "' . $oBan->getBlockType() . '" in ' . __METHOD__);
+		}
+		return false;
+	}
+
+
 	/*
 	 *
 	 * --- Статистика по банам ---

@@ -818,7 +818,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 				}
 				/*
 				 * проверить чтобы дата начала была не меньше текущей даты
-				 * только при создании бана чтобы не возникало неудобств при редактировании старых банов
+				 * tip: только при создании бана чтобы не возникало неудобств при редактировании старых банов
 				 */
 				if (!isset($oBan) and strtotime($sPeriodFrom) < strtotime(date("Y-m-d"))) {
 					$this->Message_AddError($this->Lang('errors.bans.period_from_must_be_gte_current_day'));
@@ -942,6 +942,13 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 		 */
 		$oEnt->setReasonForUser($sBlockingReasonForUser);
 		$oEnt->setComment($sBlockingComment);
+		/*
+		 * проверить чтобы пользователь не забанил случайно сам себя
+		 */
+		if ($this->PluginAdmin_Users_IsCurrentUserMatchAnyRuleOfBan($oEnt)) {
+			$this->Message_AddError($this->Lang('errors.bans.you_are_tried_to_ban_yourself'));
+			return false;
+		}
 
 		/*
 		 * валидация внесенных данных
