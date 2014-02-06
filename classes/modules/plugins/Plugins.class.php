@@ -409,7 +409,7 @@ class PluginAdmin_ModulePlugins extends Module {
 	 * @return string
 	 */
 	protected function GetFullFileNameForMainPluginClass($sPluginCode) {
-		return 'Plugin' . ucfirst($sPluginCode) . '.class.php';
+		return 'Plugin' . func_camelize($sPluginCode) . '.class.php';
 	}
 
 
@@ -430,7 +430,7 @@ class PluginAdmin_ModulePlugins extends Module {
 		 */
 		if ($aPluginMainClassFiles = @glob($this->GetPluginFolderFullPath($sPluginCode) . $sPrefix . '*' . $sPostfix)) {
 			$sFirstClassFile = basename(array_shift($aPluginMainClassFiles));
-			return strtolower(str_replace(array($sPrefix, $sPostfix), '', $sFirstClassFile));
+			return func_underscore(str_replace(array($sPrefix, $sPostfix), '', $sFirstClassFile));
 		}
 		return null;
 	}
