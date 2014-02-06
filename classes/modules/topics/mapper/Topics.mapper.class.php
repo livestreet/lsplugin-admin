@@ -21,6 +21,7 @@
 
 class PluginAdmin_ModuleTopics_MapperTopics extends Mapper {
 
+
 	/**
 	 * Получить статистику по новым топикам
 	 *
@@ -54,17 +55,27 @@ class PluginAdmin_ModuleTopics_MapperTopics extends Mapper {
 		return array();
 	}
 
-	public function ReplaceTopicsType($sTypeNew,$sTypeOld) {
-		$sql = "UPDATE ".Config::Get('db.table.topic')."
+
+	/**
+	 * Меняет у топиков тип на новый
+	 *
+	 * @param $sTypeNew
+	 * @param $sTypeOld
+	 * @return bool
+	 */
+	public function ReplaceTopicsType($sTypeNew, $sTypeOld) {
+		$sql = "UPDATE
+				`" . Config::Get('db.table.topic') . "`
 			SET
-				topic_type= ?
+				topic_type = ?
 			WHERE
 				topic_type = ?
 		";
-		$res=$this->oDb->query($sql,$sTypeNew,$sTypeOld);
-		if ($res!==false and !is_null($res)) {
+		$mResult = $this->oDb->query($sql, $sTypeNew, $sTypeOld);
+		if ($mResult !== false and !is_null($mResult)) {
 			return true;
 		}
 		return false;
 	}
+
 }

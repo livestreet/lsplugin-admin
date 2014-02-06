@@ -16,7 +16,7 @@
 {block name='layout_content'}
 	Топиков с данным типом: {if $iCountTopics}{$iCountTopics}{else}нет{/if}
 
-	<form action="{router page="admin/settings/topic-type/remove"}{$oTopicType->getId()}/" method="post">
+	<form action="{router page="admin/settings/topic-type/remove"}{$oTopicType->getId()}/" method="post" enctype="application/x-www-form-urlencoded">
 		<br><br>
 
 		{if $aTypeOtherItems}
@@ -39,6 +39,7 @@
 		</div>
 
 		{include "{$aTemplatePathPlugin.admin}forms/fields/form.field.hidden.security_key.tpl"}
-        <button type="submit" class="button button-primary" name="submit-remove">{$aLang.common.remove}</button>
+        <button type="submit" class="button button-primary js-question" data-question-title="Действительно удалить? Пользовательские поля будут удалены!"
+				name="submit-remove">{$aLang.common.remove}</button>
     </form>
 {/block}

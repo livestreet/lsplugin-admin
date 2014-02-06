@@ -49,7 +49,7 @@
 		<div id="admin_bans_checking_msg" class="alert alert-info" style="display: none;"></div>
 
 		{* Тип ограничения пользования сайтом для бана *}
-		<label class="mb-15 mt-20">{$aLang.plugin.admin.bans.add.restriction_title}</label>
+		<label class="mb-15 mt-20">{$aLang.plugin.admin.bans.add.restriction_title}:</label>
 		<select name="restriction_type" class="width-full mb-30">
 			{foreach from=array(PluginAdmin_ModuleUsers::BAN_RESTRICTION_TYPE_FULL, PluginAdmin_ModuleUsers::BAN_RESTRICTION_TYPE_READ_ONLY) item=iRestrictionType}
 				<option value="{$iRestrictionType}" {if $_aRequest.restriction_type==$iRestrictionType}selected="selected"{/if}>
