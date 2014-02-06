@@ -818,9 +818,9 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event {
 				}
 				/*
 				 * проверить чтобы дата начала была не меньше текущей даты
-				 * tip: при редактировании старого бана (например, при смене причины бана) может вызывать неудобства смены даты старта
+				 * только при создании бана чтобы не возникало неудобств при редактировании старых банов
 				 */
-				if (Config::Get('plugin.admin.bans.date_from_must_gte_current_date') and strtotime($sPeriodFrom) < strtotime(date("Y-m-d"))) {
+				if (!isset($oBan) and strtotime($sPeriodFrom) < strtotime(date("Y-m-d"))) {
 					$this->Message_AddError($this->Lang('errors.bans.period_from_must_be_gte_current_day'));
 					return false;
 				}
