@@ -368,10 +368,15 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 			/**
 			 * Сначала удаляем пользовательские поля, т.к. они зависят от типа топика
 			 */
-			$aProperties=$this->Property_GetPropertyItemsByFilter(array('target_type'=>"topic_{$oType->getCode()}"));
+			$sPropertyTargetType="topic_{$oType->getCode()}";
+			$aProperties=$this->Property_GetPropertyItemsByFilter(array('target_type'=>$sPropertyTargetType));
 			foreach($aProperties as $oProperty) {
 				$oProperty->Delete();
 			}
+			/**
+			 * Удаляем привязки к пользоватеьским полям
+			 */
+			$this->Property_RemoveTargetType($sPropertyTargetType,ModuleProperty::TARGET_STATE_REMOVE);
 
 			/**
 			 * Удаляем топики
