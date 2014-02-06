@@ -23,7 +23,7 @@
 		<div class="form-field-settings-array-values js-array-values" data-key="{$sKey}">
 			{foreach from=$oParameter->getValue() item=mValue}
 				<div class="form-field-settings-array-value js-array-item-value">
-					<input type="text" name="{$sInputDataName}" class="input-text width-100" readonly="readonly" value="{$mValue}" />
+					<input type="text" name="{$sInputDataName}" class="input-text width-100" readonly="readonly" value="{$mValue|escape:'html'}" />
 					<button type="button" class="button button-primary form-field-settings-array-remove js-remove-previous">x</button>
 				</div>
 			{/foreach}
@@ -38,7 +38,7 @@
 			
 			<select class="js-array-enum input-text width-250" data-key="{$sKey}">
 				{foreach from=$aItemsToShow item=sValue}
-					<option value="{$sValue}" {if in_array($sValue, $oParameter->getValue())}disabled="disabled"{/if}>{$sValue}</option>
+					<option value="{$sValue|escape:'html'}" {if in_array($sValue, $oParameter->getValue())}disabled="disabled"{/if}>{$sValue}</option>
 				{/foreach}
 			</select>
 

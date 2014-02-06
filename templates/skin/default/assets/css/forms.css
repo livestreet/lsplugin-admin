@@ -56,7 +56,7 @@ input[type="text"] {
 .form-field-settings .form-field-help:hover { opacity: 1; }
 
 /* Array */
-.form-field-settings-array-values { background: #FAFAFA; padding: 5px; margin: 0 0 15px; overflow: hidden; }
+.form-field-settings-array-values { background: none repeat scroll 0 0 #F7F7F7; padding: 5px; margin: 0 0 15px; overflow: hidden; }
 
 .form-field-settings-array-value { float: left; padding: 5px; }
 .form-field-settings-array-value input { float: left; }
