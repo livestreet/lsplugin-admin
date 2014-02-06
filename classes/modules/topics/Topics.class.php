@@ -39,6 +39,17 @@ class PluginAdmin_ModuleTopics extends Module {
 		return $this->oMapper->GetTopicsStats($aPeriod, $this->PluginAdmin_Stats_BuildDateFormatFromPHPToMySQL($aPeriod['format']));
 	}
 
+	/**
+	 * Меняет у топиков тип на новый
+	 *
+	 * @param $sTypeNew
+	 * @param $sTypeOld
+	 *
+	 * @return bool
+	 */
+	public function ReplaceTopicsType($sTypeNew,$sTypeOld) {
+		$bRes=$this->oMapper->ReplaceTopicsType($sTypeNew,$sTypeOld);
+		$this->Cache_Clean(Zend_Cache::CLEANING_MODE_MATCHING_TAG,array('topic_update'));
+		return $bRes;
+	}
 }
-
-?>

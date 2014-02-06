@@ -331,16 +331,81 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event {
 
 
 	public function EventTopicTypeRemove() {
-		$this->Security_ValidateSendForm();
+		if (!($oType = $this->Topic_GetTopicTypeById($this->GetParam(2)))) {
+			return parent::EventNotFound();
+		}
+		if (!$oType->getAllowRemove()) {
+			return parent::EventNotFound();
+		}
 
 		/**
-		 * TODO: Сделать удаление типов топиков - удалять топики?
+		 * Список остальных типов
 		 */
+		$aTypeOtherItems=$this->Topic_GetTopicTypeItems(array('code_not'=>$oType->getCode()));
+		/**
+		 * Смотрим сколько топиков есть для этого типа
+		 */
+		$iCountTopics=$this->Topic_GetCountTopicsByFilter(array('topic_type'=>$oType->getCode()));
 
-		return parent::EventNotFound();
+		$this->Viewer_Assign('iCountTopics', $iCountTopics);
+		$this->Viewer_Assign('oTopicType', $oType);
+		$this->Viewer_Assign('aTypeOtherItems', $aTypeOtherItems);
+		$this->SetTemplateAction('settings/topic/type.remove');
+
+		if (isPost('submit-remove')) {
+			$this->Security_ValidateSendForm();
+
+			if (!in_array(getRequestStr('type-remove'),array('replace','remove'))) {
+				return parent::EventNotFound();
+			}
+
+			$oTypeReplace=null;
+			if (getRequestStr('type-remove')=='replace') {
+				if (!$oTypeReplace=$this->Topic_GetTopicTypeById(getRequestStr('type-replace-id'))) {
+					return parent::EventNotFound();
+				}
+			}
+			/**
+			 * Сначала удаляем пользовательские поля, т.к. они зависят от типа топика
+			 */
+			$aProperties=$this->Property_GetPropertyItemsByFilter(array('target_type'=>"topic_{$oType->getCode()}"));
+			foreach($aProperties as $oProperty) {
+				$oProperty->Delete();
+			}
+
+			/**
+			 * Удаляем топики
+			 */
+			if (getRequestStr('type-remove')=='remove') {
+				/**
+				 * Получаем порциями по 100 штук
+				 * Здесь есть узкий момент - если удаления не будет происходить, то получение топиков зациклится
+				 */
+				while($aResult=$this->Topic_GetTopicsByFilter(array('topic_type'=>$oType->getCode()),1,100,array()) and $aResult['collection']) {
+					foreach($aResult['collection'] as $oTopic) {
+						/**
+						 * Удаляем топики
+						 */
+						$this->Hook_Run('topic_delete_before', array('oTopic'=>$oTopic));
+						$this->Topic_DeleteTopic($oTopic);
+						$this->Hook_Run('topic_delete_after', array('oTopic'=>$oTopic));
+					}
+				}
+			} elseif(getRequestStr('type-remove')=='replace') {
+				/**
+				 * Меняет тип сразу у всех топиков
+				 */
+				$this->Hook_Run('topic_change_type_all_before', array('sTypeNew'=>$oTypeReplace->getCode(),'sTypeOld'=>$oType->getCode()));
+				$this->PluginAdmin_Topics_ReplaceTopicsType($oTypeReplace->getCode(),$oType->getCode());
+				$this->Hook_Run('topic_change_type_all_after', array('sTypeNew'=>$oTypeReplace->getCode(),'sTypeOld'=>$oType->getCode()));
+			}
+
+
+			$this->Topic_DeleteTopicType($oType->getId());
+			$this->Message_AddNotice($this->Lang_Get('common.success.remove'),null,true);
+			Router::LocationAction('admin/settings/topic-type');
+		}
 	}
 
 
 }
-
-?>
