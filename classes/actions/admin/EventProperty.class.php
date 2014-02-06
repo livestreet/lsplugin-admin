@@ -73,9 +73,13 @@ class PluginAdmin_ActionAdmin_EventProperty extends Event {
 		}
 
 		/**
-		 * TODO: Удаляем все значения этого поля и само поле
+		 * Удаляем
 		 */
-
+		if ($oProperty->Delete()) {
+			$this->Message_AddNotice($this->Lang_Get('common.success.remove'),null,true);
+		} else {
+			$this->Message_AddError($this->Lang_Get('common.error.remove'),null,true);
+		}
 
 		Router::LocationAction("admin/properties/{$sTargetType}");
 	}

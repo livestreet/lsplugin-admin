@@ -38,7 +38,7 @@
 						<td>{$oPropertyItem->getType()}</td>
 						<td class="ta-r">
 							<a href="{$oPropertyItem->getUrlAdminUpdate()}" class="icon-edit" title="{$aLang.plugin.admin.edit}"></a>
-							<a href="{$oPropertyItem->getUrlAdminRemove()}?security_ls_key={$LIVESTREET_SECURITY_KEY}" class="icon-remove" title="{$aLang.plugin.admin.delete}"></a>
+							<a href="{$oPropertyItem->getUrlAdminRemove()}?security_ls_key={$LIVESTREET_SECURITY_KEY}" class="icon-remove" title="{$aLang.plugin.admin.delete}" onclick="return confirm('Действительно удалить?');"></a>
 						</td>
 					</tr>
 				{/foreach}
