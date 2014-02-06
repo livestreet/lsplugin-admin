@@ -28,29 +28,6 @@
 
 class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 
-	/*
-	 * Кешированная сущность бана на время сессии
-	 */
-	private $oBan = null;
-	/*
-	 * Флаг одноразовой проверки бана типа "только чтение"
-	 */
-	private $bBanChecked = false;
-
-
-	/**
-	 * Проверка текущего пользователя на бан типа "только чтение" с использованием кеширования ответа на момент сессии
-	 *
-	 * @return Entity|bool
-	 */
-	private function CheckReadOnlyBanOnce() {
-		if (!$this->bBanChecked) {
-			$this->oBan = $this->PluginAdmin_Users_IsCurrentUserBannedForReadOnly();
-			$this->bBanChecked = true;
-		}
-		return $this->oBan;
-	}
-
 
 	/**
 	 * Проверить включен ли для текущего пользователя режим "только чтение"
@@ -62,7 +39,7 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 		/*
 		 * если пользователь переведен в режим "только чтение" - запретить ему любое действие
 		 */
-		if ($oBan = $this->CheckReadOnlyBanOnce()) {
+		if ($oBan = $this->PluginAdmin_Users_IsCurrentUserBannedForReadOnly()) {
 			/*
 			 * нужно ли увеличить счетчик срабатываний для этого метода
 			 */

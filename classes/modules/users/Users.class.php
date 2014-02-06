@@ -67,6 +67,15 @@ class PluginAdmin_ModuleUsers extends Module {
 	 */
 	protected $aSortingOrderWays = array('desc', 'asc');
 
+	/*
+	 * Кешированная сущность бана для текущего пользователя на время сессии
+	 */
+	private $oCurrentUserBan = null;
+	/*
+	 * Флаг одноразовой проверки на бан для текущего пользователя на время сессии
+	 */
+	private $bCurrentUserBanChecked = false;
+
 
 	public function Init() {
 		$this->oMapper = Engine::GetMapper(__CLASS__);
@@ -528,14 +537,20 @@ class PluginAdmin_ModuleUsers extends Module {
 	/**
 	 * Проверить является ли ТЕКУЩИЙ пользователь забаненным (поиск по текущему пользователю (если есть) и текущему айпи)
 	 *
+	 * tip: с использованием кеширования ответа на момент сессии, чтобы проверка на бан для текущего пользователя выполнялась только один раз за всю сессию работы движка
+	 *
 	 * tip: использовать этот метод для проверки на бан ТЕКУЩЕГО пользователя, не обьеденять с GetUserBannedByUser
 	 * 		т.к. этот метод работает с текущим айпи, что позволит сработать правилам и для не залогиненного пользователя
 	 * 		потому что GetUserBannedByUser использует данные сущности пользователя, в т.ч. и айпи - либо последнего входа либо регистрации
 	 *
-	 * @return Entity|null        	объект бана или нулл
+	 * @return Entity|null		объект бана или нулл
 	 */
 	public function IsCurrentUserBanned() {
-		return $this->IsUserBanned();
+		if (!$this->bCurrentUserBanChecked) {
+			$this->oCurrentUserBan = $this->IsUserBanned();
+			$this->bCurrentUserBanChecked = true;
+		}
+		return $this->oCurrentUserBan;
 	}
 
 
