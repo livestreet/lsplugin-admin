@@ -1152,23 +1152,6 @@ class PluginAdmin_ModuleUsers extends Module {
 	 */
 
 	/**
-	 * Возвращает данные последнего входа на основе даты и ip персонально для каждого пользователя
-	 *
-	 * @return array
-	 */
-	public function GetLastVisitData() {
-		$aData = (array) $this->Storage_Get($this->GetAdminLastVisitKeyForUser(), $this);
-		if (isset($aData['ip'])) {
-			/*
-			 * текущий ip не изменился с момента прошлого входа
-			 */
-			$aData['same_ip'] = func_getIp() == $aData['ip'];
-		}
-		return $aData;
-	}
-
-
-	/**
 	 * Возвращает имя параметра данных последнего визита хранилища для текущего пользователя
 	 *
 	 * @return string
@@ -1179,7 +1162,24 @@ class PluginAdmin_ModuleUsers extends Module {
 
 
 	/**
-	 * записать данные последнего входа пользователя в админку персонально для каждого пользователя
+	 * Возвращает данные последнего входа на основе даты и ip персонально для каждого пользователя
+	 *
+	 * @return array
+	 */
+	public function GetLastVisitData() {
+		$aData = (array) $this->Storage_Get($this->GetAdminLastVisitKeyForUser(), $this);
+		if (isset($aData['ip'])) {
+			/*
+			 * не изменился ли текущий ip с момента прошлого входа
+			 */
+			$aData['same_ip'] = func_getIp() == $aData['ip'];
+		}
+		return $aData;
+	}
+
+
+	/**
+	 * Записать данные последнего входа пользователя в админку персонально для каждого пользователя
 	 */
 	public function SetLastVisitData() {
 		$aData = array(
@@ -1193,6 +1193,33 @@ class PluginAdmin_ModuleUsers extends Module {
 			'ip' => func_getIp(),
 		);
 		$this->Storage_Set($this->GetAdminLastVisitKeyForUser(), $aData, $this);
+	}
+
+
+	/**
+	 * Получить информацию о последнем входе пользователя в админку
+	 */
+	public function GetLastVisitMessageAndCompareIp() {
+		/*
+		 * получить и записать данные последнего входа пользователя в админку
+		 */
+		$aLastVisitData = $this->GetLastVisitData();
+		$this->SetLastVisitData();
+		/*
+		 * если это первый вход - показать приветствие
+		 */
+		if (!$aLastVisitData) {
+			$this->Message_AddNotice($this->Lang_Get('plugin.admin.hello.first_run'), $this->Lang_Get('plugin.admin.hello.title'));
+		} elseif (!$aLastVisitData['same_ip']) {
+			/*
+			 * если айпи последнего входа и текущий не совпали - вывести предупреждение
+			 */
+			$this->Message_AddNotice(
+				$this->Lang_Get('plugin.admin.hello.last_visit_ip_not_match_current', array('last_ip' => $aLastVisitData['ip'], 'current_ip' => func_getIp())),
+				$this->Lang_Get('plugin.admin.attention')
+			);
+		}
+		$this->Viewer_Assign('aLastVisitData', $aLastVisitData);
 	}
 
 

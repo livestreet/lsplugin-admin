@@ -166,7 +166,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	 */
 	private function LoadRootConfig($mValue) {
 		/*
-		 * Загрузить настройки обьеденив их с существующими(из конфига)
+		 * Загрузить настройки обьеденив их с существующими (из конфига)
 		 */
 		Config::getInstance()->SetConfig($mValue, false);
 	}

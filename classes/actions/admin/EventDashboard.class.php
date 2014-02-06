@@ -94,10 +94,6 @@ class PluginAdmin_ActionAdmin_EventDashboard extends Event {
 		 */
 		$this->Viewer_Assign('iTotalCommentsCount', $this->PluginAdmin_Comments_GetCountCommentsTotal());
 		/*
-		 * получить данные последнего входа в админку
-		 */
-		$this->GetLastVisitMessageAndCompareIp();
-		/*
 		 * получить информацию по обновлениям плагинов
 		 */
 		$this->PluginAdmin_Catalog_GetUpdatesInfo();
@@ -238,23 +234,6 @@ class PluginAdmin_ActionAdmin_EventDashboard extends Event {
 		 * вариант #2 (как в движке, требует ещё одного нажатия на кнопку "показать ещё" чтобы она спряталась)
 		 */
 		$this->Viewer_AssignAjax('bDisableGetMoreButton', count($aEvents) == 0);
-	}
-
-
-	/**
-	 * Получить данные последнего входа в админку
-	 */
-	protected function GetLastVisitMessageAndCompareIp() {
-		$aLastVisitData = $this->PluginAdmin_Users_GetLastVisitData();
-		/*
-		 * если это первый вход - сделать приветствие
-		 */
-		if (!$aLastVisitData) {
-			$this->Message_AddNotice($this->Lang('hello.first_run'));
-		} elseif (!$aLastVisitData['same_ip']) {
-			$this->Message_AddNotice($this->Lang('hello.last_visit_ip_not_match_current', array('last_ip' => $aLastVisitData['ip'], 'current_ip' => func_getIp())));
-		}
-		$this->Viewer_Assign ('aLastVisitData', $aLastVisitData);
 	}
 
 

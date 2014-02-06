@@ -445,7 +445,6 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 	 *
 	 */
 
-
 	/**
 	 * Делает редирект на страницу, с которой пришел запрос
 	 */
@@ -493,24 +492,29 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		}
 		return null;
 	}
-	
-	
+
+
+	/**
+	 * Завершение экшена
+	 */
 	public function EventShutdown() {
 		$this->Viewer_Assign('oMenuMain', $this->PluginAdmin_Ui_GetMenuMain());
-
-		$this->Viewer_AddBlock('right', 'blocks/block.nav.tpl', array('plugin'=>'admin'));
+		$this->Viewer_AddBlock('right', 'blocks/block.nav.tpl', array('plugin' => 'admin'));
 
 		if (Router::GetActionEvent() != 'error') {
 			$this->PluginAdmin_Ui_HighlightMenus();
 		}
-
 		/*
-		 * записать данные последнего входа пользователя в админку
+		 * получить данные последнего входа в админку
+		 * tip: вывод даты последнего входа происходит только внизу главной страницы админки (на других страницах это не столь важно)
 		 */
-		$this->PluginAdmin_Users_SetLastVisitData();
+		$this->PluginAdmin_Users_GetLastVisitMessageAndCompareIp();
 	}
 
 
+	/**
+	 * Отображение ошибки
+	 */
 	public function EventError() {
 		$aHttpErrors = array(
 			'404' => array(
@@ -529,11 +533,11 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			 * Смотрим есть ли сообщения об ошибках
 			 */
 			if (!$this->Message_GetError()) {
-				$this->Message_AddErrorSingle($this->Lang_Get('common.error.system.code.'.$iNumber),$iNumber);
+				$this->Message_AddErrorSingle($this->Lang_Get('common.error.system.code.' . $iNumber), $iNumber);
 			}
 			$aHttpError = $aHttpErrors[$iNumber];
 			if (isset($aHttpError['header'])) {
-				$sProtocol=isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
+				$sProtocol = isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.1';
 				header("{$sProtocol} {$aHttpError['header']}");
 			}
 		}
@@ -542,6 +546,11 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 	}
 
 
+	/**
+	 * Эвент не найден
+	 *
+	 * @return string
+	 */
 	protected function EventNotFound() {
 		return Router::Action('admin', 'error', array('404'));
 	}
