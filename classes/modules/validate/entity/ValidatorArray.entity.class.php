@@ -140,7 +140,7 @@ class PluginAdmin_ModuleValidate_EntityValidatorArray extends ModuleValidate_Ent
 			foreach ($sValue as $sVal) {
 				if (!$this->Validate_Validate($this->item_validator['type'], $sVal, isset($this->item_validator['params']) ? $this->item_validator['params'] : array())) {
 					return $this->getMessage(
-						$this->Lang_Get('plugin.admin.errors.validator.validate_array_value_is_not_correct', null, false) . $this->Validate_GetErrorLast(true),
+						$this->Lang_Get('plugin.admin.errors.validator.validate_array_value_is_not_correct', null, false) . '. ' . $this->Validate_GetErrorLast(true),
 						'msgIncorrectValue',
 						array('val' => $sVal)
 					);
