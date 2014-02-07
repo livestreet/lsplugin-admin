@@ -27,6 +27,7 @@
 
 abstract class PluginAdmin_ActionPlugin extends ActionPlugin {
 
+
 	protected function SetTemplateAction($sTemplate) {
 		$aDelegates = $this->Plugin_GetDelegationChain('action', $this->GetActionClass());
 		$sActionTemplatePath = $sTemplate . '.tpl';
