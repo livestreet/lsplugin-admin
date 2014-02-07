@@ -74,14 +74,14 @@ return array(
 			'validate_array_must_be_array' => 'Поле %%field%% должно быть массивом',
 			'validate_array_too_small' => 'Массив %%field%% слишком маленький (минимально допустимо %%min_items%% элементов)',
 			'validate_array_too_big' => 'Массив %%field%% слишком большой (максимально допустимо %%max_items%% элементов)',
-			'validate_array_value_is_not_allowed' => 'В массиве %%field%% не должно быть значения %%val%%',
-			'validate_array_value_is_not_correct' => 'Для массива %%field%% значение %%val%% не является корректным. ',
+			'validate_array_value_is_not_allowed' => 'В массиве %%field%% не должно быть значения "%%val%%"',
+			'validate_array_value_is_not_correct' => 'Для массива %%field%% значение "%%val%%" не является корректным. ',
 
 			/*
 			 * Ошибки встроенного валидатора перечисления
 			 */
-			'validate_enum_value_type_is_not_correct' => 'Тип значения "%%val%%" не является корректным',
-			'validate_enum_value_is_not_allowed' => 'Значение "%%val%%" не является разрешенным',
+			'validate_enum_value_type_is_not_correct' => 'В перечислении %%field%% указан некорректный тип данных',
+			'validate_enum_value_is_not_allowed' => 'В перечислении %%field%% значение "%%val%%" не является разрешенным',
 		),
 
 		/*
