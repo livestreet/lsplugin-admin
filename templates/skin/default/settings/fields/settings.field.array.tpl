@@ -38,7 +38,7 @@
 			
 			<select class="js-array-enum input-text width-250" data-key="{$sKey}">
 				{foreach from=$aItemsToShow item=sValue}
-					<option value="{$sValue|escape:'html'}" {if in_array($sValue, $oParameter->getValue())}disabled="disabled"{/if}>{$sValue}</option>
+					<option value="{$sValue|escape:'html'}" {if in_array($sValue, $oParameter->getValue())}disabled="disabled"{/if}>{$sValue|escape:'html'}</option>
 				{/foreach}
 			</select>
 
