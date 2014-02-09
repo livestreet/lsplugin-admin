@@ -168,3 +168,21 @@ h1, h2, h3, h4, h5, h6 { font-family: "Open Sans"; }
 .settings-category-heading { font-size: 22px; border-bottom: 1px solid #ddd; padding-bottom: 10px; color: #000; }
 .settings-category { margin-bottom: 70px; }
 .settings-category.settings-category-last { margin-bottom: 0; }
+
+.settings-category-description {
+	margin-bottom: 30px;
+	clear: both;
+	border-bottom: 1px solid #DDDDDD;
+	padding-bottom: 20px;
+}
+
+.settings-category-description-header {
+	color: #888888;
+	float: left;
+	font-size: 15px;
+	margin-right: 20px;
+}
+
+.settings-category-description-wrapper {
+	overflow: hidden;
+}

@@ -20,6 +20,18 @@
 					<h2 class="settings-category-heading">{$oSection->getName()}</h2>
 				{/if}
 
+				{* Есть ли описание раздела (плагины могут не указывать описание раздела) *}
+				{if $oSection->getDescription()}
+					<div class="settings-category-description">
+						<div class="settings-category-description-header">
+							{$aLang.plugin.admin.settings.section.description}:
+						</div>
+						<div class="settings-category-description-wrapper">
+							{$oSection->getDescription()}
+						</div>
+					</div>
+				{/if}
+
 				{* Показывать ли ключи раздела *}
 				{if Config::Get('plugin.admin.settings.show_section_keys')}
 					{include file="{$aTemplatePathPlugin.admin}settings/keys_to_show.tpl" aKeysToShow=$oSection->getAllowedKeys()}

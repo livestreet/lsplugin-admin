@@ -452,9 +452,10 @@ $config['$config_sections$'] = array(
 	'sandbox' => array(
 		/*
 		 * раздел "Песочница" на странице настроек
-		 * tip: относительный ключ, указывающий на текстовку
+		 * tip: относительные ключи, указывающий на текстовку
 		 */
 		'name' => 'config_sections.sandbox.title',
+		'description' => 'config_sections.sandbox.description',
 		/*
 		 * начала параметров, разрешенных для показа в этом разделе
 		 */
