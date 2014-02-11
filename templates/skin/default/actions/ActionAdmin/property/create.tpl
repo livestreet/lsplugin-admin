@@ -23,6 +23,7 @@
 			[ 'value' => 'varchar',    'text' => 'Строка' ],
 			[ 'value' => 'text',       'text' => 'Текст' ],
 			[ 'value' => 'checkbox',   'text' => 'Чекбокс' ],
+			[ 'value' => 'date',       'text' => 'Дата' ],
 			[ 'value' => 'select',     'text' => 'Выпадающий список' ],
 			[ 'value' => 'tags',       'text' => 'Теги' ],
 			[ 'value' => 'video_link', 'text' => 'Ссылка на видео' ]
