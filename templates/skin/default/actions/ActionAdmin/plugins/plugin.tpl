@@ -12,8 +12,8 @@
 		{* Заголовок *}
 		<h4 class="plugin-list-item-title mb-15">
 			{* Редактировать настройки можно только активированного плагина *}
-			{if $oPlugin->getActive() && $oPlugin->getOwnSettingsPageUrl()}
-				<a href="{$oPlugin->getOwnSettingsPageUrl()}">{$oPlugin->getName()}</a>
+			{if $oPlugin->getActive() and $oPlugin->getOwnSettingsPageUrl()}
+				<a href="{$oPlugin->getOwnSettingsPageUrl()}" title="{$aLang.plugin.admin.plugins.list.settings_tip}">{$oPlugin->getName()}</a>
 			{else}
 				{$oPlugin->getName()}
 			{/if}
@@ -51,9 +51,10 @@
 		{/if}
 		*}
 
+		{* управление конфигом плагина *}
 		{if $oPlugin->getActive()}
             <br />
-            <a href="{$oPlugin->getConfigSettingsPageUrl()}" class="button">{$aLang.plugin.admin.plugins.list.config}</a>
+            <a href="{$oPlugin->getConfigSettingsPageUrl()}" class="button width-150" title="{$aLang.plugin.admin.plugins.list.config_tip}">{$aLang.plugin.admin.plugins.list.config}</a>
 		{/if}
 	</td>
 </tr>
