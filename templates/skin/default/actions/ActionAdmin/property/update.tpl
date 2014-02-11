@@ -24,6 +24,7 @@
 			[ 'value' => 'varchar',    'text' => 'Строка' ],
 			[ 'value' => 'text',       'text' => 'Текст' ],
 			[ 'value' => 'checkbox',   'text' => 'Чекбокс' ],
+			[ 'value' => 'date',       'text' => 'Дата' ],
 			[ 'value' => 'select',     'text' => 'Выпадающий список' ],
 			[ 'value' => 'tags',       'text' => 'Теги' ],
 			[ 'value' => 'video_link', 'text' => 'Ссылка на видео' ]
@@ -55,12 +56,10 @@
 				 sFieldValue = $oProperty->getCode()
 				 sFieldLabel = 'Код'}
 		
-		{* Правила валидации *}
-		<h3 class="page-sub-header mt-30">Правила валидации</h3>
-
+		{* Дополнительные параметры для каждого типа *}
 		{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/property/types/type.{$oProperty->getType()}.tpl" 
-				 oPropertyValidateRules = $oProperty->getValidateRules()
-				 oPropertyParams        = $oProperty->getParams()}
+				 oPropertyValidateRules = $oProperty->getValidateRulesEscape()
+				 oPropertyParams        = $oProperty->getParamsEscape()}
 
 		{* Кнопки *}
 		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.button.tpl"
