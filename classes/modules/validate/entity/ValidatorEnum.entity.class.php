@@ -51,13 +51,6 @@ class PluginAdmin_ModuleValidate_EntityValidatorEnum extends ModuleValidate_Enti
 	 */
 	public $sMsgValueNotAllowedId = 'plugin.admin.errors.validator.validate_enum_value_is_not_allowed';
 
-	/*
-	 * todo: удалить две переменные ниже, когда будет закрыт тикет в фреймворке: https://github.com/livestreet/livestreet-framework/issues/13
-	 * 		 проверить на ошибку, подставляя некорректные данные
-	 */
-	public $sMsgValueNotAllowed = null;
-	public $sMsgValueNotCorrect = null;
-
 
 	/**
 	 * Запуск валидации
