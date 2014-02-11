@@ -477,11 +477,11 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 		/*
 		 * по всем разделам группы
 		 */
-		foreach ($aSectionsInfo as $aSectionOptions) {
+		foreach($aSectionsInfo as $aSectionOptions) {
 			/*
-			 * получить текстовку имени раздела настроек
+			 * получить текстовки имени раздела настроек и его описания
 			 */
-			$aData = $this->ConvertLangKeysToTexts($sConfigName, $aSectionOptions, array('name'));
+			$aData = $this->ConvertLangKeysToTexts($sConfigName, $aSectionOptions, array('name', 'description'));
 			/*
 			 * получить настройки этого раздела
 			 */

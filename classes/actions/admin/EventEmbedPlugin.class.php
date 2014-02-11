@@ -65,8 +65,8 @@ class PluginAdmin_ActionAdmin_EventEmbedPlugin extends Event {
 				/*
 				 * загрузить в шаблон объект для удобного получения URL внутри админки плагина
 				 */
-				$oAdminUrl = Engine::GetEntity('PluginAdmin_ModuleUi_EntityAdminUrl');
-				$oAdminUrl->setPlugin($sPlugin);
+				$oAdminUrl = Engine::GetEntity('PluginAdmin_Ui_AdminUrl');
+				$oAdminUrl->setPluginCode($sPlugin);
 
 				$this->Viewer_Assign('oAdminUrl', $oAdminUrl);
 				/*

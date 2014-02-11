@@ -41,9 +41,13 @@ $config = array();
  */
 $config['sandbox']['items_count'] = 3;
 /*
- * Параметр строкового типа (string)
+ * Параметр строкового типа (string), ввод через текстовое поле
  */
 $config['sandbox']['title'] = 'Text string';
+/*
+ * Параметр ещё одного строкового типа (string), ввод через селект
+ */
+$config['sandbox']['title2'] = 'Developer';
 /*
  * Параметр булевого типа (bool)
  */
@@ -53,11 +57,11 @@ $config['sandbox']['enabled'] = true;
  */
 $config['sandbox']['min_rating'] = 0.1;
 /*
- * Параметр, описывающий массив (array)
+ * Параметр, описывающий массив (array), ввод через селект
  */
 $config['sandbox']['list'] = array(1, 2, 3);
 /*
- * Параметр, описывающий ещё один массив (array)
+ * Параметр, описывающий ещё один массив (array), ввод через текстовое поле
  */
 $config['sandbox']['list2'] = array(48, 64, 128);
 
@@ -96,7 +100,7 @@ $config['$config_scheme$'] = array(
 		'validator' => array(
 			/*
 			 * тип валидатора, существующие типы валидаторов движка:
-			 * Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url, Array (специальный валидатор, см. документацию)
+			 * Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url, дополнительные: Array и Enum (специальные валидаторы, см. документацию)
 			 */
 			'type' => 'Number',
 			/*
@@ -139,7 +143,7 @@ $config['$config_scheme$'] = array(
 		'validator' => array(
 			/*
 			 * тип валидатора, существующие типы валидаторов движка:
-			 * Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url, Array (специальный валидатор, см. документацию)
+			 * Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url, дополнительные: Array и Enum (специальные валидаторы, см. документацию)
 			 */
 			'type' => 'String',
 			/*
@@ -153,6 +157,54 @@ $config['$config_scheme$'] = array(
 				 */
 				//'is' => 30,
 				'allowEmpty' => false,
+			),
+		),
+	),
+
+	/*
+	 * Пример для ещё одного параметра строкового типа с вводом через селект
+	 */
+	'sandbox.title2' => array(
+		/*
+		 * тип: integer, string, array, boolean, float
+		 */
+		'type' => 'string',
+		/*
+		 * отображаемое имя параметра, ключ языкового файла
+		 */
+		'name' => 'config_parameters.sandbox.title2.name',
+		/*
+		 * отображаемое описание параметра, ключ языкового файла
+		 */
+		'description' => 'config_parameters.sandbox.title2.description',
+		/*
+		 * валидатор (не обязательно)
+		 */
+		'validator' => array(
+			/*
+			 * тип валидатора, существующие типы валидаторов движка:
+			 * Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url, дополнительные: Array и Enum (специальные валидаторы, см. документацию)
+			 */
+			'type' => 'Enum',
+			/*
+			 * параметры, которые будут переданы в валидатор
+			 */
+			'params' => array(
+				/*
+				 * массив перечислений, которые будут доступны через селект
+				 */
+				'enum' => array(
+					'User',
+					'Developer',
+					'Manager',
+					'Director',
+					'Designer',
+					'Sysadmin',
+				),
+				/*
+				 * разрешить ли в селекте использовать не установленное значение (пустое), добавляет вначало массива пустое разрешенное значение
+				 */
+				'allowEmpty' => true,
 			),
 		),
 	),
@@ -179,7 +231,7 @@ $config['$config_scheme$'] = array(
 		'validator' => array(
 			/*
 			 * тип валидатора, существующие типы валидаторов движка:
-			 * Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url, Array (специальный валидатор, см. документацию)
+			 * Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url, дополнительные: Array и Enum (специальные валидаторы, см. документацию)
 			 */
 			'type' => 'Boolean',
 			/*
@@ -211,7 +263,7 @@ $config['$config_scheme$'] = array(
 		'validator' => array(
 			/*
 			 * тип валидатора, существующие типы валидаторов движка:
-			 * Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url, Array (специальный валидатор, см. документацию)
+			 * Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url, дополнительные: Array и Enum (специальные валидаторы, см. документацию)
 			 */
 			'type' => 'Number',
 			/*
@@ -254,7 +306,7 @@ $config['$config_scheme$'] = array(
 		'validator' => array(
 			/*
 			 * тип валидатора, существующие типы валидаторов движка:
-			 * Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url, Array (специальный валидатор, см. документацию)
+			 * Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url, дополнительные: Array и Enum (специальные валидаторы, см. документацию)
 			 */
 			'type' => 'Array',
 			/*
@@ -285,7 +337,7 @@ $config['$config_scheme$'] = array(
 				'item_validator' => array(
 					/*
 					 * тип валидатора, существующие типы валидаторов движка:
-					 * Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url, Array (специальный валидатор, см. документацию)
+					 * Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url, дополнительные: Array и Enum (специальные валидаторы, см. документацию)
 					 */
 					'type' => 'Number',
 					/*
@@ -337,7 +389,7 @@ $config['$config_scheme$'] = array(
 		'validator' => array(
 			/*
 			 * тип валидатора, существующие типы валидаторов движка:
-			 * Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url, Array (специальный валидатор, см. документацию)
+			 * Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url, дополнительные: Array и Enum (специальные валидаторы, см. документацию)
 			 */
 			'type' => 'Array',
 			/*
@@ -358,7 +410,7 @@ $config['$config_scheme$'] = array(
 				'item_validator' => array(
 					/*
 					 * тип валидатора, существующие типы валидаторов движка:
-					 * Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url, Array (специальный валидатор, см. документацию)
+					 * Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url, дополнительные: Array и Enum (специальные валидаторы, см. документацию)
 					 */
 					'type' => 'String',
 					/*
@@ -400,9 +452,10 @@ $config['$config_sections$'] = array(
 	'sandbox' => array(
 		/*
 		 * раздел "Песочница" на странице настроек
-		 * tip: относительный ключ, указывающий на текстовку
+		 * tip: относительные ключи, указывающий на текстовку
 		 */
 		'name' => 'config_sections.sandbox.title',
+		'description' => 'config_sections.sandbox.description',
 		/*
 		 * начала параметров, разрешенных для показа в этом разделе
 		 */

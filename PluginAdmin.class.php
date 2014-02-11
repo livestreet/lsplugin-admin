@@ -105,6 +105,10 @@ class PluginAdmin extends Plugin {
 			 */
 			'ModuleValidate_EntityValidatorArray',
 			/*
+			 * Добавляем новый тип валидатора - Enum
+			 */
+			'ModuleValidate_EntityValidatorEnum',
+			/*
 			 * Для добавления информации о бане пользователя
 			 */
 			'ModuleUser_EntityUser'

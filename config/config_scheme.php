@@ -47,7 +47,7 @@ $config['$config_scheme$'] = array(
 		'description' => 'config_parameters.bans.gather_bans_running_stats.description',
 		'validator' => array(
 			/*
-			 * тип валидатора: Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url, Array (специальный валидатор, см. документацию)
+			 * тип валидатора: Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url, дополнительные: Array и Enum (специальные валидаторы, см. документацию)
 			 */
 			'type' => 'Boolean',
 			'params' => array(),
@@ -67,7 +67,7 @@ $config['$config_scheme$'] = array(
 		'description' => 'config_parameters.catalog.updates.allow_plugin_updates_checking.description',
 		'validator' => array(
 			/*
-			 * тип валидатора: Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url, Array (специальный валидатор, см. документацию)
+			 * тип валидатора: Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url, дополнительные: Array и Enum (специальные валидаторы, см. документацию)
 			 */
 			'type' => 'Boolean',
 			'params' => array(),
@@ -83,7 +83,7 @@ $config['$config_scheme$'] = array(
 		'description' => 'config_parameters.catalog.updates.show_updates_count_in_toolbar.description',
 		'validator' => array(
 			/*
-			 * тип валидатора: Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url, Array (специальный валидатор, см. документацию)
+			 * тип валидатора: Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url, дополнительные: Array и Enum (специальные валидаторы, см. документацию)
 			 */
 			'type' => 'Boolean',
 			'params' => array(),
@@ -103,7 +103,7 @@ $config['$config_scheme$'] = array(
 		'description' => 'config_parameters.settings.admin_save_form_ajax_use.description',
 		'validator' => array(
 			/*
-			 * тип валидатора: Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url, Array (специальный валидатор, см. документацию)
+			 * тип валидатора: Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url, дополнительные: Array и Enum (специальные валидаторы, см. документацию)
 			 */
 			'type' => 'Boolean',
 			'params' => array(),
@@ -119,7 +119,7 @@ $config['$config_scheme$'] = array(
 		'description' => 'config_parameters.settings.show_section_keys.description',
 		'validator' => array(
 			/*
-			 * тип валидатора: Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url, Array (специальный валидатор, см. документацию)
+			 * тип валидатора: Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url, дополнительные: Array и Enum (специальные валидаторы, см. документацию)
 			 */
 			'type' => 'Boolean',
 			'params' => array(),
@@ -139,7 +139,7 @@ $config['$config_scheme$'] = array(
 		'description' => 'config_parameters.users.min_user_age_difference_to_show_users_age_stats.description',
 		'validator' => array(
 			/*
-			 * тип валидатора: Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url, Array (специальный валидатор, см. документацию)
+			 * тип валидатора: Boolean, Compare, Date, Email, Number, Regexp, Required, String, Tags, Type, Url, дополнительные: Array и Enum (специальные валидаторы, см. документацию)
 			 */
 			'type' => 'Number',
 			'params' => array(
