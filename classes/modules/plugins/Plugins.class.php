@@ -180,7 +180,7 @@ class PluginAdmin_ModulePlugins extends Module {
 	protected function GetLogoImage($sPluginCode){
 		$sLogoFile = $this->GetLogoFileFullPath($sPluginCode);
 		if (file_exists($sLogoFile)) {
-			return $this->PluginAdmin_Tools_GetWebPath($sLogoFile);
+			return $this->Fs_GetPathWebFromServer($sLogoFile);
 		}
 		/*
 		 * получить лого из каталога

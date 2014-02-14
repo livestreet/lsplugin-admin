@@ -246,19 +246,6 @@ class PluginAdmin_ModuleTools extends Module {
 	 *
 	 */
 
-	/**
-	 * Возвращает веб-путь из серверного
-	 *
-	 * @param $sPath	серверный путь
-	 * @return mixed	веб путь
-	 */
-	public function GetWebPath($sPath) {
-		/*
-		 * todo: в движке этот метод давно нужно бы вынести из модуля изображений в модуль tools
-		 */
-		return $this->Image_GetWebPath($sPath);
-	}
-
 
 	/**
 	 * Получает значение свойства из объекта XML на основе указанного языка на сайте
