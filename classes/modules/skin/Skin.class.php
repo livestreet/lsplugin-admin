@@ -166,7 +166,7 @@ class PluginAdmin_ModuleSkin extends Module {
 	protected function GetSkinPreviewImage($sSkinName){
 		$sSkinPreviewFile = $this->GetSkinPreviewFile($sSkinName);
 		if (file_exists($sSkinPreviewFile)) {
-			return $this->PluginAdmin_Tools_GetWebPath($sSkinPreviewFile);
+			return $this->Fs_GetPathWebFromServer($sSkinPreviewFile);
 		}
 		return null;
 	}
