@@ -195,6 +195,12 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 		 */
 		$aMixedSettings = array_replace_recursive_distinct($aOriginalSettingsFromConfig, $aSavedSettingsFromDB);
 		Config::Set('plugin.' . $sPluginName, $aMixedSettings);
+
+		/*
+		 * вариант № 2 (не используется глубокая проверка ключей)
+		 * tip: не использовать т.к. нет уверенности в полной проверке ключей
+		 */
+		//Config::getInstance()->SetConfig(array('plugin' => array($sPluginName => $aSavedSettingsFromDB)), false);
 	}
 	
 	
