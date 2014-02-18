@@ -615,7 +615,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$sPluginTemplatePath . '/css/addon.css',
 			$sPluginTemplatePath . '/css/rating.stars.css',
 			$sPluginTemplatePath . '/css/flags.css',
-			
+
 			$sPluginTemplatePath . '/css/vendor/jquery.notifier.css',
 			$sPluginTemplatePath . '/css/vendor/icheck/skins/livestreet/minimal.css',
 		);
@@ -638,14 +638,13 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$sFrameworkPath . '/js/vendor/jquery.cookie.js',
 			$sFrameworkPath . '/js/vendor/jquery.serializejson.js',
 			$sFrameworkPath . '/js/vendor/jquery.file.js',
-			$sFrameworkPath . '/js/vendor/jcrop/jquery.Jcrop.js',
+			//$sFrameworkPath . '/js/vendor/jcrop/jquery.Jcrop.js',
 			$sFrameworkPath . '/js/vendor/jquery.placeholder.min.js',
-			$sFrameworkPath . '/js/vendor/jquery.charcount.js',
+			//$sFrameworkPath . '/js/vendor/jquery.charcount.js',
 			$sFrameworkPath . '/js/vendor/jquery.imagesloaded.js',
 			$sFrameworkPath . '/js/vendor/notifier/jquery.notifier.js',
 			$sFrameworkPath . '/js/vendor/markitup/jquery.markitup.js',
 			$sFrameworkPath . '/js/vendor/prettify/prettify.js',
-			$sFrameworkPath . '/js/vendor/prettyphoto/js/jquery.prettyphoto.js',
 			$sFrameworkPath . '/js/vendor/parsley/parsley.js',
 			$sFrameworkPath . '/js/vendor/nprogress/nprogress.js',
 
@@ -655,7 +654,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			$sFrameworkPath . '/js/core/ie.js',
 			$sFrameworkPath . '/js/core/ajax.js',
 			$sFrameworkPath . '/js/core/registry.js',
-			$sFrameworkPath . '/js/core/swfupload.js',
+			//$sFrameworkPath . '/js/core/swfupload.js',
 			$sFrameworkPath . '/js/core/utilities.js',
 			$sFrameworkPath . '/js/core/timer.js',
 
