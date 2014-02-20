@@ -80,21 +80,23 @@ class PluginAdmin_ModuleViewer extends PluginAdmin_Inherit_ModuleViewer {
 	 * @return array
 	 */
 	protected function BuildHtmlHeadFiles($aFileList) {
-		$aHeader = array('js' => '', 'css' => '');
 		/*
 		 * получить счетчик последнего сброса кеша
 		 */
 		$sCounter = $this->Storage_Get(PluginAdmin_ModuleTools::CACHE_LAST_RESET_COUNTER, $this);
 
-		foreach((array) $aFileList['css'] as $sCss) {
-			$sFileVersioned = $sCss . $this->GetDelimiterForGetRequestParameterByPath($sCss) . 'v=' . $sCounter;
-			$aHeader['css'] .= $this->WrapHtmlHack('<link rel="stylesheet" type="text/css" href="' . $sFileVersioned . '" />', $sFileVersioned, 'css') . PHP_EOL;
+		$aFileList['css'] = (array) $aFileList['css'];
+		$aFileList['js'] = (array) $aFileList['js'];
+		/*
+		 * добавить гет параметр со счетчиком к адресу файла
+		 */
+		foreach($aFileList['css'] as &$sCss) {
+			$sCss .= $this->GetDelimiterForGetRequestParameterByPath($sCss) . 'v=' . $sCounter;
 		}
-		foreach((array) $aFileList['js'] as $sJs) {
-			$sFileVersioned = $sJs . $this->GetDelimiterForGetRequestParameterByPath($sJs) . 'v=' . $sCounter;
-			$aHeader['js'] .= $this->WrapHtmlHack('<script type="text/javascript" src="' . $sFileVersioned . '"></script>', $sFileVersioned, 'js') . PHP_EOL;
+		foreach($aFileList['js'] as &$sJs) {
+			$sJs .= $this->GetDelimiterForGetRequestParameterByPath($sJs) . 'v=' . $sCounter;
 		}
-		return $aHeader;
+		return parent::BuildHtmlHeadFiles($aFileList);
 	}
 
 
