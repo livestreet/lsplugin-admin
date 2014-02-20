@@ -90,11 +90,10 @@ class PluginAdmin_ModuleViewer extends PluginAdmin_Inherit_ModuleViewer {
 		/*
 		 * добавить гет параметр со счетчиком к адресу файла
 		 */
-		foreach($aFileList['css'] as &$sCss) {
-			$sCss .= $this->GetDelimiterForGetRequestParameterByPath($sCss) . 'v=' . $sCounter;
-		}
-		foreach($aFileList['js'] as &$sJs) {
-			$sJs .= $this->GetDelimiterForGetRequestParameterByPath($sJs) . 'v=' . $sCounter;
+		foreach(array('css', 'js') as $sAssetType) {
+			foreach($aFileList[$sAssetType] as &$sFile) {
+				$sFile .= $this->GetDelimiterForGetRequestParameterByPath($sFile) . 'v=' . $sCounter;
+			}
 		}
 		return parent::BuildHtmlHeadFiles($aFileList);
 	}
