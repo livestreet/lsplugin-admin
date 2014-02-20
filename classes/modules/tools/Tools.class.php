@@ -27,6 +27,11 @@
 
 class PluginAdmin_ModuleTools extends Module {
 
+	/*
+	 * имя параметра хранилища со счетчиком последнего сброса кеша
+	 */
+	const CACHE_LAST_RESET_COUNTER = 'sLastCounterOfCacheReset';
+
 
 	public function Init() {}
 
@@ -277,7 +282,7 @@ class PluginAdmin_ModuleTools extends Module {
 		/*
 		 * обработать как текст без других парсеров
 		 */
-		$oXml->$sProperty->data = $this->Text_JevixParser(trim((string)array_shift($mData)));
+		$oXml->$sProperty->data = $this->Text_JevixParser(trim((string) array_shift($mData)));
 	}
 
 
@@ -298,6 +303,10 @@ class PluginAdmin_ModuleTools extends Module {
 				}
 			}
 		}
+		/*
+		 * увеличить счетчик для сброса кеша браузера на стороне пользователя
+		 */
+		$this->Storage_Set(self::CACHE_LAST_RESET_COUNTER, $this->Storage_Get(self::CACHE_LAST_RESET_COUNTER, $this) + 1, $this);
 	}
 
 

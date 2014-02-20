@@ -19,6 +19,12 @@
  *
  */
 
+/*
+ * 
+ * Расширение возможностей вьюера
+ * 
+ */
+
 class PluginAdmin_ModuleViewer extends PluginAdmin_Inherit_ModuleViewer {
 
 	/**
@@ -64,6 +70,42 @@ class PluginAdmin_ModuleViewer extends PluginAdmin_Inherit_ModuleViewer {
 			);
 			Config::Set('head.rules',array());
 		}
+	}
+
+
+	/**
+	 * Строит HTML код по переданному массиву файлов с добавлением гет-параметра к адресу файла для автоматического сброса кеша на стороне пользователя
+	 *
+	 * @param  array $aFileList    		Список файлов
+	 * @return array
+	 */
+	protected function BuildHtmlHeadFiles($aFileList) {
+		$aHeader = array('js' => '', 'css' => '');
+		/*
+		 * получить счетчик последнего сброса кеша
+		 */
+		$sCounter = $this->Storage_Get(PluginAdmin_ModuleTools::CACHE_LAST_RESET_COUNTER, $this);
+
+		foreach((array) $aFileList['css'] as $sCss) {
+			$sFileVersioned = $sCss . $this->GetDelimiterForGetRequestParameterByPath($sCss) . 'v=' . $sCounter;
+			$aHeader['css'] .= $this->WrapHtmlHack('<link rel="stylesheet" type="text/css" href="' . $sFileVersioned . '" />', $sFileVersioned, 'css') . PHP_EOL;
+		}
+		foreach((array) $aFileList['js'] as $sJs) {
+			$sFileVersioned = $sJs . $this->GetDelimiterForGetRequestParameterByPath($sJs) . 'v=' . $sCounter;
+			$aHeader['js'] .= $this->WrapHtmlHack('<script type="text/javascript" src="' . $sFileVersioned . '"></script>', $sFileVersioned, 'js') . PHP_EOL;
+		}
+		return $aHeader;
+	}
+
+
+	/**
+	 * Получить корректный разделитель для добавления гет параметра к строке запроса
+	 *
+	 * @param $sPath		существующая строка
+	 * @return string		? или &amp;
+	 */
+	private function GetDelimiterForGetRequestParameterByPath($sPath) {
+		return (strpos($sPath, '?') === false) ? '?' : '&amp;';
 	}
 	
 }
