@@ -564,8 +564,8 @@ return array(
 					'name' => 'Максимальное число контактов одного типа',
 					'description' => '',
 				),
-				'profile_photo_width' => array(
-					'name' => 'ширина квадрата фотографии в профиле, px',
+				'profile_photo_size' => array(
+					'name' => 'размер фото в профиле пользователя, формат вида: WxH[crop]',
 					'description' => '',
 				),
 				'name_max' => array(

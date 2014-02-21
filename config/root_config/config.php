@@ -133,7 +133,7 @@ return array(
 					'module.user.usernote_text_max',
 					'module.user.usernote_per_page',
 					'module.user.userfield_max_identical',
-					'module.user.profile_photo_width',
+					'module.user.profile_photo_size',
 					'module.user.name_max',
 				),
 			),
@@ -1449,12 +1449,12 @@ return array(
 				),
 			),
 		),
-		'module.user.profile_photo_width' => array(
+		'module.user.profile_photo_size' => array(
 			'type' => 'integer',
-			'name' => 'config_parameters.module.user.profile_photo_width.name',
-			'description' => 'config_parameters.module.user.profile_photo_width.description',
+			'name' => 'config_parameters.module.user.profile_photo_size.name',
+			'description' => 'config_parameters.module.user.profile_photo_size.description',
 			'validator' => array(
-				'type' => 'Number',
+				'type' => 'String',
 				'params' => array(
 				),
 			),
