@@ -999,9 +999,9 @@ return array(
 			 * заголовок для каждого раздела
 			 */
 			'titles' => array(
+				null => 'Все плагины',
 				'activated' => 'Активные плагины',
 				'deactivated' => 'Не активные плагины',
-				'all' => 'Все плагины',
 				'updates' => 'Обновления для плагинов',
 			),
 			'settings' => 'Управление',
@@ -1016,9 +1016,9 @@ return array(
 		 */
 		'menu' => array(
 			'filter' => array(
+				'all' => 'Все',
 				'activated' => 'Активные',
 				'deactivated' => 'Не активные',
-				'all' => 'Все',
 				'updates' => 'Обновления',
 			),
 			'install_plugin' => 'Установить плагин',
