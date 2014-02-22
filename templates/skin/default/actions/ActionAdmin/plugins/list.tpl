@@ -11,12 +11,12 @@
 
 {block name='layout_content_actionbar'}
 	<div class="fl-r">
-		<a class="button {if $_aRequest.type==null}active{/if}"
-		   href="{router page='admin/plugins/list'}">{$aLang.plugin.admin.plugins.menu.filter.activated} ({$aPluginsInfo.count_active})</a>
+        <a class="button {if $_aRequest.type=='all'}active{/if}"
+           href="{router page='admin/plugins/list'}?type=all">{$aLang.plugin.admin.plugins.menu.filter.all} ({$aPluginsInfo.count_all})</a>
+		<a class="button {if $_aRequest.type=='activated'}active{/if}"
+		   href="{router page='admin/plugins/list'}?type=activated">{$aLang.plugin.admin.plugins.menu.filter.activated} ({$aPluginsInfo.count_active})</a>
 		<a class="button {if $_aRequest.type=='deactivated'}active{/if}"
 		   href="{router page='admin/plugins/list'}?type=deactivated">{$aLang.plugin.admin.plugins.menu.filter.deactivated} ({$aPluginsInfo.count_inactive})</a>
-		<a class="button {if $_aRequest.type=='all'}active{/if}"
-		   href="{router page='admin/plugins/list'}?type=all">{$aLang.plugin.admin.plugins.menu.filter.all} ({$aPluginsInfo.count_all})</a>
 		<a class="button {if $_aRequest.type=='updates'}active{/if}"
 		   href="{router page='admin/plugins/list'}?type=updates">{$aLang.plugin.admin.plugins.menu.filter.updates} ({$iPluginUpdates})</a>
 	</div>

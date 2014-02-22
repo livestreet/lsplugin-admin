@@ -50,7 +50,6 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 			/*
 			 * активные плагины
 			 */
-			case null:
 			case 'activated':
 				$aPluginsInfo = $this->PluginAdmin_Plugins_GetPluginsList(array('active' => true));
 				break;
@@ -63,8 +62,10 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 			/*
 			 * весь список
 			 */
+			case null:
 			case 'all':
 				$aPluginsInfo = $this->PluginAdmin_Plugins_GetPluginsList();
+				$_REQUEST['type']='all';
 				break;
 			/*
 			 * с обновлениями
