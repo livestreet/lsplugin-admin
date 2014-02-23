@@ -99,7 +99,7 @@ class PluginAdmin_ModuleTools extends Module {
 		/*
 		 * убрать лимит времени
 		 */
-		set_time_limit(0);
+		@set_time_limit(0);
 		/*
 		 * получить массив масок для проверки
 		 */

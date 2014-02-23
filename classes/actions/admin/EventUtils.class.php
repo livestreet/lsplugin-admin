@@ -56,7 +56,7 @@ class PluginAdmin_ActionAdmin_EventUtils extends Event {
 	 * @return bool
 	 */
 	protected function ProcessCheckAndRepairAction($sActionType) {
-		set_time_limit(0);
+		@set_time_limit(0);
 		switch ($sActionType) {
 			case 'repaircomments':
 				/*
@@ -130,7 +130,7 @@ class PluginAdmin_ActionAdmin_EventUtils extends Event {
 	 * @return bool
 	 */
 	protected function ProcessResetAndClearAction($sActionType) {
-		set_time_limit(0);
+		@set_time_limit(0);
 		switch ($sActionType) {
 			case 'resetallbansstats':
 				/*

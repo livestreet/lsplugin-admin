@@ -59,7 +59,7 @@ class PluginAdmin_ModuleComments extends Module {
 		/*
 		 * отключить ограничение по времени для обработки
 		 */
-		set_time_limit(0);
+		@set_time_limit(0);
 		/*
 		 * отключить проверку внешних связей
 		 * (каждая таблица будет чиститься вручную)

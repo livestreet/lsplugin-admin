@@ -1291,7 +1291,7 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 		/*
 		 * отключить ограничение по времени для обработки
 		 */
-		set_time_limit(0);
+		@set_time_limit(0);
 		/*
 		 * отключить проверку внешних связей
 		 */
@@ -1319,7 +1319,7 @@ class PluginAdmin_ModuleDeletecontent extends Module {
 		/*
 		 * отключить ограничение по времени для обработки
 		 */
-		set_time_limit(0);
+		@set_time_limit(0);
 		/*
 		 * отключить проверку внешних связей
 		 */
