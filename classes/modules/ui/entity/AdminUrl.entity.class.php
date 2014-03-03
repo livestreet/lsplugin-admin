@@ -89,7 +89,7 @@ class PluginAdmin_ModuleUi_EntityAdminUrl extends Entity {
 	 */
 	public function get($sPath = '', $sPluginCode = null) {
 		$sPluginCode = $sPluginCode ? $sPluginCode : $this->sPluginCode;
-		return Router::GetPath('admin/plugin/' . $sPluginCode) . $sPath;
+		return Router::GetPath('admin/plugin/' . $sPluginCode) . ($sPath ? $sPath.'/' : '');
 	}
 
 }
