@@ -560,150 +560,55 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 	 * Добавить свои файлы JS и CSS для админки
 	 */
 	protected function AddJSAndCSSFiles() {
-		/*
-		 * обнулить списки скриптов и таблиц стилей
+		/**
+		 * Сбрасываем списки скриптов и таблиц стилей
 		 */
 		$this->Viewer_ClearStyle(true);
-
-		$sFrameworkPath = Config::Get('path.framework.frontend.web');
-		$sApplicationPath = Config::Get('path.application.web');
-		$sPluginTemplatePath = Plugin::GetTemplatePath(__CLASS__) . 'assets';
-
-		/*
-		 * набор стилей для админки
+		/**
+		 * Основные скрипты
 		 */
-		$aStyles = array(
-			/*
-			 * стили, задаваемые фреймворком
-			 */
-			$sFrameworkPath . '/css/reset.css',
-			$sFrameworkPath . '/css/helpers.css',
-			$sFrameworkPath . '/css/text.css',
-			$sFrameworkPath . '/css/icons.css',
-			$sFrameworkPath . '/css/dropdowns.css',
-			$sFrameworkPath . '/css/buttons.css',
-			$sFrameworkPath . '/css/forms.css',
-			$sFrameworkPath . '/css/navs.css',
-			$sFrameworkPath . '/css/modals.css',
-			$sFrameworkPath . '/css/tooltip.css',
-			$sFrameworkPath . '/css/typography.css',
-			$sFrameworkPath . '/css/grid.css',
-			$sFrameworkPath . '/css/alerts.css',
-			$sFrameworkPath . '/css/toolbar.css',
-			$sFrameworkPath . '/js/vendor/jquery-ui/css/smoothness/jquery-ui-1.10.2.custom.css',
-			$sFrameworkPath . '/js/vendor/nprogress/nprogress.css',
-
-			/*
-			 * стили плагина
-			 */
-			$sPluginTemplatePath . '/css/base.css',
-			$sPluginTemplatePath . '/css/grid.css',
-			$sPluginTemplatePath . '/css/common.css',
-			$sPluginTemplatePath . '/css/blocks.css',
-			$sPluginTemplatePath . '/css/pagination.css',
-			$sPluginTemplatePath . '/css/icons.css',
-			$sPluginTemplatePath . '/css/navs.css',
-			$sPluginTemplatePath . '/css/buttons.css',
-			$sPluginTemplatePath . '/css/forms.css',
-			$sPluginTemplatePath . '/css/skins.css',
-			$sPluginTemplatePath . '/css/user.css',
-			$sPluginTemplatePath . '/css/table.css',
-			$sPluginTemplatePath . '/css/dropdowns.css',
-			$sPluginTemplatePath . '/css/helpers.css',
-			$sPluginTemplatePath . '/css/stats.css',
-			$sPluginTemplatePath . '/css/plugins.css',
-			$sPluginTemplatePath . '/css/addon.css',
-			$sPluginTemplatePath . '/css/rating.stars.css',
-			$sPluginTemplatePath . '/css/flags.css',
-
-			$sPluginTemplatePath . '/css/vendor/jquery.notifier.css',
-			$sPluginTemplatePath . '/css/vendor/icheck/skins/livestreet/minimal.css',
-		);
-
-		/*
-		 * скрипты для админки
+		$aScripts=Config::Get('plugin.admin.assets.js');
+		/**
+		 * Основные стили
 		 */
-		$aScripts = array(
-			/*
-			 * скрипты, задаваемые фреймворком
+		$aStyles=Config::Get('plugin.admin.assets.css');
+		/**
+		 * Подключаем срипты плагинов
+		 */
+		$aPluginsList=array_keys(Engine::getInstance()->GetPlugins());
+		foreach($aPluginsList as $sPlugin) {
+			$sPluginTemplatePath = Plugin::GetTemplateWebPath($sPlugin);
+			/**
+			 * Скрипты
 			 */
-			$sFrameworkPath . '/js/vendor/jquery-1.9.1.min.js',
-			$sFrameworkPath . '/js/vendor/jquery-ui/js/jquery-ui-1.10.2.custom.min.js',
-			$sFrameworkPath . '/js/vendor/jquery-ui/js/localization/jquery-ui-datepicker-ru.js',
-			$sFrameworkPath . '/js/vendor/jquery.browser.js',
-			$sFrameworkPath . '/js/vendor/jquery.scrollto.js',
-			$sFrameworkPath . '/js/vendor/jquery.rich-array.min.js',
-			$sFrameworkPath . '/js/vendor/jquery.form.js',
-			$sFrameworkPath . '/js/vendor/jquery.jqplugin.js',
-			$sFrameworkPath . '/js/vendor/jquery.cookie.js',
-			$sFrameworkPath . '/js/vendor/jquery.serializejson.js',
-			$sFrameworkPath . '/js/vendor/jquery.file.js',
-			//$sFrameworkPath . '/js/vendor/jcrop/jquery.Jcrop.js',
-			$sFrameworkPath . '/js/vendor/jquery.placeholder.min.js',
-			//$sFrameworkPath . '/js/vendor/jquery.charcount.js',
-			$sFrameworkPath . '/js/vendor/jquery.imagesloaded.js',
-			$sFrameworkPath . '/js/vendor/notifier/jquery.notifier.js',
-			$sFrameworkPath . '/js/vendor/markitup/jquery.markitup.js',
-			$sFrameworkPath . '/js/vendor/prettify/prettify.js',
-			$sFrameworkPath . '/js/vendor/parsley/parsley.js',
-			$sFrameworkPath . '/js/vendor/nprogress/nprogress.js',
-
-			$sFrameworkPath . '/js/core/main.js',
-			$sFrameworkPath . '/js/core/hook.js',
-			$sFrameworkPath . '/js/core/i18n.js',
-			$sFrameworkPath . '/js/core/ie.js',
-			$sFrameworkPath . '/js/core/ajax.js',
-			$sFrameworkPath . '/js/core/registry.js',
-			//$sFrameworkPath . '/js/core/swfupload.js',
-			$sFrameworkPath . '/js/core/utilities.js',
-			$sFrameworkPath . '/js/core/timer.js',
-
-			$sFrameworkPath . '/js/ui/tooltip.js',
-			$sFrameworkPath . '/js/ui/autocomplete.js',
-			$sFrameworkPath . '/js/ui/notification.js',
-			$sFrameworkPath . '/js/ui/alert.js',
-			$sFrameworkPath . '/js/ui/dropdown.js',
-			$sFrameworkPath . '/js/ui/tab.js',
-			$sFrameworkPath . '/js/ui/modal.js',
-			$sFrameworkPath . '/js/ui/toolbar.js',
-			/*
-			 * для редактирования заметок пользователей
+			if ($aAssets=Config::Get("plugin.{$sPlugin}.admin.assets.js")) {
+				foreach($aAssets as $k=>$v) {
+					if (is_int($k)) {
+						$aScripts[]=$sPluginTemplatePath.$v;
+					} else {
+						$aScripts[$sPluginTemplatePath.$k]=$v;
+					}
+				}
+			}
+			/**
+			 * Стили
 			 */
-			$sApplicationPath . '/frontend/common/js/usernote.js',
-			/*
-			 * для редактирования профиля пользователя
-			 */
-			$sApplicationPath . '/frontend/common/js/geo.js',
-
-			/*
-			 * скрипты плагина
-			 */
-			$sPluginTemplatePath . '/js/init.js',
-			$sPluginTemplatePath . '/js/admin_settings_save.js',
-			$sPluginTemplatePath . '/js/admin_settings_array.js',
-			$sPluginTemplatePath . '/js/admin_misc.js',
-			$sPluginTemplatePath . '/js/admin_stream.js',
-			$sPluginTemplatePath . '/js/admin_users_stats_living.js',
-			$sPluginTemplatePath . '/js/admin_profile_edit.js',
-			$sPluginTemplatePath . '/js/admin_catalog.js',
-			$sPluginTemplatePath . '/js/admin_users_search.js',
-			$sPluginTemplatePath . '/js/admin_users_complaints.js',
-			$sPluginTemplatePath . '/js/nav.main.js',
-			$sPluginTemplatePath . '/js/property.js',
-			$sPluginTemplatePath . '/js/topic.js',
-
-			/*
-			 * 3rd party vendor
-			 */
-			$sPluginTemplatePath . '/js/vendor/highcharts/highcharts.src.js',
-			$sPluginTemplatePath . '/js/vendor/icheck/jquery.icheck.js',
-			$sPluginTemplatePath . '/js/vendor/jeditable/jquery.jeditable.js',
-		);
-
-		array_map(array($this, 'Viewer_AppendStyle'), $aStyles);
-		array_map(array($this, 'Viewer_AppendScript'), $aScripts);
+			if ($aAssets=Config::Get("plugin.{$sPlugin}.admin.assets.css")) {
+				foreach($aAssets as $k=>$v) {
+					if (is_int($k)) {
+						$aStyles[]=$sPluginTemplatePath.$v;
+					} else {
+						$aStyles[$sPluginTemplatePath.$k]=$v;
+					}
+				}
+			}
+		}
+		foreach($aScripts as $k=>$v) {
+			$this->Viewer_AppendScript(is_int($k) ? $v : $k, is_int($k) ? array() : $v);
+		}
+		foreach($aStyles as $k=>$v) {
+			$this->Viewer_AppendStyle(is_int($k) ? $v : $k, is_int($k) ? array() : $v);
+		}
 	}
 
 }
-
-?>
