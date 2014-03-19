@@ -578,15 +578,16 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		$aPluginsList=array_keys(Engine::getInstance()->GetPlugins());
 		foreach($aPluginsList as $sPlugin) {
 			$sPluginTemplatePath = Plugin::GetTemplateWebPath($sPlugin);
+			$sPluginPath = Plugin::GetWebPath($sPlugin);
 			/**
 			 * Скрипты
 			 */
 			if ($aAssets=Config::Get("plugin.{$sPlugin}.admin.assets.js")) {
 				foreach($aAssets as $k=>$v) {
 					if (is_int($k)) {
-						$aScripts[]=$sPluginTemplatePath.$v;
+						$aScripts[]=(substr($v,0,1)=='/' ? trim($sPluginPath,'/\\') : $sPluginTemplatePath).$v;
 					} else {
-						$aScripts[$sPluginTemplatePath.$k]=$v;
+						$aScripts[(substr($k,0,1)=='/' ? trim($sPluginPath,'/\\') : $sPluginTemplatePath).$k]=$v;
 					}
 				}
 			}
@@ -596,9 +597,9 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			if ($aAssets=Config::Get("plugin.{$sPlugin}.admin.assets.css")) {
 				foreach($aAssets as $k=>$v) {
 					if (is_int($k)) {
-						$aStyles[]=$sPluginTemplatePath.$v;
+						$aStyles[]=(substr($v,0,1)=='/' ? trim($sPluginPath,'/\\') : $sPluginTemplatePath).$v;
 					} else {
-						$aStyles[$sPluginTemplatePath.$k]=$v;
+						$aStyles[(substr($k,0,1)=='/' ? trim($sPluginPath,'/\\') : $sPluginTemplatePath).$k]=$v;
 					}
 				}
 			}
