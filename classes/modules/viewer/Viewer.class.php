@@ -52,6 +52,10 @@ class PluginAdmin_ModuleViewer extends PluginAdmin_Inherit_ModuleViewer {
 			'append' => array(),
 			'prepend' => array()
 		);
+		$this->aJsInclude = array(
+			'append' => array(),
+			'prepend' => array()
+		);
 		/*
 		 * очистить параметры для подключаемых файлов
 		 */
