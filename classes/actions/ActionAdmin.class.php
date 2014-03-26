@@ -567,47 +567,47 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		/**
 		 * Основные скрипты
 		 */
-		$aScripts=Config::Get('plugin.admin.assets.js');
+		$aScripts = Config::Get('plugin.admin.assets.js');
 		/**
 		 * Основные стили
 		 */
-		$aStyles=Config::Get('plugin.admin.assets.css');
+		$aStyles = Config::Get('plugin.admin.assets.css');
 		/**
 		 * Подключаем срипты плагинов
 		 */
-		$aPluginsList=array_keys(Engine::getInstance()->GetPlugins());
-		foreach($aPluginsList as $sPlugin) {
+		$aPluginsList = array_keys(Engine::getInstance()->GetPlugins());
+		foreach ($aPluginsList as $sPlugin) {
 			$sPluginTemplatePath = Plugin::GetTemplateWebPath($sPlugin);
 			$sPluginPath = Plugin::GetWebPath($sPlugin);
 			/**
 			 * Скрипты
 			 */
-			if ($aAssets=Config::Get("plugin.{$sPlugin}.admin.assets.js")) {
-				foreach($aAssets as $k=>$v) {
+			if ($aAssets = Config::Get("plugin.{$sPlugin}.admin.assets.js")) {
+				foreach ($aAssets as $k => $v) {
 					if (is_int($k)) {
-						$aScripts[]=(substr($v,0,1)=='/' ? trim($sPluginPath,'/\\') : $sPluginTemplatePath).$v;
+						$aScripts[] = (substr($v, 0, 1) == '/' ? trim($sPluginPath, '/\\') : $sPluginTemplatePath) . $v;
 					} else {
-						$aScripts[(substr($k,0,1)=='/' ? trim($sPluginPath,'/\\') : $sPluginTemplatePath).$k]=$v;
+						$aScripts[(substr($k, 0, 1) == '/' ? trim($sPluginPath, '/\\') : $sPluginTemplatePath) . $k] = $v;
 					}
 				}
 			}
 			/**
 			 * Стили
 			 */
-			if ($aAssets=Config::Get("plugin.{$sPlugin}.admin.assets.css")) {
-				foreach($aAssets as $k=>$v) {
+			if ($aAssets = Config::Get("plugin.{$sPlugin}.admin.assets.css")) {
+				foreach ($aAssets as $k => $v) {
 					if (is_int($k)) {
-						$aStyles[]=(substr($v,0,1)=='/' ? trim($sPluginPath,'/\\') : $sPluginTemplatePath).$v;
+						$aStyles[] = (substr($v, 0, 1) == '/' ? trim($sPluginPath, '/\\') : $sPluginTemplatePath) . $v;
 					} else {
-						$aStyles[(substr($k,0,1)=='/' ? trim($sPluginPath,'/\\') : $sPluginTemplatePath).$k]=$v;
+						$aStyles[(substr($k, 0, 1) == '/' ? trim($sPluginPath, '/\\') : $sPluginTemplatePath) . $k] = $v;
 					}
 				}
 			}
 		}
-		foreach($aScripts as $k=>$v) {
+		foreach ($aScripts as $k => $v) {
 			$this->Viewer_AppendScript(is_int($k) ? $v : $k, is_int($k) ? array() : $v);
 		}
-		foreach($aStyles as $k=>$v) {
+		foreach ($aStyles as $k => $v) {
 			$this->Viewer_AppendStyle(is_int($k) ? $v : $k, is_int($k) ? array() : $v);
 		}
 	}
