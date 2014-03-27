@@ -53,6 +53,18 @@
 			bFieldChecked = $_aRequest.params.allow_poll
 			sFieldLabel = 'Разрешить добавлять опросы'}
 
+		{* Возможность отключить текст топика *}
+		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.checkbox.tpl"
+			sFieldName  = 'params[allow_text]'
+			bFieldChecked = $_aRequest.params.allow_text
+			sFieldLabel = 'Разрешить стандартное поле с текстом'}
+
+		{* Возможность отключить теги *}
+		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.checkbox.tpl"
+			sFieldName  = 'params[allow_tags]'
+			bFieldChecked = $_aRequest.params.allow_tags
+			sFieldLabel = 'Разрешить стандартное поле с тегами'}
+
 		{* Кнопки *}
 		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.button.tpl"
 			sFieldName  = 'type_submit'

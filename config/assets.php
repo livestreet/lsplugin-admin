@@ -98,6 +98,7 @@ $config['assets']['css']=array(
 	"___path.framework.frontend.web___/css/reset.css",
 	"___path.framework.frontend.web___/css/helpers.css",
 	"___path.framework.frontend.web___/css/text.css",
+	"___path.framework.frontend.web___/css/icons.css",
 	"___path.framework.frontend.web___/css/dropdowns.css",
 	"___path.framework.frontend.web___/css/buttons.css",
 	"___path.framework.frontend.web___/css/forms.css",
