@@ -12,7 +12,7 @@
 	{/if}
 </h3>
 
-<form id="form-article-create" action="" method="post" onsubmit="{if $oArticle}ls.plugin.article.admin.updateArticle('form-article-create');{else}ls.plugin.article.admin.createArticle('form-article-create');{/if} return false;">
+<form id="form-article-create" enctype="multipart/form-data" action="" method="post" onsubmit="{if $oArticle}ls.plugin.article.admin.updateArticle('form-article-create');{else}ls.plugin.article.admin.createArticle('form-article-create');{/if} return false;">
 	{if $oArticle}
 		{$sFieldValue = $oArticle->getTitle()}
 	{/if}

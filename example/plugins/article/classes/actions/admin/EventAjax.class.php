@@ -89,6 +89,7 @@ class PluginArticle_ActionAdmin_EventAjax extends Event {
 			 */
 			if ($oArticle->Update()) {
 				$this->Message_AddNotice('Обновление прошло успешно',$this->Lang_Get('attention'));
+				$this->Viewer_AssignAjax('bReloadPage',true);
 			} else {
 				$this->Message_AddError('Возникла ошибка при обновлении',$this->Lang_Get('error'));
 			}
