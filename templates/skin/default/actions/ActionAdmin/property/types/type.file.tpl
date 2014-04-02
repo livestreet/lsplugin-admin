@@ -1,15 +1,9 @@
-<h3 class="page-sub-header mt-30">Правила валидации</h3>
+<h3 class="page-sub-header mt-30">Дополнительные параметры</h3>
 
 {include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.checkbox.tpl"
-         sFieldName    = 'validate[allowEmpty]' 
-         bFieldChecked = ! $oPropertyValidateRules.allowEmpty
-         sFieldLabel   = 'Обязательно к заполнению'}
-
-{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
-         sFieldName    = 'validate[size_max]'
-         sFieldClasses = 'width-150'
-         sFieldValue   = $oPropertyValidateRules.size_max
-         sFieldLabel   = 'Максимальный размер файла в килобайтах'}
+	sFieldName    = 'param[access_only_auth]'
+	bFieldChecked = $oPropertyParams.access_only_auth
+	sFieldLabel   = 'Доступ к файлу только для авторизованных пользователей'}
 
 
 <h3 class="page-sub-header mt-30">Список доступных типов, например, doc, zip и т.д.</h3>
@@ -33,3 +27,18 @@
         </div>
 	{/if}
 </div>
+
+
+
+<h3 class="page-sub-header mt-30">Правила валидации</h3>
+
+{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.checkbox.tpl"
+	sFieldName    = 'validate[allowEmpty]'
+	bFieldChecked = ! $oPropertyValidateRules.allowEmpty
+	sFieldLabel   = 'Обязательно к заполнению'}
+
+{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
+	sFieldName    = 'validate[size_max]'
+	sFieldClasses = 'width-150'
+	sFieldValue   = $oPropertyValidateRules.size_max
+	sFieldLabel   = 'Максимальный размер файла в килобайтах'}

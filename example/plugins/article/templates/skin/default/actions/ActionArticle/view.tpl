@@ -16,11 +16,8 @@
 	<h4 class="h4">Дополнительные свойства</h4>
 
 	{$aProperties = $oArticle->getPropertyList()}
-	{foreach $aProperties as $oProperty}
-		{$mValue = $oProperty->getValue()->getValueForDisplay()}
 
-    	<b>{$oProperty->getTitle()}</b>: {$mValue}<br/>
-	{/foreach}
+	{include 'property/render.list.tpl' aPropertyItems=$aProperties}
 
 	<br/>
 	<br/>
