@@ -27,7 +27,8 @@
 			[ 'value' => 'select',		'text' => 'Выпадающий список' ],
 			[ 'value' => 'tags',		'text' => 'Теги' ],
 			[ 'value' => 'video_link',	'text' => 'Ссылка на видео' ],
-			[ 'value' => 'file',		'text' => 'Файл' ]
+			[ 'value' => 'file',		'text' => 'Файл' ],
+			[ 'value' => 'image',		'text' => 'Изображение' ]
 		]}
 
 		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.select.tpl"

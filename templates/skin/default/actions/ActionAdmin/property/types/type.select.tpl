@@ -29,7 +29,7 @@
 
 <button onclick="return ls.admin_property.clickSelectItemNew();" class="button">Добавить элемент</button>
 
-<div id="property-select-items" class="mt-15 mb-30">
+<div id="property-select-items" class="mt-15 mb-30 js-property-select-area">
 	{if $aSelectItems}
 		{foreach $aSelectItems as $oSelect}
             <div class="mb-10 js-property-select-item">
@@ -40,7 +40,7 @@
             </div>
 		{/foreach}
 	{else}
-        <div class="js-property-select-item">
+        <div class="mb-10 js-property-select-item">
             <input type="text" value="" name="items[value][]" placeholder="Значение" class="js-property-select-item-value">
             <input type="text" value="" name="items[sort][]" placeholder="Сортировка" class="js-property-select-item-sort">
             <input type="hidden" value="" name="items[id][]" class="js-property-select-item-id">
