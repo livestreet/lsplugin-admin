@@ -21,6 +21,13 @@
 jQuery(document).ready(function($) {
 
 	/**
+	 * Иниц-ия модулей ядра
+	 */
+	ls.init({
+		production: false
+	});
+
+	/**
 	 * Popovers
 	 */
 	$('.js-popover-default').tooltip({
@@ -171,5 +178,7 @@ jQuery(document).ready(function($) {
 	/**
 	 * Механизм заметок для пользователей
 	 */
-	ls.usernote.init();
+	$('.js-user-note').livequery(function () {
+		$(this).usernote();
+	});
 });
