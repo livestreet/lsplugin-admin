@@ -66,18 +66,8 @@ class PluginArticle extends Plugin {
 				'additional'=>array()
 			)
 		);
-		foreach($aProperties as $aProperty) {
-			$sResultMsg=$this->Property_CreateTargetProperty($this->sPropertyTargetType,$aProperty['data'],true,$aProperty['validate_rule'],$aProperty['params'],$aProperty['additional']);
-			if ($sResultMsg!==true and !is_object($sResultMsg)) {
-				if (is_string($sResultMsg)) {
-					$this->Message_AddErrorSingle($sResultMsg, $this->Lang_Get('error'), true);
-				}
-				/**
-				 * Отменяем добавление типа
-				 */
-				$this->Property_RemoveTargetType($this->sPropertyTargetType,ModuleProperty::TARGET_STATE_NOT_ACTIVE);
-				return false;
-			}
+		if (!$this->Property_CreateDefaultTargetPropertyFromPlugin($aProperties,$this->sPropertyTargetType)) {
+			return false;
 		}
 
 		return true;

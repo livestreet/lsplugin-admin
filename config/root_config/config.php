@@ -1842,10 +1842,10 @@ return array(
 				),
 			),
 		),*/
-/*		'router.config.action_default' => array(
+/*		'router.config.default.action' => array(
 			'type' => 'string',
-			'name' => 'config_parameters.router.config.action_default.name',
-			'description' => 'config_parameters.router.config.action_default.description',
+			'name' => 'config_parameters.router.config.default.action.name',
+			'description' => 'config_parameters.router.config.default.action.description',
 			'validator' => array(
 				'type' => 'String',
 				'params' => array(

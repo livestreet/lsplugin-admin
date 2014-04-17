@@ -734,9 +734,11 @@ return array(
 				'description' => 'Правила реврайта для REQUEST_URI',
 			),
 			'config' => array(
-				'action_default' => array(
-					'name' => '',
-					'description' => 'Глобальные настройки роутинга',
+				'default' =>array(
+					'action' => array(
+						'name' => '',
+						'description' => 'Глобальные настройки роутинга',
+					),
 				),
 				'action_not_found' => array(
 					'name' => 'Экшен не найден',
