@@ -56,7 +56,7 @@ class PluginAdmin_ModulePlugins_EntityPlugins extends Entity {
 		if ($bGoToInstructionsFirst and $this->getInstallInstructionsPath()) {
 			return $this->getInstallInstructionsUrl();
 		}
-		return Router::GetPath('admin/plugins/toggle') . '?plugin=' . $this->getCode() . '&action=activate&security_ls_key=' . $this->Security_SetSessionKey();
+		return Router::GetPath('admin/plugins/toggle') . '?plugin=' . $this->getCode() . '&action=activate&security_ls_key=' . $this->Security_GetSecurityKey();
 	}
 
 
@@ -66,7 +66,7 @@ class PluginAdmin_ModulePlugins_EntityPlugins extends Entity {
 	 * @return string
 	 */
 	public function getDeactivateUrl() {
-		return Router::GetPath('admin/plugins/toggle') . '?plugin=' . $this->getCode() . '&action=deactivate&security_ls_key=' . $this->Security_SetSessionKey();
+		return Router::GetPath('admin/plugins/toggle') . '?plugin=' . $this->getCode() . '&action=deactivate&security_ls_key=' . $this->Security_GetSecurityKey();
 	}
 
 

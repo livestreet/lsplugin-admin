@@ -57,7 +57,7 @@ class PluginAdmin_HookSkins extends Hook {
 		/*
 		 * ключ безопасности ещё не передан, поэтому создадим его вручную
 		 */
-		$this->Security_SetSessionKey();
+		$this->Viewer_Assign("LIVESTREET_SECURITY_KEY",$this->Security_GetSecurityKey());
 		$this->Message_AddNotice($this->Viewer_Fetch(Plugin::GetTemplatePath(__CLASS__) . 'actions/ActionAdmin/skins/preview_skin_message.tpl'));
 	}
 

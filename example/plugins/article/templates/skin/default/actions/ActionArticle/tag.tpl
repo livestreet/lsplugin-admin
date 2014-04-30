@@ -10,8 +10,8 @@
 
 	{if $aArticleItems}
 		{include file=$aTemplatePathPlugin.article|cat:'article.list.tpl' aArticleItems=$aArticleItems}
-		{include file='pagination.tpl' aPaging=$aPaging}
+		{include 'components/pagination/pagination.tpl' aPaging=$aPaging}
 	{else}
-		{include file='alert.tpl' mAlerts="Ничего не удалось найти" sAlertStyle='empty'}
+		{include 'components/alert/alert.tpl' mAlerts='Ничего не удалось найти' aMods='empty'}
 	{/if}
 {/block}

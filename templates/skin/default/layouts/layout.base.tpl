@@ -167,15 +167,15 @@
 							{/if}
 
 							{* Системные сообщения *}
-							{if ! $bNoSystemMessages}
-								{if $aMsgError}
-									{include file='alert.tpl' sAlertStyle='error' mAlerts=$aMsgError}
-								{/if}
+								{if ! $bNoSystemMessages}
+									{if $aMsgError}
+										{include 'components/alert/alert.tpl' sMods='error' mAlerts=$aMsgError bClose=true}
+									{/if}
 
-								{if $aMsgNotice}
-									{include file='alert.tpl' mAlerts=$aMsgNotice}
+									{if $aMsgNotice}
+										{include 'components/alert/alert.tpl' mAlerts=$aMsgNotice bClose=true}
+									{/if}
 								{/if}
-							{/if}
 
 							{block name='layout_content'}{/block}
 
