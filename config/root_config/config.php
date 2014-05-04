@@ -238,7 +238,6 @@ return array(
 					'sys.logs.sql_error',
 					'sys.logs.sql_error_file',
 					'sys.logs.cron',
-					'sys.logs.cron_file',
 				),
 			),
 			array(
@@ -795,16 +794,6 @@ return array(
 				),
 			),
 		),
-		'sys.logs.cron_file' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.sys.logs.cron_file.name',
-			'description' => 'config_parameters.sys.logs.cron_file.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
 		'sys.logs.profiler' => array(
 			'type' => 'boolean',
 			'name' => 'config_parameters.sys.logs.profiler.name',
@@ -825,10 +814,10 @@ return array(
 				),
 			),
 		),
-		'sys.logs.hacker_console' => array(
+		'sys.logs.console' => array(
 			'type' => 'boolean',
-			'name' => 'config_parameters.sys.logs.hacker_console.name',
-			'description' => 'config_parameters.sys.logs.hacker_console.description',
+			'name' => 'config_parameters.sys.logs.console.name',
+			'description' => 'config_parameters.sys.logs.console.description',
 			'validator' => array(
 				'type' => 'Boolean',
 				'params' => array(
