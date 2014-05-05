@@ -457,8 +457,8 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 	/**
 	 * Быстрое получение текстовки плагина без указания префикса
 	 *
-	 * @param $sKey					ключ языкового файла (без префикса plugin.имяплагина.)
-	 * @param $aParams				параметры подстановки значений для передачи в текстовку
+	 * @param       $sKey			ключ языкового файла (без префикса "plugin.имяплагина.")
+	 * @param array $aParams		параметры подстановки значений для передачи в текстовку
 	 * @return mixed				значение
 	 */
 	public function Lang($sKey, $aParams = array()) {
