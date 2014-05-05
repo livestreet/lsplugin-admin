@@ -323,10 +323,10 @@ class PluginAdmin_ModuleCatalog extends Module {
 
 
 	/**
-	 * Получение массива кодов плагинов, для которых есть обновления в каталоге
+	 * Получение массива сущностей обновлений плагинов (код и версия), для которых есть обновления в каталоге
 	 *
 	 * @param array $aPlugins		массив сущностей плагинов для проверки, если нужно
-	 * @return string|bool|array	массив кодов и версий плагинов с обновлениям, false если нет обновлений или строка ошибки
+	 * @return string|bool|array	массив сущностей обновлений (код и версии плагинов), false если нет обновлений или строка ошибки соединения или сервера
 	 */
 	public function GetPluginUpdates($aPlugins = array()) {
 		/*
@@ -369,8 +369,9 @@ class PluginAdmin_ModuleCatalog extends Module {
 		$sCacheKey = 'admin_get_plugins_updates_' . serialize($aPlugins);
 		/*
 		 * есть ли в кеше
+		 * tip: принудительное кеширование + хранение результата в памяти (сессионный кеш)
 		 */
-		if (($mData = $this->Cache_Get($sCacheKey)) === false) {
+		if (($mData = $this->Cache_Get($sCacheKey, null, true, true)) === false) {
 			$mData = $this->GetPluginUpdates($aPlugins);
 			/*
 			 * кеширование обновлений на час
@@ -379,7 +380,10 @@ class PluginAdmin_ModuleCatalog extends Module {
 
 			// todo: сбрасывать при обновлении плагинов
 
-			$this->Cache_Set($mData, $sCacheKey, array('plugin_update', 'plugin_new'), $this->aCacheLiveTime['plugin_updates_check']);
+			/*
+			 * tip: использовать принудительное кеширование
+			 */
+			$this->Cache_Set($mData, $sCacheKey, array('plugin_update', 'plugin_new'), $this->aCacheLiveTime['plugin_updates_check'], null, true);
 		}
 		return $mData;
 	}

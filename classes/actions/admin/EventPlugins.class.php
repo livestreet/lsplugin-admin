@@ -42,11 +42,12 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 		 * получить информацию по обновлениям плагинов
 		 */
 		$aUpdatesInfo = $this->PluginAdmin_Catalog_GetUpdatesInfo();
+		$sType = $this->GetParam(1);
 		/*
 		 * проверить тип фильтра
 		 */
 		$aPluginsInfo = array();
-		switch (getRequestStr('type')) {
+		switch($sType) {
 			/*
 			 * весь список плагинов
 			 */
@@ -78,6 +79,7 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 				$this->Message_AddError($this->Lang('errors.plugins.unknown_filter_type'), $this->Lang_Get('error'));
 		}
 		$this->Viewer_Assign('aPluginsInfo', $aPluginsInfo);
+		$this->Viewer_Assign('sType', $sType);
 	}
 
 

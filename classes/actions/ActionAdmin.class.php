@@ -290,7 +290,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		/*
 		 * список установленных плагинов (по фильтру)
 		 */
-		$this->AddEventPreg('#^plugins$#iu', '#^(?:list)?$#iu', 'Plugins::EventPluginsList');
+		$this->AddEventPreg('#^plugins$#iu', '#^(?:list)?$#iu', '#^(?:activated|deactivated|updates)?$#iu', 'Plugins::EventPluginsList');
 		/*
 		 * сброс кеша списка дополнений из каталога
 		 */
