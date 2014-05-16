@@ -43,7 +43,7 @@ class PluginAdmin_ModuleUi extends Module {
 		if (is_null($oCursor)){
 			$oCursor = $this->oCursor;
 		}
-		$aUrlParams=explode('/',trim(str_replace(Config::Get('path.root.web'),'',Router::GetPathWebCurrent()),'/'));
+		$aUrlParams=explode('/',trim(str_replace(Router::GetPathRootWeb(),'',Router::GetPathWebCurrent()),'/'));
 		$aMenus = $oCursor->GetMenus();
 		foreach($aMenus as $sName => $oMenu){
 			$aMenuSections = $oMenu->GetSections();

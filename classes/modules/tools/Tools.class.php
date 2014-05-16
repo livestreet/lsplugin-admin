@@ -77,7 +77,7 @@ class PluginAdmin_ModuleTools extends Module {
 	 */
 	public function GetPluginTemplateWebPath($sName) {
 		if ($sPath = $this->GetPluginTemplatePath($sName)) {
-			return str_replace(Config::Get('path.root.server'), Config::Get('path.root.web'), $sPath);
+			return str_replace(Config::Get('path.root.server'),Router::GetPathRootWeb(), $sPath);
 		}
 		return false;
 	}

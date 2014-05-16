@@ -73,6 +73,10 @@ class PluginAdmin extends Plugin {
 			 */
 			'ModuleViewer',
 			/*
+			 * Расширение возможностей работы с Asset
+			 */
+			'ModuleAsset',
+			/*
 			 * Расширение возможностей работы с хранилищем и сохранением данных конфигов
 			 */
 			'ModuleStorage',

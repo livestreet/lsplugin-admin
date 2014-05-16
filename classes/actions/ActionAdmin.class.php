@@ -563,7 +563,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		/**
 		 * Сбрасываем списки скриптов и таблиц стилей
 		 */
-		$this->Viewer_ClearStyle(true);
+		$this->Asset_ClearAssets();
 		/**
 		 * Основные скрипты
 		 */

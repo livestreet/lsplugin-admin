@@ -42,7 +42,7 @@
 
 
 	<script>
-        var		PATH_ROOT 					= '{Config::Get("path.root.web")}',
+        var		PATH_ROOT 					= '{Router::GetPath('/')}',
                 PATH_SKIN		 			= '{Config::Get("path.skin.web")}',
                 PATH_FRAMEWORK_FRONTEND		= '{Config::Get("path.framework.frontend.web")}',
                 PATH_FRAMEWORK_LIBS_VENDOR	= '{Config::Get("path.framework.libs_vendor.web")}',
@@ -94,11 +94,11 @@
 			 *}
 			<header id="header" class="clearfix" role="banner">
 				<ul class="breadcrumbs">
-					<li><a href="{Config::Get('path.root.web')}" class="link-dotted">Перейти на сайт</a></li>	{* todo: add lang *}
+					<li><a href="{Router::GetPath('/')}" class="link-dotted">Перейти на сайт</a></li>	{* todo: add lang *}
 				</ul>
 
 				<div class="site-info">
-					<h1 class="site-name"><a href="{Config::Get('path.root.web')}/admin">{Config::Get("view.name")}</a></h1>
+					<h1 class="site-name"><a href="{Router::GetPath('admin')}">{Config::Get("view.name")}</a></h1>
 				</div>
 
 				{* Юзербар *}
@@ -200,7 +200,7 @@
 						</ul>
 
 						<ul class="footer-right">
-							<li><a href="{Config::Get('path.root.web')}" class="link-border"><span>Перейти на сайт</a></span></li>
+							<li><a href="{Router::GetPath('/')}" class="link-border"><span>Перейти на сайт</a></span></li>
 						</ul>
 
 						{block name='layout_footer_end'}{/block}

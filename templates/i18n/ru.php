@@ -36,6 +36,7 @@ return array(
 	'from' => 'с',
 	'to' => 'по',
 	'show' => 'Показать',
+	'show_more' => 'Показать еще',
 	'reset_zoom' => 'Сбросить зум',
 	'reset_zoom_tip' => 'Показать 1 к 1',
 	'save' => 'Сохранить',

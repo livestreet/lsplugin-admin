@@ -25,20 +25,17 @@
  * 
  */
 
-class PluginAdmin_ModuleViewer extends PluginAdmin_Inherit_ModuleViewer {
+class PluginAdmin_ModuleAsset extends PluginAdmin_Inherit_ModuleAsset {
 
 	/**
-	 * Добавить директорию с плагинами для Smarty
-	 * 
-	 * @param $sDir		директория
-	 * @return bool
+	 * Очистить списки таблиц стилей и JS загружаемых вместе с движком
 	 */
-	public function AddSmartyPluginsDir($sDir) {
-		if (!is_dir($sDir)) {
-			return false;
-		}
-		$this->oSmarty->addPluginsDir($sDir);
-		return true;
+	public function ClearAssets() {
+		$this->InitAssets();
+		Config::Set('head.default',array(
+				'js'=>array(),
+				'css' => array()
+			)
+		);
 	}
-
 }

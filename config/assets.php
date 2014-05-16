@@ -80,7 +80,6 @@ $config['assets']['js']=array(
 	"___path.application.web___/frontend/common/js/topic.js",
 	//"___path.application.web___/frontend/common/js/admin.js",
 	//"___path.application.web___/frontend/common/js/userfield.js",
-	"___path.application.web___/frontend/common/js/captcha.js",
 	"___path.application.web___/frontend/common/js/media.js",
 	"___path.application.web___/frontend/common/js/tags.js",
 	"___path.application.web___/frontend/common/js/content.js",
