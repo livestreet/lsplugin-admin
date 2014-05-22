@@ -28,43 +28,9 @@ if (!class_exists('Plugin')) {
 }
 
 class PluginAdmin extends Plugin {
-	
 
-	/**
-	 * Активация плагина
-	 *
-	 * @return bool
-	 */
-	public function Activate() {
-		/*
-		 * проверить необходимый минимум для запуска плагина
-		 */
-		if (!$this->CheckDependencies()) return false;
-		/*
-		 * импортировать дампы таблиц
-		 */
-		$this->ImportSqlDumps();
-		return true;
-	}
-
-
-	/**
-	 * Инициализация плагина
-	 */
-	public function Init() {
-		/*
-		 * блокировка использования одновременно с другой админкой (для особо умных, включивших вторую админку после активации этой)
-		 */
-		if (defined('ACEADMINPANEL_VERSION')) {
-			throw new Exception('Admin: error: You must fully remove old AceAdminPanel plugin and never use two admin panels at the same time');
-		}
-	}
-
-
-	/**
+	/*
 	 * Массив с записями о наследовании плагином части функционала
-	 *
-	 * @var array
 	 */
 	protected $aInherits = array(
 		'module' => array(
@@ -118,6 +84,37 @@ class PluginAdmin extends Plugin {
 			'ModuleUser_EntityUser'
 		)
 	);
+	
+
+	/**
+	 * Активация плагина
+	 *
+	 * @return bool
+	 */
+	public function Activate() {
+		/*
+		 * проверить необходимый минимум для запуска плагина
+		 */
+		if (!$this->CheckDependencies()) return false;
+		/*
+		 * импортировать дампы таблиц
+		 */
+		$this->ImportSqlDumps();
+		return true;
+	}
+
+
+	/**
+	 * Инициализация плагина
+	 */
+	public function Init() {
+		/*
+		 * блокировка использования одновременно с другой админкой (для особо умных, включивших вторую админку после активации этой)
+		 */
+		if (defined('ACEADMINPANEL_VERSION')) {
+			throw new Exception('Admin: error: You must fully remove old AceAdminPanel plugin and never use two admin panels at the same time');
+		}
+	}
 
 
 	/**
