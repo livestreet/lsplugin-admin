@@ -81,7 +81,15 @@ class PluginAdmin extends Plugin {
 			/*
 			 * Для добавления информации о бане пользователя
 			 */
-			'ModuleUser_EntityUser'
+			'ModuleUser_EntityUser',
+			/*
+			 * Для установки счетчика последнего сброса кеша для ксс файлов
+			 */
+			'ModuleAsset_EntityTypeCss',
+			/*
+			 * Для установки счетчика последнего сброса кеша для жс файлов
+			 */
+			'ModuleAsset_EntityTypeJs',
 		)
 	);
 	

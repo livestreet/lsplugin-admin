@@ -77,7 +77,7 @@ class PluginAdmin_ModuleTools extends Module {
 	 */
 	public function GetPluginTemplateWebPath($sName) {
 		if ($sPath = $this->GetPluginTemplatePath($sName)) {
-			return str_replace(Config::Get('path.root.server'),Router::GetPathRootWeb(), $sPath);
+			return str_replace(Config::Get('path.root.server'), Router::GetPathRootWeb(), $sPath);
 		}
 		return false;
 	}
@@ -92,7 +92,7 @@ class PluginAdmin_ModuleTools extends Module {
 	/**
 	 * Выполнить проверку файлов плагинов и системы на UTF-8 BOM
 	 *
-	 * @param $bSessionMessages		выводить сообщения об ошибках в отложенный вывод (для следующей загрузки ядра)
+	 * @param bool 	$bSessionMessages				выводить сообщения об ошибках в отложенный вывод (для следующей загрузки ядра)
 	 * @return bool
 	 */
 	public function CheckFilesOfPluginsAndEngineHaveCorrectEncoding($bSessionMessages = true) {
@@ -128,8 +128,8 @@ class PluginAdmin_ModuleTools extends Module {
 	/**
 	 * Проверить файлы из переданного массива на корректность кодировки
 	 *
-	 * @param $aFilesMasks			массив файлов для проверки
-	 * @param $bSessionMessages		выводить сообщения об ошибках в отложенный вывод (для следующей загрузки ядра)
+	 * @param 		$aFilesMasks					массив файлов для проверки
+	 * @param bool 	$bSessionMessages				выводить сообщения об ошибках в отложенный вывод (для следующей загрузки ядра)
 	 * @return array
 	 */
 	protected function CheckFilesEncodingByArray($aFilesMasks, $bSessionMessages = true) {
@@ -234,12 +234,12 @@ class PluginAdmin_ModuleTools extends Module {
 	/**
 	 * Проверить является ли кодировкой текста utf-8 BOM (которую нельзя использовать в файлах движка)
 	 *
-	 * @param $sText	текст для проверка
+	 * @param $sText	текст для проверки
 	 * @return bool
 	 */
 	protected function IsTextEncodedByUTF8BOM($sText) {
 		/*
-		 * utf-8 BOM отличается от простой utf-8 без сигнатуры первыми тремя символами
+		 * "utf-8 BOM" отличается от простой "utf-8 без сигнатуры" первыми тремя символами
 		 */
 		return substr($sText, 0, 3) === pack('CCC', 0xEF, 0xBB, 0xBF);
 	}
@@ -250,7 +250,6 @@ class PluginAdmin_ModuleTools extends Module {
 	 * --- Хелперы ---
 	 *
 	 */
-
 
 	/**
 	 * Получает значение свойства из объекта XML на основе указанного языка на сайте
