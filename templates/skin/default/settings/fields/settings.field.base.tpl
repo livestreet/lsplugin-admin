@@ -6,7 +6,7 @@
 
 <div class="form-field form-field-settings clearfix js-settings-field {block name='field_classes'}{/block}">
 	<a name="s{$oSection@iteration}p{$oParameter@iteration}"></a>
-	<i class="icon-question-sign form-field-help js-tooltip" data-tooltip-content="#{$oSection@iteration} / #{$oParameter@iteration} / {$sKey} / {$oParameter->getType()}"></i>
+	<i class="icon-question-sign form-field-help js-tooltip" data-tooltip-content="#{$oSection@iteration} - #{$oParameter@iteration} / {$sKey} / {$oParameter->getType()}"></i>
 
 	<input type="hidden" name="{$sInputDataName}" value="{$sAdminSettingsFormSystemId}" />
 	<input type="hidden" name="{$sInputDataName}" value="{$sKey}" />

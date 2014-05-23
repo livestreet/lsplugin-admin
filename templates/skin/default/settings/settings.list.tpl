@@ -7,7 +7,7 @@
 		ls.registry.set('settings.admin_save_form_ajax_use', {json var=Config::Get('plugin.admin.settings.admin_save_form_ajax_use')});
 	</script>
 
-	<br>
+	<br />
 
 	<form action="{router page="admin/settings/save/{$sConfigName}"}" method="post" enctype="application/x-www-form-urlencoded" id="admin_settings_save">
 		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.hidden.security_key.tpl"}
