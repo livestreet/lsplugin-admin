@@ -81,6 +81,11 @@ return array(
 					'module.topic.new_time',
 					'module.topic.per_page',
 					'module.topic.max_length',
+					'module.topic.min_length',
+					'module.topic.allow_empty',
+                    'module.topic.title_max_length',
+                    'module.topic.title_min_length',
+                    'module.topic.title_allow_empty',
 					'module.topic.allow_empty_tags',
 				),
 			),
@@ -221,12 +226,10 @@ return array(
 			array(
 				'name' => 'Сжатие CSS, JS',
 				'allowed_keys' => array(
-					'compress.css.merge',
-					'compress.js.merge',
-					'compress.js.use',
-				),
-				'excluded_keys' => array(
-					'compress.css.merge_selectors'
+					'module.asset.css.merge',
+					'module.asset.css.compress',
+					'module.asset.js.merge',
+					'module.asset.js.compress',
 				),
 			),
 			array(
@@ -1278,26 +1281,56 @@ return array(
 				),
 			),
 		),
-		'module.topic.link_max_length' => array(
-			'type' => 'integer',
-			'name' => 'config_parameters.module.topic.link_max_length.name',
-			'description' => 'config_parameters.module.topic.link_max_length.description',
-			'validator' => array(
-				'type' => 'Number',
-				'params' => array(
-				),
-			),
-		),
-		'module.topic.question_max_length' => array(
-			'type' => 'integer',
-			'name' => 'config_parameters.module.topic.question_max_length.name',
-			'description' => 'config_parameters.module.topic.question_max_length.description',
-			'validator' => array(
-				'type' => 'Number',
-				'params' => array(
-				),
-			),
-		),
+        'module.topic.min_length' => array(
+            'type' => 'integer',
+            'name' => 'config_parameters.module.topic.min_length.name',
+            'description' => 'config_parameters.module.topic.min_length.description',
+            'validator' => array(
+                'type' => 'Number',
+                'params' => array(
+                ),
+            ),
+        ),
+        'module.topic.allow_empty' => array(
+            'type' => 'integer',
+            'name' => 'config_parameters.module.topic.allow_empty.name',
+            'description' => 'config_parameters.module.topic.allow_empty.description',
+            'validator' => array(
+                'type' => 'Boolean',
+                'params' => array(
+                ),
+            ),
+        ),
+        'module.topic.title_max_length' => array(
+            'type' => 'integer',
+            'name' => 'config_parameters.module.topic.title_max_length.name',
+            'description' => 'config_parameters.module.topic.title_max_length.description',
+            'validator' => array(
+                'type' => 'Number',
+                'params' => array(
+                ),
+            ),
+        ),
+        'module.topic.title_min_length' => array(
+            'type' => 'integer',
+            'name' => 'config_parameters.module.topic.title_min_length.name',
+            'description' => 'config_parameters.module.topic.title_min_length.description',
+            'validator' => array(
+                'type' => 'Number',
+                'params' => array(
+                ),
+            ),
+        ),
+        'module.topic.title_allow_empty' => array(
+            'type' => 'integer',
+            'name' => 'config_parameters.module.topic.title_allow_empty.name',
+            'description' => 'config_parameters.module.topic.title_allow_empty.description',
+            'validator' => array(
+                'type' => 'Boolean',
+                'params' => array(
+                ),
+            ),
+        ),
 		'module.topic.allow_empty_tags' => array(
 			'type' => 'boolean',
 			'name' => 'config_parameters.module.topic.allow_empty_tags.name',
@@ -1851,100 +1884,40 @@ return array(
 				),
 			),
 		),*/
-		'compress.css.merge' => array(
+		'module.asset.css.merge' => array(
 			'type' => 'boolean',
-			'name' => 'config_parameters.compress.css.merge.name',
-			'description' => 'config_parameters.compress.css.merge.description',
+			'name' => 'config_parameters.module.asset.css.merge.name',
+			'description' => 'config_parameters.module.asset.css.merge.description',
 			'validator' => array(
 				'type' => 'Boolean',
 				'params' => array(
 				),
 			),
 		),
-		'compress.css.use' => array(
+		'module.asset.css.compress' => array(
 			'type' => 'boolean',
-			'name' => 'config_parameters.compress.css.use.name',
-			'description' => 'config_parameters.compress.css.use.description',
+			'name' => 'config_parameters.module.asset.css.compress.name',
+			'description' => 'config_parameters.module.asset.css.compress.description',
 			'validator' => array(
 				'type' => 'Boolean',
 				'params' => array(
 				),
 			),
 		),
-		'compress.css.case_properties' => array(
-			'type' => 'integer',
-			'name' => 'config_parameters.compress.css.case_properties.name',
-			'description' => 'config_parameters.compress.css.case_properties.description',
-			'validator' => array(
-				'type' => 'Number',
-				'params' => array(
-				),
-			),
-		),
-		'compress.css.merge_selectors' => array(
-			'type' => 'integer',
-			'name' => 'config_parameters.compress.css.merge_selectors.name',
-			'description' => 'config_parameters.compress.css.merge_selectors.description',
-			'validator' => array(
-				'type' => 'Number',
-				'params' => array(
-				),
-			),
-		),
-		'compress.css.optimise_shorthands' => array(
-			'type' => 'integer',
-			'name' => 'config_parameters.compress.css.optimise_shorthands.name',
-			'description' => 'config_parameters.compress.css.optimise_shorthands.description',
-			'validator' => array(
-				'type' => 'Number',
-				'params' => array(
-				),
-			),
-		),
-		'compress.css.remove_last_;' => array(
+		'module.asset.js.merge' => array(
 			'type' => 'boolean',
-			'name' => 'config_parameters.compress.css.remove_last_;.name',
-			'description' => 'config_parameters.compress.css.remove_last_;.description',
+			'name' => 'config_parameters.module.asset.js.merge.name',
+			'description' => 'config_parameters.module.asset.js.merge.description',
 			'validator' => array(
 				'type' => 'Boolean',
 				'params' => array(
 				),
 			),
 		),
-		'compress.css.css_level' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.compress.css.css_level.name',
-			'description' => 'config_parameters.compress.css.css_level.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'compress.css.template' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.compress.css.template.name',
-			'description' => 'config_parameters.compress.css.template.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
-		'compress.js.merge' => array(
+		'module.asset.js.compress' => array(
 			'type' => 'boolean',
-			'name' => 'config_parameters.compress.js.merge.name',
-			'description' => 'config_parameters.compress.js.merge.description',
-			'validator' => array(
-				'type' => 'Boolean',
-				'params' => array(
-				),
-			),
-		),
-		'compress.js.use' => array(
-			'type' => 'boolean',
-			'name' => 'config_parameters.compress.js.use.name',
-			'description' => 'config_parameters.compress.js.use.description',
+			'name' => 'config_parameters.module.asset.js.compress.name',
+			'description' => 'config_parameters.module.asset.js.compress.description',
 			'validator' => array(
 				'type' => 'Boolean',
 				'params' => array(

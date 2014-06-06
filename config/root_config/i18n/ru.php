@@ -490,14 +490,26 @@ return array(
 					'name' => 'Максимальное количество символов в одном топике',
 					'description' => '',
 				),
-				'link_max_length' => array(
-					'name' => 'Максимальное количество символов в одном топике-ссылке',
-					'description' => '',
-				),
-				'question_max_length' => array(
-					'name' => 'Максимальное количество символов в одном топике-опросе',
-					'description' => '',
-				),
+                'min_length' => array(
+                    'name' => 'Минимальное количество символов в одном топике',
+                    'description' => '',
+                ),
+                'allow_empty' => array(
+                    'name' => 'Разрешать или нет не заполнять текст топика',
+                    'description' => '',
+                ),
+                'title_max_length' => array(
+                    'name' => 'Максимальное количество символов в заголовке топика',
+                    'description' => '',
+                ),
+                'title_min_length' => array(
+                    'name' => 'Минимальное количество символов в заголовке топика',
+                    'description' => '',
+                ),
+                'title_allow_empty' => array(
+                    'name' => 'Разрешать или нет не заполнять заголовок топика',
+                    'description' => '',
+                ),
 				'allow_empty_tags' => array(
 					'name' => 'Разрешать или нет не заполнять теги',
 					'description' => '',
@@ -715,6 +727,28 @@ return array(
 					'description' => '',
 				),
 			),
+			'asset'=>array(
+				'css'=>array(
+					'merge'=>array(
+						'name' => 'Указывает на необходимость слияния css файлов',
+						'description' => '',
+					),
+					'compress'=>array(
+						'name' => 'Указывает на необходимость компрессии css файлов.',
+						'description' => 'Компрессия используется только в активированном режиме слияния файлов.',
+					),
+				),
+				'js'=>array(
+					'merge'=>array(
+						'name' => 'Указывает на необходимость слияния js файлов',
+						'description' => '',
+					),
+					'compress'=>array(
+						'name' => 'Указывает на необходимость компрессии js файлов.',
+						'description' => 'Компрессия используется только в активированном режиме слияния файлов.',
+					),
+				),
+			),
 			'autoLoad' => array(
 				'name' => '',
 				'description' => 'Какие модули должны быть загружены на старте',
@@ -738,52 +772,6 @@ return array(
 				),
 				'action_not_found' => array(
 					'name' => 'Экшен не найден',
-					'description' => '',
-				),
-			),
-		),
-		'compress' => array(
-			'css' => array(
-				'merge' => array(
-					'name' => 'указывает на необходимость слияния файлов по указанным блокам.',
-					'description' => 'Параметры компрессии css-файлов',
-				),
-				'use' => array(
-					'name' => 'указывает на необходимость компрессии файлов. Компрессия используется только в активированном режиме слияния файлов.',
-					'description' => '',
-				),
-				'case_properties' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'merge_selectors' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'optimise_shorthands' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'remove_last_;' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'css_level' => array(
-					'name' => '',
-					'description' => '',
-				),
-				'template' => array(
-					'name' => '',
-					'description' => '',
-				),
-			),
-			'js' => array(
-				'merge' => array(
-					'name' => 'указывает на необходимость слияния файлов по указанным блокам.',
-					'description' => 'Параметры компрессии js-файлов',
-				),
-				'use' => array(
-					'name' => 'указывает на необходимость компрессии файлов. Компрессия используется только в активированном режиме слияния файлов.',
 					'description' => '',
 				),
 			),
