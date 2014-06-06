@@ -292,14 +292,6 @@ return array(
 					'name' => 'логировать или нет cron скрипты',
 					'description' => '',
 				),
-				'profiler' => array(
-					'name' => 'логировать или нет профилирование процессов',
-					'description' => '',
-				),
-				'profiler_file' => array(
-					'name' => 'файл лога профилирования процессов',
-					'description' => '',
-				),
 				'console' => array(
 					'name' => 'позволяет удобно выводить отладочную информацию через консоль браузера',
 					'description' => '',

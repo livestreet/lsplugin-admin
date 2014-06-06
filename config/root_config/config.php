@@ -797,26 +797,6 @@ return array(
 				),
 			),
 		),
-		'sys.logs.profiler' => array(
-			'type' => 'boolean',
-			'name' => 'config_parameters.sys.logs.profiler.name',
-			'description' => 'config_parameters.sys.logs.profiler.description',
-			'validator' => array(
-				'type' => 'Boolean',
-				'params' => array(
-				),
-			),
-		),
-		'sys.logs.profiler_file' => array(
-			'type' => 'string',
-			'name' => 'config_parameters.sys.logs.profiler_file.name',
-			'description' => 'config_parameters.sys.logs.profiler_file.description',
-			'validator' => array(
-				'type' => 'String',
-				'params' => array(
-				),
-			),
-		),
 		'sys.logs.console' => array(
 			'type' => 'boolean',
 			'name' => 'config_parameters.sys.logs.console.name',
