@@ -249,10 +249,10 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	/**
 	 * Получить текущее значение из конфига, учитывая имя конфига
 	 *
-	 * @param $sConfigName			имя конфига (имя плагина или ядра)
-	 * @param $sConfigKey			ключ конфига
-	 * @param $sInstance			инстанция
-	 * @return mixed				значение
+	 * @param        $sConfigName            имя конфига (имя плагина или ядра)
+	 * @param        $sConfigKey             ключ конфига
+	 * @param string $sInstance              инстанция
+	 * @return mixed                значение
 	 */
 	private function GetConfigKeyValue($sConfigName, $sConfigKey, $sInstance = Config::DEFAULT_CONFIG_INSTANCE) {
 		return Config::Get($this->GetFullConfigKey($sConfigName, $sConfigKey), $sInstance);
@@ -262,10 +262,10 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	/**
 	 * Задать новое значение в конфиге, учитывая имя конфига
 	 *
-	 * @param $sConfigName			имя конфига (имя плагина или ядра)
-	 * @param $sConfigKey			ключ конфига
-	 * @param $mValue				значение
-	 * @param $sInstance			инстанция
+	 * @param        $sConfigName            имя конфига (имя плагина или ядра)
+	 * @param        $sConfigKey             ключ конфига
+	 * @param        $mValue                 значение
+	 * @param string $sInstance              инстанция
 	 */
 	private function SetConfigKeyValue($sConfigName, $sConfigKey, $mValue, $sInstance = Config::DEFAULT_CONFIG_INSTANCE) {
 		Config::Set($this->GetFullConfigKey($sConfigName, $sConfigKey), $mValue, $sInstance);
@@ -293,8 +293,10 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 			$sText = $this->Lang_Get($this->GetFullConfigKeyPrefix($sConfigName) . $aParam[$sKey]);
 			/*
 			 * если текстовка существует (проверка позволяет не использовать языковый файл и прописывать текстовки прямо в ключах)
+			 * tip: в новой лс возвращается вся текстовка, если она не существует
+			 * todo: ждать фикса https://github.com/livestreet/livestreet-framework/commit/50a3f911f3be441479f583d3d98517e2ec83d09e#commitcomment-6631855
 			 */
-			if ($sText != 'NOT_FOUND_LANG_TEXT') {
+			if (strpos($sText, $this->GetFullConfigKeyPrefix($sConfigName)) === false) {
 				/*
 				 * установить вместо ключа, указывающего на текстовку, её отображаемое значение
 				 */
@@ -789,9 +791,9 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 	/**
 	 * Cохранения ключей конфига плагина и последующей их автозагрузки как части конфига
 	 *
-	 * @param array		$aKeysToSave		ключи из конфига плагина, данные которых нужно сохранить
-	 * @param			$sCallerName		имя плагина
-	 * @param			$sInstance			инстанция хранилища
+	 * @param array      $aKeysToSave        ключи из конфига плагина, данные которых нужно сохранить
+	 * @param            $sCallerName        имя плагина
+	 * @param string     $sInstance          инстанция хранилища
 	 * @return mixed
 	 */
 	final public function SavePluginConfig($aKeysToSave = array(), $sCallerName, $sInstance = self::DEFAULT_INSTANCE) {
