@@ -22,7 +22,7 @@
 					<td><a href="{$oArticleItem->getWebUrl()}">{$oArticleItem->getTitle()}</a></td>
 					<td>{date_format date=$oArticleItem->getDateCreate() format="j F Y"}</td>
 					<td>
-						{$aProperties = $oArticleItem->getPropertyList()}
+						{$aProperties = $oArticleItem->property->getPropertyList()}
 						{foreach $aProperties as $oProperty}
 							{$oProperty->getTitle()}: {$oProperty->getValue()->getValueForDisplay()}<br/>
 						{/foreach}
@@ -32,5 +32,5 @@
 		</tbody>
 	</table>
 {else}
-	{include file="{$aTemplatePathPlugin.admin}alert.tpl" mAlerts="Список статей пуст" sAlertStyle='empty'}
+	{include file="components/alert/alert.tpl" mAlerts="Список статей пуст" sAlertStyle='empty'}
 {/if}

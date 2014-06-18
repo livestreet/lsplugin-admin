@@ -22,6 +22,18 @@
 class PluginArticle_ModuleMain_EntityArticle extends EntityORM {
 
 	/**
+	 * Список поведений
+	 *
+	 * @var array
+	 */
+	protected $aBehaviors=array(
+		'property'=>array(
+			'class'=>'ModuleProperty_BehaviorPropertyEntity',
+			'target_type'=>'article'
+		)
+	);
+
+	/**
 	 * Правила валидации полей
 	 *
 	 * @var array
@@ -88,15 +100,5 @@ class PluginArticle_ModuleMain_EntityArticle extends EntityORM {
 	 */
 	public function getWebUrl() {
 		return Router::GetPath('article/view').$this->getId().'/';
-	}
-
-	/**
-	 * Возвращает тип для дополнительных полей.
-	 * Необходим для интеграции с дополнительными полями.
-	 *
-	 * @return string
-	 */
-	public function getPropertyTargetType() {
-		return $this->PluginArticle_Main_GetPropertyTargetType();
 	}
 }

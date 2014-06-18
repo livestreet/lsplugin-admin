@@ -22,6 +22,15 @@
 class PluginArticle_ModuleMain extends ModuleORM {
 
 	/**
+	 * Список поведений
+	 *
+	 * @var array
+	 */
+	protected $aBehaviors=array(
+		'property'=>'ModuleProperty_BehaviorPropertyModule'
+	);
+
+	/**
 	 * Возвращает тип для дополнительных полей
 	 *
 	 * @return string

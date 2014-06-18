@@ -15,7 +15,7 @@
 {block name='layout_content'}
 	<h4 class="h4">Дополнительные свойства</h4>
 
-	{$aProperties = $oArticle->getPropertyList()}
+	{$aProperties = $oArticle->property->getPropertyList()}
 
 	{include 'property/render.list.tpl' aPropertyItems=$aProperties}
 
@@ -24,7 +24,7 @@
 
 	<h4 class="h4">Свойство "Стоимость"</h4>
 
-	{if $oProperty = $oArticle->getProperty('price')}
+	{if $oProperty = $oArticle->property->getProperty('price')}
 		{$oProperty->getValue()->getValueForDisplay()}
 	{else}
 		Значение не определено
