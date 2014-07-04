@@ -82,6 +82,10 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 */
 		$this->RegisterEventExternal('Property', 'PluginAdmin_ActionAdmin_EventProperty');
 		/*
+		 * Модуль "Category"
+		 */
+		$this->RegisterEventExternal('Category', 'PluginAdmin_ActionAdmin_EventCategory');
+		/*
 		 * Работа с пользователями
 		 */
 		$this->RegisterEventExternal('Users', 'PluginAdmin_ActionAdmin_EventUsers');
@@ -131,6 +135,16 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		$this->AddEventPreg('#^properties$#i', '#^\w+$#i', '#^update$#i', '#^\d{1,5}$#i', 'Property::EventPropertyUpdate');
 		$this->AddEventPreg('#^properties$#i', '#^\w+$#i', '#^create$#i', '#^$#i', 'Property::EventPropertyCreate');
 		$this->AddEventPreg('#^ajax$#i', '#^properties$#i', '#^sort-save$#i', '#^$#i', 'Property::EventAjaxSortSave');
+
+		/*
+		 *
+		 * --- Модуль категорий ----
+		 *
+		 */
+		$this->AddEventPreg('#^categories$#i', '#^\w+$#i', '#^$#i', 'Category::EventCategoriesTarget');
+		$this->AddEventPreg('#^categories$#i', '#^\w+$#i', '#^remove$#i', '#^\d{1,5}$#i', 'Category::EventCategoryRemove');
+		$this->AddEventPreg('#^categories$#i', '#^\w+$#i', '#^update$#i', '#^\d{1,5}$#i', 'Category::EventCategoryUpdate');
+		$this->AddEventPreg('#^categories$#i', '#^\w+$#i', '#^create$#i', '#^$#i', 'Category::EventCategoryCreate');
 
 		/*
 		 *
