@@ -21,6 +21,7 @@
 				<tr>
 					<th>Название</th>
 					<th>URL</th>
+					<th>Элементов</th>
 					<th>Действие</th>
 				</tr>
             </thead>
@@ -31,9 +32,14 @@
 					<tr data-id="{$oCategoryItem->getId()}">
 						<td>
 							<i class="icon-file" style="margin-left: {$iLevel*20}px;"></i>
-							<a href="{$oCategoryItem->getWebUrl()}" border="0">{$oCategoryItem->getTitle()}</a>
+							{if $oCategoryItem->getWebUrl()}
+								<a href="{$oCategoryItem->getWebUrl()}" border="0">{$oCategoryItem->getTitle()}</a>
+							{else}
+								{$oCategoryItem->getTitle()}
+							{/if}
 						</td>
 						<td>{$oCategoryItem->getUrlFull()}</td>
+						<td>{$oCategoryItem->getCountTargetOfDescendants()}</td>
 						<td class="ta-r">
 							<a href="{$oCategoryItem->getUrlAdminUpdate()}" class="icon-edit" title="{$aLang.plugin.admin.edit}"></a>
 							<a href="{$oCategoryItem->getUrlAdminRemove()}?security_ls_key={$LIVESTREET_SECURITY_KEY}"

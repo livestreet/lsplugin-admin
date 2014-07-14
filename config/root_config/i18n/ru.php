@@ -460,7 +460,7 @@ return array(
 					'name' => 'Задавать и менять категории для блога может только админ',
 					'description' => '',
 				),
-				'category_only_children' => array(
+				'category_only_without_children' => array(
 					'name' => 'Для блога можно выбрать только конечную категорию, у которой нет других вложенных',
 					'description' => '',
 				),

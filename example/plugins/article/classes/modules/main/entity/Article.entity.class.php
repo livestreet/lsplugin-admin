@@ -27,10 +27,22 @@ class PluginArticle_ModuleMain_EntityArticle extends EntityORM {
 	 * @var array
 	 */
 	protected $aBehaviors=array(
+		// Настройка дополнительных полей
 		'property'=>array(
 			'class'=>'ModuleProperty_BehaviorPropertyEntity',
 			'target_type'=>'article'
-		)
+		),
+		// Настройка категорий
+		'category'=>array(
+			'class'=>'ModuleCategory_BehaviorEntity',
+			'target_type'=>'article',
+			'form_field'=>'category',
+			'multiple'=>true,
+			'validate_enable'=>true,
+			'validate_require'=>false,
+			'validate_from_request'=>true,
+			'validate_only_without_children'=>false,
+		),
 	);
 
 	/**

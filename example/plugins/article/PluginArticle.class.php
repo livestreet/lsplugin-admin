@@ -30,6 +30,10 @@ class PluginArticle extends Plugin {
 
 	protected $sPropertyTargetType='article';
 
+	protected $aInherits=array(
+		'entity'  => array('ModuleCategory_EntityCategory'=>'PluginArticle_ModuleCategory_EntityCategory'),
+	);
+
 	public function Init() {
 
 	}
@@ -70,11 +74,19 @@ class PluginArticle extends Plugin {
 			return false;
 		}
 
+		/**
+		 * Создаем новый тип для категорий
+		 */
+		if (!$this->Category_CreateTargetType($this->sPropertyTargetType,'Статьи',array(),true)) {
+			return false;
+		}
+
 		return true;
 	}
 
 	public function Deactivate() {
 		$this->Property_RemoveTargetType($this->sPropertyTargetType,ModuleProperty::TARGET_STATE_NOT_ACTIVE);
+		$this->Category_RemoveTargetType($this->sPropertyTargetType,ModuleCategory::TARGET_STATE_NOT_ACTIVE);
 		return true;
 	}
 }

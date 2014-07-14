@@ -22,6 +22,11 @@
 			 sFieldValue = $sFieldValue
 			 sFieldLabel = 'Заголовок'}
 
+
+	{* Подключаем блок для управления категориями *}
+	{insert name="block" block="categoryUpdate" params=[ 'plugin' => 'admin', 'target' => $oArticle, 'entity' => 'PluginArticle_ModuleMain_EntityArticle' ]}
+
+
 	{* Подключаем блок для управления дополнительными свойствами *}
 	{$aBlockParams = []}
 	{$aBlockParams.plugin = 'admin'}

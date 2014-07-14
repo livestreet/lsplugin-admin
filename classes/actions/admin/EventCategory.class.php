@@ -92,6 +92,7 @@ class PluginAdmin_ActionAdmin_EventCategory extends Event {
 			$this->Security_ValidateSendForm();
 			$oCategory->_setDataSafe(getRequest('category'));
 			if ($oCategory->_Validate()) {
+				$oCategory->setTitle(htmlspecialchars($oCategory->getTitle()));
 				if ($oCategory->Update()) {
 					/**
 					 * Защита от некорректного вложения

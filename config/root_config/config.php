@@ -58,7 +58,7 @@ return array(
 				'name' => 'Блоги',
 				'allowed_keys' => array(
 					'module.blog.category_allow',
-					'module.blog.category_only_children',
+					'module.blog.category_only_without_children',
 					'module.blog.category_allow_empty',
 					'module.blog.per_page',
 					'module.blog.users_per_page',
@@ -1212,10 +1212,10 @@ return array(
 				'params' => array(),
 			),
 		),
-		'module.blog.category_only_children' => array(
+		'module.blog.category_only_without_children' => array(
 			'type' => 'boolean',
-			'name' => 'config_parameters.module.blog.category_only_children.name',
-			'description' => 'config_parameters.module.blog.category_only_children.description',
+			'name' => 'config_parameters.module.blog.category_only_without_children.name',
+			'description' => 'config_parameters.module.blog.category_only_without_children.description',
 			'validator' => array(
 				'type' => 'Boolean',
 				'params' => array(),

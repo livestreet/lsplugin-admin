@@ -27,7 +27,13 @@ class PluginArticle_ModuleMain extends ModuleORM {
 	 * @var array
 	 */
 	protected $aBehaviors=array(
-		'property'=>'ModuleProperty_BehaviorPropertyModule'
+		// Настройка дополнительных полей
+		'property'=>'ModuleProperty_BehaviorPropertyModule',
+		// Настройка категорий
+		'category'=> array(
+			'class'=>'ModuleCategory_BehaviorModule',
+			'target_type'=>'article',
+		),
 	);
 
 	/**

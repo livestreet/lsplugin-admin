@@ -38,6 +38,7 @@ class PluginArticle_ActionArticle extends ActionPlugin {
 		$this->AddEventPreg('/^(page(\d{1,5}))?$/i','/^$/i',array('EventIndex','index'));
 		$this->AddEventPreg('/^view$/i',"/^\d{1,6}$/i",'EventArticleShow');
 		$this->AddEventPreg('/^tag$/i','/^.+$/i','/^(page([1-9]\d{0,5}))?$/i',"/^$/i",'EventTag');
+		$this->AddEventPreg('/^category$/i','/^[\w\-\_]+$/i','EventCategoryShow');
 	}
 
 	/**
@@ -70,6 +71,45 @@ class PluginArticle_ActionArticle extends ActionPlugin {
 		 * Устанавливаем шаблон вывода
 		 */
 		$this->SetTemplateAction('index');
+	}
+
+	/**
+	 * Выводить статьи по категории
+	 */
+	protected function EventCategoryShow() {
+		$aParams=$this->GetParams();
+		$sLastParam=array_pop($aParams);
+
+		if (preg_match('#^page(\d{1,5})$#i',$sLastParam,$aMatch)) {
+			$iPage=$aMatch[1];
+		} else {
+			$iPage=1;
+			$aParams[]=$sLastParam;
+		}
+		$sUrlFull=join('/',$aParams);
+
+		/**
+		 * Получаем категорию
+		 */
+		if (!($oCategory=$this->Category_GetCategoryByUrlFull($sUrlFull))) {
+			return $this->EventNotFound();
+		}
+		/**
+		 * Список ID всех категорий, включая дочернии
+		 */
+		$aCategoriesId=$this->Category_GetCategoriesIdByCategory($oCategory,true);
+		/**
+		 * Получаем список статей
+		 */
+		$aResult=$this->PluginArticle_Main_GetArticleItemsByFilter(array('#category'=>$aCategoriesId,'#page'=>array($iPage,Config::Get('plugin.article.per_page'))));
+		$aPaging=$this->Viewer_MakePaging($aResult['count'],$iPage,Config::Get('plugin.article.per_page'),Config::Get('pagination.pages.count'),$oCategory->getWebUrl());
+
+		$this->Viewer_Assign('aPaging',$aPaging);
+		$this->Viewer_Assign('aArticleItems',$aResult['collection']);
+		$this->Viewer_Assign('oCategoryCurrent',$oCategory);
+
+		$this->Viewer_AddHtmlTitle($oCategory->getTitle());
+		$this->SetTemplateAction('category');
 	}
 
 	/**
