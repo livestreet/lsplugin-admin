@@ -28,7 +28,7 @@ if (!class_exists('Plugin')) {
 
 class PluginArticle extends Plugin {
 
-	protected $sPropertyTargetType='article';
+	protected $sTargetType='article';
 
 	protected $aInherits=array(
 		'entity'  => array('ModuleCategory_EntityCategory'=>'PluginArticle_ModuleCategory_EntityCategory'),
@@ -49,7 +49,7 @@ class PluginArticle extends Plugin {
 		 * Создаем новый тип для дополнительных полей
 		 * Третий параметр true ознает перезапись параметров, если такой тип уже есть в БД
 		 */
-		if (!$this->Property_CreateTargetType($this->sPropertyTargetType,array('entity'=>'PluginArticle_ModuleMain_EntityArticle','name'=>'Статьи'),true)) {
+		if (!$this->Property_CreateTargetType($this->sTargetType,array('entity'=>'PluginArticle_ModuleMain_EntityArticle','name'=>'Статьи'),true)) {
 			return false;
 		}
 		/**
@@ -70,14 +70,14 @@ class PluginArticle extends Plugin {
 				'additional'=>array()
 			)
 		);
-		if (!$this->Property_CreateDefaultTargetPropertyFromPlugin($aProperties,$this->sPropertyTargetType)) {
+		if (!$this->Property_CreateDefaultTargetPropertyFromPlugin($aProperties,$this->sTargetType)) {
 			return false;
 		}
 
 		/**
 		 * Создаем новый тип для категорий
 		 */
-		if (!$this->Category_CreateTargetType($this->sPropertyTargetType,'Статьи',array(),true)) {
+		if (!$this->Category_CreateTargetType($this->sTargetType,'Статьи',array(),true)) {
 			return false;
 		}
 
@@ -85,8 +85,8 @@ class PluginArticle extends Plugin {
 	}
 
 	public function Deactivate() {
-		$this->Property_RemoveTargetType($this->sPropertyTargetType,ModuleProperty::TARGET_STATE_NOT_ACTIVE);
-		$this->Category_RemoveTargetType($this->sPropertyTargetType,ModuleCategory::TARGET_STATE_NOT_ACTIVE);
+		$this->Property_RemoveTargetType($this->sTargetType,ModuleProperty::TARGET_STATE_NOT_ACTIVE);
+		$this->Category_RemoveTargetType($this->sTargetType,ModuleCategory::TARGET_STATE_NOT_ACTIVE);
 		return true;
 	}
 }
