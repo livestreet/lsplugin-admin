@@ -159,7 +159,82 @@ class PluginAdmin_ActionAdmin_EventUtils extends Event {
 		$this->RedirectToReferer();
 	}
 
+	/*
+	 *
+	 * --- Планировщик cron ---
+	 *
+	 */
 
+	/**
+	 * Выводит список задач
+	 */
+	public function EventCron() {
+		$aResult=$this->Cron_GetTaskItemsByFilter(array('#order'=>array('state'=>'desc','plugin'=>'asc')));
+		$this->Viewer_Assign('aTaskItems',$aResult);
+		$this->Viewer_Assign('sPathCron',Config::Get('path.application.server').'/utilities/cron/main.php');
+		/**
+		 * Устанавливаем шаблон вывода
+		 */
+		$this->SetTemplateAction('utils/cron_list');
+	}
+
+	public function EventCronCreate() {
+		if (getRequest('task_submit')) {
+			$this->Security_ValidateSendForm();
+			$oTask = Engine::GetEntity('ModuleCron_EntityTask');
+			$oTask->_setDataSafe(getRequest('task'));
+			if ($oTask->_Validate()) {
+				if ($oTask->Add()) {
+					$this->Message_AddNotice('Добавление прошло успешно', $this->Lang_Get('attention'), true);
+					Router::Location(Router::LocationAction('admin/utils/cron'));
+				} else {
+					$this->Message_AddError('Возникла ошибка при добавлении', $this->Lang_Get('error'));
+				}
+			} else {
+				$this->Message_AddError($oTask->_getValidateError(), $this->Lang_Get('error'));
+			}
+		}
+		$this->SetTemplateAction('utils/cron_create');
+	}
+
+	public function EventCronUpdate() {
+		$this->SetTemplateAction('utils/cron_create');
+
+		if (!$oTask=$this->Cron_GetTaskById($this->GetParam(2))) {
+			return parent::EventNotFound();
+		}
+		$this->Viewer_Assign('oTask',$oTask);
+
+		if (getRequest('task_submit')) {
+			$this->Security_ValidateSendForm();
+			$oTask->_setDataSafe(getRequest('task'),array('state'));
+			if ($oTask->_Validate()) {
+				if ($oTask->Update()) {
+					$this->Message_AddNotice('Сохранение прошло успешно', $this->Lang_Get('attention'), true);
+					Router::Location(Router::LocationAction('admin/utils/cron'));
+				} else {
+					$this->Message_AddError('Возникла ошибка при сохранении', $this->Lang_Get('error'));
+				}
+			} else {
+				$this->Message_AddError($oTask->_getValidateError(), $this->Lang_Get('error'));
+			}
+		} else {
+			$_REQUEST['task']=array(
+				'title'=>htmlspecialchars_decode($oTask->getTitle()),
+				'method'=>htmlspecialchars_decode($oTask->getMethod()),
+				'period_run'=>$oTask->getPeriodRun(),
+				'state'=>$oTask->getState(),
+			);
+		}
+	}
+
+	public function EventCronRemove() {
+		$this->Security_ValidateSendForm();
+		if (!$oTask=$this->Cron_GetTaskById($this->GetParam(2))) {
+			return parent::EventNotFound();
+		}
+		$oTask->Delete();
+		$this->Message_AddNotice('Удаление прошло успешно', $this->Lang_Get('attention'), true);
+		Router::Location(Router::LocationAction('admin/utils/cron'));
+	}
 }
-
-?>

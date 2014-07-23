@@ -374,6 +374,13 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 * Сброс и очистка
 		 */
 		$this->AddEventPreg('#^utils$#iu', '#^reset_n_clear$#iu', 'Utils::EventResetAndClear');
+		/*
+		 * Планировщик cron
+		 */
+		$this->AddEventPreg('#^utils$#iu', '#^cron$#iu', '#^$#iu', 'Utils::EventCron');
+		$this->AddEventPreg('#^utils$#iu', '#^cron$#iu', '#^create$#iu', 'Utils::EventCronCreate');
+		$this->AddEventPreg('#^utils$#iu', '#^cron$#iu', '#^update$#iu', '#^\d{1,6}$#iu', 'Utils::EventCronUpdate');
+		$this->AddEventPreg('#^utils$#iu', '#^cron$#iu', '#^remove$#iu', '#^\d{1,6}$#iu', 'Utils::EventCronRemove');
 
 		/*
 		 *
@@ -446,6 +453,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 			->AddSection(
 				Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Утилиты')->SetName('utils')->SetUrl('utils')
 
+				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Планировщик Cron')->SetUrl('cron'))
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Проверка и восстановление')->SetUrl('check_n_repair'))
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Сброс и очистка')->SetUrl('reset_n_clear'))
 			)	// /AddSection
