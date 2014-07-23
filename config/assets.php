@@ -139,6 +139,7 @@ $config['admin']['assets']['js']=array(
 	'assets/js/admin_users_complaints.js',
 	'assets/js/nav.main.js',
 	'assets/js/property.js',
+	'assets/js/cron.js',
 	'assets/js/topic.js',
 	// Vendor scripts
 	'assets/js/vendor/highcharts/highcharts.src.js',

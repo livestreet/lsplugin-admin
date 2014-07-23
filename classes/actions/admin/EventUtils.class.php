@@ -175,7 +175,7 @@ class PluginAdmin_ActionAdmin_EventUtils extends Event {
 		/**
 		 * Устанавливаем шаблон вывода
 		 */
-		$this->SetTemplateAction('utils/cron_list');
+		$this->SetTemplateAction('utils/cron/list');
 	}
 
 	public function EventCronCreate() {
@@ -194,11 +194,11 @@ class PluginAdmin_ActionAdmin_EventUtils extends Event {
 				$this->Message_AddError($oTask->_getValidateError(), $this->Lang_Get('error'));
 			}
 		}
-		$this->SetTemplateAction('utils/cron_create');
+		$this->SetTemplateAction('utils/cron/create');
 	}
 
 	public function EventCronUpdate() {
-		$this->SetTemplateAction('utils/cron_create');
+		$this->SetTemplateAction('utils/cron/create');
 
 		if (!$oTask=$this->Cron_GetTaskById($this->GetParam(2))) {
 			return parent::EventNotFound();
@@ -236,5 +236,22 @@ class PluginAdmin_ActionAdmin_EventUtils extends Event {
 		$oTask->Delete();
 		$this->Message_AddNotice('Удаление прошло успешно', $this->Lang_Get('attention'), true);
 		Router::Location(Router::LocationAction('admin/utils/cron'));
+	}
+
+	public function EventCronAjaxRun() {
+		$this->Viewer_SetResponseAjax('json');
+
+		if (!$oTask=$this->Cron_GetTaskById(getRequestStr('id'))) {
+			return parent::EventNotFound();
+		}
+
+		$aResult=$this->Cron_RunTask($oTask);
+		if ($aResult['state']=='successful') {
+			$this->Message_AddNotice('Задача выполнена', $this->Lang_Get('attention'));
+		} else {
+			$this->Message_AddError('Не удалось выполнить задачу, смотрите логи', $this->Lang_Get('error'));
+		}
+		$this->Viewer_Assign('oTaskItem',$oTask);
+		$this->Viewer_AssignAjax('sHtmlRow',$this->Viewer_Fetch(Plugin::GetTemplatePath($this).'actions/ActionAdmin/utils/cron/item.tpl'));
 	}
 }

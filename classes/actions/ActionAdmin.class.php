@@ -381,6 +381,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		$this->AddEventPreg('#^utils$#iu', '#^cron$#iu', '#^create$#iu', 'Utils::EventCronCreate');
 		$this->AddEventPreg('#^utils$#iu', '#^cron$#iu', '#^update$#iu', '#^\d{1,6}$#iu', 'Utils::EventCronUpdate');
 		$this->AddEventPreg('#^utils$#iu', '#^cron$#iu', '#^remove$#iu', '#^\d{1,6}$#iu', 'Utils::EventCronRemove');
+		$this->AddEventPreg('#^utils$#iu', '#^cron$#iu', '#^ajax-run$#iu', 'Utils::EventCronAjaxRun');
 
 		/*
 		 *
