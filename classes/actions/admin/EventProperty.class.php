@@ -39,7 +39,7 @@ class PluginAdmin_ActionAdmin_EventProperty extends Event {
 					}
 				}
 			}
-			$this->Message_AddNotice('Сортировка сохранена');
+			$this->Message_AddNotice('Сортировка сохранена');	// todo: add lang
 		}
 	}
 
@@ -166,10 +166,10 @@ class PluginAdmin_ActionAdmin_EventProperty extends Event {
 							}
 						}
 					}
-					$this->Message_AddNotice('Обновление прошло успешно', $this->Lang_Get('attention'), true);
+					$this->Message_AddNotice('Обновление прошло успешно', $this->Lang_Get('attention'), true);// todo: add lang
 					Router::Location($oProperty->getUrlAdminUpdate());
 				} else {
-					$this->Message_AddError('Возникла ошибка при обновлении', $this->Lang_Get('error'));
+					$this->Message_AddError('Возникла ошибка при обновлении', $this->Lang_Get('error'));// todo: add lang
 				}
 			} else {
 				$this->Message_AddError($oProperty->_getValidateError(), $this->Lang_Get('error'));
@@ -197,10 +197,10 @@ class PluginAdmin_ActionAdmin_EventProperty extends Event {
 			$oProperty->setTargetType($sTargetType);
 			if ($oProperty->_Validate()) {
 				if ($oProperty->Add()) {
-					$this->Message_AddNotice('Добавление прошло успешно', $this->Lang_Get('attention'), true);
+					$this->Message_AddNotice('Добавление прошло успешно', $this->Lang_Get('attention'), true);// todo: add lang
 					Router::Location($oProperty->getUrlAdminUpdate());
 				} else {
-					$this->Message_AddError('Возникла ошибка при добавлении', $this->Lang_Get('error'));
+					$this->Message_AddError('Возникла ошибка при добавлении', $this->Lang_Get('error'));// todo: add lang
 				}
 			} else {
 				$this->Message_AddError($oProperty->_getValidateError(), $this->Lang_Get('error'));
