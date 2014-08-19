@@ -1,5 +1,5 @@
 {**
- * Сброс данных
+ * Список задач
  *}
 
 {extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}

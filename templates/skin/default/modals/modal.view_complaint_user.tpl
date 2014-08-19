@@ -4,7 +4,7 @@
  * @styles css/modals.css
  *}
 
-{extends file='modals/modal_base.tpl'}
+{extends file='components/modal/modal.tpl'}
 
 {block name='modal_id'}js-admin-modal-complaint-view{/block}
 {block name='modal_class'}modal-default{/block}

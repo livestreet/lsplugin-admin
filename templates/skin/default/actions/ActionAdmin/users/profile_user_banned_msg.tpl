@@ -18,5 +18,5 @@
 {/if}
 
 {if $sBanMessage}
-	{include file='alert.tpl' mAlerts=$sBanMessage sAlertStyle='error'}
+	{include file="{$aTemplatePathPlugin.admin}alert.tpl" sAlertStyle='error' mAlerts=$sBanMessage}
 {/if}
