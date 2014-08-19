@@ -290,13 +290,13 @@ class PluginAdmin_ModuleSettings extends ModuleStorage {
 			/*
 			 * получить текстовку по её ключу
 			 */
-			$sText = $this->Lang_Get($this->GetFullConfigKeyPrefix($sConfigName) . $aParam[$sKey]);
+			$sLangKey = $this->GetFullConfigKeyPrefix($sConfigName) . $aParam[$sKey];
+			$sText = $this->Lang_Get($sLangKey);
 			/*
 			 * если текстовка существует (проверка позволяет не использовать языковый файл и прописывать текстовки прямо в ключах)
-			 * tip: в новой лс возвращается вся текстовка, если она не существует
-			 * todo: ждать фикса https://github.com/livestreet/livestreet-framework/commit/50a3f911f3be441479f583d3d98517e2ec83d09e#commitcomment-6631855
+			 * tip: в новом лс возвращается ключ текстовки, если она не существует по этому ключу
 			 */
-			if (strpos($sText, $this->GetFullConfigKeyPrefix($sConfigName)) === false) {
+			if ($sText !== $sLangKey) {
 				/*
 				 * установить вместо ключа, указывающего на текстовку, её отображаемое значение
 				 */
