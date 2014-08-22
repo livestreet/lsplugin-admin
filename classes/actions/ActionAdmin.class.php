@@ -22,6 +22,7 @@
 class PluginAdmin_ActionAdmin extends ActionPlugin {
 
 	protected $oUserCurrent = null;
+	protected $sMenuSubItemSelect='';
 	
 	/*
 	 * Списки групп настроек системного конфига
@@ -89,6 +90,10 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 * Работа с пользователями
 		 */
 		$this->RegisterEventExternal('Users', 'PluginAdmin_ActionAdmin_EventUsers');
+		/*
+		 * Работа с правами пользователей
+		 */
+		$this->RegisterEventExternal('Rbac', 'PluginAdmin_ActionAdmin_EventRbac');
 		/*
 		 * Встраивание интерфейса плагина в админку
 		 */
@@ -199,6 +204,56 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 * удалить жалобу
 		 */
 		$this->AddEventPreg('#^users$#iu', '#^complaints$#iu', '#^delete$#', '#^\d+$#i', 'Users::EventDeleteComplaint');
+		/*
+		 * управление правами: список ролей
+		 */
+		$this->AddEventPreg('#^users$#iu', '#^rbac$#iu', '#^(|role)$#', 'Rbac::EventRoleList');
+		/*
+		 * управление правами: добавление роли
+		 */
+		$this->AddEventPreg('#^users$#iu', '#^rbac$#iu', '#^role-create$#', '#^$#', 'Rbac::EventRoleCreate');
+		/*
+		 * управление правами: редактирование роли
+		 */
+		$this->AddEventPreg('#^users$#iu', '#^rbac$#iu', '#^role-update$#', '#^\d+$#i', '#^$#', 'Rbac::EventRoleUpdate');
+		/*
+		 * управление правами: управление разрешениями у роли
+		 */
+		$this->AddEventPreg('#^users$#iu', '#^rbac$#iu', '#^role-permissions$#', '#^\d+$#i', '#^$#', 'Rbac::EventRolePermissions');
+		$this->AddEventPreg('#^ajax$#iu', '#^rbac$#iu', '#^role-permission-add$#', '#^$#', 'Rbac::EventAjaxRolePermissionAdd');
+		$this->AddEventPreg('#^ajax$#iu', '#^rbac$#iu', '#^role-permission-remove$#', '#^$#', 'Rbac::EventAjaxRolePermissionRemove');
+		/*
+		 * управление правами: управление пользователями у роли
+		 */
+		$this->AddEventPreg('#^users$#iu', '#^rbac$#iu', '#^role-users$#', '#^\d+$#i', '#^(page(\d{1,7}))?$#', '#^$#', 'Rbac::EventRoleUsers');
+		$this->AddEventPreg('#^ajax$#iu', '#^rbac$#iu', '#^role-user-add$#', '#^$#', 'Rbac::EventAjaxRoleUserAdd');
+		$this->AddEventPreg('#^ajax$#iu', '#^rbac$#iu', '#^role-user-remove$#', '#^$#', 'Rbac::EventAjaxRoleUserRemove');
+		/*
+		 * управление правами: список групп
+		 */
+		$this->AddEventPreg('#^users$#iu', '#^rbac$#iu', '#^group$#', '#^$#', 'Rbac::EventGroupList');
+		/*
+		 * управление правами: добавление группы
+		 */
+		$this->AddEventPreg('#^users$#iu', '#^rbac$#iu', '#^group-create$#', '#^$#', 'Rbac::EventGroupCreate');
+		/*
+		 * управление правами: редактирование группы
+		 */
+		$this->AddEventPreg('#^users$#iu', '#^rbac$#iu', '#^group-update$#', '#^\d+$#i', '#^$#', 'Rbac::EventGroupUpdate');
+		/*
+		 * управление правами: список разрешений
+		 */
+		$this->AddEventPreg('#^users$#iu', '#^rbac$#iu', '#^permission$#', '#^$#', 'Rbac::EventPermissionList');
+		/*
+		 * управление правами: добавление разрешения
+		 */
+		$this->AddEventPreg('#^users$#iu', '#^rbac$#iu', '#^permission-create$#', '#^$#', 'Rbac::EventPermissionCreate');
+		/*
+		 * управление правами: редактирование разрешения
+		 */
+		$this->AddEventPreg('#^users$#iu', '#^rbac$#iu', '#^permission-update$#', '#^\d+$#i', '#^$#', 'Rbac::EventPermissionUpdate');
+
+
 
 		/*
 		 *
@@ -433,6 +488,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Бан-листы')->SetUrl('bans'))
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Администраторы')->SetUrl('admins'))
 				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Жалобы')->SetUrl('complaints'))
+				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Управление правами')->SetUrl('rbac'))
 			)	// /AddSection
 			->AddSection(
 				Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Плагины')->SetName('plugins')->SetUrl('plugins')
@@ -521,6 +577,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 	 * Завершение экшена
 	 */
 	public function EventShutdown() {
+		$this->Viewer_Assign('sMenuSubItemSelect', $this->sMenuSubItemSelect);
 		$this->Viewer_Assign('oMenuMain', $this->PluginAdmin_Ui_GetMenuMain());
 		$this->Viewer_AddBlock('right', 'blocks/block.nav.tpl', array('plugin' => 'admin'));
 

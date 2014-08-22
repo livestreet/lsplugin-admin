@@ -27,6 +27,7 @@
 
 abstract class PluginAdmin_ActionPlugin extends ActionPlugin {
 
+	protected $sMenuSubItemSelect='';
 
 	protected function SetTemplateAction($sTemplate) {
 		$aDelegates = $this->Plugin_GetDelegationChain('action', $this->GetActionClass());
@@ -60,6 +61,8 @@ abstract class PluginAdmin_ActionPlugin extends ActionPlugin {
 		return Router::Action('admin', 'error');
 	}
 
-}
+	public function EventShutdown() {
+		$this->Viewer_Assign('sMenuSubItemSelect', $this->sMenuSubItemSelect);
+	}
 
-?>
+}
