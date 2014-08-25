@@ -116,6 +116,21 @@ class PluginAdmin_ActionAdmin_EventRbac extends Event {
 		$this->SetTemplateAction('rbac/permission.create');
 	}
 
+	public function EventPermissionRemove() {
+		$this->Security_ValidateSendForm();
+		$this->sMenuSubItemSelect='permission';
+		if (!($oPermission = $this->Rbac_GetPermissionById($this->GetParam(2)))) {
+			return $this->EventNotFound();
+		}
+
+		if ($oPermission->Delete()) {
+			$this->Message_AddNotice('Удаление прошло успешно', $this->Lang_Get('attention'), true);
+		} else {
+			$this->Message_AddError('Возникла ошибка при удалении', $this->Lang_Get('attention'), true);
+		}
+		Router::LocationAction("admin/users/rbac/permission");
+	}
+
 
 	/**
 	 * Список групп
@@ -183,6 +198,20 @@ class PluginAdmin_ActionAdmin_EventRbac extends Event {
 		$this->SetTemplateAction('rbac/group.create');
 	}
 
+	public function EventGroupRemove() {
+		$this->Security_ValidateSendForm();
+		$this->sMenuSubItemSelect='group';
+		if (!($oGroup = $this->Rbac_GetGroupById($this->GetParam(2)))) {
+			return $this->EventNotFound();
+		}
+
+		if ($oGroup->Delete()) {
+			$this->Message_AddNotice('Удаление прошло успешно', $this->Lang_Get('attention'), true);
+		} else {
+			$this->Message_AddError('Возникла ошибка при удалении', $this->Lang_Get('attention'), true);
+		}
+		Router::LocationAction("admin/users/rbac/group");
+	}
 
 
 
@@ -278,6 +307,21 @@ class PluginAdmin_ActionAdmin_EventRbac extends Event {
 		$this->Viewer_Assign('oRole', $oRole);
 		$this->Viewer_Assign('aRoleItems', $aRoles);
 		$this->SetTemplateAction('rbac/role.create');
+	}
+
+	public function EventRoleRemove() {
+		$this->sMenuSubItemSelect='role';
+		if (!($oRole = $this->Rbac_GetRoleById($this->GetParam(2)))) {
+			return $this->EventNotFound();
+		}
+
+		if ($oRole->Delete()) {
+			$this->Message_AddNotice('Удаление прошло успешно', $this->Lang_Get('attention'), true);
+		} else {
+			$this->Message_AddError('Возникла ошибка при удалении', $this->Lang_Get('attention'), true);
+		}
+
+		Router::LocationAction("admin/users/rbac/role");
 	}
 
 	public function EventRolePermissions() {

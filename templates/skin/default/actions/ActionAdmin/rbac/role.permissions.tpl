@@ -14,7 +14,7 @@
 
 		<select id="rbac-role-permissions-select" class="width-500" data-role-id="{$oRole->getId()}">
 			{foreach $aPermissionGroupItems as $aPermissionItemsGroup}
-				{$oGroup=$aGroupItems[$aPermissionItems@key]}
+				{$oGroup=$aGroupItems[$aPermissionItemsGroup@key]}
 				{if $oGroup}
 					{$sTitleGroup=$oGroup->getTitle()}
 				{else}

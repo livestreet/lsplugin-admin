@@ -217,6 +217,10 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 */
 		$this->AddEventPreg('#^users$#iu', '#^rbac$#iu', '#^role-update$#', '#^\d+$#i', '#^$#', 'Rbac::EventRoleUpdate');
 		/*
+		 * управление правами: удаление роли
+		 */
+		$this->AddEventPreg('#^users$#iu', '#^rbac$#iu', '#^role-remove$#', '#^\d+$#i', '#^$#', 'Rbac::EventRoleRemove');
+		/*
 		 * управление правами: управление разрешениями у роли
 		 */
 		$this->AddEventPreg('#^users$#iu', '#^rbac$#iu', '#^role-permissions$#', '#^\d+$#i', '#^$#', 'Rbac::EventRolePermissions');
@@ -241,6 +245,10 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 */
 		$this->AddEventPreg('#^users$#iu', '#^rbac$#iu', '#^group-update$#', '#^\d+$#i', '#^$#', 'Rbac::EventGroupUpdate');
 		/*
+		 * управление правами: удаление группы
+		 */
+		$this->AddEventPreg('#^users$#iu', '#^rbac$#iu', '#^group-remove$#', '#^\d+$#i', '#^$#', 'Rbac::EventGroupRemove');
+		/*
 		 * управление правами: список разрешений
 		 */
 		$this->AddEventPreg('#^users$#iu', '#^rbac$#iu', '#^permission$#', '#^$#', 'Rbac::EventPermissionList');
@@ -252,6 +260,10 @@ class PluginAdmin_ActionAdmin extends ActionPlugin {
 		 * управление правами: редактирование разрешения
 		 */
 		$this->AddEventPreg('#^users$#iu', '#^rbac$#iu', '#^permission-update$#', '#^\d+$#i', '#^$#', 'Rbac::EventPermissionUpdate');
+		/*
+		 * управление правами: удаление разрешения
+		 */
+		$this->AddEventPreg('#^users$#iu', '#^rbac$#iu', '#^permission-remove$#', '#^\d+$#i', '#^$#', 'Rbac::EventPermissionRemove');
 
 
 
