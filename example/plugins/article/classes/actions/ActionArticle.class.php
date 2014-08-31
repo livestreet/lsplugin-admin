@@ -116,6 +116,9 @@ class PluginArticle_ActionArticle extends ActionPlugin {
 	 * Обработка детального вывода статьи
 	 */
 	protected function EventArticleShow() {
+		if (!$this->Rbac_IsAllow('view',$this)) {
+			return $this->Rbac_ReturnActionError();
+		}
 		$iId=$this->GetParam(0);
 		/**
 		 * Проверяем статью на существование

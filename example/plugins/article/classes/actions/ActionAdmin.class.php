@@ -87,6 +87,9 @@ class PluginArticle_ActionAdmin extends PluginAdmin_ActionPlugin {
 	 * Создание статьи. По факту только отображение шаблона, т.к. обработка идет на ajax
 	 */
 	protected function EventCreate() {
+		if (!$this->Rbac_IsAllow('create',$this)) {
+			return $this->Rbac_ReturnActionError(true);
+		}
 		$this->SetTemplateAction('create');
 	}
 
@@ -100,6 +103,12 @@ class PluginArticle_ActionAdmin extends PluginAdmin_ActionPlugin {
 		if (!($oArticle=$this->PluginArticle_Main_GetArticleById($this->GetParam(0)))) {
 			$this->Message_AddErrorSingle('Не удалось найти статью',$this->Lang_Get('error'));
 			return $this->EventError();
+		}
+		/**
+		 * Права на редактирование
+		 */
+		if (!$this->Rbac_IsAllow('update',$this,array('article'=>$oArticle))) {
+			return $this->Rbac_ReturnActionError(true);
 		}
 
 		$this->Viewer_Assign("oArticle",$oArticle);

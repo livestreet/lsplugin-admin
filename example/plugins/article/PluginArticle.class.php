@@ -32,6 +32,7 @@ class PluginArticle extends Plugin {
 
 	protected $aInherits=array(
 		'entity'  => array('ModuleCategory_EntityCategory'=>'PluginArticle_ModuleCategory_EntityCategory'),
+		'module'  => array('ModuleRbac'=>'PluginArticle_ModuleRbac'),
 	);
 
 	public function Init() {
@@ -81,12 +82,38 @@ class PluginArticle extends Plugin {
 			return false;
 		}
 
+		/**
+		 * Создаем необходимые права доступа
+		 */
+		$aData=array(
+			'groups' => array(
+				array('article','Статьи'),
+			),
+			'roles' => array(
+				array('article_moderator','Модератор статей'),
+			),
+			'permissions' => array(
+				array('view','Просмотр статьи','msg_error'=>'У вас нет прав на просмотр статьи','group'=>'article','roles'=>array('guest','user')),
+				array('create','Создание статей','msg_error'=>'У вас нет прав на создание статьи','group'=>'article','roles'=>'user'),
+				array('update_all','Правка всех статей','msg_error'=>'У вас нет прав на редактирование статьи','group'=>'article','roles'=>'article_moderator'),
+				array('update','Правка своих статей','msg_error'=>'У вас нет прав на редактирование статьи','group'=>'article','roles'=>'user'),
+			),
+		);
+		if (!$this->Rbac_CreatePermissions($aData,$this)) {
+			return false;
+		}
+
 		return true;
 	}
 
 	public function Deactivate() {
 		$this->Property_RemoveTargetType($this->sTargetType,ModuleProperty::TARGET_STATE_NOT_ACTIVE);
 		$this->Category_RemoveTargetType($this->sTargetType,ModuleCategory::TARGET_STATE_NOT_ACTIVE);
+		$this->Rbac_RemovePermissions(array(
+										'groups' => 'article',
+										'roles' => 'article_moderator',
+									  ),$this);
+
 		return true;
 	}
 }

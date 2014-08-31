@@ -35,6 +35,9 @@ class PluginArticle_ActionAdmin_EventAjax extends Event {
 	 * Обработка добавления статьи
 	 */
 	public function EventArticleCreate() {
+		if (!$this->Rbac_IsAllow('create',$this)) {
+			return $this->Rbac_ReturnActionError(true);
+		}
 		/**
 		 * Создаем статью
 		 */
@@ -78,6 +81,12 @@ class PluginArticle_ActionAdmin_EventAjax extends Event {
 		if (!(isset($aArticleRequest['id']) and $oArticle=$this->PluginArticle_Main_GetArticleById($aArticleRequest['id']))) {
 			$this->Message_AddErrorSingle('Не удалось найти статью',$this->Lang_Get('error'));
 			return;
+		}
+		/**
+		 * Права на редактирование
+		 */
+		if (!$this->Rbac_IsAllow('update',$this,array('article'=>$oArticle))) {
+			return $this->Rbac_ReturnActionError(true);
 		}
 		$oArticle->_setDataSafe($aArticleRequest);
 		/**
