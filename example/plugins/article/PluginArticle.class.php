@@ -40,12 +40,6 @@ class PluginArticle extends Plugin {
 	}
 
 	public function Activate() {
-		if (!$this->isTableExists('prefix_article')) {
-			/**
-			 * При активации выполняем SQL дамп
-			 */
-			$this->ExportSQL(dirname(__FILE__).'/dump.sql');
-		}
 		/**
 		 * Создаем новый тип для дополнительных полей
 		 * Третий параметр true ознает перезапись параметров, если такой тип уже есть в БД

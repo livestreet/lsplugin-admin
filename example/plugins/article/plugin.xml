@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plugin>
 	<name>
-		<lang name="default">Статьи - пример использования свойств</lang>
+		<lang name="default">Статьи - пример плагина для LS</lang>
 	</name>
 	<author>
 		<lang name="default">Mzhelskiy Maxim</lang>
 	</author>
 	<homepage></homepage>
 	<settings>{admin/plugin/article}</settings>
-	<version>1.0</version>
+	<version>1.0.1</version>
 	<requires>
 		<livestreet>1.0</livestreet>
 		<plugins>
 		</plugins>
 	</requires>
 	<description>
-		<lang name="default">Пример на основе статей, который использует новый функционал LS по динамическим полям</lang>
+		<lang name="default">Пример на основе статей, который использует новый функционал LS (поля, категории, админку и т.п.)</lang>
 	</description>
 </plugin>

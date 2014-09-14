@@ -95,14 +95,21 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 		/*
 		 * проверить тип действия над плагином
 		 */
-		if(!in_array($sAction, array('activate', 'deactivate'))) {
+		if(!in_array($sAction, array('activate', 'deactivate', 'remove'))) {
 			$this->Message_AddError($this->Lang('errors.plugins.unknown_action'), $this->Lang_Get('error'), true);
 			return $this->RedirectToReferer();
 		}
 		/*
 		 * выполнить (де)активацию плагина
 		 */
-		if($bResult = $this->Plugin_Toggle($sPlugin, $sAction)) {
+		if ($sAction=='activate') {
+			$bResult=$this->PluginManager_ActivatePlugin($sPlugin);
+		} elseif ($sAction=='deactivate') {
+			$bResult=$this->PluginManager_DeactivatePlugin($sPlugin);
+		} elseif ($sAction=='remove') {
+			$bResult=$this->PluginManager_RemovePlugin($sPlugin);
+		}
+		if($bResult) {
 			$this->Message_AddNotice($this->Lang('notices.plugins.' . $sAction), '', true);
 		} else {
 			/*
