@@ -223,6 +223,7 @@ return array(
 		'plugins' => array(
 			'activate' => 'Плагин активирован',
 			'deactivate' => 'Плагин деактивирован',
+			'remove' => 'Плагин удален',
 			'reset_catalog_cache_done' => 'Список плагинов обновлен',
 		),
 		/*
