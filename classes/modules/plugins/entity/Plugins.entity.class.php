@@ -69,6 +69,23 @@ class PluginAdmin_ModulePlugins_EntityPlugins extends Entity {
 		return Router::GetPath('admin/plugins/toggle') . '?plugin=' . $this->getCode() . '&action=deactivate&security_ls_key=' . $this->Security_GetSecurityKey();
 	}
 
+	/**
+	 * Получить урл для применения обновления плагина
+	 *
+	 * @return string
+	 */
+	public function getApplyUpdateUrl() {
+		return Router::GetPath('admin/plugins/toggle') . '?plugin=' . $this->getCode() . '&action=apply_update&security_ls_key=' . $this->Security_GetSecurityKey();
+	}
+
+	/**
+	 * Получить урл для удаления плагина
+	 *
+	 * @return string
+	 */
+	public function getRemoveUrl() {
+		return Router::GetPath('admin/plugins/toggle') . '?plugin=' . $this->getCode() . '&action=remove&security_ls_key=' . $this->Security_GetSecurityKey();
+	}
 
 	/**
 	 * Получить урл для инструкций плагина (просмотр файла install.txt)

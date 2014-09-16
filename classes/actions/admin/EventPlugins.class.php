@@ -108,6 +108,9 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 			$bResult=$this->PluginManager_DeactivatePlugin($sPlugin);
 		} elseif ($sAction=='remove') {
 			$bResult=$this->PluginManager_RemovePlugin($sPlugin);
+		} elseif ($sAction=='apply_update') {
+			$this->PluginManager_ApplyPluginUpdate($sPlugin);
+			$bResult=true;
 		}
 		if($bResult) {
 			$this->Message_AddNotice($this->Lang('notices.plugins.' . $sAction), '', true);

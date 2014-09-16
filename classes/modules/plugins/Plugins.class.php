@@ -349,6 +349,16 @@ class PluginAdmin_ModulePlugins extends Module {
 			return false;
 		}
 		/*
+		 * необходимость применить обновление
+		 * todo: плохой код, т.к. на каждый плагин делает дополнительный запрос к БД
+		 */
+		if ($oVersion=$this->PluginManager_GetVersionByCode($sPluginCode)) {
+			$sVersionDb=$oVersion->getVersion();
+		} else {
+			$sVersionDb=null;
+		}
+		$aPluginInfo['apply_update'] = (is_null($sVersionDb) or version_compare($sVersionDb,(string)$aPluginInfo['xml']->version,'<')) ? true : false;
+		/*
 		 * лого плагина
 		 */
 		$aPluginInfo['logo'] = $this->GetLogoImage($sPluginCode);
