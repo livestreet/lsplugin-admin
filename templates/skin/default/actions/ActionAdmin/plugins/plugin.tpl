@@ -41,7 +41,7 @@
 	</td>
 
 	{* Управление *}
-	<td class="ta-r">
+	<td class="ta-r width-250">
 		{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/plugins/plugin.actions.tpl"}
 	</td>
 </tr>

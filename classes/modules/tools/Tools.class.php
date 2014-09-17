@@ -190,7 +190,7 @@ class PluginAdmin_ModuleTools extends Module {
 		$aFiles = array();
 		/*
 		 * выбрать все директории и файлы, добавляя к директориям слеш в конце
-		 * (будут выбраны все файлы, кроме тех, которые начинаются на точку (.htaccess)
+		 * (будут выбраны все файлы, кроме тех, которые начинаются на точку (.htaccess))
 		 */
 		if (!$aFilesAndDirs = glob($sDir . '*', GLOB_MARK)) {
 			return array();
