@@ -84,7 +84,7 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 
 
 	/**
-	 * Активация/деактивация плагина
+	 * Операция над плагином (активация, деактивация и т.п.)
 	 *
 	 * @return mixed
 	 */
@@ -95,22 +95,22 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 		/*
 		 * проверить тип действия над плагином
 		 */
-		if(!in_array($sAction, array('activate', 'deactivate', 'remove'))) {
+		if(!in_array($sAction, array('activate', 'deactivate', 'remove', 'apply_update'))) {
 			$this->Message_AddError($this->Lang('errors.plugins.unknown_action'), $this->Lang_Get('error'), true);
 			return $this->RedirectToReferer();
 		}
 		/*
-		 * выполнить (де)активацию плагина
+		 * выполнить операцию
 		 */
-		if ($sAction=='activate') {
-			$bResult=$this->PluginManager_ActivatePlugin($sPlugin);
-		} elseif ($sAction=='deactivate') {
-			$bResult=$this->PluginManager_DeactivatePlugin($sPlugin);
-		} elseif ($sAction=='remove') {
-			$bResult=$this->PluginManager_RemovePlugin($sPlugin);
-		} elseif ($sAction=='apply_update') {
+		$bResult = true;
+		if ($sAction == 'activate') {
+			$bResult = $this->PluginManager_ActivatePlugin($sPlugin);
+		} elseif ($sAction == 'deactivate') {
+			$bResult = $this->PluginManager_DeactivatePlugin($sPlugin);
+		} elseif ($sAction == 'remove') {
+			$bResult = $this->PluginManager_RemovePlugin($sPlugin);
+		} elseif ($sAction == 'apply_update') {
 			$this->PluginManager_ApplyPluginUpdate($sPlugin);
-			$bResult=true;
 		}
 		if($bResult) {
 			$this->Message_AddNotice($this->Lang('notices.plugins.' . $sAction), '', true);
@@ -147,7 +147,7 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 	 */
 	public function EventPluginsInstall() {
 		$this->SetTemplateAction('plugins/install');
-		$aFilter = (array) $this->GetDataFromFilter();
+		$aFilter = array_filter((array) $this->GetDataFromFilter());
 		/*
 		 * тип аддонов (все, платные, бесплатные)
 		 */

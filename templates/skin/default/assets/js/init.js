@@ -143,12 +143,13 @@ jQuery(document).ready(function($) {
 	 */
 	prettyPrint();
 
-	/*
-		вопрос при активации элементов интерфейса
+	/**
+	 * вопрос при активации элементов интерфейса
 	 */
 	$ ('.js-question').bind ('click.admin', function() {
-		var sQ = $ (this).attr ('data-question-title') ? $ (this).attr ('data-question-title') : 'Ok?';
-		if (!confirm (sQ)) return false;
+		var sMsg = $ (this).attr ('data-question-title') ? $ (this).attr ('data-question-title') : $ (this).attr ('title') + '?';
+		sMsg = sMsg ? sMsg : 'Ok?';
+		if (!confirm (sMsg)) return false;
 	});
 
 	/**

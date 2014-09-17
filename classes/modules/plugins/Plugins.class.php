@@ -205,7 +205,7 @@ class PluginAdmin_ModulePlugins extends Module {
 		 * есть ли в сессионном кеше данные
 		 */
 		if (!isset($this->aPluginsData[$sCacheKey])) {
-			$this->aPluginsData[$sCacheKey] = $this->GetPluginsListRaw($aFilter);
+			$this->aPluginsData[$sCacheKey] = $this->GetPluginsListCurrent($aFilter);
 		}
 		return $this->aPluginsData[$sCacheKey];
 	}
@@ -220,7 +220,7 @@ class PluginAdmin_ModulePlugins extends Module {
 	 * @param array $aFilter			фильтр
 	 * @return array
 	 */
-	public function GetPluginsListRaw($aFilter = array()) {
+	public function GetPluginsListCurrent($aFilter = array()) {
 		$aPlugins = array();
 		/*
 		 * коды активных плагинов (так быстрее)
@@ -235,6 +235,10 @@ class PluginAdmin_ModulePlugins extends Module {
 		 */
 		$iActivePlugins = 0;
 		/*
+		 * текущие версии плагинов из бд
+		 */
+		$aCurrentVersionsFromPluginManager = $this->PluginManager_GetVersionItemsByCodeIn($aAllPluginsCodes, array('#index-from' => 'code'));
+		/*
 		 * количество плагинов, которые исключены из списка из-за ошибок
 		 */
 		$iExcludedPlugins = 0;
@@ -242,7 +246,14 @@ class PluginAdmin_ModulePlugins extends Module {
 			/*
 			 * получить сущность плагина
 			 */
-			if (($oPlugin = $this->GetPluginByCode($sPluginCode, $aActivePluginsCodes, false)) === false) {
+			if (($oPlugin = $this->GetPluginByCode(
+					$sPluginCode,
+					array(
+						'active_plugins_codes' => $aActivePluginsCodes,
+						'check_plugin_folder' => false,
+						'current_versions_plugin_manager' => $aCurrentVersionsFromPluginManager,
+					)
+			)) === false) {
 				/*
 				 * ошибка распознавания xml-файла плагина или некорректный код плагина
 				 */
@@ -289,13 +300,31 @@ class PluginAdmin_ModulePlugins extends Module {
 	/**
 	 * Получить сущность плагина по коду (папке плагина)
 	 *
-	 * @param       $sPluginCode				код плагина
-	 * @param array $aActivePluginsCodes		массив кодов активированных плагинов (для метода "active"), может быть пропущен
-	 * @param bool $bCheckPluginFolder			нужно ли проверять есть ли такой плагин в системе
-	 * @param bool $bShowErrorMessages			выводить сообщения об ошибках (некорректный код плагина или поврежденный xml файл)
-	 * @return bool|Entity						сущность плагина или false в случае ошибки
+	 * @param string $sPluginCode 				код плагина
+	 * @param array  $aOptions    				дополнительные опции (не обязательны)
+	 * @return bool|Entity                      сущность плагина или false в случае ошибки
 	 */
-	public function GetPluginByCode($sPluginCode, $aActivePluginsCodes = array(), $bCheckPluginFolder = true, $bShowErrorMessages = true) {
+	public function GetPluginByCode($sPluginCode, $aOptions = array()) {
+		/*
+		 * массив кодов активированных плагинов (для метода "active")
+		 */
+		$aActivePluginsCodes = isset($aOptions['active_plugins_codes']) ? $aOptions['active_plugins_codes'] : array();
+		/*
+		 * нужно ли проверять есть ли такой плагин в системе
+		 */
+		$bCheckPluginFolder = isset($aOptions['check_plugin_folder']) ? $aOptions['check_plugin_folder'] : true;
+		/*
+		 * выводить сообщения об ошибках (некорректный код плагина или поврежденный xml файл)
+		 */
+		$bShowErrorMessages = isset($aOptions['show_error_messages']) ? $aOptions['show_error_messages'] : true;
+		/*
+		 * текущая версия плагина в бд
+		 */
+		$oVersion = isset($aOptions['current_versions_plugin_manager'][$sPluginCode]) ?
+			$aOptions['current_versions_plugin_manager'][$sPluginCode] :
+			$this->PluginManager_GetVersionByCode($sPluginCode);
+
+
 		/*
 		 * нужно ли проверять есть ли такой плагин в системе
 		 */
@@ -350,14 +379,12 @@ class PluginAdmin_ModulePlugins extends Module {
 		}
 		/*
 		 * необходимость применить обновление
-		 * todo: плохой код, т.к. на каждый плагин делает дополнительный запрос к БД
 		 */
-		if ($oVersion=$this->PluginManager_GetVersionByCode($sPluginCode)) {
-			$sVersionDb=$oVersion->getVersion();
-		} else {
-			$sVersionDb=null;
-		}
-		$aPluginInfo['apply_update'] = (is_null($sVersionDb) or version_compare($sVersionDb,(string)$aPluginInfo['xml']->version,'<')) ? true : false;
+		$sVersionDb = $oVersion ? $oVersion->getVersion() : null;
+		/*
+		 * todo: вынести в метод, который будет проверять версию из бд ($sVersionDb, которую в свойство) и версию через существующий метод (getVersion) т.к. текущий вариант не очень
+		 */
+		$aPluginInfo['apply_update'] = (is_null($sVersionDb) or version_compare($sVersionDb, (string) $aPluginInfo['xml']->version, '<')) ? true : false;
 		/*
 		 * лого плагина
 		 */

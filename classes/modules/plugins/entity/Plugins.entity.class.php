@@ -46,7 +46,7 @@ class PluginAdmin_ModulePlugins_EntityPlugins extends Entity {
 	/**
 	 * Получить урл для активации плагина
 	 *
-	 * @param $bGoToInstructionsFirst		нужно ли делать ссылку на страницу инструкций (если они есть) вместо прямой ссылки на активацию плагина
+	 * @param bool $bGoToInstructionsFirst		нужно ли делать ссылку на страницу инструкций (если они есть) вместо прямой ссылки на активацию плагина
 	 * @return string
 	 */
 	public function getActivateUrl($bGoToInstructionsFirst = true) {
@@ -69,6 +69,7 @@ class PluginAdmin_ModulePlugins_EntityPlugins extends Entity {
 		return Router::GetPath('admin/plugins/toggle') . '?plugin=' . $this->getCode() . '&action=deactivate&security_ls_key=' . $this->Security_GetSecurityKey();
 	}
 
+
 	/**
 	 * Получить урл для применения обновления плагина
 	 *
@@ -78,6 +79,7 @@ class PluginAdmin_ModulePlugins_EntityPlugins extends Entity {
 		return Router::GetPath('admin/plugins/toggle') . '?plugin=' . $this->getCode() . '&action=apply_update&security_ls_key=' . $this->Security_GetSecurityKey();
 	}
 
+
 	/**
 	 * Получить урл для удаления плагина
 	 *
@@ -86,6 +88,7 @@ class PluginAdmin_ModulePlugins_EntityPlugins extends Entity {
 	public function getRemoveUrl() {
 		return Router::GetPath('admin/plugins/toggle') . '?plugin=' . $this->getCode() . '&action=remove&security_ls_key=' . $this->Security_GetSecurityKey();
 	}
+
 
 	/**
 	 * Получить урл для инструкций плагина (просмотр файла install.txt)

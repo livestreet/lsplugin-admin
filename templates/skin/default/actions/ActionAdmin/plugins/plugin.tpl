@@ -42,19 +42,6 @@
 
 	{* Управление *}
 	<td class="ta-r">
-		{* управление конфигом плагина *}
-		{if $oPlugin->getActive()}
-			<br />
-			<a href="{$oPlugin->getConfigSettingsPageUrl()}" class="button width-150" title="{$aLang.plugin.admin.plugins.list.config_tip}">{$aLang.plugin.admin.plugins.list.config}</a>
-		{/if}
-
 		{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/plugins/plugin.actions.tpl"}
-
-		{* TODO: проработать юзабилити
-		{if $oPlugin->getOwnSettingsPageUrl() and $oPlugin->getActive()}
-			<br />
-			<a href="{$oPlugin->getOwnSettingsPageUrl()}" class="button">{$aLang.plugin.admin.plugins.list.settings}</a>
-		{/if}
-		*}
 	</td>
 </tr>

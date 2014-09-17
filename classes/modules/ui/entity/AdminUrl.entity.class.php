@@ -58,12 +58,12 @@ class PluginAdmin_ModuleUi_EntityAdminUrl extends Entity {
 
 
 	/**
-	 * Получить плагин
+	 * Получить сущность плагина
 	 *
 	 * @return Entity|null
 	 */
 	public function getPlugin() {
-		if ($this->sPluginCode and !$this->oPlugin) {
+		if ($this->sPluginCode and is_null($this->oPlugin)) {
 			$this->oPlugin = $this->PluginAdmin_Plugins_GetPluginByCode($this->sPluginCode);
 		}
 		return $this->oPlugin;
