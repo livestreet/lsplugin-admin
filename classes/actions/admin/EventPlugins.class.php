@@ -147,7 +147,7 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event {
 	 */
 	public function EventPluginsInstall() {
 		$this->SetTemplateAction('plugins/install');
-		$aFilter = array_filter((array) $this->GetDataFromFilter());
+		$aFilter = (array) $this->GetDataFromFilter();
 		/*
 		 * тип аддонов (все, платные, бесплатные)
 		 */
