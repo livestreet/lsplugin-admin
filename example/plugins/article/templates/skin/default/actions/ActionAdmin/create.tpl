@@ -26,17 +26,8 @@
 	{* Подключаем блок для управления категориями *}
 	{insert name="block" block="categoryUpdate" params=[ 'plugin' => 'admin', 'target' => $oArticle, 'entity' => 'PluginArticle_ModuleMain_EntityArticle' ]}
 
-
 	{* Подключаем блок для управления дополнительными свойствами *}
-	{$aBlockParams = []}
-	{$aBlockParams.plugin = 'admin'}
-	{$aBlockParams.target_type = 'article'}
-
-	{if $oArticle}
-		{$aBlockParams.target_id = $oArticle->getId()}
-	{/if}
-
-	{insert name="block" block="propertyUpdate" params=$aBlockParams}
+	{insert name="block" block="propertyUpdate" params=[ 'plugin' => 'admin', 'target' => $oArticle, 'entity' => 'PluginArticle_ModuleMain_EntityArticle' ]}
 
 	{* Кнпоки *}
 	{if $oArticle}

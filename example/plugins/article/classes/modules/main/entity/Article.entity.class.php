@@ -29,7 +29,7 @@ class PluginArticle_ModuleMain_EntityArticle extends EntityORM {
 	protected $aBehaviors=array(
 		// Настройка дополнительных полей
 		'property'=>array(
-			'class'=>'ModuleProperty_BehaviorPropertyEntity',
+			'class'=>'ModuleProperty_BehaviorEntity',
 			'target_type'=>'article'
 		),
 		// Настройка категорий
