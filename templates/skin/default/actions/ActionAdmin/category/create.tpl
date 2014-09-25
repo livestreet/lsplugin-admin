@@ -38,6 +38,12 @@
 				 sFieldValue = $_aRequest.category.title
 				 sFieldLabel = 'Название'}
 
+		{* Описиание *}
+		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.textarea.tpl"
+				sFieldName  = 'category[description]'
+				sFieldValue = $_aRequest.category.description
+				sFieldLabel = 'Описание'}
+
 		{* URL *}
 		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
 				 sFieldName  = 'category[url]'

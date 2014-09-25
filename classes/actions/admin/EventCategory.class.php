@@ -93,6 +93,9 @@ class PluginAdmin_ActionAdmin_EventCategory extends Event {
 			$oCategory->_setDataSafe(getRequest('category'));
 			if ($oCategory->_Validate()) {
 				$oCategory->setTitle(htmlspecialchars($oCategory->getTitle()));
+				if ($oCategory->getDescription()) {
+					$oCategory->setDescription($this->Category_ParserText($oCategory->getDescription(),$oCategory));
+				}
 				if ($oCategory->Update()) {
 					/**
 					 * Защита от некорректного вложения
@@ -118,6 +121,7 @@ class PluginAdmin_ActionAdmin_EventCategory extends Event {
 			$_REQUEST['category']=array(
 				'pid' => $oCategory->getPid(),
 				'title' => htmlspecialchars_decode($oCategory->getTitle()),
+				'description' => $oCategory->getDescription(),
 				'url' => $oCategory->getUrl(),
 				'order' => $oCategory->getOrder(),
 			);
@@ -144,6 +148,9 @@ class PluginAdmin_ActionAdmin_EventCategory extends Event {
 			$oCategory->setTypeId($oType->getId());
 			if ($oCategory->_Validate()) {
 				$oCategory->setTitle(htmlspecialchars($oCategory->getTitle()));
+				if ($oCategory->getDescription()) {
+					$oCategory->setDescription($this->Category_ParserText($oCategory->getDescription(),$oCategory));
+				}
 				if ($oCategory->Add()) {
 					$this->Message_AddNotice('Добавление прошло успешно', $this->Lang_Get('attention'), true);
 					Router::LocationAction("admin/categories/".$oType->getTargetType());
