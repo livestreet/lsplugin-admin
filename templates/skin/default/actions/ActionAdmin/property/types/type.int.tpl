@@ -9,10 +9,10 @@
 		 sFieldName    = 'validate[min]'
 		 sFieldClasses = 'width-150'
 		 sFieldValue   = $oPropertyValidateRules.min
-		 sFieldLabel   = 'Минимальная длина'}
+		 sFieldLabel   = 'Минимальное значение'}
 
 {include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
 		 sFieldName    = 'validate[max]'
 		 sFieldClasses = 'width-150'
 		 sFieldValue   = $oPropertyValidateRules.max
-		 sFieldLabel   = 'Максимальная длина'}
+		 sFieldLabel   = 'Максимальное значение'}
