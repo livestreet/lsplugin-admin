@@ -38,7 +38,7 @@
 					{foreach $aPermissionItems as $oPermissionItem}
 						<tr data-id="{$oPermissionItem->getId()}">
 							<td style="padding-left: 30px;">
-								{$oPermissionItem->getTitle()}
+								{$oPermissionItem->getTitleLang()}
 							</td>
 							<td>{$oPermissionItem->getCode()}</td>
 							<td>{$oPermissionItem->getPlugin()}</td>

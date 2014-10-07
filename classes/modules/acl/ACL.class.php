@@ -82,7 +82,7 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 	 * @param ModuleUser_EntityUser $oUser
 	 * @return bool
 	 */
-	public function CanCreateBlog(ModuleUser_EntityUser $oUser) {
+	public function CanCreateBlog($oUser) {
 		return $this->CheckIfReadOnlyModeForCurrentUserIsSet(__FUNCTION__) ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
 	}
 
@@ -91,10 +91,10 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 	 * Проверяет может ли пользователь создавать топики в определенном блоге
 	 *
 	 * @param ModuleUser_EntityUser $oUser
-	 * @param ModuleBlog_EntityBlog $oBlog
+	 * @param $oTopicType
 	 * @return bool
 	 */
-	public function CanAddTopic(ModuleUser_EntityUser $oUser, ModuleBlog_EntityBlog $oBlog) {
+	public function CanAddTopic($oUser,$oTopicType) {
 		return $this->CheckIfReadOnlyModeForCurrentUserIsSet(__FUNCTION__) ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
 	}
 
@@ -106,18 +106,7 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 	 * @param null                  $oTopic
 	 * @return bool
 	 */
-	public function CanPostComment(ModuleUser_EntityUser $oUser, $oTopic = null) {
-		return $this->CheckIfReadOnlyModeForCurrentUserIsSet(__FUNCTION__) ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
-	}
-
-
-	/**
-	 * Проверяет может ли пользователь создавать комментарии по времени(например ограничение максимум 1 коммент в 5 минут)
-	 *
-	 * @param ModuleUser_EntityUser $oUser
-	 * @return bool
-	 */
-	public function CanPostCommentTime(ModuleUser_EntityUser $oUser) {
+	public function CanPostComment($oUser, $oTopic = null) {
 		return $this->CheckIfReadOnlyModeForCurrentUserIsSet(__FUNCTION__) ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
 	}
 
@@ -128,7 +117,7 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 	 * @param ModuleUser_EntityUser $oUser
 	 * @return bool
 	 */
-	public function CanPostTopicTime(ModuleUser_EntityUser $oUser) {
+	public function CanPostTopicTime($oUser) {
 		return $this->CheckIfReadOnlyModeForCurrentUserIsSet(__FUNCTION__) ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
 	}
 
@@ -139,18 +128,7 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 	 * @param ModuleUser_EntityUser $oUser
 	 * @return bool
 	 */
-	public function CanSendTalkTime(ModuleUser_EntityUser $oUser) {
-		return $this->CheckIfReadOnlyModeForCurrentUserIsSet(__FUNCTION__) ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
-	}
-
-
-	/**
-	 * Проверяет может ли пользователь создавать комментарии к инбоксу по времени
-	 *
-	 * @param ModuleUser_EntityUser $oUser
-	 * @return bool
-	 */
-	public function CanPostTalkCommentTime(ModuleUser_EntityUser $oUser) {
+	public function CanSendTalkTime($oUser) {
 		return $this->CheckIfReadOnlyModeForCurrentUserIsSet(__FUNCTION__) ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
 	}
 
@@ -162,7 +140,7 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 	 * @param ModuleComment_EntityComment $oComment
 	 * @return bool
 	 */
-	public function CanVoteComment(ModuleUser_EntityUser $oUser, ModuleComment_EntityComment $oComment) {
+	public function CanVoteComment($oUser,$oComment) {
 		return $this->CheckIfReadOnlyModeForCurrentUserIsSet(__FUNCTION__) ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
 	}
 
@@ -174,7 +152,7 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 	 * @param ModuleBlog_EntityBlog $oBlog
 	 * @return bool
 	 */
-	public function CanVoteBlog(ModuleUser_EntityUser $oUser, ModuleBlog_EntityBlog $oBlog) {
+	public function CanVoteBlog($oUser, $oBlog) {
 		return $this->CheckIfReadOnlyModeForCurrentUserIsSet(__FUNCTION__) ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
 	}
 
@@ -184,9 +162,10 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 	 *
 	 * @param ModuleUser_EntityUser   $oUser
 	 * @param ModuleTopic_EntityTopic $oTopic
+	 * @param int $iValue
 	 * @return bool
 	 */
-	public function CanVoteTopic(ModuleUser_EntityUser $oUser, ModuleTopic_EntityTopic $oTopic) {
+	public function CanVoteTopic($oUser, $oTopic, $iValue) {
 		return $this->CheckIfReadOnlyModeForCurrentUserIsSet(__FUNCTION__) ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
 	}
 
@@ -198,7 +177,7 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 	 * @param ModuleUser_EntityUser $oUserTarget
 	 * @return bool
 	 */
-	public function CanVoteUser(ModuleUser_EntityUser $oUser, ModuleUser_EntityUser $oUserTarget) {
+	public function CanVoteUser($oUser, $oUserTarget) {
 		return $this->CheckIfReadOnlyModeForCurrentUserIsSet(__FUNCTION__) ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
 	}
 
@@ -209,7 +188,7 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL {
 	 * @param ModuleUser_EntityUser $oUser
 	 * @return bool
 	 */
-	public function CanSendInvite(ModuleUser_EntityUser $oUser) {
+	public function CanSendInvite($oUser) {
 		return $this->CheckIfReadOnlyModeForCurrentUserIsSet(__FUNCTION__) ? false : call_user_func_array(array('parent', __FUNCTION__), func_get_args());
 	}
 
