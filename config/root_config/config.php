@@ -233,17 +233,6 @@ return array(
 				),
 			),
 			array(
-				'name' => 'Логирование',
-				'allowed_keys' => array(
-					'sys.logs.file',
-					'sys.logs.sql_query',
-					'sys.logs.sql_query_file',
-					'sys.logs.sql_error',
-					'sys.logs.sql_error_file',
-					'sys.logs.cron',
-				),
-			),
-			array(
 				'name' => 'Отправка данных LS',
 				'allowed_keys' => array(
 					'module.ls.send_general',
