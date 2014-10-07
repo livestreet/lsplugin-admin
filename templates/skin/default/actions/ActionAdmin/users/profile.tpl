@@ -208,7 +208,7 @@
 					{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.button.tpl"
 						sFieldName='submit_edit'
 						sFieldStyle='primary'
-						sFieldText=$aLang.settings_profile_submit
+						sFieldText=$aLang.common.save
 					}
 				</div>
 			</form>

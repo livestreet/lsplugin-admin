@@ -15,7 +15,7 @@
     <select name="{$sFieldNamePrefix}_month" style="width: 165px">
         <option value="">{$aLang.date_month}</option>
         {section name=date_month start=1 loop=13 step=1}
-            <option value="{$smarty.section.date_month.index}" {if $smarty.section.date_month.index==$aFieldItems|date_format:"%m"}selected{/if}>{$aLang.month_array[$smarty.section.date_month.index][0]}</option>
+            <option value="{$smarty.section.date_month.index}" {if $smarty.section.date_month.index==$aFieldItems|date_format:"%m"}selected{/if}>{$aLang.date.month_array[$smarty.section.date_month.index][0]}</option>
         {/section}
     </select>
 

@@ -520,7 +520,7 @@ return array(
 				'votings_direction' => array(
 					'plus' => '<i class="icon-stats-up"></i>',
 					'minus' => '<i class="icon-stats-down"></i>',
-					'abstain' => '&mdash',
+					'abstain' => '&mdash;',
 				),
 			),
 
