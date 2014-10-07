@@ -47,6 +47,12 @@
 				 sFieldValue = $_aRequest.permission.code
 				 sFieldLabel = 'Код'}
 
+		{* Plugin *}
+		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
+				sFieldName  = 'permission[plugin]'
+				sFieldValue = $_aRequest.permission.plugin
+				sFieldLabel = 'Плагин'}
+
 		{* Сообщение об ошибке *}
 		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
 				sFieldName  = 'permission[msg_error]'

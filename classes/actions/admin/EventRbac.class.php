@@ -107,6 +107,7 @@ class PluginAdmin_ActionAdmin_EventRbac extends Event {
 				'title' => htmlspecialchars_decode($oPermission->getTitle()),
 				'group_id' => $oPermission->getGroupId(),
 				'code' => $oPermission->getCode(),
+				'plugin' => $oPermission->getPlugin(),
 				'msg_error' => htmlspecialchars_decode($oPermission->getMsgError()),
 				'state' => $oPermission->getState()==ModuleRbac::PERMISSION_STATE_ACTIVE ? 1 : 0,
 			);
