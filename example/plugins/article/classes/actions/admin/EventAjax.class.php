@@ -22,109 +22,114 @@
 /**
  * Часть экшена админки по управлению ajax запросами
  */
-class PluginArticle_ActionAdmin_EventAjax extends Event {
+class PluginArticle_ActionAdmin_EventAjax extends Event
+{
 
-	public function Init() {
-		/**
-		 * Устанавливаем формат ответа
-		 */
-		$this->Viewer_SetResponseAjax('json');
-	}
+    public function Init()
+    {
+        /**
+         * Устанавливаем формат ответа
+         */
+        $this->Viewer_SetResponseAjax('json');
+    }
 
-	/**
-	 * Обработка добавления статьи
-	 */
-	public function EventArticleCreate() {
-		if (!$this->Rbac_IsAllow('create',$this)) {
-			return $this->Rbac_ReturnActionError(true);
-		}
-		/**
-		 * Создаем статью
-		 */
-		$oArticle=Engine::GetEntity('PluginArticle_ModuleMain_EntityArticle');
-		/**
-		 * Загружаем данные из реквеста (массив article) в объект
-		 * Поля массива должны совпадать с полями в $aValidateRules у объекта
-		 * Данные дополнительных полей передавать не нужно, они автоматически учитываются при валидации из переменной реквеста property
-		 */
-		$oArticle->_setDataSafe(getRequest('article'));
-		$oArticle->setUserId($this->oUserCurrent->getId());
-		/**
-		 * Валидируем
-		 */
-		if ($oArticle->_Validate()) {
-			/**
-			 * Добавляем в БД
-			 */
-			if ($oArticle->Add()) {
-				$this->Viewer_AssignAjax('sUrlRedirect',$this->oAdminUrl->get(null,'article'));
-				$this->Message_AddNotice('Добавление прошло успешно',$this->Lang_Get('attention'));
-			} else {
-				$this->Message_AddError('Возникла ошибка при добавлении',$this->Lang_Get('error'));
-			}
-		} else {
-			$this->Message_AddError($oArticle->_getValidateError(),$this->Lang_Get('error'));
-		}
-	}
+    /**
+     * Обработка добавления статьи
+     */
+    public function EventArticleCreate()
+    {
+        if (!$this->Rbac_IsAllow('create', $this)) {
+            return $this->Rbac_ReturnActionError(true);
+        }
+        /**
+         * Создаем статью
+         */
+        $oArticle = Engine::GetEntity('PluginArticle_ModuleMain_EntityArticle');
+        /**
+         * Загружаем данные из реквеста (массив article) в объект
+         * Поля массива должны совпадать с полями в $aValidateRules у объекта
+         * Данные дополнительных полей передавать не нужно, они автоматически учитываются при валидации из переменной реквеста property
+         */
+        $oArticle->_setDataSafe(getRequest('article'));
+        $oArticle->setUserId($this->oUserCurrent->getId());
+        /**
+         * Валидируем
+         */
+        if ($oArticle->_Validate()) {
+            /**
+             * Добавляем в БД
+             */
+            if ($oArticle->Add()) {
+                $this->Viewer_AssignAjax('sUrlRedirect', $this->oAdminUrl->get(null, 'article'));
+                $this->Message_AddNotice('Добавление прошло успешно', $this->Lang_Get('attention'));
+            } else {
+                $this->Message_AddError('Возникла ошибка при добавлении', $this->Lang_Get('error'));
+            }
+        } else {
+            $this->Message_AddError($oArticle->_getValidateError(), $this->Lang_Get('error'));
+        }
+    }
 
-	/**
-	 * Обработка обновления статьи
-	 */
-	public function EventArticleUpdate() {
-		/**
-		 * Данные статьи из реквеста
-		 */
-		$aArticleRequest=getRequest('article');
-		/**
-		 * Проверяем статью на существование
-		 */
-		if (!(isset($aArticleRequest['id']) and $oArticle=$this->PluginArticle_Main_GetArticleById($aArticleRequest['id']))) {
-			$this->Message_AddErrorSingle('Не удалось найти статью',$this->Lang_Get('error'));
-			return;
-		}
-		/**
-		 * Права на редактирование
-		 */
-		if (!$this->Rbac_IsAllow('update',$this,array('article'=>$oArticle))) {
-			return $this->Rbac_ReturnActionError(true);
-		}
-		$oArticle->_setDataSafe($aArticleRequest);
-		/**
-		 * Валидируем
-		 */
-		if ($oArticle->_Validate()) {
-			/**
-			 * Обновляем статью
-			 */
-			if ($oArticle->Update()) {
-				$this->Message_AddNotice('Обновление прошло успешно',$this->Lang_Get('attention'));
-				$this->Viewer_AssignAjax('bReloadPage',true);
-			} else {
-				$this->Message_AddError('Возникла ошибка при обновлении',$this->Lang_Get('error'));
-			}
-		} else {
-			$this->Message_AddError($oArticle->_getValidateError(),$this->Lang_Get('error'));
-		}
-	}
+    /**
+     * Обработка обновления статьи
+     */
+    public function EventArticleUpdate()
+    {
+        /**
+         * Данные статьи из реквеста
+         */
+        $aArticleRequest = getRequest('article');
+        /**
+         * Проверяем статью на существование
+         */
+        if (!(isset($aArticleRequest['id']) and $oArticle = $this->PluginArticle_Main_GetArticleById($aArticleRequest['id']))) {
+            $this->Message_AddErrorSingle('Не удалось найти статью', $this->Lang_Get('error'));
+            return;
+        }
+        /**
+         * Права на редактирование
+         */
+        if (!$this->Rbac_IsAllow('update', $this, array('article' => $oArticle))) {
+            return $this->Rbac_ReturnActionError(true);
+        }
+        $oArticle->_setDataSafe($aArticleRequest);
+        /**
+         * Валидируем
+         */
+        if ($oArticle->_Validate()) {
+            /**
+             * Обновляем статью
+             */
+            if ($oArticle->Update()) {
+                $this->Message_AddNotice('Обновление прошло успешно', $this->Lang_Get('attention'));
+                $this->Viewer_AssignAjax('bReloadPage', true);
+            } else {
+                $this->Message_AddError('Возникла ошибка при обновлении', $this->Lang_Get('error'));
+            }
+        } else {
+            $this->Message_AddError($oArticle->_getValidateError(), $this->Lang_Get('error'));
+        }
+    }
 
-	/**
-	 * Обработка удаления статьи
-	 */
-	public function EventArticleRemove() {
-		/**
-		 * Проверяем статью на существование
-		 */
-		if (!($oArticle=$this->PluginArticle_Main_GetArticleById(getRequestStr('id')))) {
-			$this->Message_AddErrorSingle('Не удалось найти статью',$this->Lang_Get('error'));
-			return;
-		}
-		/**
-		 * Удаляем статью
-		 */
-		if ($oArticle->Delete()) {
-			$this->Message_AddNoticeSingle("Удаление прошло успешно");
-		} else {
-			$this->Message_AddErrorSingle("Ошибка при удалении");
-		}
-	}
+    /**
+     * Обработка удаления статьи
+     */
+    public function EventArticleRemove()
+    {
+        /**
+         * Проверяем статью на существование
+         */
+        if (!($oArticle = $this->PluginArticle_Main_GetArticleById(getRequestStr('id')))) {
+            $this->Message_AddErrorSingle('Не удалось найти статью', $this->Lang_Get('error'));
+            return;
+        }
+        /**
+         * Удаляем статью
+         */
+        if ($oArticle->Delete()) {
+            $this->Message_AddNoticeSingle("Удаление прошло успешно");
+        } else {
+            $this->Message_AddErrorSingle("Ошибка при удалении");
+        }
+    }
 }

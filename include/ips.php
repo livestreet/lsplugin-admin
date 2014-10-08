@@ -30,23 +30,25 @@
 /**
  * Конвертирует читаемый IP адрес в упакованное представление
  *
- * @param $sIp			Читаемый IPv4 или IPv6 адрес (пока не доступно)
+ * @param $sIp            Читаемый IPv4 или IPv6 адрес (пока не доступно)
  * @return string
  */
-function convert_ip2long($sIp) {
-	//return inet_pton($sIp);		// todo: возвращает бинарную строку, не работает на Вин платформах до пхп 5.3.0
-	return ip2long($sIp);
+function convert_ip2long($sIp)
+{
+    //return inet_pton($sIp);		// todo: возвращает бинарную строку, не работает на Вин платформах до пхп 5.3.0
+    return ip2long($sIp);
 }
 
 /**
  * Конвертирует упакованный интернет адрес в читаемый формат
  *
- * @param $iLong		32-битный IPv4, или 128-битный IPv6 адрес (пока не доступно)
+ * @param $iLong 32-битный IPv4, или 128-битный IPv6 адрес (пока не доступно)
  * @return string
  */
-function convert_long2ip($iLong) {
-	//return inet_ntop($iLong);
-	return long2ip($iLong);
+function convert_long2ip($iLong)
+{
+    //return inet_ntop($iLong);
+    return long2ip($iLong);
 }
 
 ?>

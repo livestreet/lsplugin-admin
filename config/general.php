@@ -2,21 +2,21 @@
 /**
  * LiveStreet CMS
  * Copyright © 2013 OOO "ЛС-СОФТ"
- * 
+ *
  * ------------------------------------------------------
- * 
+ *
  * Official site: www.livestreetcms.com
  * Contact e-mail: office@livestreetcms.com
- * 
+ *
  * GNU General Public License, version 2:
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * 
+ *
  * ------------------------------------------------------
- * 
+ *
  * @link http://www.livestreetcms.com
  * @copyright 2013 OOO "ЛС-СОФТ"
  * @author Serge Pustovit (PSNet) <light.feel@gmail.com>
- * 
+ *
  */
 
 /*
@@ -35,7 +35,7 @@ $config['dashboard']['stream']['count_default'] = 5;
 /*
  * список значений количества элементов на страницу в выпадающем списке
  */
-$config['pagination']['values_for_select_elements_on_page'] = array(10, 30, 100);		// range(5, 100, 5)
+$config['pagination']['values_for_select_elements_on_page'] = array(10, 30, 100);        // range(5, 100, 5)
 
 /*
  * макс. количество точек на графике (фильтрует подписи по оси х)

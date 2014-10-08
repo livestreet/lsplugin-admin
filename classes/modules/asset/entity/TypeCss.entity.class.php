@@ -18,27 +18,28 @@
  * @author    Serge Pustovit (PSNet) <light.feel@gmail.com>
  *
  */
-
 /*
  *
  * Сущность работы с CSS файлами
  *
  */
 
-class PluginAdmin_ModuleAsset_EntityTypeCss extends PluginAdmin_Inherit_ModuleAsset_EntityTypeCss {
+class PluginAdmin_ModuleAsset_EntityTypeCss extends PluginAdmin_Inherit_ModuleAsset_EntityTypeCss
+{
 
-	/**
-	 * Возвращает HTML обертку для файла
-	 *
-	 * @param $sFile
-	 * @param $aParams
-	 *
-	 * @return string
-	 */
-	public function getHeadHtml($sFile, $aParams) {
-		$sFile .= $this->Asset_AddCacheLastResetCounterToAssetFile($sFile);
-		return parent::getHeadHtml($sFile, $aParams);
-	}
+    /**
+     * Возвращает HTML обертку для файла
+     *
+     * @param $sFile
+     * @param $aParams
+     *
+     * @return string
+     */
+    public function getHeadHtml($sFile, $aParams)
+    {
+        $sFile .= $this->Asset_AddCacheLastResetCounterToAssetFile($sFile);
+        return parent::getHeadHtml($sFile, $aParams);
+    }
 
 }
 

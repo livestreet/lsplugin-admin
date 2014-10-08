@@ -18,27 +18,28 @@
  * @author Serge Pustovit (PSNet) <light.feel@gmail.com>
  *
  */
-
 /*
  * 
  * Расширение возможностей вьюера
  * 
  */
 
-class PluginAdmin_ModuleViewer extends PluginAdmin_Inherit_ModuleViewer {
+class PluginAdmin_ModuleViewer extends PluginAdmin_Inherit_ModuleViewer
+{
 
-	/**
-	 * Добавить директорию с плагинами для Smarty
-	 * 
-	 * @param $sDir		директория
-	 * @return bool
-	 */
-	public function AddSmartyPluginsDir($sDir) {
-		if (!is_dir($sDir)) {
-			return false;
-		}
-		$this->oSmarty->addPluginsDir($sDir);
-		return true;
-	}
+    /**
+     * Добавить директорию с плагинами для Smarty
+     *
+     * @param $sDir        директория
+     * @return bool
+     */
+    public function AddSmartyPluginsDir($sDir)
+    {
+        if (!is_dir($sDir)) {
+            return false;
+        }
+        $this->oSmarty->addPluginsDir($sDir);
+        return true;
+    }
 
 }

@@ -18,27 +18,28 @@
  * @author    Serge Pustovit (PSNet) <light.feel@gmail.com>
  *
  */
-
 /*
  *
  * Сущность работы с JS файлами
  *
  */
 
-class PluginAdmin_ModuleAsset_EntityTypeJs extends PluginAdmin_Inherit_ModuleAsset_EntityTypeJs {
+class PluginAdmin_ModuleAsset_EntityTypeJs extends PluginAdmin_Inherit_ModuleAsset_EntityTypeJs
+{
 
-	/**
-	 * Возвращает HTML обертку для файла
-	 *
-	 * @param $sFile
-	 * @param $aParams
-	 *
-	 * @return string
-	 */
-	public function getHeadHtml($sFile, $aParams) {
-		$sFile .= $this->Asset_AddCacheLastResetCounterToAssetFile($sFile);
-		return parent::getHeadHtml($sFile, $aParams);
-	}
+    /**
+     * Возвращает HTML обертку для файла
+     *
+     * @param $sFile
+     * @param $aParams
+     *
+     * @return string
+     */
+    public function getHeadHtml($sFile, $aParams)
+    {
+        $sFile .= $this->Asset_AddCacheLastResetCounterToAssetFile($sFile);
+        return parent::getHeadHtml($sFile, $aParams);
+    }
 
 }
 

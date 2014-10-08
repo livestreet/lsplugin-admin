@@ -22,33 +22,36 @@
 /**
  * Хуки
  */
-class PluginArticle_HookMain extends Hook {
-	/**
-	 * Регистрация необходимых хуков
-	 */
-	public function RegisterHook() {
-		/**
-		 * Хук на отображение админки
-		 */
-		$this->AddHook('init_action_admin','InitActionAdmin');
-	}
+class PluginArticle_HookMain extends Hook
+{
+    /**
+     * Регистрация необходимых хуков
+     */
+    public function RegisterHook()
+    {
+        /**
+         * Хук на отображение админки
+         */
+        $this->AddHook('init_action_admin', 'InitActionAdmin');
+    }
 
-	/**
-	 * Добавляем в главное меню админки свой раздел с подпунктами
-	 */
-	public function InitActionAdmin() {
-		/**
-		 * Получаем объект главного меню
-		 */
-		$oMenu = $this->PluginAdmin_Ui_GetMenuMain();
-		/**
-		 * Добавляем новый раздел
-		 */
-		$oMenu->AddSection(
-			Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Статьи')->SetName('article')->SetUrl('plugin/article')
-				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Список статей')->SetUrl(''))
-				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Создать')->SetUrl('create'))
-				->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Настройки')->SetUrl('/admin/settings/plugin/article'))
-		);
-	}
+    /**
+     * Добавляем в главное меню админки свой раздел с подпунктами
+     */
+    public function InitActionAdmin()
+    {
+        /**
+         * Получаем объект главного меню
+         */
+        $oMenu = $this->PluginAdmin_Ui_GetMenuMain();
+        /**
+         * Добавляем новый раздел
+         */
+        $oMenu->AddSection(
+            Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Статьи')->SetName('article')->SetUrl('plugin/article')
+                ->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Список статей')->SetUrl(''))
+                ->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Создать')->SetUrl('create'))
+                ->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Настройки')->SetUrl('/admin/settings/plugin/article'))
+        );
+    }
 }

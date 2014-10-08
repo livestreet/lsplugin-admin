@@ -1,4 +1,5 @@
 <?php
+
 /**
  * LiveStreet CMS
  * Copyright © 2013 OOO "ЛС-СОФТ"
@@ -18,17 +19,19 @@
  * @author Maxim Mzhelskiy <rus.engine@gmail.com>
  *
  */
-class PluginArticle_ModuleCategory_EntityCategory extends PluginArticle_Inherit_ModuleCategory_EntityCategory {
+class PluginArticle_ModuleCategory_EntityCategory extends PluginArticle_Inherit_ModuleCategory_EntityCategory
+{
 
-	/**
-	 * Возвращает URL категории
-	 *
-	 * @return string
-	 */
-	public function getWebUrl() {
-		if ($oType=$this->getTypeByCacheLife() and $oType->getTargetType()=='article') {
-			return Router::GetPath('article/category').$this->getUrlFull().'/';
-		}
-		return parent::getWebUrl();
-	}
+    /**
+     * Возвращает URL категории
+     *
+     * @return string
+     */
+    public function getWebUrl()
+    {
+        if ($oType = $this->getTypeByCacheLife() and $oType->getTargetType() == 'article') {
+            return Router::GetPath('article/category') . $this->getUrlFull() . '/';
+        }
+        return parent::getWebUrl();
+    }
 }

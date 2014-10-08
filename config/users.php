@@ -44,16 +44,19 @@ $config['users']['per_page'] = 10;
  * "allow_empty_search"			разрешить ли поиск с пустым значением для этого поля (по-умолчанию запрещено)
  */
 $config['users']['search_allowed_types'] = array(
-	'id' => array('search_as_part_of_string' => false),
-	'mail' => array('search_as_part_of_string' => true),
-	'password' => array('search_as_part_of_string' => false),
-	'ip_register' => array('search_as_part_of_string' => true),
-	'activate' => array('search_as_part_of_string' => false, 'restricted_values' => array('1', '0')),
-	'activate_key' => array('search_as_part_of_string' => false),
-	'profile_sex' => array('search_as_part_of_string' => false, 'restricted_values' => array('man', 'woman', 'other')),
-	'login' => array('search_as_part_of_string' => true),
-	'profile_name' => array('search_as_part_of_string' => true, 'allow_empty_search' => true),
-	'session_ip_last' => array('search_as_part_of_string' => true),
+    'id'              => array('search_as_part_of_string' => false),
+    'mail'            => array('search_as_part_of_string' => true),
+    'password'        => array('search_as_part_of_string' => false),
+    'ip_register'     => array('search_as_part_of_string' => true),
+    'activate'        => array('search_as_part_of_string' => false, 'restricted_values' => array('1', '0')),
+    'activate_key'    => array('search_as_part_of_string' => false),
+    'profile_sex'     => array(
+        'search_as_part_of_string' => false,
+        'restricted_values'        => array('man', 'woman', 'other')
+    ),
+    'login'           => array('search_as_part_of_string' => true),
+    'profile_name'    => array('search_as_part_of_string' => true, 'allow_empty_search' => true),
+    'session_ip_last' => array('search_as_part_of_string' => true),
 );
 
 /*
@@ -66,19 +69,19 @@ $config['users']['search_allowed_types'] = array(
  * Корректные значения (поля) для сортировок пользователей
  */
 $config['users']['correct_sorting_order'] = array(
-	'u.user_id',
-	'u.user_login',
-	'u.user_mail',
-	'u.user_date_register',
-	'u.user_ip_register',
-	'u.user_rating',
-	'u.user_skill',
-	'u.user_profile_name',
-	'u.user_profile_birthday',
-	's.session_ip_create',
-	's.session_ip_last',
-	's.session_date_create',
-	's.session_date_last',
+    'u.user_id',
+    'u.user_login',
+    'u.user_mail',
+    'u.user_date_register',
+    'u.user_ip_register',
+    'u.user_rating',
+    'u.user_skill',
+    'u.user_profile_name',
+    'u.user_profile_birthday',
+    's.session_ip_create',
+    's.session_ip_last',
+    's.session_date_create',
+    's.session_date_last',
 );
 
 /*
@@ -100,7 +103,7 @@ $config['users']['default_sorting_order'] = 'u.user_id';
  * Другие количества лет (меньше данного значения т.е. 0 - 6 лет или минусовые) не будут учитываться и будут отброшены как некорректные
  * в формировании графика возрастного распределения на странице статистики пользователей
  */
-$config['users']['min_user_age_difference_to_show_users_age_stats'] = 7;		// лет
+$config['users']['min_user_age_difference_to_show_users_age_stats'] = 7;        // лет
 
 /*
  * максимальное количество элементов при показе статистики проживаний пользователей
@@ -141,12 +144,12 @@ $config['users']['complaints']['per_page'] = 20;
  * Корректные значения (поля) для сортировок жалоб на пользователей
  */
 $config['users']['complaints']['correct_sorting_order'] = array(
-	'c.id',
-	'c.target_user_id',
-	'c.user_id',
-	'c.type',
-	'c.date_add',
-	'c.state',
+    'c.id',
+    'c.target_user_id',
+    'c.user_id',
+    'c.type',
+    'c.date_add',
+    'c.state',
 );
 
 /*

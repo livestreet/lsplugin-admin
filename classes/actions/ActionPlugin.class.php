@@ -18,51 +18,55 @@
  * @author Serge Pustovit (PSNet) <light.feel@gmail.com>
  *
  */
-
 /*
  *
  * От этого класса должны быть унаследованы все екшены плагинов, которые нужно интегрировать в админку
  *
  */
 
-abstract class PluginAdmin_ActionPlugin extends ActionPlugin {
+abstract class PluginAdmin_ActionPlugin extends ActionPlugin
+{
 
-	protected $sMenuSubItemSelect='';
+    protected $sMenuSubItemSelect = '';
 
-	protected function SetTemplateAction($sTemplate) {
-		$aDelegates = $this->Plugin_GetDelegationChain('action', $this->GetActionClass());
-		$sActionTemplatePath = $sTemplate . '.tpl';
-		foreach ($aDelegates as $sAction) {
-			if (preg_match('/^Plugin([\w]+)_Action([\w]+)$/i', $sAction, $aMatches)) {
-				$sTemplatePath = 'actions/Action' . ucfirst($aMatches[2]) . '/' . $sTemplate . '.tpl';
+    protected function SetTemplateAction($sTemplate)
+    {
+        $aDelegates = $this->Plugin_GetDelegationChain('action', $this->GetActionClass());
+        $sActionTemplatePath = $sTemplate . '.tpl';
+        foreach ($aDelegates as $sAction) {
+            if (preg_match('/^Plugin([\w]+)_Action([\w]+)$/i', $sAction, $aMatches)) {
+                $sTemplatePath = 'actions/Action' . ucfirst($aMatches[2]) . '/' . $sTemplate . '.tpl';
 
-				$sPath = Plugin::GetPath($sAction);
-				$aSkins = array('admin_default', 'default', Config::Get('view.skin'));
-				foreach ($aSkins as $sSkin) {
-					$sTpl = $sPath . 'templates/skin/' . $sSkin . '/' . $sTemplatePath;
-					if (is_file($sTpl)) {
-						$sActionTemplatePath = $sTpl;
-						break(2);
-					}
-				}
-			}
-		}
-		$this->Viewer_Assign('sAdminTemplateInclude', $sActionTemplatePath);
-		$this->sActionTemplate = Plugin::GetPath('admin') . 'templates/skin/default/actions/ActionAdmin/embed_plugin/plugin.tpl';
-	}
-
-
-	protected function EventNotFound() {
-		return Router::Action('admin', 'error', array('404'));
-	}
+                $sPath = Plugin::GetPath($sAction);
+                $aSkins = array('admin_default', 'default', Config::Get('view.skin'));
+                foreach ($aSkins as $sSkin) {
+                    $sTpl = $sPath . 'templates/skin/' . $sSkin . '/' . $sTemplatePath;
+                    if (is_file($sTpl)) {
+                        $sActionTemplatePath = $sTpl;
+                        break(2);
+                    }
+                }
+            }
+        }
+        $this->Viewer_Assign('sAdminTemplateInclude', $sActionTemplatePath);
+        $this->sActionTemplate = Plugin::GetPath('admin') . 'templates/skin/default/actions/ActionAdmin/embed_plugin/plugin.tpl';
+    }
 
 
-	protected function EventError() {
-		return Router::Action('admin', 'error');
-	}
+    protected function EventNotFound()
+    {
+        return Router::Action('admin', 'error', array('404'));
+    }
 
-	public function EventShutdown() {
-		$this->Viewer_Assign('sMenuSubItemSelect', $this->sMenuSubItemSelect);
-	}
+
+    protected function EventError()
+    {
+        return Router::Action('admin', 'error');
+    }
+
+    public function EventShutdown()
+    {
+        $this->Viewer_Assign('sMenuSubItemSelect', $this->sMenuSubItemSelect);
+    }
 
 }

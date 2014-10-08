@@ -25,43 +25,46 @@
  * @package blocks
  * @since   2.0
  */
-class PluginAdmin_BlockCategoryUpdate extends Block {
-	/**
-	 * Запуск обработки
-	 */
-	public function Exec() {
-		$sEntity = $this->GetParam('entity');
-		$oTarget = $this->GetParam('target');
-		$sTargetType = $this->GetParam('target_type');
+class PluginAdmin_BlockCategoryUpdate extends Block
+{
+    /**
+     * Запуск обработки
+     */
+    public function Exec()
+    {
+        $sEntity = $this->GetParam('entity');
+        $oTarget = $this->GetParam('target');
+        $sTargetType = $this->GetParam('target_type');
 
-		if (!$oTarget) {
-			$oTarget=Engine::GetEntity($sEntity);
-		}
+        if (!$oTarget) {
+            $oTarget = Engine::GetEntity($sEntity);
+        }
 
-		$aBehaviors=$oTarget->GetBehaviors();
-		foreach($aBehaviors as $oBehavior) {
-			if ($oBehavior instanceof ModuleCategory_BehaviorEntity) {
-				/**
-				 * Если в параметрах был тип, то переопределяем значение. Это необходимо для корректной работы, когда тип динамический.
-				 */
-				if ($sTargetType) {
-					$oBehavior->setParam('target_type',$sTargetType);
-				}
-				/**
-				 * Нужное нам поведение - получаем список текущих категорий
-				 */
-				$this->Viewer_Assign('aCategoriesCurrent',$oBehavior->getCategories());
-				/**
-				 * Загружаем параметры
-				 */
-				$aParams=$oBehavior->getParams();
-				$this->Viewer_Assign('aCategoryParams',$aParams);
-				/**
-				 * Загружаем список доступных категорий
-				 */
-				$this->Viewer_Assign('aCategories',$this->Category_GetCategoriesTreeByTargetType($oBehavior->getCategoryTargetType()));
-				break;
-			}
-		}
-	}
+        $aBehaviors = $oTarget->GetBehaviors();
+        foreach ($aBehaviors as $oBehavior) {
+            if ($oBehavior instanceof ModuleCategory_BehaviorEntity) {
+                /**
+                 * Если в параметрах был тип, то переопределяем значение. Это необходимо для корректной работы, когда тип динамический.
+                 */
+                if ($sTargetType) {
+                    $oBehavior->setParam('target_type', $sTargetType);
+                }
+                /**
+                 * Нужное нам поведение - получаем список текущих категорий
+                 */
+                $this->Viewer_Assign('aCategoriesCurrent', $oBehavior->getCategories());
+                /**
+                 * Загружаем параметры
+                 */
+                $aParams = $oBehavior->getParams();
+                $this->Viewer_Assign('aCategoryParams', $aParams);
+                /**
+                 * Загружаем список доступных категорий
+                 */
+                $this->Viewer_Assign('aCategories',
+                    $this->Category_GetCategoriesTreeByTargetType($oBehavior->getCategoryTargetType()));
+                break;
+            }
+        }
+    }
 }

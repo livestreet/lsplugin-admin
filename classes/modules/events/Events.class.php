@@ -2,24 +2,22 @@
 /**
  * LiveStreet CMS
  * Copyright © 2013 OOO "ЛС-СОФТ"
- * 
+ *
  * ------------------------------------------------------
- * 
+ *
  * Official site: www.livestreetcms.com
  * Contact e-mail: office@livestreetcms.com
- * 
+ *
  * GNU General Public License, version 2:
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * 
+ *
  * ------------------------------------------------------
- * 
+ *
  * @link http://www.livestreetcms.com
  * @copyright 2013 OOO "ЛС-СОФТ"
  * @author Serge Pustovit (PSNet) <light.feel@gmail.com>
- * 
+ *
  */
-
-
 /*
  *	Модуль подписки на уведомление о изменении параметров конфига.
  * 	Данный модуль предоставляет два метода событий:
@@ -48,77 +46,83 @@
  *
  */
 
-class PluginAdmin_ModuleEvents extends Module {
+class PluginAdmin_ModuleEvents extends Module
+{
 
-	/*
-	 * часть названия метода для вызова события на изменение значения одного параметра
-	 */
-	protected $sOnChangeFunctionPostfix = 'OnChange';
+    /*
+     * часть названия метода для вызова события на изменение значения одного параметра
+     */
+    protected $sOnChangeFunctionPostfix = 'OnChange';
 
-	/*
-	 * часть названия метода для вызовая события если хоть один параметр конфига был изменен
-	 */
-	protected $sAtLeastOneParameterIsChangedPostfix = 'SomethingChanged';
-	
-	
-	public function Init() {}
+    /*
+     * часть названия метода для вызовая события если хоть один параметр конфига был изменен
+     */
+    protected $sAtLeastOneParameterIsChangedPostfix = 'SomethingChanged';
 
 
-	/**
-	 * Проверяет наличие подписанных методов на изменение настроек, вызывает подписчиков
-	 *
-	 * @param $sConfigName			имя конфига
-	 * @param $sKey					ключ
-	 * @param $mNewValue			новое значение ключа
-	 * @param $mPreviousValue		предыдущее значение ключа
-	 * @return bool|mixed			можно ли ключу принимать такое значение
-	 */
-	final public function ConfigParameterChangeNotification($sConfigName, $sKey, $mNewValue, $mPreviousValue) {
-		/*
-		 * получить имя метода, который должен проверить значение одного изменившегося параметра
-		 */
-		$sMethodName = $this->GetOnChangeHandlerMethodName($sConfigName, $this->sOnChangeFunctionPostfix);
-		if (method_exists($this, $sMethodName)) {
-			return call_user_func(array($this, $sMethodName), $sKey, $mNewValue, $mPreviousValue);
-		}
-		return true;
-	}
+    public function Init()
+    {
+    }
 
 
-	/**
-	 * Возвращает имя метода подписки для плагина или ядра
-	 *
-	 * @param $sConfigName			имя конфига
-	 * @param $sMethodPostfix		постфикс для построения имени метода
-	 * @return string				полное имя метода
-	 */
-	final protected function GetOnChangeHandlerMethodName($sConfigName, $sMethodPostfix) {
-		if ($sConfigName != ModuleStorage::DEFAULT_KEY_NAME) {
-			return ucfirst($sConfigName) . $sMethodPostfix;
-		}
-		/*
-		 * для ядра это будет просто постфикс (без имени перед ним)
-		 */
-		return $sMethodPostfix;
-	}
+    /**
+     * Проверяет наличие подписанных методов на изменение настроек, вызывает подписчиков
+     *
+     * @param $sConfigName            имя конфига
+     * @param $sKey                    ключ
+     * @param $mNewValue            новое значение ключа
+     * @param $mPreviousValue        предыдущее значение ключа
+     * @return bool|mixed            можно ли ключу принимать такое значение
+     */
+    final public function ConfigParameterChangeNotification($sConfigName, $sKey, $mNewValue, $mPreviousValue)
+    {
+        /*
+         * получить имя метода, который должен проверить значение одного изменившегося параметра
+         */
+        $sMethodName = $this->GetOnChangeHandlerMethodName($sConfigName, $this->sOnChangeFunctionPostfix);
+        if (method_exists($this, $sMethodName)) {
+            return call_user_func(array($this, $sMethodName), $sKey, $mNewValue, $mPreviousValue);
+        }
+        return true;
+    }
 
 
-	/**
-	 * Проверяет есть ли методы, которые должны получить управление если хоть один параметр плагина был изменен
-	 *
-	 * @param $sConfigName			имя конфига
-	 * @return bool|mixed			разрешение на запись параметров
-	 */
-	final public function ConfigParametersAreChangedNotification($sConfigName) {
-		/*
-		 * получить имя метода, который должен выполнить действия если хоть один параметр конфига изменился
-		 */
-		$sMethodName = $this->GetOnChangeHandlerMethodName($sConfigName, $this->sAtLeastOneParameterIsChangedPostfix);
-		if (method_exists($this, $sMethodName)) {
-			return call_user_func(array($this, $sMethodName));
-		}
-		return true;
-	}
+    /**
+     * Возвращает имя метода подписки для плагина или ядра
+     *
+     * @param $sConfigName            имя конфига
+     * @param $sMethodPostfix        постфикс для построения имени метода
+     * @return string                полное имя метода
+     */
+    final protected function GetOnChangeHandlerMethodName($sConfigName, $sMethodPostfix)
+    {
+        if ($sConfigName != ModuleStorage::DEFAULT_KEY_NAME) {
+            return ucfirst($sConfigName) . $sMethodPostfix;
+        }
+        /*
+         * для ядра это будет просто постфикс (без имени перед ним)
+         */
+        return $sMethodPostfix;
+    }
+
+
+    /**
+     * Проверяет есть ли методы, которые должны получить управление если хоть один параметр плагина был изменен
+     *
+     * @param $sConfigName            имя конфига
+     * @return bool|mixed            разрешение на запись параметров
+     */
+    final public function ConfigParametersAreChangedNotification($sConfigName)
+    {
+        /*
+         * получить имя метода, который должен выполнить действия если хоть один параметр конфига изменился
+         */
+        $sMethodName = $this->GetOnChangeHandlerMethodName($sConfigName, $this->sAtLeastOneParameterIsChangedPostfix);
+        if (method_exists($this, $sMethodName)) {
+            return call_user_func(array($this, $sMethodName));
+        }
+        return true;
+    }
 
 }
 

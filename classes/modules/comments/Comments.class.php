@@ -1,91 +1,97 @@
 <?php
+
 /**
  * LiveStreet CMS
  * Copyright © 2013 OOO "ЛС-СОФТ"
- * 
+ *
  * ------------------------------------------------------
- * 
+ *
  * Official site: www.livestreetcms.com
  * Contact e-mail: office@livestreetcms.com
- * 
+ *
  * GNU General Public License, version 2:
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * 
+ *
  * ------------------------------------------------------
- * 
+ *
  * @link http://www.livestreetcms.com
  * @copyright 2013 OOO "ЛС-СОФТ"
  * @author Serge Pustovit (PSNet) <light.feel@gmail.com>
- * 
+ *
  */
+class PluginAdmin_ModuleComments extends Module
+{
 
-class PluginAdmin_ModuleComments extends Module {
-
-	protected $oMapper = null;
-
-
-	public function Init() {
-		$this->oMapper = Engine::GetMapper(__CLASS__);
-	}
+    protected $oMapper = null;
 
 
-	/**
-	 * Получить статистику по новым комментариям
-	 *
-	 * @param $aPeriod		период
-	 * @return mixed
-	 */
-	public function GetCommentsStats($aPeriod) {
-		return $this->oMapper->GetCommentsStats($aPeriod, $this->PluginAdmin_Stats_BuildDateFormatFromPHPToMySQL($aPeriod['format']));
-	}
+    public function Init()
+    {
+        $this->oMapper = Engine::GetMapper(__CLASS__);
+    }
 
 
-	/**
-	 * Получить количество всех опубликованных комментариев
-	 *
-	 * @return int
-	 */
-	public function GetCountCommentsTotal() {
-		return $this->oMapper->GetCountCommentsTotal();
-	}
+    /**
+     * Получить статистику по новым комментариям
+     *
+     * @param $aPeriod        период
+     * @return mixed
+     */
+    public function GetCommentsStats($aPeriod)
+    {
+        return $this->oMapper->GetCommentsStats($aPeriod,
+            $this->PluginAdmin_Stats_BuildDateFormatFromPHPToMySQL($aPeriod['format']));
+    }
 
 
-	/**
-	 * Корректно удалить комментарий и все его ответы и связанные с ним данные (избранное, теги избранного и голоса)
-	 *
-	 * @param $oComment		объект комментария
-	 */
-	public function DeleteComment($oComment) {
-		/*
-		 * отключить ограничение по времени для обработки
-		 */
-		@set_time_limit(0);
-		/*
-		 * отключить проверку внешних связей
-		 * (каждая таблица будет чиститься вручную)
-		 */
-		$this->PluginAdmin_Deletecontent_DisableForeignKeysChecking();
-		/*
-		 * удалить сам комментарий
-		 */
-		$this->PluginAdmin_Deletecontent_DeleteComment($oComment);
-		/*
-		 * теперь в таблице комментариев могут быть ответы у которых comment_pid указывает на этот несуществующий комментарий
-		 * очистка таблицы прямого эфира - там могут быть записи, указывающие на несуществующие комментарии, которые только что были удалены
-		 */
-		$this->PluginAdmin_Deletecontent_DeleteBrokenChainsFromCommentsTreeAndOnlineCommentsAndCleanUpOtherTables();
-		/*
-		 * включить проверку внешних связей
-		 */
-		$this->PluginAdmin_Deletecontent_EnableForeignKeysChecking();
-		/*
-		 * todo: найти родителя и если это "топик" - уменьшить к-во комментариев
-		 */
-		/*
-		 * удалить весь кеш - слишком много зависимостей
-		 */
-		$this->Cache_Clean();
-	}
+    /**
+     * Получить количество всех опубликованных комментариев
+     *
+     * @return int
+     */
+    public function GetCountCommentsTotal()
+    {
+        return $this->oMapper->GetCountCommentsTotal();
+    }
+
+
+    /**
+     * Корректно удалить комментарий и все его ответы и связанные с ним данные (избранное, теги избранного и голоса)
+     *
+     * @param $oComment        объект комментария
+     */
+    public function DeleteComment($oComment)
+    {
+        /*
+         * отключить ограничение по времени для обработки
+         */
+        @set_time_limit(0);
+        /*
+         * отключить проверку внешних связей
+         * (каждая таблица будет чиститься вручную)
+         */
+        $this->PluginAdmin_Deletecontent_DisableForeignKeysChecking();
+        /*
+         * удалить сам комментарий
+         */
+        $this->PluginAdmin_Deletecontent_DeleteComment($oComment);
+        /*
+         * теперь в таблице комментариев могут быть ответы у которых comment_pid указывает на этот несуществующий комментарий
+         * очистка таблицы прямого эфира - там могут быть записи, указывающие на несуществующие комментарии, которые только что были удалены
+         */
+        $this->PluginAdmin_Deletecontent_DeleteBrokenChainsFromCommentsTreeAndOnlineCommentsAndCleanUpOtherTables();
+        /*
+         * включить проверку внешних связей
+         */
+        $this->PluginAdmin_Deletecontent_EnableForeignKeysChecking();
+        /*
+         * todo: найти родителя и если это "топик" - уменьшить к-во комментариев
+         */
+        /*
+         * удалить весь кеш - слишком много зависимостей
+         */
+        $this->Cache_Clean();
+    }
 
 }
 

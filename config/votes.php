@@ -42,12 +42,12 @@ $config['votes']['per_page'] = 10;
  * Корректные значения (поля) для сортировки голосов пользователя
  */
 $config['votes']['correct_sorting_order'] = array(
-	'target_id',
-	'target_type',
-	'vote_direction',
-	'vote_value',
-	'vote_date',
-	'vote_ip'
+    'target_id',
+    'target_type',
+    'vote_direction',
+    'vote_value',
+    'vote_date',
+    'vote_ip'
 );
 
 /*
