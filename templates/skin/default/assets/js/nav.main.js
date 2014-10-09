@@ -183,7 +183,7 @@ ls.plugin.admin.navMain = (function ($) {
 					.appendTo(oBody);
 		});
 
-		$('.js-dropdown-nav-main').dropdown({
+		$('.js-dropdown-nav-main').lsDropdown({
 			position: {
 				my: "right-8 top-4",
 				at: "left top",
@@ -204,7 +204,7 @@ ls.plugin.admin.navMain = (function ($) {
 	 */
 	this.dropdownsDestroy = function () {
 		$('.' + this.options.classes.dropdownMenu).remove();
-		$('.js-dropdown-nav-main').dropdown('destroy');
+		$('.js-dropdown-nav-main').lsDropdown('destroy');
 	};
 
 	/**

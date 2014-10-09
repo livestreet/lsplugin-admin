@@ -65,7 +65,7 @@ jQuery(document).ready(function($) {
 			/*
 			 	спрятать дропдаун
 			 */
-			$ (ls.admin_stream.selectors.admin_index_activity_dropdown_menu_trigger).dropdown('hide');
+			$ (ls.admin_stream.selectors.admin_index_activity_dropdown_menu_trigger).lsDropdown('hide');
 		},
 		success: function(data) {
 			if (data.bStateError) {
