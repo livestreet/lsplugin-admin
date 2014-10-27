@@ -66,7 +66,7 @@ jQuery(document).ready(function($) {
 	/**
 	 * Dropdowns
 	 */
-	$('.js-dropdown').dropdown({
+	$('.js-dropdown').lsDropdown({
 	    position: {
 	        my: "right+10 top+10",
 	        at: "right bottom",
@@ -83,7 +83,7 @@ jQuery(document).ready(function($) {
 	/*
 		используется для списка сортировок столбца таблицы
 	 */
-	$('.js-dropdown-left-bottom').dropdown({
+	$('.js-dropdown-left-bottom').lsDropdown({
 		position: {
 			my: "left-10 top+10",
 			at: "left bottom",
@@ -99,7 +99,7 @@ jQuery(document).ready(function($) {
 	});
 
 	/* Юзербар */
-	$('.js-dropdown-userbar').dropdown({
+	$('.js-dropdown-userbar').lsDropdown({
 	    position: {
 	        my: "right top",
 	        at: "right bottom",
@@ -109,7 +109,7 @@ jQuery(document).ready(function($) {
 		beforeshow: function (e, dropdown) {
 			// Задаем минимальную ширину меню
 			var toggleWidth = dropdown.element.outerWidth();
-			dropdown._target.css('width', toggleWidth > 200 ? toggleWidth : 'auto' );
+			dropdown.getMenu().css('width', toggleWidth > 200 ? toggleWidth : 'auto' );
 		},
 		show: {
 			effect: 'fadeIn'

@@ -108,7 +108,7 @@
 					<div class="userbar-login">{$oUserCurrent->getLogin()}</div>
 				</div>
 
-				<ul class="dropdown-menu" id="dropdown-menu-userbar">
+				<ul class="nav nav--stacked nav--dropdown dropdown-menu" id="dropdown-menu-userbar">
 					<li>
 						<a href="{router page="admin/users/profile/{$oUserCurrent->getId()}"}">Мой профиль</a>	{* todo: add lang *}
 					</li>
