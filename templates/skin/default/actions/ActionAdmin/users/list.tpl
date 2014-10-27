@@ -196,7 +196,7 @@
 					<td class="cell-rating">
 						<div class="dropdown-circle js-dropdown" data-dropdown-target="dropdown-user-menu-{$oUser->getId()}"></div>
 
-						<ul class="dropdown-menu" id="dropdown-user-menu-{$oUser->getId()}">
+						<ul class="nav nav--stacked nav--dropdown dropdown-menu" id="dropdown-user-menu-{$oUser->getId()}">
 							{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/user_actions.tpl"}
 						</ul>
 
