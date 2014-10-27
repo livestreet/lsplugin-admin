@@ -459,13 +459,9 @@ class PluginAdmin_ActionAdmin extends ActionPlugin
          *
          */
         /*
-         * Проверка и восстановление
+         * Оптимизации
          */
-        $this->AddEventPreg('#^utils$#iu', '#^check_n_repair$#iu', 'Utils::EventCheckAndRepair');
-        /*
-         * Сброс и очистка
-         */
-        $this->AddEventPreg('#^utils$#iu', '#^reset_n_clear$#iu', 'Utils::EventResetAndClear');
+        $this->AddEventPreg('#^utils$#iu', '#^optimization$#iu', 'Utils::EventOptimization');
         /*
          * Планировщик cron
          */
@@ -545,8 +541,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin
         ->AddSection(
             Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Утилиты')->SetName('utils')->SetUrl('utils')
                 ->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Планировщик Cron')->SetUrl('cron'))
-                ->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Проверка и восстановление')->SetUrl('check_n_repair'))
-                ->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Сброс и очистка')->SetUrl('reset_n_clear'))
+                ->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Оптимизация')->SetUrl('optimization'))
         )    // /AddSection
         ;
     }
