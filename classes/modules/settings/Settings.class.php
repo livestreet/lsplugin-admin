@@ -141,16 +141,98 @@ class PluginAdmin_ModuleSettings extends ModuleStorage
                 /*
                  * ядро
                  */
+
+                /**
+                 * Получаем схему для фильтрации
+                 */
+                $aKeys = array();
+                $aShemeGroups = (array)Config::Get('$config_groups$');
+                foreach ($aShemeGroups as $aGroups) {
+                    foreach ((array)$aGroups as $aGroup) {
+                        if (isset($aGroup['allowed_keys'])) {
+                            $aKeys = array_merge($aKeys, $aGroup['allowed_keys']);
+                        }
+                    }
+                }
+                $aConfigData = $this->FilterConfigByKeys($aConfigData, $aKeys,
+                    array_keys((array)Config::Get('$config_scheme$')));
                 $this->LoadRootConfig($aConfigData);
+                /**
+                 * Удаляем временные конфиги
+                 */
             } else {
                 /*
                  * плагин
                  */
-                $this->LoadPluginConfig($this->StripPluginPrefix($sKey), $aConfigData);
+                $sPlugin = $this->StripPluginPrefix($sKey);
+                /**
+                 * Получаем схему для фильтрации
+                 */
+                $aKeys = array();
+                $aShemeSections = (array)Config::Get('plugin.' . $sPlugin . '.$config_sections$');
+                if ($aShemeSections) {
+                    foreach ($aShemeSections as $aSections) {
+                        if (isset($aSections['allowed_keys'])) {
+                            $aKeys = array_merge($aKeys, $aSections['allowed_keys']);
+                        }
+                    }
+                    $aKeysAvailable = array_keys((array)Config::Get('plugin.' . $sPlugin . '.$config_scheme$'));
+                } else {
+                    /**
+                     * Используем все доступные ключи
+                     */
+                    $aKeys = array_keys((array)Config::Get('plugin.' . $sPlugin . '.$config_scheme$'));
+                    $aKeysAvailable = array();
+                }
+
+                $aConfigData = $this->FilterConfigByKeys($aConfigData, $aKeys, $aKeysAvailable);
+                $this->LoadPluginConfig($sPlugin, $aConfigData);
             }
         }
     }
 
+    /**
+     * Фильтрует массив конфига по ключам
+     *
+     * @param $aData
+     * @param $aKeys
+     * @return array
+     */
+    protected function FilterConfigByKeys($aData, $aKeys, $aKeysAvailable = array())
+    {
+        /**
+         * Создаем временный конфиг для удобного доступа к значениям
+         */
+        Config::getInstance($sInstanceTmp = '__for_filter__' . func_generator(8))->SetConfig($aData);
+        Config::getInstance($sInstanceResult = '__for_filter_result__' . func_generator(8))->SetConfig(array());
+
+        foreach ($aKeys as $sKey) {
+            if (strpos($sKey, '*') === false) {
+                if (Config::isExist($sKey, $sInstanceTmp)) {
+                    Config::Set($sKey, Config::Get($sKey, $sInstanceTmp), $sInstanceResult);
+                }
+            } else {
+                /**
+                 * Получаем набор ключей по маске из списка доступных
+                 */
+                $sKey = rtrim($sKey, '*');
+                foreach ($aKeysAvailable as $sKeyAvailable) {
+                    if (strpos($sKeyAvailable, $sKey) !== false) {
+                        if (Config::isExist($sKeyAvailable, $sInstanceTmp)) {
+                            Config::Set($sKeyAvailable, Config::Get($sKeyAvailable, $sInstanceTmp), $sInstanceResult);
+                        }
+                    }
+                }
+            }
+        }
+        $aData = Config::getInstance($sInstanceResult)->GetConfig();
+        /**
+         * Удаляем данные временных конфигов
+         */
+        Config::getInstance($sInstanceTmp)->SetConfig(array());
+        Config::getInstance($sInstanceResult)->SetConfig(array());
+        return $aData;
+    }
 
     /**
      * Удалить префикс перед именем плагина
@@ -408,7 +490,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage
              */
             if (($mValue = $this->GetConfigKeyValue($sConfigName, $sConfigKey)) === null) {
                 $this->Message_AddError($this->Lang_Get('plugin.admin.errors.wrong_description_key',
-                        array('key' => $sConfigKey)), $this->Lang_Get('error'));
+                    array('key' => $sConfigKey)), $this->Lang_Get('error'));
                 continue;
             }
 
@@ -1030,8 +1112,4 @@ class PluginAdmin_ModuleSettings extends ModuleStorage
         }
         return true;
     }
-
-
 }
-
-?>
