@@ -34,29 +34,29 @@ class PluginAdmin_ActionAdmin_EventUtils extends Event
      */
 
     /**
-     * Показать список действий для утилит раздела проверки и восстановления
+     * Показать список действий для утилит раздела оптимизации
      */
-    public function EventCheckAndRepair()
+    public function EventOptimization()
     {
-        $this->SetTemplateAction('utils/check_n_repair');
+        $this->SetTemplateAction('utils/optimization');
 
         /*
          * если нужно выполнить действие
          */
         if ($sActionType = $this->GetParam(1)) {
             $this->Security_ValidateSendForm();
-            $this->ProcessCheckAndRepairAction($sActionType);
+            $this->ProcessOptimization($sActionType);
         }
     }
 
 
     /**
-     * Выполнить нужное действие для утилит раздела проверки и восстановления
+     * Выполнить нужное действие для утилит раздела оптимизации
      *
      * @param $sActionType    тип действия
      * @return bool
      */
-    protected function ProcessCheckAndRepairAction($sActionType)
+    protected function ProcessOptimization($sActionType)
     {
         @set_time_limit(0);
         switch ($sActionType) {
@@ -65,7 +65,7 @@ class PluginAdmin_ActionAdmin_EventUtils extends Event
                  * Очистить таблицу комментариев и все связанные с ней данные от поврежденных записей комментариев
                  */
                 $this->PluginAdmin_Deletecontent_PerformRepairCommentsStructure();
-                $this->Message_AddNotice($this->Lang('notices.utils.check_n_repair.tables.checking_comments_done'), '',
+                $this->Message_AddNotice($this->Lang('notices.utils.optimization.tables.checking_comments_done'), '',
                     true);
                 break;
             case 'cleanstream':
@@ -73,7 +73,7 @@ class PluginAdmin_ActionAdmin_EventUtils extends Event
                  * Очистка активности (стрима) от ссылок на записи, которых больше нет
                  */
                 $this->PluginAdmin_Deletecontent_PerformCleanStreamEventsRecords();
-                $this->Message_AddNotice($this->Lang('notices.utils.check_n_repair.tables.checking_stream_done'), '',
+                $this->Message_AddNotice($this->Lang('notices.utils.optimization.tables.checking_stream_done'), '',
                     true);
                 break;
             case 'cleanvotings':
@@ -81,7 +81,7 @@ class PluginAdmin_ActionAdmin_EventUtils extends Event
                  * Удалить все голосования, указывающие на несуществующие объекты
                  */
                 $this->PluginAdmin_Deletecontent_CleanVotingsTableTargetingObjectsNotExists();
-                $this->Message_AddNotice($this->Lang('notices.utils.check_n_repair.tables.checking_votings_done'), '',
+                $this->Message_AddNotice($this->Lang('notices.utils.optimization.tables.checking_votings_done'), '',
                     true);
                 break;
             case 'cleanfavourites':
@@ -89,7 +89,7 @@ class PluginAdmin_ActionAdmin_EventUtils extends Event
                  * Очистить записи избранного и тегов для избранного, указывающие на несуществующие объекты
                  */
                 $this->PluginAdmin_Deletecontent_CleanFavouritesAndItsTagsTargetingObjectsNotExists();
-                $this->Message_AddNotice($this->Lang('notices.utils.check_n_repair.tables.checking_favourites_done'),
+                $this->Message_AddNotice($this->Lang('notices.utils.optimization.tables.checking_favourites_done'),
                     '', true);
                 break;
             case 'checkencoding':
@@ -97,57 +97,16 @@ class PluginAdmin_ActionAdmin_EventUtils extends Event
                  * Проверить корректность кодировки файлов
                  */
                 if ($this->PluginAdmin_Tools_CheckFilesOfPluginsAndEngineHaveCorrectEncoding()) {
-                    $this->Message_AddNotice($this->Lang('notices.utils.check_n_repair.files.checking_encoding_done'),
+                    $this->Message_AddNotice($this->Lang('notices.utils.optimization.files.checking_encoding_done'),
                         '', true);
                 }
                 break;
-            default:
-                $this->Message_AddError($this->Lang('errors.utils.unknown_check_n_repair_action'),
-                    $this->Lang_Get('error'), true);
-        }
-        $this->RedirectToReferer();
-    }
-
-
-    /*
-     *
-     * --- Сброс и очистка ---
-     *
-     */
-
-    /**
-     * Показать список действий для утилит раздела сброса и очистки
-     */
-    public function EventResetAndClear()
-    {
-        $this->SetTemplateAction('utils/reset_n_clear');
-
-        /*
-         * если нужно выполнить действие
-         */
-        if ($sActionType = $this->GetParam(1)) {
-            $this->Security_ValidateSendForm();
-            $this->ProcessResetAndClearAction($sActionType);
-        }
-    }
-
-
-    /**
-     * Выполнить нужное действие для утилит раздела сброса и очистки
-     *
-     * @param $sActionType    тип действия
-     * @return bool
-     */
-    protected function ProcessResetAndClearAction($sActionType)
-    {
-        @set_time_limit(0);
-        switch ($sActionType) {
             case 'resetallbansstats':
                 /*
                  * Сбросить статистику срабатываний банов
                  */
                 $this->PluginAdmin_Users_DeleteAllBansStats();
-                $this->Message_AddNotice($this->Lang('notices.utils.reset_n_clear.datareset.bans_stats_cleared'), '',
+                $this->Message_AddNotice($this->Lang('notices.utils.optimization.datareset.bans_stats_cleared'), '',
                     true);
                 break;
             case 'deleteoldbanrecords':
@@ -155,7 +114,7 @@ class PluginAdmin_ActionAdmin_EventUtils extends Event
                  * Удалить старые записи банов, дата окончания которых уже прошла
                  */
                 $this->PluginAdmin_Users_DeleteOldBanRecords();
-                $this->Message_AddNotice($this->Lang('notices.utils.reset_n_clear.datareset.old_ban_records_deleted'),
+                $this->Message_AddNotice($this->Lang('notices.utils.optimization.datareset.old_ban_records_deleted'),
                     '', true);
                 break;
             case 'resetalllscache':
@@ -163,11 +122,19 @@ class PluginAdmin_ActionAdmin_EventUtils extends Event
                  * Сбросить весь кеш движка (данные, компилированные шаблоны, сжатые CSS и JS файлы)
                  */
                 $this->PluginAdmin_Tools_ResetAllLSCache();
-                $this->Message_AddNotice($this->Lang('notices.utils.reset_n_clear.datareset.reset_all_ls_cache_done'),
+                $this->Message_AddNotice($this->Lang('notices.utils.optimization.datareset.reset_all_ls_cache_done'),
+                    '', true);
+                break;
+            case 'resetconfigsheme':
+                /*
+                 * Удаление лишних настроек конфигов
+                 */
+                $this->PluginAdmin_Tools_ResetConfigSheme();
+                $this->Message_AddNotice($this->Lang('notices.utils.optimization.datareset.reset_config_sheme_done'),
                     '', true);
                 break;
             default:
-                $this->Message_AddError($this->Lang('errors.utils.unknown_reset_n_clear_action'),
+                $this->Message_AddError($this->Lang('errors.utils.unknown_optimization_action'),
                     $this->Lang_Get('error'), true);
         }
         $this->RedirectToReferer();

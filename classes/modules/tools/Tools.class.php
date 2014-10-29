@@ -328,7 +328,11 @@ class PluginAdmin_ModuleTools extends Module
             $this->Storage_Get(self::CACHE_LAST_RESET_COUNTER, $this) + 1, $this);
     }
 
+    /**
+     * Удаляет лишние настройки конфигов из хранилища админки
+     */
+    public function ResetConfigSheme() {
+        
+    }
 
 }
-
-?>
