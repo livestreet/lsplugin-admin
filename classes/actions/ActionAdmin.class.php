@@ -283,7 +283,15 @@ class PluginAdmin_ActionAdmin extends ActionPlugin
          */
         $this->AddEventPreg('#^users$#iu', '#^rbac$#iu', '#^permission-remove$#', '#^\d+$#i', '#^$#',
             'Rbac::EventPermissionRemove');
-
+        /*
+         * настройка полей контактов
+         */
+        $this->AddEventPreg('#^users$#iu', '#^contact-fields$#iu', '#^$#', 'Users::EventContactFields');
+        $this->AddEventPreg('#^users$#iu', '#^contact-fields$#iu', '#^create$#', '#^$#', 'Users::EventContactFieldsCreate');
+        $this->AddEventPreg('#^users$#iu', '#^contact-fields$#iu', '#^update$#', '#^\d+$#i', '#^$#',
+            'Users::EventContactFieldsUpdate');
+        $this->AddEventPreg('#^users$#iu', '#^contact-fields$#iu', '#^remove$#', '#^\d+$#i', '#^$#',
+            'Users::EventContactFieldsRemove');
 
         /*
          *
@@ -523,6 +531,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin
                 ->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Администраторы')->SetUrl('admins'))
                 ->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Жалобы')->SetUrl('complaints'))
                 ->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Управление правами')->SetUrl('rbac'))
+                ->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Виды контактов')->SetUrl('contact-fields'))
         )// /AddSection
         ->AddSection(
             Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Плагины')->SetName('plugins')->SetUrl('plugins')

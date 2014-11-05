@@ -225,6 +225,6 @@
 		{include file="{$aTemplatePathPlugin.admin}pagination.tpl" aPaging=$aPaging}
 
 	{else}
-		{include file='alert.tpl' mAlerts=$aLang.plugin.admin.bans.list.no_bans sAlertStyle='empty'}
+		{include file="{$aTemplatePathPlugin.admin}alert.tpl" mAlerts=$aLang.plugin.admin.bans.list.no_bans sAlertStyle='empty'}
 	{/if}
 {/block}

@@ -209,7 +209,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event
          * количество читаемых блогов
          */
         $iCountBlogReads = count($this->Blog_GetBlogUsersByUserId($oUser->getId(), ModuleBlog::BLOG_USER_ROLE_USER,
-                true));
+            true));
 
         /*
          * количество друзей у пользователя
@@ -787,9 +787,9 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event
          */
         $iRestrictionType = getRequestStr('restriction_type');
         if (!in_array($iRestrictionType, array(
-                PluginAdmin_ModuleUsers::BAN_RESTRICTION_TYPE_FULL,
-                PluginAdmin_ModuleUsers::BAN_RESTRICTION_TYPE_READ_ONLY
-            ))
+            PluginAdmin_ModuleUsers::BAN_RESTRICTION_TYPE_FULL,
+            PluginAdmin_ModuleUsers::BAN_RESTRICTION_TYPE_READ_ONLY
+        ))
         ) {
             $iRestrictionType = PluginAdmin_ModuleUsers::BAN_RESTRICTION_TYPE_FULL;
         }
@@ -960,7 +960,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event
                 $oEnt->setTimeType(PluginAdmin_ModuleUsers::BAN_TIME_TYPE_PERIOD);
                 $oEnt->setDateStart(date('Y-m-d'));
                 $oEnt->setDateFinish(date('Y-m-d',
-                        mktime(date("H"), date("i"), date("s"), date("n"), date("j") + $iDaysCount, date("Y"))));
+                    mktime(date("H"), date("i"), date("s"), date("n"), date("j") + $iDaysCount, date("Y"))));
                 break;
             default:
                 throw new Exception('Admin: error: unknown blocking time type "' . $sBanType . '" in ' . __METHOD__);
@@ -1730,7 +1730,131 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event
         $this->PluginAdmin_Users_ChangeUsersComplaintsPerPage((int)getRequestStr('onpage'));
     }
 
+    /**
+     * Список пользовательских полей
+     */
+    public function EventContactFields()
+    {
+        $this->SetTemplateAction('users/contact-fields');
 
+        /**
+         * Получаем список всех полей
+         */
+        $this->Viewer_Assign('aUserFields', $this->User_GetUserFields());
+    }
+
+    public function EventContactFieldsCreate()
+    {
+        $this->SetTemplateAction('users/contact-fields.create');
+        $this->Viewer_Assign('aUserFieldTypes', $this->User_GetUserFieldTypes());
+        if (getRequest('submit')) {
+            $this->Security_ValidateSendForm();
+
+            if (!$this->checkContactFields()) {
+                return;
+            }
+            $oField = Engine::GetEntity('User_Field');
+            $oField->setName(getRequestStr('name'));
+            $oField->setTitle(getRequestStr('title'));
+            $oField->setPattern(getRequestStr('pattern'));
+            if (in_array(getRequestStr('type'), $this->User_GetUserFieldTypes())) {
+                $oField->setType(getRequestStr('type'));
+            } else {
+                $oField->setType('');
+            }
+
+            $iId = $this->User_AddUserField($oField);
+            if (!$iId) {
+                $this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
+                return;
+            } else {
+                $this->Message_AddNotice('Добавление прошло успешно', $this->Lang_Get('attention'), true);
+                Router::LocationAction("admin/users/contact-fields");
+            }
+        }
+    }
+
+    public function EventContactFieldsUpdate()
+    {
+        $this->SetTemplateAction('users/contact-fields.create');
+
+        $aFieldsAll = $this->User_GetUserFields(); // треш
+        foreach ($aFieldsAll as $oItem) {
+            if ($oItem->getId() == $this->GetParam(2)) {
+                $oField = $oItem;
+                break;
+            }
+        }
+        if (!$oField) {
+            return $this->EventNotFound();
+        }
+
+        if (getRequest('submit')) {
+            $this->Security_ValidateSendForm();
+
+            $oField = Engine::GetEntity('User_Field');
+            $oField->setId($this->GetParam(2));
+            $oField->setName(getRequestStr('name'));
+            $oField->setTitle(getRequestStr('title'));
+            $oField->setPattern(getRequestStr('pattern'));
+            if (in_array(getRequestStr('type'), $this->User_GetUserFieldTypes())) {
+                $oField->setType(getRequestStr('type'));
+            } else {
+                $oField->setType('');
+            }
+
+            if ($this->User_updateUserField($oField)) {
+                $this->Message_AddNotice('Обновление прошло успешно', $this->Lang_Get('attention'), true);
+                Router::LocationAction("admin/users/contact-fields");
+            } else {
+                $this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
+                return;
+            }
+        } else {
+            $_REQUEST = array_merge($_REQUEST, array(
+                'title'   => $oField->getTitle(),
+                'name'    => $oField->getName(),
+                'pattern' => $oField->getPattern(),
+                'type'    => $oField->getType(),
+            ));
+        }
+
+        $this->Viewer_Assign('oField', $oField);
+        $this->Viewer_Assign('aUserFieldTypes', $this->User_GetUserFieldTypes());
+    }
+
+    public function EventContactFieldsRemove()
+    {
+        $this->Security_ValidateSendForm();
+        $this->User_deleteUserField($this->GetParam(2));
+
+        $this->Message_AddNotice('Удаление прошло успешно', $this->Lang_Get('attention'), true);
+        Router::LocationAction("admin/users/contact-fields");
+    }
+
+
+    /**
+     * Проверка поля пользователя на корректность из реквеста
+     *
+     * @return bool
+     */
+    public function checkContactFields()
+    {
+        if (!getRequestStr('title')) {
+            $this->Message_AddError('Необходимо укзаать название');
+            return false;
+        }
+        if (!getRequestStr('name')) {
+            $this->Message_AddError('Необходимо указать имя');
+            return false;
+        }
+        /**
+         * Не допускаем дубликатов по имени
+         */
+        if ($this->User_UserFieldExistsByName(getRequestStr('name'), getRequestStr('id'))) {
+            $this->Message_AddError('Контакт с таким именем уже существует');
+            return false;
+        }
+        return true;
+    }
 }
-
-?>
