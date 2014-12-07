@@ -10,7 +10,7 @@
 	<settings>{admin/plugin/article}</settings>
 	<version>1.0.1</version>
 	<requires>
-		<livestreet>1.0</livestreet>
+		<livestreet>2.0.*</livestreet>
 		<plugins>
 		</plugins>
 	</requires>
