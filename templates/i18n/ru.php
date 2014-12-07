@@ -396,7 +396,6 @@ return array(
              */
             'rating_and_skill'   => 'Рейтинг и сила',
             'user_rating'        => 'Рейтинг',
-            'user_skill'         => 'Сила',
 
         ),
         'admin'             => 'Администратор',
@@ -533,7 +532,6 @@ return array(
          */
         'profile_edit'      => array(
             'rating'          => 'Рейтинг',
-            'skill'           => 'Сила',
             'password'        => 'Пароль',
             'about_user'      => 'О себе',
             'no_profile_name' => 'имя не указано',

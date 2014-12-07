@@ -75,7 +75,6 @@ $config['users']['correct_sorting_order'] = array(
     'u.user_date_register',
     'u.user_ip_register',
     'u.user_rating',
-    'u.user_skill',
     'u.user_profile_name',
     'u.user_profile_birthday',
     's.session_ip_create',

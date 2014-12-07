@@ -1505,18 +1505,6 @@ class PluginAdmin_ModuleUsers extends Module
 
 
     /**
-     * Сменить силу пользователя
-     *
-     * @param $oUser        объект пользователя
-     * @param $sNewValue    новое значение
-     */
-    protected function ChangeUserSkill($oUser, $sNewValue)
-    {
-        $this->ModifyUserData($oUser, array('user_skill' => $sNewValue));
-    }
-
-
-    /**
      * Сменить статус активированности пользователя
      *
      * @param $oUser        объект пользователя
@@ -1565,19 +1553,6 @@ class PluginAdmin_ModuleUsers extends Module
                     $bError = true;
                     $sErrorMsg = $this->Lang_Get('plugin.admin.errors.profile_edit.wrong_number');
                     $sReturnValue = $oUser->getRating();
-                }
-                break;
-            /*
-             * редактировать силу пользователя
-             */
-            case 'skill':
-                // todo: export in method
-                if ($this->Validate_Validate('number', $sValue, array('allowEmpty' => false, 'integerOnly' => false))) {
-                    $this->ChangeUserSkill($oUser, $sValue);
-                } else {
-                    $bError = true;
-                    $sErrorMsg = $this->Lang_Get('plugin.admin.errors.profile_edit.wrong_number');
-                    $sReturnValue = $oUser->getSkill();
                 }
                 break;
             /*

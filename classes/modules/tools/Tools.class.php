@@ -332,7 +332,7 @@ class PluginAdmin_ModuleTools extends Module
      * Удаляет лишние настройки конфигов из хранилища админки
      */
     public function ResetConfigSheme() {
-        
+
     }
 
 }

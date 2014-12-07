@@ -53,12 +53,6 @@
 					{* Инлайн редактирование поля *}
 					<span class="link-dotted js-profile-inline-edit-input highlight-profile-inline-edit" data-item-type="rating" data-item-id="{$oUser->getId()}">{$oUser->getRating()}</span>
 				</div>
-
-				<div class="edit-skill">
-					<i class="icon-rating" title="{$aLang.plugin.admin.users.profile_edit.skill}"></i>
-					{* Инлайн редактирование поля *}
-					<span class="link-dotted js-profile-inline-edit-input highlight-profile-inline-edit" data-item-type="skill" data-item-id="{$oUser->getId()}">{$oUser->getSkill()}</span>
-				</div>
 			</div>
 		</div>
 	</header>
@@ -73,8 +67,9 @@
 			<a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileFotoPath()}" alt="photo" class="photo" /></a>
 		</div>
 
+        {*
 		{include file="blocks/block.userNote.tpl" oUserProfile=$oUser oUserNote=$oUser->getUserNote()}
-
+        *}
 		<div class="block block-user-menu">
 			<ul class="user-menu">
 				<li class="user-menu-item"><a href="{$oUser->getUserWebPath()}" class="link-border"><span>{$aLang.plugin.admin.users.profile.middle_bar.profile}</span></a></li>

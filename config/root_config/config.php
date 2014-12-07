@@ -71,7 +71,6 @@ return array(
                 'allowed_keys' => array(
                     'module.blog.category_only_admin',
                     'acl.create.blog.rating',
-                    'acl.vote.blog.rating',
                 ),
             ),
             array(
@@ -173,7 +172,6 @@ return array(
             array(
                 'name'         => 'Права доступов',
                 'allowed_keys' => array(
-                    'acl.vote.user.rating',
                     'acl.create.talk.limit_time',
                     'acl.create.talk.limit_time_rating',
                     'acl.create.talk_comment.limit_time',
@@ -995,34 +993,10 @@ return array(
                 ),
             ),
         ),
-        'acl.vote.blog.rating'                       => array(
-            'type'        => 'integer',
-            'name'        => 'config_parameters.acl.vote.blog.rating.name',
-            'description' => 'config_parameters.acl.vote.blog.rating.description',
-            'validator'   => array(
-                'type'   => 'Number',
-                'params' => array(
-                    'integerOnly' => true,
-                    'allowEmpty'  => false,
-                ),
-            ),
-        ),
         'acl.vote.topic.rating'                      => array(
             'type'        => 'integer',
             'name'        => 'config_parameters.acl.vote.topic.rating.name',
             'description' => 'config_parameters.acl.vote.topic.rating.description',
-            'validator'   => array(
-                'type'   => 'Number',
-                'params' => array(
-                    'integerOnly' => true,
-                    'allowEmpty'  => false,
-                ),
-            ),
-        ),
-        'acl.vote.user.rating'                       => array(
-            'type'        => 'integer',
-            'name'        => 'config_parameters.acl.vote.user.rating.name',
-            'description' => 'config_parameters.acl.vote.user.rating.description',
             'validator'   => array(
                 'type'   => 'Number',
                 'params' => array(

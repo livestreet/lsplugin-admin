@@ -92,8 +92,8 @@
 				}
 				{include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
 					sCellClassName='rating'
-					mSortingOrder=array('u.user_rating', 'u.user_skill')
-					mLinkHtml=array($aLang.plugin.admin.users.table_header.user_rating, $aLang.plugin.admin.users.table_header.user_skill)
+					mSortingOrder=array('u.user_rating')
+					mLinkHtml=array($aLang.plugin.admin.users.table_header.user_rating)
 					sDropDownHtml=$aLang.plugin.admin.users.table_header.rating_and_skill
 					sBaseUrl=$sFullPagePathToEvent
 				}
@@ -202,9 +202,6 @@
 
 						<p class="user-rating {if $oUser->getRating() < 0}user-rating-negative{/if}" title="{$aLang.plugin.admin.users.table_header.user_rating}">
 							{$oUser->getRating()}
-						</p>
-						<p class="user-skill" title="{$aLang.plugin.admin.users.table_header.user_skill}">
-							{$oUser->getSkill()}
 						</p>
 					</td>
 				</tr>

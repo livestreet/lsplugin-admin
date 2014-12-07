@@ -172,22 +172,6 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL
 
 
     /**
-     * Проверяет может ли пользователь голосовать за конкретный блог
-     *
-     * @param ModuleUser_EntityUser $oUser
-     * @param ModuleBlog_EntityBlog $oBlog
-     * @return bool
-     */
-    public function CanVoteBlog($oUser, $oBlog)
-    {
-        return $this->CheckIfReadOnlyModeForCurrentUserIsSet(__FUNCTION__) ? false : call_user_func_array(array(
-                'parent',
-                __FUNCTION__
-            ), func_get_args());
-    }
-
-
-    /**
      * Проверяет может ли пользователь голосовать за конкретный топик
      *
      * @param ModuleUser_EntityUser $oUser
@@ -203,21 +187,6 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL
             ), func_get_args());
     }
 
-
-    /**
-     * Проверяет может ли пользователь голосовать за конкретного пользователя
-     *
-     * @param ModuleUser_EntityUser $oUser
-     * @param ModuleUser_EntityUser $oUserTarget
-     * @return bool
-     */
-    public function CanVoteUser($oUser, $oUserTarget)
-    {
-        return $this->CheckIfReadOnlyModeForCurrentUserIsSet(__FUNCTION__) ? false : call_user_func_array(array(
-                'parent',
-                __FUNCTION__
-            ), func_get_args());
-    }
 
 
     /**
