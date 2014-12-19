@@ -62,42 +62,6 @@ class PluginAdmin_ModuleStorage extends PluginAdmin_Inherits_ModuleStorage
         return parent::Set($sParamName, $mValue, $oCaller, $sInstance);
     }
 
-
-    /**
-     * Получить значение
-     *
-     * @param $sParamName    имя параметра
-     * @param $oCaller        контекст, вызывающий метод
-     * @param $sInstance    инстанция хранилища
-     * @return mixed
-     */
-    public function Get($sParamName, $oCaller = null, $sInstance = self::DEFAULT_INSTANCE)
-    {
-        $this->CheckParamName($sParamName);
-        return parent::Get($sParamName, $oCaller, $sInstance);
-    }
-
-
-    /*
-     * todo: inherit method GetAll
-     */
-
-
-    /**
-     * Удалить значение
-     *
-     * @param $sParamName    имя параметра
-     * @param $oCaller        контекст, вызывающий метод
-     * @param $sInstance    инстанция хранилища
-     * @return mixed
-     */
-    public function Remove($sParamName, $oCaller = null, $sInstance = self::DEFAULT_INSTANCE)
-    {
-        $this->CheckParamName($sParamName);
-        return parent::Remove($sParamName, $oCaller, $sInstance);
-    }
-
-
     /**
      * Удалить все значения
      *
