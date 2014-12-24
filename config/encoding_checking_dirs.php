@@ -112,12 +112,12 @@ $config['utils']['encoding_checking_dirs'] = array(
     /*
      * языковые файлы плагинов
      */
-    array('path' => Config::Get('path.application.server') . '/plugins/*/templates/i18n/', 'file_extensions' => 'php'),
+    array('path' => Config::Get('path.application.server') . '/plugins/*/frontend/i18n/', 'file_extensions' => 'php'),
     /*
      * файлы шаблонов плагинов
      */
     array(
-        'path'            => Config::Get('path.application.server') . '/plugins/*/templates/skin/',
+        'path'            => Config::Get('path.application.server') . '/plugins/*/frontend/skin/',
         'file_extensions' => array('tpl', 'js', 'css')
     ),
     /*

@@ -64,7 +64,7 @@ class PluginAdmin_ModuleTools extends Module
         $sPath = Plugin::GetPath($sNamePlugin);
         $aSkins = array('admin_default', 'default', Config::Get('view.skin'));
         foreach ($aSkins as $sSkin) {
-            $sTpl = $sPath . 'templates/skin/' . $sSkin . '/';
+            $sTpl = $sPath . 'frontend/skin/' . $sSkin . '/';
             if (is_dir($sTpl)) {
                 return $sTpl;
             }
