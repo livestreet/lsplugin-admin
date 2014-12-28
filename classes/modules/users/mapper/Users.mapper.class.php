@@ -34,7 +34,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper
      */
     public function GetUsersByFilter($aFilter, $sOrder, $iPage, $iPerPage)
     {
-        $sSql = "SELECT u.user_id
+        $sSql = "SELECT DISTINCT u.user_id
 			FROM
 				`" . Config::Get('db.table.user') . "` AS u
 			LEFT JOIN

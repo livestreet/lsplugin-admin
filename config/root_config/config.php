@@ -193,7 +193,6 @@ return array(
                 'name'         => 'Настройка Cookie',
                 'allowed_keys' => array(
                     'sys.cookie.path',
-                    'sys.cookie.time',
                 ),
             ),
             array(
@@ -782,17 +781,6 @@ return array(
                 'type'   => 'String',
                 'params' => array(
                     'min'        => 1,
-                    'allowEmpty' => false,
-                ),
-            ),
-        ),
-        'sys.cookie.time'                            => array(
-            'type'        => 'integer',
-            'name'        => 'config_parameters.sys.cookie.time.name',
-            'description' => 'config_parameters.sys.cookie.time.description',
-            'validator'   => array(
-                'type'   => 'Number',
-                'params' => array(
                     'allowEmpty' => false,
                 ),
             ),
