@@ -22,7 +22,7 @@
 				{/if}
 				<optgroup label="{$sTitleGroup}">
 					{foreach $aPermissionItemsGroup as $oPermissionItemGroup}
-						<option value="{$oPermissionItemGroup->getId()}">{$oPermissionItemGroup->getTitle()} ({$oPermissionItemGroup->getCode()})</option>
+						<option value="{$oPermissionItemGroup->getId()}">{$oPermissionItemGroup->getTitleLang()} ({$oPermissionItemGroup->getCode()})</option>
 					{/foreach}
 				</optgroup>
 			{/foreach}

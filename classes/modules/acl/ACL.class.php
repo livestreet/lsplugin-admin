@@ -300,21 +300,6 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL
 
 
     /**
-     * Проверяет может ли пользователь публиковать на главной
-     *
-     * @param ModuleUser_EntityUser $oUser
-     * @return bool
-     */
-    public function IsAllowPublishIndex(ModuleUser_EntityUser $oUser)
-    {
-        return $this->CheckIfReadOnlyModeForCurrentUserIsSet(__FUNCTION__) ? false : call_user_func_array(array(
-                'parent',
-                __FUNCTION__
-            ), func_get_args());
-    }
-
-
-    /**
      * Проверяет можно или нет пользователю редактировать данный блог
      *
      * @param $oBlog
