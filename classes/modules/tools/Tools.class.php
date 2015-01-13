@@ -309,6 +309,10 @@ class PluginAdmin_ModuleTools extends Module
     public function ResetAllLSCache()
     {
         /*
+         * Сбрасываем кеш данных
+         */
+        $this->Cache_Clean();
+        /*
          * выбрать все файлы и директории во временной директории движка, без учета самой директории
          * tip: файлы, начинающихся на точку (.htaccess) будут пропущены
          */
