@@ -65,6 +65,12 @@
 			bFieldChecked = $_aRequest.params.allow_tags
 			sFieldLabel = 'Разрешить стандартное поле с тегами'}
 
+		{* Возможность подключать выбор превью *}
+		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.checkbox.tpl"
+			sFieldName  = 'params[allow_preview]'
+			bFieldChecked = $_aRequest.params.allow_preview
+			sFieldLabel = 'Разрешить добавлять превью изображение'}
+
 		{* Кнопки *}
 		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.button.tpl"
 			sFieldName  = 'type_submit'

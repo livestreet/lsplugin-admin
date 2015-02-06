@@ -169,11 +169,11 @@
 							{* Системные сообщения *}
 								{if ! $bNoSystemMessages}
 									{if $aMsgError}
-										{include 'components/alert/alert.tpl' mods='error' text=$aMsgError close=true}
+										{include "{$aTemplatePathPlugin.admin}alert.tpl" sAlertStyle='error' mAlerts=$aMsgError close=true}
 									{/if}
 
 									{if $aMsgNotice}
-										{include 'components/alert/alert.tpl' text=$aMsgNotice close=true}
+										{include "{$aTemplatePathPlugin.admin}alert.tpl" mAlerts=$aMsgNotice bAlertClose=true}
 									{/if}
 								{/if}
 

@@ -30,20 +30,20 @@ jQuery(document).ready(function($) {
 	/**
 	 * Popovers
 	 */
-	$('.js-popover-default').tooltip({
+	$('.js-popover-default').lsTooltip({
 		useAttrTitle: false,
 		trigger: 'click',
 		classes: 'tooltip-light'
 	});
 
-	$('[data-type=tab]').tab();
+	$('[data-type=tab]').lsTab();
 	
-	$('.js-alert').alert();
+	$('.js-alert').lsAlert();
 
 	/**
 	 * Modals
 	 */
-	$('.js-modal-default').modal();
+	$('.js-modal-default').lsModal();
 
 
 	/**
@@ -123,13 +123,18 @@ jQuery(document).ready(function($) {
 	/**
 	 * Tooltips
 	 */
-	$('.js-tooltip').tooltip();
+	$('.js-tooltip').lsTooltip();
 
 
 	/**
 	 * Autocomplete
 	 */
-	ls.autocomplete.add($(".autocomplete-users"), aRouter['ajax']+'autocompleter/user/', false);
+	$( '.autocomplete-users' ).lsAutocomplete({
+		multiple: false,
+		urls: {
+			load: aRouter.ajax + 'autocompleter/user/'
+		}
+	});
 
 
 	/**
@@ -141,7 +146,7 @@ jQuery(document).ready(function($) {
 	/**
 	 * Code highlight
 	 */
-	prettyPrint();
+	$( 'pre code' ).lsHighlighter();
 
 	/**
 	 * вопрос при активации элементов интерфейса
