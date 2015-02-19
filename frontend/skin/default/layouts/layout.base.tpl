@@ -113,7 +113,7 @@
 						<a href="{router page="admin/users/profile/{$oUserCurrent->getId()}"}">Мой профиль</a>	{* todo: add lang *}
 					</li>
 					<li>
-						<a href="{router page='login/exit'}?security_ls_key={$LIVESTREET_SECURITY_KEY}">Выйти</a>
+						<a href="{router page='auth/logout'}?security_ls_key={$LIVESTREET_SECURITY_KEY}">Выйти</a>
 					</li>
 				</ul>
 			</header>

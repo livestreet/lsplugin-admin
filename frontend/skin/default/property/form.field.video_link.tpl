@@ -7,5 +7,12 @@
 		 sFieldNote = $oProperty->getDescription()
 		 sFieldLabel   = $oProperty->getTitle()}
 
-{include file="{$aTemplatePathPlugin.admin}modals/modal.property_type_video.tpl" oValue=$oValue}
+
+{component 'admin:modal'
+	title   = {lang 'property.video.preview'}
+	content = $oValue->getValueTypeObject()->getVideoCodeFrame()
+	classes = 'js-modal-default'
+	mods    = 'property property-video'
+	id      = "modal-property-type-video-{$oValue->getId()}"}
+
 <p class="mb-20"><a href="#" class="link-dotted" data-modal-target="modal-property-type-video-{$oValue->getId()}">Смотреть</a></p>
