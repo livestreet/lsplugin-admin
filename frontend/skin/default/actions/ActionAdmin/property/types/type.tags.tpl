@@ -6,7 +6,13 @@
 		 sFieldLabel   = 'Обязательно к заполнению'}
 
 {include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
-		 sFieldName    = 'validate[count]'
+		 sFieldName    = 'validate[countMax]'
 		 sFieldClasses = 'width-150'
-		 sFieldValue   = $oPropertyValidateRules.count
+		 sFieldValue   = $oPropertyValidateRules.countMax
 		 sFieldLabel   = 'Максимальное количество тегов'}
+
+{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
+		sFieldName    = 'validate[countMin]'
+		sFieldClasses = 'width-150'
+		sFieldValue   = $oPropertyValidateRules.countMin
+		sFieldLabel   = 'Минимальное количество тегов'}
