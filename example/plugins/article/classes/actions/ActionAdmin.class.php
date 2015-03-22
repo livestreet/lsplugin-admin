@@ -111,7 +111,7 @@ class PluginArticle_ActionAdmin extends PluginAdmin_ActionPlugin
          * Проверяем статью на существование
          */
         if (!($oArticle = $this->PluginArticle_Main_GetArticleById($this->GetParam(0)))) {
-            $this->Message_AddErrorSingle('Не удалось найти статью', $this->Lang_Get('error'));
+            $this->Message_AddErrorSingle('Не удалось найти статью', $this->Lang_Get('common.error.error'));
             return $this->EventError();
         }
         /**

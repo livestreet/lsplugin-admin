@@ -32,5 +32,5 @@
 		</tbody>
 	</table>
 {else}
-	{include file="components/alert/alert.tpl" text="Список статей пуст"}
+	{component 'alert' text='Список статей пуст'}
 {/if}

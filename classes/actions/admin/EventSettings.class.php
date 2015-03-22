@@ -39,7 +39,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event
          * корректно ли имя конфига
          */
         if (!$sConfigName = $this->getParam(1) or !is_string($sConfigName)) {
-            $this->Message_AddError($this->Lang_Get('plugin.admin.errors.wrong_config_name'), $this->Lang_Get('error'));
+            $this->Message_AddError($this->Lang_Get('plugin.admin.errors.wrong_config_name'), $this->Lang_Get('common.error.error'));
             return false;
         }
         /*
@@ -47,7 +47,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event
          */
         if (!$this->PluginAdmin_Settings_CheckPluginCodeIsActive($sConfigName)) {
             $this->Message_AddError($this->Lang_Get('plugin.admin.errors.plugin_need_to_be_activated'),
-                $this->Lang_Get('error'));
+                $this->Lang_Get('common.error.error'));
             return false;
         }
         /*
@@ -108,7 +108,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event
             }
         } else {
             $this->Message_AddError($this->Lang_Get('plugin.admin.errors.request_was_not_sent'),
-                $this->Lang_Get('error'));
+                $this->Lang_Get('common.error.error'));
         }
         /*
          * если это обычный запрос - сделать редирект
@@ -136,7 +136,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event
          * корректно ли имя конфига
          */
         if (!$sConfigName = $this->getParam(1) or !is_string($sConfigName)) {
-            $this->Message_AddError($this->Lang_Get('plugin.admin.errors.wrong_config_name'), $this->Lang_Get('error'));
+            $this->Message_AddError($this->Lang_Get('plugin.admin.errors.wrong_config_name'), $this->Lang_Get('common.error.error'));
             return false;
         }
         /*
@@ -144,7 +144,7 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event
          */
         if ($sConfigName != ModuleStorage::DEFAULT_KEY_NAME and !$this->PluginAdmin_Settings_CheckPluginCodeIsActive($sConfigName)) {
             $this->Message_AddError($this->Lang_Get('plugin.admin.errors.plugin_need_to_be_activated'),
-                $this->Lang_Get('error'));
+                $this->Lang_Get('common.error.error'));
             return false;
         }
         /*
@@ -284,15 +284,15 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event
             $oType->setDateCreate(date("Y-m-d H:i:s"));
             if ($oType->_Validate()) {
                 if ($this->Topic_AddTopicType($oType)) {
-                    $this->Message_AddNotice('Добавление прошло успешно', $this->Lang_Get('attention'),
+                    $this->Message_AddNotice('Добавление прошло успешно', $this->Lang_Get('common.attention'),
                         true);// todo: add lang
                     Router::LocationAction('admin/settings/topic-type');
                 } else {
                     $this->Message_AddError('Возникла ошибка при добавлении',
-                        $this->Lang_Get('error'));// todo: add lang
+                        $this->Lang_Get('common.error.error'));// todo: add lang
                 }
             } else {
-                $this->Message_AddError($oType->_getValidateError(), $this->Lang_Get('error'));
+                $this->Message_AddError($oType->_getValidateError(), $this->Lang_Get('common.error.error'));
             }
         }
     }
@@ -326,15 +326,15 @@ class PluginAdmin_ActionAdmin_EventSettings extends Event
                          */
                         $this->Topic_UpdateTopicByType($sCodeOld, $oType->getCode());
                     }
-                    $this->Message_AddNotice('Обновление прошло успешно', $this->Lang_Get('attention'),
+                    $this->Message_AddNotice('Обновление прошло успешно', $this->Lang_Get('common.attention'),
                         true);// todo: add lang
                     Router::LocationAction('admin/settings/topic-type');
                 } else {
                     $this->Message_AddError('Возникла ошибка при обновлении',
-                        $this->Lang_Get('error'));// todo: add lang
+                        $this->Lang_Get('common.error.error'));// todo: add lang
                 }
             } else {
-                $this->Message_AddError($oType->_getValidateError(), $this->Lang_Get('error'));
+                $this->Message_AddError($oType->_getValidateError(), $this->Lang_Get('common.error.error'));
             }
         } else {
             $_REQUEST['type']['name'] = htmlspecialchars_decode($oType->getName());

@@ -367,7 +367,7 @@ class PluginAdmin_ModulePlugins extends Module
                     $sMsg = $this->Lang_Get('plugin.admin.errors.plugins.plugin_code_is_wrong',
                         array('code' => $sPluginCode));
                 }
-                $this->Message_AddErrorUnique($sMsg, $this->Lang_Get('error'));
+                $this->Message_AddErrorUnique($sMsg, $this->Lang_Get('common.error.error'));
             }
             return false;
         }
@@ -396,7 +396,7 @@ class PluginAdmin_ModulePlugins extends Module
              */
             if ($bShowErrorMessages) {
                 $this->Message_AddErrorUnique($this->Lang_Get('plugin.admin.errors.plugins.wrong_xml_file',
-                        array('code' => $sPluginCode)), $this->Lang_Get('error'));
+                        array('code' => $sPluginCode)), $this->Lang_Get('common.error.error'));
             }
             return false;
         }

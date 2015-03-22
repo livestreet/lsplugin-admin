@@ -184,15 +184,15 @@ class PluginAdmin_ActionAdmin_EventProperty extends Event
                             }
                         }
                     }
-                    $this->Message_AddNotice('Обновление прошло успешно', $this->Lang_Get('attention'),
+                    $this->Message_AddNotice('Обновление прошло успешно', $this->Lang_Get('common.attention'),
                         true);// todo: add lang
                     Router::Location($oProperty->getUrlAdminUpdate());
                 } else {
                     $this->Message_AddError('Возникла ошибка при обновлении',
-                        $this->Lang_Get('error'));// todo: add lang
+                        $this->Lang_Get('common.error.error'));// todo: add lang
                 }
             } else {
-                $this->Message_AddError($oProperty->_getValidateError(), $this->Lang_Get('error'));
+                $this->Message_AddError($oProperty->_getValidateError(), $this->Lang_Get('common.error.error'));
             }
         }
 
@@ -218,15 +218,15 @@ class PluginAdmin_ActionAdmin_EventProperty extends Event
             $oProperty->setTargetType($sTargetType);
             if ($oProperty->_Validate()) {
                 if ($oProperty->Add()) {
-                    $this->Message_AddNotice('Добавление прошло успешно', $this->Lang_Get('attention'),
+                    $this->Message_AddNotice('Добавление прошло успешно', $this->Lang_Get('common.attention'),
                         true);// todo: add lang
                     Router::Location($oProperty->getUrlAdminUpdate());
                 } else {
                     $this->Message_AddError('Возникла ошибка при добавлении',
-                        $this->Lang_Get('error'));// todo: add lang
+                        $this->Lang_Get('common.error.error'));// todo: add lang
                 }
             } else {
-                $this->Message_AddError($oProperty->_getValidateError(), $this->Lang_Get('error'));
+                $this->Message_AddError($oProperty->_getValidateError(), $this->Lang_Get('common.error.error'));
             }
         }
         $this->Viewer_Assign('sPropertyTargetType', $sTargetType);

@@ -42,7 +42,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin
          * проверка авторизации админа
          */
         if (!$this->oUserCurrent = $this->User_GetIsAdmin(true)) {
-            $this->Message_AddError($this->Lang('errors.you_are_not_admin'), $this->Lang_Get('error'));
+            $this->Message_AddError($this->Lang('errors.you_are_not_admin'), $this->Lang_Get('common.error.error'));
             return Router::Action('error');
         }
 
@@ -664,7 +664,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin
                 header("{$sProtocol} {$aHttpError['header']}");
             }
         }
-        $this->Viewer_AddHtmlTitle($this->Lang_Get('error'));
+        $this->Viewer_AddHtmlTitle($this->Lang_Get('common.error.error'));
         $this->SetTemplateAction('error');
     }
 

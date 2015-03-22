@@ -61,12 +61,12 @@ class PluginArticle_ActionAdmin_EventAjax extends Event
              */
             if ($oArticle->Add()) {
                 $this->Viewer_AssignAjax('sUrlRedirect', $this->oAdminUrl->get(null, 'article'));
-                $this->Message_AddNotice('Добавление прошло успешно', $this->Lang_Get('attention'));
+                $this->Message_AddNotice('Добавление прошло успешно', $this->Lang_Get('common.attention'));
             } else {
-                $this->Message_AddError('Возникла ошибка при добавлении', $this->Lang_Get('error'));
+                $this->Message_AddError('Возникла ошибка при добавлении', $this->Lang_Get('common.error.error'));
             }
         } else {
-            $this->Message_AddError($oArticle->_getValidateError(), $this->Lang_Get('error'));
+            $this->Message_AddError($oArticle->_getValidateError(), $this->Lang_Get('common.error.error'));
         }
     }
 
@@ -83,7 +83,7 @@ class PluginArticle_ActionAdmin_EventAjax extends Event
          * Проверяем статью на существование
          */
         if (!(isset($aArticleRequest['id']) and $oArticle = $this->PluginArticle_Main_GetArticleById($aArticleRequest['id']))) {
-            $this->Message_AddErrorSingle('Не удалось найти статью', $this->Lang_Get('error'));
+            $this->Message_AddErrorSingle('Не удалось найти статью', $this->Lang_Get('common.error.error'));
             return;
         }
         /**
@@ -101,13 +101,13 @@ class PluginArticle_ActionAdmin_EventAjax extends Event
              * Обновляем статью
              */
             if ($oArticle->Update()) {
-                $this->Message_AddNotice('Обновление прошло успешно', $this->Lang_Get('attention'));
+                $this->Message_AddNotice('Обновление прошло успешно', $this->Lang_Get('common.attention'));
                 $this->Viewer_AssignAjax('bReloadPage', true);
             } else {
-                $this->Message_AddError('Возникла ошибка при обновлении', $this->Lang_Get('error'));
+                $this->Message_AddError('Возникла ошибка при обновлении', $this->Lang_Get('common.error.error'));
             }
         } else {
-            $this->Message_AddError($oArticle->_getValidateError(), $this->Lang_Get('error'));
+            $this->Message_AddError($oArticle->_getValidateError(), $this->Lang_Get('common.error.error'));
         }
     }
 
@@ -120,7 +120,7 @@ class PluginArticle_ActionAdmin_EventAjax extends Event
          * Проверяем статью на существование
          */
         if (!($oArticle = $this->PluginArticle_Main_GetArticleById(getRequestStr('id')))) {
-            $this->Message_AddErrorSingle('Не удалось найти статью', $this->Lang_Get('error'));
+            $this->Message_AddErrorSingle('Не удалось найти статью', $this->Lang_Get('common.error.error'));
             return;
         }
         /**

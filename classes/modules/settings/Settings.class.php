@@ -490,7 +490,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage
              */
             if (($mValue = $this->GetConfigKeyValue($sConfigName, $sConfigKey)) === null) {
                 $this->Message_AddError($this->Lang_Get('plugin.admin.errors.wrong_description_key',
-                    array('key' => $sConfigKey)), $this->Lang_Get('error'));
+                    array('key' => $sConfigKey)), $this->Lang_Get('common.error.error'));
                 continue;
             }
 

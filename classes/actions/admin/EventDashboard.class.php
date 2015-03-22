@@ -186,7 +186,7 @@ class PluginAdmin_ActionAdmin_EventDashboard extends Event
          * получить фильтр со списком событий, которые нужно показать
          */
         if (!$aFilterData = $this->GetDataFromFilter()) {
-            $this->Message_AddError($this->Lang('errors.index.empty_activity_filter'), $this->Lang_Get('error'));
+            $this->Message_AddError($this->Lang('errors.index.empty_activity_filter'), $this->Lang_Get('common.error.error'));
             return false;
         }
         /*
@@ -194,7 +194,7 @@ class PluginAdmin_ActionAdmin_EventDashboard extends Event
          */
         $iFromId = null;
         if ($bUseFromIdValue and !$iFromId = getRequestStr('iLastId')) {
-            $this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
+            $this->Message_AddError($this->Lang_Get('common.error.system.base'), $this->Lang_Get('common.error.error'));
             return false;
         }
         /*

@@ -394,14 +394,14 @@ class PluginAdmin_ModuleStats extends Module
              */
             if (!$this->ValidateStartAndFinishGraphDates($sDateStart, $sDateFinish)) {
                 $this->Message_AddError($this->Lang_Get('plugin.admin.errors.stats.wrong_dates'),
-                    $this->Lang_Get('error'));
+                    $this->Lang_Get('common.error.error'));
             } else {
                 /*
                  * проверить чтобы дата начала была меньше чем дата конца
                  */
                 if (strtotime($sDateStart) > strtotime($sDateFinish)) {
                     $this->Message_AddError($this->Lang_Get('plugin.admin.errors.stats.wrong_date_range'),
-                        $this->Lang_Get('error'));
+                        $this->Lang_Get('common.error.error'));
                 } else {
                     /*
                      * построить данные о периоде
