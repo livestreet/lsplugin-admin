@@ -6,8 +6,9 @@
 
 	{if $aArticleItems}
 		{include file="{$aTemplatePathPlugin.article}article.list.tpl" aArticleItems=$aArticleItems}
-		{include 'components/pagination/pagination.tpl' aPaging=$aPaging}
+
+		{component 'pagination' total=+$aPaging.iCountPage current=+$aPaging.iCurrentPage url="{$aPaging.sBaseUrl}/page__page__/{$aPaging.sGetParams}"}
 	{else}
-		{include 'components/alert/alert.tpl' mAlerts='В данной категории нет статей' aMods='empty'}
+		{component 'alert' text='В данной категории нет статей'}
 	{/if}
 {/block}

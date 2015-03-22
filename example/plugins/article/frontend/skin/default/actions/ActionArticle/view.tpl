@@ -5,7 +5,7 @@
 {extends file='layouts/layout.base.tpl'}
 
 {block name='layout_options'}
-	{$bNoSidebar = true}
+	{$layoutNoSidebar = true}
 {/block}
 
 {block name='layout_page_title'}
@@ -17,7 +17,7 @@
 
 	{$aProperties = $oArticle->property->getPropertyList()}
 
-	{include 'property/render.list.tpl' aPropertyItems=$aProperties}
+	{component 'property' template='output.list' properties=$aProperties}
 
 	<br/>
 	<br/>

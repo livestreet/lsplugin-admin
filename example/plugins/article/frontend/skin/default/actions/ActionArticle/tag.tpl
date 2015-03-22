@@ -10,8 +10,9 @@
 
 	{if $aArticleItems}
 		{include file=$aTemplatePathPlugin.article|cat:'article.list.tpl' aArticleItems=$aArticleItems}
-		{include 'components/pagination/pagination.tpl' aPaging=$aPaging}
+
+		{component 'pagination' total=+$aPaging.iCountPage current=+$aPaging.iCurrentPage url="{$aPaging.sBaseUrl}/page__page__/{$aPaging.sGetParams}"}
 	{else}
-		{include 'components/alert/alert.tpl' mAlerts='Ничего не удалось найти' aMods='empty'}
+		{component 'alert' text='Ничего не удалось найти'}
 	{/if}
 {/block}
