@@ -37,7 +37,7 @@ return array(
             'groups' => array(),
         ),
         'blog'   => array(
-            'name'   => 'Блоги',
+            'name'   => 'Блоги и топики',
             'groups' => array(),
         ),
         'user'   => array(
@@ -460,7 +460,7 @@ return array(
             'topic'    => array(
                 'new_time'          => array(
                     'name'        => 'Время в секундах в течении которого топик считается новым',
-                    'description' => 'Модуль Topic',
+                    'description' => '',
                 ),
                 'per_page'          => array(
                     'name'        => 'Число топиков на одну страницу',
@@ -493,6 +493,25 @@ return array(
                 'allow_empty_tags'  => array(
                     'name'        => 'Разрешать или нет не заполнять теги',
                     'description' => '',
+                ),
+                'url'  => array(
+                    'name'        => 'Настройка ЧПУ урлов топиков',
+                    'description' => '
+                        Допустимы шаблоны:<br/>
+                        %year% - год топика (2010)<br/>
+                        %month% - месяц (08)<br/>
+                        %day% - день (24)<br/>
+                        %hour% - час (17)<br/>
+                        %minute% - минуты (06)<br/>
+                        %second% - секунды (54)<br/>
+                        %login% - логин автора топика (admin)<br/>
+                        %blog% - url основного блога (report), если топик без блога, то этот параметр заменится на логин автора топика<br/>
+                        %id% - id топика (325)<br/>
+                        %title% - заголовок топика в транслите (moy_topic)<br/>
+                        %type% - тип топика (news)<br/>
+                        <br/>
+                        В шаблоне обязательно должен быть %id% или %title%, это необходимо для точной идентификации топика
+                    ',
                 ),
             ),
             'user'     => array(

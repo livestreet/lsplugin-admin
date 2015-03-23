@@ -76,6 +76,7 @@ return array(
             array(
                 'name'         => 'Топики',
                 'allowed_keys' => array(
+                    'module.topic.url',
                     'module.topic.new_time',
                     'module.topic.per_page',
                     'module.topic.max_length',
@@ -1193,7 +1194,7 @@ return array(
             ),
         ),
         'module.topic.allow_empty'                   => array(
-            'type'        => 'integer',
+            'type'        => 'boolean',
             'name'        => 'config_parameters.module.topic.allow_empty.name',
             'description' => 'config_parameters.module.topic.allow_empty.description',
             'validator'   => array(
@@ -1220,7 +1221,7 @@ return array(
             ),
         ),
         'module.topic.title_allow_empty'             => array(
-            'type'        => 'integer',
+            'type'        => 'boolean',
             'name'        => 'config_parameters.module.topic.title_allow_empty.name',
             'description' => 'config_parameters.module.topic.title_allow_empty.description',
             'validator'   => array(
@@ -1235,6 +1236,17 @@ return array(
             'validator'   => array(
                 'type'   => 'Boolean',
                 'params' => array(),
+            ),
+        ),
+        'module.topic.url'                        => array(
+            'type'        => 'string',
+            'name'        => 'config_parameters.module.topic.url.name',
+            'description' => 'config_parameters.module.topic.url.description',
+            'validator'   => array(
+                'type'   => 'String',
+                'params' => array(
+                    'allowEmpty' => false,
+                ),
             ),
         ),
         'module.user.per_page'                       => array(
