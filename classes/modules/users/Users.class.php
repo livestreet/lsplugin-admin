@@ -1053,6 +1053,7 @@ class PluginAdmin_ModuleUsers extends Module
          * удалить записи про инвайты: кем был приглашен этот пользователь
          */
         $this->PluginAdmin_Deletecontent_DeleteUserInviteTo($oUser);
+        $this->PluginAdmin_Deletecontent_DeleteUserInviteCode($oUser);
 
         /*
          * удалить записи рассылки уведомлений
