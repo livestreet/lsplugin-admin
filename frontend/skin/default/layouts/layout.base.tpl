@@ -102,20 +102,13 @@
 				</div>
 
 				{* Юзербар *}
-				<div class="userbar dropdown-toggle js-dropdown-userbar" data-dropdown-target="dropdown-menu-userbar">
-					<img src="{$oUserCurrent->getProfileAvatarPath(48)}" alt="Avatar" class="userbar-avatar" />
-					
-					<div class="userbar-login">{$oUserCurrent->getLogin()}</div>
-				</div>
-
-				<ul class="nav nav--stacked nav--dropdown dropdown-menu" id="dropdown-menu-userbar">
-					<li>
-						<a href="{router page="admin/users/profile/{$oUserCurrent->getId()}"}">Мой профиль</a>	{* todo: add lang *}
-					</li>
-					<li>
-						<a href="{router page='auth/logout'}?security_ls_key={$LIVESTREET_SECURITY_KEY}">Выйти</a>
-					</li>
-				</ul>
+				{component 'dropdown'
+					text="<img src=\"{$oUserCurrent->getProfileAvatarPath(48)}\" alt=\"Avatar\" class=\"userbar-avatar\" />{$oUserCurrent->getLogin()}"
+					classes='admin-userbar js-dropdown-userbar'
+					menu=[
+						[ 'text' => 'Мой профиль', 'url' => {router page="admin/users/profile/{$oUserCurrent->getId()}"} ],
+						[ 'text' => 'Выйти', 'url' => "{router page='auth/logout'}?security_ls_key={$LIVESTREET_SECURITY_KEY}" ]
+					]}
 			</header>
 
 

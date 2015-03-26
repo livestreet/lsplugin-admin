@@ -101,7 +101,7 @@ jQuery(document).ready(function($) {
 	/* Юзербар */
 	$('.js-dropdown-userbar').lsDropdown({
 	    position: {
-	        my: "right top",
+	        my: "right top+10",
 	        at: "right bottom",
 	        collision: "flipfit flip"
 		},
