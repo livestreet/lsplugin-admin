@@ -18,173 +18,185 @@
  *
  */
 
-jQuery(document).ready(function($) {
+jQuery(document).ready(function ($) {
 
-	/**
-	 * Иниц-ия модулей ядра
-	 */
-	ls.init({
-		production: false
-	});
+    /**
+     * Иниц-ия модулей ядра
+     */
+    ls.init({
+        production: false
+    });
 
-	/**
-	 * Popovers
-	 */
-	$('.js-popover-default').lsTooltip({
-		useAttrTitle: false,
-		trigger: 'click',
-		classes: 'tooltip-light'
-	});
+    /**
+     * Popovers
+     */
+    $('.js-popover-default').lsTooltip({
+        useAttrTitle: false,
+        trigger: 'click',
+        classes: 'tooltip-light'
+    });
 
-	$('[data-type=tab]').lsTab();
-	
-	$('.js-alert').lsAlert();
+    $('[data-type=tab]').lsTab();
 
-	/**
-	 * Modals
-	 */
-	$('.js-modal-default').lsModal();
+    $('.js-alert').lsAlert();
 
-
-	/**
-	 * Datepicker
-	 */
-	$('.date-picker').datepicker();
+    /**
+     * Modals
+     */
+    $('.js-modal-default').lsModal();
 
 
-	/**
-	 * Datepicker with php date format
-	 */
-	$('.date-picker-php').datepicker({
-		/*
-		 	формат даты изменен для удобства работы с ней на стороне php
-		 */
-		dateFormat: 'yy-mm-dd'
-	});
+    /**
+     * Datepicker
+     */
+    $('.date-picker').datepicker();
 
 
-	/**
-	 * Dropdowns
-	 */
-	$('.js-dropdown').lsDropdown({
-	    position: {
-	        my: "right+10 top+10",
-	        at: "right bottom",
-	        collision: "flipfit flip"
-		},
-		body: true,
-		show: {
-			effect: 'fadeIn'
-		},
-		hide: {
-			effect: 'fadeOut'
-		}
-	});
-	/*
-		используется для списка сортировок столбца таблицы
-	 */
-	$('.js-dropdown-left-bottom').lsDropdown({
-		position: {
-			my: "left-10 top+10",
-			at: "left bottom",
-			collision: "flipfit flip"
-		},
-		body: true,
-		show: {
-			effect: 'fadeIn'
-		},
-		hide: {
-			effect: 'fadeOut'
-		}
-	});
+    /**
+     * Datepicker with php date format
+     */
+    $('.date-picker-php').datepicker({
+        /*
+         формат даты изменен для удобства работы с ней на стороне php
+         */
+        dateFormat: 'yy-mm-dd'
+    });
 
-	/* Юзербар */
-	$('.js-dropdown-userbar').lsDropdown({
-	    position: {
-	        my: "right top+10",
-	        at: "right bottom",
-	        collision: "flipfit flip"
-		},
-		body: true,
-		beforeshow: function (e, dropdown) {
-			// Задаем минимальную ширину меню
-			var toggleWidth = dropdown.element.outerWidth();
-			dropdown.getMenu().css('width', toggleWidth > 200 ? toggleWidth : 'auto' );
-		},
-		show: {
-			effect: 'fadeIn'
-		},
-		hide: {
-			effect: 'fadeOut'
-		}
-	});
+    /**
+     * Fields
+     */
+    $('.js-field-geo-default').lsFieldGeo({
+        urls: {
+            regions: aRouter.ajax + 'geo/get/regions/',
+            cities: aRouter.ajax + 'geo/get/cities/'
+        }
+    });
 
+    /**
+     * Dropdowns
+     */
+    $('.js-dropdown').lsDropdown({
+        position: {
+            my: "right+10 top+10",
+            at: "right bottom",
+            collision: "flipfit flip"
+        },
+        body: true,
+        show: {
+            effect: 'fadeIn'
+        },
+        hide: {
+            effect: 'fadeOut'
+        }
+    });
+    /*
+     используется для списка сортировок столбца таблицы
+     */
+    $('.js-dropdown-left-bottom').lsDropdown({
+        position: {
+            my: "left-10 top+10",
+            at: "left bottom",
+            collision: "flipfit flip"
+        },
+        body: true,
+        show: {
+            effect: 'fadeIn'
+        },
+        hide: {
+            effect: 'fadeOut'
+        }
+    });
 
-	/**
-	 * Tooltips
-	 */
-	$('.js-tooltip').lsTooltip();
-
-
-	/**
-	 * Autocomplete
-	 */
-	$( '.autocomplete-users' ).lsAutocomplete({
-		multiple: false,
-		urls: {
-			load: aRouter.ajax + 'autocompleter/user/'
-		}
-	});
-
-
-	/**
-	 * Scroll
-	 */
-	$(window)._scrollable();
+    /* Юзербар */
+    $('.js-dropdown-userbar').lsDropdown({
+        position: {
+            my: "right top+10",
+            at: "right bottom",
+            collision: "flipfit flip"
+        },
+        body: true,
+        beforeshow: function (e, dropdown) {
+            // Задаем минимальную ширину меню
+            var toggleWidth = dropdown.element.outerWidth();
+            dropdown.getMenu().css('width', toggleWidth > 200 ? toggleWidth : 'auto');
+        },
+        show: {
+            effect: 'fadeIn'
+        },
+        hide: {
+            effect: 'fadeOut'
+        }
+    });
 
 
-	/**
-	 * Code highlight
-	 */
-	$( 'pre code' ).lsHighlighter();
-
-	/**
-	 * вопрос при активации элементов интерфейса
-	 */
-	$ ('.js-question').bind ('click.admin', function() {
-		var sMsg = $ (this).attr ('data-question-title') ? $ (this).attr ('data-question-title') : $ (this).attr ('title') + '?';
-		sMsg = sMsg ? sMsg : 'Ok?';
-		if (!confirm (sMsg)) return false;
-	});
-
-	/**
-	 * Custom checkboxes and radios
-	 */
-	$('input').iCheck({
-		labelHover: false,
-		cursor: true,
-		checkboxClass: 'icheckbox_minimal',
-		radioClass: 'iradio_minimal'
-	});
-
-	/* Выделение всех чексбоксов */
-	$('.js-check-all').on('ifChanged', function () {
-		var checkAll = $(this);
-		var checkboxes = $( '.' + checkAll.data('checkboxes-class') );
-
-		if ( checkAll.is(':checked') ) checkboxes.iCheck('check'); else checkboxes.iCheck('uncheck');
-	});
+    /**
+     * Tooltips
+     */
+    $('.js-tooltip').lsTooltip();
 
 
-	/**
-	 * Main navigation
-	 */
-	ls.plugin.admin.navMain.init();
+    /**
+     * Autocomplete
+     */
+    $('.autocomplete-users').lsAutocomplete({
+        multiple: false,
+        urls: {
+            load: aRouter.ajax + 'autocompleter/user/'
+        }
+    });
 
-	/**
-	 * Механизм заметок для пользователей
-	 */
-	$('.js-user-note').livequery(function () {
-		$(this).usernote();
-	});
+
+    /**
+     * Scroll
+     */
+    $(window)._scrollable();
+
+
+    /**
+     * Code highlight
+     */
+    $('pre code').lsHighlighter();
+
+    /**
+     * вопрос при активации элементов интерфейса
+     */
+    $('.js-question').bind('click.admin', function () {
+        var sMsg = $(this).attr('data-question-title');
+        if (!sMsg && $(this).attr('title')) {
+            sMsg = $(this).attr('title') + '?';
+        }
+        sMsg = sMsg ? sMsg : 'Ok?';
+        if (!confirm(sMsg)) return false;
+    });
+
+    /**
+     * Custom checkboxes and radios
+     */
+    $('input').iCheck({
+        labelHover: false,
+        cursor: true,
+        checkboxClass: 'icheckbox_minimal',
+        radioClass: 'iradio_minimal'
+    });
+
+    /* Выделение всех чексбоксов */
+    $('.js-check-all').on('ifChanged', function () {
+        var checkAll = $(this);
+        var checkboxes = $('.' + checkAll.data('checkboxes-class'));
+
+        if (checkAll.is(':checked')) checkboxes.iCheck('check'); else checkboxes.iCheck('uncheck');
+    });
+
+
+    /**
+     * Main navigation
+     */
+    ls.plugin.admin.navMain.init();
+
+    /**
+     * Механизм заметок для пользователей
+     */
+    $('.js-user-note').livequery(function () {
+        $(this).usernote();
+    });
 });

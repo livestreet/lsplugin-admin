@@ -2,112 +2,116 @@
 
 {block name='layout_options'}{/block}
 
-<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="ru"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="ru"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="ru"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="ru"> <!--<![endif]-->
+<!--[if lt IE 7]>
+<html class="no-js ie6 oldie" lang="ru"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js ie7 oldie" lang="ru"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js ie8 oldie" lang="ru"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="ru"> <!--<![endif]-->
 
 <head>
-	{* {hook run='html_head_begin'} *}
-	{block name='layout_head_begin'}{/block}
+    {* {hook run='html_head_begin'} *}
+    {block name='layout_head_begin'}{/block}
 
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-	<meta name="description" content="{block name='layout_description'}{$sHtmlDescription}{/block}">
-	<meta name="keywords" content="{block name='layout_keywords'}{$sHtmlKeywords}{/block}">
+    <meta name="description" content="{block name='layout_description'}{$sHtmlDescription}{/block}">
+    <meta name="keywords" content="{block name='layout_keywords'}{$sHtmlKeywords}{/block}">
 
-	<title>{block name='layout_title'}{$sHtmlTitle}{/block}</title>
+    <title>{block name='layout_title'}{$sHtmlTitle}{/block}</title>
 
-	{**
-	 * Стили
-	 * CSS файлы подключаются в конфиге шаблона (ваш_шаблон/settings/config.php)
-	 *}
-	{$aHtmlHeadFiles.css}
+    {**
+     * Стили
+     * CSS файлы подключаются в конфиге шаблона (ваш_шаблон/settings/config.php)
+     *}
+    {$aHtmlHeadFiles.css}
 
-	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
-	{*<link href="{Config::Get('path.static.skin')}/images/favicon.ico?v1" rel="shortcut icon" />*}
-	<link rel="search" type="application/opensearchdescription+xml" href="{router page="search/opensearch"}" title="{Config::Get('view.name')}" />
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+    {*<link href="{Config::Get('path.static.skin')}/images/favicon.ico?v1" rel="shortcut icon" />*}
+    <link rel="search" type="application/opensearchdescription+xml" href="{router page="search/opensearch"}" title="{Config::Get('view.name')}"/>
 
-	{**
-	 * RSS
-	 *}
-	{if $aHtmlRssAlternate}
-		<link rel="alternate" type="application/rss+xml" href="{$aHtmlRssAlternate.url}" title="{$aHtmlRssAlternate.title}">
-	{/if}
+    {**
+     * RSS
+     *}
+    {if $aHtmlRssAlternate}
+        <link rel="alternate" type="application/rss+xml" href="{$aHtmlRssAlternate.url}" title="{$aHtmlRssAlternate.title}">
+    {/if}
 
-	{if $sHtmlCanonical}
-		<link rel="canonical" href="{$sHtmlCanonical}" />
-	{/if}
+    {if $sHtmlCanonical}
+        <link rel="canonical" href="{$sHtmlCanonical}"/>
+    {/if}
 
 
-	<script>
-        var		PATH_ROOT 					= '{Router::GetPath('/')}',
-                PATH_SKIN		 			= '{Config::Get("path.skin.web")}',
-                PATH_FRAMEWORK_FRONTEND		= '{Config::Get("path.framework.frontend.web")}',
-                PATH_FRAMEWORK_LIBS_VENDOR	= '{Config::Get("path.framework.libs_vendor.web")}',
+    <script>
+        var PATH_ROOT = '{Router::GetPath('/')}',
+                PATH_SKIN = '{Config::Get("path.skin.web")}',
+                PATH_FRAMEWORK_FRONTEND = '{Config::Get("path.framework.frontend.web")}',
+                PATH_FRAMEWORK_LIBS_VENDOR = '{Config::Get("path.framework.libs_vendor.web")}',
                 /**
                  * Для совместимости с прошлыми версиями. БУДУТ УДАЛЕНЫ
                  */
-                DIR_WEB_ROOT 				= '{Config::Get("path.root.web")}',
-                DIR_STATIC_SKIN 			= '{Config::Get("path.skin.web")}',
-                DIR_STATIC_FRAMEWORK 		= '{Config::Get("path.framework.frontend.web")}',
-                DIR_ENGINE_LIBS	 			= '{Config::Get("path.framework.web")}/libs',
+                DIR_WEB_ROOT = '{Config::Get("path.root.web")}',
+                DIR_STATIC_SKIN = '{Config::Get("path.skin.web")}',
+                DIR_STATIC_FRAMEWORK = '{Config::Get("path.framework.frontend.web")}',
+                DIR_ENGINE_LIBS = '{Config::Get("path.framework.web")}/libs',
 
                 LIVESTREET_SECURITY_KEY = '{$LIVESTREET_SECURITY_KEY}',
-                SESSION_ID				= '{$_sPhpSessionId}',
-                SESSION_NAME			= '{$_sPhpSessionName}',
-                LANGUAGE				= '{Config::Get('lang.current')}',
-                WYSIWYG					= {if Config::Get('view.wysiwyg')}true{else}false{/if};
+                SESSION_ID = '{$_sPhpSessionId}',
+                SESSION_NAME = '{$_sPhpSessionName}',
+                LANGUAGE = '{Config::Get('lang.current')}',
+                WYSIWYG = {if Config::Get('view.wysiwyg')}true{else}false{/if};
 
-		var aRouter = [];
-		{foreach $aRouter as $sPage => $sPath}
-			aRouter['{$sPage}'] = '{$sPath}';
-		{/foreach}
-	</script>
+        var aRouter = [];
+        {foreach $aRouter as $sPage => $sPath}
+        aRouter['{$sPage}'] = '{$sPath}';
+        {/foreach}
+    </script>
 
-	{**
-	 * JavaScript файлы
-	 * JS файлы подключаются в конфиге шаблона (ваш_шаблон/settings/config.php)
-	 *}
-	{$aHtmlHeadFiles.js}
+    {**
+     * JavaScript файлы
+     * JS файлы подключаются в конфиге шаблона (ваш_шаблон/settings/config.php)
+     *}
+    {$aHtmlHeadFiles.js}
 
-	<script>
-		ls.lang.load({json var = $aLangJs});
-		ls.lang.load({lang_load name="blog"});
-	</script>
-	
+    <script>
+        ls.lang.load({json var = $aLangJs});
+        ls.lang.load({lang_load name="blog"});
+    </script>
 
-	{block name='layout_head_end'}{/block}
-	{* {hook run='html_head_end'} *}
+
+    {block name='layout_head_end'}{/block}
+    {* {hook run='html_head_end'} *}
 
 </head>
 
 
 <body class="{$sBodyClasses} {block name='layout_body_classes'}{/block} ls-admin">
-	{* {hook run='body_begin'} *}
+{* {hook run='body_begin'} *}
 
-	{block name='layout_body'}
-		<div id="container" class="{* {hook run='container_class'} *} {if $bNoSidebar}no-sidebar{/if}">
-			{**
-			 * Шапка сайта
-			 *}
-			<header id="header" class="clearfix" role="banner">
-				<ul class="breadcrumbs">
-					<li><a href="{Router::GetPath('/')}" class="link-dotted">Перейти на сайт</a></li>	{* todo: add lang *}
-				</ul>
+{block name='layout_body'}
+<div id="container" class="{* {hook run='container_class'} *} {if $bNoSidebar}no-sidebar{/if}">
+    {**
+     * Шапка сайта
+     *}
+    <header id="header" class="clearfix" role="banner">
+        <ul class="breadcrumbs">
+            <li><a href="{Router::GetPath('/')}" class="link-dotted">Перейти на сайт</a></li>    {* todo: add lang *}
+        </ul>
 
-				<div class="site-info">
-					<h1 class="site-name"><a href="{Router::GetPath('admin')}">{Config::Get("view.name")}</a></h1>
-				</div>
+        <div class="site-info">
+            <h1 class="site-name"><a href="{Router::GetPath('admin')}">{Config::Get("view.name")}</a></h1>
+        </div>
 
-				{* Юзербар *}
-				{component 'dropdown'
-					text="<img src=\"{$oUserCurrent->getProfileAvatarPath(48)}\" alt=\"Avatar\" class=\"userbar-avatar\" />{$oUserCurrent->getLogin()}"
-					classes='admin-userbar js-dropdown-userbar'
-					menu=[
-						[ 'text' => 'Мой профиль', 'url' => {router page="admin/users/profile/{$oUserCurrent->getId()}"} ],
-						[ 'text' => 'Выйти', 'url' => "{router page='auth/logout'}?security_ls_key={$LIVESTREET_SECURITY_KEY}" ]
+        {* Юзербар *}
+{component 'dropdown'
+text="<img src=\"{$oUserCurrent->getProfileAvatarPath(48)}\" alt=\"Avatar\" class=\"userbar-avatar\" />{$oUserCurrent->getLogin()}"
+classes='admin-userbar js-dropdown-userbar'
+menu=[
+[ 'text' => 'Мой профиль', 'url' => {router page="admin/users/profile/{$oUserCurrent->getId()}"} ],
+[ 'text' => 'Выйти', 'url' => "{router page='auth/logout'}?security_ls_key={$LIVESTREET_SECURITY_KEY}" ]
 					]}
 			</header>
 
@@ -115,20 +119,20 @@
 			{* Вспомогательный контейнер-обертка *}
 			<div id="wrapper" class="{* {hook run='wrapper_class'} *} clearfix">
 				{* Сайдбар *}
-				{if ! $bNoSidebar}
-					<aside id="sidebar" role="complementary">
-						{include file="{$aTemplatePathPlugin.admin}blocks.tpl" group='right'}
-					</aside>
-				{/if}
+{if ! $bNoSidebar}
+<aside id="sidebar" role="complementary">
+    {include file="{$aTemplatePathPlugin.admin}blocks.tpl" group='right'}
+</aside>
+{/if}
 
-				{* Контент *}
-				<div id="content-wrapper">
-					<div id="content" 
-						 role="main"
-						 {if $sMenuItemSelect == 'profile'}itemscope itemtype="http://data-vocabulary.org/Person"{/if}>
+{* Контент *}
+<div id="content-wrapper">
+<div id="content"
+role="main"
+{if $sMenuItemSelect == 'profile'}itemscope itemtype="http://data-vocabulary.org/Person"{/if}>
 
-						{block name='layout_content_actionbar' hide}
-							<div class="actionbar {block name='layout_content_actionbar_class'}{/block} clearfix">
+{block name='layout_content_actionbar' hide}
+<div class="actionbar {block name='layout_content_actionbar_class'}{/block} clearfix">
 								{$smarty.block.child}
 							</div>
 						{/block}
@@ -161,13 +165,15 @@
 
 							{* Системные сообщения *}
 								{if ! $bNoSystemMessages}
+
 									{if $aMsgError}
-										{include "{$aTemplatePathPlugin.admin}alert.tpl" sAlertStyle='error' mAlerts=$aMsgError close=true}
+										{component 'alert' text=$aMsgError mods='error' dismissible=true}
 									{/if}
 
 									{if $aMsgNotice}
-										{include "{$aTemplatePathPlugin.admin}alert.tpl" mAlerts=$aMsgNotice bAlertClose=true}
+										{component 'alert' text=$aMsgNotice dismissible=true}
 									{/if}
+
 								{/if}
 
 							{block name='layout_content'}{/block}
@@ -208,5 +214,7 @@
 
 	{* для вывода общей статистики *}
 	{hook run='admin_body_end'}
+
+	{$sLayoutAfter}
 </body>
 </html>

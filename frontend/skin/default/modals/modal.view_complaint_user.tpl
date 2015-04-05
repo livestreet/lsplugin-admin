@@ -4,13 +4,7 @@
  * @styles css/modals.css
  *}
 
-{extends file='components/modal/modal.tpl'}
-
-{block name='modal_id'}js-admin-modal-complaint-view{/block}
-{block name='modal_class'}modal-default{/block}
-{block name='modal_title'}{$aLang.plugin.admin.users.complaints.view.title} "{$oComplaint->getTypeTitle()}"{/block}
-
-{block name='modal_content'}
+{capture 'modal_content'}
 	<form action="" method="post" onsubmit="return false;" id="js-admin-user-complaint-answer-form">
 		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.hidden.tpl"
 			sFieldName='complaint_id'
@@ -53,11 +47,19 @@
 			sFieldClasses = 'width-full'
 		}
 	</form>
-{/block}
+{/capture}
 
-{block name='modal_footer_begin'}
-	<button type="submit"
-			data-user-complaint-form-id="#js-admin-user-complaint-answer-form"
-			data-user-complaint-modal-id="#js-admin-modal-complaint-view"
-			class="button button-primary js-admin-user-complaint-send-answer">{$aLang.plugin.admin.users.complaints.view.answer.button}</button>
-{/block}
+{component 'modal'
+	title         = "{$aLang.plugin.admin.users.complaints.view.title} \"{$oComplaint->getTypeTitle()}\""
+	content       = $smarty.capture.modal_content
+	classes       = 'js-modal-default'
+	id            = 'js-admin-modal-complaint-view'
+	primaryButton  = [
+		'text'    => {lang 'plugin.admin.users.complaints.view.answer.button'},
+		'classes' => 'js-admin-user-complaint-send-answer',
+		'attributes' => [
+			'data-user-complaint-form-id' => '#js-admin-user-complaint-answer-form',
+			'data-user-complaint-modal-id' => '#js-admin-modal-complaint-view'
+		]
+	]
+}

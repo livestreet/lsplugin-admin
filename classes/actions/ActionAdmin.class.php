@@ -689,6 +689,17 @@ class PluginAdmin_ActionAdmin extends ActionPlugin
          * Сбрасываем списки скриптов и таблиц стилей
          */
         $this->Asset_ClearAssets();
+        Config::Set('head.template.js', array());
+        Config::Set('head.template.css', array());
+        /**
+         * Переопределеям список компонентов
+         */
+        $this->Component_RemoveAll();
+        Config::Set('components', Config::Get('plugin.admin.components'));
+        $this->Component_InitComponentsList();
+        /**
+         * Отключаем
+         */
         /**
          * Основные скрипты
          */

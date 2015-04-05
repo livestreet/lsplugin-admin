@@ -78,7 +78,7 @@
 .stats-notifications li p .link-border:hover { color: #333; border-color: #ccc; }
 
 /* Image */
-.stats-notifications-item .stats-notifications-image    { position: absolute; top: 0; left: 10px; width: 65px; height: 65px; background-repeat: no-repeat; }
+.stats-notifications-item .stats-notifications-image    { position: absolute; top: 0; left: 10px; width: 65px; height: 65px; background-repeat: no-repeat; margin: 0px 0px !important; }
 .stats-notifications-item-plugins .stats-notifications-image { background-image: url(../images/icons/stats-notifications-plugins.png); }
 .stats-notifications-item-users .stats-notifications-image   { background-image: url(../images/icons/stats-notifications-users.png); }
 .stats-notifications-item-support .stats-notifications-image { background-image: url(../images/icons/stats-notifications-support.png); }

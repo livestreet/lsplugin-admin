@@ -194,11 +194,8 @@
 						Рейтинг и сила
 					*}
 					<td class="cell-rating">
-						<div class="dropdown-circle js-dropdown" data-dropdown-target="dropdown-user-menu-{$oUser->getId()}"></div>
 
-						<ul class="nav nav--stacked nav--dropdown dropdown-menu" id="dropdown-user-menu-{$oUser->getId()}">
-							{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/user_actions.tpl"}
-						</ul>
+						{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/user_actions.tpl" classes='dropdown-circle'}
 
 						<p class="user-rating {if $oUser->getRating() < 0}user-rating-negative{/if}" title="{$aLang.plugin.admin.users.table_header.user_rating}">
 							{$oUser->getRating()}

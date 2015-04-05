@@ -1,4 +1,4 @@
-{extends file='emails/email.base.tpl'}
+{extends 'Component@email.email'}
 
 {block name='content'}
 	На вас, <a href="{$oUserTarget->getUserWebPath()}">{$oUserTarget->getDisplayName()}</a>, поступила жалоба.

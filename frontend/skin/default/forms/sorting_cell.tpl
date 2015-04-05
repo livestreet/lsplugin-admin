@@ -31,25 +31,26 @@
 		{$bDropDownMenu = true}
 
 		{* Кнопка выпадающего списка *}
-		<a href="#" class="link-dotted js-dropdown-left-bottom" data-dropdown-target="dropdown-sorting-table-menu-{$sCellClassName}">
-			{* Многоточие будет подталкивать к мысли что это выпадающее меню со множеством сортировок *}
-			{$sDropDownHtml}&hellip;
+		<div class="dropdown dropdown--no-text js-dropdown" >
+			<a href="#" class="link-dotted js-dropdown-toggle">
+				{* Многоточие будет подталкивать к мысли что это выпадающее меню со множеством сортировок *}
+				{$sDropDownHtml}&hellip;
 
-			{**
-			 * Вывод стрелки сортировки если текущая сортировка из этого выпадающего списка сортировок, 
-			 * нужно для того, чтобы легко ориентироваться включена ли сортировка в таблице и в каком именно столбце
-			 *}
-			{if in_array($sOrder, $mSortingOrder)}
-				{if $sWay == 'asc'}
-					<i class="icon-sort-asc"></i>
-				{elseif $sWay == 'desc'}
-					<i class="icon-sort-desc"></i>
+				{**
+				 * Вывод стрелки сортировки если текущая сортировка из этого выпадающего списка сортировок,
+				 * нужно для того, чтобы легко ориентироваться включена ли сортировка в таблице и в каком именно столбце
+				 *}
+				{if in_array($sOrder, $mSortingOrder)}
+					{if $sWay == 'asc'}
+						<i class="icon-sort-asc"></i>
+					{elseif $sWay == 'desc'}
+						<i class="icon-sort-desc"></i>
+					{/if}
 				{/if}
-			{/if}
-		</a>
+			</a>
 
-		{* Начало контейнера списка сортировок *}
-		<div class="dropdown-menu p15" id="dropdown-sorting-table-menu-{$sCellClassName}">
+			{* Начало контейнера списка сортировок *}
+			<ul class="nav nav--stacked nav--dropdown  dropdown-menu js-dropdown-menu  clearfix" role="menu" aria-hidden="true" >
 	{/if}
 
 	{* Вывод полей для сортировки *}
@@ -62,32 +63,33 @@
 
 		{* Чтобы ссылки в выпадающем списке были одна под одной *}
 		{if $bDropDownMenu}
-			<div class="{if !$sSortingOrderItem@last}mb-10{/if}">
+			<li class="nav-item active"  role="menuitem">
 		{/if}
 
 		{* Ссылка смены сортировки *}
 		<a href="{$sBaseUrl}{request_filter
 			name=array('order_field', 'order_way')
 			value=array($sSortingOrderItem, $sWayForThisOrder)
-		}" class="link-dotted">{$mLinkHtml[$iKey]}</a>
+		}" class="nav-item-link">{$mLinkHtml[$iKey]}
 
-		{* Стрелка, указывающая направление сортировки *}
-		{if $bSortedByCurrentField}
-			{if $sWay == 'asc'}
-				<i class="icon-sort-asc"></i>
-			{elseif $sWay == 'desc'}
-				<i class="icon-sort-desc"></i>
+			{* Стрелка, указывающая направление сортировки *}
+			{if $bSortedByCurrentField}
+				{if $sWay == 'asc'}
+					<i class="icon-sort-asc"></i>
+				{elseif $sWay == 'desc'}
+					<i class="icon-sort-desc"></i>
+				{/if}
 			{/if}
-		{/if}
+		</a>
 
 		{* / Чтобы ссылки в выпадающем списке были одна под одной *}
 		{if $bDropDownMenu}
-			</div>
+			</li>
 		{/if}
 	{/foreach}
 
 	{* Конец контейнера списка *}
 	{if $bDropDownMenu}
-		</div>
+		</ul><div>
 	{/if}
 </th>

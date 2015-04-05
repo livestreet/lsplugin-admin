@@ -12,34 +12,26 @@
 	{/if}
 </h3>
 
-<form id="form-article-create" enctype="multipart/form-data" action="" method="post" onsubmit="{if $oArticle}ls.plugin.article.admin.updateArticle('form-article-create');{else}ls.plugin.article.admin.createArticle('form-article-create');{/if} return false;">
-	{if $oArticle}
-		{$sFieldValue = $oArticle->getTitle()}
-	{/if}
+<form id="form-article-create" enctype="multipart/form-data" action="" method="post" data-content-action="{( $oArticle ) ? 'edit' : 'add'}" >
 
-	{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
-			 sFieldName  = 'article[title]'
-			 sFieldValue = $sFieldValue
-			 sFieldLabel = 'Заголовок'}
+	{component 'admin:field' template='text'
+		name        = 'article[title]'
+		value       = ( $oArticle ) ? $oArticle->getTitle() : ''
+		label       = 'Заголовок'}
 
 
 	{* Подключаем блок для управления категориями *}
-	{insert name="block" block="categoryUpdate" params=[ 'plugin' => 'admin', 'target' => $oArticle, 'entity' => 'PluginArticle_ModuleMain_EntityArticle' ]}
+	{insert name='block' block='fieldCategory' params=[ 'target' => $oArticle, 'entity' => 'PluginArticle_ModuleMain_EntityArticle' ]}
 
-	{* Подключаем блок для управления дополнительными свойствами *}
-	{insert name="block" block="propertyUpdate" params=[ 'plugin' => 'admin', 'target' => $oArticle, 'entity' => 'PluginArticle_ModuleMain_EntityArticle' ]}
+	{* Показывает дополнительные поля *}
+	{insert name='block' block='propertyUpdate' params=[ 'target' => $oArticle, 'entity' => 'PluginArticle_ModuleMain_EntityArticle' ]}
 
 	{* Кнпоки *}
 	{if $oArticle}
-		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.hidden.tpl" sFieldName='article[id]' sFieldValue=$oArticle->getId()}
-		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.button.tpl"
-				 sFieldName  = 'article[submit]'
-				 sFieldStyle = 'primary'
-				 sFieldText  = 'Сохранить'}
-	{else}
-		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.button.tpl"
-				 sFieldName  = 'article[submit]'
-				 sFieldStyle = 'primary'
-				 sFieldText  = 'Добавить'}
+		{component 'admin:field' template='hidden'
+			name        = 'article[id]'
+			value       = $oArticle->getId() }
 	{/if}
+
+	{component 'button' type='submit' form='form-article-create' text=( $oArticle ) ? 'Сохранить' : 'Добавить'}
 </form>

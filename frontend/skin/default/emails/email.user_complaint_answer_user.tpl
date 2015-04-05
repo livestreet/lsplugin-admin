@@ -1,4 +1,4 @@
-{extends file='emails/email.base.tpl'}
+{extends 'Component@email.email'}
 
 {block name='content'}
 	Мы получили ваше обращение, <a href="{$oUserFrom->getUserWebPath()}">{$oUserFrom->getDisplayName()}</a>.

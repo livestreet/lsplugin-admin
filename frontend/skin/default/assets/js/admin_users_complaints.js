@@ -52,7 +52,7 @@ ls.admin_users_complaints = (function($) {
 			var sFormId = $ (this).attr('data-user-complaint-form-id');
 			var sModalId = $ (this).attr('data-user-complaint-modal-id');
 			ls.ajax.submit(aRouter['admin'] + 'users/complaints/ajax-modal-view/', sFormId, function(result) {
-				$ (sModalId).modal('hide');
+				$('#js-admin-modal-complaint-view').lsModal('hide');
 			});
 		});
 	};

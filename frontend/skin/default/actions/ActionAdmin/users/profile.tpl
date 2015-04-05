@@ -10,9 +10,7 @@
 {* Actionbar *}
 {block name='layout_content_actionbar_class'}actionbar-user{/block}
 {block name='layout_content_actionbar'}
-	<ul>
-		{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/user_actions.tpl"}
-	</ul>
+	{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/user_actions.tpl" text="Действия..."}
 {/block}
 
 
@@ -140,17 +138,16 @@
 					sFieldLabel  = $aLang.plugin.admin.users.profile.info.birthday
 				}
 
-				{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.select.geo.tpl"
-					sFieldNamePrefix    = 'geo'
-					oFieldGeoTarget     = $oGeoTarget
-					sFieldLabel  = $aLang.plugin.admin.users.profile.info.living
-				}
-				<script>
-					jQuery(document).ready(function ($) {
-						ls.lang.load({lang_load name="geo_select_city, geo_select_region"});
-						ls.geo.initSelect();
-					});
-				</script>
+
+				{* Местоположение *}
+				{component 'field' template='geo'
+					classes   = 'js-field-geo-default'
+					name      = 'geo'
+					label     = {lang name='plugin.admin.users.profile.info.living'}
+					countries = $aGeoCountries
+					regions   = $aGeoRegions
+					cities    = $aGeoCities
+					place     = $oGeoTarget}
 
 				{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
 					sFieldName='password'
