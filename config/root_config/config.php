@@ -76,7 +76,6 @@ return array(
             array(
                 'name'         => 'Топики',
                 'allowed_keys' => array(
-                    'module.topic.url',
                     'module.topic.new_time',
                     'module.topic.per_page',
                     'module.topic.max_length',
