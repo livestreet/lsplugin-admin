@@ -40,7 +40,7 @@ abstract class PluginAdmin_ActionPlugin extends ActionPlugin
                 $sPath = Plugin::GetPath($sAction);
                 $aSkins = array('admin_default', 'default', Config::Get('view.skin'));
                 foreach ($aSkins as $sSkin) {
-                    $sTpl = $sPath . 'templates/skin/' . $sSkin . '/' . $sTemplatePath;
+                    $sTpl = $sPath . 'frontend/skin/' . $sSkin . '/' . $sTemplatePath;
                     if (is_file($sTpl)) {
                         $sActionTemplatePath = $sTpl;
                         break(2);
@@ -49,7 +49,7 @@ abstract class PluginAdmin_ActionPlugin extends ActionPlugin
             }
         }
         $this->Viewer_Assign('sAdminTemplateInclude', $sActionTemplatePath);
-        $this->sActionTemplate = Plugin::GetPath('admin') . 'templates/skin/default/actions/ActionAdmin/embed_plugin/plugin.tpl';
+        $this->sActionTemplate = Plugin::GetPath('admin') . 'frontend/skin/default/actions/ActionAdmin/embed_plugin/plugin.tpl';
     }
 
 

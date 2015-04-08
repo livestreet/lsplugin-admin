@@ -68,13 +68,13 @@ class PluginAdmin_ActionAdmin_EventRbac extends Event
                 $oPermission->setTitle(htmlspecialchars($oPermission->getTitle()));
                 $oPermission->setMsgError(htmlspecialchars($oPermission->getMsgError()));
                 if ($oPermission->Add()) {
-                    $this->Message_AddNotice('Добавление прошло успешно', $this->Lang_Get('attention'), true);
+                    $this->Message_AddNotice('Добавление прошло успешно', $this->Lang_Get('common.attention'), true);
                     Router::LocationAction("admin/users/rbac/permission");
                 } else {
-                    $this->Message_AddError('Возникла ошибка при добавлении', $this->Lang_Get('error'));
+                    $this->Message_AddError('Возникла ошибка при добавлении', $this->Lang_Get('common.error.error'));
                 }
             } else {
-                $this->Message_AddError($oPermission->_getValidateError(), $this->Lang_Get('error'));
+                $this->Message_AddError($oPermission->_getValidateError(), $this->Lang_Get('common.error.error'));
             }
         }
         $this->SetTemplateAction('rbac/permission.create');
@@ -98,13 +98,13 @@ class PluginAdmin_ActionAdmin_EventRbac extends Event
                 $oPermission->setTitle(htmlspecialchars($oPermission->getTitle()));
                 $oPermission->setMsgError(htmlspecialchars($oPermission->getMsgError()));
                 if ($oPermission->Update()) {
-                    $this->Message_AddNotice('Обновление прошло успешно', $this->Lang_Get('attention'), true);
+                    $this->Message_AddNotice('Обновление прошло успешно', $this->Lang_Get('common.attention'), true);
                     Router::LocationAction("admin/users/rbac/permission");
                 } else {
-                    $this->Message_AddError('Возникла ошибка при обновлении', $this->Lang_Get('error'));
+                    $this->Message_AddError('Возникла ошибка при обновлении', $this->Lang_Get('common.error.error'));
                 }
             } else {
-                $this->Message_AddError($oPermission->_getValidateError(), $this->Lang_Get('error'));
+                $this->Message_AddError($oPermission->_getValidateError(), $this->Lang_Get('common.error.error'));
             }
         } else {
             $_REQUEST['permission'] = array(
@@ -130,9 +130,9 @@ class PluginAdmin_ActionAdmin_EventRbac extends Event
         }
 
         if ($oPermission->Delete()) {
-            $this->Message_AddNotice('Удаление прошло успешно', $this->Lang_Get('attention'), true);
+            $this->Message_AddNotice('Удаление прошло успешно', $this->Lang_Get('common.attention'), true);
         } else {
-            $this->Message_AddError('Возникла ошибка при удалении', $this->Lang_Get('attention'), true);
+            $this->Message_AddError('Возникла ошибка при удалении', $this->Lang_Get('common.attention'), true);
         }
         Router::LocationAction("admin/users/rbac/permission");
     }
@@ -166,13 +166,13 @@ class PluginAdmin_ActionAdmin_EventRbac extends Event
             if ($oGroup->_Validate()) {
                 $oGroup->setTitle(htmlspecialchars($oGroup->getTitle()));
                 if ($oGroup->Add()) {
-                    $this->Message_AddNotice('Добавление прошло успешно', $this->Lang_Get('attention'), true);
+                    $this->Message_AddNotice('Добавление прошло успешно', $this->Lang_Get('common.attention'), true);
                     Router::LocationAction("admin/users/rbac/group");
                 } else {
-                    $this->Message_AddError('Возникла ошибка при добавлении', $this->Lang_Get('error'));
+                    $this->Message_AddError('Возникла ошибка при добавлении', $this->Lang_Get('common.error.error'));
                 }
             } else {
-                $this->Message_AddError($oGroup->_getValidateError(), $this->Lang_Get('error'));
+                $this->Message_AddError($oGroup->_getValidateError(), $this->Lang_Get('common.error.error'));
             }
         }
         $this->SetTemplateAction('rbac/group.create');
@@ -191,13 +191,13 @@ class PluginAdmin_ActionAdmin_EventRbac extends Event
             if ($oGroup->_Validate()) {
                 $oGroup->setTitle(htmlspecialchars($oGroup->getTitle()));
                 if ($oGroup->Update()) {
-                    $this->Message_AddNotice('Обновление прошло успешно', $this->Lang_Get('attention'), true);
+                    $this->Message_AddNotice('Обновление прошло успешно', $this->Lang_Get('common.attention'), true);
                     Router::LocationAction("admin/users/rbac/group");
                 } else {
-                    $this->Message_AddError('Возникла ошибка при обновлении', $this->Lang_Get('error'));
+                    $this->Message_AddError('Возникла ошибка при обновлении', $this->Lang_Get('common.error.error'));
                 }
             } else {
-                $this->Message_AddError($oGroup->_getValidateError(), $this->Lang_Get('error'));
+                $this->Message_AddError($oGroup->_getValidateError(), $this->Lang_Get('common.error.error'));
             }
         } else {
             $_REQUEST['group'] = array(
@@ -219,9 +219,9 @@ class PluginAdmin_ActionAdmin_EventRbac extends Event
         }
 
         if ($oGroup->Delete()) {
-            $this->Message_AddNotice('Удаление прошло успешно', $this->Lang_Get('attention'), true);
+            $this->Message_AddNotice('Удаление прошло успешно', $this->Lang_Get('common.attention'), true);
         } else {
-            $this->Message_AddError('Возникла ошибка при удалении', $this->Lang_Get('attention'), true);
+            $this->Message_AddError('Возникла ошибка при удалении', $this->Lang_Get('common.attention'), true);
         }
         Router::LocationAction("admin/users/rbac/group");
     }
@@ -254,13 +254,13 @@ class PluginAdmin_ActionAdmin_EventRbac extends Event
             if ($oRole->_Validate()) {
                 $oRole->setTitle(htmlspecialchars($oRole->getTitle()));
                 if ($oRole->Add()) {
-                    $this->Message_AddNotice('Добавление прошло успешно', $this->Lang_Get('attention'), true);
+                    $this->Message_AddNotice('Добавление прошло успешно', $this->Lang_Get('common.attention'), true);
                     Router::LocationAction("admin/users/rbac");
                 } else {
-                    $this->Message_AddError('Возникла ошибка при добавлении', $this->Lang_Get('error'));
+                    $this->Message_AddError('Возникла ошибка при добавлении', $this->Lang_Get('common.error.error'));
                 }
             } else {
-                $this->Message_AddError($oRole->_getValidateError(), $this->Lang_Get('error'));
+                $this->Message_AddError($oRole->_getValidateError(), $this->Lang_Get('common.error.error'));
             }
         }
         /**
@@ -302,13 +302,13 @@ class PluginAdmin_ActionAdmin_EventRbac extends Event
                         $oRole->Update();
                     }
 
-                    $this->Message_AddNotice('Обновление прошло успешно', $this->Lang_Get('attention'), true);
+                    $this->Message_AddNotice('Обновление прошло успешно', $this->Lang_Get('common.attention'), true);
                     Router::LocationAction("admin/users/rbac");
                 } else {
-                    $this->Message_AddError('Возникла ошибка при обновлении', $this->Lang_Get('error'));
+                    $this->Message_AddError('Возникла ошибка при обновлении', $this->Lang_Get('common.error.error'));
                 }
             } else {
-                $this->Message_AddError($oRole->_getValidateError(), $this->Lang_Get('error'));
+                $this->Message_AddError($oRole->_getValidateError(), $this->Lang_Get('common.error.error'));
             }
         } else {
             $_REQUEST['role'] = array(
@@ -332,9 +332,9 @@ class PluginAdmin_ActionAdmin_EventRbac extends Event
         }
 
         if ($oRole->Delete()) {
-            $this->Message_AddNotice('Удаление прошло успешно', $this->Lang_Get('attention'), true);
+            $this->Message_AddNotice('Удаление прошло успешно', $this->Lang_Get('common.attention'), true);
         } else {
-            $this->Message_AddError('Возникла ошибка при удалении', $this->Lang_Get('attention'), true);
+            $this->Message_AddError('Возникла ошибка при удалении', $this->Lang_Get('common.attention'), true);
         }
 
         Router::LocationAction("admin/users/rbac/role");

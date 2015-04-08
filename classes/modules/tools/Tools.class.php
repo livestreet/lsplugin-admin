@@ -64,7 +64,7 @@ class PluginAdmin_ModuleTools extends Module
         $sPath = Plugin::GetPath($sNamePlugin);
         $aSkins = array('admin_default', 'default', Config::Get('view.skin'));
         foreach ($aSkins as $sSkin) {
-            $sTpl = $sPath . 'templates/skin/' . $sSkin . '/';
+            $sTpl = $sPath . 'frontend/skin/' . $sSkin . '/';
             if (is_dir($sTpl)) {
                 return $sTpl;
             }
@@ -117,7 +117,7 @@ class PluginAdmin_ModuleTools extends Module
             $this->Message_AddError(
                 $this->Lang_Get('plugin.admin.errors.encoding_check.utf8_bom_encoding_detected',
                     array('count' => count($aWrongEncodingFiles))),
-                $this->Lang_Get('error'),
+                $this->Lang_Get('common.error.error'),
                 $bSessionMessages
             );
             /*
@@ -163,7 +163,7 @@ class PluginAdmin_ModuleTools extends Module
                  */
                 if (!is_readable($sFile)) {
                     $this->Message_AddError($this->Lang_Get('plugin.admin.errors.encoding_check.unreadable_file',
-                            array('file' => $sFile)), $this->Lang_Get('error'), $bSessionMessages);
+                            array('file' => $sFile)), $this->Lang_Get('common.error.error'), $bSessionMessages);
                     continue;
                 }
                 /*
@@ -171,7 +171,7 @@ class PluginAdmin_ModuleTools extends Module
                  */
                 if (($sText = @file_get_contents($sFile, false, null, 0, 50)) === false) {
                     $this->Message_AddError($this->Lang_Get('plugin.admin.errors.encoding_check.file_cant_be_read',
-                            array('file' => $sFile)), $this->Lang_Get('error'), $bSessionMessages);
+                            array('file' => $sFile)), $this->Lang_Get('common.error.error'), $bSessionMessages);
                     continue;
                 }
                 /*
@@ -308,6 +308,10 @@ class PluginAdmin_ModuleTools extends Module
      */
     public function ResetAllLSCache()
     {
+        /*
+         * Сбрасываем кеш данных
+         */
+        $this->Cache_Clean();
         /*
          * выбрать все файлы и директории во временной директории движка, без учета самой директории
          * tip: файлы, начинающихся на точку (.htaccess) будут пропущены

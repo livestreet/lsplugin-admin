@@ -64,7 +64,7 @@ class PluginAdmin_ModuleMessage extends PluginAdmin_Inherits_ModuleMessage
              */
             $this->AddParamError($sMsg, $sKey);
         } else {
-            $this->AddError($sMsg, $this->Lang_Get('error'), true);
+            $this->AddError($sMsg, $this->Lang_Get('common.error.error'), true);
         }
     }
 

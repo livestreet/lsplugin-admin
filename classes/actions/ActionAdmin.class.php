@@ -42,7 +42,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin
          * проверка авторизации админа
          */
         if (!$this->oUserCurrent = $this->User_GetIsAdmin(true)) {
-            $this->Message_AddError($this->Lang('errors.you_are_not_admin'), $this->Lang_Get('error'));
+            $this->Message_AddError($this->Lang('errors.you_are_not_admin'), $this->Lang_Get('common.error.error'));
             return Router::Action('error');
         }
 
@@ -664,7 +664,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin
                 header("{$sProtocol} {$aHttpError['header']}");
             }
         }
-        $this->Viewer_AddHtmlTitle($this->Lang_Get('error'));
+        $this->Viewer_AddHtmlTitle($this->Lang_Get('common.error.error'));
         $this->SetTemplateAction('error');
     }
 
@@ -689,6 +689,17 @@ class PluginAdmin_ActionAdmin extends ActionPlugin
          * Сбрасываем списки скриптов и таблиц стилей
          */
         $this->Asset_ClearAssets();
+        Config::Set('head.template.js', array());
+        Config::Set('head.template.css', array());
+        /**
+         * Переопределеям список компонентов
+         */
+        $this->Component_RemoveAll();
+        Config::Set('components', Config::Get('plugin.admin.components'));
+        $this->Component_InitComponentsList();
+        /**
+         * Отключаем
+         */
         /**
          * Основные скрипты
          */

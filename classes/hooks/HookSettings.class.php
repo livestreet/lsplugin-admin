@@ -47,6 +47,10 @@ class PluginAdmin_HookSettings extends Hook
          * выполнить загрузку конфигов системы и плагинов
          */
         $this->PluginAdmin_Settings_AutoLoadConfigs();
+        /**
+         * Фикс загрузки параметров кеша (кеш инициализируется раньше хука lang_init_start)
+         */
+        $this->Cache_InitParams();
     }
 
 }

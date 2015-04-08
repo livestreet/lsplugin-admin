@@ -64,7 +64,11 @@ class PluginArticle_ModuleMain_EntityArticle extends EntityORM
      * @var array
      */
     protected $aRelations = array(
-        'user' => array(self::RELATION_TYPE_BELONGS_TO, 'ModuleUser_EntityUser', 'user_id'),
+        'user' => array(
+            'type' => self::RELATION_TYPE_BELONGS_TO,
+            'rel_entity' => 'ModuleUser_EntityUser',
+            'rel_key' => 'user_id',
+        ),
     );
 
     /**

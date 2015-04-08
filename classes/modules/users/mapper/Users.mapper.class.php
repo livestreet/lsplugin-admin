@@ -34,13 +34,11 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper
      */
     public function GetUsersByFilter($aFilter, $sOrder, $iPage, $iPerPage)
     {
-        $sSql = "SELECT u.user_id
+        $sSql = "SELECT DISTINCT u.user_id
 			FROM
 				`" . Config::Get('db.table.user') . "` AS u
 			LEFT JOIN
 				`" . Config::Get('db.table.session') . "` AS s ON u.user_id = s.user_id
-			LEFT JOIN
-				`" . Config::Get('db.table.user_administrator') . "` AS ua ON u.user_id = ua.user_id
 			WHERE
 				1 = 1
 				{AND u.user_id = ?d}
@@ -53,7 +51,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper
 				{AND u.user_login LIKE ?}
 				{AND u.user_profile_name LIKE ?}
 				{AND s.session_ip_last LIKE ?}
-				{AND ua.user_id <> ?d}
+				{AND u.user_admin = ?d}
 			ORDER BY
 				{$sOrder}
 			LIMIT ?d, ?d
@@ -72,7 +70,7 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper
             isset($aFilter['login']) ? $aFilter['login'] : DBSIMPLE_SKIP,
             isset($aFilter['profile_name']) ? $aFilter['profile_name'] : DBSIMPLE_SKIP,
             isset($aFilter['session_ip_last']) ? $aFilter['session_ip_last'] : DBSIMPLE_SKIP,
-            isset($aFilter['admins_only']) ? 0 : DBSIMPLE_SKIP,
+            isset($aFilter['admins_only']) ? 1 : DBSIMPLE_SKIP,
             ($iPage - 1) * $iPerPage,
             $iPerPage
         )
@@ -444,48 +442,6 @@ class PluginAdmin_ModuleUsers_MapperUsers extends Mapper
             PluginAdmin_ModuleUsers::BAN_TIME_TYPE_PERIOD
         );
     }
-
-
-    /**
-     * Добавить права админа пользователю
-     *
-     * @param $iUserId            ид пользователя
-     * @return array|null
-     */
-    public function AddAdmin($iUserId)
-    {
-        $sSql = 'INSERT INTO
-				`' . Config::Get('db.table.user_administrator') . '`
-			(
-				`user_id`
-			)
-			VALUES
-			(
-				?d
-			)
-		';
-        return $this->oDb->query($sSql, $iUserId);
-    }
-
-
-    /**
-     * Удалить права админа у пользователя
-     *
-     * @param $iUserId            ид пользователя
-     * @return array|null
-     */
-    public function DeleteAdmin($iUserId)
-    {
-        $sSql = 'DELETE
-			FROM
-				`' . Config::Get('db.table.user_administrator') . '`
-			WHERE
-				`user_id` = ?d
-			LIMIT 1
-		';
-        return $this->oDb->query($sSql, $iUserId);
-    }
-
 
     /**
      * Получить статистику пользователей по возрасту

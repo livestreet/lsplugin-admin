@@ -193,7 +193,6 @@ return array(
                 'name'         => 'Настройка Cookie',
                 'allowed_keys' => array(
                     'sys.cookie.path',
-                    'sys.cookie.time',
                 ),
             ),
             array(
@@ -786,17 +785,6 @@ return array(
                 ),
             ),
         ),
-        'sys.cookie.time'                            => array(
-            'type'        => 'integer',
-            'name'        => 'config_parameters.sys.cookie.time.name',
-            'description' => 'config_parameters.sys.cookie.time.description',
-            'validator'   => array(
-                'type'   => 'Number',
-                'params' => array(
-                    'allowEmpty' => false,
-                ),
-            ),
-        ),
         'lang.current'                               => array(
             'type'        => 'string',
             'name'        => 'config_parameters.lang.current.name',
@@ -1205,7 +1193,7 @@ return array(
             ),
         ),
         'module.topic.allow_empty'                   => array(
-            'type'        => 'integer',
+            'type'        => 'boolean',
             'name'        => 'config_parameters.module.topic.allow_empty.name',
             'description' => 'config_parameters.module.topic.allow_empty.description',
             'validator'   => array(
@@ -1232,7 +1220,7 @@ return array(
             ),
         ),
         'module.topic.title_allow_empty'             => array(
-            'type'        => 'integer',
+            'type'        => 'boolean',
             'name'        => 'config_parameters.module.topic.title_allow_empty.name',
             'description' => 'config_parameters.module.topic.title_allow_empty.description',
             'validator'   => array(
@@ -1247,6 +1235,17 @@ return array(
             'validator'   => array(
                 'type'   => 'Boolean',
                 'params' => array(),
+            ),
+        ),
+        'module.topic.url'                        => array(
+            'type'        => 'string',
+            'name'        => 'config_parameters.module.topic.url.name',
+            'description' => 'config_parameters.module.topic.url.description',
+            'validator'   => array(
+                'type'   => 'String',
+                'params' => array(
+                    'allowEmpty' => false,
+                ),
             ),
         ),
         'module.user.per_page'                       => array(

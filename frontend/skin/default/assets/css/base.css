@@ -1,0 +1,194 @@
+/**
+ * Основные стили
+ */
+
+body {
+	font-size: 13px;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	line-height: 18px;
+	color: #333;
+	background-color: #f1f1f1;
+}
+
+
+/**
+ * Ссылки
+ */
+a 	{ color: #08c; text-decoration: none; }
+a:hover { color: #058; }
+
+
+/**
+ * Responsive styles
+ */
+[class^="m-"] { display: none; }
+
+@media (max-width: 999px)	{
+	[class^="m-"] { display: block; }
+}
+
+
+/**
+ * Заголовки
+ */
+h1, h2, h3, h4, h5, h6 { font-family: "Open Sans"; }
+.h1, .h2, .h3, .h4, .h5, .h6 { margin-bottom: 15px; line-height: 1.2em; }
+
+.h1 { font-size: 28px; }
+.h2 { font-size: 26px; }
+.h3 { font-size: 24px; }
+.h4 { font-size: 22px; }
+.h5 { font-size: 20px; }
+.h6 { font-size: 18px; }
+
+.settings-category-heading,
+.page-header {
+	color: #333333;
+	font-family: 'Open Sans';
+	font-size: 27px;
+	font-weight: 400;
+	line-height: 1em;
+	margin-bottom: 20px;
+}
+.page-header span	{ color: #999; font-weight: 300; }
+
+.page-sub-header {
+	color: #333333;
+	font-family: 'Open Sans';
+	font-size: 20px;
+	font-weight: 300;
+	line-height: 1em;
+	margin-bottom: 15px;
+}
+
+
+/**
+ * Header
+ *
+ * @template layout.base.tpl
+ */
+
+/* Breadcrumbs */
+.breadcrumbs { font-size: 11px; margin-bottom: 5px; }
+.breadcrumbs a { color: #6c6c6c; }
+
+@media (max-width: 999px)	{
+	.breadcrumbs { font-size: 13px; }
+}
+
+/* Logo */
+.site-name { float: left; font: 300 40px/1em 'Open Sans', Arial; padding-top: 15px; }
+.site-name a { color: #333; }
+.site-name a:hover { color: #f00; }
+
+@media (max-width: 999px)	{
+	.site-name { float: none; margin-bottom: 25px; }
+}
+
+/* Userbar */
+.admin-userbar { float: right; position: relative; min-height: 40px; margin-bottom: 2px; }
+
+.userbar-avatar { border-radius: 50%; vertical-align: middle; margin-right: 10px; }
+
+.admin-userbar .dropdown-toggle {
+	font: 400 16px/38px 'Open Sans', Arial;
+	color: #6c6c6c;
+	height: auto;
+	padding: 8px;
+	box-shadow: none;
+	background: transparent;
+	border: none;
+}
+
+@media (max-width: 999px)	{
+	.userbar { float: none; background: #fafafa; margin-bottom: 0; }
+	.userbar.dropdown-toggle.open { background: #fafafa; }
+}
+
+
+/**
+ * Footer
+ *
+ * @template layout.base.tpl
+ */
+#footer ul { float: left; width: 33%; }
+#footer ul li { margin-bottom: 5px; }
+#footer ul.footer-right { float: right; text-align: right; }
+
+@media (max-width: 999px)	{
+	#footer ul,
+	#footer ul.footer-right { float: none; width: auto; text-align: left; margin-bottom: 20px; }
+}
+
+
+/* Shadow */
+#content:after {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: 2.5%;
+	width: 95%;
+	height: 10px;
+	-webkit-box-shadow: 0 0 45px rgba(0,0,0,.3);
+	-moz-box-shadow: 0 0 45px rgba(0,0,0,.3);
+	box-shadow: 0 0 45px rgba(0,0,0,.3);
+	z-index: -5;
+	background: #000;
+}
+
+
+/**
+ * Home
+ */
+.home-blocks { margin-bottom: 15px; }
+.home-blocks .block {
+	float: left; 
+	width: 49%;
+	margin-bottom: 15px;
+	-webkit-box-sizing: border-box;
+	 -moz-box-sizing: border-box;
+			box-sizing: border-box;
+	background: none repeat scroll 0 0 #FFFFFF;
+}
+.home-blocks .block:first-child { margin-right: 2%; }
+
+/* Responsive */
+@media (max-width: 999px)	{
+	.home-blocks .block {
+		width: 100%;
+		margin-right: 0;
+	}
+}
+
+
+/* Проценты */
+.percent {
+	font: normal 11px/1em Verdana;
+	color: #a2a2a2;
+}
+
+
+/**
+ * Settings
+ */
+.settings-category-heading { font-size: 22px; border-bottom: 1px solid #ddd; padding-bottom: 10px; color: #000; }
+.settings-category { margin-bottom: 70px; }
+.settings-category.settings-category-last { margin-bottom: 0; }
+
+.settings-category-description {
+	margin-bottom: 30px;
+	clear: both;
+	border-bottom: 1px solid #DDDDDD;
+	padding-bottom: 20px;
+}
+
+.settings-category-description-header {
+	color: #888888;
+	float: left;
+	font-size: 15px;
+	margin-right: 20px;
+}
+
+.settings-category-description-wrapper {
+	overflow: hidden;
+}

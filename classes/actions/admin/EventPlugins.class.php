@@ -77,7 +77,7 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event
              * неизвестный тип
              */
             default:
-                $this->Message_AddError($this->Lang('errors.plugins.unknown_filter_type'), $this->Lang_Get('error'));
+                $this->Message_AddError($this->Lang('errors.plugins.unknown_filter_type'), $this->Lang_Get('common.error.error'));
         }
         $this->Viewer_Assign('aPluginsInfo', $aPluginsInfo);
         $this->Viewer_Assign('sType', $sType);
@@ -98,7 +98,7 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event
          * проверить тип действия над плагином
          */
         if (!in_array($sAction, array('activate', 'deactivate', 'remove', 'apply_update'))) {
-            $this->Message_AddError($this->Lang('errors.plugins.unknown_action'), $this->Lang_Get('error'), true);
+            $this->Message_AddError($this->Lang('errors.plugins.unknown_action'), $this->Lang_Get('common.error.error'), true);
             return $this->RedirectToReferer();
         }
         /*
@@ -121,7 +121,7 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event
              * проверить вывел ли ошибку сам плагин (метод активации класса плагина или движок из-за версии, например) или просто сообщить "ошибка"
              */
             if (!$aMessages = $this->Message_GetErrorSession() or !count($aMessages)) {
-                $this->Message_AddErrorSingle($this->Lang_Get('system_error'), $this->Lang_Get('error'), true);
+                $this->Message_AddErrorSingle($this->Lang_Get('common.error.system.base'), $this->Lang_Get('common.error.error'), true);
             }
         }
         $this->RedirectToReferer();
@@ -137,7 +137,7 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event
     {
         $this->SetTemplateAction('plugins/instructions');
         if (!$oPlugin = $this->PluginAdmin_Plugins_GetPluginByCode(getRequestStr('plugin'))) {
-            return $this->Message_AddError($this->Lang('errors.plugins.plugin_not_found'), $this->Lang_Get('error'));
+            return $this->Message_AddError($this->Lang('errors.plugins.plugin_not_found'), $this->Lang_Get('common.error.error'));
         }
         $this->Viewer_Assign('oPlugin', $oPlugin);
     }
@@ -195,7 +195,7 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event
             /*
              * показать текст ошибки
              */
-            $this->Message_AddError($mData, $this->Lang_Get('error'));
+            $this->Message_AddError($mData, $this->Lang_Get('common.error.error'));
         }
 
         /*

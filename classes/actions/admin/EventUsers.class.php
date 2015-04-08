@@ -1670,14 +1670,14 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event
              */
             case 'target_user':
                 $oUser = $oComplaint->getTargetUser();
-                $sTemplateName = 'email.user_complaint_answer_target_user.tpl';
+                $sTemplateName = 'user_complaint_answer_target_user.tpl';
                 break;
             /*
              * или тому, кто отправил жалобу
              */
             default:
                 $oUser = $oComplaint->getUser();
-                $sTemplateName = 'email.user_complaint_answer_user.tpl';
+                $sTemplateName = 'user_complaint_answer_user.tpl';
         }
         /*
          * отправить письмо
@@ -1765,10 +1765,10 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event
 
             $iId = $this->User_AddUserField($oField);
             if (!$iId) {
-                $this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
+                $this->Message_AddError($this->Lang_Get('common.error.system.base'), $this->Lang_Get('common.error.error'));
                 return;
             } else {
-                $this->Message_AddNotice('Добавление прошло успешно', $this->Lang_Get('attention'), true);
+                $this->Message_AddNotice('Добавление прошло успешно', $this->Lang_Get('common.attention'), true);
                 Router::LocationAction("admin/users/contact-fields");
             }
         }
@@ -1804,10 +1804,10 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event
             }
 
             if ($this->User_updateUserField($oField)) {
-                $this->Message_AddNotice('Обновление прошло успешно', $this->Lang_Get('attention'), true);
+                $this->Message_AddNotice('Обновление прошло успешно', $this->Lang_Get('common.attention'), true);
                 Router::LocationAction("admin/users/contact-fields");
             } else {
-                $this->Message_AddError($this->Lang_Get('system_error'), $this->Lang_Get('error'));
+                $this->Message_AddError($this->Lang_Get('common.error.system.base'), $this->Lang_Get('common.error.error'));
                 return;
             }
         } else {
@@ -1828,7 +1828,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event
         $this->Security_ValidateSendForm();
         $this->User_deleteUserField($this->GetParam(2));
 
-        $this->Message_AddNotice('Удаление прошло успешно', $this->Lang_Get('attention'), true);
+        $this->Message_AddNotice('Удаление прошло успешно', $this->Lang_Get('common.attention'), true);
         Router::LocationAction("admin/users/contact-fields");
     }
 

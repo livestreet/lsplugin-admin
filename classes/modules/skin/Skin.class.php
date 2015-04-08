@@ -275,7 +275,7 @@ class PluginAdmin_ModuleSkin extends Module
             $this->Message_AddError(
                 $this->Lang_Get('plugin.admin.errors.skin.activation_version_error',
                     array('version' => $oXml->requires->livestreet)),
-                $this->Lang_Get('error'),
+                $this->Lang_Get('common.error.error'),
                 true
             );
             return false;
@@ -292,7 +292,7 @@ class PluginAdmin_ModuleSkin extends Module
                     $this->Message_AddError(
                         $this->Lang_Get('plugin.admin.errors.skin.activation_requires_error',
                             array('plugin' => func_camelize($sReqPlugin))),
-                        $this->Lang_Get('error'),
+                        $this->Lang_Get('common.error.error'),
                         true
                     );
                 }

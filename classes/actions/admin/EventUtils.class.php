@@ -135,7 +135,7 @@ class PluginAdmin_ActionAdmin_EventUtils extends Event
                 break;
             default:
                 $this->Message_AddError($this->Lang('errors.utils.unknown_optimization_action'),
-                    $this->Lang_Get('error'), true);
+                    $this->Lang_Get('common.error.error'), true);
         }
         $this->RedirectToReferer();
     }
@@ -168,13 +168,13 @@ class PluginAdmin_ActionAdmin_EventUtils extends Event
             $oTask->_setDataSafe(getRequest('task'));
             if ($oTask->_Validate()) {
                 if ($oTask->Add()) {
-                    $this->Message_AddNotice('Добавление прошло успешно', $this->Lang_Get('attention'), true);
+                    $this->Message_AddNotice('Добавление прошло успешно', $this->Lang_Get('common.attention'), true);
                     Router::Location(Router::LocationAction('admin/utils/cron'));
                 } else {
-                    $this->Message_AddError('Возникла ошибка при добавлении', $this->Lang_Get('error'));
+                    $this->Message_AddError('Возникла ошибка при добавлении', $this->Lang_Get('common.error.error'));
                 }
             } else {
-                $this->Message_AddError($oTask->_getValidateError(), $this->Lang_Get('error'));
+                $this->Message_AddError($oTask->_getValidateError(), $this->Lang_Get('common.error.error'));
             }
         }
         $this->SetTemplateAction('utils/cron/create');
@@ -194,13 +194,13 @@ class PluginAdmin_ActionAdmin_EventUtils extends Event
             $oTask->_setDataSafe(getRequest('task'), array('state'));
             if ($oTask->_Validate()) {
                 if ($oTask->Update()) {
-                    $this->Message_AddNotice('Сохранение прошло успешно', $this->Lang_Get('attention'), true);
+                    $this->Message_AddNotice('Сохранение прошло успешно', $this->Lang_Get('common.attention'), true);
                     Router::Location(Router::LocationAction('admin/utils/cron'));
                 } else {
-                    $this->Message_AddError('Возникла ошибка при сохранении', $this->Lang_Get('error'));
+                    $this->Message_AddError('Возникла ошибка при сохранении', $this->Lang_Get('common.error.error'));
                 }
             } else {
-                $this->Message_AddError($oTask->_getValidateError(), $this->Lang_Get('error'));
+                $this->Message_AddError($oTask->_getValidateError(), $this->Lang_Get('common.error.error'));
             }
         } else {
             $_REQUEST['task'] = array(
@@ -219,7 +219,7 @@ class PluginAdmin_ActionAdmin_EventUtils extends Event
             return parent::EventNotFound();
         }
         $oTask->Delete();
-        $this->Message_AddNotice('Удаление прошло успешно', $this->Lang_Get('attention'), true);
+        $this->Message_AddNotice('Удаление прошло успешно', $this->Lang_Get('common.attention'), true);
         Router::Location(Router::LocationAction('admin/utils/cron'));
     }
 
@@ -233,9 +233,9 @@ class PluginAdmin_ActionAdmin_EventUtils extends Event
 
         $aResult = $this->Cron_RunTask($oTask);
         if ($aResult['state'] == 'successful') {
-            $this->Message_AddNotice('Задача выполнена', $this->Lang_Get('attention'));
+            $this->Message_AddNotice('Задача выполнена', $this->Lang_Get('common.attention'));
         } else {
-            $this->Message_AddError('Не удалось выполнить задачу, смотрите логи', $this->Lang_Get('error'));
+            $this->Message_AddError('Не удалось выполнить задачу, смотрите логи', $this->Lang_Get('common.error.error'));
         }
         $this->Viewer_Assign('oTaskItem', $oTask);
         $this->Viewer_AssignAjax('sHtmlRow',

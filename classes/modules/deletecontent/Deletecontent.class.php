@@ -224,9 +224,9 @@ class PluginAdmin_ModuleDeletecontent extends Module
     {
         $aFilter = array(
             self::FILTER_CONDITIONS => array(
-                'user_from_id' => $oUser->getId(),
+                'from_user_id' => $oUser->getId(),
             ),
-            self::FILTER_TABLE      => Config::Get('db.table.invite')
+            self::FILTER_TABLE      => Config::Get('db.table.invite_use')
         );
         return $this->DeleteContentByFilter($aFilter);
     }
@@ -242,9 +242,20 @@ class PluginAdmin_ModuleDeletecontent extends Module
     {
         $aFilter = array(
             self::FILTER_CONDITIONS => array(
-                'user_to_id' => $oUser->getId(),
+                'to_user_id' => $oUser->getId(),
             ),
-            self::FILTER_TABLE      => Config::Get('db.table.invite')
+            self::FILTER_TABLE      => Config::Get('db.table.invite_use')
+        );
+        return $this->DeleteContentByFilter($aFilter);
+    }
+
+    public function DeleteUserInviteCode($oUser)
+    {
+        $aFilter = array(
+            self::FILTER_CONDITIONS => array(
+                'user_id' => $oUser->getId(),
+            ),
+            self::FILTER_TABLE      => Config::Get('db.table.invite_code')
         );
         return $this->DeleteContentByFilter($aFilter);
     }

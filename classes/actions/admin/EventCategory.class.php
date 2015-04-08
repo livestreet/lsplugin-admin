@@ -121,13 +121,13 @@ class PluginAdmin_ActionAdmin_EventCategory extends Event
                     }
                     $this->Category_RebuildCategoryUrlFull($oCategory);
 
-                    $this->Message_AddNotice('Обновление прошло успешно', $this->Lang_Get('attention'), true);
+                    $this->Message_AddNotice('Обновление прошло успешно', $this->Lang_Get('common.attention'), true);
                     Router::LocationAction("admin/categories/" . $oType->getTargetType());
                 } else {
-                    $this->Message_AddError('Возникла ошибка при обновлении', $this->Lang_Get('error'));
+                    $this->Message_AddError('Возникла ошибка при обновлении', $this->Lang_Get('common.error.error'));
                 }
             } else {
-                $this->Message_AddError($oCategory->_getValidateError(), $this->Lang_Get('error'));
+                $this->Message_AddError($oCategory->_getValidateError(), $this->Lang_Get('common.error.error'));
             }
         } else {
             $_REQUEST['category'] = array(
@@ -165,13 +165,13 @@ class PluginAdmin_ActionAdmin_EventCategory extends Event
                     $oCategory->setDescription($this->Category_ParserText($oCategory->getDescription(), $oCategory));
                 }
                 if ($oCategory->Add()) {
-                    $this->Message_AddNotice('Добавление прошло успешно', $this->Lang_Get('attention'), true);
+                    $this->Message_AddNotice('Добавление прошло успешно', $this->Lang_Get('common.attention'), true);
                     Router::LocationAction("admin/categories/" . $oType->getTargetType());
                 } else {
-                    $this->Message_AddError('Возникла ошибка при добавлении', $this->Lang_Get('error'));
+                    $this->Message_AddError('Возникла ошибка при добавлении', $this->Lang_Get('common.error.error'));
                 }
             } else {
-                $this->Message_AddError($oCategory->_getValidateError(), $this->Lang_Get('error'));
+                $this->Message_AddError($oCategory->_getValidateError(), $this->Lang_Get('common.error.error'));
             }
         }
         /**
