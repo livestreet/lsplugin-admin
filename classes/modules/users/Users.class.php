@@ -1194,22 +1194,22 @@ class PluginAdmin_ModuleUsers extends Module
      */
     protected function DeleteUser($oUser)
     {
-		/*
-		 * вызов хука перед удалением самого пользователя
-		 */
-		$this->Hook_Run('admin_delete_user_before', array('oUser' => $oUser));
-		/*
-		 * удалить пользователя
-		 */
-		$this->PluginAdmin_Deletecontent_DeleteUserItself($oUser);
-		/*
-		 * удалить сессию пользователя
-		 */
-		$this->PluginAdmin_Deletecontent_DeleteUserSession($oUser);
-		/*
-		 * вызов хука после удаления пользователя
-		 */
-		$this->Hook_Run('admin_delete_user_after', array('oUser' => $oUser));
+        /*
+         * вызов хука перед удалением самого пользователя
+         */
+        $this->Hook_Run('admin_delete_user_before', array('oUser' => $oUser));
+        /*
+         * удалить пользователя
+         */
+        $this->PluginAdmin_Deletecontent_DeleteUserItself($oUser);
+        /*
+         * удалить сессию пользователя
+         */
+        $this->PluginAdmin_Deletecontent_DeleteUserSession($oUser);
+        /*
+         * вызов хука после удаления пользователя
+         */
+        $this->Hook_Run('admin_delete_user_after', array('oUser' => $oUser));
     }
 
 
