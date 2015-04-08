@@ -314,13 +314,13 @@ class PluginAdmin_ModulePlugins extends Module
     }
 
 
-    /**
-     * Получить сущность плагина по коду (папке плагина)
-     *
-     * @param string $sPluginCode код плагина
-     * @param array $aOptions дополнительные опции (не обязательны)
-     * @return bool|Entity                      сущность плагина или false в случае ошибки
-     */
+	/**
+	 * Получить сущность плагина по коду (папке плагина)
+	 *
+	 * @param string $sPluginCode код плагина
+	 * @param array  $aOptions    дополнительные опции (не обязательны)
+	 * @return bool|Entity                      сущность плагина или false в случае ошибки
+	 */
     public function GetPluginByCode($sPluginCode, $aOptions = array())
     {
         /*
@@ -451,6 +451,7 @@ class PluginAdmin_ModulePlugins extends Module
         /*
          * проверить разрешенные символы кода плагина
          * например, если код (директория) плагина содержит дефис - скорее всего плагин скачали из Git-репозитория, а тот дает свои имена директориям, которые нужно переименовывать
+         * @todo: вроде как был коммит, который разрешал дефис в именах плагинов, если это так - добавить дефис в регулярку
          */
         if (!preg_match('#^[\w\d]+$#iu', $sPluginCode)) {
             return false;
@@ -458,9 +459,7 @@ class PluginAdmin_ModulePlugins extends Module
         /*
          * есть ли главный класс плагина с таким кодом (не была ли ошибочно названа директория с плагином)
          */
-        if (!file_exists($this->GetPluginRootFolderFileFullPath($sPluginCode,
-                $this->GetFullFileNameForMainPluginClass($sPluginCode)))
-        ) {
+        if (!file_exists($this->GetPluginRootFolderFileFullPath($sPluginCode, $this->GetFullFileNameForMainPluginClass($sPluginCode)))) {
             return false;
         }
         return true;

@@ -137,8 +137,7 @@ class PluginAdmin extends Plugin
          * плагин ни под чем другим не запустится
          */
         if (!defined('LS_VERSION_FRAMEWORK')) {
-            Engine::getInstance()->Message_AddError('This plugin needs to be run in original LiveStreet CMS Framework',
-                'Error', true);
+            Engine::getInstance()->Message_AddError('This plugin needs to be run in original LiveStreet CMS Framework', 'Error', true);
             return false;
         }
         /*
