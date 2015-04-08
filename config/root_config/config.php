@@ -670,8 +670,15 @@ return array(
             'name'        => 'config_parameters.sys.cache.type.name',
             'description' => 'config_parameters.sys.cache.type.description',
             'validator'   => array(
-                'type'   => 'String',
-                'params' => array(),
+                'type'   => 'Enum',
+                'params' => array(
+                    'enum'       => array(
+                        'file',
+                        'xcache',
+                        'memory',
+                    ),
+                    'allowEmpty' => false,
+                ),
             ),
         ),
         'sys.cache.dir'                              => array(
@@ -1682,15 +1689,6 @@ return array(
             'description' => 'config_parameters.module.wall.text_min.description',
             'validator'   => array(
                 'type'   => 'Number',
-                'params' => array(),
-            ),
-        ),
-        'module.autoLoad'                            => array(
-            'type'        => 'array',
-            'name'        => 'config_parameters.module.autoLoad.name',
-            'description' => 'config_parameters.module.autoLoad.description',
-            'validator'   => array(
-                'type'   => 'Array',
                 'params' => array(),
             ),
         ),

@@ -748,10 +748,6 @@ return array(
                     ),
                 ),
             ),
-            'autoLoad' => array(
-                'name'        => '',
-                'description' => 'Какие модули должны быть загружены на старте',
-            ),
         ),
         'router'     => array(
             'rewrite' => array(
