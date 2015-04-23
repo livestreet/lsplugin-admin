@@ -820,12 +820,12 @@ class PluginAdmin_ModuleUsers extends Module
      *
      */
 
-    /**
-     * Удалить контент пользователя и самого пользователя
-     *
-     * @param $oUser        объект пользователя
-     * @param $bDeleteUser    удалять ли самого пользователя
-     */
+	/**
+	 * Удалить контент пользователя и самого пользователя
+	 *
+	 * @param      $oUser        объект пользователя
+	 * @param bool $bDeleteUser  удалять ли самого пользователя
+	 */
     public function PerformUserContentDeletion($oUser, $bDeleteUser = false)
     {
         /*
@@ -1189,11 +1189,15 @@ class PluginAdmin_ModuleUsers extends Module
     /**
      * Удалить запись пользователя из БД
      *
-     * @param $oUser    объект пользователя
+     * @param $oUser    сущность пользователя
      * @return mixed
      */
     protected function DeleteUser($oUser)
     {
+        /*
+         * вызов хука перед удалением самого пользователя
+         */
+        $this->Hook_Run('admin_delete_user_before', array('oUser' => $oUser));
         /*
          * удалить пользователя
          */
@@ -1202,6 +1206,10 @@ class PluginAdmin_ModuleUsers extends Module
          * удалить сессию пользователя
          */
         $this->PluginAdmin_Deletecontent_DeleteUserSession($oUser);
+        /*
+         * вызов хука после удаления пользователя
+         */
+        $this->Hook_Run('admin_delete_user_after', array('oUser' => $oUser));
     }
 
 

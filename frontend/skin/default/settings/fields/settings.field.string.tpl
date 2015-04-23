@@ -29,7 +29,7 @@
 
 		<select name="{$sInputDataName}" class="input-text width-250">
 			{foreach from=$aItemsToShow item=sValue}
-				<option value="{$sValue|escape:'html'}" {if $sValue==$oParameter->getValue()}selected="selected"{/if}>{$sValue|escape:'html'}</option>
+				<option value="{$sValue|escape:'html'}" {if $sValue==$oParameter->getValue()}selected="selected"{/if}>{$sValue|default:'---'|escape:'html'}</option>
 			{/foreach}
 		</select>
 

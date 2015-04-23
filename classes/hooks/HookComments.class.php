@@ -30,7 +30,7 @@ class PluginAdmin_HookComments extends Hook
     public function RegisterHook()
     {
         /*
-         * добавить ссылку на полное удаление комментария и всех его овтетов
+         * добавить ссылку на полное удаление комментария и всех его ответов
          */
         $this->AddHook('template_comment_action', 'CommentAddFullDeleteLink');
     }

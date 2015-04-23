@@ -94,18 +94,17 @@ class PluginAdmin_ModuleCatalog extends Module
      *
      */
 
-    /**
-     * Построить относительный путь к методу по коду плагина, группе методов и методе из указанной группы
-     *
-     * @param $sPluginCode        код плагина
-     * @param $sMethodGroup        группа методов
-     * @param $sMethod            метод группы
-     * @return mixed            строка с относительным путем к методу
-     */
+	/**
+	 * Построить относительный путь к методу по коду плагина, группе методов и методе из указанной группы
+	 *
+	 * @param string $sPluginCode  код плагина
+	 * @param string $sMethodGroup группа методов
+	 * @param string $sMethod      метод группы
+	 * @return mixed            строка с относительным путем к методу
+	 */
     private function BuildMethodPathForPlugin($sPluginCode, $sMethodGroup, $sMethod)
     {
-        return str_replace(self::PLUGIN_CODE_PLACEHOLDER, $sPluginCode,
-            $this->aCatalogMethodPath[$sMethodGroup][$sMethod]);
+        return str_replace(self::PLUGIN_CODE_PLACEHOLDER, $sPluginCode, $this->aCatalogMethodPath[$sMethodGroup][$sMethod]);
     }
 
 
@@ -169,13 +168,13 @@ class PluginAdmin_ModuleCatalog extends Module
      *
      */
 
-    /**
-     * Послать запрос серверу с нужными таймингами
-     *
-     * @param $sApiUrl            урл нужного АПИ
-     * @param $aRequestData        передаваемые данные
-     * @return array            массив (RESPONSE_SUCCESS, RESPONSE_ERROR_MESSAGE, RESPONSE_DATA) см. модуль Remoteserver
-     */
+	/**
+	 * Послать запрос серверу с нужными таймингами
+	 *
+	 * @param string $sApiUrl      урл нужного АПИ
+	 * @param arrray $aRequestData передаваемые данные
+	 * @return array            массив (RESPONSE_SUCCESS, RESPONSE_ERROR_MESSAGE, RESPONSE_DATA) см. модуль Remoteserver
+	 */
     protected function SendDataToServer($sApiUrl, $aRequestData)
     {
         return $this->PluginAdmin_Remoteserver_Send(array(
