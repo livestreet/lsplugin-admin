@@ -90,6 +90,27 @@ class PluginAdmin extends Plugin
         )
     );
 
+    /**
+     * Выполнение действий перед инициализацией ядра
+     * В этом метода крайне не рекомендуется использовать модули движка, т.к. ядро еще полностью не инициализировалось
+     */
+    public function BeforeInitEngine()
+    {
+        parent::BeforeInitEngine();
+        /**
+         * присоеденить схему главного конфига
+         */
+        $this->PluginAdmin_Settings_AddConfigSchemeToRootConfig();
+        /**
+         * выполнить загрузку конфигов системы и плагинов
+         */
+        $this->PluginAdmin_Settings_AutoLoadConfigs();
+        /**
+         * Фикс загрузки параметров кеша
+         */
+        $this->Cache_InitParams();
+    }
+
 
     /**
      * Активация плагина

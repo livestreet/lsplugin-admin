@@ -997,7 +997,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage
      *
      * @throws Exception
      */
-    private function AddConfigSchemeToRootConfig()
+    public function AddConfigSchemeToRootConfig()
     {
         $sPathRootConfigScheme = $this->GetRootConfigSchemePath() . 'config.php';
         if (!is_readable($sPathRootConfigScheme)) {
@@ -1021,7 +1021,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage
      *
      * @throws Exception
      */
-    private function AddConfigLanguageToRootConfig()
+    public function AddConfigLanguageToRootConfig()
     {
         $sPathRootConfigLang = $this->GetRootConfigLanguge(Config::Get('lang.current'));
         if (!is_readable($sPathRootConfigLang)) {

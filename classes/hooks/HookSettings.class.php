@@ -33,24 +33,16 @@ class PluginAdmin_HookSettings extends Hook
          * наивысший приоритет, который можно установить (первая очередь)
          * (другие обработчики этого хука, которые обращаются к классу конфига должны иметь более низкий приоритет)
          */
-        $this->AddHook('lang_init_start', 'LangInitStart', __CLASS__, PHP_INT_MAX);
+        $this->AddHook('engine_init_complete', 'EngineInitComplete', __CLASS__, PHP_INT_MAX);
     }
 
 
-    public function LangInitStart()
+    public function EngineInitComplete()
     {
-        /*
-         * присоеденить схему главного конфига и текстовки
-         */
-        $this->PluginAdmin_Settings_AddSchemeAndLangToRootConfig();
-        /*
-         * выполнить загрузку конфигов системы и плагинов
-         */
-        $this->PluginAdmin_Settings_AutoLoadConfigs();
         /**
-         * Фикс загрузки параметров кеша (кеш инициализируется раньше хука lang_init_start)
+         * присоеденить текстовки
          */
-        $this->Cache_InitParams();
+        $this->PluginAdmin_Settings_AddConfigLanguageToRootConfig();
     }
 
 }
