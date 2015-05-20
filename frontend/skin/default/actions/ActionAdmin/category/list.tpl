@@ -31,7 +31,7 @@
 					{$iLevel=$aCategoryItem['level']}
 					<tr data-id="{$oCategoryItem->getId()}">
 						<td>
-							<i class="icon-file" style="margin-left: {$iLevel*20}px;"></i>
+							<i class="ls-icon-file" style="margin-left: {$iLevel*20}px;"></i>
 							{if $oCategoryItem->getWebUrl()}
 								<a href="{$oCategoryItem->getWebUrl()}" border="0">{$oCategoryItem->getTitle()}</a>
 							{else}
@@ -41,9 +41,9 @@
 						<td>{$oCategoryItem->getUrlFull()}</td>
 						<td>{$oCategoryItem->getCountTargetOfDescendants()}</td>
 						<td class="ta-r">
-							<a href="{$oCategoryItem->getUrlAdminUpdate()}" class="icon-edit" title="{$aLang.plugin.admin.edit}"></a>
+							<a href="{$oCategoryItem->getUrlAdminUpdate()}" class="ls-icon-edit" title="{$aLang.plugin.admin.edit}"></a>
 							<a href="{$oCategoryItem->getUrlAdminRemove()}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
-							   class="icon-remove js-question"
+							   class="ls-icon-remove js-question"
 							   title="{$aLang.plugin.admin.delete}"
 							   data-question-title="Действительно удалить?"></a>
 						</td>

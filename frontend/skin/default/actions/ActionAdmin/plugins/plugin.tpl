@@ -24,10 +24,10 @@
 
 		{* Информация *}
 		<ul class="mb-15">
-			<li><i class="icon-folder-open"></i> /plugins/{$oPlugin->getCode()}/</li>
-			<li><i class="icon-user"></i> {$oPlugin->getAuthor()}</li>
+			<li><i class="ls-icon-folder-open"></i> /plugins/{$oPlugin->getCode()}/</li>
+			<li><i class="ls-icon-user"></i> {$oPlugin->getAuthor()}</li>
 			{if $oPlugin->getHomepage()}
-				<li><i class="icon-home"></i> {$oPlugin->getHomepage()}</li>
+				<li><i class="ls-icon-home"></i> {$oPlugin->getHomepage()}</li>
 			{/if}
 		</ul>
 

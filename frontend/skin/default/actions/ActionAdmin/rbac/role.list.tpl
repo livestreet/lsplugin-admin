@@ -27,7 +27,7 @@
 					{$iLevel=$aRoleItem['level']}
 					<tr data-id="{$oRoleItem->getId()}">
 						<td>
-							<i class="icon-file" style="margin-left: {$iLevel*20}px;"></i>
+							<i class="ls-icon-file" style="margin-left: {$iLevel*20}px;"></i>
 							{$oRoleItem->getTitle()}
 						</td>
 						<td>{$oRoleItem->getCode()}</td>
@@ -61,15 +61,15 @@
 						</td>
 						<td align="center">
 							{if $oRoleItem->getState()==ModuleRbac::ROLE_STATE_ACTIVE}
-								<span class="icon-eye-open"></span>
+								<span class="ls-icon-eye-open"></span>
 							{else}
-								<span class="icon-eye-close"></span>
+								<span class="ls-icon-eye-close"></span>
 							{/if}
 						</td>
 						<td class="ta-r">
-							<a href="{$oRoleItem->getUrlAdminAction('update')}" class="icon-edit" title="{$aLang.plugin.admin.edit}"></a>
+							<a href="{$oRoleItem->getUrlAdminAction('update')}" class="ls-icon-edit" title="{$aLang.plugin.admin.edit}"></a>
 							<a href="{$oRoleItem->getUrlAdminAction('remove')}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
-							   class="icon-remove js-question"
+							   class="ls-icon-remove js-question"
 							   title="{$aLang.plugin.admin.delete}"
 							   data-question-title="Действительно удалить?"></a>
 						</td>

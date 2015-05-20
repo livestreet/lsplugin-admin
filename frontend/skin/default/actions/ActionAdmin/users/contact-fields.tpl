@@ -34,9 +34,9 @@
                     <td>{$oFieldItem->getType()|escape}</td>
                     <td>{$oFieldItem->getPattern()|escape}</td>
                     <td class="ta-r">
-                        <a href="{router page='admin/users/contact-fields/update'}{$oFieldItem->getId()}/" class="icon-edit" title="{$aLang.plugin.admin.edit}"></a>
+                        <a href="{router page='admin/users/contact-fields/update'}{$oFieldItem->getId()}/" class="ls-icon-edit" title="{$aLang.plugin.admin.edit}"></a>
                         <a href="{router page='admin/users/contact-fields/remove'}{$oFieldItem->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}"
-                           class="icon-remove js-question"
+                           class="ls-icon-remove js-question"
                            title="{$aLang.plugin.admin.delete}"
                            data-question-title="Действительно удалить?"></a>
                     </td>

@@ -132,10 +132,10 @@
 							   data-type="modal-toggle"
 							   data-modal-url="{router page="admin/users/complaints/ajax-modal-view"}"
 							   data-param-complaint_id="{$oComplaint->getId()}"
-							   title="{$aLang.plugin.admin.show}"><i class="icon-list"></i></a>
+							   title="{$aLang.plugin.admin.show}"><i class="ls-icon-list"></i></a>
 
 							<a href="{router page="admin/users/complaints/delete/{$oComplaint->getId()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}" title="{$aLang.plugin.admin.delete}"
-							   class="js-question"><i class="icon-remove"></i></a>
+							   class="js-question"><i class="ls-icon-remove"></i></a>
 						</td>
 					</tr>
 				{/foreach}

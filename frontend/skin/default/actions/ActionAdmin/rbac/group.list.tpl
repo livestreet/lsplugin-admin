@@ -40,9 +40,9 @@
 							{/if}
 						</td>
 						<td class="ta-r">
-							<a href="{$oGroupItem->getUrlAdminUpdate()}" class="icon-edit" title="{$aLang.plugin.admin.edit}"></a>
+							<a href="{$oGroupItem->getUrlAdminUpdate()}" class="ls-icon-edit" title="{$aLang.plugin.admin.edit}"></a>
 							<a href="{$oGroupItem->getUrlAdminRemove()}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
-							   class="icon-remove js-question"
+							   class="ls-icon-remove js-question"
 							   title="{$aLang.plugin.admin.delete}"
 							   data-question-title="Действительно удалить?"></a>
 						</td>

@@ -15,8 +15,8 @@
 		{/if}
 	</td>
 	<td class="ta-r">
-		<a href="#" class="icon-play" title="Запустить сейчас" onclick="return ls.admin_cron.runTask({$oTaskItem->getId()});"></a>
-		<a href="{router page='admin/utils/cron/update'}{$oTaskItem->getId()}/" class="icon-edit" title="Изменить"></a>
-		<a href="{router page='admin/utils/cron/remove'}{$oTaskItem->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}" class="icon-remove" title="Удалить" onclick="if (confirm('Действительно удалить?')) { ls.plugin.article.admin.removeArticle({$oTaskItem->getId()}); } return false;"></a>
+		<a href="#" class="ls-icon-play" title="Запустить сейчас" onclick="return ls.admin_cron.runTask({$oTaskItem->getId()});"></a>
+		<a href="{router page='admin/utils/cron/update'}{$oTaskItem->getId()}/" class="ls-icon-edit" title="Изменить"></a>
+		<a href="{router page='admin/utils/cron/remove'}{$oTaskItem->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}" class="ls-icon-remove" title="Удалить" onclick="if (confirm('Действительно удалить?')) { ls.plugin.article.admin.removeArticle({$oTaskItem->getId()}); } return false;"></a>
 	</td>
 </tr>

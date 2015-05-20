@@ -37,9 +37,9 @@
 						<td>{$oPropertyItem->getCode()}</td>
 						<td>{$oPropertyItem->getType()}</td>
 						<td class="ta-r">
-							<a href="{$oPropertyItem->getUrlAdminUpdate()}" class="icon-edit" title="{$aLang.plugin.admin.edit}"></a>
+							<a href="{$oPropertyItem->getUrlAdminUpdate()}" class="ls-icon-edit" title="{$aLang.plugin.admin.edit}"></a>
 							<a href="{$oPropertyItem->getUrlAdminRemove()}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
-							   class="icon-remove js-question"
+							   class="ls-icon-remove js-question"
 							   title="{$aLang.plugin.admin.delete}"
 							   data-question-title="Действительно удалить?"></a>
 						</td>

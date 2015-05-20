@@ -65,7 +65,7 @@
 								{* Для неактивного шаблона нужно только вывести список тем, т.к. включить их для неактивного шаблона нельзя *}
 								{foreach from=$oSkin->getThemes() item=aTheme}
 									<span>{$aTheme.value}</span>
-									<i class="icon-info-sign" title="{$aTheme.description|escape:'html'}"></i>
+									<i class="ls-icon-info-sign" title="{$aTheme.description|escape:'html'}"></i>
 									{if !$aTheme@last},{/if}
 								{/foreach}
 							{/if}
