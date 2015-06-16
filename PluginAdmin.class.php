@@ -144,6 +144,18 @@ class PluginAdmin extends Plugin
         if (defined('ACEADMINPANEL_VERSION')) {
             throw new Exception('Admin: error: You must fully remove old AceAdminPanel plugin and never use two admin panels at the same time');
         }
+		/*
+		 * @todo: delete
+		 */
+		if (!isAjaxRequest()) {
+			$this->Message_AddNotice(
+				'В данный момент в админке часть функционала не работает либо работает некорректно, в т.ч. верстка.
+				Это связано с тем, что после основного этапа разработки админки был переделан LiveStreet Framework и продолжается активная работа над ним.
+				Админка будет адаптирована как только фреймворк войдет в более стабильное состояние.<br /><br />
+				Спасибо за понимание.',
+				'Внимание'
+			);
+		}
     }
 
 

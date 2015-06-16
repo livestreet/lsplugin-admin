@@ -34,7 +34,7 @@
 		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
 				 sFieldName  = 'task[period_run]'
 				 sFieldValue = $_aRequest.task.period_run
-				 sFieldNote  = 'С какой периодичностью запускать задачу, в минутах. Минимальное значение - 2 минуты.'
+				 sFieldNote  = 'С какой периодичностью запускать задачу, в минутах. Минимальное значение - 5 минуты.'
 				 sFieldLabel = 'Период'}
 
 		{* Активность *}
