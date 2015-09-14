@@ -44,15 +44,15 @@
 							<td>{$oPermissionItem->getPlugin()}</td>
 							<td align="center">
 								{if $oPermissionItem->getState()==ModuleRbac::PERMISSION_STATE_ACTIVE}
-									<span class="ls-icon-eye-open"></span>
+									<span class="fa fa-eye"></span>
 								{else}
-									<span class="ls-icon-eye-close"></span>
+									<span class="fa fa-eye-slash"></span>
 								{/if}
 							</td>
 							<td class="ta-r">
-								<a href="{$oPermissionItem->getUrlAdminUpdate()}" class="ls-icon-edit" title="{$aLang.plugin.admin.edit}"></a>
+								<a href="{$oPermissionItem->getUrlAdminUpdate()}" class="fa fa-edit" title="{$aLang.plugin.admin.edit}"></a>
 								<a href="{$oPermissionItem->getUrlAdminRemove()}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
-								   class="ls-icon-remove js-question"
+								   class="fa fa-trash-o js-question"
 								   title="{$aLang.plugin.admin.delete}"
 								   data-question-title="Действительно удалить?"></a>
 							</td>

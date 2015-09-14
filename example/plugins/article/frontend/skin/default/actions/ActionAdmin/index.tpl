@@ -29,8 +29,8 @@
 					<td><a href="{$oArticleItem->getWebUrl()}">{$oArticleItem->getTitle()}</a></td>
 					<td>{date_format date=$oArticleItem->getDateCreate() format="j F Y"}</td>
 					<td class="ta-r">
-						<a href="{$oAdminUrl->get('update')}{$oArticleItem->getId()}/" class="ls-icon-edit" title="Изменить"></a>
-						<a href="#" class="ls-icon-remove" onclick="if (confirm('Действительно удалить?')) { ls.plugin.article.admin.removeArticle({$oArticleItem->getId()}); } return false;" title="Удалить"></a>
+						<a href="{$oAdminUrl->get('update')}{$oArticleItem->getId()}/" class="fa fa-edit" title="Изменить"></a>
+						<a href="#" class="fa fa-trash-o" onclick="if (confirm('Действительно удалить?')) { ls.plugin.article.admin.removeArticle({$oArticleItem->getId()}); } return false;" title="Удалить"></a>
 					</td>
 				</tr>
 			{/foreach}

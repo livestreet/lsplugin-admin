@@ -16,9 +16,9 @@ $config['components'] = array(
     'admin:autocomplete', 'admin:icon', 'admin:item', 'admin:highlighter', 'admin:jumbotron', 'admin:notification',
 
     // Компоненты LS CMS
-    'admin:note', 'admin:icons-contact', 'admin:toolbar-scrollup', 'admin:toolbar-scrollnav', 'admin:media', 'admin:property', 'admin:content',
+    'admin:note', 'admin:icons-contact', 'admin:toolbar-scrollup', 'admin:toolbar-scrollnav',
+    'admin:media', 'admin:property', 'admin:content',
 );
-
 
 /**
  * Основные скрипты движка

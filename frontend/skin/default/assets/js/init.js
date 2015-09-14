@@ -49,18 +49,18 @@ jQuery(document).ready(function ($) {
     /**
      * Datepicker
      */
-    $('.date-picker').datepicker();
+    $('.date-picker').livequery(function () {
+        $(this).lsFieldDate();
+    });
 
 
     /**
      * Datepicker with php date format
      */
-    $('.date-picker-php').datepicker({
-        /*
-         формат даты изменен для удобства работы с ней на стороне php
-         */
-        dateFormat: 'yy-mm-dd'
+    $('.date-picker-php').livequery(function () {
+        $(this).lsFieldDate({ format: 'yy-mm-dd'});
     });
+
 
     /**
      * Fields
@@ -81,7 +81,7 @@ jQuery(document).ready(function ($) {
             at: "right bottom",
             collision: "flipfit flip"
         },
-        body: true,
+        //body: true,
         show: {
             effect: 'fadeIn'
         },
@@ -98,7 +98,7 @@ jQuery(document).ready(function ($) {
             at: "left bottom",
             collision: "flipfit flip"
         },
-        body: true,
+        //body: true,
         show: {
             effect: 'fadeIn'
         },
@@ -114,7 +114,7 @@ jQuery(document).ready(function ($) {
             at: "right bottom",
             collision: "flipfit flip"
         },
-        body: true,
+        //body: true,
         beforeshow: function (e, dropdown) {
             // Задаем минимальную ширину меню
             var toggleWidth = dropdown.element.outerWidth();

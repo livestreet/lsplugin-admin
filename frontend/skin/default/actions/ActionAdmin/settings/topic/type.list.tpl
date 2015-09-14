@@ -35,10 +35,10 @@
 					<td>{$oTopicTypeItem->getCode()}</td>
 					<td>{$oTopicTypeItem->getStateText()}</td>
 					<td>
-						<a href="{router page="admin/settings/topic-type/update"}{$oTopicTypeItem->getId()}/" class="ls-icon-edit" title="{$aLang.plugin.admin.edit}"></a>
-						<a href="{router page="admin/properties"}{$oTopicTypeItem->getPropertyTargetType()}/" class="ls-icon-th-list" title="Настройка дополнительных полей"></a>
+						<a href="{router page="admin/settings/topic-type/update"}{$oTopicTypeItem->getId()}/" class="fa fa-edit" title="{$aLang.plugin.admin.edit}"></a>
+						<a href="{router page="admin/properties"}{$oTopicTypeItem->getPropertyTargetType()}/" class="fa fa-th-list" title="Настройка дополнительных полей"></a>
 						{if $oTopicTypeItem->getAllowRemove()}
-							<a href="{router page="admin/settings/topic-type/remove"}{$oTopicTypeItem->getId()}/" class="ls-icon-remove" title="{$aLang.plugin.admin.delete}"></a>
+							<a href="{router page="admin/settings/topic-type/remove"}{$oTopicTypeItem->getId()}/" class="fa fa-trash-o" title="{$aLang.plugin.admin.delete}"></a>
 						{/if}
 					</td>
 				</tr>

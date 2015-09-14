@@ -38,7 +38,7 @@
 			<a href="{$sFullPagePathToEvent}{request_filter
 				name=array($sSearchField)
 				value=array(null)
-			}" class="button button-icon"><i class="ls-icon-remove"></i></a>
+			}" class="button button-icon"><i class="fa fa-trash-o"></i></a>
 		{/if}
 
 		<button type="submit" class="button button-primary">{$aLang.plugin.admin.users.search}</button>
@@ -129,7 +129,7 @@
 								{/if}
 
 								{if $oBan = $oUser->getBannedCached()}
-									<a href="{$oBan->getBanViewUrl()}"><i class="ls-icon-lock" title="{$aLang.plugin.admin.users.banned}"></i></a>
+									<a href="{$oBan->getBanViewUrl()}"><i class="fa fa-lock" title="{$aLang.plugin.admin.users.banned}"></i></a>
 								{/if}
 							</p>
 

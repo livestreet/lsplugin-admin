@@ -31,8 +31,8 @@
 		{$bDropDownMenu = true}
 
 		{* Кнопка выпадающего списка *}
-		<div class="dropdown dropdown--no-text js-dropdown" >
-			<a href="#" class="link-dotted js-dropdown-toggle">
+		<div class="ls-dropdown ls-dropdown--no-text js-dropdown" >
+			<button class="link-dotted ls-dropdown-toggle js-ls-dropdown-toggle">
 				{* Многоточие будет подталкивать к мысли что это выпадающее меню со множеством сортировок *}
 				{$sDropDownHtml}&hellip;
 
@@ -42,15 +42,15 @@
 				 *}
 				{if in_array($sOrder, $mSortingOrder)}
 					{if $sWay == 'asc'}
-						<i class="icon-sort-asc"></i>
+						<i class="fa fa-sort-up"></i>
 					{elseif $sWay == 'desc'}
-						<i class="icon-sort-desc"></i>
+						<i class="fa fa-sort-desc"></i>
 					{/if}
 				{/if}
-			</a>
+			</button>
 
 			{* Начало контейнера списка сортировок *}
-			<ul class="nav nav--stacked nav--dropdown  dropdown-menu js-dropdown-menu  clearfix" role="menu" aria-hidden="true" >
+			<ul class="ls-nav ls-nav--stacked ls-nav--dropdown ls-dropdown-menu js-ls-dropdown-menu  clearfix" role="menu" aria-hidden="true" >
 	{/if}
 
 	{* Вывод полей для сортировки *}
@@ -63,21 +63,21 @@
 
 		{* Чтобы ссылки в выпадающем списке были одна под одной *}
 		{if $bDropDownMenu}
-			<li class="nav-item active"  role="menuitem">
+			<li class="ls-nav-item active"  role="menuitem">
 		{/if}
 
 		{* Ссылка смены сортировки *}
 		<a href="{$sBaseUrl}{request_filter
 			name=array('order_field', 'order_way')
 			value=array($sSortingOrderItem, $sWayForThisOrder)
-		}" class="nav-item-link">{$mLinkHtml[$iKey]}
+		}" class="ls-nav-item-link">{$mLinkHtml[$iKey]}
 
 			{* Стрелка, указывающая направление сортировки *}
 			{if $bSortedByCurrentField}
 				{if $sWay == 'asc'}
-					<i class="icon-sort-asc"></i>
+					<i class="fa fa-sort-up"></i>
 				{elseif $sWay == 'desc'}
-					<i class="icon-sort-desc"></i>
+					<i class="fa fa-sort-desc"></i>
 				{/if}
 			{/if}
 		</a>

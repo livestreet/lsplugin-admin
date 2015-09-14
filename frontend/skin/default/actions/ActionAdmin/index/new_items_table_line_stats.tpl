@@ -11,7 +11,7 @@
 	<tbody>
 		<tr>
 			<td class="info-tip">
-				<i class="ls-icon-info-sign" title="{$sGraphLineTitle}: позитивные: {$aDataGrowth[$sObjectsType][$sDataType]['positive']}, негативные: {$aDataGrowth[$sObjectsType][$sDataType]['negative']}, нейтральные: {$aDataGrowth[$sObjectsType][$sDataType]['neutral']}, всего: {$aDataGrowth[$sObjectsType][$sDataType]['total']}"></i>
+				<i class="fa fa-info" title="{$sGraphLineTitle}: позитивные: {$aDataGrowth[$sObjectsType][$sDataType]['positive']}, негативные: {$aDataGrowth[$sObjectsType][$sDataType]['negative']}, нейтральные: {$aDataGrowth[$sObjectsType][$sDataType]['neutral']}, всего: {$aDataGrowth[$sObjectsType][$sDataType]['total']}"></i>
 			</td>
 			<td class="line-block">
 				<div class="ratings-graph" title="{$sGraphLineTitle}">
