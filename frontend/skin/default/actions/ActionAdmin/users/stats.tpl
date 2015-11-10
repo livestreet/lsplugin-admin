@@ -31,7 +31,7 @@
 	{**
 	 * Блоки
 	 *}
-	<div class="home-blocks clearfix">
+	<div class="home-blocks ls-clearfix">
 		{include file="{$aTemplatePathPlugin.admin}blocks/block.home.users.genders.tpl"}
 		{include file="{$aTemplatePathPlugin.admin}blocks/block.home.users.stats.tpl"}
 	</div>

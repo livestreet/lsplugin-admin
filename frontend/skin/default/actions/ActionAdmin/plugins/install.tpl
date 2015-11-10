@@ -10,7 +10,7 @@
 
 
 {block name='layout_content_actionbar'}
-	<div class="fl-r">
+	<div class="ls-fl-r">
 		{*
 			тип плагинов
 		*}

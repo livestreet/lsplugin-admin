@@ -6,7 +6,7 @@
 
 {block name='layout_content_actionbar'}
 	{if $sConfigName==$sAdminSystemConfigId}
-		<div class="fl-l">
+		<div class="ls-fl-l">
 			{foreach Config::Get(PluginAdmin_ModuleSettings::ROOT_CONFIG_GROUPS_KEY) as $sKey => $aGroupData}
 				<a href="{router page='admin/settings/config'}{$sKey}" class="button {if $sKey==$sGroupName}active{/if}">{$aLang.config_sections.{$sKey}.name}</a>
 			{/foreach}

@@ -96,7 +96,7 @@
     {**
      * Шапка сайта
      *}
-    <header id="header" class="clearfix" role="banner">
+    <header id="header" class="ls-clearfix" role="banner">
         <ul class="breadcrumbs">
             <li><a href="{Router::GetPath('/')}" class="link-dotted">Перейти на сайт</a></li>    {* todo: add lang *}
         </ul>
@@ -117,7 +117,7 @@ menu=[
 
 
 			{* Вспомогательный контейнер-обертка *}
-			<div id="wrapper" class="{* {hook run='wrapper_class'} *} clearfix">
+			<div id="wrapper" class="{* {hook run='wrapper_class'} *} ls-clearfix">
 				{* Сайдбар *}
 {if ! $bNoSidebar}
 <aside id="sidebar" role="complementary">
@@ -132,7 +132,7 @@ role="main"
 {if $sMenuItemSelect == 'profile'}itemscope itemtype="http://data-vocabulary.org/Person"{/if}>
 
 {block name='layout_content_actionbar' hide}
-<div class="actionbar {block name='layout_content_actionbar_class'}{/block} clearfix">
+<div class="actionbar {block name='layout_content_actionbar_class'}{/block} ls-clearfix">
 								{$smarty.block.child}
 							</div>
 						{/block}

@@ -10,7 +10,7 @@
 
 
 {block name='layout_page_title'}
-	<div class="fl-r">
+	<div class="ls-fl-r">
 		{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/bans_controls.tpl"}
 	</div>
 	{$aLang.plugin.admin.bans.view.title} <span>#{$oBan->getId()}</span>

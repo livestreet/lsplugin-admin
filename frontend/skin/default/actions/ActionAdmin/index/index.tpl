@@ -68,7 +68,7 @@
 	{**
 	 * Блоки
 	 *}
-	<div class="home-blocks clearfix">
+	<div class="home-blocks ls-clearfix">
 		{include file="{$aTemplatePathPlugin.admin}blocks/block.home.activity.tpl"}
 		{include file="{$aTemplatePathPlugin.admin}blocks/block.home.stats.tpl"}
 	</div>

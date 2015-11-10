@@ -25,7 +25,7 @@
 		var iTotalUsersCount = {$iTotal};
 	</script>
 
-	<div class="chart-bar-h clearfix chart-bar-location">
+	<div class="chart-bar-h ls-clearfix chart-bar-location">
 		{*
 			кнопки управления сортировкой
 		*}

@@ -9,7 +9,7 @@
 {/block}
 
 {block name='layout_content_actionbar'}
-	<div class="fl-r">
+	<div class="ls-fl-r">
 		<a class="button {if $sVotingDirection==''}active{/if}" href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]={$sVotingTargetType}">
 			{$aLang.plugin.admin.users.votes.voting_list.all}
 		</a>

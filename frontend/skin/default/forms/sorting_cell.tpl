@@ -50,7 +50,7 @@
 			</button>
 
 			{* Начало контейнера списка сортировок *}
-			<ul class="ls-nav ls-nav--stacked ls-nav--dropdown ls-dropdown-menu js-ls-dropdown-menu  clearfix" role="menu" aria-hidden="true" >
+			<ul class="ls-nav ls-nav--stacked ls-nav--dropdown ls-dropdown-menu js-ls-dropdown-menu  ls-clearfix" role="menu" aria-hidden="true" >
 	{/if}
 
 	{* Вывод полей для сортировки *}

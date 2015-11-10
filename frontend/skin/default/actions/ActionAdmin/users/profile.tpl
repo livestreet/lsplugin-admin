@@ -19,7 +19,7 @@
 *}
 {block name='layout_content_before'}
 	<header class="user-header">
-		<div class="user-brief clearfix">
+		<div class="user-brief ls-clearfix">
 			<div class="user-brief-body">
 				<a href="{$oUser->getUserWebPath()}" class="user-avatar {if $oUser->isOnline()}user-is-online{/if}">
 					<img src="{$oUser->getProfileAvatarPath(100)}" alt="avatar" title="{if $oUser->isOnline()}{$aLang.user_status_online}{else}{$aLang.user_status_offline}{/if}" />
@@ -280,7 +280,7 @@
 			<div class="user-info-block user-info-block-contacts">
 				<h2 class="user-info-heading">{$aLang.profile_contacts}</h2>
 				
-				<div class="clearfix">
+				<div class="ls-clearfix">
 					{if $aUserFieldContactValues}
 						<ul class="user-contact-list">
 							{foreach $aUserFieldContactValues as $oField}

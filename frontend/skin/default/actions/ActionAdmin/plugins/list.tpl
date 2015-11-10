@@ -10,7 +10,7 @@
 
 
 {block name='layout_content_actionbar'}
-	<div class="fl-r">
+	<div class="ls-fl-r">
 		<a class="button {if $sType==null}active{/if}"
 		   href="{router page='admin/plugins/list'}">{$aLang.plugin.admin.plugins.menu.filter.all} ({$aPluginsInfo.count_all})</a>
 

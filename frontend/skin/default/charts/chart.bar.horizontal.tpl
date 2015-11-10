@@ -13,7 +13,7 @@
 {if $aData and $aData.collection and count($aData.collection) > 0}
 	{block name='chart_before'}{/block}
 
-	<div class="chart-bar-h clearfix {block name='chart_classes'}{/block}">
+	<div class="chart-bar-h ls-clearfix {block name='chart_classes'}{/block}">
 		{block name='chart_content'}
 			{block name='chart_header'}
 				<h3 class="page-sub-header">{$sTitle}</h3>
