@@ -33,7 +33,7 @@
 	font-weight: normal;
 	position: relative;
 }
-.table th .link-dotted { color: #777; border-color: #777; border: none; }
+.table th .link-dotted { color: #777; border-color: #777; border: none; display: inline-block; }
 .table th.active .link-dotted { color: #333; border-color: #333; }
 /*.table th i { vertical-align: middle; margin-left: 3px; position: absolute; top: 12px; right: 10px; }*/
 

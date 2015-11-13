@@ -32,7 +32,7 @@
 
 		{* Кнопка выпадающего списка *}
 		<div class="ls-dropdown ls-dropdown--no-text js-dropdown" >
-			<button class="link-dotted ls-dropdown-toggle js-ls-dropdown-toggle">
+			<span class="link-dotted ls-dropdown-toggle js-ls-dropdown-toggle">
 				{* Многоточие будет подталкивать к мысли что это выпадающее меню со множеством сортировок *}
 				{$sDropDownHtml}&hellip;
 
@@ -47,7 +47,7 @@
 						<i class="fa fa-sort-desc"></i>
 					{/if}
 				{/if}
-			</button>
+			</span>
 
 			{* Начало контейнера списка сортировок *}
 			<ul class="ls-nav ls-nav--stacked ls-nav--dropdown ls-dropdown-menu js-ls-dropdown-menu  ls-clearfix" role="menu" aria-hidden="true" >

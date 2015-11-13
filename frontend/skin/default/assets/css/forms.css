@@ -42,7 +42,7 @@ input[type="text"] {
 .form-field-inline.form-field-option .form-field-label  { width: 165px; padding-top: 0; }
 .form-field-inline.form-field-option .form-field-holder { padding-left: 180px; }
 
-.form-field-checkbox { padding-top: 10px; }
+.form-field-checkbox { }
 .form-field-checkbox .form-field-help { top: 13px; }
 .form-field-checkbox label { position: relative; padding-left: 25px; }
 .form-field-checkbox [class^="icheckbox"] { position: absolute; top: 0; left: 0; }
@@ -51,9 +51,15 @@ input[type="text"] {
 /**
  * Settings field
  */
-.form-field-settings { position: relative; overflow: visible; padding-right: 25px; padding-bottom: 20px; border-bottom: 1px solid #eee; }
+.form-field-settings { position: relative; overflow: visible; padding: 15px 0; border-bottom: 1px solid #eee; }
 .form-field-settings .form-field-help { position: absolute; top: 28px; right: 0; opacity: .4; }
 .form-field-settings .form-field-help:hover { opacity: 1; }
+.form-field-settings .note {
+	padding-top: 3px;
+	display: block;
+	font-size: 12px;
+	color: #aaa;
+}
 
 /* Array */
 .form-field-settings-array-values { background: none repeat scroll 0 0 #F7F7F7; padding: 5px; margin: 0 0 15px; overflow: hidden; }
