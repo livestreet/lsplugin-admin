@@ -1,0 +1,16 @@
+{
+    "name": "plugin",
+    "version": "1.0.0",
+    "dependencies": {
+    },
+    "templates": {
+        "plugin": "plugin.tpl",
+        "plugin-market": "plugin-market.tpl",
+        "star-rating": "star-rating.tpl",
+        "list": "list.tpl"
+    },
+    "styles": {
+        "plugin": "css/plugin.css",
+        "star-rating": "css/star-rating.css"
+    }
+}

@@ -2,41 +2,38 @@
  * Список плагинов
  *}
 
-{extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
+{extends "{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
 
-{block name='layout_page_title'}
+{block 'layout_page_title'}
 	{$aLang.plugin.admin.plugins.list.titles[$sType]} <span>({count($aPluginsInfo.collection)})</span>
 {/block}
 
+{block 'layout_content_actionbar'}
+	{component 'admin:button'
+		url="{router page='admin/plugins/list'}"
+		text=$aLang.plugin.admin.plugins.menu.filter.all
+		badge=[ value => $aPluginsInfo.count_all ]
+		classes="{if $sType == null}active{/if}"}
 
-{block name='layout_content_actionbar'}
-	<div class="ls-fl-r">
-		<a class="button {if $sType==null}active{/if}"
-		   href="{router page='admin/plugins/list'}">{$aLang.plugin.admin.plugins.menu.filter.all} ({$aPluginsInfo.count_all})</a>
+	{component 'admin:button'
+		url="{router page='admin/plugins/list'}activated"
+		text=$aLang.plugin.admin.plugins.menu.filter.activated
+		badge=[ value => $aPluginsInfo.count_active ]
+		classes="{if $sType == 'activated' }active{/if}"}
 
-		<a class="button {if $sType=='activated'}active{/if}"
-		   href="{router page='admin/plugins/list'}activated">{$aLang.plugin.admin.plugins.menu.filter.activated} ({$aPluginsInfo.count_active})</a>
+	{component 'admin:button'
+		url="{router page='admin/plugins/list'}deactivated"
+		text=$aLang.plugin.admin.plugins.menu.filter.deactivated
+		badge=[ value => $aPluginsInfo.count_inactive ]
+		classes="{if $sType == 'deactivated' }active{/if}"}
 
-		<a class="button {if $sType=='deactivated'}active{/if}"
-		   href="{router page='admin/plugins/list'}deactivated">{$aLang.plugin.admin.plugins.menu.filter.deactivated} ({$aPluginsInfo.count_inactive})</a>
-
-		<a class="button {if $sType=='updates'}active{/if}"
-		   href="{router page='admin/plugins/list'}updates">{$aLang.plugin.admin.plugins.menu.filter.updates} ({$iPluginUpdates})</a>
-	</div>
-	<a class="button button-primary" href="{router page='admin/plugins/install'}">{$aLang.plugin.admin.plugins.menu.install_plugin}</a>
+	{component 'admin:button'
+		url="{router page='admin/plugins/list'}updates"
+		text=$aLang.plugin.admin.plugins.menu.filter.updates
+		badge=[ value => $iPluginUpdates ]
+		classes="{if $sType == 'updates' }active{/if}"}
 {/block}
 
-
-{block name='layout_content'}
-	{if $aPluginsInfo.collection and count($aPluginsInfo.collection) > 0}
-		<table class="table table-plugins">
-			<tbody>
-				{foreach from=$aPluginsInfo.collection item=oPlugin}
-					{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/plugins/plugin.tpl"}
-				{/foreach}
-			</tbody>
-		</table>
-	{else}
-		{include file="{$aTemplatePathPlugin.admin}alert.tpl" mAlerts=$aLang.plugin.admin.plugins.no_plugins[$sType] sAlertStyle='empty'}
-	{/if}
+{block 'layout_content'}
+	{component 'admin:plugin' template='list' plugins=$aPluginsInfo.collection updates=$aPluginUpdates type=$sType}
 {/block}

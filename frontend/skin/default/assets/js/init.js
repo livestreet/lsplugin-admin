@@ -128,6 +128,10 @@ jQuery(document).ready(function ($) {
         }
     });
 
+    $('.js-admin-actionbar-dropdown').lsDropdown({
+        selectable: true
+    });
+
 
     /**
      * Tooltips

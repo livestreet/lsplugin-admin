@@ -1,0 +1,25 @@
+.star-rating-stars {
+    display: inline-block;
+    vertical-align: middle;
+}
+.star-rating-item {
+    display: inline-block;
+    width: 18px;
+    height: 17px;
+    background-repeat: no-repeat;
+    background-image: url(../images/star-empty.png);
+}
+.star-rating-item:not(:first-child) {
+    margin-left: 3px;
+}
+.star-rating-item--full {
+    background-image: url(../images/star-full.png);
+}
+.star-rating-item--half {
+    background-image: url(../images/star-half.png);
+}
+.star-rating-count {
+    margin-left: 10px;
+    vertical-align: middle;
+    color: #777;
+}

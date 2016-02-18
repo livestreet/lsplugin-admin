@@ -137,7 +137,7 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event
     {
         $this->SetTemplateAction('plugins/instructions');
         if (!$oPlugin = $this->PluginAdmin_Plugins_GetPluginByCode(getRequestStr('plugin'))) {
-            return $this->Message_AddError($this->Lang('errors.plugins.plugin_not_found'), $this->Lang_Get('common.error.error'));
+            return $this->EventNotFound();
         }
         $this->Viewer_Assign('oPlugin', $oPlugin);
     }

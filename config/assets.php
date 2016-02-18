@@ -13,7 +13,10 @@ $config['components'] = array(
     'admin:slider', 'admin:details', 'admin:alert', 'admin:dropdown', 'admin:button', 'admin:block',
     'admin:nav', 'admin:tooltip', 'admin:tabs', 'admin:modal', 'admin:table', 'admin:text', 'admin:uploader', 'admin:email', 'admin:field', 'admin:pagination',
     'admin:editor', 'admin:more', 'admin:crop', 'admin:performance', 'admin:toolbar', 'admin:actionbar', 'admin:badge',
-    'admin:autocomplete', 'admin:icon', 'admin:item', 'admin:highlighter', 'admin:jumbotron', 'admin:notification',
+    'admin:autocomplete', 'admin:icon', 'admin:item', 'admin:highlighter', 'admin:jumbotron', 'admin:notification', 'admin:blankslate', 'admin:info-list',
+
+    // Компоненты админки
+    'admin:plugin',
 
     // Компоненты LS CMS
     'admin:note', 'admin:icons-contact', 'admin:toolbar-scrollup', 'admin:toolbar-scrollnav',
@@ -85,8 +88,6 @@ $config['admin']['assets']['css'] = array(
     'assets/css/helpers.css',
     'assets/css/stats.css',
     'assets/css/plugins.css',
-    'assets/css/addon.css',
-    'assets/css/rating.stars.css',
     'assets/css/flags.css',
     // Vendor style
     'assets/css/vendor/jquery.notifier.css',

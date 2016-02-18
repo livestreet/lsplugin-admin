@@ -966,6 +966,10 @@ return array(
      * Плагины
      */
     'plugins'           => array(
+        'plugin' => array(
+            'installed_count' => 'Установлен %%count%% раз;Установлен %%count%% раза;Установлен %%count%% раз',
+            'downloaded_count' => 'Скачан %%count%% раз;Скачан %%count%% раза;Скачан %%count%% раз',
+        ),
         /*
          * список
          */
@@ -1104,7 +1108,7 @@ return array(
                     13   => 'Юзабилити',
                 ),
             ),
-            'reviews_declension' => 'отзыв;отзыва;отзывов',
+            'reviews_declension' => '%%count%% отзыв;%%count%% отзыва;%%count%% отзывов',
             'rubles'             => 'руб.',
             'update'             => 'Обновить',
             'no_addons'          => 'Нет дополнений',

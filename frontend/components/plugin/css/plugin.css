@@ -1,0 +1,74 @@
+.ls-plugin {
+    display: flex;
+    align-items: flex-start;
+}
+.ls-plugin:not(:last-child) {
+    margin-bottom: 40px;
+}
+.ls-plugin--installed,
+.ls-plugin--deactivated {
+    opacity: .4;
+}
+
+.ls-plugin-body {
+    flex: 1;
+    padding: 0 30px;
+}
+
+.ls-plugin-image-holder {
+    width: 100px;
+    position: relative;
+}
+.ls-plugin-image {
+    width: 100px;
+    height: 100px;
+}
+.ls-plugin-info-main {
+    margin-bottom: 15px;
+}
+.ls-plugin-version {
+    display: inline-block;
+    padding: 3px;
+    margin-right: 10px;
+    background-color: #000;
+    color: #fff;
+    font-weight: bold;
+    font-size: 11px;
+    line-height: 1em;
+    border-radius: 3px;
+    opacity: .7;
+}
+.ls-plugin-author {
+    color: #aaa;
+}
+.ls-plugin-author-name {
+    color: #555;
+}
+.ls-plugin-rating {
+    margin-bottom: 15px;
+}
+
+.ls-plugin-title {
+    margin-top: -3px;
+    margin-bottom: 5px;
+    font-weight: normal;
+    font-size: 18px;
+}
+
+.ls-plugin-desc {
+    font-size: 14px;
+    line-height: 1.5em;
+    margin-bottom: 15px;
+}
+
+.ls-plugin-info {
+    color: #777;
+}
+.ls-plugin-info-item:not(:last-child) {
+    margin-bottom: 5px;
+}
+
+.ls-plugin-instruction-text.ls-text {
+    font-size: 14px;
+    margin-bottom: 30px;
+}
