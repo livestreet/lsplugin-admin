@@ -15,10 +15,6 @@
     padding: 0 30px;
 }
 
-.ls-plugin-image-holder {
-    width: 100px;
-    position: relative;
-}
 .ls-plugin-image {
     width: 100px;
     height: 100px;
@@ -70,5 +66,19 @@
 
 .ls-plugin-instruction-text.ls-text {
     font-size: 14px;
+    margin-bottom: 30px;
+}
+
+/**
+ * List
+ */
+.ls-plugin-list {
+    margin-bottom: 30px;
+}
+
+/**
+ * Install help
+ */
+.ls-plugin-install-help {
     margin-bottom: 30px;
 }

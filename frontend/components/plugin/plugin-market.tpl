@@ -1,5 +1,5 @@
 {**
- * Plugin
+ * Plugin market
  *}
 
 {$component = 'ls-plugin'}
@@ -13,9 +13,7 @@
 
 <div class="{$component} {cmods name=$component mods=$mods} {$classes}" {cattr list=$attributes}>
     {* Изображение *}
-    <div class="{$component}-image-holder">
-        {* Изображение *}
-        <img class="{$component}-image" src="{$plugin->getAvatar()}">    </div>
+    <img class="{$component}-image" src="{$plugin->getAvatar()}">
 
     <div class="{$component}-body">
         {* Заголовок *}

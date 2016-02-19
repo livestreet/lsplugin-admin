@@ -1,0 +1,10 @@
+.ls-skin--active {
+    padding: 15px;
+    box-shadow: 0 0 5px #0f0;
+    border-radius: 5px;
+    background: #F7FFF7;
+}
+.ls-plugin--skin .ls-plugin-image {
+    width: 150px;
+    height: auto;
+}

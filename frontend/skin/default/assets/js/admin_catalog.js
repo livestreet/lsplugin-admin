@@ -28,11 +28,6 @@ ls.admin_catalog = (function($) {
 	
 	this.selectors = {
 		/*
-			кнопка показа справки по каталогу
-		 */
-		tip_toggle_button: '.js-catalog-toggle-tip-button',
-		tip_message: '.js-catalog-tip-message',
-		/*
 			кнопка опций
 		 */
 		options_button: '#dropdown_admin_plugins_install_options_button',
@@ -56,14 +51,6 @@ ls.admin_catalog = (function($) {
 // ---
 
 jQuery(document).ready(function($) {
-
-	/*
-		показать/скрыть справку по каталогу
-	 */
-	$ (ls.admin_catalog.selectors.tip_toggle_button).click(function() {
-		$ (ls.admin_catalog.selectors.tip_message).slideToggle(150);
-		return false;
-	});
 
 	/*
 	 	добавлять класс "нажатия" кнопке открывающей дропдаун опций

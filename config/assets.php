@@ -16,7 +16,7 @@ $config['components'] = array(
     'admin:autocomplete', 'admin:icon', 'admin:item', 'admin:highlighter', 'admin:jumbotron', 'admin:notification', 'admin:blankslate', 'admin:info-list',
 
     // Компоненты админки
-    'admin:plugin',
+    'admin:plugin', 'admin:skin',
 
     // Компоненты LS CMS
     'admin:note', 'admin:icons-contact', 'admin:toolbar-scrollup', 'admin:toolbar-scrollnav',
@@ -81,7 +81,6 @@ $config['admin']['assets']['css'] = array(
     'assets/css/navs.css',
     'assets/css/buttons.css',
     'assets/css/forms.css',
-    'assets/css/skins.css',
     'assets/css/user.css',
     'assets/css/table.css',
     'assets/css/dropdowns.css',

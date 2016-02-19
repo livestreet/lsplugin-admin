@@ -45,6 +45,11 @@ jQuery(document).ready(function ($) {
      */
     $('.js-modal-default').lsModal();
 
+    /**
+     * Details
+     */
+    $('.js-details-default').lsDetails();
+
 
     /**
      * Datepicker

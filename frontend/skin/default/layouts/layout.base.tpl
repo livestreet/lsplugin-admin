@@ -1,6 +1,6 @@
 <!doctype html>
 
-{block name='layout_options'}{/block}
+{block 'layout_options'}{/block}
 
 <!--[if lt IE 7]>
 <html class="no-js ie6 oldie" lang="ru"> <![endif]-->
@@ -13,15 +13,15 @@
 
 <head>
     {* {hook run='html_head_begin'} *}
-    {block name='layout_head_begin'}{/block}
+    {block 'layout_head_begin'}{/block}
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 
-    <meta name="description" content="{block name='layout_description'}{$sHtmlDescription}{/block}">
-    <meta name="keywords" content="{block name='layout_keywords'}{$sHtmlKeywords}{/block}">
+    <meta name="description" content="{block 'layout_description'}{$sHtmlDescription}{/block}">
+    <meta name="keywords" content="{block 'layout_keywords'}{$sHtmlKeywords}{/block}">
 
-    <title>{block name='layout_title'}{$sHtmlTitle}{/block}</title>
+    <title>{block 'layout_title'}{$sHtmlTitle}{/block}</title>
 
     {**
      * Стили
@@ -82,16 +82,17 @@
     </script>
 
 
-    {block name='layout_head_end'}{/block}
+    {block 'layout_head_end'}{/block}
     {* {hook run='html_head_end'} *}
 
 </head>
 
 
-<body class="{$sBodyClasses} {block name='layout_body_classes'}{/block} ls-admin">
+<body class="{$sBodyClasses} {block 'layout_body_classes'}{/block} ls-admin">
 {* {hook run='body_begin'} *}
 
-{block name='layout_body'}
+{block 'layout_body'}
+
 <div id="container" class="{* {hook run='container_class'} *} {if $bNoSidebar}no-sidebar{/if}">
     {**
      * Шапка сайта
@@ -106,115 +107,95 @@
         </div>
 
         {* Юзербар *}
-{component 'dropdown'
-text="<img src=\"{$oUserCurrent->getProfileAvatarPath(48)}\" alt=\"Avatar\" class=\"userbar-avatar\" />{$oUserCurrent->getLogin()}"
-classes='admin-userbar js-dropdown-userbar'
-menu=[
-[ 'text' => 'Мой профиль', 'url' => {router page="admin/users/profile/{$oUserCurrent->getId()}"} ],
-[ 'text' => 'Выйти', 'url' => "{router page='auth/logout'}?security_ls_key={$LIVESTREET_SECURITY_KEY}" ]
-					]}
-			</header>
+        {component 'dropdown'
+            text="<img src=\"{$oUserCurrent->getProfileAvatarPath(48)}\" alt=\"Avatar\" class=\"userbar-avatar\" />{$oUserCurrent->getLogin()}"
+            classes='admin-userbar js-dropdown-userbar'
+            menu=[
+                [ 'text' => 'Мой профиль', 'url' => {router page="admin/users/profile/{$oUserCurrent->getId()}"} ],
+                [ 'text' => 'Выйти', 'url' => "{router page='auth/logout'}?security_ls_key={$LIVESTREET_SECURITY_KEY}" ]
+            ]}
+    </header>
 
+    {* Вспомогательный контейнер-обертка *}
+    <div id="wrapper" class="{* {hook run='wrapper_class'} *} ls-clearfix">
+        {* Контент *}
+        <div id="content" role="main">
+            {block 'layout_content_actionbar' hide}
+                <div class="actionbar {block 'layout_content_actionbar_class'}{/block} ls-clearfix">
+                    {$smarty.block.child}
+                </div>
+            {/block}
 
-			{* Вспомогательный контейнер-обертка *}
-			<div id="wrapper" class="{* {hook run='wrapper_class'} *} ls-clearfix">
-				{* Сайдбар *}
-{if ! $bNoSidebar}
-<aside id="sidebar" role="complementary">
-    {include file="{$aTemplatePathPlugin.admin}blocks.tpl" group='right'}
-</aside>
-{/if}
+            {block 'layout_content_before'}{/block}
 
-{* Контент *}
-<div id="content-wrapper">
-<div id="content"
-role="main"
-{if $sMenuItemSelect == 'profile'}itemscope itemtype="http://data-vocabulary.org/Person"{/if}>
+            <div class="content-padding">
+                {block 'layout_page_title' hide}
+                    <h2 class="page-header">{$smarty.block.child}</h2>
+                {/block}
 
-{block name='layout_content_actionbar' hide}
-<div class="actionbar {block name='layout_content_actionbar_class'}{/block} ls-clearfix">
-								{$smarty.block.child}
-							</div>
-						{/block}
+                {* Навигация *}
+                {if $sNav or $sNavContent}
+                    <div class="nav-group">
+                        {if $sNav}
+                            {if in_array($sNav, $aMenuContainers)}
+                                {$aMenuFetch.$sNav}
+                            {else}
+                                {include file="navs/nav.$sNav.tpl"}
+                            {/if}
+                        {else}
+                            {include file="navs/nav.$sNavContent.content.tpl"}
+                        {/if}
+                    </div>
+                {/if}
 
-						{block name='layout_content_before'}{/block}
-						
-						<div class="content-padding">
-							{* {hook run='content_begin'} *}
+                {* Системные сообщения *}
+                {if ! $bNoSystemMessages}
+                    {if $aMsgError}
+                        {component 'admin:alert' text=$aMsgError mods='error' dismissible=true}
+                    {/if}
 
-							{block name='layout_content_begin'}{/block}
+                    {if $aMsgNotice}
+                        {component 'admin:alert' text=$aMsgNotice dismissible=true}
+                    {/if}
+                {/if}
 
-							{block name='layout_page_title' hide}
-								<h2 class="page-header">{$smarty.block.child}</h2>
-							{/block}
+                {block 'layout_content'}{/block}
+            </div>
+        </div>
 
-							{* Навигация *}
-							{if $sNav or $sNavContent}
-								<div class="nav-group">
-									{if $sNav}
-										{if in_array($sNav, $aMenuContainers)}
-											{$aMenuFetch.$sNav}
-										{else}
-											{include file="navs/nav.$sNav.tpl"}
-										{/if}
-									{else}
-										{include file="navs/nav.$sNavContent.content.tpl"}
-									{/if}
-								</div>
-							{/if}
+        {* Сайдбар *}
+        <aside id="sidebar" role="complementary">
+            {include file="{$aTemplatePathPlugin.admin}blocks.tpl" group='right'}
+        </aside>
+    </div> {* /wrapper *}
 
-							{* Системные сообщения *}
-								{if ! $bNoSystemMessages}
+    {* Подвал *}
+    <footer id="footer">
+        {block 'layout_footer_begin'}{/block}
 
-									{if $aMsgError}
-										{component 'alert' text=$aMsgError mods='error' dismissible=true}
-									{/if}
+        <ul>
+            <li>&copy; 2008-{date("Y")} LiveStreet CMS</li>
+        </ul>
 
-									{if $aMsgNotice}
-										{component 'alert' text=$aMsgNotice dismissible=true}
-									{/if}
+        <ul>
+            <li><a href="https://catalog.livestreetcms.com/" class="link-border" target="_blank"><span>Каталог расширений</a></span></li>{* todo: add lang *}
+            <li><a href="http://livestreet.ru/" class="link-border" target="_blank"><span>Сообщество</a></span></li>
+            <li><a href="http://job.livestreetcms.com/" class="link-border" target="_blank"><span>Работа</a></span></li>
+        </ul>
 
-								{/if}
+        <ul class="footer-right">
+            <li><a href="{Router::GetPath('/')}" class="link-border"><span>Перейти на сайт</a></span></li>
+        </ul>
 
-							{block name='layout_content'}{/block}
+        {block 'layout_footer_end'}{/block}
+    </footer>
+</div> {* /container *}
+{/block}
 
-							{block name='layout_content_end'}{/block}
-							{* {hook run='content_end'} *}
-						</div>
-					</div>
+{* для вывода общей статистики *}
+{hook run='admin_body_end'}
 
+{$sLayoutAfter}
 
-					{* Подвал *}
-					<footer id="footer">
-						{block name='layout_footer_begin'}{/block}
-
-						<ul>
-							<li>&copy; 2008-{date("Y")} LiveStreet CMS</li>
-						</ul>
-
-						<ul>
-							<li><a href="https://catalog.livestreetcms.com/" class="link-border" target="_blank"><span>Каталог расширений</a></span></li>{* todo: add lang *}
-							<li><a href="http://livestreet.ru/" class="link-border" target="_blank"><span>Сообщество</a></span></li>
-							<li><a href="http://job.livestreetcms.com/" class="link-border" target="_blank"><span>Работа</a></span></li>
-						</ul>
-
-						<ul class="footer-right">
-							<li><a href="{Router::GetPath('/')}" class="link-border"><span>Перейти на сайт</a></span></li>
-						</ul>
-
-						{block name='layout_footer_end'}{/block}
-					</footer>
-				</div>
-			</div> {* /wrapper *}
-		</div> {* /container *}
-	{/block}
-
-
-	{* {hook run='body_end'} *}
-
-	{* для вывода общей статистики *}
-	{hook run='admin_body_end'}
-
-	{$sLayoutAfter}
 </body>
 </html>

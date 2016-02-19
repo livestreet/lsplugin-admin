@@ -6,7 +6,9 @@
     "templates": {
         "plugin": "plugin.tpl",
         "plugin-market": "plugin-market.tpl",
+        "plugin-market-list": "plugin-market-list.tpl",
         "star-rating": "star-rating.tpl",
+        "install-help": "install-help.tpl",
         "list": "list.tpl"
     },
     "styles": {

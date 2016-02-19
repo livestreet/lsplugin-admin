@@ -1,0 +1,13 @@
+{
+    "name": "skin",
+    "version": "1.0.0",
+    "dependencies": {
+    },
+    "templates": {
+        "skin": "skin.tpl",
+        "list": "list.tpl"
+    },
+    "styles": {
+        "skin": "css/skin.css"
+    }
+}

@@ -12,10 +12,8 @@
 {/if}
 
 <div class="{$component} {cmods name=$component mods=$mods} {$classes}" {cattr list=$attributes}>
-    <div class="{$component}-image-holder">
-        {* Изображение *}
-        <img class="{$component}-image" src="{$plugin->getLogo()}">
-    </div>
+    {* Изображение *}
+    <img class="{$component}-image" src="{$plugin->getLogo()}">
 
     <div class="{$component}-body">
         {* Заголовок *}
