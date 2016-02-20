@@ -2,6 +2,7 @@
     "name": "skin",
     "version": "1.0.0",
     "dependencies": {
+        "admin:plugin": "*"
     },
     "templates": {
         "skin": "skin.tpl",
