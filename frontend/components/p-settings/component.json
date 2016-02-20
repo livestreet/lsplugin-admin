@@ -1,0 +1,20 @@
+{
+    "name": "p-settings",
+    "version": "1.0.0",
+    "dependencies": {
+    },
+    "templates": {
+        "p-settings": "settings.tpl",
+        "field-base": "fields/field.base.tpl",
+        "field-boolean": "fields/field.boolean.tpl",
+        "field-string": "fields/field.string.tpl",
+        "field-enum": "fields/field.enum.tpl",
+        "field-integer": "fields/field.integer.tpl",
+        "field-array": "fields/field.array.tpl",
+        "fieldset": "fieldset.tpl",
+        "list": "list.tpl"
+    },
+    "styles": {
+        "p-settings": "css/settings.css"
+    }
+}

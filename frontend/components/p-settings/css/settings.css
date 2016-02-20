@@ -1,0 +1,9 @@
+.p-settings-fieldset {
+    margin-bottom: 50px;
+}
+.p-settings-fieldset-desc {
+    margin-bottom: 20px;
+    font-size: 14px;
+    line-height: 1.5em;
+    color: #aaa;
+}
