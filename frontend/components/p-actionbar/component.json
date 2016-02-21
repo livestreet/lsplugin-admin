@@ -1,0 +1,12 @@
+{
+    "name": "p-actionbar",
+    "version": "1.0.0",
+    "dependencies": {
+    },
+    "templates": {
+        "p-actionbar": "actionbar.tpl"
+    },
+    "styles": {
+        "p-actionbar": "css/actionbar.css"
+    }
+}

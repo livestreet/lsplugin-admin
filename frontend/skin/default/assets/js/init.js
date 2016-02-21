@@ -50,6 +50,13 @@ jQuery(document).ready(function ($) {
      */
     $('.js-details-default').lsDetails();
 
+    /**
+     * Confirm
+     */
+    $('.js-confirm-remove').lsConfirm({
+        message: 'Действительно удалить?'
+    });
+
 
     /**
      * Datepicker

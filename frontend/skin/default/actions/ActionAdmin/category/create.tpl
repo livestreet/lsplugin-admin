@@ -3,65 +3,51 @@
  *
  *}
 
-{extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
+{extends "{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
 
-{block name='layout_content_actionbar'}
-	<a href="{router page="admin/categories/{$oCategoryType->getTargetType()}"}" class="button">&larr; Назад к списку категорий</a>
+{block 'layout_options' append}
+	{$layoutBackUrl = {router page="admin/categories/{$oCategoryType->getTargetType()}"}}
 {/block}
 
-{block name='layout_page_title'}Добавление поля для типа &laquo;{$oCategoryType->getTitle()|escape:'html'}&raquo;{/block}
+{block 'layout_page_title'}
+	{if $_aRequest}
+		Редактирование категории типа &laquo;{$oCategoryType->getTitle()|escape}&raquo;
+	{else}
+		Добавление категории для типа &laquo;{$oCategoryType->getTitle()|escape}&raquo;
+	{/if}
+{/block}
 
-{block name='layout_content'}
+{block 'layout_content'}
 	<form method="post">
-		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.hidden.security_key.tpl"}
+		{component 'admin:field' template='hidden.security-key'}
 
-		{$aCategoriesList[] = [
+		{$items = [[
 			'value' => '',
 			'text' => ''
-		]}
-		{foreach $aCategoryItems as $aCategory}
-			{$aCategoriesList[] = [
-				'text' => ''|str_pad:(2*$aCategory.level):'-'|cat:$aCategory['entity']->getTitle(),
-				'value' => $aCategory['entity']->getId()
+		]]}
+
+		{foreach $aCategoryItems as $category}
+			{$items[] = [
+				'text' => ''|str_pad:(2 * $category.level):'-'|cat:$category['entity']->getTitle(),
+				'value' => $category['entity']->getId()
 			]}
 		{/foreach}
-		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.select.tpl"
-				 sFieldName          = 'category[pid]'
-				 sFieldLabel         = 'Вложить в'
-				 sFieldClasses       = 'width-200'
-				 aFieldItems         = $aCategoriesList
-				 sFieldSelectedValue = $_aRequest.category.pid}
+
+		{component 'admin:field' template='select' name='category[pid]' label='Вложить в' items=$items}
 
 		{* Название *}
-		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
-				 sFieldName  = 'category[title]'
-				 sFieldValue = $_aRequest.category.title
-				 sFieldLabel = 'Название'}
+		{component 'admin:field' template='text' name='category[title]' label='Название'}
 
 		{* Описиание *}
-		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.textarea.tpl"
-				sFieldName  = 'category[description]'
-				sFieldValue = $_aRequest.category.description
-				sFieldLabel = 'Описание'}
+		{component 'admin:field' template='textarea' name='category[description]' label='Описание'}
 
 		{* URL *}
-		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
-				 sFieldName  = 'category[url]'
-				 sFieldValue = $_aRequest.category.url
-				 sFieldLabel = 'Url'}
+		{component 'admin:field' template='text' name='category[url]' label='Url'}
 
 		{* Сортировка *}
-		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
-				sFieldName  = 'category[order]'
-				sFieldValue = $_aRequest.category.order
-				sFieldLabel = 'Сортировка'}
+		{component 'admin:field' template='text' name='category[order]' label='Сортировка'}
 
 		{* Кнопки *}
-		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.button.tpl"
-				 sFieldName  = 'category_submit'
-				 sFieldText  = $aLang.plugin.admin.add
-				 sFieldValue = '1'
-				 sFieldStyle = 'primary'}
-
+		{component 'admin:button' name='category_submit' text="{($_aRequest) ? $aLang.plugin.admin.save : $aLang.plugin.admin.add }" value=1 mods='primary'}
 	</form>
 {/block}

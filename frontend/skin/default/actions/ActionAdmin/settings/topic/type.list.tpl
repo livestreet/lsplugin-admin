@@ -2,23 +2,23 @@
  * Настройки для типов топиков
  *}
 
-{extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
+{extends "{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
 
-
-{block name='layout_page_title'}
+{block 'layout_page_title'}
 	Настройка типов топиков
 {/block}
 
-{block name='layout_content_actionbar'}
-	<a href="{router page="admin/settings/topic-type/create"}" class="button button-primary">{$aLang.plugin.admin.add}</a>
+{block 'layout_content_actionbar'}
+	{component 'admin:button' text=$aLang.plugin.admin.add url={router page="admin/settings/topic-type/create"} mods='primary'}
 {/block}
 
-{block name='layout_content'}
+{block 'layout_content'}
 	<script>
 		jQuery(function($){
             ls.admin_topic.initTableType();
 		});
 	</script>
+
 	<table class="table" id="type-list">{* todo: ид переименовать т.к. может использоваться глобально, добавить префикс "admin_" *}
         <thead>
 			<tr>

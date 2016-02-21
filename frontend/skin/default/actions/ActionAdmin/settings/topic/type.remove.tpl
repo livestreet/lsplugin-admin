@@ -2,44 +2,41 @@
  * Настройки
  *}
 
-{extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
+{extends "{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
 
-
-{block name='layout_page_title'}
+{block 'layout_page_title'}
 	Удаление типа топика: {$oTopicType->getName()}
 {/block}
 
-{block name='layout_content_actionbar'}
-	<a href="{router page="admin/settings/topic-type"}" class="button">&larr; Назад к списку типов</a>
+{block 'layout_options' append}
+	{$layoutBackUrl = {router page="admin/settings/topic-type"}}
 {/block}
 
-{block name='layout_content'}
-	Топиков с данным типом: {if $iCountTopics}{$iCountTopics}{else}нет{/if}
+{block 'layout_content'}
+	<p>Топиков с данным типом: <strong>{if $iCountTopics}{$iCountTopics}{else}нет{/if}</strong></p>
 
 	<form action="{router page="admin/settings/topic-type/remove"}{$oTopicType->getId()}/" method="post" enctype="application/x-www-form-urlencoded">
-		<br><br>
+		{component 'admin:field' template='hidden.security-key'}
 
 		{if $aTypeOtherItems}
-			<label><input type="radio" name="type-remove" value="replace" checked="checked"> &mdash; топики НЕ удаляются, у них меняется тип. Пользовательские поля удаляются.</label><br/>
-			<div>
-				Сменить тип на:
-				<select name="type-replace-id">
-					{foreach $aTypeOtherItems as $oTypeOther}
-                        <option value="{$oTypeOther->getId()}">{$oTypeOther->getName()} - {$oTypeOther->getCode()}</option>
-					{/foreach}
-				</select>
-			</div>
-            <br/>
+			{component 'admin:field' template='radio' name='type-remove' value='replace' checked=true label='Топики НЕ удаляются, у них меняется тип. Пользовательские поля удаляются'}
+
+			{$items = []}
+
+			{foreach $aTypeOtherItems as $oTypeOther}
+				{$items[] = [
+					'text' => "{$oTypeOther->getName()} - {$oTypeOther->getCode()}",
+					'value' => $oTypeOther->getId()
+				]}
+			{/foreach}
+
+			{component 'admin:field' template='select' name='type-replace-id' label='Сменить тип на' items=$items}
 		{/if}
 
-		<label><input type="radio" name="type-remove" value="remove" {if !$aTypeOtherItems}checked="checked" {/if}> &mdash; топики и пользовательские поля УДАЛЯЮТСЯ. Удаление может занять длительное время.</label>
+		{component 'admin:field' template='radio' name='type-remove' value='remove' checked=!$aTypeOtherItems label='Топики и пользовательские поля УДАЛЯЮТСЯ. Удаление может занять длительное время'}
 
-		<div class="alert alert-info mt-15">
-			Будьте аккуратны, удаление данных отменить нельзя!
-		</div>
+		{component 'admin:alert' text='Будьте аккуратны, удаление данных отменить нельзя!' mods='info'}
 
-		{include "{$aTemplatePathPlugin.admin}forms/fields/form.field.hidden.security_key.tpl"}
-        <button type="submit" class="button button-primary js-question" data-question-title="Действительно удалить? Пользовательские поля будут удалены!"
-				name="submit-remove">{$aLang.common.remove}</button>
+		{component 'admin:button' name='submit-remove' classes='js-confirm-remove' text=$aLang.common.remove mods='primary'}
     </form>
 {/block}

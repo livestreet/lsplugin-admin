@@ -120,11 +120,13 @@
     <div id="wrapper" class="{* {hook run='wrapper_class'} *} ls-clearfix">
         {* Контент *}
         <div id="content" role="main">
-            {block 'layout_content_actionbar' hide}
-                <div class="actionbar {block 'layout_content_actionbar_class'}{/block} ls-clearfix">
-                    {$smarty.block.child}
-                </div>
-            {/block}
+            {* Временный хак для совместимости со старым кодом *}
+            {capture actionbar}
+                {block 'layout_content_actionbar'}{/block}
+            {/capture}
+
+            {* Экшнбар *}
+            {component 'admin:p-actionbar' backUrl=$layoutBackUrl backText=$layoutBackText content=$smarty.capture.actionbar}
 
             {block 'layout_content_before'}{/block}
 

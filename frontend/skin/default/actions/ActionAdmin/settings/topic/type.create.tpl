@@ -2,10 +2,9 @@
  * Настройки
  *}
 
-{extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
+{extends "{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
 
-
-{block name='layout_page_title'}
+{block 'layout_page_title'}
 	{if $oTopicType}
     	Редактирование типа топика: {$oTopicType->getName()}
 	{else}
@@ -13,70 +12,41 @@
 	{/if}
 {/block}
 
-{block name='layout_content_actionbar'}
-	<a href="{router page="admin/settings/topic-type"}" class="button">&larr; Назад к списку типов</a>
+{block 'layout_options' append}
+	{$layoutBackUrl = {router page="admin/settings/topic-type"}}
 {/block}
 
-{block name='layout_content'}
+{block 'layout_content'}
 	<form method="post">
-		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.hidden.security_key.tpl"}
+		{component 'admin:field' template='hidden.security-key'}
 
 		{* Название *}
-		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
-			sFieldName  = 'type[name]'
-			sFieldValue = $_aRequest.type.name
-			sFieldLabel = 'Название'}
+		{component 'admin:field' template='text' name='type[name]' label='Название'}
 
 		{* Название во множественном числе *}
-		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
-			sFieldName  = 'type[name_many]'
-			sFieldValue = $_aRequest.type.name_many
-			sFieldLabel = 'Название во множественном числе'}
+		{component 'admin:field' template='text' name='type[name_many]' label='Название во множественном числе'}
 
 		{* Код *}
-		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
-			sFieldName  = 'type[code]'
-			sFieldValue = $_aRequest.type.code
-			sFieldLabel = 'Уникальный код/идентификатор'}
+		{component 'admin:field' template='text' name='type[code]' label='Уникальный код/идентификатор'}
 
 		{* Активность *}
-		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.checkbox.tpl"
-			sFieldName  = 'type[active]'
-			bFieldChecked = $_aRequest.type.active
-			sFieldLabel = 'Активный'}
+		{component 'admin:field' template='checkbox' name='type[active]' label='Активный'}
 
 		<h5 class="h5">Дополнительные параметры:</h5>
 
 		{* Возможность подключать опросы *}
-		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.checkbox.tpl"
-			sFieldName  = 'params[allow_poll]'
-			bFieldChecked = $_aRequest.params.allow_poll
-			sFieldLabel = 'Разрешить добавлять опросы'}
+		{component 'admin:field' template='checkbox' name='params[allow_poll]' label='Разрешить добавлять опросы'}
 
 		{* Возможность отключить текст топика *}
-		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.checkbox.tpl"
-			sFieldName  = 'params[allow_text]'
-			bFieldChecked = $_aRequest.params.allow_text
-			sFieldLabel = 'Разрешить стандартное поле с текстом'}
+		{component 'admin:field' template='checkbox' name='params[allow_text]' label='Разрешить стандартное поле с текстом'}
 
 		{* Возможность отключить теги *}
-		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.checkbox.tpl"
-			sFieldName  = 'params[allow_tags]'
-			bFieldChecked = $_aRequest.params.allow_tags
-			sFieldLabel = 'Разрешить стандартное поле с тегами'}
+		{component 'admin:field' template='checkbox' name='params[allow_tags]' label='Разрешить стандартное поле с тегами'}
 
 		{* Возможность подключать выбор превью *}
-		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.checkbox.tpl"
-			sFieldName  = 'params[allow_preview]'
-			bFieldChecked = $_aRequest.params.allow_preview
-			sFieldLabel = 'Разрешить добавлять превью изображение'}
+		{component 'admin:field' template='checkbox' name='params[allow_preview]' label='Разрешить добавлять превью изображение'}
 
 		{* Кнопки *}
-		{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.button.tpl"
-			sFieldName  = 'type_submit'
-			sFieldText  = $aLang.plugin.admin.add
-			sFieldText  = {($oTopicType) ? $aLang.plugin.admin.edit : $aLang.plugin.admin.add }
-			sFieldValue = '1'
-			sFieldStyle = 'primary'}
+		{component 'admin:button' name='type_submit' text="{($oTopicType) ? $aLang.plugin.admin.save : $aLang.plugin.admin.add }" value=1 mods='primary'}
 	</form>
 {/block}

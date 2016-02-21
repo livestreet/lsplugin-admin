@@ -1,0 +1,12 @@
+.p-actionbar {
+    background: #f8f8f8;
+    padding: 15px;
+}
+.p-actionbar li {
+    float: left;
+}
+.p-actionbar input,
+.p-actionbar select,
+.p-actionbar button {
+    margin-right: 10px;
+}

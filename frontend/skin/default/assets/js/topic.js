@@ -26,11 +26,11 @@ ls.admin_topic = ( function($) {
 			return ui;
 		};
 
-		$('#type-list tbody').sortable({
-			cursor: 'move',
-			helper: fixHelper,
-			update: this.UpdateTableTypeSort
-		}).disableSelection();
+		// $('#type-list tbody').sortable({
+		// 	cursor: 'move',
+		// 	helper: fixHelper,
+		// 	update: this.UpdateTableTypeSort
+		// }).disableSelection();
 	};
 	
 

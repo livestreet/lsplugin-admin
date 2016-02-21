@@ -7,17 +7,6 @@
  */
 
 /**
- * Actionbar
- */
-.actionbar { background: #F8F8F8; padding: 15px; }
-
-.actionbar li { float: left; }
-
-.actionbar input,
-.actionbar select,
-.actionbar button { margin-right: 10px; }
-
-/**
  * Список с пунктиром
  */
 .dotted-list            { margin-bottom: 50px; }

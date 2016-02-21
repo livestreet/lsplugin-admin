@@ -6,15 +6,17 @@
  * TODO: Вывод имени плагина
  *}
 
-{extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
+{extends "{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
 
-{block name='layout_content_actionbar'}
-	<a href="{router page="admin/categories/{$oCategoryType->getTargetType()}/create"}" class="button button-primary">{$aLang.plugin.admin.add}</a>
+{block 'layout_content_actionbar'}
+	{component 'admin:button' text=$aLang.plugin.admin.add url={router page="admin/categories/{$oCategoryType->getTargetType()}/create"} mods='primary'}
 {/block}
-{* todo: add lang *}
-{block name='layout_page_title'}Категории типа &laquo;{$oCategoryType->getTitle()|escape:'html'}&raquo;{/block}
 
-{block name='layout_content'}
+{block 'layout_page_title'}
+	Категории типа &laquo;{$oCategoryType->getTitle()|escape}&raquo;
+{/block}
+
+{block 'layout_content'}
 	{if $aCategoryItems}
 		<table class="table">
             <thead>
@@ -29,6 +31,7 @@
 				{foreach $aCategoryItems as $aCategoryItem}
 					{$oCategoryItem=$aCategoryItem['entity']}
 					{$iLevel=$aCategoryItem['level']}
+
 					<tr data-id="{$oCategoryItem->getId()}">
 						<td>
 							<i class="fa fa-file" style="margin-left: {$iLevel*20}px;"></i>
@@ -43,15 +46,14 @@
 						<td class="ta-r">
 							<a href="{$oCategoryItem->getUrlAdminUpdate()}" class="fa fa-edit" title="{$aLang.plugin.admin.edit}"></a>
 							<a href="{$oCategoryItem->getUrlAdminRemove()}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
-							   class="fa fa-trash-o js-question"
-							   title="{$aLang.plugin.admin.delete}"
-							   data-question-title="Действительно удалить?"></a>
+							   class="fa fa-trash-o js-confirm-remove"
+							   title="{$aLang.plugin.admin.delete}"></a>
 						</td>
 					</tr>
 				{/foreach}
             </tbody>
 		</table>
 	{else}
-		{include file="{$aTemplatePathPlugin.admin}alert.tpl" sAlertStyle='info' mAlerts='Нет категорий. Вы можете добавить новую.'}
+		{component 'admin:blankslate' text='Нет категорий. Вы можете добавить новую.'}
 	{/if}
 {/block}
