@@ -16,7 +16,7 @@ $config['components'] = array(
     'admin:autocomplete', 'admin:icon', 'admin:item', 'admin:highlighter', 'admin:jumbotron', 'admin:notification', 'admin:blankslate', 'admin:info-list',
 
     // Компоненты админки
-    'admin:plugin', 'admin:skin', 'admin:p-settings', 'admin:p-actionbar',
+    'admin:plugin', 'admin:skin', 'admin:p-settings', 'admin:p-actionbar', 'admin:p-cron',
 
     // Компоненты LS CMS
     'admin:note', 'admin:icons-contact', 'admin:toolbar-scrollup', 'admin:toolbar-scrollnav',
@@ -58,7 +58,6 @@ $config['admin']['assets']['js'] = array(
     'assets/js/nav.main.js',
     'assets/js/property.js',
     'assets/js/rbac.js',
-    'assets/js/cron.js',
     'assets/js/topic.js',
     // Vendor scripts
     'assets/js/vendor/highcharts/highcharts.src.js',

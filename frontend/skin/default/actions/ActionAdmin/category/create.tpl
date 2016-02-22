@@ -48,6 +48,6 @@
 		{component 'admin:field' template='text' name='category[order]' label='Сортировка'}
 
 		{* Кнопки *}
-		{component 'admin:button' name='category_submit' text="{($_aRequest) ? $aLang.plugin.admin.save : $aLang.plugin.admin.add }" value=1 mods='primary'}
+		{component 'admin:button' name='category_submit' text="{($_aRequest) ? $aLang.plugin.admin.save : $aLang.plugin.admin.add}" value=1 mods='primary'}
 	</form>
 {/block}

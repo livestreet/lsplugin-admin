@@ -1,0 +1,12 @@
+{
+    "name": "p-cron",
+    "version": "1.0.0",
+    "templates": {
+        "form": "form.tpl",
+        "list": "list.tpl",
+        "item": "item.tpl"
+    },
+    "scripts": {
+        "p-cron": "js/cron.js"
+    }
+}
