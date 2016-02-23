@@ -1,0 +1,6 @@
+.p-optimization-section:not(:last-child) {
+    margin-bottom: 30px;
+}
+.p-optimization-section-desc {
+    margin-bottom: 15px;
+}

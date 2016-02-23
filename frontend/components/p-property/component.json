@@ -1,0 +1,11 @@
+{
+    "name": "p-property",
+    "version": "1.0.0",
+    "templates": {
+        "form": "form.tpl",
+        "list": "list.tpl"
+    },
+    "scripts": {
+        "p-property": "js/property.js"
+    }
+}

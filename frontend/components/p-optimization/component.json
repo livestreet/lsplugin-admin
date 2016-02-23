@@ -1,0 +1,10 @@
+{
+    "name": "p-optimization",
+    "version": "1.0.0",
+    "templates": {
+        "section": "section.tpl"
+    },
+    "styles": {
+        "p-optimization": "css/optimization.css"
+    }
+}

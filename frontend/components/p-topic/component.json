@@ -1,0 +1,12 @@
+{
+    "name": "p-topic",
+    "version": "1.0.0",
+    "templates": {
+        "form": "form.tpl",
+        "list": "list.tpl",
+        "remove": "remove.tpl"
+    },
+    "scripts": {
+        "p-topic": "js/topic.js"
+    }
+}

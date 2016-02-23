@@ -1,0 +1,8 @@
+{
+    "name": "p-category",
+    "version": "1.0.0",
+    "templates": {
+        "form": "form.tpl",
+        "list": "list.tpl"
+    }
+}

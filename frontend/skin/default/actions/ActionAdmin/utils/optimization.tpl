@@ -1,5 +1,7 @@
 {**
  * Проверка и восстановление
+ *
+ * TODO: Hooks
  *}
 
 {extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
@@ -14,27 +16,23 @@
     {**
 	 * Сброс данных
 	 *}
-    {* todo: добавить иконки *}
-    <h2 class="page-header"><span>{$aLang.plugin.admin.utils.optimization.datareset.title}</span></h2>
-
-    <div class="mb-20">
-        {$aLang.plugin.admin.utils.optimization.datareset.info}
-    </div>
-
-    <div class="mb-10">
-        <a href="{router page='admin/utils/optimization/resetallbansstats'}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
-                >{$aLang.plugin.admin.utils.optimization.datareset.resetallbansstats}</a>
-    </div>
-
-    <div class="mb-10">
-        <a href="{router page='admin/utils/optimization/deleteoldbanrecords'}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
-                >{$aLang.plugin.admin.utils.optimization.datareset.deleteoldbanrecords}</a>
-    </div>
-
-    <div class="mb-10">
-        <a href="{router page='admin/utils/optimization/resetalllscache'}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
-                >{$aLang.plugin.admin.utils.optimization.datareset.resetalllscache}</a>
-    </div>
+    {component 'admin:p-optimization' template='section'
+        title=$aLang.plugin.admin.utils.optimization.datareset.title
+        desc=$aLang.plugin.admin.utils.optimization.datareset.info
+        actions=[
+            [
+                url => "{router page='admin/utils/optimization/resetallbansstats'}?security_ls_key={$LIVESTREET_SECURITY_KEY}",
+                text => $aLang.plugin.admin.utils.optimization.datareset.resetallbansstats
+            ],
+            [
+                url => "{router page='admin/utils/optimization/deleteoldbanrecords'}?security_ls_key={$LIVESTREET_SECURITY_KEY}",
+                text => $aLang.plugin.admin.utils.optimization.datareset.deleteoldbanrecords
+            ],
+            [
+                url => "{router page='admin/utils/optimization/resetalllscache'}?security_ls_key={$LIVESTREET_SECURITY_KEY}",
+                text => $aLang.plugin.admin.utils.optimization.datareset.resetalllscache
+            ]
+        ]}
 
     {*
     <div class="mb-10">
@@ -44,54 +42,46 @@
     *}
 
     {hook run='admin_utils_optimization_datareset_item'}
+
 	{**
 	 * Проверка таблиц БД
 	 *}
-	{* todo: добавить иконки *}
-	<h2 class="page-header"><span>{$aLang.plugin.admin.utils.optimization.tables.title}</span></h2>
-
-	<div class="mb-20">
-		{$aLang.plugin.admin.utils.optimization.tables.info}
-	</div>
-
-	<div class="mb-10">
-		<a href="{router page='admin/utils/optimization/repaircomments'}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
-				>{$aLang.plugin.admin.utils.optimization.tables.repair_comments}</a>
-	</div>
-
-	<div class="mb-10">
-		<a href="{router page='admin/utils/optimization/cleanstream'}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
-				>{$aLang.plugin.admin.utils.optimization.tables.clean_stream}</a>
-	</div>
-
-	<div class="mb-10">
-		<a href="{router page='admin/utils/optimization/cleanvotings'}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
-				>{$aLang.plugin.admin.utils.optimization.tables.clean_votings}</a>
-	</div>
-
-	<div class="mb-10">
-		<a href="{router page='admin/utils/optimization/cleanfavourites'}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
-				>{$aLang.plugin.admin.utils.optimization.tables.clean_favourites}</a>
-	</div>
+    {component 'admin:p-optimization' template='section'
+        title=$aLang.plugin.admin.utils.optimization.tables.title
+        desc=$aLang.plugin.admin.utils.optimization.tables.info
+        actions=[
+            [
+                url => "{router page='admin/utils/optimization/repaircomments'}?security_ls_key={$LIVESTREET_SECURITY_KEY}",
+                text => $aLang.plugin.admin.utils.optimization.tables.repair_comments
+            ],
+            [
+                url => "{router page='admin/utils/optimization/cleanstream'}?security_ls_key={$LIVESTREET_SECURITY_KEY}",
+                text => $aLang.plugin.admin.utils.optimization.tables.clean_stream
+            ],
+            [
+                url => "{router page='admin/utils/optimization/cleanvotings'}?security_ls_key={$LIVESTREET_SECURITY_KEY}",
+                text => $aLang.plugin.admin.utils.optimization.tables.clean_votings
+            ],
+            [
+                url => "{router page='admin/utils/optimization/cleanfavourites'}?security_ls_key={$LIVESTREET_SECURITY_KEY}",
+                text => $aLang.plugin.admin.utils.optimization.tables.clean_favourites
+            ]
+        ]}
 
 	{hook run='admin_utils_optimization_tables_item'}
-
 
 	{**
 	 * Проверка файлов
 	 *}
-	{* todo: добавить иконки *}
-	<h2 class="page-header mt-30"><span>{$aLang.plugin.admin.utils.optimization.files.title}</span></h2>
-
-	<div class="mb-20">
-		{$aLang.plugin.admin.utils.optimization.files.info}
-	</div>
-
-	<div class="mb-10">
-		<a href="{router page='admin/utils/optimization/checkencoding'}?security_ls_key={$LIVESTREET_SECURITY_KEY}"
-				>{$aLang.plugin.admin.utils.optimization.files.check_encoding}</a>
-	</div>
+    {component 'admin:p-optimization' template='section'
+        title=$aLang.plugin.admin.utils.optimization.files.title
+        desc=$aLang.plugin.admin.utils.optimization.files.info
+        actions=[
+            [
+                url => "{router page='admin/utils/optimization/checkencoding'}?security_ls_key={$LIVESTREET_SECURITY_KEY}",
+                text => $aLang.plugin.admin.utils.optimization.files.check_encoding
+            ]
+        ]}
 
 	{hook run='admin_utils_optimization_files_item'}
-
 {/block}
