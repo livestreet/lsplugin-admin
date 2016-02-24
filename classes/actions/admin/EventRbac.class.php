@@ -393,10 +393,10 @@ class PluginAdmin_ActionAdmin_EventRbac extends Event
             $oRolePermission->setRoleId($oRole->getId());
             $oRolePermission->setPermissionId($oPermission->getId());
             if ($oRolePermission->Add()) {
-                $this->Viewer_Assign('oPermission', $oPermission);
-                $this->Viewer_Assign('oRole', $oRole);
+                $this->Viewer_Assign('permission', $oPermission, true);
+                $this->Viewer_Assign('role', $oRole, true);
                 $this->Viewer_AssignAjax('sText',
-                    $this->Viewer_Fetch(Plugin::GetTemplatePath($this) . 'actions/ActionAdmin/rbac/role.permissions.item.tpl'));
+                    $this->Viewer_Fetch('component@admin:p-rbac.role-permissions-item'));
             } else {
                 $this->Message_AddError('Возникла ошибка при добавлении');
             }
@@ -479,10 +479,10 @@ class PluginAdmin_ActionAdmin_EventRbac extends Event
             $oRoleUser->setRoleId($oRole->getId());
             $oRoleUser->setUserId($oUser->getId());
             if ($oRoleUser->Add()) {
-                $this->Viewer_Assign('oUser', $oUser);
-                $this->Viewer_Assign('oRole', $oRole);
+                $this->Viewer_Assign('user', $oUser, true);
+                $this->Viewer_Assign('role', $oRole, true);
                 $this->Viewer_AssignAjax('sText',
-                    $this->Viewer_Fetch(Plugin::GetTemplatePath($this) . 'actions/ActionAdmin/rbac/role.users.item.tpl'));
+                    $this->Viewer_Fetch('component@admin:p-rbac.role-users-item'));
             } else {
                 $this->Message_AddError('Возникла ошибка при добавлении');
             }

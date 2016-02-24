@@ -1,0 +1,19 @@
+{
+    "name": "p-rbac",
+    "version": "1.0.0",
+    "templates": {
+        "role-form": "role/form.tpl",
+        "role-list": "role/list.tpl",
+        "role-permissions": "role/permissions.tpl",
+        "role-permissions-item": "role/permissions.item.tpl",
+        "role-users": "role/users.tpl",
+        "role-users-item": "role/users.item.tpl",
+        "permission-form": "permission/form.tpl",
+        "permission-list": "permission/list.tpl",
+        "group-form": "group/form.tpl",
+        "group-list": "group/list.tpl"
+    },
+    "scripts": {
+        "p-rbac": "js/rbac.js"
+    }
+}

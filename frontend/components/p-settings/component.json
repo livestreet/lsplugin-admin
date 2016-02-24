@@ -11,6 +11,7 @@
         "field-enum": "fields/field.enum.tpl",
         "field-integer": "fields/field.integer.tpl",
         "field-array": "fields/field.array.tpl",
+        "field-float": "fields/field.float.tpl",
         "fieldset": "fieldset.tpl",
         "list": "list.tpl"
     },

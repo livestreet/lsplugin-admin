@@ -1,0 +1,10 @@
+{
+    "name": "p-form",
+    "dependencies": {
+        "field": "*"
+    },
+    "version": "1.0.0",
+    "templates": {
+        "p-form": "form.tpl"
+    }
+}

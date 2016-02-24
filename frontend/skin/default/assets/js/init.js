@@ -53,8 +53,10 @@ jQuery(document).ready(function ($) {
     /**
      * Confirm
      */
-    $('.js-confirm-remove').lsConfirm({
-        message: 'Действительно удалить?'
+    $('.js-confirm-remove').livequery(function () {
+        $(this).lsConfirm({
+            message: 'Действительно удалить?'
+        });
     });
 
 

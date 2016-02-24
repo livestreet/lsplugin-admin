@@ -17,6 +17,7 @@ $config['components'] = array(
 
     // Компоненты админки
     'admin:plugin', 'admin:skin', 'admin:p-settings', 'admin:p-actionbar', 'admin:p-cron', 'admin:p-property', 'admin:p-topic', 'admin:p-category', 'admin:p-optimization',
+    'admin:p-form', 'admin:p-rbac',
 
     // Компоненты LS CMS
     'admin:note', 'admin:icons-contact', 'admin:toolbar-scrollup', 'admin:toolbar-scrollnav',
@@ -56,7 +57,6 @@ $config['admin']['assets']['js'] = array(
     'assets/js/admin_users_search.js',
     'assets/js/admin_users_complaints.js',
     'assets/js/nav.main.js',
-    'assets/js/rbac.js',
     // Vendor scripts
     'assets/js/vendor/highcharts/highcharts.src.js',
     'assets/js/vendor/icheck/jquery.icheck.js',
