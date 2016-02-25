@@ -5,18 +5,16 @@
 {extends "{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
 
 {block 'layout_page_title'}
-	{$aLang.plugin.admin.comments.delete.title} #{$oComment->getId()} ({$oComment->getText()|truncate:15:'...'|escape:'html'})?
+	{$aLang.plugin.admin.comments.delete.title} #{$oComment->getId()} ({$oComment->getText()|truncate:15:'...'|escape})?
 {/block}
 
 {block 'layout_content'}
-	<form action="{router page='admin/comments/delete'}" method="post" enctype="application/x-www-form-urlencoded">
-		{* Скрытые поля *}
-    	{component 'admin:field' template='hidden.security-key'}
-    	{component 'admin:field' template='hidden' name='id' value=$oComment->getId()}
+    {component 'admin:alert' text=$aLang.plugin.admin.comments.delete.delete_info mods='info'}
 
-    	{component 'admin:alert' text=$aLang.plugin.admin.comments.delete.delete_info mods='info'}
-
-		{* Кнопки *}
-    	{component 'admin:button' name='submit_comment_delete' text=$aLang.plugin.admin.delete classes='js-confirm-remove' mods='primary'}
-	</form>
+    {component 'admin:p-form'
+        action={router page='admin/comments/delete'}
+        submit = [ name => 'submit_comment_delete', classes => 'js-confirm-remove', text => $aLang.plugin.admin.delete ]
+        form = [
+            [ field => 'hidden', name => 'id', value => $oComment->getId() ]
+        ]}
 {/block}

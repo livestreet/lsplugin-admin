@@ -1,0 +1,15 @@
+{
+    "name": "p-user",
+    "version": "1.0.0",
+    "templates": {
+        "contact-form": "contact/form.tpl",
+        "contact-list": "contact/list.tpl",
+        "ban-list": "ban/list.tpl",
+        "ban-form": "ban/form.tpl",
+        "ban-view": "ban/view.tpl",
+        "delete": "delete.tpl"
+    },
+    "scripts": {
+        "p-user": "js/user.js"
+    }
+}

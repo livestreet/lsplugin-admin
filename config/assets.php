@@ -17,7 +17,7 @@ $config['components'] = array(
 
     // Компоненты админки
     'admin:plugin', 'admin:skin', 'admin:p-settings', 'admin:p-actionbar', 'admin:p-cron', 'admin:p-property', 'admin:p-topic', 'admin:p-category', 'admin:p-optimization',
-    'admin:p-form', 'admin:p-rbac',
+    'admin:p-form', 'admin:p-rbac', 'admin:p-user',
 
     // Компоненты LS CMS
     'admin:note', 'admin:icons-contact', 'admin:toolbar-scrollup', 'admin:toolbar-scrollnav',
