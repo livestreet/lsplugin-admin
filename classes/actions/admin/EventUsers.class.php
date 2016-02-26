@@ -1646,9 +1646,8 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event
          * получить код модального окна
          */
         $oViewer = $this->Viewer_GetLocalViewer();
-        $oViewer->Assign('oComplaint', $oComplaint);
-        $this->Viewer_AssignAjax('sText',
-            $oViewer->Fetch(Plugin::GetTemplatePath(__CLASS__) . 'modals/modal.view_complaint_user.tpl'));
+        $oViewer->Assign('report', $oComplaint, true);
+        $this->Viewer_AssignAjax('sText', $oViewer->Fetch('component@admin:p-user.report-reply-modal'));
     }
 
 

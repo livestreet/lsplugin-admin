@@ -14,7 +14,7 @@
 		<h3 class="page-sub-header">{$sTitle}</h3>
 
 		{if count($aData.collection) < 20}
-			{include file="{$aTemplatePathPlugin.admin}alert.tpl" mAlerts=$aLang.plugin.admin.users_stats.need_more_data sAlertStyle='info'}
+			{component 'admin:alert' text=$aLang.plugin.admin.users_stats.need_more_data mods='info'}
 		{/if}
 
 		{strip}

@@ -3,7 +3,7 @@
  *}
 
 {$component = 'p-user-ban-list'}
-{component_define_params params=[ 'bans' ]}
+{component_define_params params=[ 'bans', 'pagination' ]}
 
 {if $bans}
     <table class="table">
@@ -26,8 +26,7 @@
                         $aLang.plugin.admin.bans.table_header.edit_date
                     )
                     sDropDownHtml=$aLang.plugin.admin.bans.table_header.block_rule
-                    sBaseUrl=$sFullPagePathToEvent
-                }
+                    sBaseUrl=$sFullPagePathToEvent}
 
                 {*
                     тип ограничения пользования сайтом бана
@@ -36,8 +35,7 @@
                     sCellClassName='restriction_type'
                     mSortingOrder='restriction_type'
                     mLinkHtml=$aLang.plugin.admin.bans.table_header.restriction_type
-                    sBaseUrl=$sFullPagePathToEvent
-                }
+                    sBaseUrl=$sFullPagePathToEvent}
 
                 {*
                     тип временного интервала для бана
@@ -46,8 +44,7 @@
                     sCellClassName='time_type'
                     mSortingOrder='time_type'
                     mLinkHtml=$aLang.plugin.admin.bans.table_header.time_type
-                    sBaseUrl=$sFullPagePathToEvent
-                }
+                    sBaseUrl=$sFullPagePathToEvent}
                 {*
                     даты начала и конца
                 *}
@@ -55,14 +52,13 @@
                     sCellClassName='date_start'
                     mSortingOrder='date_start'
                     mLinkHtml=$aLang.plugin.admin.bans.table_header.date_start
-                    sBaseUrl=$sFullPagePathToEvent
-                }
+                    sBaseUrl=$sFullPagePathToEvent}
+
                 {include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
                     sCellClassName='date_finish'
                     mSortingOrder='date_finish'
                     mLinkHtml=$aLang.plugin.admin.bans.table_header.date_finish
-                    sBaseUrl=$sFullPagePathToEvent
-                }
+                    sBaseUrl=$sFullPagePathToEvent}
 
                 {*
                     дата создания и редактирования
@@ -103,14 +99,12 @@
 
         <tbody>
             {foreach $bans as $ban}
-                {$oSession = $ban->getSession()}
-
                 <tr>
                     <td>
                         <a href="{router page="admin/users/bans/view/{$ban->getId()}"}">{$ban->getId()}</a>
                     </td>
                     <td>
-                        {include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/bans_block_type_description.tpl" oBan=$ban}
+                        {component 'admin:p-user' template='ban-desc' ban=$ban}
                     </td>
                     <td>
                         {$aLang.plugin.admin.bans.list.restriction_types[$ban->getRestrictionType()]}
@@ -166,10 +160,9 @@
 
     {include file="{$aTemplatePathPlugin.admin}forms/elements_on_page.tpl"
         sFormActionPath="{router page='admin/bans/ajax-on-page'}"
-        iCurrentValue = Config::Get('plugin.admin.bans.per_page')
-    }
+        iCurrentValue = Config::Get('plugin.admin.bans.per_page')}
 
-    {include file="{$aTemplatePathPlugin.admin}pagination.tpl" aPaging=$aPaging}
+    {component 'admin:pagination' total=+$pagination.iCountPage current=+$pagination.iCurrentPage url="{$pagination.sBaseUrl}/page__page__/{$pagination.sGetParams}"}
 {else}
     {component 'admin:blankslate' text=$aLang.plugin.admin.bans.list.no_bans}
 {/if}

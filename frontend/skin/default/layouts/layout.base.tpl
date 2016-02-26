@@ -167,7 +167,7 @@
 
         {* Сайдбар *}
         <aside id="sidebar" role="complementary">
-            {include file="{$aTemplatePathPlugin.admin}blocks.tpl" group='right'}
+            {include file="{$aTemplatePathPlugin.admin}navs/nav.main.tpl"}
         </aside>
     </div> {* /wrapper *}
 

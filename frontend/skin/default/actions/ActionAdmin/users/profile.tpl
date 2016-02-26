@@ -6,18 +6,11 @@
 
 {extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
 
-
-{* Actionbar *}
-{block name='layout_content_actionbar_class'}actionbar-user{/block}
-{block name='layout_content_actionbar'}
+{block 'layout_content_actionbar'}
 	{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/user_actions.tpl" text="Действия..."}
 {/block}
 
-
-{*
-	Основная информация
-*}
-{block name='layout_content_before'}
+{block 'layout_content_before'}
 	<header class="user-header">
 		<div class="user-brief ls-clearfix">
 			<div class="user-brief-body">
@@ -56,8 +49,7 @@
 	</header>
 {/block}
 
-
-{block name='layout_content'}
+{block 'layout_content'}
 	{$oSession = $oUser->getSession()}
 
 	<aside class="user-info-aside">
@@ -74,12 +66,8 @@
 				<li class="user-menu-item"><a href="{$oUser->getUserWebPath()}created/" class="link-border"><span>{$aLang.plugin.admin.users.profile.middle_bar.publications}</span></a></li>
 				<li class="user-menu-item"><a href="{$oUser->getUserWebPath()}stream/" class="link-border"><span>{$aLang.plugin.admin.users.profile.middle_bar.activity}</span></a></li>
 				<li class="user-menu-item"><a href="{$oUser->getUserWebPath()}friends/" class="link-border"><span>{$aLang.plugin.admin.users.profile.middle_bar.friends}</span></a></li>
-				{*<li class="user-menu-item"><a href="#" class="link-border"><span>Жалобы</span></a></li>*}
 				<li class="user-menu-item"><a href="{$oUser->getUserWebPath()}wall/" class="link-border"><span>{$aLang.plugin.admin.users.profile.middle_bar.wall}</span></a></li>
-				{*<li class="user-menu-item"><a href="#" class="link-border"><span>Блоги</span></a></li>*}
 				<li class="user-menu-item"><a href="{$oUser->getUserWebPath()}favourites/" class="link-border"><span>{$aLang.plugin.admin.users.profile.middle_bar.fav}</span></a></li>
-				{*<li class="user-menu-item"><a href="#" class="link-border"><span>Почта</span></a></li>*}
-				{*<li class="user-menu-item"><a href="#" class="link-border"><span>Права</span></a></li>*}
 			</ul>
 		</div>
 	</aside>
@@ -96,51 +84,43 @@
 			{*
 				для редактирования профиля пользователя
 			*}
-			<form action="{router page='admin/users/profile'}{$oUser->getId()}" method="post" enctype="application/x-www-form-urlencoded">
-				{* Скрытые поля *}
-				{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.hidden.security_key.tpl"}
+			<form action="{router page='admin/users/profile'}{$oUser->getId()}" method="post">
+				{component 'admin:field' template='hidden.security-key'}
 
 				<h2 class="user-info-heading">{$aLang.plugin.admin.users.profile.info.resume}</h2>
 
-				{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
-					sFieldName   = 'login'
-					sFieldValue  = $oUser->getLogin()|escape
-					sFieldLabel  = $aLang.plugin.admin.users.profile.info.login
-				}
+				{component 'admin:field' template='text'
+					name  = 'login'
+					value = $oUser->getLogin()|escape
+					label = $aLang.plugin.admin.users.profile.info.login}
 
-				{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
-					sFieldName   = 'profile_name'
-					sFieldValue  = $oUser->getProfileName()|escape
-					sFieldLabel  = $aLang.plugin.admin.users.profile.info.profile_name
-				}
+				{component 'admin:field' template='text'
+					name  = 'profile_name'
+					value = $oUser->getProfileName()|escape
+					label = $aLang.plugin.admin.users.profile.info.profile_name}
 
-				{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
-					sFieldName='mail'
-					sFieldValue=$oUser->getMail()
-					sFieldLabel  = $aLang.plugin.admin.users.profile.info.mail
-				}
+				{component 'admin:field' template='text'
+					name  = 'mail'
+					value = $oUser->getMail()
+					label = $aLang.plugin.admin.users.profile.info.mail}
 
-				{$aSex = [
-					[ 'value' => 'man',   'text' => $aLang.plugin.admin.users.sex.man ],
-					[ 'value' => 'woman', 'text' => $aLang.plugin.admin.users.sex.woman ],
-					[ 'value' => 'other', 'text' => $aLang.plugin.admin.users.sex.other ]
-				]}
-				{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.select.tpl"
-					sFieldName          = 'profile_sex'
-					aFieldItems         = $aSex
-					sFieldSelectedValue = $oUser->getProfileSex()
-					sFieldLabel  = $aLang.plugin.admin.users.profile.info.sex
-				}
+				{component 'admin:field' template='select'
+					name='profile_sex'
+					selectedValue=$oUser->getProfileSex()
+					label=$aLang.plugin.admin.users.profile.info.sex
+					items=[
+						[ 'value' => 'man',   'text' => $aLang.plugin.admin.users.sex.man ],
+						[ 'value' => 'woman', 'text' => $aLang.plugin.admin.users.sex.woman ],
+						[ 'value' => 'other', 'text' => $aLang.plugin.admin.users.sex.other ]
+					]}
 
 				{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.select.date.tpl"
 					sFieldNamePrefix    = 'profile_birthday'
 					aFieldItems         = $oUser->getProfileBirthday()
-					sFieldLabel  = $aLang.plugin.admin.users.profile.info.birthday
-				}
-
+					sFieldLabel  = $aLang.plugin.admin.users.profile.info.birthday}
 
 				{* Местоположение *}
-				{component 'field' template='geo'
+				{component 'admin:field' template='geo'
 					classes   = 'js-field-geo-default'
 					name      = 'geo'
 					label     = {lang name='plugin.admin.users.profile.info.living'}
@@ -149,19 +129,16 @@
 					cities    = $aGeoCities
 					place     = $oGeoTarget}
 
-				{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.text.tpl"
-					sFieldName='password'
-					sFieldValue=''
-					sFieldPlaceholder='*******'
-					sFieldLabel  = $aLang.plugin.admin.users.profile_edit.password
-				}
+				{component 'admin:field' template='text'
+					name='password'
+					value=''
+					label=$aLang.plugin.admin.users.profile_edit.password}
 
-				{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.textarea.tpl"
-					sFieldName   = 'profile_about'
-					iFieldRows   = 4
-					sFieldValue  = $oUser->getProfileAbout()|strip_tags|escape
-					sFieldLabel  = $aLang.plugin.admin.users.profile_edit.about_user
-				}
+				{component 'admin:field' template='textarea'
+					name  = 'profile_about'
+					rows  = 4
+					value = $oUser->getProfileAbout()|strip_tags|escape
+					label = $aLang.plugin.admin.users.profile_edit.about_user}
 
 				<dl class="dotted-list-item mt-20">
 					<dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile.info.reg_date}</dt>
@@ -200,8 +177,7 @@
 					{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.button.tpl"
 						sFieldName='submit_edit'
 						sFieldStyle='primary'
-						sFieldText=$aLang.common.save
-					}
+						sFieldText=$aLang.common.save}
 				</div>
 			</form>
 		</div>
@@ -279,7 +255,7 @@
 		{if $aUserFieldContactValues || $aUserFieldSocialValues}
 			<div class="user-info-block user-info-block-contacts">
 				<h2 class="user-info-heading">{$aLang.profile_contacts}</h2>
-				
+
 				<div class="ls-clearfix">
 					{if $aUserFieldContactValues}
 						<ul class="user-contact-list">

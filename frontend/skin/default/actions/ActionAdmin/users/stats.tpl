@@ -4,18 +4,17 @@
  * @styles stats.css
  *}
 
-{extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
+{extends "{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
 
-{block name='layout_page_title'}
+{block 'layout_page_title'}
 	{$aLang.plugin.admin.users_stats.title}
 {/block}
 
-{block name='layout_content_actionbar'}
+{block 'layout_content_actionbar'}
 	{include file="{$aTemplatePathPlugin.admin}misc/stats.brief.tpl"}
 {/block}
 
-
-{block name='layout_content'}
+{block 'layout_content'}
 	{**
 	 * График регистраций
 	 *}

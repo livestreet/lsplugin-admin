@@ -37,7 +37,7 @@
 		</tbody>
 	</table>
 {else}
-	{include file="{$aTemplatePathPlugin.admin}alert.tpl" mAlerts="Список статей пуст" sAlertStyle='empty'}
+	{component 'admin:blankslate' text='Список статей пуст'}
 {/if}
 
-{include file="{$aTemplatePathPlugin.admin}pagination.tpl" aPaging=$aPaging}
+{component 'admin:pagination' total=+$aPaging.iCountPage current=+$aPaging.iCurrentPage url="{$aPaging.sBaseUrl}/page__page__/{$aPaging.sGetParams}"}

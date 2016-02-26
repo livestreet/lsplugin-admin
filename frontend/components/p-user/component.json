@@ -4,12 +4,23 @@
     "templates": {
         "contact-form": "contact/form.tpl",
         "contact-list": "contact/list.tpl",
+
         "ban-list": "ban/list.tpl",
         "ban-form": "ban/form.tpl",
         "ban-view": "ban/view.tpl",
+        "ban-desc": "ban/desc.tpl",
+
+        "report-list": "report/list.tpl",
+        "report-reply": "report/reply.tpl",
+        "report-reply-modal": "report/reply-modal.tpl",
+
+        "vote-list": "vote/list.tpl",
+
+        "list": "list.tpl",
         "delete": "delete.tpl"
     },
     "scripts": {
+        "report": "js/report.js",
         "p-user": "js/user.js"
     }
 }

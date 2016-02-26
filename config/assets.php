@@ -55,7 +55,6 @@ $config['admin']['assets']['js'] = array(
     'assets/js/admin_profile_edit.js',
     'assets/js/admin_catalog.js',
     'assets/js/admin_users_search.js',
-    'assets/js/admin_users_complaints.js',
     'assets/js/nav.main.js',
     // Vendor scripts
     'assets/js/vendor/highcharts/highcharts.src.js',
@@ -83,7 +82,6 @@ $config['admin']['assets']['css'] = array(
     'assets/css/dropdowns.css',
     'assets/css/helpers.css',
     'assets/css/stats.css',
-    'assets/css/plugins.css',
     'assets/css/flags.css',
     // Vendor style
     'assets/css/vendor/jquery.notifier.css',
