@@ -1,16 +1,8 @@
 {**
  * Статистика по активности юзеров
- *
- * @styles blocks.css
  *}
 
-{extends file="{$aTemplatePathPlugin.admin}blocks/block.aside.base.tpl"}
-
-{block name='block_title'}{$aLang.plugin.admin.users_stats.activity}{/block}
-{block name='block_type'}home-stats{/block}
-{block name='block_class'}block-home{/block}
-
-{block name='block_content'}
+{capture 'block_content'}
 	<table class="table table-stats">
 		<tbody>
 			<tr>
@@ -35,4 +27,6 @@
 			</tr>
 		</tbody>
 	</table>
-{/block}
+{/capture}
+
+{component 'admin:block' title=$aLang.plugin.admin.users_stats.activity content=$smarty.capture.block_content}

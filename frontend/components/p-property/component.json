@@ -3,7 +3,19 @@
     "version": "1.0.0",
     "templates": {
         "form": "form.tpl",
-        "list": "list.tpl"
+        "list": "list.tpl",
+
+        "type-checkbox": "types/type.checkbox.tpl",
+        "type-float": "types/type.float.tpl",
+        "type-varchar": "types/type.varchar.tpl",
+        "type-video_link": "types/type.video_link.tpl",
+        "type-tags": "types/type.tags.tpl",
+        "type-text": "types/type.text.tpl",
+        "type-date": "types/type.date.tpl",
+        "type-select": "types/type.select.tpl",
+        "type-image": "types/type.image.tpl",
+        "type-file": "types/type.file.tpl",
+        "type-int": "types/type.int.tpl"
     },
     "scripts": {
         "p-property": "js/property.js"

@@ -1,0 +1,1 @@
+{extends 'component@admin:p-property.type-int'}

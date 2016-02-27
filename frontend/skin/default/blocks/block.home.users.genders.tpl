@@ -1,29 +1,19 @@
 {**
  * Гендерная статистика
- *
- * @styles blocks.css
  *}
 
-{extends file="{$aTemplatePathPlugin.admin}blocks/block.aside.base.tpl"}
-
-{block name='block_title'}{$aLang.plugin.admin.users_stats.gender_stats}{/block}
-{block name='block_type'}home-users-genders{/block}
-{block name='block_class'}block-home{/block}
-
-{block name='block_content'}
+{capture 'block_content'}
 	{**
 	 * Значения для каждого пола в процентах
 	 *}
-	{assign var="iUsersSexOtherPerc" value=number_format($aStats.count_sex_other*100/$aStats.count_all, 1, '.', '')}
-	{assign var="iUsersSexManPerc" value=number_format($aStats.count_sex_man*100/$aStats.count_all, 1, '.', '')}
-	{assign var="iUsersSexWomanPerc" value=number_format($aStats.count_sex_woman*100/$aStats.count_all, 1, '.', '')}
+	{$iUsersSexOtherPerc = number_format($aStats.count_sex_other*100/$aStats.count_all, 1, '.', '')}
+	{$iUsersSexManPerc = number_format($aStats.count_sex_man*100/$aStats.count_all, 1, '.', '')}
+	{$iUsersSexWomanPerc = number_format($aStats.count_sex_woman*100/$aStats.count_all, 1, '.', '')}
 
 	<div id="admin_users_sex_pie_graph"></div>
-	
+
+	{* график гендерного распределения пользователей *}
 	<script>
-		{*
-			график гендерного распределения пользователей
-		*}
 		jQuery(document).ready(function($) {
 			$('#admin_users_sex_pie_graph').highcharts({
 				chart: {
@@ -112,4 +102,6 @@
 			</tr>
 		</tbody>
 	</table>
-{/block}
+{/capture}
+
+{component 'admin:block' title=$aLang.plugin.admin.users_stats.gender_stats content=$smarty.capture.block_content}

@@ -63,8 +63,10 @@ jQuery(document).ready(function ($) {
     /**
      * Datepicker
      */
-    $('.date-picker').livequery(function () {
-        $(this).lsFieldDate();
+    $('.js-field-date-default').livequery(function () {
+        $(this).lsFieldDate({
+            language: LANGUAGE
+        });
     });
 
 

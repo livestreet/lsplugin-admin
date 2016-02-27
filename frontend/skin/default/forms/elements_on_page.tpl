@@ -12,7 +12,7 @@
 {/if}
 
 <form action="{$sFormActionPath}" class="per-page" method="post" enctype="application/x-www-form-urlencoded" id="{$sFormId}">
-	{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.hidden.security_key.tpl"}
+	{component 'admin:field.hidden.security-key'}
 
 	{$aLang.plugin.admin.on_page}
 	<select name="onpage" class="width-75">

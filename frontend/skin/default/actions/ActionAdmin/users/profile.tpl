@@ -85,26 +85,26 @@
 				для редактирования профиля пользователя
 			*}
 			<form action="{router page='admin/users/profile'}{$oUser->getId()}" method="post">
-				{component 'admin:field' template='hidden.security-key'}
+				{component 'admin:field.hidden.security-key'}
 
 				<h2 class="user-info-heading">{$aLang.plugin.admin.users.profile.info.resume}</h2>
 
-				{component 'admin:field' template='text'
+				{component 'admin:field.text'
 					name  = 'login'
 					value = $oUser->getLogin()|escape
 					label = $aLang.plugin.admin.users.profile.info.login}
 
-				{component 'admin:field' template='text'
+				{component 'admin:field.text'
 					name  = 'profile_name'
 					value = $oUser->getProfileName()|escape
 					label = $aLang.plugin.admin.users.profile.info.profile_name}
 
-				{component 'admin:field' template='text'
+				{component 'admin:field.text'
 					name  = 'mail'
 					value = $oUser->getMail()
 					label = $aLang.plugin.admin.users.profile.info.mail}
 
-				{component 'admin:field' template='select'
+				{component 'admin:field.select'
 					name='profile_sex'
 					selectedValue=$oUser->getProfileSex()
 					label=$aLang.plugin.admin.users.profile.info.sex
@@ -114,13 +114,15 @@
 						[ 'value' => 'other', 'text' => $aLang.plugin.admin.users.sex.other ]
 					]}
 
-				{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.select.date.tpl"
-					sFieldNamePrefix    = 'profile_birthday'
-					aFieldItems         = $oUser->getProfileBirthday()
-					sFieldLabel  = $aLang.plugin.admin.users.profile.info.birthday}
+				{* TODO: Backend *}
+				{component 'admin:field.date'
+					name  = 'profile_birthday'
+					inputClasses = 'js-field-date-default'
+					value = $oUser->getProfileBirthday()
+					label = $aLang.plugin.admin.users.profile.info.birthday}
 
 				{* Местоположение *}
-				{component 'admin:field' template='geo'
+				{component 'admin:field.geo'
 					classes   = 'js-field-geo-default'
 					name      = 'geo'
 					label     = {lang name='plugin.admin.users.profile.info.living'}
@@ -129,12 +131,11 @@
 					cities    = $aGeoCities
 					place     = $oGeoTarget}
 
-				{component 'admin:field' template='text'
+				{component 'admin:field.text'
 					name='password'
-					value=''
 					label=$aLang.plugin.admin.users.profile_edit.password}
 
-				{component 'admin:field' template='textarea'
+				{component 'admin:field.textarea'
 					name  = 'profile_about'
 					rows  = 4
 					value = $oUser->getProfileAbout()|strip_tags|escape
@@ -174,10 +175,7 @@
 
 				{* Кнопки *}
 				<div class="mt-15">
-					{include file="{$aTemplatePathPlugin.admin}forms/fields/form.field.button.tpl"
-						sFieldName='submit_edit'
-						sFieldStyle='primary'
-						sFieldText=$aLang.common.save}
+					{component 'admin:button' text=$aLang.common.save name='submit_edit' mods='primary'}
 				</div>
 			</form>
 		</div>

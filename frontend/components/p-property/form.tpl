@@ -47,9 +47,7 @@
         {component 'admin:field' template='text' name='property[description]' label='Краткое описание'}
 
         {* Дополнительные параметры для каждого типа *}
-        {include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/property/types/type.{$property->getType()}.tpl"
-                 oPropertyValidateRules = $property->getValidateRulesEscape()
-                 oPropertyParams        = $property->getParamsEscape()}
+        {component "admin:p-property.type-{$property->getType()}" property=$property propertyParams=$property->getParamsEscape() rules=$property->getValidateRulesEscape()}
     {/if}
 
     {* Кнопки *}
