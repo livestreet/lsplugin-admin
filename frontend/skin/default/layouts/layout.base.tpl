@@ -135,21 +135,6 @@
                     <h2 class="page-header">{$smarty.block.child}</h2>
                 {/block}
 
-                {* Навигация *}
-                {if $sNav or $sNavContent}
-                    <div class="nav-group">
-                        {if $sNav}
-                            {if in_array($sNav, $aMenuContainers)}
-                                {$aMenuFetch.$sNav}
-                            {else}
-                                {include file="navs/nav.$sNav.tpl"}
-                            {/if}
-                        {else}
-                            {include file="navs/nav.$sNavContent.content.tpl"}
-                        {/if}
-                    </div>
-                {/if}
-
                 {* Системные сообщения *}
                 {if ! $bNoSystemMessages}
                     {if $aMsgError}
@@ -167,7 +152,7 @@
 
         {* Сайдбар *}
         <aside id="sidebar" role="complementary">
-            {include file="{$aTemplatePathPlugin.admin}navs/nav.main.tpl"}
+            {component 'admin:p-menu' menu=$oMenuMain}
         </aside>
     </div> {* /wrapper *}
 

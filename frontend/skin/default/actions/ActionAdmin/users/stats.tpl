@@ -11,7 +11,7 @@
 {/block}
 
 {block 'layout_content_actionbar'}
-	{include file="{$aTemplatePathPlugin.admin}misc/stats.brief.tpl"}
+	{component 'admin:p-dashboard.actionbar-stats'}
 {/block}
 
 {block 'layout_content'}
@@ -23,36 +23,33 @@
 		aStats                  = $aDataStats
 		sName                   = $aLang.plugin.admin.users_stats.registrations
 		sUrl                    = "{router page='admin/users/stats'}"
-		bShowCustomPeriodFields = true
-	}
+		bShowCustomPeriodFields = true}
 
 
 	{**
 	 * Блоки
 	 *}
-	<div class="home-blocks ls-clearfix">
-		{include file="{$aTemplatePathPlugin.admin}blocks/block.home.users.genders.tpl"}
-		{include file="{$aTemplatePathPlugin.admin}blocks/block.home.users.stats.tpl"}
+	<div class="p-dashboard-block-group ls-clearfix">
+		{component 'admin:p-user.block-genders' stats=$aStats}
+		{component 'admin:p-user.block-activity' stats=$aStats rating=$aGoodAndBadUsers}
 	</div>
 
 
 	{**
 	 * Возрастное распределение
 	 *}
-	{include file="{$aTemplatePathPlugin.admin}charts/chart.bar.vertical.tpl" 
+	{include file="{$aTemplatePathPlugin.admin}charts/chart.bar.vertical.tpl"
 		aData  = $aBirthdaysStats
-		sTitle = $aLang.plugin.admin.users_stats.age_stats
-	}
+		sTitle = $aLang.plugin.admin.users_stats.age_stats}
 
 
 	{**
 	 * Статистика по странам и городам
 	 *}
 	<div id="admin_users_stats_living">
-		{include file="{$aTemplatePathPlugin.admin}charts/chart.bar.location.tpl" 
+		{include file="{$aTemplatePathPlugin.admin}charts/chart.bar.location.tpl"
 			aData = $aLivingStats
 			sTitle = $aLang.plugin.admin.users_stats.countries
-			iTotal = $aStats.count_all
-		}
+			iTotal = $aStats.count_all}
 	</div>
 {/block}

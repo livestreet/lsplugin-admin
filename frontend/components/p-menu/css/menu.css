@@ -8,7 +8,7 @@
  * @template navs/nav.main.tpl
  */
 .nav-main { 
-	padding-top: 10px;
+    padding-top: 10px;
 
     background: rgba(252,252,252,1);
     background: -moz-linear-gradient(top, rgba(252,252,252,1) 0%, rgba(246,246,246,1) 82%, rgba(245,245,245,1) 100%);
@@ -32,30 +32,30 @@
 .nav-main-item-root.active > a span { border: none; color: #000; }
 .nav-main-item-root > a span        { display: inline-block; border-bottom: 1px solid #c3c3c3; }
 .nav-main-item-icon { 
-	position: absolute;
-	top: 5px;
-	left: 11px;
-	width: 19px;
-	height: 19px;
-	background-repeat: no-repeat;
-	background-image: url(../images/icons/nav-main-home.png);
+    position: absolute;
+    top: 5px;
+    left: 11px;
+    width: 19px;
+    height: 19px;
+    background-repeat: no-repeat;
+    background-image: url(../images/nav-main-home.png);
 }
 
-.nav-main-item-icon.nav-main-item-icon-home     { background-image: url(../images/icons/nav-main-home.png); }
-.nav-main-item-root.active .nav-main-item-icon.nav-main-item-icon-home     { background-image: url(../images/icons/nav-main-home-active.png); }
-.nav-main-item-icon.nav-main-item-icon-users    { background-image: url(../images/icons/nav-main-users.png); }
-.nav-main-item-root.active .nav-main-item-icon.nav-main-item-icon-users    { background-image: url(../images/icons/nav-main-users-active.png); }
-.nav-main-item-icon.nav-main-item-icon-plugins  { background-image: url(../images/icons/nav-main-plugins.png); }
-.nav-main-item-root.active .nav-main-item-icon.nav-main-item-icon-plugins  { background-image: url(../images/icons/nav-main-plugins-active.png); }
-.nav-main-item-icon.nav-main-item-icon-settings { background-image: url(../images/icons/nav-main-settings.png); }
-.nav-main-item-root.active .nav-main-item-icon.nav-main-item-icon-settings { background-image: url(../images/icons/nav-main-settings-active.png); }
-.nav-main-item-icon.nav-main-item-icon-utils    { background-image: url(../images/icons/nav-main-settings.png); }
-.nav-main-item-root.active .nav-main-item-icon.nav-main-item-icon-utils    { background-image: url(../images/icons/nav-main-settings-active.png); }
-.nav-main-item-icon.nav-main-item-icon-skins    { background-image: url(../images/icons/nav-main-skins.png); }
-.nav-main-item-root.active .nav-main-item-icon.nav-main-item-icon-skins    { background-image: url(../images/icons/nav-main-skins-active.png); }
+.nav-main-item-icon.nav-main-item-icon-home     { background-image: url(../images/nav-main-home.png); }
+.nav-main-item-root.active .nav-main-item-icon.nav-main-item-icon-home     { background-image: url(../images/nav-main-home-active.png); }
+.nav-main-item-icon.nav-main-item-icon-users    { background-image: url(../images/nav-main-users.png); }
+.nav-main-item-root.active .nav-main-item-icon.nav-main-item-icon-users    { background-image: url(../images/nav-main-users-active.png); }
+.nav-main-item-icon.nav-main-item-icon-plugins  { background-image: url(../images/nav-main-plugins.png); }
+.nav-main-item-root.active .nav-main-item-icon.nav-main-item-icon-plugins  { background-image: url(../images/nav-main-plugins-active.png); }
+.nav-main-item-icon.nav-main-item-icon-settings { background-image: url(../images/nav-main-settings.png); }
+.nav-main-item-root.active .nav-main-item-icon.nav-main-item-icon-settings { background-image: url(../images/nav-main-settings-active.png); }
+.nav-main-item-icon.nav-main-item-icon-utils    { background-image: url(../images/nav-main-settings.png); }
+.nav-main-item-root.active .nav-main-item-icon.nav-main-item-icon-utils    { background-image: url(../images/nav-main-settings-active.png); }
+.nav-main-item-icon.nav-main-item-icon-skins    { background-image: url(../images/nav-main-skins.png); }
+.nav-main-item-root.active .nav-main-item-icon.nav-main-item-icon-skins    { background-image: url(../images/nav-main-skins-active.png); }
 
-.nav-main-item-icon.nav-main-item-icon-fold    { background-image: url(../images/icons/nav-main-fold.png); }
-.is-nav-main-folded .nav-main-item-icon.nav-main-item-icon-fold { background-image: url(../images/icons/nav-main-fold-active.png); }
+.nav-main-item-icon.nav-main-item-icon-fold    { background-image: url(../images/nav-main-fold.png); }
+.is-nav-main-folded .nav-main-item-icon.nav-main-item-icon-fold { background-image: url(../images/nav-main-fold-active.png); }
 
 .nav-main-item-root.nav-main-item-fold { margin-top: 15px; }
 .nav-main-item-root.nav-main-item-fold > a { font-size: 11px; }

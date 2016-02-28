@@ -237,8 +237,7 @@ class PluginAdmin_ActionAdmin_EventUtils extends Event
         } else {
             $this->Message_AddError('Не удалось выполнить задачу, смотрите логи', $this->Lang_Get('common.error.error'));
         }
-        $this->Viewer_Assign('oTaskItem', $oTask);
-        $this->Viewer_AssignAjax('sHtmlRow',
-            $this->Viewer_Fetch(Plugin::GetTemplatePath($this) . 'actions/ActionAdmin/utils/cron/item.tpl'));
+        $this->Viewer_Assign('item', $oTask, true);
+        $this->Viewer_AssignAjax('sHtmlRow', $this->Viewer_Fetch('component@admin:p-cron.item'));
     }
 }

@@ -1,6 +1,6 @@
-{extends 'Component@email.email'}
+{extends 'component@email.email'}
 
-{block name='content'}
+{block 'content'}
 	Мы получили ваше обращение, <a href="{$oUserFrom->getUserWebPath()}">{$oUserFrom->getDisplayName()}</a>.
 	<br>
 	<br>

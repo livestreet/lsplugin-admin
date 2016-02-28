@@ -1,0 +1,20 @@
+{
+    "name": "p-index",
+    "version": "1.0.0",
+    "templates": {
+        "p-index": "index.tpl",
+        "block-activity": "blocks/block.activity.tpl",
+        "block-stats": "blocks/block.stats.tpl",
+        "notifications": "notifications.tpl",
+        "actionbar-stats": "actionbar-stats.tpl"
+    },
+    "scripts": {
+        "index": "js/index.js"
+    },
+    "styles": {
+        "dashboard": "css/dashboard.css",
+        "notifications": "css/notifications.css",
+        "activity": "css/activity.css",
+        "actionbar-stats": "css/actionbar-stats.css"
+    }
+}

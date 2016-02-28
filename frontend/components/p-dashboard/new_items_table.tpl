@@ -9,16 +9,16 @@
 				{$aLang.plugin.admin.index.new_topics}
 			</td>
 			<td class="growth" title="{$aLang.plugin.admin.index.new_topics_info}">
-				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_growth.tpl" sObjectsType='topics'}
+				{include "./new_items_table_growth.tpl" sObjectsType='topics'}
 			</td>
 			<td class="graph-line">
-				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_line_stats.tpl"
+				{include "./new_items_table_line_stats.tpl"
 					sObjectsType='topics'
 					sDataType='ratings'
 					sGraphLineTitle='рейтинг объектов в периоде'
 				}
 
-				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_line_stats.tpl"
+				{include "./new_items_table_line_stats.tpl"
 					sObjectsType='topics'
 					sDataType='votings'
 					sGraphLineTitle='голоса за объекты в периоде'
@@ -30,16 +30,16 @@
 				{$aLang.plugin.admin.index.new_comments}
 			</td>
 			<td class="growth" title="{$aLang.plugin.admin.index.new_comments_info}">
-				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_growth.tpl" sObjectsType='comments'}
+				{include "./new_items_table_growth.tpl" sObjectsType='comments'}
 			</td>
 			<td class="graph-line">
-				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_line_stats.tpl"
+				{include "./new_items_table_line_stats.tpl"
 					sObjectsType='comments'
 					sDataType='ratings'
 					sGraphLineTitle='рейтинг объектов в периоде'
 				}
 
-				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_line_stats.tpl"
+				{include "./new_items_table_line_stats.tpl"
 					sObjectsType='comments'
 					sDataType='votings'
 					sGraphLineTitle='голоса за объекты в периоде'
@@ -51,16 +51,16 @@
 				{$aLang.plugin.admin.index.new_blogs}
 			</td>
 			<td class="growth" title="{$aLang.plugin.admin.index.new_blogs_info}">
-				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_growth.tpl" sObjectsType='blogs'}
+				{include "./new_items_table_growth.tpl" sObjectsType='blogs'}
 			</td>
 			<td class="graph-line">
-				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_line_stats.tpl"
+				{include "./new_items_table_line_stats.tpl"
 					sObjectsType='blogs'
 					sDataType='ratings'
 					sGraphLineTitle='рейтинг объектов в периоде'
 				}
 
-				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_line_stats.tpl"
+				{include "./new_items_table_line_stats.tpl"
 					sObjectsType='blogs'
 					sDataType='votings'
 					sGraphLineTitle='голоса за объекты в периоде'
@@ -72,16 +72,16 @@
 				{$aLang.plugin.admin.index.new_users}
 			</td>
 			<td class="growth" title="{$aLang.plugin.admin.index.new_users_info}">
-				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_growth.tpl" sObjectsType='registrations'}
+				{include "./new_items_table_growth.tpl" sObjectsType='registrations'}
 			</td>
 			<td class="graph-line">
-				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_line_stats.tpl"
+				{include "./new_items_table_line_stats.tpl"
 					sObjectsType='registrations'
 					sDataType='ratings'
 					sGraphLineTitle='рейтинг объектов в периоде'
 				}
 
-				{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/new_items_table_line_stats.tpl"
+				{include "./new_items_table_line_stats.tpl"
 					sObjectsType='registrations'
 					sDataType='votings'
 					sGraphLineTitle='голоса за объекты в периоде'

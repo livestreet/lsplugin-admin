@@ -1,6 +1,6 @@
-{extends 'Component@email.email'}
+{extends 'component@email.email'}
 
-{block name='content'}
+{block 'content'}
 	На вас, <a href="{$oUserTarget->getUserWebPath()}">{$oUserTarget->getDisplayName()}</a>, поступила жалоба.
 	<br>
 	<br>

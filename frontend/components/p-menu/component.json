@@ -1,0 +1,13 @@
+{
+    "name": "p-menu",
+    "version": "1.0.0",
+    "templates": {
+        "p-menu": "menu.tpl"
+    },
+    "scripts": {
+        "menu": "js/menu.js"
+    },
+    "styles": {
+        "menu": "css/menu.css"
+    }
+}

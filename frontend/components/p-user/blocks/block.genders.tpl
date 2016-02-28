@@ -2,13 +2,15 @@
  * Гендерная статистика
  *}
 
+{component_define_params params=[ 'stats' ]}
+
 {capture 'block_content'}
 	{**
 	 * Значения для каждого пола в процентах
 	 *}
-	{$iUsersSexOtherPerc = number_format($aStats.count_sex_other*100/$aStats.count_all, 1, '.', '')}
-	{$iUsersSexManPerc = number_format($aStats.count_sex_man*100/$aStats.count_all, 1, '.', '')}
-	{$iUsersSexWomanPerc = number_format($aStats.count_sex_woman*100/$aStats.count_all, 1, '.', '')}
+	{$iUsersSexOtherPerc = number_format($stats.count_sex_other*100/$stats.count_all, 1, '.', '')}
+	{$iUsersSexManPerc = number_format($stats.count_sex_man*100/$stats.count_all, 1, '.', '')}
+	{$iUsersSexWomanPerc = number_format($stats.count_sex_woman*100/$stats.count_all, 1, '.', '')}
 
 	<div id="admin_users_sex_pie_graph"></div>
 
@@ -81,7 +83,7 @@
 				<td>
 					{$aLang.plugin.admin.users_stats.sex_other}
 				</td>
-				<td class="ta-r">{$aStats.count_sex_other}</td>
+				<td class="ta-r">{$stats.count_sex_other}</td>
 				<td class="ta-r percent">{$iUsersSexOtherPerc} %</td>
 			</tr>
 			<tr>
@@ -89,7 +91,7 @@
 				<td>
 					{$aLang.plugin.admin.users_stats.sex_man}
 				</td>
-				<td class="ta-r">{$aStats.count_sex_man}</td>
+				<td class="ta-r">{$stats.count_sex_man}</td>
 				<td class="ta-r percent">{$iUsersSexManPerc} %</td>
 			</tr>
 			<tr>
@@ -97,7 +99,7 @@
 				<td>
 					{$aLang.plugin.admin.users_stats.sex_woman}
 				</td>
-				<td class="ta-r">{$aStats.count_sex_woman}</td>
+				<td class="ta-r">{$stats.count_sex_woman}</td>
 				<td class="ta-r percent">{$iUsersSexWomanPerc} %</td>
 			</tr>
 		</tbody>

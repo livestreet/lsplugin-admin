@@ -214,6 +214,11 @@ jQuery(document).ready(function ($) {
     ls.plugin.admin.navMain.init();
 
     /**
+     * Activity
+     */
+    $('.js-dashboard-activity').lsActivity({ urls: { more: aRouter.stream + 'get_more_all' } });
+
+    /**
      * Механизм заметок для пользователей
      */
     $('.js-user-note').livequery(function () {

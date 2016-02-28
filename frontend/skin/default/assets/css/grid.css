@@ -26,6 +26,19 @@
 	position: relative;
 	box-shadow: 0 66px 40px -44px rgba(0, 0, 0, 0.1);
 }
+#content:after {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: 2.5%;
+	width: 95%;
+	height: 10px;
+	-webkit-box-shadow: 0 0 45px rgba(0,0,0,.3);
+	-moz-box-shadow: 0 0 45px rgba(0,0,0,.3);
+	box-shadow: 0 0 45px rgba(0,0,0,.3);
+	z-index: -5;
+	background: #000;
+}
 #sidebar {
 	width: 250px;
 	position: relative;
@@ -37,12 +50,27 @@
 	margin-bottom: 20px;
 	padding: 65px 15px 50px 16px;
 }
+#footer ul {
+	float: left;
+	width: 33%;
+}
+#footer ul li {
+	margin-bottom: 5px;
+}
+#footer ul.footer-right {
+	float: right;
+	text-align: right;
+}
+
 .content-padding {
 	padding: 15px;
 }
 
 /* Responsive */
-@media (max-width:999px) {
+@media (max-width:800px) {
+	#container {
+		padding: 0 5px;
+	}
 	#wrapper {
 		flex-direction: column;
 	}
@@ -55,5 +83,11 @@
 		width: 100%;
 		order: 1;
 		margin-bottom: 5px;
+	}
+	#footer ul, #footer ul.footer-right {
+		float: none;
+		width: auto;
+		text-align: left;
+		margin-bottom: 20px;
 	}
 }

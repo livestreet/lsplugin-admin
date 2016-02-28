@@ -16,10 +16,15 @@
 
         "vote-list": "vote/list.tpl",
 
+        "block-genders": "blocks/block.genders.tpl",
+        "block-activity": "blocks/block.activity.tpl",
+
         "list": "list.tpl",
         "delete": "delete.tpl"
     },
     "scripts": {
+        "search": "js/search.js",
+        "stats-living": "js/stats-living.js",
         "report": "js/report.js",
         "p-user": "js/user.js"
     }

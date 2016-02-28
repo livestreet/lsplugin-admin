@@ -17,11 +17,11 @@ $config['components'] = array(
 
     // Компоненты админки
     'admin:plugin', 'admin:skin', 'admin:p-settings', 'admin:p-actionbar', 'admin:p-cron', 'admin:p-property', 'admin:p-topic', 'admin:p-category', 'admin:p-optimization',
-    'admin:p-form', 'admin:p-rbac', 'admin:p-user',
+    'admin:p-form', 'admin:p-rbac', 'admin:p-user', 'admin:p-menu', 'admin:p-dashboard',
 
     // Компоненты LS CMS
     'admin:note', 'admin:icons-contact', 'admin:toolbar-scrollup', 'admin:toolbar-scrollnav',
-    'admin:media', 'admin:property', 'admin:content',
+    'admin:media', 'admin:property', 'admin:content', 'admin:activity',
 );
 
 /**
@@ -47,19 +47,10 @@ $config['assets']['css'] = array(
 $config['admin']['assets']['js'] = array(
     // Plugin scripts
     'assets/js/init.js',
-    'assets/js/admin_settings_save.js',
-    'assets/js/admin_settings_array.js',
     'assets/js/admin_misc.js',
-    'assets/js/admin_stream.js',
-    'assets/js/admin_users_stats_living.js',
-    'assets/js/admin_profile_edit.js',
-    'assets/js/admin_catalog.js',
-    'assets/js/admin_users_search.js',
-    'assets/js/nav.main.js',
     // Vendor scripts
     'assets/js/vendor/highcharts/highcharts.src.js',
-    'assets/js/vendor/icheck/jquery.icheck.js',
-    'assets/js/vendor/jeditable/jquery.jeditable.js',
+    'assets/js/vendor/icheck/jquery.icheck.js'
 );
 
 
@@ -74,7 +65,6 @@ $config['admin']['assets']['css'] = array(
     'assets/css/blocks.css',
     'assets/css/pagination.css',
     'assets/css/icons.css',
-    'assets/css/navs.css',
     'assets/css/buttons.css',
     'assets/css/forms.css',
     'assets/css/user.css',

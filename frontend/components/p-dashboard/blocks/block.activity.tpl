@@ -1,16 +1,10 @@
 {**
  * Активность
- *
- * @styles blocks.css
  *}
 
-{extends file="{$aTemplatePathPlugin.admin}blocks/block.aside.base.tpl"}
+{component_define_params params=[ 'events', 'count' ]}
 
-{block name='block_title'}{$aLang.plugin.admin.index.activity}{/block}
-{block name='block_type'}home-activity{/block}
-{block name='block_class'}block-home{/block}
-
-{block name='block_header_end'}
+{*block name='block_header_end'}
 	<button class="button button-icon js-dropdown" data-dropdown-target="dropdown-admin-index-stream-menu" id="dropdown-admin-index-stream-menu-trigger">
 		<i class="icon-settings-14"></i>
 	</button>
@@ -34,17 +28,8 @@
 			<button type="submit" name="submit_change_activity_settings" class="button button-primary mt-20">{$aLang.plugin.admin.save}</button>
 		</form>
 	</div>
-{/block}
+{/block*}
 
-{block name='block_content'}
-	{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/index/activity/event_list.tpl"}
-{/block}
-
-{block name='block_footer'}
-	{*
-		если для всей активности (которая включена по-умолчанию) нет данных - убрать кнопку
-	*}
-	{if count($aStreamEvents) and !$bDisableGetMoreButton}
-		<button class="button width-full" id="activity-get-more">{$aLang.plugin.admin.show_more}</button>
-	{/if}
-{/block}
+{component 'admin:block'
+	title=$aLang.plugin.admin.users_stats.activity
+	content={component 'activity' events=$events count=$count classes='p-dashboard-activity js-dashboard-activity'}}

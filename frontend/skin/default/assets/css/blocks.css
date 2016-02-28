@@ -98,30 +98,6 @@
 
 
 /**
- * Activity
- *
- * @file blocks/block.home.activity.tpl
- */
-.block-type-home-activity .block-content { padding: 0 10px; }
-
-.activity-event-list { margin: 0 0 20px; }
-.activity-date       { font-size: 15px; font-weight: bold; margin-top: 35px; padding-bottom: 5px; border-bottom: 1px solid #eee; }
-
-.activity-event                { min-height: 30px; border-top: 1px solid #f2f2f2; padding: 15px 0 15px 40px; position: relative; font-size: 11px; font-family: Verdana; }
-.activity-event:first-child    { border: none; }
-.activity-event-avatar         { position: absolute; top: 15px; left: 0; width: 30px; height: 30px; }
-.activity-event-date           { color: #999; }
-.activity-event-info           { line-height: 1em; margin-bottom: 4px; }
-.activity-event-username       { font-weight: bold; color: #6d82a0; text-decoration: underline; }
-.activity-event-username:hover { color: #f00; }
-
-.activity-event-text           { padding: 5px 10px; background: #f7f4ec; margin-top: 10px; font-size: 11px; position: relative; }
-.activity-event-text.text      { font-size: 11px; }
-.activity-event-text:before    { content: ""; width: 0; height: 0; border: 6px solid transparent; border-bottom-color: #f7f4ec; position: absolute; top: -12px; left: 5px; }
-.activity-event-text:after     { content: ""; width: 0; height: 0; border: 6px solid #fff; position: absolute; top: -12px; left: -1px; }
-
-
-/**
  * Gender stats
  *
  * @file blocks/block.home.users.genders.tpl

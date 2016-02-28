@@ -36,15 +36,6 @@
 
 				<p class="user-id">{$aLang.plugin.admin.users.profile.user_no}{$oUser->getId()}</p>
 			</div>
-
-			{* Редактирование дополнительных данных *}
-			<div class="user-brief-aside">
-				<div class="edit-rating mb-10">
-					<i class="icon-rating" title="{$aLang.plugin.admin.users.profile_edit.rating}"></i>
-					{* Инлайн редактирование поля *}
-					<span class="link-dotted js-profile-inline-edit-input highlight-profile-inline-edit" data-item-type="rating" data-item-id="{$oUser->getId()}">{$oUser->getRating()}</span>
-				</div>
-			</div>
 		</div>
 	</header>
 {/block}
@@ -113,6 +104,12 @@
 						[ 'value' => 'woman', 'text' => $aLang.plugin.admin.users.sex.woman ],
 						[ 'value' => 'other', 'text' => $aLang.plugin.admin.users.sex.other ]
 					]}
+
+				{* TODO: Backend *}
+				{component 'admin:field.text'
+					name  = 'profile_rating'
+					value = $oUser->getRating()
+					label = 'Рейтинг'}
 
 				{* TODO: Backend *}
 				{component 'admin:field.date'

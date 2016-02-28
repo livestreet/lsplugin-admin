@@ -17,5 +17,9 @@
     },
     "styles": {
         "p-settings": "css/settings.css"
+    },
+    "scripts": {
+        "save": "js/save.js",
+        "array": "js/array.js"
     }
 }
