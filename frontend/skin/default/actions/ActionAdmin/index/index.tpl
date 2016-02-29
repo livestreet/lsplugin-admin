@@ -12,14 +12,13 @@
 	{**
 	 * График
 	 *}
-	{include file="{$aTemplatePathPlugin.admin}charts/graph.tpl"
-		sGraphTitle             = $aLang.plugin.admin.index.title
-		aStats                  = $aDataStats
-		sName                   = $aLang.plugin.admin.graph.graph_type.$sCurrentGraphType
-		sUrl                    = "{router page='admin'}"
-		bShowGraphTypeSelect    = true
-		bShowCustomPeriodFields = true}
-
+	{component 'admin:p-graph'
+		title=$aLang.plugin.admin.index.title
+		data=$aDataStats
+		name=$aLang.plugin.admin.graph.graph_type.$sCurrentGraphType
+		url={router page='admin'}
+		showFilterType=true
+		showFilterPeriod=true}
 
 	{**
 	 * Уведомления

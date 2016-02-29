@@ -1,0 +1,10 @@
+{
+    "name": "p-graph",
+    "version": "1.0.0",
+    "templates": {
+        "p-graph": "graph.tpl"
+    },
+    "styles": {
+        "graph": "css/graph.css"
+    }
+}

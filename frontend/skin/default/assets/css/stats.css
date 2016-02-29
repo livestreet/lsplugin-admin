@@ -8,21 +8,6 @@
  * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
 
-.graph-wrapper { margin-bottom: 40px; }
-.graph {
-	/*-webkit-box-shadow: 0 3px 15px rgba(0, 0, 0, .1);
-	-moz-box-shadow: 0 3px 15px rgba(0, 0, 0, .1);
-	box-shadow: 0 3px 15px rgba(0, 0, 0, .1);*/
-	border: 1px solid #eee;
-}
-
-.graph-header { padding: 0 0 10px; }
-.graph-title { font: 300 20px/1em 'Open Sans', Arial, sans-serif; }
-.graph-filter { padding: 20px; }
-.graph-body { padding: 20px; }
-.graph-table { padding-top: 15px; }
-.graph-table .table { margin-top: 15px; }
-
 
 /**
  * Vertical bar chart

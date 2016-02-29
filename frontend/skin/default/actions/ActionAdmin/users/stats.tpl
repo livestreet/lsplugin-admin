@@ -18,13 +18,12 @@
 	{**
 	 * График регистраций
 	 *}
-	{include file="{$aTemplatePathPlugin.admin}charts/graph.tpl"
-		sGraphTitle             = $aLang.plugin.admin.users_stats.registrations
-		aStats                  = $aDataStats
-		sName                   = $aLang.plugin.admin.users_stats.registrations
-		sUrl                    = "{router page='admin/users/stats'}"
-		bShowCustomPeriodFields = true}
-
+	{component 'admin:p-graph'
+		title=$aLang.plugin.admin.users_stats.registrations
+		data=$aDataStats
+		name=$aLang.plugin.admin.users_stats.registrations
+		url={router page='admin/users/stats'}
+		showFilterPeriod=true}
 
 	{**
 	 * Блоки
