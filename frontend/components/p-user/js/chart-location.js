@@ -1,21 +1,21 @@
 /**
  * LiveStreet CMS
  * Copyright © 2013 OOO "ЛС-СОФТ"
- * 
+ *
  * ------------------------------------------------------
- * 
+ *
  * Official site: www.livestreetcms.com
  * Contact e-mail: office@livestreetcms.com
- * 
+ *
  * GNU General Public License, version 2:
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * 
+ *
  * ------------------------------------------------------
- * 
+ *
  * @link http://www.livestreetcms.com
  * @copyright 2013 OOO "ЛС-СОФТ"
  * @author Serge Pustovit (PSNet) <light.feel@gmail.com>
- * 
+ *
  */
 
 /*
@@ -44,12 +44,7 @@ ls.admin_users_stats_living = (function($) {
 		/*
 			кнопки
 		 */
-		admin_users_stats_living_buttons: '#admin_users_stats_living .js-ajax-load',
-
-		/*
-			для удобства (последняя запятая отсутствует)
-		 */
-		last_element: 'without_comma'
+		admin_users_stats_living_buttons: '#admin_users_stats_living .js-ajax-load'
 	};
 
 
@@ -61,8 +56,8 @@ ls.admin_users_stats_living = (function($) {
 	 * @constructor
 	 */
 	this.ShowShortViewLivingSelectData = function(iCount, iTotalUsersCount) {
-		$ (this.selectors.users_stats_living_stats_short_view_count).text(iCount);
-		$ (this.selectors.users_stats_living_stats_short_view_percentage).text((iCount*100/iTotalUsersCount).toFixed(2) + ' %');
+		$(this.selectors.users_stats_living_stats_short_view_count).text(iCount);
+		$(this.selectors.users_stats_living_stats_short_view_percentage).text((iCount*100/iTotalUsersCount).toFixed(2) + ' %');
 	};
 
 
@@ -72,15 +67,15 @@ ls.admin_users_stats_living = (function($) {
 	 * @constructor
 	 */
 	this.InitSelectDefaultValue = function() {
-		if ($ (this.selectors.users_stats_living_stats_short_view_select).length == 1) {
-			this.ShowShortViewLivingSelectData($ (this.selectors.users_stats_living_stats_short_view_select).val(), iTotalUsersCount);
+		if ($(this.selectors.users_stats_living_stats_short_view_select).length == 1) {
+			this.ShowShortViewLivingSelectData($(this.selectors.users_stats_living_stats_short_view_select).val(), iTotalUsersCount);
 		}
 	};
 
 	// ---
 
 	return this;
-	
+
 }).call(ls.admin_users_stats_living || {}, jQuery);
 
 // ---
@@ -90,8 +85,8 @@ jQuery(document).ready(function($) {
 	/*
 	 	смена элемента в селекте проживания на странице статистики пользователей
 	 */
-	$ (document).on ('change.admin', ls.admin_users_stats_living.selectors.users_stats_living_stats_short_view_select, function() {
-		ls.admin_users_stats_living.ShowShortViewLivingSelectData($ (this).val(), iTotalUsersCount);
+	$(document).on ('change.admin', ls.admin_users_stats_living.selectors.users_stats_living_stats_short_view_select, function() {
+		ls.admin_users_stats_living.ShowShortViewLivingSelectData($(this).val(), iTotalUsersCount);
 	});
 	/*
 	 	инит текущим значением селекта проживания для отображения короткого вида
@@ -102,11 +97,11 @@ jQuery(document).ready(function($) {
 	/*
 	 	аякс обработка нажатия на кнопки статистики пользователей по странам и городам
 	 */
-	$ (document).on ('click.admin', ls.admin_users_stats_living.selectors.admin_users_stats_living_buttons, function() {
-		$ (ls.admin_users_stats_living.selectors.admin_users_stats_living).addClass('loading');
+	$(document).on ('click.admin', ls.admin_users_stats_living.selectors.admin_users_stats_living_buttons, function() {
+		$(ls.admin_users_stats_living.selectors.admin_users_stats_living).addClass('loading');
 
 		ls.ajax.load(
-			$ (this).attr('href'),
+			$(this).attr('href'),
 			{
 				get_short_answer: true,
 				request_type: 'living_stats'
@@ -115,18 +110,18 @@ jQuery(document).ready(function($) {
 				/*
 				 	если нет ошибки и есть данные
 				 */
-				if (!data.bStateError && data.result) {
+				if (!data.bStateError && data.html) {
 					/*
 					 	вывести данные в блок
 					 */
-					$ (ls.admin_users_stats_living.selectors.admin_users_stats_living).html(data.result);
+					$(ls.admin_users_stats_living.selectors.admin_users_stats_living).html(data.html);
 					/*
 						показать для короткого вида данных (в селекте) значение по-умолчанию
 					 */
 					ls.admin_users_stats_living.InitSelectDefaultValue();
 				}
 
-				$ (ls.admin_users_stats_living.selectors.admin_users_stats_living).removeClass('loading');
+				$(ls.admin_users_stats_living.selectors.admin_users_stats_living).removeClass('loading');
 			},
 			{
 				type: 'POST',

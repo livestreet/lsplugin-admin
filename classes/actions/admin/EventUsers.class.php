@@ -1446,15 +1446,15 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event
                 /*
                  * получить статистику стран или городов
                  */
-                $oViewer->Assign('aData', $aLivingStatsData['aLivingStats']);
+                $oViewer->Assign('data', $aLivingStatsData['aLivingStats'], true);
                 /*
                  * тип текущего отображения: страны или города
                  */
-                $oViewer->Assign('sCurrentLivingSection', $aLivingStatsData['sCurrentLivingSection']);
+                $oViewer->Assign('section', $aLivingStatsData['sCurrentLivingSection'], true);
                 /*
                  * тип текущей сортировки: топ или по алфавиту
                  */
-                $oViewer->Assign('sCurrentLivingSorting', $aLivingStatsData['sCurrentLivingSorting']);
+                $oViewer->Assign('sorting', $aLivingStatsData['sCurrentLivingSorting'], true);
                 /*
                  * настроить смарти
                  */
@@ -1463,12 +1463,11 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event
                  * для расчетов нужно количество всех пользователей, берем их уже из кеша
                  */
                 $aStats = $this->User_GetStatUsers();
-                $oViewer->Assign('iTotal', $aStats['count_all']);
+                $oViewer->Assign('total', $aStats['count_all'], true);
                 /*
                  * вернуть скомпилированный шаблон
                  */
-                $this->Viewer_AssignAjax('result',
-                    $oViewer->Fetch(Plugin::GetTemplatePath(__CLASS__) . 'charts/chart.bar.location.tpl'));
+                $this->Viewer_AssignAjax('html', $oViewer->Fetch('component@admin:p-user.chart-location'));
             }
         }
     }

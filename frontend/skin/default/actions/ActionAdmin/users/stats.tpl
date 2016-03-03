@@ -33,22 +33,15 @@
 		{component 'admin:p-user.block-activity' stats=$aStats rating=$aGoodAndBadUsers}
 	</div>
 
-
 	{**
 	 * Возрастное распределение
 	 *}
-	{include file="{$aTemplatePathPlugin.admin}charts/chart.bar.vertical.tpl"
-		aData  = $aBirthdaysStats
-		sTitle = $aLang.plugin.admin.users_stats.age_stats}
-
+	{component 'admin:p-user.chart-age' data=$aBirthdaysStats title=$aLang.plugin.admin.users_stats.age_stats}
 
 	{**
 	 * Статистика по странам и городам
 	 *}
 	<div id="admin_users_stats_living">
-		{include file="{$aTemplatePathPlugin.admin}charts/chart.bar.location.tpl"
-			aData = $aLivingStats
-			sTitle = $aLang.plugin.admin.users_stats.countries
-			iTotal = $aStats.count_all}
+		{component 'admin:p-user.chart-location' data=$aLivingStats total=$aStats.count_all section=$sCurrentLivingSection sorting=$sCurrentLivingSorting}
 	</div>
 {/block}

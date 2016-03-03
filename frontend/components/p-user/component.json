@@ -16,6 +16,9 @@
 
         "vote-list": "vote/list.tpl",
 
+        "chart-location": "charts/chart.location.tpl",
+        "chart-age": "charts/chart.age.tpl",
+
         "block-genders": "blocks/block.genders.tpl",
         "block-activity": "blocks/block.activity.tpl",
 
@@ -24,8 +27,12 @@
     },
     "scripts": {
         "search": "js/search.js",
-        "stats-living": "js/stats-living.js",
+        "chart-location": "js/chart-location.js",
         "report": "js/report.js",
         "p-user": "js/user.js"
+    },
+    "styles": {
+        "charts": "css/charts.css",
+        "flags": "css/flags.css"
     }
 }

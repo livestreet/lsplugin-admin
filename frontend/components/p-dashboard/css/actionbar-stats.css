@@ -28,10 +28,19 @@
     color: #a2a2a2;
 }
 .p-dashboard-actionbar-stats-item-change {
+    display: inline-block;
+    width: 8px;
+    height: 7px;
     vertical-align: middle;
     position: relative;
     top: -2px;
     cursor: help;
+}
+.p-dashboard-actionbar-stats-item--up .p-dashboard-actionbar-stats-item-change {
+    background-image: url(../images/stats-up.png);
+}
+.p-dashboard-actionbar-stats-item--down .p-dashboard-actionbar-stats-item-change {
+    background-image: url(../images/stats-down.png);
 }
 
 @media (max-width:999px) {

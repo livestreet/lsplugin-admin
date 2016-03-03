@@ -16,7 +16,7 @@
 
 	{* график гендерного распределения пользователей *}
 	<script>
-		jQuery(document).ready(function($) {
+		$(function () {
 			$('#admin_users_sex_pie_graph').highcharts({
 				chart: {
 					plotBackgroundColor: null,
@@ -24,7 +24,6 @@
 					plotShadow: false,
 					height: 250,
 					width: 250,
-					//margin: 0,			// hides axis
 					spacingBottom: 0,
 					spacingLeft: 0,
 					spacingRight: 0,
@@ -37,7 +36,6 @@
 					animation: false,
 					shadow: false,
 					borderWidth: 0
-					// .highcharts-tooltip
 				},
 				credits: {
 					enabled: false

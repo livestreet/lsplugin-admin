@@ -32,15 +32,19 @@
 <ul class="{$component} {cmods name=$component mods=$mods} {$classes}" {cattr list=$attributes}>
 	{foreach $data as $item}
 		{if isset($item.count)}
-			<li class="{$component}-item">
+            {$change = null}
+
+            {if isset($item.growth) && $item.growth !== 0}
+                {$change = ($item.growth > 0) ? 'up' : 'down'}
+            {/if}
+
+			<li class="{$component}-item {if $change}{$component}-item--{$change}{/if}">
 				<h3 class="{$component}-item-title">
 					{abs(number_format($item.count, 0, '.', ' '))}
 
 					{* Прирост/спад *}
-					{if isset($item.growth) && $item.growth !== 0}
-						{$change = ($item.growth > 0) ? 'up' : 'down'}
-
-						<i class="{$component}-item-change" title="{lang 'plugin.admin.actionbar.$change'}: {abs($item.growth)}"></i>
+					{if $change}
+						<i class="{$component}-item-change" title="{lang "plugin.admin.actionbar.$change"}: {abs($item.growth)}"></i>
 					{/if}
 				</h3>
 				<p class="{$component}-item-text">{$item.text}</p>

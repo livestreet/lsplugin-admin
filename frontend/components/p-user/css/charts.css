@@ -1,0 +1,106 @@
+/**
+ * Статистика
+ */
+
+/**
+ * Age chart
+ */
+.p-chart-age {
+    margin-bottom: 40px;
+}
+.p-chart-age-items {
+    overflow: hidden;
+    height: 250px;
+}
+.p-chart-age-item {
+    display: inline-block;
+    width: 13px;
+    height: 220px;
+    margin-right: 5px;
+    margin-bottom: 30px;
+    position: relative;
+}
+.p-chart-age-item-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    border-radius: 3px;
+    background: linear-gradient(to bottom, #e3dbf9 0%, #efeafb 100%);
+}
+.p-chart-age-item-bar:hover {
+    background: linear-gradient(to bottom, #ff8352 0%, #ffc28c 100%);
+}
+.p-chart-age-item-value {
+    color: #6c6c6c;
+    position: absolute;
+    width: 100%;
+    bottom: -28px;
+    left: 0;
+    text-align: center;
+    font: 10px/1em Verdana;
+    cursor: help;
+}
+.p-chart-age-item-value:before {
+    content: "";
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    width: 1px;
+    height: 9px;
+    background: #f1f1f1;
+}
+.p-chart-age-item:nth-child(even) .p-chart-age-item-value {
+    color: #bbb;
+}
+
+/**
+ * Location chart
+ */
+.p-chart-location {
+    position: relative;
+}
+.p-chart-location-title.page-sub-header {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #f1f1f1;
+}
+.p-chart-location-data {
+    font-family: Verdana;
+}
+.p-chart-location-data.table td {
+    border: none;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    vertical-align: middle;
+}
+.p-chart-location-label {
+    width: 150px;
+}
+.p-chart-location-count {
+    width: 60px;
+    text-align: right;
+}
+.p-chart-location-percentages {
+    width: 60px;
+}
+.p-chart-location-bar {
+    box-shadow: inset 0 0 0 1px #f1f1f1;
+    height: 19px;
+    background: #fff;
+}
+.p-chart-location-bar-value {
+    height: 19px;
+    background: #cfedad;
+}
+.p-chart-location-label {
+    width: 200px;
+}
+.p-chart-location-custom td {
+    background: #f9f9f9;
+    padding: 15px;
+}
+.p-chart-location-sort {
+    position: absolute;
+    top: -7px;
+    right: 0;
+}

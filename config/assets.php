@@ -37,7 +37,6 @@ $config['assets']['js'] = array(
  */
 $config['assets']['css'] = array(
     // Framework styles
-
 );
 
 
@@ -70,9 +69,6 @@ $config['admin']['assets']['css'] = array(
     'assets/css/user.css',
     'assets/css/table.css',
     'assets/css/dropdowns.css',
-    'assets/css/helpers.css',
-    'assets/css/stats.css',
-    'assets/css/flags.css',
     // Vendor style
     'assets/css/vendor/jquery.notifier.css',
     'assets/css/vendor/icheck/skins/livestreet/minimal.css',
