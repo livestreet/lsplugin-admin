@@ -66,7 +66,6 @@ $config['admin']['assets']['css'] = array(
     'assets/css/icons.css',
     'assets/css/buttons.css',
     'assets/css/forms.css',
-    'assets/css/user.css',
     'assets/css/table.css',
     'assets/css/dropdowns.css',
     // Vendor style

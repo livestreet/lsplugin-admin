@@ -1,26 +1,11 @@
 /**
  * Страница пользователя
- *
- * @template actions/ActionAdmin/users/profile.tpl
- * 
- * @license   GNU General Public License, version 2
- * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
- * @author    Denis Shakhov <denis.shakhov@gmail.com>
  */
 
 /**
  * Is online
  */
 .user-is-online { padding-bottom: 2px; border-bottom: 2px solid #4ed851; }
-
-/**
- * Actionbar
- */
-.actionbar-user { background: #464646; padding: 7px 0; }
-.actionbar-user li a { float: left; padding: 9px 15px; color: #fff; }
-.actionbar-user li a:hover { color: #eee; }
-.actionbar-user li { border-left: 1px solid #696969; }
-.actionbar-user li:first-child { border-left: none; }
 
 /**
  * User header
@@ -30,7 +15,15 @@
 /**
  * Brief info
  */
-.user-brief { position: relative; color: #6c6c6c; }
+.user-brief {
+    position: relative;
+    color: #6c6c6c;
+}
+.user-brief .ls-dropdown {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
 
 .user-brief-body { padding-left: 123px; padding-right: 100px; min-height: 100px; }
 .user-brief-aside { position: absolute; top: 0; right: 0; padding-top: 3px; width: 75px; }
@@ -74,12 +67,21 @@
 .user-menu .user-menu-item { padding: 0 10px 10px 15px; }
 .user-menu .user-menu-item .link-border { color: #73819d; border-color: #cdd1db; }
 
-/* Heading */
-.user-info-heading { font-size: 18px; color: #000; margin-bottom: 15px; }
-
 /* Block */
-.user-info-block { border-top: 1px dotted #E0E0E0; padding-top: 25px; margin-bottom: 30px; }
-.user-info-block:first-child { border-top: none; }
+.user-info-block {
+    border-top: 1px dotted #E0E0E0;
+    padding-top: 25px;
+    margin-bottom: 30px;
+}
+.user-info-block:first-child {
+    padding-top: 0;
+    border-top: none;
+}
+.user-info-block-title {
+    font-size: 18px;
+    color: #000;
+    margin-bottom: 15px;
+}
 
 .user-info-block-stats { overflow: hidden; font-family: Verdana; }
 .user-info-block-stats-row { float: left; width: 25%; }
@@ -92,8 +94,3 @@
  */
 .user-contact-list { width: 45%; margin-right: 5%; float: left; }
 .user-contact-list li { margin-bottom: 10px; }
-
-/* complaints */
-.table.complaints tr.new td {
-	background: none repeat scroll 0 0 #D8F1FF;
-}

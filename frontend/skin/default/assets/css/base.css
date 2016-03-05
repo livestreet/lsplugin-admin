@@ -90,7 +90,7 @@ h1, h2, h3, h4, h5, h6 { font-family: "Open Sans"; }
 
 .userbar-avatar { border-radius: 50%; vertical-align: middle; margin-right: 10px; }
 
-.admin-userbar .dropdown-toggle {
+.admin-userbar .ls-dropdown-toggle {
 	font: 400 16px/38px 'Open Sans', Arial;
 	color: #6c6c6c;
 	height: auto;
@@ -98,6 +98,12 @@ h1, h2, h3, h4, h5, h6 { font-family: "Open Sans"; }
 	box-shadow: none;
 	background: transparent;
 	border: none;
+}
+.admin-userbar .ls-dropdown-toggle.open {
+	background: #eaeaea;
+}
+.admin-userbar .ls-dropdown-toggle:focus {
+	outline: none;
 }
 
 @media (max-width: 999px)	{

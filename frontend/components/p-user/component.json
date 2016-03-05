@@ -22,6 +22,7 @@
         "block-genders": "blocks/block.genders.tpl",
         "block-activity": "blocks/block.activity.tpl",
 
+        "form": "form.tpl",
         "list": "list.tpl",
         "delete": "delete.tpl"
     },
@@ -32,6 +33,7 @@
         "p-user": "js/user.js"
     },
     "styles": {
+        "user": "css/user.css",
         "charts": "css/charts.css",
         "flags": "css/flags.css"
     }

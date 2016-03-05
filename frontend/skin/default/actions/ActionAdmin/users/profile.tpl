@@ -6,10 +6,6 @@
 
 {extends file="{$aTemplatePathPlugin.admin}layouts/layout.base.tpl"}
 
-{block 'layout_content_actionbar'}
-	{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/user_actions.tpl" text="Действия..."}
-{/block}
-
 {block 'layout_content_before'}
 	<header class="user-header">
 		<div class="user-brief ls-clearfix">
@@ -36,6 +32,8 @@
 
 				<p class="user-id">{$aLang.plugin.admin.users.profile.user_no}{$oUser->getId()}</p>
 			</div>
+
+			{include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/user_actions.tpl" text="Действия"}
 		</div>
 	</header>
 {/block}
@@ -68,120 +66,54 @@
 		{* Для вывода информации бана *}
 		{hook run='admin_user_profile_center_info' oUserProfile=$oUser}
 
-		{*
-			Базовая информация
-		*}
+
 		<div class="user-info-block user-info-block-resume">
-			{*
-				для редактирования профиля пользователя
-			*}
-			<form action="{router page='admin/users/profile'}{$oUser->getId()}" method="post">
-				{component 'admin:field.hidden.security-key'}
+    		<h2 class="user-info-block-title">{$aLang.plugin.admin.users.profile.info.resume}</h2>
 
-				<h2 class="user-info-heading">{$aLang.plugin.admin.users.profile.info.resume}</h2>
+			{component 'admin:p-user.form' user=$oUser}
+		</div>
 
-				{component 'admin:field.text'
-					name  = 'login'
-					value = $oUser->getLogin()|escape
-					label = $aLang.plugin.admin.users.profile.info.login}
+		<div class="user-info-block user-info-block-auth">
+			<h2 class="user-info-block-title">Авторизация</h2>
 
-				{component 'admin:field.text'
-					name  = 'profile_name'
-					value = $oUser->getProfileName()|escape
-					label = $aLang.plugin.admin.users.profile.info.profile_name}
+			<dl class="dotted-list-item mt-20">
+				<dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile.info.reg_date}</dt>
+				<dd class="dotted-list-item-value">{date_format date=$oUser->getDateRegister()}</dd>
+			</dl>
 
-				{component 'admin:field.text'
-					name  = 'mail'
-					value = $oUser->getMail()
-					label = $aLang.plugin.admin.users.profile.info.mail}
+			<dl class="dotted-list-item">
+				<dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile.info.ip}</dt>
+				<dd class="dotted-list-item-value">
+					<a href="{router page='admin/users/list'}{request_filter
+						name=array('ip_register')
+						value=array($oUser->getIpRegister())
+					}" title="{$aLang.plugin.admin.users.profile.info.search_this_ip}">{$oUser->getIpRegister()}</a>
+				</dd>
+			</dl>
 
-				{component 'admin:field.select'
-					name='profile_sex'
-					selectedValue=$oUser->getProfileSex()
-					label=$aLang.plugin.admin.users.profile.info.sex
-					items=[
-						[ 'value' => 'man',   'text' => $aLang.plugin.admin.users.sex.man ],
-						[ 'value' => 'woman', 'text' => $aLang.plugin.admin.users.sex.woman ],
-						[ 'value' => 'other', 'text' => $aLang.plugin.admin.users.sex.other ]
-					]}
-
-				{* TODO: Backend *}
-				{component 'admin:field.text'
-					name  = 'profile_rating'
-					value = $oUser->getRating()
-					label = 'Рейтинг'}
-
-				{* TODO: Backend *}
-				{component 'admin:field.date'
-					name  = 'profile_birthday'
-					inputClasses = 'js-field-date-default'
-					value = $oUser->getProfileBirthday()
-					label = $aLang.plugin.admin.users.profile.info.birthday}
-
-				{* Местоположение *}
-				{component 'admin:field.geo'
-					classes   = 'js-field-geo-default'
-					name      = 'geo'
-					label     = {lang name='plugin.admin.users.profile.info.living'}
-					countries = $aGeoCountries
-					regions   = $aGeoRegions
-					cities    = $aGeoCities
-					place     = $oGeoTarget}
-
-				{component 'admin:field.text'
-					name='password'
-					label=$aLang.plugin.admin.users.profile_edit.password}
-
-				{component 'admin:field.textarea'
-					name  = 'profile_about'
-					rows  = 4
-					value = $oUser->getProfileAbout()|strip_tags|escape
-					label = $aLang.plugin.admin.users.profile_edit.about_user}
-
+			{if $oSession}
 				<dl class="dotted-list-item mt-20">
-					<dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile.info.reg_date}</dt>
-					<dd class="dotted-list-item-value">{date_format date=$oUser->getDateRegister()}</dd>
+					<dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile.info.last_visit}</dt>
+					<dd class="dotted-list-item-value">{date_format date=$oSession->getDateLast()}</dd>
 				</dl>
 
 				<dl class="dotted-list-item">
 					<dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile.info.ip}</dt>
 					<dd class="dotted-list-item-value">
 						<a href="{router page='admin/users/list'}{request_filter
-							name=array('ip_register')
-							value=array($oUser->getIpRegister())
-						}" title="{$aLang.plugin.admin.users.profile.info.search_this_ip}">{$oUser->getIpRegister()}</a>
+							name=array('session_ip_last')
+							value=array($oSession->getIpLast())
+						}" title="{$aLang.plugin.admin.users.profile.info.search_this_ip}">{$oSession->getIpLast()}</a>
 					</dd>
 				</dl>
-
-				{if $oSession}
-					<dl class="dotted-list-item mt-20">
-						<dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile.info.last_visit}</dt>
-						<dd class="dotted-list-item-value">{date_format date=$oSession->getDateLast()}</dd>
-					</dl>
-
-					<dl class="dotted-list-item">
-						<dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile.info.ip}</dt>
-						<dd class="dotted-list-item-value">
-							<a href="{router page='admin/users/list'}{request_filter
-								name=array('session_ip_last')
-								value=array($oSession->getIpLast())
-							}" title="{$aLang.plugin.admin.users.profile.info.search_this_ip}">{$oSession->getIpLast()}</a>
-						</dd>
-					</dl>
-				{/if}
-
-				{* Кнопки *}
-				<div class="mt-15">
-					{component 'admin:button' text=$aLang.common.save name='submit_edit' mods='primary'}
-				</div>
-			</form>
+			{/if}
 		</div>
 
 		{*
 			Статистика
 		*}
 		<div class="user-info-block user-info-block-stats">
-			<h2 class="user-info-heading">{$aLang.plugin.admin.users.profile.info.stats_title}</h2>
+			<h2 class="user-info-block-title">{$aLang.plugin.admin.users.profile.info.stats_title}</h2>
 
 			<div class="user-info-block-stats-row">
 				<div class="user-info-block-stats-header">{$aLang.plugin.admin.users.profile.info.created}</div>
@@ -219,7 +151,7 @@
 			Как голосовал пользователь
 		*}
 		<div class="user-info-block user-info-block-stats">
-			<h2 class="user-info-heading">{$aLang.plugin.admin.users.profile.info.votings_title}</h2>
+			<h2 class="user-info-block-title">{$aLang.plugin.admin.users.profile.info.votings_title}</h2>
 
 			{foreach from=array('topic', 'comment', 'blog', 'user') item=sType}
 				<div class="user-info-block-stats-row">
@@ -249,7 +181,7 @@
 
 		{if $aUserFieldContactValues || $aUserFieldSocialValues}
 			<div class="user-info-block user-info-block-contacts">
-				<h2 class="user-info-heading">{$aLang.profile_contacts}</h2>
+				<h2 class="user-info-block-title">Контакты</h2>
 
 				<div class="ls-clearfix">
 					{if $aUserFieldContactValues}
