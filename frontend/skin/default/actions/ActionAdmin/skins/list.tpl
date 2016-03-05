@@ -9,6 +9,6 @@
 {/block}
 
 {block 'layout_content'}
-	{component 'admin:skin' skin=$oSkinCurrent classes='ls-skin--active'}
-	{component 'admin:skin' template='list' skins=$aSkins}
+	{component 'admin:p-skin' skin=$oSkinCurrent classes='ls-skin--active'}
+	{component 'admin:p-skin' template='list' skins=$aSkins}
 {/block}

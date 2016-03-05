@@ -1,17 +1,17 @@
 {**
- * Plugin list
+ * Plugin market list
  *}
 
-{component_define_params params=[ 'plugins', 'pagination', 'updates', 'type' ]}
+{component_define_params params=[ 'plugins', 'pagination' ]}
 
 {if $plugins}
     <div class="ls-plugin-list">
         {foreach $plugins as $plugin}
-            {component 'admin:plugin' plugin=$plugin updates=$updates}
+            {component 'admin:p-plugin' template='plugin-market' plugin=$plugin}
         {/foreach}
     </div>
 {else}
-    {component 'admin:blankslate' text=$aLang.plugin.admin.plugins.no_plugins[$type]}
+    {component 'admin:blankslate' text=$aLang.plugin.admin.plugins.install.no_addons}
 {/if}
 
 {if $pagination}

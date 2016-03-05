@@ -34,7 +34,7 @@
         </div>
 
         {* Рейтинг *}
-        {component 'admin:plugin' template='star-rating' classes="{$component}-rating" rating=$plugin->getMarkPercent() count=$plugin->getCountMark()}
+        {component 'admin:p-plugin' template='star-rating' classes="{$component}-rating" rating=$plugin->getMarkPercent() count=$plugin->getCountMark()}
 
         {* Оповещение о совместимости *}
         {if !$plugin->getCompatibleWithCurrentSitesLSVersion()}

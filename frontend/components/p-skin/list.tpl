@@ -7,7 +7,7 @@
 {if $skins}
     <div class="ls-skin-list">
         {foreach $skins as $skin}
-            {component 'admin:skin' skin=$skin updates=$updates}
+            {component 'admin:p-skin' skin=$skin updates=$updates}
         {/foreach}
     </div>
 {/if}

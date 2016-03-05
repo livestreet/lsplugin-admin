@@ -1,10 +1,10 @@
 {
-    "name": "plugin",
+    "name": "p-plugin",
     "version": "1.0.0",
     "dependencies": {
     },
     "templates": {
-        "plugin": "plugin.tpl",
+        "p-plugin": "plugin.tpl",
         "plugin-market": "plugin-market.tpl",
         "plugin-market-list": "plugin-market-list.tpl",
         "star-rating": "star-rating.tpl",

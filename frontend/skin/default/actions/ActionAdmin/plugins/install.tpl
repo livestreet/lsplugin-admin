@@ -71,8 +71,8 @@
 
 {block 'layout_content'}
 	{* Справка *}
-	{component 'admin:plugin' template='install-help'}
+	{component 'admin:p-plugin' template='install-help'}
 
 	{* Вывод дополнений *}
-	{component 'admin:plugin' template='plugin-market-list' plugins=$aAddons pagination=$aPaging}
+	{component 'admin:p-plugin' template='plugin-market-list' plugins=$aAddons pagination=$aPaging}
 {/block}

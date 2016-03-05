@@ -1,4 +1,4 @@
-{**
+skin{**
  * Список плагинов
  *}
 
@@ -35,5 +35,5 @@
 {/block}
 
 {block 'layout_content'}
-	{component 'admin:plugin' template='list' plugins=$aPluginsInfo.collection updates=$aPluginUpdates type=$sType}
+	{component 'admin:p-plugin' template='list' plugins=$aPluginsInfo.collection updates=$aPluginUpdates type=$sType}
 {/block}

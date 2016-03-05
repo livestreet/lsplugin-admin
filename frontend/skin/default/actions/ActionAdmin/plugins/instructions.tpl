@@ -13,5 +13,5 @@
 {/block}
 
 {block 'layout_content'}
-	{component 'admin:plugin' template='instruction' plugin=$oPlugin}
+	{component 'admin:p-plugin' template='instruction' plugin=$oPlugin}
 {/block}
