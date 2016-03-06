@@ -8,44 +8,6 @@
 .user-is-online { padding-bottom: 2px; border-bottom: 2px solid #4ed851; }
 
 /**
- * User header
- */
-.user-header { padding: 17px 20px 20px; background: #f9f9f9; }
-
-/**
- * Brief info
- */
-.user-brief {
-    position: relative;
-    color: #6c6c6c;
-}
-.user-brief .ls-dropdown {
-    position: absolute;
-    top: 0;
-    right: 0;
-}
-
-.user-brief-body { padding-left: 123px; padding-right: 100px; min-height: 100px; }
-.user-brief-aside { position: absolute; top: 0; right: 0; padding-top: 3px; width: 75px; }
-.user-brief-aside i { position: relative; top: -1px; margin-right: 2px; }
-
-.user-brief .user-avatar { position: absolute; top: 0; left: 0; width: 100px; height: 100px; }
-.user-brief .user-avatar img { width: 100px; height: 100px; }
-.user-brief .user-avatar.user-is-online { border-width: 3px; }
-
-.user-brief .user-login { font: normal 25px/1em "Open Sans", sans-serif; color: #000; position: relative; top: -3px; margin-bottom: 5px; }
-.user-brief .user-login i { vertical-align: baseline; }
-
-.user-brief .user-name { font: normal 18px/1em "Open Sans", sans-serif; margin-bottom: 10px; }
-
-.user-brief .user-mail { margin-bottom: 3px; }
-.user-brief .user-mail .link-border { font-family: Verdana; color: #9b9b9b; border-color: #dadada; }
-.user-brief .user-mail .link-border span { font-size: 11px; }
-.user-brief .user-mail .link-border:hover { color: #777; border-color: #ccc; }
-
-.user-brief .user-id { font-size: 10px; font-family: Verdana; color: #9b9b9b; }
-
-/**
  * User info
  */
 .user-info-body { margin-right: 270px; font-family: Verdana; overflow: hidden; }
@@ -56,9 +18,6 @@
 
 .user-info-aside .block { background: transparent; margin-bottom: 10px; }
 
-.user-info-aside .block.block-user-photo { background: transparent; margin-bottom: 10px; }
-.user-info-aside .block.block-user-photo img { max-width: 100%; vertical-align: top; }
-
 .user-info-aside .block.block-type-profile-note { background: #ffffd7; padding: 10px 15px; margin-bottom: 15px; }
 .user-info-aside .block.block-type-profile-note .link-dotted { color: #a1933a; border-color: #d9d498; font-family: Verdana; }
 
@@ -68,21 +27,6 @@
 .user-menu .user-menu-item .link-border { color: #73819d; border-color: #cdd1db; }
 
 /* Block */
-.user-info-block {
-    border-top: 1px dotted #E0E0E0;
-    padding-top: 25px;
-    margin-bottom: 30px;
-}
-.user-info-block:first-child {
-    padding-top: 0;
-    border-top: none;
-}
-.user-info-block-title {
-    font-size: 18px;
-    color: #000;
-    margin-bottom: 15px;
-}
-
 .user-info-block-stats { overflow: hidden; font-family: Verdana; }
 .user-info-block-stats-row { float: left; width: 25%; }
 .user-info-block-stats-row li { margin-bottom: 3px; }

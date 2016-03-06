@@ -1,0 +1,107 @@
+/**
+ * Profile
+ */
+.p-user-profile {
+    display: flex;
+    align-items: flex-start;
+}
+.p-user-profile-body {
+    flex: 1;
+    margin-right: 50px;
+}
+.p-user-profile-aside {
+    width: 250px;
+}
+
+.p-user-profile-aside-block:not(:last-child) {
+    margin-bottom: 20px;
+}
+.p-user-profile-aside-block img {
+    max-width: 100%;
+    vertical-align: top;
+}
+
+/**
+ * Header
+ */
+.p-user-profile-header {
+    background: #f9f9f9;
+    padding: 15px 15px 15px 130px;
+    min-height: 100px;
+    position: relative;
+}
+.p-user-profile-header .user-avatar {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    width: 100px;
+    height: 100px;
+}
+.p-user-profile-header .user-avatar img {
+    width: 100px;
+    height: 100px;
+}
+.p-user-profile-header .user-avatar.user-is-online {
+    border-width: 3px;
+}
+.p-user-profile-header .user-login {
+    font: normal 25px/1em "Open Sans", sans-serif;
+    color: #000;
+    position: relative;
+    top: -3px;
+    margin-bottom: 5px;
+}
+.p-user-profile-header .user-login i {
+    vertical-align: baseline;
+}
+.p-user-profile-header .user-name {
+    font: normal 18px/1em "Open Sans", sans-serif;
+    margin-bottom: 10px;
+}
+.p-user-profile-header .user-mail {
+    margin-bottom: 3px;
+}
+.p-user-profile-header .user-mail .link-border {
+    font-family: Verdana;
+    color: #9b9b9b;
+    border-color: #dadada;
+}
+.p-user-profile-header .user-mail .link-border span {
+    font-size: 11px;
+}
+.p-user-profile-header .user-mail .link-border:hover {
+    color: #777;
+    border-color: #ccc;
+}
+.p-user-profile-header .user-id {
+    font-size: 10px;
+    font-family: Verdana;
+    color: #9b9b9b;
+}
+.p-user-profile-header .ls-dropdown {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+
+/**
+ * Section
+ */
+.p-user-profile-section {
+    border-top: 1px dotted #E0E0E0;
+    padding-top: 25px;
+    margin-bottom: 30px;
+}
+.p-user-profile-section:first-child {
+    padding-top: 0;
+    border-top: none;
+}
+.p-user-profile-section-title {
+    font-size: 18px;
+    color: #000;
+    margin-bottom: 15px;
+}
+.p-user-profile-section-body {
+    overflow: hidden;
+}

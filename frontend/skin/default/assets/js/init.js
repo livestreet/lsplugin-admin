@@ -93,7 +93,7 @@ jQuery(document).ready(function ($) {
      */
     $('.js-dropdown').lsDropdown({
         position: {
-            my: "right+10 top+10",
+            my: "right top+5",
             at: "right bottom",
             collision: "flipfit flip"
         },
@@ -221,7 +221,12 @@ jQuery(document).ready(function ($) {
     /**
      * Механизм заметок для пользователей
      */
-    $('.js-user-note').livequery(function () {
-        $(this).usernote();
+    $('.js-user-profile-note').livequery(function () {
+        $(this).lsNote({
+            urls: {
+                save:   aRouter['profile'] + 'ajax-note-save/',
+                remove: aRouter['profile'] + 'ajax-note-remove/'
+            }
+        });
     });
 });
