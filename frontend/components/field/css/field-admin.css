@@ -2,3 +2,8 @@
 .ls-field--checkbox .ls-field-label {
     padding-left: 28px;
 }
+.ls-field.parsley-error .ls-field-input {
+    border-color: #F79F98;
+    background-color: #FFDFDD;
+    box-shadow: 0 0 3px #FABFBB;
+}

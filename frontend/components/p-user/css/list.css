@@ -1,0 +1,58 @@
+/**
+ * User list
+ */
+
+/* Card */
+.p-user-list-card {
+    position: relative;
+    padding-left: 50px;
+    line-height: 1em;
+    min-height: 40px;
+}
+.p-user-list-card .cell-user-avatar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
+}
+.p-user-list-card .cell-user-avatar img {
+    width: 40px;
+    height: 40px;
+}
+.p-user-list-card .cell-user-login {
+    font-weight: bold;
+    word-break: break-all;
+    margin-bottom: 4px;
+}
+.p-user-list-card .cell-user-mail {
+    color: #888;
+    font-size: 11px;
+}
+
+/* Birth */
+.p-user-list .cell-birth {
+    width: 70px;
+}
+
+/* Signup */
+.p-user-list .cell-signup {
+    width: 160px;
+}
+
+/* IP */
+.p-user-list .cell-ip {
+    width: 75px;
+}
+
+/* Rating */
+.p-user-list .cell-rating {
+    width: 50px;
+}
+.p-user-list .p-user-list-rating {
+    font-weight: bold;
+    color: #44B13A;
+}
+.p-user-list .p-user-list-rating--negative {
+    color: #f30000;
+}

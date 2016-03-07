@@ -6,13 +6,13 @@
 {component_define_params params=[ 'categories' ]}
 
 {if $categories}
-    <table class="table">
+    <table class="ls-table">
         <thead>
             <tr>
                 <th>Название</th>
                 <th>URL</th>
                 <th>Элементов</th>
-                <th>Действие</th>
+                <th class="ls-table-cell-actions">Действие</th>
             </tr>
         </thead>
         <tbody>
@@ -32,7 +32,7 @@
                     </td>
                     <td>{$category->getUrlFull()}</td>
                     <td>{$category->getCountTargetOfDescendants()}</td>
-                    <td class="ta-r">
+                    <td class="ls-table-cell-actions">
                         <a href="{$category->getUrlAdminUpdate()}" class="fa fa-edit" title="{$aLang.plugin.admin.edit}"></a>
                         <a href="{$category->getUrlAdminRemove()}?security_ls_key={$LIVESTREET_SECURITY_KEY}" class="fa fa-trash-o js-confirm-remove" title="{$aLang.plugin.admin.delete}"></a>
                     </td>

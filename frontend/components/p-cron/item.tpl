@@ -21,7 +21,7 @@
             нет
         {/if}
     </td>
-    <td class="ta-r">
+    <td class="ls-table-cell-actions">
         <a href="#" class="fa fa-play" title="Запустить сейчас" onclick="return ls.admin_cron.runTask({$item->getId()});"></a>
         <a href="{router page='admin/utils/cron/update'}{$item->getId()}/" class="fa fa-edit" title="{lang 'common.edit'}"></a>
         <a href="{router page='admin/utils/cron/remove'}{$item->getId()}/?security_ls_key={$LIVESTREET_SECURITY_KEY}" class="fa fa-trash-o js-confirm-remove" title="{lang 'common.remove'}"></a>

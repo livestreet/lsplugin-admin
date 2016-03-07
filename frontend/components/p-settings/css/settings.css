@@ -7,3 +7,22 @@
     line-height: 1.5em;
     color: #aaa;
 }
+
+/* Array */
+.form-field-settings-array-values {
+    background: #F7F7F7;
+    padding: 5px;
+    margin: 0 0 15px;
+    overflow: hidden;
+}
+.form-field-settings-array-value {
+    float: left;
+    padding: 5px;
+}
+.form-field-settings-array-value input {
+    float: left;
+}
+.form-field-settings-array-remove {
+    border-radius: 0 5px 5px 0;
+    margin-left: -1px;
+}

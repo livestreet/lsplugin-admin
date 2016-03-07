@@ -676,7 +676,7 @@ return array(
             'ip'               => 'ip',
             'ip_start'         => 'с ip',
             'ip_finish'        => 'по ip',
-            'restriction_type' => 'Тип ограничения пользования сайтом',
+            'restriction_type' => 'Тип ограничения',
             'time_type'        => 'Тип времени блокировки',
             'date_start'       => 'Дата начала',
             'date_finish'      => 'Дата окончания',

@@ -6,7 +6,7 @@
 {component_define_params params=[ 'reports', 'pagination' ]}
 
 {if $reports}
-    <table class="table complaints">
+    <table class="ls-table">
         <thead>
             <tr>
                 {* ид *}
@@ -54,7 +54,7 @@
                     mLinkHtml=$aLang.plugin.admin.users.complaints.list.table_header.state
                     sBaseUrl="{router page='admin/users/complaints'}"}
 
-                <th class="width-50">
+                <th class="ls-table-cell-actions">
                     {$aLang.plugin.admin.controls}
                 </th>
             </tr>
@@ -92,7 +92,7 @@
                     <td>
                         {$aLang.plugin.admin.users.complaints.list.state[$report->getState()]}
                     </td>
-                    <td class="ta-r">
+                    <td class="ls-table-cell-actions">
                         <a href="#"
                            data-type="modal-toggle"
                            data-modal-url="{router page="admin/users/complaints/ajax-modal-view"}"

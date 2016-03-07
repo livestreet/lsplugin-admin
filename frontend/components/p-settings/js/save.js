@@ -30,8 +30,8 @@ ls.admin_settings_save = (function($) {
 		Классы тегов
 	 */
 	this.styleClass = {
-		Error: 'has-error',
-		ErrorMsgContainer: 'admin-save-error-wrapper'
+		Error: 'parsley-error',
+		ErrorMsgContainer: 'parsley-errors-list filled'
 	};
 
 
@@ -67,7 +67,7 @@ ls.admin_settings_save = (function($) {
 		/*
 			прокрутить страницу к полю с первой ошибкой
 		 */
-		this.ScrollToContainer(this.GetOneParameterContainer(aParamErrors [0].key));
+		this.ScrollToContainer(this.GetOneParameterContainer(aParamErrors[0].key));
 	};
 
 
@@ -80,7 +80,7 @@ ls.admin_settings_save = (function($) {
 	this.ScrollToContainer = function(oContainer) {
 		var iOffset = - parseInt(($ (window).height() - $ (oContainer).height()) / 2);
 		iOffset = iOffset ? iOffset : -230;
-		
+
 		var iTargetOffset = $(oContainer).offset().top + iOffset;
 		$ ('html, body').animate({
 			'scrollTop': iTargetOffset

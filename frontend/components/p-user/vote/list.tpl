@@ -6,7 +6,7 @@
 {component_define_params params=[ 'votes', 'pagination' ]}
 
 {if $votes}
-    <table class="table">
+    <table class="ls-table">
         <thead>
             <tr>
                 {include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"

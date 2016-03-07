@@ -5,10 +5,10 @@
  * @styles css/admin.css
  *}
 
-<div class="alert alert-info">
+<div class="ls-alert ls-alert--info">
 	{hook run='statistics_performance_begin'}
 
-	<table class="table">
+	<table class="ls-table">
 		<tbody>
 			<tr>
 				<td>

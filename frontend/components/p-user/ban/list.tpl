@@ -6,7 +6,7 @@
 {component_define_params params=[ 'bans', 'pagination' ]}
 
 {if $bans}
-    <table class="table">
+    <table class="ls-table">
         <thead>
             <tr>
                 <th>#</th>
@@ -91,7 +91,7 @@
                     mLinkHtml=$aLang.plugin.admin.bans.table_header.comment
                     sBaseUrl=$sFullPagePathToEvent
                 *}
-                <th class="width-50">
+                <th class="ls-table-cell-actions">
                     {$aLang.plugin.admin.controls}
                 </th>
             </tr>
@@ -149,7 +149,7 @@
                         {$ban->getComment()|escape:'html'|truncate:100:'...'}
                     </td>*}
 
-                    <td class="ta-r">
+                    <td class="ls-table-cell-actions">
                         <a href="{router page="admin/users/bans/edit/{$ban->getId()}"}"><i class="fa fa-edit"></i></a>
                         <a href="{router page="admin/users/bans/delete/{$ban->getId()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}" class="js-confirm-remove"><i class="fa fa-trash-o"></i></a>
                     </td>

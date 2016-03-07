@@ -61,7 +61,7 @@
             {/if}
         </h3>
 
-        <table class="table {$component}-data">
+        <table class="ls-table {$component}-data">
             {*
                 вывод данных в полном виде (графиком)
             *}

@@ -16,6 +16,8 @@
 
         "vote-list": "vote/list.tpl",
 
+        "search": "search.tpl",
+
         "profile": "profile.tpl",
         "profile-section": "profile-section.tpl",
         "profile-header": "profile-header.tpl",
@@ -38,6 +40,7 @@
     },
     "styles": {
         "user": "css/user.css",
+        "list": "css/list.css",
         "profile": "css/profile.css",
         "charts": "css/charts.css",
         "flags": "css/flags.css"

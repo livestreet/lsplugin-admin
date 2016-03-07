@@ -65,8 +65,6 @@ $config['admin']['assets']['css'] = array(
     'assets/css/pagination.css',
     'assets/css/icons.css',
     'assets/css/buttons.css',
-    'assets/css/forms.css',
-    'assets/css/table.css',
     'assets/css/dropdowns.css',
     // Vendor style
     'assets/css/vendor/jquery.notifier.css',

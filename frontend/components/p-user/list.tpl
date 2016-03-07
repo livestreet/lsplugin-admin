@@ -5,7 +5,7 @@
 {$component = 'p-user-list'}
 {component_define_params params=[ 'users', 'pagination' ]}
 
-<table class="table table-users">
+<table class="ls-table ls-table--condensed ls-table--striped ls-table--hover p-user-list">
     <thead>
         <tr>
             <th class="cell-check">
@@ -51,6 +51,7 @@
                 sDropDownHtml=$aLang.plugin.admin.users.table_header.rating_and_skill
                 sBaseUrl=$sFullPagePathToEvent}
 
+            <th></th>
         </tr>
     </thead>
 
@@ -65,14 +66,14 @@
 
                 {* Пользователь *}
                 <td class="cell-user">
-                    <div class="cell-user-wrapper">
+                    <div class="p-user-list-card">
                         <a href="{router page="admin/users/profile/{$user->getId()}"}" class="cell-user-avatar {if $user->isOnline()}user-is-online{/if}">
                             <img src="{$user->getProfileAvatarPath(48)}"
                                  alt="avatar"
                                  title="{if $user->isOnline()}{$aLang.user_status_online}{else}{$aLang.user_status_offline}{/if}" />
                         </a>
 
-                        <p class="cell-user-login word-wrap">
+                        <div class="cell-user-login word-wrap">
                             <a href="{router page="admin/users/profile/{$user->getId()}"}" class="link-border"
                                title="{$aLang.plugin.admin.users.table_header.login}"><span>{$user->getLogin()}</span></a>
 
@@ -83,13 +84,13 @@
                             {if $oBan = $user->getBannedCached()}
                                 <a href="{$oBan->getBanViewUrl()}"><i class="fa fa-lock" title="{$aLang.plugin.admin.users.banned}"></i></a>
                             {/if}
-                        </p>
+                        </div>
 
                         {if $user->getProfileName()}
-                            <p class="cell-user-name" title="{$aLang.plugin.admin.users.table_header.profile_name}">{$user->getProfileName()}</p>
+                            <div class="cell-user-name" title="{$aLang.plugin.admin.users.table_header.profile_name}">{$user->getProfileName()}</div>
                         {/if}
 
-                        <p class="cell-user-mail" title="{$aLang.plugin.admin.users.table_header.mail}">{$user->getMail()}</p>
+                        <div class="cell-user-mail" title="{$aLang.plugin.admin.users.table_header.mail}">{$user->getMail()}</div>
                     </div>
                 </td>
 
@@ -104,45 +105,49 @@
 
                 {* Дата регистрации и дата последнего входа *}
                 <td class="cell-signup">
-                    <p title="{$aLang.plugin.admin.users.table_header.reg}">
+                    <div title="{$aLang.plugin.admin.users.table_header.reg}">
                         {date_format date=$user->getDateRegister() format="d.m.Y"},
                         <span>{date_format date=$user->getDateRegister() format="H:i"}</span>
-                    </p>
+                    </div>
 
                     {if $session}
-                        <p title="{$aLang.plugin.admin.users.table_header.last_visit}">
+                        <div title="{$aLang.plugin.admin.users.table_header.last_visit}">
                             {date_format date=$session->getDateLast() format="d.m.Y"},
                             <span>{date_format date=$session->getDateLast() format="H:i"}</span>
-                        </p>
+                        </div>
                     {/if}
                 </td>
 
                 {* IP *}
                 <td class="cell-ip">
-                    <p title="{$aLang.plugin.admin.users.table_header.user_ip_register}">
+                    <div title="{$aLang.plugin.admin.users.table_header.user_ip_register}">
                         <a href="{router page='admin/users/list'}{request_filter
                             name=array('ip_register')
                             value=array($user->getIpRegister())
                         }">{$user->getIpRegister()}</a>
-                    </p>
+                    </div>
+
                     {if $session}
-                        {* <p title="sess ip create">{$session->getIpCreate()}</p> *}
-                        <p title="{$aLang.plugin.admin.users.table_header.session_ip_last}">
+                        {* <div title="sess ip create">{$session->getIpCreate()}</div> *}
+                        <div title="{$aLang.plugin.admin.users.table_header.session_ip_last}">
                             <a href="{router page='admin/users/list'}{request_filter
                                 name=array('session_ip_last')
                                 value=array($session->getIpLast())
                             }" title="{$aLang.plugin.admin.users.profile.info.search_this_ip}">{$session->getIpLast()}</a>
-                        </p>
+                        </div>
                     {/if}
                 </td>
 
                 {* Рейтинг и сила *}
                 <td class="cell-rating">
-                    {include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/user_actions.tpl" classes='dropdown-circle' oUser=$user}
-
-                    <p class="user-rating {if $user->getRating() < 0}user-rating-negative{/if}" title="{$aLang.plugin.admin.users.table_header.user_rating}">
+                    <div class="p-user-list-rating {if $user->getRating() < 0}p-user-list-rating--negative{/if}" title="{$aLang.plugin.admin.users.table_header.user_rating}">
                         {$user->getRating()}
-                    </p>
+                    </div>
+                </td>
+
+                {* Рейтинг и сила *}
+                <td class="ls-table-cell-actions">
+                    {include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/user_actions.tpl" oUser=$user}
                 </td>
             </tr>
         {/foreach}

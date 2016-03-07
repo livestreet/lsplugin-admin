@@ -6,7 +6,7 @@
 {component_define_params params=[ 'items' ]}
 
 {if $items}
-    <table class="table">
+    <table class="ls-table">
         <thead>
             <tr>
                 <th>Название</th>
@@ -15,7 +15,7 @@
                 <th>Запусков</th>
                 <th>Последний запуск</th>
                 <th>Активна</th>
-                <th class="ta-r">Действие</th>
+                <th class="ls-table-cell-actions">Действие</th>
             </tr>
         </thead>
 

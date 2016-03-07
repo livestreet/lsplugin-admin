@@ -74,7 +74,7 @@
 		});
 	</script>
 
-	<table class="table chart-pie-legend">
+	<table class="ls-table chart-pie-legend">
 		<tbody>
 			<tr>
 				<td class="cell-color"><span class="chart-pie-legend-color chart-pie-legend-color-grey"></span></td>

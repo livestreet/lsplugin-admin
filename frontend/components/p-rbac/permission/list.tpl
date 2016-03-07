@@ -6,14 +6,14 @@
 {component_define_params params=[ 'permissionGroups', 'groups' ]}
 
 {if $permissionGroups}
-    <table class="table">
+    <table class="ls-table">
         <thead>
             <tr>
                 <th>Название</th>
                 <th>Код</th>
                 <th>Плагин</th>
                 <th align="center">Статус</th>
-                <th></th>
+                <th class="ls-table-cell-actions"></th>
             </tr>
         </thead>
         <tbody>
@@ -46,7 +46,7 @@
                                 <span class="fa fa-eye-slash"></span>
                             {/if}
                         </td>
-                        <td class="ta-r">
+                        <td class="ls-table-cell-actions">
                             <a href="{$permission->getUrlAdminUpdate()}" class="fa fa-edit" title="{$aLang.plugin.admin.edit}"></a>
                             <a href="{$permission->getUrlAdminRemove()}?security_ls_key={$LIVESTREET_SECURITY_KEY}" class="fa fa-trash-o js-confirm-remove" title="{$aLang.plugin.admin.delete}"></a>
                         </td>

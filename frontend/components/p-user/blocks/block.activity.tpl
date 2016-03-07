@@ -5,7 +5,7 @@
 {component_define_params params=[ 'stats', 'rating' ]}
 
 {capture 'block_content'}
-	<table class="table table-stats">
+	<table class="ls-table">
 		<tbody>
 			<tr>
 				<td>{$aLang.plugin.admin.users_stats.activity_active}</td>

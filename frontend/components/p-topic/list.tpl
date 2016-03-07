@@ -12,13 +12,13 @@
         });
     </script>
 
-    <table class="table" id="type-list">{* todo: ид переименовать т.к. может использоваться глобально, добавить префикс "admin_" *}
+    <table class="ls-table" id="type-list">{* todo: ид переименовать т.к. может использоваться глобально, добавить префикс "admin_" *}
         <thead>
             <tr>
                 <th>Название</th>
                 <th>Идентификатор</th>
                 <th>Состояние</th>
-                <th>Действие</th>
+                <th class="ls-table-cell-actions">Действие</th>
             </tr>
         </thead>
         <tbody>
@@ -27,7 +27,7 @@
                     <td>{$type->getName()}</td>
                     <td>{$type->getCode()}</td>
                     <td>{$type->getStateText()}</td>
-                    <td>
+                    <td class="ls-table-cell-actions">
                         <a href="{router page="admin/settings/topic-type/update"}{$type->getId()}/" class="fa fa-edit" title="{$aLang.plugin.admin.edit}"></a>
                         <a href="{router page="admin/properties"}{$type->getPropertyTargetType()}/" class="fa fa-th-list" title="Настройка дополнительных полей"></a>
                         {if $type->getAllowRemove()}
