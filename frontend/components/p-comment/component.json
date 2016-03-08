@@ -1,0 +1,9 @@
+{
+    "name": "p-comment",
+    "version": "1.0.0",
+    "templates": {
+        "p-comment": "comment.tpl",
+        "delete": "delete.tpl",
+        "hook-remove": "hook-remove.tpl"
+    }
+}

@@ -32,7 +32,7 @@ class PluginAdmin_HookComments extends Hook
         /*
          * добавить ссылку на полное удаление комментария и всех его ответов
          */
-        $this->AddHook('template_comment_action', 'CommentAddFullDeleteLink');
+        $this->AddHook('template_comment_actions_end', 'CommentAddFullDeleteLink');
     }
 
 
@@ -44,8 +44,8 @@ class PluginAdmin_HookComments extends Hook
      */
     public function CommentAddFullDeleteLink($aVars)
     {
-        $this->Viewer_Assign('oComment', $aVars['comment']);
-        return $this->Viewer_Fetch(Plugin::GetTemplatePath(__CLASS__) . 'forms/inject.hook.comment_action.tpl');
+        $this->Viewer_Assign('comment', $aVars['params']['comment'], true);
+        return $this->Viewer_Fetch('component@admin:p-comment.hook-delete');
     }
 
 }

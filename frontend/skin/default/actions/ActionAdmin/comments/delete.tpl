@@ -9,12 +9,5 @@
 {/block}
 
 {block 'layout_content'}
-    {component 'admin:alert' text=$aLang.plugin.admin.comments.delete.delete_info mods='info'}
-
-    {component 'admin:p-form'
-        action={router page='admin/comments/delete'}
-        submit = [ name => 'submit_comment_delete', classes => 'js-confirm-remove', text => $aLang.plugin.admin.delete ]
-        form = [
-            [ field => 'hidden', name => 'id', value => $oComment->getId() ]
-        ]}
+    {component 'admin:p-comment.delete' comment=$oComment}
 {/block}
