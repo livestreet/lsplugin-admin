@@ -65,3 +65,5 @@
 	.pagination-item { float: none; }
 	.pagination-list { display: block; margin: 0; }
 }
+
+.per-page { background: #fafafa; padding: 10px; line-height: 28px; border-top: 1px solid #eee; }

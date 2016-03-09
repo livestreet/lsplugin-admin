@@ -6,6 +6,7 @@
     },
     "templates": {
         "p-skin": "skin.tpl",
+        "preview-alert": "preview-alert.tpl",
         "list": "list.tpl"
     },
     "styles": {

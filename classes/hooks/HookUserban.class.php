@@ -116,8 +116,8 @@ class PluginAdmin_HookUserban extends Hook
          */
         $oUserProfile = isset($aVars['user']) ? $aVars['user'] : $aVars['oUserProfile']; // временный хак
         if ($this->User_GetUserCurrent() and $oBan = $oUserProfile->getBanned()) {
-            $this->Viewer_Assign('oBan', $oBan);
-            return $this->Viewer_Fetch(Plugin::GetTemplatePath(__CLASS__) . 'actions/ActionAdmin/users/profile_user_banned_msg.tpl');
+            $this->Viewer_Assign('ban', $oBan, true);
+            return $this->Viewer_Fetch('component@admin:p-user.banned-alert');
         }
     }
 

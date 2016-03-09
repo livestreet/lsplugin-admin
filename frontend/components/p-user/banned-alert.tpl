@@ -1,23 +1,24 @@
-
 {**
  * Сообщение в профиле что пользователь забанен с указанием причины
  * tip: в профиле админки и на сайте, для пользователя профиля и для админа
  *}
 
+{component_define_params params=[ 'ban' ]}
+
 {if $oUserCurrent->isAdministrator()}
 	{* Полное описание бана для администраторов *}
-	{$sBanMessage = "`$aLang.plugin.admin.bans.user_is_banned` `$oBan->getReasonForUser()`"}
+	{$text = "`$aLang.plugin.admin.bans.user_is_banned` `$ban->getReasonForUser()`"}
 
-	{if $oBan->getComment()}
-		{$sBanMessage = $sBanMessage|cat:'<br />'|cat:$oBan->getComment()}
+	{if $ban->getComment()}
+		{$text = $text|cat:'<br />'|cat:$ban->getComment()}
 	{/if}
 
-	{$sBanMessage = $sBanMessage|cat:"<br /><a href=\"{$oBan->getBanViewUrl()}\">{$aLang.plugin.admin.bans.more_info}</a>"}
+	{$text = $text|cat:'<br><br>'|cat:{component 'admin:button' mods='danger' url=$ban->getBanViewUrl() text=$aLang.plugin.admin.bans.more_info}}
 {elseif $oUserCurrent->getId() == $oUserProfile->getId()}
 	{* Сообщение для хозяина профиля *}
-	{$sBanMessage = $oBan->getBanMessageForUser()}
+	{$text = $ban->getBanMessageForUser()}
 {/if}
 
-{if $sBanMessage}
-    {component 'admin:alert' text=$sBanMessage mods='error'}
+{if $text}
+    {component 'admin:alert' text=$text mods='error'}
 {/if}

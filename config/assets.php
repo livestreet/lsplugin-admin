@@ -60,7 +60,6 @@ $config['admin']['assets']['css'] = array(
     // Plugin style
     'assets/css/base.css',
     'assets/css/grid.css',
-    'assets/css/common.css',
     'assets/css/blocks.css',
     'assets/css/pagination.css',
     'assets/css/icons.css',

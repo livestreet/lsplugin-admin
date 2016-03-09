@@ -30,7 +30,9 @@
 
         "form": "form.tpl",
         "list": "list.tpl",
-        "delete": "delete.tpl"
+        "delete": "delete.tpl",
+
+        "preview-alert": "preview-alert.tpl"
     },
     "scripts": {
         "search": "js/search.js",
@@ -40,6 +42,7 @@
     },
     "styles": {
         "user": "css/user.css",
+        "ban": "css/ban.css",
         "list": "css/list.css",
         "profile": "css/profile.css",
         "charts": "css/charts.css",

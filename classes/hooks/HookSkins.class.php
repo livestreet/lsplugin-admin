@@ -56,12 +56,12 @@ class PluginAdmin_HookSkins extends Hook
      */
     protected function ShowPreviewSkinMessage($sSkinName)
     {
-        $this->Viewer_Assign('oSkin', $this->PluginAdmin_Skin_GetSkinByName($sSkinName));
+        $this->Viewer_Assign('skin', $this->PluginAdmin_Skin_GetSkinByName($sSkinName), true);
         /*
          * ключ безопасности ещё не передан, поэтому создадим его вручную
          */
-        $this->Viewer_Assign("LIVESTREET_SECURITY_KEY", $this->Security_GetSecurityKey());
-        $this->Message_AddNotice($this->Viewer_Fetch(Plugin::GetTemplatePath(__CLASS__) . 'actions/ActionAdmin/skins/preview_skin_message.tpl'));
+        $this->Viewer_Assign('token', $this->Security_GetSecurityKey(), true);
+        $this->Message_AddNotice($this->Viewer_Fetch('component@admin:p-skin.preview-alert'));
     }
 
 }
