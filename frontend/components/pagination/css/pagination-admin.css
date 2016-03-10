@@ -66,4 +66,9 @@
 	.pagination-list { display: block; margin: 0; }
 }
 
-.per-page { background: #fafafa; padding: 10px; line-height: 28px; border-top: 1px solid #eee; }
+.pagination-eop {
+	background: #fafafa;
+	padding: 10px;
+	line-height: 28px;
+	border-top: 1px solid #eee;
+}

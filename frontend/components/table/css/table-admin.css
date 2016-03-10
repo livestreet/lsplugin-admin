@@ -5,6 +5,11 @@
     text-align: right;
 }
 
+.ls-table.ls-table--noborders td,
+.ls-table.ls-table--noborders th {
+    border: none;
+}
+
 .table .cell-check { width: 17px; padding-right: 10px; }
 .table .cell-check > [class^="icheckbox"] { margin: 0; }
 .table tbody .cell-check { padding-left: 11px; }

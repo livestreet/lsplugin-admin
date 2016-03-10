@@ -1,0 +1,32 @@
+/**
+ * Gender stats
+ */
+.p-user-genders .highcharts-container {
+    margin: 0 auto 20px;
+}
+
+/* Legend */
+.ls-table.chart-pie-legend .cell-color {
+    width: 5px;
+    padding-right: 0;
+}
+.ls-table.chart-pie-legend tr:hover td {
+    background-color: transparent;
+}
+.chart-pie-legend-color {
+    display: inline-block;
+    border-radius: 50%;
+    width: 7px;
+    height: 7px;
+    position: relative;
+    top: -2px;
+}
+.chart-pie-legend-color-grey {
+    background: #C5C5C5;
+}
+.chart-pie-legend-color-blue {
+    background: #94e3f6;
+}
+.chart-pie-legend-color-purple {
+    background: #f4a6fc;
+}

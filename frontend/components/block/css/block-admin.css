@@ -1,0 +1,22 @@
+.ls-block {
+    border-color: #eee;
+}
+
+.ls-block-header {
+    padding: 13px 15px;
+    position: relative;
+}
+.ls-block-header .ls-block-title {
+    font-size: 16px;
+    line-height: 1em;
+    font-weight: normal;
+}
+
+.block-content {
+    padding: 15px;
+}
+
+.block-footer {
+    padding: 15px 20px;
+    font-size: 12px;
+}

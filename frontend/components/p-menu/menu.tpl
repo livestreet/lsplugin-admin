@@ -54,13 +54,11 @@
             </li>
         {/if}
 
-        {* todo: нужно пофиксить
         <li class="nav-main-item-root nav-main-item-fold">
             <a href="#" class="js-nav-main-fold">
                 <i class="nav-main-item-icon nav-main-item-icon-fold"></i>
                 <span class="link-dotted">Свернуть меню</span>
             </a>
         </li>
-        *}
     </ul>
 </div>

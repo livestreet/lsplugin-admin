@@ -15,6 +15,7 @@
         "dashboard": "css/dashboard.css",
         "notifications": "css/notifications.css",
         "activity": "css/activity.css",
+        "block-stats": "css/block-stats.css",
         "actionbar-stats": "css/actionbar-stats.css"
     }
 }

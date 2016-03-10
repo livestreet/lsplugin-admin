@@ -1,0 +1,96 @@
+/**
+ * Buttons
+ *
+ * @license   GNU General Public License, version 2
+ * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
+ * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ */
+
+.ls-button {
+    border-color: #d0d0d0;
+    color: #222;
+    background-image: linear-gradient(to bottom, #f9f9f9, #eee);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, .07), inset 0 1px 0 #fff;
+}
+a.button { padding-top: 5px; }
+
+/* Hover */
+.button:hover  {
+    background-image: linear-gradient(to bottom, #fefefe, #f7f7f7);
+    color: #000;
+    border-color: #d0d0d0 #c1c1c1 #b5b5b5 #c1c1c1;
+}
+
+/* Active */
+.ls-button:active,
+.ls-button.active {
+    border-color: #bdbdbd;
+    background: #e8e8e8;
+    color: #666;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, .07), 0 1px 4px rgba(0, 0, 0, .17) inset;
+    text-shadow: 0 1px 0 #f8f8f8;
+}
+
+
+/**
+ * Button Disabled
+ */
+.ls-button.disabled,
+.ls-button.disabled:hover,
+.ls-button[disabled],
+.ls-button[disabled]:hover {
+    border-color: #ddd;
+    background: #f8f8f8;
+    color: #aaa;
+    box-shadow: none;
+}
+
+.ls-button.disabled:active,
+.ls-button[disabled]:active {
+    box-shadow: none;
+    text-shadow: none;
+}
+
+
+/**
+ * Button Primary
+ */
+.ls-button--primary {
+    border-color: #0c63c3;
+    color: #fff;
+    background-image: linear-gradient(to bottom, #0a77f2, #0d69d0);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, .07), inset 0 1px 0 rgba(255, 255, 255, .1);
+}
+
+/* Hover */
+.ls-button--primary:hover {
+    background-color: #2c8bf4;
+    background-image: linear-gradient(to bottom, #2c8bf4, #1873d9);
+    border-color: #1c71cf;
+    color: #fff;
+}
+
+/* Active */
+.ls-button--primary:active,
+.ls-button--primary.active {
+    border-color: #0a4e9a;
+    background: #1f70ca;
+    color: #9acaff;
+    box-shadow: 0 1px 4px rgba(8, 47, 92, .75) inset;
+    text-shadow: 0 1px 0 #2064ae;
+}
+
+/**
+ * Badge
+ */
+.ls-button .ls-badge {
+    padding: 0;
+    line-height: inherit;
+    background-color: transparent;
+    color: #aaa;
+    font-weight: normal;
+    vertical-align: baseline;
+}
+.ls-button.ls-button--primary .ls-badge {
+    color: #eee;
+}

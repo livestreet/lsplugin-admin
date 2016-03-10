@@ -74,34 +74,34 @@
 		});
 	</script>
 
-	<table class="ls-table chart-pie-legend">
+	<table class="ls-table ls-table--noborders ls-table--condensed chart-pie-legend">
 		<tbody>
 			<tr>
 				<td class="cell-color"><span class="chart-pie-legend-color chart-pie-legend-color-grey"></span></td>
 				<td>
 					{$aLang.plugin.admin.users_stats.sex_other}
 				</td>
-				<td class="ta-r">{$stats.count_sex_other}</td>
-				<td class="ta-r percent">{$iUsersSexOtherPerc} %</td>
+				<td class="ls-ta-r">{$stats.count_sex_other}</td>
+				<td class="ls-ta-r">{$iUsersSexOtherPerc}%</td>
 			</tr>
 			<tr>
 				<td class="cell-color"><span class="chart-pie-legend-color chart-pie-legend-color-blue"></span></td>
 				<td>
 					{$aLang.plugin.admin.users_stats.sex_man}
 				</td>
-				<td class="ta-r">{$stats.count_sex_man}</td>
-				<td class="ta-r percent">{$iUsersSexManPerc} %</td>
+				<td class="ls-ta-r">{$stats.count_sex_man}</td>
+				<td class="ls-ta-r">{$iUsersSexManPerc}%</td>
 			</tr>
 			<tr>
 				<td class="cell-color"><span class="chart-pie-legend-color chart-pie-legend-color-purple"></span></td>
 				<td>
 					{$aLang.plugin.admin.users_stats.sex_woman}
 				</td>
-				<td class="ta-r">{$stats.count_sex_woman}</td>
-				<td class="ta-r percent">{$iUsersSexWomanPerc} %</td>
+				<td class="ls-ta-r">{$stats.count_sex_woman}</td>
+				<td class="ls-ta-r">{$iUsersSexWomanPerc}%</td>
 			</tr>
 		</tbody>
 	</table>
 {/capture}
 
-{component 'admin:block' title=$aLang.plugin.admin.users_stats.gender_stats content=$smarty.capture.block_content}
+{component 'admin:block' title=$aLang.plugin.admin.users_stats.gender_stats classes='p-user-genders' content=$smarty.capture.block_content}

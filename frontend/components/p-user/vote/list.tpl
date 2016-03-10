@@ -72,10 +72,7 @@
         </tbody>
     </table>
 
-    {include file="{$aTemplatePathPlugin.admin}forms/elements_on_page.tpl"
-        sFormActionPath="{router page='admin/votes/ajax-on-page'}"
-        iCurrentValue = Config::Get('plugin.admin.votes.per_page')}
-
+    {component 'admin:pagination.on-page' url={router page='admin/votes/ajax-on-page'} value=Config::Get('plugin.admin.votes.per_page')}
     {component 'admin:pagination' total=+$aPaging.iCountPage current=+$aPaging.iCurrentPage url="{$aPaging.sBaseUrl}/page__page__/{$aPaging.sGetParams}"}
 {else}
     {component 'admin:blankslate' text=$aLang.plugin.admin.users.votes.no_votes}

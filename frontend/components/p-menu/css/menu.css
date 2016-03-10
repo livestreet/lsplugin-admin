@@ -80,7 +80,19 @@
 .is-nav-main-folded #header { padding-right: 47px; }
 .is-nav-main-folded #sidebar { width: 42px; overflow: hidden; }
 .is-nav-main-folded #footer,
-.is-nav-main-folded #content { margin-right: 47px; }
+.is-nav-main-folded #content { margin-right: 10px; }
 .is-nav-main-folded #content-wrapper { margin-right: -47px; }
 .is-nav-main-folded .nav-main-item-root span,
 .is-nav-main-folded .nav-main-item-root ul { display: none !important; }
+
+
+.m-nav-toggle { padding: 15px; background: #fafafa; font: 400 16px/1em 'Open Sans', Arial; color: #6c6c6c; }
+.m-nav-toggle i { vertical-align: baseline; }
+.m-nav-toggle.dropdown-toggle.open { background-color: #fff; box-shadow: none; }
+.m-nav-toggle.dropdown-toggle:after { border-top-color: #aaa; }
+
+@media (max-width: 999px)  {
+    .nav-main-item-fold { display: none; }
+    .nav-main { display: none; margin-top: 10px; }
+    .nav-main.open { display: block; }
+}

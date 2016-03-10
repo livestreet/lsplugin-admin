@@ -154,8 +154,5 @@
     </tbody>
 </table>
 
-{include file="{$aTemplatePathPlugin.admin}forms/elements_on_page.tpl"
-    sFormActionPath="{router page='admin/users/ajax-on-page'}"
-    iCurrentValue = Config::Get('plugin.admin.users.per_page')}
-
+{component 'admin:pagination.on-page' url={router page='admin/users/ajax-on-page'} value=Config::Get('plugin.admin.users.per_page')}
 {component 'admin:pagination' total=+$pagination.iCountPage current=+$pagination.iCurrentPage url="{$pagination.sBaseUrl}/page__page__/{$pagination.sGetParams}"}

@@ -59,11 +59,8 @@ $config['admin']['assets']['js'] = array(
 $config['admin']['assets']['css'] = array(
     // Plugin style
     'assets/css/base.css',
-    'assets/css/grid.css',
-    'assets/css/blocks.css',
-    'assets/css/pagination.css',
+    'assets/css/layout.css',
     'assets/css/icons.css',
-    'assets/css/buttons.css',
     'assets/css/dropdowns.css',
     // Vendor style
     'assets/css/vendor/jquery.notifier.css',

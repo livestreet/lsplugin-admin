@@ -1,0 +1,8 @@
+{
+    "templates": {
+        "on-page": "elements-on-page.tpl"
+    },
+    "styles": {
+        "pagination-admin": "css/pagination-admin.css"
+    }
+}

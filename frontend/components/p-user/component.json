@@ -42,6 +42,7 @@
     },
     "styles": {
         "user": "css/user.css",
+        "blocks": "css/blocks.css",
         "ban": "css/ban.css",
         "list": "css/list.css",
         "profile": "css/profile.css",
