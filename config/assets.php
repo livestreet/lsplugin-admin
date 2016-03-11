@@ -17,7 +17,7 @@ $config['components'] = array(
 
     // Компоненты админки
     'admin:p-plugin', 'admin:p-skin', 'admin:p-settings', 'admin:p-actionbar', 'admin:p-cron', 'admin:p-property', 'admin:p-topic', 'admin:p-category', 'admin:p-optimization',
-    'admin:p-form', 'admin:p-rbac', 'admin:p-user', 'admin:p-menu', 'admin:p-dashboard', 'admin:p-graph',
+    'admin:p-form', 'admin:p-rbac', 'admin:p-user', 'admin:p-menu', 'admin:p-dashboard', 'admin:p-graph', 'admin:p-userbar',
 
     // Компоненты LS CMS
     'admin:note', 'admin:icons-contact', 'admin:toolbar-scrollup', 'admin:toolbar-scrollnav',
@@ -60,8 +60,6 @@ $config['admin']['assets']['css'] = array(
     // Plugin style
     'assets/css/base.css',
     'assets/css/layout.css',
-    'assets/css/icons.css',
-    'assets/css/dropdowns.css',
     // Vendor style
     'assets/css/vendor/jquery.notifier.css',
     'assets/css/vendor/icheck/skins/livestreet/minimal.css',

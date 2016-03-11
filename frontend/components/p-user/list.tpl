@@ -12,7 +12,7 @@
                 <input type="checkbox" class="js-check-all" data-checkboxes-class="js-user-list-item" />
             </th>
 
-            {include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
+            {component 'admin:table.sorting-cell'
                 sCellClassName='user'
                 mSortingOrder=array('u.user_id', 'u.user_login', 'u.user_profile_name', 'u.user_mail')
                 mLinkHtml=array(
@@ -24,27 +24,27 @@
                 sDropDownHtml=$aLang.plugin.admin.users.table_header.name
                 sBaseUrl=$sFullPagePathToEvent}
 
-            {include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
+            {component 'admin:table.sorting-cell'
                 sCellClassName='birth'
                 mSortingOrder='u.user_profile_birthday'
                 mLinkHtml=$aLang.plugin.admin.users.table_header.birth
                 sBaseUrl=$sFullPagePathToEvent}
 
-            {include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
+            {component 'admin:table.sorting-cell'
                 sCellClassName='signup'
                 mSortingOrder=array('u.user_date_register', 's.session_date_last')
                 mLinkHtml=array($aLang.plugin.admin.users.table_header.reg, $aLang.plugin.admin.users.table_header.last_visit)
                 sDropDownHtml=$aLang.plugin.admin.users.table_header.reg_and_last_visit
                 sBaseUrl=$sFullPagePathToEvent}
 
-            {include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
+            {component 'admin:table.sorting-cell'
                 sCellClassName='ip'
                 mSortingOrder=array('u.user_ip_register', 's.session_ip_last')
                 mLinkHtml=array($aLang.plugin.admin.users.table_header.user_ip_register, $aLang.plugin.admin.users.table_header.session_ip_last)
                 sDropDownHtml=$aLang.plugin.admin.users.table_header.ip
                 sBaseUrl=$sFullPagePathToEvent}
 
-            {include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
+            {component 'admin:table.sorting-cell'
                 sCellClassName='rating'
                 mSortingOrder=array('u.user_rating')
                 mLinkHtml=array($aLang.plugin.admin.users.table_header.user_rating)
@@ -78,7 +78,7 @@
                                title="{$aLang.plugin.admin.users.table_header.login}"><span>{$user->getLogin()}</span></a>
 
                             {if $user->isAdministrator()}
-                                <i class="icon-user-admin" title="{$aLang.plugin.admin.users.admin}"></i>
+                                <i class="p-icon--user-admin" title="{$aLang.plugin.admin.users.admin}"></i>
                             {/if}
 
                             {if $oBan = $user->getBannedCached()}
@@ -147,7 +147,7 @@
 
                 {* Рейтинг и сила *}
                 <td class="ls-table-cell-actions">
-                    {include file="{$aTemplatePathPlugin.admin}actions/ActionAdmin/users/user_actions.tpl" oUser=$user}
+                    {component 'admin:p-user.actions' user=$user}
                 </td>
             </tr>
         {/foreach}

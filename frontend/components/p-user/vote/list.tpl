@@ -9,31 +9,31 @@
     <table class="ls-table">
         <thead>
             <tr>
-                {include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
+                {component 'admin:table.sorting-cell'
                     sCellClassName='targetid'
                     mSortingOrder='target_id'
                     mLinkHtml=$aLang.plugin.admin.users.votes.table_header.target_id
                     sBaseUrl="{router page="admin/users/votes/{$oUser->getId()}"}"}
 
-                {include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
+                {component 'admin:table.sorting-cell'
                     sCellClassName='vote_direction'
                     mSortingOrder='vote_direction'
                     mLinkHtml=$aLang.plugin.admin.users.votes.table_header.vote_direction
                     sBaseUrl="{router page="admin/users/votes/{$oUser->getId()}"}"}
 
-                {include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
+                {component 'admin:table.sorting-cell'
                     sCellClassName='vote_value'
                     mSortingOrder='vote_value'
                     mLinkHtml=$aLang.plugin.admin.users.votes.table_header.vote_value
                     sBaseUrl="{router page="admin/users/votes/{$oUser->getId()}"}"}
 
-                {include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
+                {component 'admin:table.sorting-cell'
                     sCellClassName='vote_date'
                     mSortingOrder='vote_date'
                     mLinkHtml=$aLang.plugin.admin.users.votes.table_header.vote_date
                     sBaseUrl="{router page="admin/users/votes/{$oUser->getId()}"}"}
 
-                {include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
+                {component 'admin:table.sorting-cell'
                     sCellClassName='vote_ip'
                     mSortingOrder='vote_ip'
                     mLinkHtml=$aLang.plugin.admin.users.votes.table_header.vote_ip

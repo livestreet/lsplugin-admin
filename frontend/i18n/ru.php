@@ -505,15 +505,7 @@ return array(
                     'comment' => 'За комментарии',
                     'blog'    => 'За блоги',
                     'user'    => 'За юзеров',
-                ),
-                /*
-                 * направление голосов
-                 */
-                'votings_direction' => array(
-                    'plus'    => '<i class="icon-stats-up"></i>',
-                    'minus'   => '<i class="icon-stats-down"></i>',
-                    'abstain' => '&mdash;',
-                ),
+                )
             ),
 
         ),

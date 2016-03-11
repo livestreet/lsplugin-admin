@@ -83,6 +83,10 @@
     top: 15px;
     right: 15px;
 }
+.user-is-online {
+    padding-bottom: 2px;
+    border-bottom: 2px solid #4ed851;
+}
 
 
 /**
@@ -97,6 +101,9 @@
     padding-top: 0;
     border-top: none;
 }
+.p-user-profile-section:last-child {
+    margin-bottom: 0;
+}
 .p-user-profile-section-title {
     font-size: 18px;
     color: #000;
@@ -104,4 +111,58 @@
 }
 .p-user-profile-section-body {
     overflow: hidden;
+}
+
+/**
+ * Contact list
+ */
+.p-user-contacts {
+    display: flex;
+    align-items: flex-start;
+}
+.p-user-contact-list {
+    width: 50%;
+    padding-right: 20px;
+}
+.p-user-contact-list li:not(:last-child) {
+    margin-bottom: 10px;
+}
+
+/**
+ * User menu
+ */
+.p-user-menu {
+    padding-bottom: 9px;
+    margin-bottom: 19px;
+    overflow: hidden;
+    position: relative;
+    font-family: Verdana;
+}
+.p-user-menu-item {
+    padding: 0 10px 10px 15px;
+}
+.p-user-menu-item a {
+    color: #73819d;
+    border-color: #cdd1db;
+}
+
+/**
+ * Table stats
+ */
+.p-user-table-stats {
+    overflow: hidden;
+}
+.p-user-table-stats-row {
+    float: left;
+    width: 25%;
+}
+.p-user-table-stats-row li {
+    margin-bottom: 3px;
+}
+.p-user-table-stats-row li i {
+    position: relative;
+}
+.p-user-table-stats-header {
+    font-weight: bold;
+    margin-bottom: 5px;
 }

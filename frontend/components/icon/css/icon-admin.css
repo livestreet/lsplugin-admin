@@ -1,0 +1,34 @@
+/**
+ * Иконки
+ */
+
+ [class^="p-icon-"],
+ [class*=" p-icon-"]  {
+     display: inline-block;
+ }
+
+.p-icon--user-admin {
+    width: 15px;
+    height: 15px;
+    background-image: url(../images/icons/user-admin.png);
+}
+
+.p-icon--contact:before                { content: "\f0ac"; }
+.p-icon--contact-mail:before           { content: "\f003"; }
+.p-icon--contact-phone:before          { content: "\f095"; }
+.p-icon--contact-skype:before          { content: "\f17e"; }
+.p-icon--contact-vkontakte:before      { content: "\f189"; }
+.p-icon--contact-twitter:before        { content: "\f099"; }
+.p-icon--contact-facebook:before       { content: "\f09a"; }
+.p-icon--contact-odnoklassniki:before  { content: "\f263"; }
+.p-icon--contact-www:before            { content: "\f0ac"; }
+
+.icon-rating { width: 22px; height: 21px; background-image: url(../icons/user-rating.png); }
+
+.icon-sort-asc { width: 5px; height: 9px; background-image: url(../icons/sort-asc.png); }
+.icon-sort-desc { width: 5px; height: 9px; background-image: url(../icons/sort-desc.png); }
+
+.p-icon-stats-up { width: 8px; height: 7px; background-image: url(../icons/stats-up.png); }
+.p-icon-stats-down { width: 8px; height: 7px; background-image: url(../icons/stats-down.png); }
+
+.icon-settings-14 { width: 14px; height: 14px; background-image: url(../icons/settings-14.png); }

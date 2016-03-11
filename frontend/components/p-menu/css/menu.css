@@ -86,12 +86,14 @@
 .is-nav-main-folded .nav-main-item-root ul { display: none !important; }
 
 
-.m-nav-toggle { padding: 15px; background: #fafafa; font: 400 16px/1em 'Open Sans', Arial; color: #6c6c6c; }
-.m-nav-toggle i { vertical-align: baseline; }
-.m-nav-toggle.dropdown-toggle.open { background-color: #fff; box-shadow: none; }
-.m-nav-toggle.dropdown-toggle:after { border-top-color: #aaa; }
+.p-menu-toggle { display: none; }
+.p-menu-toggle { padding: 15px; background: #fafafa; font: 400 16px/1em 'Open Sans', Arial; color: #6c6c6c; }
+.p-menu-toggle i { vertical-align: baseline; }
+.p-menu-toggle.dropdown-toggle.open { background-color: #fff; box-shadow: none; }
+.p-menu-toggle.dropdown-toggle:after { border-top-color: #aaa; }
 
 @media (max-width: 999px)  {
+    .p-menu-toggle { display: block; }
     .nav-main-item-fold { display: none; }
     .nav-main { display: none; margin-top: 10px; }
     .nav-main.open { display: block; }

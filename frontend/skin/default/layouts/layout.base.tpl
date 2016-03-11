@@ -97,24 +97,7 @@
     {**
      * Шапка сайта
      *}
-    <header id="header" class="ls-clearfix" role="banner">
-        <ul class="breadcrumbs">
-            <li><a href="{Router::GetPath('/')}" class="link-dotted">Перейти на сайт</a></li>    {* todo: add lang *}
-        </ul>
-
-        <div class="site-info">
-            <h1 class="site-name"><a href="{Router::GetPath('admin')}">{Config::Get("view.name")}</a></h1>
-        </div>
-
-        {* Юзербар *}
-        {component 'dropdown'
-            text="<img src=\"{$oUserCurrent->getProfileAvatarPath(48)}\" alt=\"Avatar\" class=\"userbar-avatar\" />{$oUserCurrent->getLogin()}"
-            classes='admin-userbar js-dropdown-userbar'
-            menu=[
-                [ 'text' => 'Мой профиль', 'url' => {router page="admin/users/profile/{$oUserCurrent->getId()}"} ],
-                [ 'text' => 'Выйти', 'url' => "{router page='auth/logout'}?security_ls_key={$LIVESTREET_SECURITY_KEY}" ]
-            ]}
-    </header>
+    {component 'admin:p-userbar'}
 
     {* Вспомогательный контейнер-обертка *}
     <div id="wrapper" class="{* {hook run='wrapper_class'} *} ls-clearfix">

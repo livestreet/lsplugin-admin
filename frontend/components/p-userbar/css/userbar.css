@@ -1,0 +1,42 @@
+/* Breadcrumbs */
+.breadcrumbs { font-size: 11px; margin-bottom: 5px; }
+.breadcrumbs a { color: #6c6c6c; }
+
+@media (max-width: 999px)   {
+    .breadcrumbs { font-size: 13px; }
+}
+
+/* Logo */
+.site-name { float: left; font: 300 40px/1em 'Open Sans', Arial; padding-top: 15px; }
+.site-name a { color: #333; }
+.site-name a:hover { color: #f00; }
+
+@media (max-width: 999px)   {
+    .site-name { float: none; margin-bottom: 25px; }
+}
+
+/* Userbar */
+.admin-userbar { float: right; position: relative; min-height: 40px; margin-bottom: 2px; }
+
+.userbar-avatar { border-radius: 50%; vertical-align: middle; margin-right: 10px; }
+
+.admin-userbar .ls-dropdown-toggle {
+    font: 400 16px/38px 'Open Sans', Arial;
+    color: #6c6c6c;
+    height: auto;
+    padding: 8px;
+    box-shadow: none;
+    background: transparent;
+    border: none;
+}
+.admin-userbar .ls-dropdown-toggle.open {
+    background: #eaeaea;
+}
+.admin-userbar .ls-dropdown-toggle:focus {
+    outline: none;
+}
+
+@media (max-width: 999px)   {
+    .userbar { float: none; background: #fafafa; margin-bottom: 0; }
+    .userbar.dropdown-toggle.open { background: #fafafa; }
+}

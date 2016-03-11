@@ -1,5 +1,8 @@
 {
     "styles": {
         "table-admin": "css/table-admin.css"
+    },
+    "templates": {
+        "sorting-cell": "sorting-cell.tpl"
     }
 }

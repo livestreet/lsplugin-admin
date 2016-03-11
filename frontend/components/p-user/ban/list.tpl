@@ -13,7 +13,7 @@
                 {*
                     правило бана
                 *}
-                {include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
+                {component 'admin:table.sorting-cell'
                     sCellClassName='block_rule'
                     mSortingOrder=array('block_type', 'user_id', 'ip', 'ip_start', 'ip_finish', 'add_date', 'edit_date')
                     mLinkHtml=array(
@@ -31,7 +31,7 @@
                 {*
                     тип ограничения пользования сайтом бана
                 *}
-                {include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
+                {component 'admin:table.sorting-cell'
                     sCellClassName='restriction_type'
                     mSortingOrder='restriction_type'
                     mLinkHtml=$aLang.plugin.admin.bans.table_header.restriction_type
@@ -40,7 +40,7 @@
                 {*
                     тип временного интервала для бана
                 *}
-                {include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
+                {component 'admin:table.sorting-cell'
                     sCellClassName='time_type'
                     mSortingOrder='time_type'
                     mLinkHtml=$aLang.plugin.admin.bans.table_header.time_type
@@ -48,13 +48,13 @@
                 {*
                     даты начала и конца
                 *}
-                {include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
+                {component 'admin:table.sorting-cell'
                     sCellClassName='date_start'
                     mSortingOrder='date_start'
                     mLinkHtml=$aLang.plugin.admin.bans.table_header.date_start
                     sBaseUrl=$sFullPagePathToEvent}
 
-                {include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
+                {component 'admin:table.sorting-cell'
                     sCellClassName='date_finish'
                     mSortingOrder='date_finish'
                     mLinkHtml=$aLang.plugin.admin.bans.table_header.date_finish

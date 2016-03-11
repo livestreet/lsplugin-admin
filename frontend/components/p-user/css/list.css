@@ -25,6 +25,9 @@
     word-break: break-all;
     margin-bottom: 4px;
 }
+.p-user-list-card .cell-user-name {
+    margin-bottom: 4px;
+}
 .p-user-list-card .cell-user-mail {
     color: #888;
     font-size: 11px;

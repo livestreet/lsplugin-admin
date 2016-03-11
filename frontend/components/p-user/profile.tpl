@@ -1,51 +1,37 @@
 {$component = 'p-user-profile'}
-{component_define_params params=[ 'title', 'content' ]}
+{component_define_params params=[ 'user' ]}
 
 <div class="{$component}">
-    {$oSession = $oUser->getSession()}
+    {$oSession = $user->getSession()}
 
     <div class="{$component}-body">
         {* Для вывода информации бана *}
-        {hook run='admin_user_profile_center_info' oUserProfile=$oUser}
+        {hook run='admin_user_profile_center_info' oUserProfile=$user}
 
         {* Форма редактирования информации *}
         {component 'admin:p-user.profile-section'
             title=$aLang.plugin.admin.users.profile.info.resume
-            content={component 'admin:p-user.form' user=$oUser}}
+            content={component 'admin:p-user.form' user=$user}}
 
         {* Авторизация *}
         {capture 'profile_section'}
-            <dl class="dotted-list-item mt-20">
-                <dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile.info.reg_date}</dt>
-                <dd class="dotted-list-item-value">{date_format date=$oUser->getDateRegister()}</dd>
-            </dl>
-
-            <dl class="dotted-list-item">
-                <dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile.info.ip}</dt>
-                <dd class="dotted-list-item-value">
-                    <a href="{router page='admin/users/list'}{request_filter
-                        name=array('ip_register')
-                        value=array($oUser->getIpRegister())
-                    }" title="{$aLang.plugin.admin.users.profile.info.search_this_ip}">{$oUser->getIpRegister()}</a>
-                </dd>
-            </dl>
+            {$list = [
+                [ label => $aLang.plugin.admin.users.profile.info.reg_date, content => {date_format date=$user->getDateRegister()} ],
+                [
+                    label => $aLang.plugin.admin.users.profile.info.ip,
+                    content => "<a href=\"{router page='admin/users/list'}{request_filter name=array('ip_register') value=array($user->getIpRegister())}\" title=\"{$aLang.plugin.admin.users.profile.info.search_this_ip}\">{$user->getIpRegister()}</a>"
+                ]
+            ]}
 
             {if $oSession}
-                <dl class="dotted-list-item mt-20">
-                    <dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile.info.last_visit}</dt>
-                    <dd class="dotted-list-item-value">{date_format date=$oSession->getDateLast()}</dd>
-                </dl>
-
-                <dl class="dotted-list-item">
-                    <dt class="dotted-list-item-label">{$aLang.plugin.admin.users.profile.info.ip}</dt>
-                    <dd class="dotted-list-item-value">
-                        <a href="{router page='admin/users/list'}{request_filter
-                            name=array('session_ip_last')
-                            value=array($oSession->getIpLast())
-                        }" title="{$aLang.plugin.admin.users.profile.info.search_this_ip}">{$oSession->getIpLast()}</a>
-                    </dd>
-                </dl>
+                {$list[] = [ label => $aLang.plugin.admin.users.profile.info.last_visit, content => {date_format date=$oSession->getDateLast()} ]}
+                {$list[] = [
+                    label => $aLang.plugin.admin.users.profile.info.ip,
+                    content => "<a href=\"{router page='admin/users/list'}{request_filter name=array('session_ip_last') value=array($oSession->getIpLast())}\" title=\"{$aLang.plugin.admin.users.profile.info.search_this_ip}\">{$oSession->getIpLast()}</a>"
+                ]}
             {/if}
+
+            {component 'admin:info-list' list=$list}
         {/capture}
 
         {component 'admin:p-user.profile-section'
@@ -54,35 +40,37 @@
 
         {* Статистика *}
         {capture 'profile_section'}
-            <div class="user-info-block-stats-row">
-                <div class="user-info-block-stats-header">{$aLang.plugin.admin.users.profile.info.created}</div>
-                <ul>
-                    <li><a href="{$oUser->getUserWebPath()}created/topics/" class="link-border"><span>{$iCountTopicUser} {$aLang.plugin.admin.users.profile.info.topics}</span></a></li>
-                    <li><a href="{$oUser->getUserWebPath()}created/comments/" class="link-border"><span>{$iCountCommentUser} {$aLang.plugin.admin.users.profile.info.comments}</span></a></li>
-                    <li><span>{$iCountBlogsUser} {$aLang.plugin.admin.users.profile.info.blogs}</span></li>
-                </ul>
-            </div>
+            <div class="p-user-table-stats">
+                <div class="p-user-table-stats-row">
+                    <div class="p-user-table-stats-header">{$aLang.plugin.admin.users.profile.info.created}</div>
+                    <ul>
+                        <li><a href="{$user->getUserWebPath()}created/topics/" class="link-border"><span>{$iCountTopicUser} {$aLang.plugin.admin.users.profile.info.topics}</span></a></li>
+                        <li><a href="{$user->getUserWebPath()}created/comments/" class="link-border"><span>{$iCountCommentUser} {$aLang.plugin.admin.users.profile.info.comments}</span></a></li>
+                        <li><span>{$iCountBlogsUser} {$aLang.plugin.admin.users.profile.info.blogs}</span></li>
+                    </ul>
+                </div>
 
-            <div class="user-info-block-stats-row">
-                <div class="user-info-block-stats-header">{$aLang.plugin.admin.users.profile.info.fav}</div>
-                <ul>
-                    <li><a href="{$oUser->getUserWebPath()}favourites/topics/" class="link-border"><span>{$iCountTopicFavourite} {$aLang.plugin.admin.users.profile.info.topics}</span></a></li>
-                    <li><a href="{$oUser->getUserWebPath()}favourites/comments/" class="link-border"><span>{$iCountCommentFavourite} {$aLang.plugin.admin.users.profile.info.comments}</span></a></li>
-                </ul>
-            </div>
+                <div class="p-user-table-stats-row">
+                    <div class="p-user-table-stats-header">{$aLang.plugin.admin.users.profile.info.fav}</div>
+                    <ul>
+                        <li><a href="{$user->getUserWebPath()}favourites/topics/" class="link-border"><span>{$iCountTopicFavourite} {$aLang.plugin.admin.users.profile.info.topics}</span></a></li>
+                        <li><a href="{$user->getUserWebPath()}favourites/comments/" class="link-border"><span>{$iCountCommentFavourite} {$aLang.plugin.admin.users.profile.info.comments}</span></a></li>
+                    </ul>
+                </div>
 
-            <div class="user-info-block-stats-row">
-                <div class="user-info-block-stats-header">{$aLang.plugin.admin.users.profile.info.reads}</div>
-                <ul>
-                    <li><span>{$iCountBlogReads} {$aLang.plugin.admin.users.profile.info.blogs}</span></li>
-                </ul>
-            </div>
+                <div class="p-user-table-stats-row">
+                    <div class="p-user-table-stats-header">{$aLang.plugin.admin.users.profile.info.reads}</div>
+                    <ul>
+                        <li><span>{$iCountBlogReads} {$aLang.plugin.admin.users.profile.info.blogs}</span></li>
+                    </ul>
+                </div>
 
-            <div class="user-info-block-stats-row">
-                <div class="user-info-block-stats-header">{$aLang.plugin.admin.users.profile.info.has}</div>
-                <ul>
-                    <li><a href="{$oUser->getUserWebPath()}friends/" class="link-border"><span>{$iCountFriendsUser} {$aLang.plugin.admin.users.profile.info.friends}</span></a></li>
-                </ul>
+                <div class="p-user-table-stats-row">
+                    <div class="p-user-table-stats-header">{$aLang.plugin.admin.users.profile.info.has}</div>
+                    <ul>
+                        <li><a href="{$user->getUserWebPath()}friends/" class="link-border"><span>{$iCountFriendsUser} {$aLang.plugin.admin.users.profile.info.friends}</span></a></li>
+                    </ul>
+                </div>
             </div>
         {/capture}
 
@@ -91,24 +79,32 @@
             content=$smarty.capture.profile_section}
 
         {* Как голосовал пользователь *}
+        {$votings_direction = [
+            plus    => '<i class="p-icon-stats-up"></i>',
+            minus   => '<i class="p-icon-stats-down"></i>',
+            abstain => '&mdash;'
+        ]}
+
         {capture 'profile_section'}
-            {foreach from=array('topic', 'comment', 'blog', 'user') item=sType}
-                <div class="user-info-block-stats-row">
-                    <div class="user-info-block-stats-header">
-                        <a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]={$sType}">{$aLang.plugin.admin.users.profile.info.votings[$sType]}</a>
+            <div class="p-user-table-stats">
+            {foreach ['topic', 'comment', 'blog', 'user'] as $sType}
+                <div class="p-user-table-stats-row">
+                    <div class="p-user-table-stats-header">
+                        <a href="{router page="admin/users/votes/{$user->getId()}"}?filter[type]={$sType}">{$aLang.plugin.admin.users.profile.info.votings[$sType]}</a>
                     </div>
                     <ul>
-                        {foreach from=array('plus', 'minus', 'abstain') item=sVoteDir}
+                        {foreach ['plus', 'minus', 'abstain'] as $sVoteDir}
                             {if $aUserVotedStat[$sType][$sVoteDir]}
                                 <li title="{$sVoteDir}">
-                                    <a href="{router page="admin/users/votes/{$oUser->getId()}"}?filter[type]={$sType}&filter[dir]={$sVoteDir}">{$aUserVotedStat[$sType][$sVoteDir]}</a>
-                                    {$aLang.plugin.admin.users.profile.info.votings_direction[$sVoteDir]}
+                                    <a href="{router page="admin/users/votes/{$user->getId()}"}?filter[type]={$sType}&filter[dir]={$sVoteDir}">{$aUserVotedStat[$sType][$sVoteDir]}</a>
+                                    {$votings_direction[$sVoteDir]}
                                 </li>
                             {/if}
                         {/foreach}
                     </ul>
                 </div>
             {/foreach}
+            </div>
         {/capture}
 
         {component 'admin:p-user.profile-section'
@@ -116,17 +112,17 @@
             content=$smarty.capture.profile_section}
 
         {* Контакты *}
-        {$aUserFieldContactValues = $oUser->getUserFieldValues(true,array('contact'))}
-        {$aUserFieldSocialValues = $oUser->getUserFieldValues(true,array('social'))}
+        {$aUserFieldContactValues = $user->getUserFieldValues(true,array('contact'))}
+        {$aUserFieldSocialValues = $user->getUserFieldValues(true,array('social'))}
 
         {if $aUserFieldContactValues || $aUserFieldSocialValues}
             {capture 'profile_section'}
-                <div class="ls-clearfix">
+                <div class="p-user-contacts ls-clearfix">
                     {if $aUserFieldContactValues}
-                        <ul class="user-contact-list">
+                        <ul class="p-user-contact-list">
                             {foreach $aUserFieldContactValues as $oField}
                                 <li>
-                                    <i class="icon-contact icon-contact-{$oField->getName()}" title="{$oField->getName()}"></i>
+                                    <i class="fa p-icon--contact p-icon--contact-{$oField->getName()}" title="{$oField->getName()}"></i>
                                     {$oField->getValue(true,true)}
                                 </li>
                             {/foreach}
@@ -134,10 +130,10 @@
                     {/if}
 
                     {if $aUserFieldSocialValues}
-                        <ul class="user-contact-list">
+                        <ul class="p-user-contact-list">
                             {foreach $aUserFieldSocialValues as $oField}
                                 <li>
-                                    <i class="icon-contact icon-contact-{$oField->getName()}" title="{$oField->getName()}"></i>
+                                    <i class="fa p-icon--contact p-icon--contact-{$oField->getName()}" title="{$oField->getName()}"></i>
                                     {$oField->getValue(true,true)}
                                 </li>
                             {/foreach}
@@ -152,23 +148,23 @@
 
     <aside class="{$component}-aside">
         <div class="{$component}-aside-block">
-            <a href="{$oUser->getUserWebPath()}"><img src="{$oUser->getProfileFotoPath()}" alt="photo" class="photo" /></a>
+            <a href="{$user->getUserWebPath()}"><img src="{$user->getProfileFotoPath()}" alt="photo" class="photo" /></a>
         </div>
 
-        {if $oUserCurrent->getId() != $oUser->getId()}
+        {if $oUserCurrent->getId() != $user->getId()}
             <div class="{$component}-aside-block">
-                {component 'note' targetId=$oUser->getId() note=$oUser->getUserNote() classes='js-user-profile-note'}
+                {component 'note' targetId=$user->getId() note=$user->getUserNote() classes='js-user-profile-note'}
             </div>
         {/if}
 
         <div class="{$component}-aside-block">
-            <ul class="user-menu">
-                <li class="user-menu-item"><a href="{$oUser->getUserWebPath()}" class="link-border"><span>{$aLang.plugin.admin.users.profile.middle_bar.profile}</span></a></li>
-                <li class="user-menu-item"><a href="{$oUser->getUserWebPath()}created/" class="link-border"><span>{$aLang.plugin.admin.users.profile.middle_bar.publications}</span></a></li>
-                <li class="user-menu-item"><a href="{$oUser->getUserWebPath()}stream/" class="link-border"><span>{$aLang.plugin.admin.users.profile.middle_bar.activity}</span></a></li>
-                <li class="user-menu-item"><a href="{$oUser->getUserWebPath()}friends/" class="link-border"><span>{$aLang.plugin.admin.users.profile.middle_bar.friends}</span></a></li>
-                <li class="user-menu-item"><a href="{$oUser->getUserWebPath()}wall/" class="link-border"><span>{$aLang.plugin.admin.users.profile.middle_bar.wall}</span></a></li>
-                <li class="user-menu-item"><a href="{$oUser->getUserWebPath()}favourites/" class="link-border"><span>{$aLang.plugin.admin.users.profile.middle_bar.fav}</span></a></li>
+            <ul class="p-user-menu">
+                <li class="p-user-menu-item"><a href="{$user->getUserWebPath()}"><span>{$aLang.plugin.admin.users.profile.middle_bar.profile}</span></a></li>
+                <li class="p-user-menu-item"><a href="{$user->getUserWebPath()}created/"><span>{$aLang.plugin.admin.users.profile.middle_bar.publications}</span></a></li>
+                <li class="p-user-menu-item"><a href="{$user->getUserWebPath()}stream/"><span>{$aLang.plugin.admin.users.profile.middle_bar.activity}</span></a></li>
+                <li class="p-user-menu-item"><a href="{$user->getUserWebPath()}friends/"><span>{$aLang.plugin.admin.users.profile.middle_bar.friends}</span></a></li>
+                <li class="p-user-menu-item"><a href="{$user->getUserWebPath()}wall/"><span>{$aLang.plugin.admin.users.profile.middle_bar.wall}</span></a></li>
+                <li class="p-user-menu-item"><a href="{$user->getUserWebPath()}favourites/"><span>{$aLang.plugin.admin.users.profile.middle_bar.fav}</span></a></li>
             </ul>
         </div>
     </aside>

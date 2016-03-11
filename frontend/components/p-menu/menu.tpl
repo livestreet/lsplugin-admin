@@ -6,7 +6,7 @@
 {component_define_params params=[ 'menu' ]}
 
 <div class="{$component} {cmods name=$component mods=$mods} {$classes}" {cattr list=$attributes}>
-    <div class="m-nav-toggle dropdown-toggle js-nav-main-fold-mobile"><i class="icon-list"></i> Навигация</div>
+    <div class="{$component}-toggle dropdown-toggle js-nav-main-fold-mobile"><i class="icon-list"></i> Навигация</div>
 
     <ul class="nav-main js-nav-main">
         {* Основные пункты меню *}

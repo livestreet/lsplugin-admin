@@ -44,7 +44,7 @@
 
 					{* Прирост/спад *}
 					{if $change}
-						<i class="{$component}-item-change" title="{lang "plugin.admin.actionbar.$change"}: {abs($item.growth)}"></i>
+						<i class="{$component}-item-change p-icon-stats-{$change}" title="{lang "plugin.admin.actionbar.$change"}: {abs($item.growth)}"></i>
 					{/if}
 				</h3>
 				<p class="{$component}-item-text">{$item.text}</p>

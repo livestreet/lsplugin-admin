@@ -9,5 +9,5 @@
 {/block}
 
 {block 'layout_content'}
-	{component 'admin:p-user.profile'}
+	{component 'admin:p-user.profile' user=$oUser}
 {/block}

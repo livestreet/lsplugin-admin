@@ -1,3 +1,29 @@
 .p-user-ban-view .ls-info-list-item-label {
     width: 250px;
 }
+
+.p-user-ban-form-periods-label {
+    display: block;
+    margin-bottom: 15px;
+}
+
+.p-user-ban-form-period {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 30px;
+}
+.p-user-ban-form-period:last-child {
+    margin-bottom: 30px;
+}
+.p-user-ban-form-period > .ls-field {
+    width: 200px;
+}
+.p-user-ban-form-period-note {
+    padding-top: 5px;
+    font-size: 12px;
+    color: #aaa;
+    display: block;
+}
+.p-user-ban-form-period-body {
+    flex: 1;
+}

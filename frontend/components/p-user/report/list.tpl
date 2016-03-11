@@ -10,28 +10,28 @@
         <thead>
             <tr>
                 {* ид *}
-                {include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
+                {component 'admin:table.sorting-cell'
                     sCellClassName='id'
                     mSortingOrder='c.id'
                     mLinkHtml=$aLang.plugin.admin.users.complaints.list.table_header.id
                     sBaseUrl="{router page='admin/users/complaints'}"}
 
                 {* на кого *}
-                {include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
+                {component 'admin:table.sorting-cell'
                     sCellClassName='target_user_id'
                     mSortingOrder='c.target_user_id'
                     mLinkHtml=$aLang.plugin.admin.users.complaints.list.table_header.target_user_id
                     sBaseUrl="{router page='admin/users/complaints'}"}
 
                 {* от кого *}
-                {include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
+                {component 'admin:table.sorting-cell'
                     sCellClassName='user_id'
                     mSortingOrder='c.user_id'
                     mLinkHtml=$aLang.plugin.admin.users.complaints.list.table_header.user_id
                     sBaseUrl="{router page='admin/users/complaints'}"}
 
                 {* тип *}
-                {include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
+                {component 'admin:table.sorting-cell'
                     sCellClassName='type'
                     mSortingOrder='c.type'
                     mLinkHtml=$aLang.plugin.admin.users.complaints.list.table_header.type
@@ -41,14 +41,14 @@
                 <th>{$aLang.plugin.admin.users.complaints.list.table_header.text}</th>
 
                 {* дата создания *}
-                {include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
+                {component 'admin:table.sorting-cell'
                     sCellClassName='date_add'
                     mSortingOrder='c.date_add'
                     mLinkHtml=$aLang.plugin.admin.users.complaints.list.table_header.date_add
                     sBaseUrl="{router page='admin/users/complaints'}"}
 
                 {* статус *}
-                {include file="{$aTemplatePathPlugin.admin}forms/sorting_cell.tpl"
+                {component 'admin:table.sorting-cell'
                     sCellClassName='state'
                     mSortingOrder='c.state'
                     mLinkHtml=$aLang.plugin.admin.users.complaints.list.table_header.state

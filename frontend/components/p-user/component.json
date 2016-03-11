@@ -31,6 +31,7 @@
         "form": "form.tpl",
         "list": "list.tpl",
         "delete": "delete.tpl",
+        "actions": "actions.tpl",
 
         "preview-alert": "preview-alert.tpl"
     },
@@ -41,7 +42,6 @@
         "p-user": "js/user.js"
     },
     "styles": {
-        "user": "css/user.css",
         "blocks": "css/blocks.css",
         "ban": "css/ban.css",
         "list": "css/list.css",
