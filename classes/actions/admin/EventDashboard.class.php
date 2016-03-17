@@ -134,8 +134,7 @@ class PluginAdmin_ActionAdmin_EventDashboard extends Event
             PluginAdmin_ModuleStats::DATA_TYPE_REGISTRATIONS => $this->PluginAdmin_Stats_GetGrowthAndVotingsByTypeAndPeriod(PluginAdmin_ModuleStats::DATA_TYPE_REGISTRATIONS,
                 $sItemsAddedPeriod),
         ));
-        $this->Viewer_AssignAjax('sText',
-            $oViewer->Fetch(Plugin::GetTemplatePath(__CLASS__) . 'actions/ActionAdmin/index/new_items_table.tpl'));
+        $this->Viewer_AssignAjax('sText', $oViewer->Fetch('component@admin:p-dashboard.block-stats-content'));
     }
 
 
@@ -145,8 +144,7 @@ class PluginAdmin_ActionAdmin_EventDashboard extends Event
     protected function GetStreamAll()
     {
         $aEvents = $this->Stream_ReadAll(Config::Get('plugin.admin.dashboard.stream.count_default'));
-        $this->Viewer_Assign('bDisableGetMoreButton',
-            $this->Stream_GetCountAll() < Config::Get('plugin.admin.dashboard.stream.count_default'));
+        $this->Viewer_Assign('iStreamCount', $this->Stream_GetCountAll());
         $this->Viewer_Assign('aStreamEvents', $aEvents);
         if (count($aEvents)) {
             $oEvenLast = end($aEvents);

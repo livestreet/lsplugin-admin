@@ -10,6 +10,14 @@
     border: none;
 }
 
+.ls-table th .ls-dropdown {
+    cursor: pointer;
+}
+
+.ls-table th .ls-dropdown-menu {
+    font-weight: normal;
+}
+
 .table .cell-check { width: 17px; padding-right: 10px; }
 .table .cell-check > [class^="icheckbox"] { margin: 0; }
 .table tbody .cell-check { padding-left: 11px; }

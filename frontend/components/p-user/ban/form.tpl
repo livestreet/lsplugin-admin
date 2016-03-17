@@ -16,25 +16,22 @@
      *  если блокировка по сущности пользователя - добавить возможность одновременного бана по айпи
      *  tip: битовое логическое И
      *}
-    <div id="js_admin_users_bans_secondary_rule_wrapper" {if !($_aRequest.block_type & PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_USER_ID)}style="display: none;"{/if}>
+    <div id="js_admin_users_bans_secondary_rule_wrapper" class="ls-mb-30" {if !($_aRequest.block_type & PluginAdmin_ModuleUsers::BAN_BLOCK_TYPE_USER_ID)}style="display: none;"{/if}>
         {* Дополнительное правило бана *}
         {component 'admin:field' template='text' name='secondary_rule' id='admin_bans_secondary_rule' label={lang "$lang.secondary_rule"} note={lang "$lang.secondary_rule_info"}}
     </div>
 
     {* Результат ajax-проверки поля *}
-    <div id="admin_bans_checking_msg" class="alert alert-info" style="display: none;"></div>
+    <div id="admin_bans_checking_msg" class="alert alert-info ls-mb-30" style="display: none;"></div>
 
     {* Тип ограничения пользования сайтом для бана *}
-    <label class="mb-15 mt-20">{$aLang.plugin.admin.bans.add.restriction_title}:</label>
-    <select name="restriction_type" class="width-full mb-30">
-        {foreach from=array(PluginAdmin_ModuleUsers::BAN_RESTRICTION_TYPE_FULL, PluginAdmin_ModuleUsers::BAN_RESTRICTION_TYPE_READ_ONLY) item=iRestrictionType}
-            <option value="{$iRestrictionType}" {if $_aRequest.restriction_type==$iRestrictionType}selected="selected"{/if}>
-                {$aLang.plugin.admin.bans.add.restriction_types.$iRestrictionType}
-            </option>
-        {/foreach}
-    </select>
-    <br>
-    <br>
+    {$items = []}
+
+    {foreach [ PluginAdmin_ModuleUsers::BAN_RESTRICTION_TYPE_FULL, PluginAdmin_ModuleUsers::BAN_RESTRICTION_TYPE_READ_ONLY ] as $type}
+        {$items[] = [ text => $aLang.plugin.admin.bans.add.restriction_types.$type, value => $type ]}
+    {/foreach}
+
+    {component 'admin:field.select' name='restriction_type' items=$items label=$aLang.plugin.admin.bans.add.restriction_title}
 
     <div class="p-user-ban-form-periods">
         <label class="p-user-ban-form-periods-label">{$aLang.plugin.admin.bans.add.ban_time_title}:</label>

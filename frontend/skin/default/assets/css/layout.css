@@ -15,7 +15,6 @@
 	overflow: hidden;
 }
 #wrapper {
-	margin-bottom: 70px;
 	display: flex;
     align-items: flex-start;
 }

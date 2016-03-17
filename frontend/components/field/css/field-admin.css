@@ -7,3 +7,10 @@
     background-color: #FFDFDD;
     box-shadow: 0 0 3px #FABFBB;
 }
+
+select,
+input[type="password"],
+input[type="text"] {
+    height: 31px;
+    line-height: 18px;
+}

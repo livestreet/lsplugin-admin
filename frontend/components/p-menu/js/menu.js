@@ -1,238 +1,231 @@
 /**
- * Главное меню
- * 
- * @module ls/plugin/admin/navMain
- * 
- * @license   GNU General Public License, version 2
- * @copyright 2013 OOO "ЛС-СОФТ" {@link http://livestreetcms.com}
- * @author    Denis Shakhov <denis.shakhov@gmail.com>
+ * Menu
  */
 
-var ls = ls || {};
-ls.plugin = ls.plugin || {};
-ls.plugin.admin = ls.plugin.admin || {};
+(function($) {
+    "use strict";
 
-ls.plugin.admin.navMain = (function ($) {
-	"use strict";
+    $.widget( "livestreet.lsAdminMenu", $.livestreet.lsComponent, {
+        /**
+         * Дефолтные опции
+         */
+        options: {
+            // Селекторы
+            selectors: {
+                fold: '.js-menu-fold',
+                mobileToggle: '.js-menu-mobile-toggle',
+                nav: '.js-menu-nav',
+                section: '.js-menu-section',
+                sectionToggle: '.js-menu-section-toggle'
+            },
 
-	/**
-	 * jQuery объект меню
-	 */
-	var oNav = null,
-		oToggle = null,
-		oBody = null,
-		oWindow = null;
+            // Классы
+            classes : {
+                folded: 'folded',
+                bodyFolded: 'is-nav-main-folded',
+                open: 'open'
+            },
 
-	/**
-	 * Дефолтные опции
-	 * 
-	 * @private
-	 */
-	var _defaults = {
-		// Селекторы
-		selectors: {
-			nav: '.js-nav-main',
-			toggle: '.js-nav-main-fold',
-			toggleMobile: '.js-nav-main-fold-mobile',
-			subMenu: '.js-nav-main-submenu'
-		},
-		classes: {
-			folded: 'is-nav-main-folded',
-			dropdownMenu: 'dropdown-menu-nav-main'
-		},
-		cookie: {
-			folded: 'plugin_admin_nav_main_folded',
-			items: 'plugin_admin_nav_main_items'
-		}
-	};
+            cookie: {
+                folded: 'plugin_admin_nav_main_folded',
+                items: 'plugin_admin_nav_main_items'
+            }
+        },
 
-	/**
-	 * Инициализация
-	 *
-	 * @param {Object} options Опции
-	 */
-	this.init = function(options) {
-		var self = this;
+        /**
+         * Конструктор
+         *
+         * @constructor
+         * @private
+         */
+        _create: function () {
+            this._super();
 
-		this.options = $.extend({}, _defaults, options);
-		this.cookie = $.cookie(this.options.cookie.items);
+            this._closedSections = this._getClosedSections();
 
-		oNav = $(this.options.selectors.nav);
-		oToggle = $(this.options.selectors.toggle);
-		oBody = $('body');
-		oWindow = $(window);
+            this._checkClosedSections();
+            this._checkFold();
 
-		// Проверяем свернуто меню или нет
-		if ( $.cookie(this.options.cookie.folded) ) this.fold();
+            this._on(this.elements.fold, { click: 'toggleFold' });
+            this._on(this.elements.mobileToggle, { click: 'toggleMobile' });
+            this._on(this.elements.sectionToggle, { click: 'toggleSection' });
+            this._on(this.window, { resize: '_checkMobile' });
+        },
 
-		// Сворачивает / разворачивает меню
-		oToggle.on('click', function (e) {
-			this.toggle();
-			e.preventDefault();
-		}.bind(this));
+        /**
+         * 
+         */
+        toggleMobile: function() {
+            this.element.toggleClass(this.option('classes.open'));
+        },
 
-		/**
-		 * Подменю
-		 */
+        /**
+         * 
+         */
+        _checkMobile: function() {
+            if ( this.window.width() <= 999 && this.isFolded()) this.unfold();
+        },
 
-		// Сворачивает / разворачивает подменю
-		oNav.find('.js-nav-main-item-root > a').on('click', function (e) {
-			var oItem = $(this).closest('li'),
-				oSubMenu = oItem.find('ul'),
-				isOpen = oItem.hasClass('open');
+        /**
+         * 
+         */
+        _checkFold: function() {
+            if ($.cookie(this.options.cookie.folded)) this.fold();
+        },
 
-			self[ isOpen ? 'closeSubMenu' : 'openSubMenu' ](oSubMenu, oItem);
+        /**
+         * 
+         */
+        _checkClosedSections: function(event) {
+            this.elements.section.each(function (index, section) {
+                section = $(section);
 
-			e.preventDefault();
-		});
+                if (this._closedSections.indexOf(section.data('uid')) !== -1) {
+                    this.closeSection(section, false);
+                }
+            }.bind(this));
+        },
 
-		// Открывает подменю при загрузке страницы
-		$('.js-nav-main-item-root').each(function () {
-			var oItem = $(this),
-				oSubMenu = oItem.find('ul'),
-				iId = oItem.data('item-id'),
-				sCookie = $.cookie(self.options.cookie.items),
-				aItems = sCookie ? sCookie.split(',') : [];
+        /**
+         * 
+         */
+        _addClosedSection: function(uid) {
+            this._closedSections.push(uid);
+            this._saveClosedSections();
+        },
 
-			if ( aItems.indexOf(iId + "") !== -1 ) {
-				oItem.addClass('open');
-				oSubMenu.show();
-			}
-		});
+        /**
+         * 
+         */
+        _removeClosedSection: function(uid) {
+            var index = this._closedSections.indexOf(uid);
+            if (index !== -1) this._closedSections.splice(index, 1);
 
-		/**
-		 * Мобильная версия
-		 */
+            this._saveClosedSections();
+        },
 
-		// Скрыть / показать меню
-		$(this.options.selectors.toggleMobile).on('click', function () {
-			oNav.toggleClass('open');
-		}.bind(this));
+        /**
+         * 
+         */
+        _getClosedSections: function() {
+            return ($.cookie(this.options.cookie.items) || "").split(',');
+        },
 
-		oWindow.on('resize', function () {
-			this.checkMobile();
-		}.bind(this));
+        /**
+         * 
+         */
+        _saveClosedSections: function() {
+            $.cookie(this.options.cookie.items, this._closedSections.join(','), { path: '/', expires: 999 });
+        },
 
-		this.checkMobile();
-	};
+        /**
+         * 
+         */
+        toggleSection: function(event) {
+            if (this.isFolded()) return;
 
-	/**
-	 * 
-	 */
-	this.checkMobile = function (oSubMenu, oItem) {
-		if ( oWindow.width() <= 999 && oBody.hasClass(this.options.classes.folded)) this.unfold();
-	};
+            var section = $(event.target).closest(this.option('selectors.section'));
 
-	/**
-	 * 
-	 */
-	this.openSubMenu = function (oSubMenu, oItem) {
-		if ( oBody.hasClass(this.options.classes.folded) ) return;
+            this[ this._hasClass(section, 'open') ? 'closeSection' : 'openSection' ](section, true);
+            event.preventDefault();
+        },
 
-		this.add( oItem.data('item-id') );
+        /**
+         * 
+         */
+        openSection: function(section, save) {
+            if (this.isFolded()) return;
 
-		oItem.addClass('open');
-		oSubMenu.slideDown(200);
-	};
+            this._addClass(section, 'open');
+            save && this._removeClosedSection(section.data('uid'));
+        },
 
-	/**
-	 * 
-	 */
-	this.closeSubMenu = function (oSubMenu, oItem) {
-		this.remove( oItem.data('item-id') );
+        /**
+         * 
+         */
+        closeSection: function(section, save) {
+            if (this.isFolded()) return;
 
-		oItem.removeClass('open');
-		oSubMenu.slideUp(200);
-	};
+            this._removeClass(section, 'open');
+            save && this._addClosedSection(section.data('uid'));
+        },
 
-	/**
-	 * 
-	 */
-	this.add = function (iId) {
-		var sCookie = $.cookie(this.options.cookie.items);
-		var aItems = sCookie ? sCookie.split(',') : [];
+        /**
+         * 
+         */
+        toggleFold: function(event) {
+            event && event.preventDefault();
 
-		aItems.push(iId);
-		$.cookie(this.options.cookie.items, aItems.join(','), { path: '/', expires: 999 });
-	};
+            this[ this.isFolded() ? 'unfold' : 'fold' ]();
+        },
 
-	/**
-	 * 
-	 */
-	this.remove = function (iId) {
-		var sCookie = $.cookie(this.options.cookie.items);
-		var aItems = sCookie ? sCookie.split(',') : [];
-		var index = aItems.indexOf(iId + "");
+        /**
+         * 
+         */
+        fold: function() {
+            this._addClass('folded');
+            this._addClass($('body'), 'bodyFolded');
+            this._dropdownInit();
+            $.cookie(this.options.cookie.folded, 1, { path: '/', expires: 999 });
+        },
 
-		if (index !== -1) aItems.splice(index, 1);
-		$.cookie(this.options.cookie.items, aItems.join(','), { path: '/', expires: 999 });
-	};
+        /**
+         * 
+         */
+        unfold: function() {
+            this._removeClass('folded');
+            this._removeClass($('body'), 'bodyFolded');
+            this._dropdownDestroy();
+            $.cookie(this.options.cookie.folded, null, { path: '/', expires: '' });
+        },
 
-	/**
-	 * 
-	 */
-	this.dropdownsInit = function () {
-		var _this = this;
+        /**
+         * 
+         */
+        isFolded: function() {
+            return this._hasClass('folded');
+        },
 
-		oNav.find(this.options.selectors.subMenu).each(function () {
-			var oSubMenu = $(this);
+        /**
+         * 
+         */
+        _dropdownInit: function() {
+            this.elements.section.each(function (index, section) {
+                section = $(section);
 
-			oSubMenu.clone()
-					.addClass('dropdown-menu ' + _this.options.classes.dropdownMenu)
-					.attr('id', 'dropdown-menu-nav-main-' + oSubMenu.closest('li').data('item-id'))
-					.appendTo(oBody);
-		});
+                var submenu = section
+                    .find('.p-menu-section-submenu')
+                    .clone()
+                    .addClass('ls-dropdown-menu js-dropdown-menu')
+                    .appendTo(section);
 
-		$('.js-dropdown-nav-main').lsDropdown({
-			position: {
-				my: "right-8 top-4",
-				at: "left top",
-				collision: "none none"
-			},
-			body: false,
-			show: {
-				effect: 'fadeIn'
-			},
-			hide: {
-				effect: 'fadeOut'
-			}
-		});
-	};
+                section.lsDropdown({
+                    selectors: {
+                        toggle: '.js-menu-section-toggle',
+                        menu: '.js-dropdown-menu'
+                    },
+                    position: {
+                        my: "right-5 top",
+                        at: "left top",
+                        collision: "none none"
+                    },
+                    body: false,
+                    show: {
+                        effect: 'fadeIn'
+                    },
+                    hide: {
+                        effect: 'fadeOut'
+                    }
+                })
+            }.bind(this));
+        },
 
-	/**
-	 * 
-	 */
-	this.dropdownsDestroy = function () {
-		$('.' + this.options.classes.dropdownMenu).remove();
-		$('.js-dropdown-nav-main').lsDropdown('destroy');
-	};
-
-	/**
-	 * Сворачивает / разворачивает меню
-	 */
-	this.toggle = function () {
-		this[ oBody.hasClass(this.options.classes.folded) ? 'unfold' : 'fold' ]();
-	};
-
-	/**
-	 * Сворачивает главное меню
-	 */
-	this.fold = function () {
-		oBody.addClass(this.options.classes.folded);
-		oWindow.trigger('resize');
-		this.dropdownsInit();
-		$.cookie(this.options.cookie.folded, 1, { path: '/', expires: 999 });
-	};
-
-	/**
-	 * Разворачивает главное меню
-	 */
-	this.unfold = function () {
-		oBody.removeClass(this.options.classes.folded);
-		oWindow.trigger('resize');
-		this.dropdownsDestroy();
-		$.cookie(this.options.cookie.folded, null, { path: '/', expires: '' });
-	};
-
-	return this;
-}).call(ls.captcha || {}, jQuery);
+        /**
+         * 
+         */
+        _dropdownDestroy: function() {
+            this.elements.section.lsDropdown('destroy');
+            this.element.find('.js-dropdown-menu').remove();
+        }
+    });
+})(jQuery);

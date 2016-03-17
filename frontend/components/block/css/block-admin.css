@@ -20,3 +20,10 @@
     padding: 15px 20px;
     font-size: 12px;
 }
+
+.ls-block .ls-table tbody tr:first-child td {
+    border-top: none;
+}
+.ls-block .ls-tab-pane-content {
+    padding: 0;
+}

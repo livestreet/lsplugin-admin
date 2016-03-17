@@ -28,22 +28,6 @@
         text => 'Есть 2 новых обращения',
         text_no => 'Нет новых обращений',
         count => 2
-    ],
-    [
-        name => 'test1',
-        url => '/',
-        title => 'Lorem ipsum dolor sit amet',
-        text => 'Есть 2 новых обращения',
-        text_no => 'Нет новых обращений',
-        count => 0
-    ],
-    [
-        name => 'test2',
-        url => '/',
-        title => 'Loremips',
-        text => 'Есть 3 новых обращения',
-        text_no => 'Нет новых обращений',
-        count => 3999
     ]
 ]}
 

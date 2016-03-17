@@ -3,6 +3,9 @@
         "on-page": "elements-on-page.tpl"
     },
     "styles": {
-        "pagination-admin": "css/pagination-admin.css"
+        "pagination": "css/pagination-admin.css"
+    },
+    "scripts": {
+        "on-page": "js/on-page.js"
     }
 }

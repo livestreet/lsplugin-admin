@@ -5,6 +5,8 @@
         "p-index": "index.tpl",
         "block-activity": "blocks/block.activity.tpl",
         "block-stats": "blocks/block.stats.tpl",
+        "block-stats-content": "blocks/block.stats-content.tpl",
+        "block-stats-content-line": "blocks/block.stats-content-line.tpl",
         "notifications": "notifications.tpl",
         "actionbar-stats": "actionbar-stats.tpl"
     },

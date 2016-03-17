@@ -32,7 +32,7 @@
 
 		{* Кнопка выпадающего списка *}
 		<div class="ls-dropdown ls-dropdown--no-text js-dropdown" >
-			<span class="link-dotted ls-dropdown-toggle js-ls-dropdown-toggle">
+			<span class="link-dotted js-ls-dropdown-toggle">
 				{* Многоточие будет подталкивать к мысли что это выпадающее меню со множеством сортировок *}
 				{$sDropDownHtml}&hellip;
 
@@ -50,11 +50,11 @@
 			</span>
 
 			{* Начало контейнера списка сортировок *}
-			<ul class="ls-nav ls-nav--stacked ls-nav--dropdown ls-dropdown-menu js-ls-dropdown-menu  ls-clearfix" role="menu" aria-hidden="true" >
+			<ul class="ls-nav ls-nav--stacked ls-nav--dropdown ls-dropdown-menu js-ls-dropdown-menu  ls-clearfix" role="menu" aria-hidden="true">
 	{/if}
 
 	{* Вывод полей для сортировки *}
-	{foreach $mSortingOrder as $iKey=>$sSortingOrderItem}
+	{foreach $mSortingOrder as $iKey => $sSortingOrderItem}
 		{* Указывает что сортировка активна по данном полю *}
 		{$bSortedByCurrentField = $sOrder == $sSortingOrderItem}
 

@@ -36,10 +36,10 @@
         "preview-alert": "preview-alert.tpl"
     },
     "scripts": {
+        "ban": "js/ban.js",
         "search": "js/search.js",
         "chart-location": "js/chart-location.js",
-        "report": "js/report.js",
-        "p-user": "js/user.js"
+        "report": "js/report.js"
     },
     "styles": {
         "blocks": "css/blocks.css",

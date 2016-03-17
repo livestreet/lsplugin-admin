@@ -5,24 +5,33 @@
 {extends 'component@admin:block'}
 
 {block 'block_options' append}
-	{$title = $aLang.plugin.admin.index.new_items}
-	{$content = ' '}
-{/block}
-
-{block 'block_header_inner' append}
-	<form action="" method="get" enctype="application/x-www-form-urlencoded" id="admin_index_growth_block_form">
-		{component 'admin:field.hidden.security-key'}
-
-		{* Скрытые поля *}
-		{include file="{$aTemplatePathPlugin.admin}forms/preset_interval.tpl"
-			sName='filter[newly_added_items_period]'
-			sId='admin_index_growth_period_select'
-			sCurrentPeriod=$_aRequest.filter.newly_added_items_period}
-	</form>
-{/block}
-
-{block 'block_content_inner'}
-	<div id="admin_index_new_items_block">
-		{include '../new_items_table.tpl'}
-	</div>
+    {$classes = "$classes js-admin-block-stats"}
+    {$mods = "$mods nopadding"}
+    {$title = $aLang.plugin.admin.index.new_items}
+    {$tabs = [
+        'classes' => 'js-tabs-block',
+        'tabs' => [
+            [
+                'text' => $aLang.plugin.admin.graph.period_bar[PluginAdmin_ModuleStats::TIME_INTERVAL_TODAY],
+                'url' => "{router page='admin'}ajax-get-new-items-block",
+                'content' => {component 'admin:p-dashboard.block-stats-content'},
+                'attributes' => [ 'data-param-filter[newly_added_items_period]' => PluginAdmin_ModuleStats::TIME_INTERVAL_TODAY ]
+            ],
+            [
+                'text' => $aLang.plugin.admin.graph.period_bar[PluginAdmin_ModuleStats::TIME_INTERVAL_YESTERDAY],
+                'url' => "{router page='admin'}ajax-get-new-items-block",
+                'attributes' => [ 'data-param-filter[newly_added_items_period]' => PluginAdmin_ModuleStats::TIME_INTERVAL_YESTERDAY ]
+            ],
+            [
+                'text' => $aLang.plugin.admin.graph.period_bar[PluginAdmin_ModuleStats::TIME_INTERVAL_WEEK],
+                'url' => "{router page='admin'}ajax-get-new-items-block",
+                'attributes' => [ 'data-param-filter[newly_added_items_period]' => PluginAdmin_ModuleStats::TIME_INTERVAL_WEEK ]
+            ],
+            [
+                'text' => $aLang.plugin.admin.graph.period_bar[PluginAdmin_ModuleStats::TIME_INTERVAL_MONTH],
+                'url' => "{router page='admin'}ajax-get-new-items-block",
+                'attributes' => [ 'data-param-filter[newly_added_items_period]' => PluginAdmin_ModuleStats::TIME_INTERVAL_MONTH ]
+            ]
+        ]
+    ]}
 {/block}

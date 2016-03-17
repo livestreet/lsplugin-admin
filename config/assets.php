@@ -46,7 +46,6 @@ $config['assets']['css'] = array(
 $config['admin']['assets']['js'] = array(
     // Plugin scripts
     'assets/js/init.js',
-    'assets/js/admin_misc.js',
     // Vendor scripts
     'assets/js/vendor/highcharts/highcharts.js',
     'assets/js/vendor/icheck/jquery.icheck.js'
