@@ -12,14 +12,6 @@
     background-image: linear-gradient(to bottom, #f9f9f9, #eee);
     box-shadow: 0 1px 0 rgba(0, 0, 0, .07), inset 0 1px 0 #fff;
 }
-a.button { padding-top: 5px; }
-
-/* Hover */
-.button:hover  {
-    background-image: linear-gradient(to bottom, #fefefe, #f7f7f7);
-    color: #000;
-    border-color: #d0d0d0 #c1c1c1 #b5b5b5 #c1c1c1;
-}
 
 /* Active */
 .ls-button:active,

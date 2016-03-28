@@ -16,13 +16,10 @@
     overflow: hidden;
 }
 .form-field-settings-array-value {
-    float: left;
     padding: 5px;
 }
 .form-field-settings-array-value input {
-    float: left;
 }
 .form-field-settings-array-remove {
-    border-radius: 0 5px 5px 0;
-    margin-left: -1px;
+    margin-left: 5px;
 }

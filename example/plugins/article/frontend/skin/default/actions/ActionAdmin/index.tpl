@@ -6,19 +6,19 @@
 
 <h3 class="page-sub-header">Список статей</h3>
 
-<a href="{$oAdminUrl->get('create')}" class="button button-primary">Добавить статью</a>
+{component 'admin:button' url=$oAdminUrl->get('create') mods='primary' text='Добавить статью'}
 
 <br>
 <br>
 
 {if $aArticleItems}
-	<table class="table">
+	<table class="ls-table">
 		<thead>
 			<tr>
 				<th>ID</th>
 				<th>Название</th>
 				<th>Дата</th>
-				<th class="ta-r">Действие</th>
+				<th class="ls-ta-r">Действие</th>
 			</tr>
 		</thead>
 
@@ -28,7 +28,7 @@
 					<td>{$oArticleItem->getId()}</td>
 					<td><a href="{$oArticleItem->getWebUrl()}">{$oArticleItem->getTitle()}</a></td>
 					<td>{date_format date=$oArticleItem->getDateCreate() format="j F Y"}</td>
-					<td class="ta-r">
+					<td class="ls-ta-r">
 						<a href="{$oAdminUrl->get('update')}{$oArticleItem->getId()}/" class="fa fa-edit" title="Изменить"></a>
 						<a href="#" class="fa fa-trash-o" onclick="if (confirm('Действительно удалить?')) { ls.plugin.article.admin.removeArticle({$oArticleItem->getId()}); } return false;" title="Удалить"></a>
 					</td>

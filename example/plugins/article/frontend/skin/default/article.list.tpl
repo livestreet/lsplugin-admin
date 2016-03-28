@@ -5,7 +5,7 @@
  *}
 
 {if $aArticleItems}
-	<table class="table">
+	<table class="ls-table">
 		<thead>
 			<tr>
 				<th>ID</th>

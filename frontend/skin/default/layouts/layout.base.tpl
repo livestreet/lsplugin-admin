@@ -134,9 +134,7 @@
         </div>
 
         {* Сайдбар *}
-        <aside id="sidebar" role="complementary">
-            {component 'admin:p-menu' menu=$oMenuMain}
-        </aside>
+        {component 'admin:p-menu' menu=$oMenuMain}
     </div> {* /wrapper *}
 
     {* Подвал *}

@@ -6,12 +6,14 @@
 {component_define_params params=[ 'skin', 'mods', 'classes', 'attributes' ]}
 
 <div id="header" class="{$component} {cmods name=$component mods=$mods} {$classes} ls-clearfix" {cattr list=$attributes}>
-    <ul class="breadcrumbs">
-        <li><a href="{Router::GetPath('/')}" class="link-dotted">Перейти на сайт</a></li>
-    </ul>
+    <div class="{$component}-logo">
+        <div class="{$component}-logo-home">
+            <a href="{Router::GetPath('/')}">Перейти на сайт</a>
+        </div>
 
-    <div class="site-info">
-        <h1 class="site-name"><a href="{Router::GetPath('admin')}">{Config::Get("view.name")}</a></h1>
+        <h1 class="{$component}-logo-name">
+            <a href="{Router::GetPath('admin')}">{Config::Get("view.name")}</a>
+        </h1>
     </div>
 
     {* Юзербар *}

@@ -29,7 +29,9 @@
             cookie: {
                 folded: 'plugin_admin_nav_main_folded',
                 items: 'plugin_admin_nav_main_items'
-            }
+            },
+
+            mobileWidth: 999
         },
 
         /**
@@ -63,7 +65,7 @@
          * 
          */
         _checkMobile: function() {
-            if ( this.window.width() <= 999 && this.isFolded()) this.unfold();
+            if ( this.window.width() <= this.option('mobileWidth') && this.isFolded()) this.unfold();
         },
 
         /**

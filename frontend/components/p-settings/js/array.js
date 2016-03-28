@@ -39,6 +39,25 @@ ls.admin_settings_array = (function($) {
 	};
 
 
+	this.init = function(selector, options) {
+		this._element = $(selector);
+
+		/**
+		 * Удалить элемент из массива специального вида отображения
+		 */
+		this._element.on('click.admin', '.js-array-item-remove', function(event) {
+			this.RemoveArrayItem(event.target);
+		}.bind(this));
+
+		/**
+		 * Добавить элемент в массив специального вида отображения
+		 */
+		this._element.on('click.admin', '.js-array-add-value', function() {
+			this.AddArrayItem(event.target);
+		}.bind(this));
+	};
+
+
 	/**
 	 * Удалить значение массива
 	 *
@@ -47,11 +66,11 @@ ls.admin_settings_array = (function($) {
 	 */
 	this.RemoveArrayItem = function(oThis) {
 		var oArrayItemValue = $ (oThis).closest(this.selectors.ArrayItemValue);
-		
+
 		var sKey = oArrayItemValue.closest(this.selectors.ArrayValues).attr('data-key');
 		var sValue = oArrayItemValue.find('input').val();
 		this.GetEnumSelector(sKey).find('option[value=' + sValue + ']').removeAttr('disabled');
-		
+
 		oArrayItemValue.fadeOut(200, function() {
 			$ (this).remove();
 		});
@@ -189,23 +208,5 @@ ls.admin_settings_array = (function($) {
 // ---
 
 jQuery(document).ready(function($) {
-	
-	/**
-	 * Удалить элемент из массива специального вида отображения
-	 */
-	$ (document).on('click.admin', ls.admin_settings_array.selectors.ArrayValues + ' ' + ls.admin_settings_array.selectors.ArrayItemValue + ' .js-remove-previous', function() {
-		ls.admin_settings_array.RemoveArrayItem(this);
-		//ls.msg.error('Ok', 'Deleted');
-	});
-	
-	/**
-	 * Добавить элемент в массив специального вида отображения
-	 */
-	$ (document).on('click.admin', ls.admin_settings_save.selectors.OneParameterContainer + ' .js-array-add-value', function() {
-		if (ls.admin_settings_array.AddArrayItem(this)) {
-			//ls.msg.notice('Ok', 'Added');
-		}
-		return false;
-	});
-
+	ls.admin_settings_array.init('.js-admin-settings-array-default');
 });

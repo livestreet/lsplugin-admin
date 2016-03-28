@@ -38,10 +38,13 @@
 	z-index: -5;
 	background: #000;
 }
-#sidebar {
-	width: 250px;
+.p-menu {
+	flex-basis: 250px;
 	position: relative;
 	z-index: 1;
+}
+.p-menu.folded {
+	flex-basis: 42px;
 }
 #footer {
 	overflow: hidden;
@@ -66,7 +69,11 @@
 }
 
 /* Responsive */
-@media (max-width:800px) {
+@media (max-width: 999px) {
+	#header {
+		padding: 20px 20px 0 16px;
+		position: relative;
+	}
 	#container {
 		padding: 0 5px;
 	}
@@ -78,9 +85,10 @@
 		width: 100%;
 		margin-right: 0;
 	}
-	#sidebar {
-		width: 100%;
+	.p-menu {
+		flex-basis: auto;
 		order: 1;
+		width: 100%;
 		margin-bottom: 5px;
 	}
 	#footer ul, #footer ul.footer-right {
