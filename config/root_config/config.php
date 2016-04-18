@@ -185,6 +185,7 @@ return array(
             array(
                 'name'         => 'Шаблонизатор',
                 'allowed_keys' => array(
+                    'view.skin',
                     'smarty.compile_check',
                     'smarty.force_compile',
                 ),
@@ -237,11 +238,43 @@ return array(
 
     ),
     /*
+     * --- Список ключей конфига, значения которых разрешаем хранить в админке в любом случае - есть для них визуальный интерфейс или нет
+     */
+    '$config_allowed_keys$' => array(
+        'view.skin', 'view.theme'
+    ),
+    /*
      *
      * --- Описание настроек главного конфига LiveStreet CMS ---
      *
      */
     '$config_scheme$' => array(
+        'view.skin'                                  => array(
+            'type'        => 'string',
+            'name'        => 'config_parameters.view.skin.name',
+            'description' => 'config_parameters.view.skin.description',
+            'validator'   => array(
+                'type'   => 'String',
+                'params' => array(
+                    'min'        => 1,
+                    'max'        => 200,
+                    'allowEmpty' => false,
+                ),
+            ),
+        ),
+        'view.theme'                                  => array(
+            'type'        => 'string',
+            'name'        => 'config_parameters.view.theme.name',
+            'description' => 'config_parameters.view.theme.description',
+            'validator'   => array(
+                'type'   => 'String',
+                'params' => array(
+                    'min'        => 1,
+                    'max'        => 200,
+                    'allowEmpty' => true,
+                ),
+            ),
+        ),
         'view.name'                                  => array(
             'type'        => 'string',
             'name'        => 'config_parameters.view.name.name',

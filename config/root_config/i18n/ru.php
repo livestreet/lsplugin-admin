@@ -56,6 +56,14 @@ return array(
      */
     'config_parameters' => array(
         'view'       => array(
+            'skin'             => array(
+                'name'        => 'Шаблон',
+                'description' => '',
+            ),
+            'theme'             => array(
+                'name'        => 'Тема шаблона',
+                'description' => '',
+            ),
             'name'             => array(
                 'name'        => 'Название сайта',
                 'description' => 'Выводится в шапке шаблона, письмах и т.п.',

@@ -154,6 +154,7 @@ class PluginAdmin_ModuleSettings extends ModuleStorage
                         }
                     }
                 }
+                $aKeys = array_merge($aKeys, (array)Config::Get('$config_allowed_keys$'));
                 $aConfigData = $this->FilterConfigByKeys($aConfigData, $aKeys,
                     array_keys((array)Config::Get('$config_scheme$')));
                 $this->LoadRootConfig($aConfigData);
