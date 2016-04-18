@@ -36,13 +36,12 @@
         {$settingsExist = true}
         {$type = $parameter->getType()}
         {$validator = $parameter->getValidator()}
-        {$name = "Settings_Sec{$section@iteration}_Num{$parameter@iteration}[]"}
+        {$name = "Settings_Sec{$sectionIteration}_Num{$parameter@iteration}[]"}
 
         {if in_array($type, array('array', 'integer', 'boolean', 'string', 'float'))}
             {if $type == 'string' && $validator['type'] == 'Enum'}
                 {$type = 'enum'}
             {/if}
-
             {component 'admin:p-settings' template="field-{$type}" classes='js-settings-field' parameter=$parameter name=$name key=$parameter->getKey() formid=$formid}
         {else}
             {component 'admin:alert' text="{$aLang.plugin.admin.errors.unknown_parameter_type}: <b>{$parameter->getType()}</b>" mods='error'}

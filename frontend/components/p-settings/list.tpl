@@ -13,7 +13,7 @@
         {component 'admin:field' template='hidden.security-key'}
 
         {foreach $sections as $section}
-            {component 'admin:p-settings' template='fieldset' section=$section formid=$formid}
+            {component 'admin:p-settings' template='fieldset' section=$section sectionIteration=$section@iteration formid=$formid}
         {/foreach}
 
         {component 'admin:button' name='submit_save_settings' mods='primary' text=$aLang.plugin.admin.save attributes=[ 'id' => 'admin_settings_submit' ]}
