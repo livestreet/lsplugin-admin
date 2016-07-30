@@ -34,7 +34,7 @@
 <div class="{$component}">
     {foreach $notifications as $item}
         <div class="{$component}-item {if $item.count}active{/if}">
-            <a href="{$item.url}" class="{$component}-item-image">
+            <a href="{$item.url}" class="{$component}-item-image icon-notifications-{$item.name}">
                 {if $item.count}
                     <div class="{$component}-item-count">
                         {($item.count < 1000) ? $item.count : '999+'}

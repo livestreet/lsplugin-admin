@@ -64,7 +64,7 @@ jQuery(document).ready(function ($) {
      * Datepicker
      */
     $('.js-field-date-default').livequery(function () {
-        $(this).lsFieldDate({
+        $(this).lsDate({
             language: LANGUAGE
         });
     });
@@ -74,7 +74,7 @@ jQuery(document).ready(function ($) {
      * Datepicker with php date format
      */
     $('.date-picker-php').livequery(function () {
-        $(this).lsFieldDate({ format: 'YYYY-MM-DD'});
+        $(this).lsDate({ format: 'YYYY-MM-DD'});
     });
 
 

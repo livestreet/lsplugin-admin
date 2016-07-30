@@ -32,3 +32,7 @@
 .p-icon-stats-down { width: 8px; height: 7px; background-image: url(../icons/stats-down.png); }
 
 .icon-settings-14 { width: 14px; height: 14px; background-image: url(../icons/settings-14.png); }
+
+.icon-notifications-plugins { background-image: url(../icons/stats-notifications-plugins.png); }
+.icon-notifications-reports { background-image: url(../icons/stats-notifications-reports.png); }
+.icon-notifications-support { background-image: url(../icons/stats-notifications-support.png); }
