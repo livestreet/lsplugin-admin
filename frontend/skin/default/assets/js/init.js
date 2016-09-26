@@ -44,6 +44,7 @@ jQuery(document).ready(function ($) {
      * Modals
      */
     $('.js-modal-default').lsModal();
+    $('.js-modal-toggle-default').lsModalToggle();
 
     /**
      * Details
