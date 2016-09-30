@@ -498,8 +498,16 @@ return array(
                     'name'        => 'Разрешать или нет не заполнять заголовок топика',
                     'description' => '',
                 ),
-                'allow_empty_tags'  => array(
+                'tags_allow_empty'  => array(
                     'name'        => 'Разрешать или нет не заполнять теги',
+                    'description' => '',
+                ),
+                'tags_count_max'  => array(
+                    'name'        => 'Максимальное число тегов',
+                    'description' => '',
+                ),
+                'tags_count_min'  => array(
+                    'name'        => 'Минимальное число тегов',
                     'description' => '',
                 ),
                 'url'  => array(

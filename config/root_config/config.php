@@ -84,7 +84,9 @@ return array(
                     'module.topic.title_max_length',
                     'module.topic.title_min_length',
                     'module.topic.title_allow_empty',
-                    'module.topic.allow_empty_tags',
+                    'module.topic.tags_allow_empty',
+                    'module.topic.tags_count_max',
+                    'module.topic.tags_count_min',
                 ),
             ),
             array(
@@ -1268,12 +1270,30 @@ return array(
                 'params' => array(),
             ),
         ),
-        'module.topic.allow_empty_tags'              => array(
+        'module.topic.tags_allow_empty'              => array(
             'type'        => 'boolean',
-            'name'        => 'config_parameters.module.topic.allow_empty_tags.name',
-            'description' => 'config_parameters.module.topic.allow_empty_tags.description',
+            'name'        => 'config_parameters.module.topic.tags_allow_empty.name',
+            'description' => 'config_parameters.module.topic.tags_allow_empty.description',
             'validator'   => array(
                 'type'   => 'Boolean',
+                'params' => array(),
+            ),
+        ),
+        'module.topic.tags_count_max'              => array(
+            'type'        => 'integer',
+            'name'        => 'config_parameters.module.topic.tags_count_max.name',
+            'description' => 'config_parameters.module.topic.tags_count_max.description',
+            'validator'   => array(
+                'type'   => 'Number',
+                'params' => array(),
+            ),
+        ),
+        'module.topic.tags_count_min'              => array(
+            'type'        => 'integer',
+            'name'        => 'config_parameters.module.topic.tags_count_min.name',
+            'description' => 'config_parameters.module.topic.tags_count_min.description',
+            'validator'   => array(
+                'type'   => 'Number',
                 'params' => array(),
             ),
         ),

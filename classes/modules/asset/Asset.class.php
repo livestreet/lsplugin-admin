@@ -61,6 +61,9 @@ class PluginAdmin_ModuleAsset extends PluginAdmin_Inherit_ModuleAsset
              */
             $this->iCacheLastResetCounter = $this->Storage_Get(PluginAdmin_ModuleTools::CACHE_LAST_RESET_COUNTER,
                 $this);
+            if (!$this->iCacheLastResetCounter) {
+                $this->iCacheLastResetCounter = 0;
+            }
         }
         return $this->iCacheLastResetCounter;
     }

@@ -26,7 +26,7 @@
     {component 'admin:field' template='text' name='category[title]' label='Название'}
 
     {* Описиание *}
-    {component 'admin:field' template='textarea' name='category[description]' label='Описание'}
+    {component 'admin:field' template='textarea' name='category[description]' label='Описание' escape=false}
 
     {* URL *}
     {component 'admin:field' template='text' name='category[url]' label='Url'}
