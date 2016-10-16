@@ -39,15 +39,16 @@
     height: 19px;
     background-repeat: no-repeat;
     opacity: .35;
+    font: normal normal normal 19px/1 FontAwesome;
+    text-align: center;
 }
-.p-menu-section-icon           { background-image: url(../images/nav-main-home.png); }
-.p-menu-section-icon--home     { background-image: url(../images/nav-main-home.png); }
-.p-menu-section-icon--users    { background-image: url(../images/nav-main-users.png); }
-.p-menu-section-icon--plugins  { background-image: url(../images/nav-main-plugins.png); }
-.p-menu-section-icon--settings { background-image: url(../images/nav-main-settings.png); }
-.p-menu-section-icon--utils    { background-image: url(../images/nav-main-settings.png); }
-.p-menu-section-icon--skins    { background-image: url(../images/nav-main-skins.png); }
-.p-menu-section-icon--fold     { background-image: url(../images/nav-main-fold.png); }
+.p-menu-section-icon-custom:before           { content: "\f013"; }
+.p-menu-section-icon-custom--home:before     { content: "\f015"; }
+.p-menu-section-icon-custom--users:before    { content: "\f0c0"; }
+.p-menu-section-icon-custom--plugins:before  { content: "\f1e6"; }
+.p-menu-section-icon-custom--settings:before { content: "\f013"; }
+.p-menu-section-icon-custom--skins:before    { content: "\f03e"; }
+.p-menu-section-icon-custom--fold:before     { content: "\f190"; }
 
 /**
  * Submenu
@@ -128,8 +129,10 @@
  */
 .p-menu-section--fold span.p-menu-section-text {
     font-size: 11px;
-    position: relative;
-    top: -2px;
+}
+.p-menu.folded .p-menu-section-icon--fold {
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
 }
 
 /* Folded */

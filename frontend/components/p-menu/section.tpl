@@ -12,7 +12,12 @@
 <div class="{$component} {cmods name=$component mods=$mods} {$classes} open js-menu-section" {cattr list=$attributes} {if $uid}data-uid="{$uid}"{/if}>
     <a {if ! $section->HasItems()}href="{$section->GetUrlFull()}"{else}href="#"{/if}
        class="{$component}-item {if $section->HasItems()}js-menu-section-toggle{/if}">
-        <i class="{$component}-icon {$component}-icon--{$section->GetName()}" title="{$section->GetCaption()|escape}"></i>
+        {if $section->getIcon()}
+            {component 'admin:icon' classes="{$component}-icon" icon=$section->getIcon()}
+        {else}
+            <i class="{$component}-icon {$component}-icon-custom {$component}-icon-custom--{$section->GetName()}" title="{$section->GetCaption()|escape}"></i>
+        {/if}
+
         <span class="{$component}-text">{$section->GetCaption()|escape}</span>
     </a>
 

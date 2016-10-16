@@ -38,6 +38,7 @@
 }
 .p-dashboard-activity .activity-event-date {
     color: #999;
+    display: inline;
 }
 .p-dashboard-activity .activity-event-info {
     line-height: 1em;
