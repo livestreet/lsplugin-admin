@@ -26,7 +26,7 @@
         {* Свернуть *}
         <div class="{$component}-section {$component}-section--fold">
             <a href="#" class="{$component}-section-item js-menu-fold">
-                <i class="{$component}-section-icon {$component}-section-icon--fold"></i>
+                <i class="{$component}-section-icon {$component}-section-icon-custom {$component}-section-icon-custom--fold"></i>
                 <span class="{$component}-section-text">Свернуть меню</span>
             </a>
         </div>

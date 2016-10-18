@@ -23,4 +23,4 @@
     {$items[] = [ 'text' => $aLang.plugin.admin.users.profile.top_bar.activate, 'url' => "{router page='admin/users/activate'}?user_id={$user->getId()}&security_ls_key={$LIVESTREET_SECURITY_KEY}" ]}
 {/if}
 
-{component 'dropdown' text=$text classes="{$classes} js-dropdown" menu=$items}
+{component 'admin:dropdown' text=$text classes="{$classes} js-dropdown" menu=$items}

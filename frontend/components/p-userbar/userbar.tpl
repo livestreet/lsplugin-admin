@@ -17,7 +17,7 @@
     </div>
 
     {* Юзербар *}
-    {component 'dropdown'
+    {component 'admin:dropdown'
         text="<img src=\"{$oUserCurrent->getProfileAvatarPath(48)}\" alt=\"Avatar\" class=\"userbar-avatar\" />{$oUserCurrent->getLogin()}"
         classes='admin-userbar js-dropdown-userbar'
         menu=[

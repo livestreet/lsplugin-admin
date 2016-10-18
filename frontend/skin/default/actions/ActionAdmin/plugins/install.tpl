@@ -29,7 +29,7 @@
 		]}
 	{/foreach}
 
-	{component 'dropdown' text='...' classes='js-admin-actionbar-dropdown' activeItem=$sSortOrderCurrent menu=$menu}
+	{component 'admin:dropdown' text='...' classes='js-admin-actionbar-dropdown' activeItem=$sSortOrderCurrent menu=$menu}
 
 
 	{$menu = []}
@@ -44,7 +44,7 @@
 		]}
 	{/foreach}
 
-	{component 'dropdown' text='...' classes='js-admin-actionbar-dropdown' activeItem=$sVersionCurrent menu=$menu}
+	{component 'admin:dropdown' text='...' classes='js-admin-actionbar-dropdown' activeItem=$sVersionCurrent menu=$menu}
 
 
 	{$menu = []}
@@ -59,7 +59,7 @@
 		]}
 	{/foreach}
 
-	{component 'dropdown' text='...' classes='js-admin-actionbar-dropdown' activeItem=$sSectionCurrent menu=$menu}
+	{component 'admin:dropdown' text='...' classes='js-admin-actionbar-dropdown' activeItem=$sSectionCurrent menu=$menu}
 
 	{* кнопка сброса кеша списка плагинов (нужна только если включен кеш) *}
 	{if Config::Get('sys.cache.use')}

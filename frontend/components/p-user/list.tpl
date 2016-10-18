@@ -145,7 +145,7 @@
                     </div>
                 </td>
 
-                {* Рейтинг и сила *}
+                {* Actions *}
                 <td class="ls-table-cell-actions">
                     {component 'admin:p-user.actions' user=$user}
                 </td>

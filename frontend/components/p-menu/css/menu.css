@@ -130,7 +130,7 @@
 .p-menu-section--fold span.p-menu-section-text {
     font-size: 11px;
 }
-.p-menu.folded .p-menu-section-icon--fold {
+.p-menu.folded .p-menu-section-icon-custom--fold {
     -webkit-transform: rotate(180deg);
     transform: rotate(180deg);
 }

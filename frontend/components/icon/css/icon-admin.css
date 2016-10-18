@@ -10,7 +10,7 @@
 .p-icon--user-admin {
     width: 15px;
     height: 15px;
-    background-image: url(../images/icons/user-admin.png);
+    background-image: url(../icons/user-admin.png);
 }
 
 .p-icon--contact:before                { content: "\f0ac"; }
