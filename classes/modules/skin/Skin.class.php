@@ -325,7 +325,7 @@ class PluginAdmin_ModuleSkin extends Module
         $aData = array(
             'view' => array(
                 'skin'  => $sSkinName,
-                'theme' => null
+                'theme' => ''
             )
         );
         $this->PluginAdmin_Settings_SaveConfigByKey(ModuleStorage::DEFAULT_KEY_NAME, $aData);

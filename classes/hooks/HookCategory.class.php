@@ -41,7 +41,7 @@ class PluginAdmin_HookCategory extends Hook
             return false;
         }
 
-        $oSection = Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Категории')->SetName('categories')->SetUrl('categories');
+        $oSection = Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Категории')->SetName('categories')->SetUrl('categories')->setIcon('map-signs');
         foreach ($aTypes as $oType) {
             $oSection->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption(htmlspecialchars($oType->getTitle()))->SetUrl($oType->getTargetType()));
         }
