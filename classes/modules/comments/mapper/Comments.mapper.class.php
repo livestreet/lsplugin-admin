@@ -67,15 +67,15 @@ class PluginAdmin_ModuleComments_MapperComments extends Mapper
      *
      * @return int
      */
-    public function GetCountCommentsTotal()
+    public function GetCountCommentsTotal($sType = null)
     {
         $sql = 'SELECT COUNT(*) as count
 			FROM
 				`' . Config::Get('db.table.comment') . '`
 			WHERE
-				`comment_publish` = 1
+				`comment_publish` = 1 { and target_type = ? }
 		';
-        return (int)$this->oDb->selectCell($sql);
+        return (int)$this->oDb->selectCell($sql, $sType ? $sType : DBSIMPLE_SKIP);
     }
 
 }

@@ -49,9 +49,9 @@ class PluginAdmin_ModuleComments extends Module
      *
      * @return int
      */
-    public function GetCountCommentsTotal()
+    public function GetCountCommentsTotal($sType = null)
     {
-        return $this->oMapper->GetCountCommentsTotal();
+        return $this->oMapper->GetCountCommentsTotal($sType);
     }
 
 

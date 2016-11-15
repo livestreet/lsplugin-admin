@@ -97,7 +97,7 @@ class PluginAdmin_ActionAdmin_EventDashboard extends Event
         /*
          * количество комментариев всего
          */
-        $this->Viewer_Assign('iTotalCommentsCount', $this->PluginAdmin_Comments_GetCountCommentsTotal());
+        $this->Viewer_Assign('iTotalCommentsCount', $this->PluginAdmin_Comments_GetCountCommentsTotal('topic'));
         /*
          * получить информацию по обновлениям плагинов
          */

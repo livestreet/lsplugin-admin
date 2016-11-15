@@ -25,7 +25,7 @@
     ],
     [
         text => {lang 'plugin.admin.actionbar.comments' count=$iTotalCommentsCount plural=true},
-        count => $iTotalBlogsCount
+        count => $iTotalCommentsCount
     ]
 ]}
 

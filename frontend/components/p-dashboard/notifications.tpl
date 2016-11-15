@@ -4,9 +4,10 @@
 
 {$component = 'p-notifications'}
 
-{$notifications = [
+{$items = [
     [
         name => 'plugins',
+        icon => 'plug',
         url => {router page='admin/plugins/list'},
         title => {lang 'plugin.admin.index.updates.plugins.title'},
         text => {lang 'plugin.admin.index.updates.plugins.there_are_n_updates' count=$iPluginUpdates plural=true},
@@ -15,26 +16,22 @@
     ],
     [
         name => 'reports',
+        icon => 'fire',
         url => {router page='admin/users/complaints'},
         title => {lang 'plugin.admin.index.updates.complaints.title'},
         text => {lang 'plugin.admin.index.updates.complaints.there_are_n_complaints' count=$iUsersComplaintsCountNew plural=true},
         text_no => {lang 'plugin.admin.index.updates.complaints.no_complaints'},
         count => $iUsersComplaintsCountNew
-    ],
-    [
-        name => 'support',
-        url => '/',
-        title => 'Обратная связь',
-        text => 'Есть 2 новых обращения',
-        text_no => 'Нет новых обращений',
-        count => 2
     ]
 ]}
 
+{hook run="dashboard_notifications_items" assign='hookItems' items=$items array=true}
+{$items = ( $hookItems ) ? $hookItems : $items}
+
 <div class="{$component}">
-    {foreach $notifications as $item}
+    {foreach $items as $item}
         <div class="{$component}-item {if $item.count}active{/if}">
-            <a href="{$item.url}" class="{$component}-item-image icon-notifications-{$item.name}">
+            <a href="{$item.url}" class="{$component}-item-image fa fa-{$item.icon}">
                 {if $item.count}
                     <div class="{$component}-item-count">
                         {($item.count < 1000) ? $item.count : '999+'}
