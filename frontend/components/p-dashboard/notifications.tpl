@@ -16,7 +16,7 @@
     ],
     [
         name => 'reports',
-        icon => 'fire',
+        icon => 'flag',
         url => {router page='admin/users/complaints'},
         title => {lang 'plugin.admin.index.updates.complaints.title'},
         text => {lang 'plugin.admin.index.updates.complaints.there_are_n_complaints' count=$iUsersComplaintsCountNew plural=true},
@@ -31,13 +31,16 @@
 <div class="{$component}">
     {foreach $items as $item}
         <div class="{$component}-item {if $item.count}active{/if}">
-            <a href="{$item.url}" class="{$component}-item-image fa fa-{$item.icon}">
+            <div class="{$component}-item-image">
+                <a href="{$item.url}" class="{$component}-item-image-icon fa fa-{$item.icon}"></a>
+
                 {if $item.count}
                     <div class="{$component}-item-count">
                         {($item.count < 1000) ? $item.count : '999+'}
                     </div>
                 {/if}
-            </a>
+            </div>
+
             <div class="{$component}-item-body">
                 <h2 class="{$component}-item-title">
                     <a href="{$item.url}">{$item.title}</a>
