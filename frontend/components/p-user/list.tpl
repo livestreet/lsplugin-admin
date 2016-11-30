@@ -8,10 +8,6 @@
 <table class="ls-table ls-table--condensed ls-table--striped ls-table--hover p-user-list">
     <thead>
         <tr>
-            <th class="cell-check">
-                <input type="checkbox" class="js-check-all" data-checkboxes-class="js-user-list-item" />
-            </th>
-
             {component 'admin:table.sorting-cell'
                 sCellClassName='user'
                 mSortingOrder=array('u.user_id', 'u.user_login', 'u.user_profile_name', 'u.user_mail')
@@ -60,10 +56,6 @@
             {$session = $user->getSession()}
 
             <tr>
-                <td class="cell-check">
-                    <input type="checkbox" name="checked[]" class="js-user-list-item" value="1" />
-                </td>
-
                 {* Пользователь *}
                 <td class="cell-user">
                     <div class="p-user-list-card">
