@@ -1,7 +1,7 @@
 {component_define_params params=[ 'user', 'text', 'classes' ]}
 
 {$items=[
-    [ 'text' => $aLang.plugin.admin.users.profile.top_bar.msg, 'url' => "{router page='talk/add'}?talk_users={$user->getLogin()}" ]
+    [ 'text' => $aLang.plugin.admin.users.profile.top_bar.msg, 'url' => "{router page='talk/add'}?talk_recepient_id={$user->getId()}" ]
 ]}
 
 {* Разрешить операции с правами админа для всех пользователей, кроме спец. списка из конфига *}
