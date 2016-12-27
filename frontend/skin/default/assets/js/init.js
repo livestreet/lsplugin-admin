@@ -168,12 +168,6 @@ jQuery(document).ready(function ($) {
 
 
     /**
-     * Scroll
-     */
-    $(window)._scrollable();
-
-
-    /**
      * Code highlight
      */
     $('pre code').lsHighlighter();
