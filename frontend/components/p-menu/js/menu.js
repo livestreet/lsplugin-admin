@@ -178,7 +178,7 @@
             this._removeClass('folded');
             this._removeClass($('body'), 'bodyFolded');
             this._dropdownDestroy();
-            $.cookie(this.options.cookie.folded, null, { path: '/', expires: '' });
+            $.cookie(this.options.cookie.folded, null, { path: '/', expires: -1 });
         },
 
         /**
