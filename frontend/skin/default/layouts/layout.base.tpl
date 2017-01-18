@@ -77,7 +77,7 @@
     {$aHtmlHeadFiles.js}
 
     <script>
-        ls.lang.load({json var = $aLangJs});
+        ls.lang.load({json var = $LS->Lang_GetLangJs()});
         ls.lang.load({lang_load name="blog"});
     </script>
 
