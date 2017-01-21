@@ -43,6 +43,33 @@
 
     {hook run='admin_utils_optimization_datareset_item'}
 
+    {**
+	 * Восстановление данных
+	 *}
+    {component 'admin:p-optimization' template='section'
+        title=$aLang.plugin.admin.utils.optimization.restore.title
+        desc=$aLang.plugin.admin.utils.optimization.restore.info
+        actions=[
+            [
+                url => "{router page='admin/utils/optimization/restore-comments'}?security_ls_key={$LIVESTREET_SECURITY_KEY}",
+                text => $aLang.plugin.admin.utils.optimization.restore.comments
+            ],
+            [
+                url => "{router page='admin/utils/optimization/restore-counter-favourite'}?security_ls_key={$LIVESTREET_SECURITY_KEY}",
+                text => $aLang.plugin.admin.utils.optimization.restore.counter_favourite
+            ],
+            [
+                url => "{router page='admin/utils/optimization/restore-counter-vote'}?security_ls_key={$LIVESTREET_SECURITY_KEY}",
+                text => $aLang.plugin.admin.utils.optimization.restore.counter_vote
+            ],
+            [
+                url => "{router page='admin/utils/optimization/restore-counter-topic'}?security_ls_key={$LIVESTREET_SECURITY_KEY}",
+                text => $aLang.plugin.admin.utils.optimization.restore.counter_topic
+            ]
+        ]}
+
+    {hook run='admin_utils_optimization_restore'}
+
 	{**
 	 * Проверка таблиц БД
 	 *}

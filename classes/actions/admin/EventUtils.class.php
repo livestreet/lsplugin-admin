@@ -133,6 +133,27 @@ class PluginAdmin_ActionAdmin_EventUtils extends Event
                 $this->Message_AddNotice($this->Lang('notices.utils.optimization.datareset.reset_config_sheme_done'),
                     '', true);
                 break;
+            case 'restore-comments':
+                $this->Comment_RestoreTree();
+                $this->Cache_Clean();
+                $this->Message_AddNotice($this->Lang('notices.utils.optimization.restore.comments'), '', true);
+                break;
+            case 'restore-counter-favourite':
+                $this->Comment_RecalculateFavourite();
+                $this->Topic_RecalculateFavourite();
+                $this->Cache_Clean();
+                $this->Message_AddNotice($this->Lang('notices.utils.optimization.restore.counter_favourite'), '', true);
+                break;
+            case 'restore-counter-vote':
+                $this->Topic_RecalculateVote();
+                $this->Cache_Clean();
+                $this->Message_AddNotice($this->Lang('notices.utils.optimization.restore.counter_vote'), '', true);
+                break;
+            case 'restore-counter-topic':
+                $this->Blog_RecalculateCountTopic();
+                $this->Cache_Clean();
+                $this->Message_AddNotice($this->Lang('notices.utils.optimization.restore.counter_topic'), '', true);
+                break;
             default:
                 $this->Message_AddError($this->Lang('errors.utils.unknown_optimization_action'),
                     $this->Lang_Get('common.error.error'), true);
