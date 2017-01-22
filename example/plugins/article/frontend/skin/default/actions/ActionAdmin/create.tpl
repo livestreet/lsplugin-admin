@@ -33,5 +33,7 @@
 			value       = $oArticle->getId() }
 	{/if}
 
+	<br/>
+
 	{component 'button' type='submit' form='form-article-create' text=( $oArticle ) ? 'Сохранить' : 'Добавить'}
 </form>

@@ -69,6 +69,9 @@ jQuery(document).ready(function ($) {
             language: LANGUAGE
         });
     });
+    $('.js-field-time-default').livequery(function () {
+        $(this).lsTime();
+    });
 
 
     /**
@@ -165,6 +168,35 @@ jQuery(document).ready(function ($) {
             load: aRouter.ajax + 'autocompleter/user/'
         }
     });
+
+    $('.autocomplete-property-tags').each(function(k,v){
+        $(v).lsAutocomplete({
+            multiple: false,
+            urls: {
+                load: aRouter.ajax + 'property/tags/autocompleter/'
+            },
+            params: {
+                property_id: $(v).data('propertyId')
+            }
+        });
+    });
+
+    $('.autocomplete-property-tags-sep').each(function(k,v){
+        $(v).lsAutocomplete({
+            multiple: true,
+            urls: {
+                load: aRouter.ajax + 'property/tags/autocompleter/'
+            },
+            params: {
+                property_id: $(v).data('propertyId')
+            }
+        });
+    });
+
+    /**
+     * Editor
+     */
+    $( '.js-editor-default' ).lsEditor();
 
 
     /**
