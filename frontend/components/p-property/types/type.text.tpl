@@ -2,7 +2,7 @@
 
 <h3 class="page-sub-header mt-30">Дополнительные параметры</h3>
 
-{component 'admin:field.text' name='param[use_html]' value=$propertyParams.use_html label='Разрешить HTML теги'}
+{component 'admin:field.checkbox' name='param[use_html]' checked=$propertyParams.use_html label='Разрешить HTML теги'}
 
 <h3 class="page-sub-header mt-30">Правила валидации</h3>
 

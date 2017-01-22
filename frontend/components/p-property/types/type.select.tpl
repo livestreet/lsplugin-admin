@@ -11,16 +11,16 @@
 
 {$items = $property->getSelects()}
 
-<button onclick="return ls.admin_property.clickSelectItemNew();" class="button">Добавить элемент</button>
+<button onclick="return ls.admin_property.clickSelectItemNew();" class="ls-button">Добавить элемент</button>
 
-<div id="property-select-items" class="mt-15 mb-30 js-property-select-area">
+<div id="property-select-items" class="ls-mt-15 ls-mb-30 js-property-select-area">
     {if $items}
         {foreach $items as $item}
             <div class="mb-10 js-property-select-item">
                 <input type="text" value="{$item->getValue()}" name="items[value][]" placeholder="Значение" class="js-property-select-item-value">
                 <input type="text" value="{$item->getSort()}" name="items[sort][]" placeholder="Сортировка" class="js-property-select-item-sort">
                 <input type="hidden" value="{$item->getId()}" name="items[id][]" class="js-property-select-item-id">
-                <button onclick="return ls.admin_property.clickSelectItemRemove(this);" class="button">{$aLang.plugin.admin.delete}</button>
+                <button onclick="return ls.admin_property.clickSelectItemRemove(this);" class="ls-button">{$aLang.plugin.admin.delete}</button>
             </div>
         {/foreach}
     {else}
@@ -28,7 +28,7 @@
             <input type="text" value="" name="items[value][]" placeholder="Значение" class="js-property-select-item-value">
             <input type="text" value="" name="items[sort][]" placeholder="Сортировка" class="js-property-select-item-sort">
             <input type="hidden" value="" name="items[id][]" class="js-property-select-item-id">
-            <button onclick="return ls.admin_property.clickSelectItemRemove(this);" class="button">{$aLang.plugin.admin.delete}</button>
+            <button onclick="return ls.admin_property.clickSelectItemRemove(this);" class="ls-button">{$aLang.plugin.admin.delete}</button>
         </div>
     {/if}
 </div>
