@@ -329,6 +329,12 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event
         if (in_array(getRequestStr('profile_sex'), array('man', 'woman', 'other'))) {
             $aDataToChange['user_profile_sex'] = getRequestStr('profile_sex');
         }
+        /**
+         * проверить рейтинг
+         */
+        if (preg_match('#^(\d{1,9})\.(\d{1,3})?$#', getRequestStr('profile_rating'), $aMatch)) {
+            $aDataToChange['user_rating'] = getRequestStr('profile_rating');
+        }
         /*
          * проверить др
          */

@@ -29,7 +29,6 @@
             [ 'value' => 'other', 'text' => $aLang.plugin.admin.users.sex.other ]
         ]}
 
-    {* TODO: Backend *}
     {component 'admin:field.text'
         name  = 'profile_rating'
         value = $user->getRating()
