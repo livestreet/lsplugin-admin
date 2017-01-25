@@ -332,19 +332,8 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event
         /*
          * проверить др
          */
-        if (
-            $this->Validate_Validate('number', getRequestStr('profile_birthday_day'),
-                array('allowEmpty' => false, 'integerOnly' => true, 'min' => 1, 'max' => 31)) and
-            $this->Validate_Validate('number', getRequestStr('profile_birthday_month'),
-                array('allowEmpty' => false, 'integerOnly' => true, 'min' => 1, 'max' => 12)) and
-            $this->Validate_Validate('number', getRequestStr('profile_birthday_year'),
-                array('allowEmpty' => false, 'integerOnly' => true, 'min' => date("Y") - 100, 'max' => date("Y")))
-        ) {
-            $aDataToChange['user_profile_birthday'] = date(
-                "Y-m-d H:i:s",
-                mktime(0, 0, 0, getRequestStr('profile_birthday_month'), getRequestStr('profile_birthday_day'),
-                    getRequestStr('profile_birthday_year'))
-            );
+        if (preg_match('#^(\d{1,2})\.(\d{1,2})\.(\d{4})$#', getRequestStr('profile_birthday'), $aMatch)) {
+            $aDataToChange['user_profile_birthday'] = date("Y-m-d H:i:s", mktime(0, 0, 0, $aMatch[2], $aMatch[1], $aMatch[3]));
         }
         /*
          * получить гео-данные

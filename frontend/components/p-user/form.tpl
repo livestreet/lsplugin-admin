@@ -35,11 +35,11 @@
         value = $user->getRating()
         label = 'Рейтинг'}
 
-    {* TODO: Backend *}
     {component 'admin:field.date'
         name  = 'profile_birthday'
+        inputAttributes = [ 'data-lsdate-format' => 'DD.MM.YYYY' ]
         inputClasses = 'js-field-date-default'
-        value = $user->getProfileBirthday()
+        value = {date_format date=$user->getProfileBirthday() format="d.m.Y"}
         label = $aLang.plugin.admin.users.profile.info.birthday}
 
     {* Местоположение *}
