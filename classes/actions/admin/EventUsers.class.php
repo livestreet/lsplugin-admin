@@ -338,8 +338,13 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event
         /*
          * проверить др
          */
-        if (preg_match('#^(\d{1,2})\.(\d{1,2})\.(\d{4})$#', getRequestStr('profile_birthday'), $aMatch)) {
-            $aDataToChange['user_profile_birthday'] = date("Y-m-d H:i:s", mktime(0, 0, 0, $aMatch[2], $aMatch[1], $aMatch[3]));
+        if ($this->Validate_Validate('date', getRequestStr('profile_birthday'),
+            array('format' => 'dd.MM.yyyy', 'allowEmpty' => false))
+        ) {
+            $iBirthdayTime = strtotime(getRequestStr('profile_birthday'));
+            if ($iBirthdayTime < time() and $iBirthdayTime > strtotime('-100 year')) {
+                $aDataToChange['user_profile_birthday'] = date("Y-m-d H:i:s", $iBirthdayTime);
+            }
         }
         /*
          * получить гео-данные
@@ -1555,7 +1560,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event
         /*
          * статус
          */
-        /*		$sStateCurrent = $this->GetDataFromFilter('state');
+        /*      $sStateCurrent = $this->GetDataFromFilter('state');
                 if (in_array($sStateCurrent, array(ModuleUser::COMPLAINT_STATE_NEW, ModuleUser::COMPLAINT_STATE_READ))) {
                     $aFilter['state'] = $sStateCurrent;
                 }*/
