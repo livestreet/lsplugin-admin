@@ -107,7 +107,7 @@
         </tbody>
     </table>
 
-    {component 'admin:pagination.on-page' url={router page='admin/complaints/ajax-on-page'} value=Config::Get('plugin.admin.complaints.per_page')}
+    {component 'admin:pagination.on-page' url={router page='admin/users/complaints/ajax-on-page'} value=Config::Get('plugin.admin.users.complaints.per_page')}
     {component 'admin:pagination' total=+$pagination.iCountPage current=+$pagination.iCurrentPage url="{$pagination.sBaseUrl}/page__page__/{$pagination.sGetParams}"}
 {else}
     {component 'admin:blankslate' text=$aLang.plugin.admin.users.complaints.list.empty}

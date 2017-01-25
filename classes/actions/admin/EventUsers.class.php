@@ -423,7 +423,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event
         if (!$this->iPage = intval(preg_replace('#^page(\d+)$#iu', '$1', $this->GetParam($iParamNum)))) {
             $this->iPage = 1;
         }
-        $this->iPerPage = Config::Get('plugin.admin.' . $sConfigKeyPerPage);
+        $this->iPerPage = Config::Get('plugin.admin.' . $sConfigKeyPerPage) ?: 10;
     }
 
 

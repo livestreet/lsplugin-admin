@@ -2,7 +2,7 @@ jQuery(function($) {
     var selectors = {
         on_page_form_id: '#admin_onpage',
         on_page_count: '#admin_onpage select'
-    }
+    };
 
     /*
         изменение количества элементов на страницу

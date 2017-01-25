@@ -53,6 +53,20 @@ $config['$config_scheme$'] = array(
             'params' => array(),
         ),
     ),
+    'bans.per_page' => array(
+        'type'        => 'integer',
+        'name'        => 'config_parameters.bans.per_page.name',
+        'description' => '',
+        'validator'   => array(
+            'type'   => 'Number',
+            'params' => array(
+                'min'         => 1,
+                'max'         => 500,
+                'integerOnly' => true,
+                'allowEmpty'  => true,
+            ),
+        ),
+    ),
     /*
      * Каталог
      */
@@ -145,7 +159,49 @@ $config['$config_scheme$'] = array(
             ),
         ),
     ),
+    'users.per_page' => array(
+        'type'        => 'integer',
+        'name'        => 'config_parameters.users.per_page.name',
+        'description' => '',
+        'validator'   => array(
+            'type'   => 'Number',
+            'params' => array(
+                'min'         => 1,
+                'max'         => 500,
+                'integerOnly' => true,
+                'allowEmpty'  => true,
+            ),
+        ),
+    ),
+    'users.complaints.per_page' => array(
+        'type'        => 'integer',
+        'name'        => 'config_parameters.users.complaints.per_page.name',
+        'description' => '',
+        'validator'   => array(
+            'type'   => 'Number',
+            'params' => array(
+                'min'         => 1,
+                'max'         => 500,
+                'integerOnly' => true,
+                'allowEmpty'  => true,
+            ),
+        ),
+    ),
 
+    'votes.per_page' => array(
+        'type'        => 'integer',
+        'name'        => 'config_parameters.votes.per_page.name',
+        'description' => '',
+        'validator'   => array(
+            'type'   => 'Number',
+            'params' => array(
+                'min'         => 1,
+                'max'         => 500,
+                'integerOnly' => true,
+                'allowEmpty'  => true,
+            ),
+        ),
+    ),
 );
 
 /*
@@ -190,6 +246,7 @@ $config['$config_sections$'] = array(
         'name'         => 'config_sections.users.title',
         'allowed_keys' => array(
             'users*',
+            'votes*',
         ),
     ),
 );
