@@ -2,7 +2,7 @@
     "name": "p-skin",
     "version": "1.0.0",
     "dependencies": {
-        "admin:plugin": "*"
+        "p-plugin": "*"
     },
     "templates": {
         "p-skin": "skin.tpl",
