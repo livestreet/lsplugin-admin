@@ -329,32 +329,34 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event
         if (in_array(getRequestStr('profile_sex'), array('man', 'woman', 'other'))) {
             $aDataToChange['user_profile_sex'] = getRequestStr('profile_sex');
         }
+        /**
+         * проверить рейтинг
+         */
+        if (preg_match('#^(\d{1,9})\.(\d{1,3})?$#', getRequestStr('profile_rating'), $aMatch)) {
+            $aDataToChange['user_rating'] = getRequestStr('profile_rating');
+        }
         /*
          * проверить др
          */
-        if (
-            $this->Validate_Validate('number', getRequestStr('profile_birthday_day'),
-                array('allowEmpty' => false, 'integerOnly' => true, 'min' => 1, 'max' => 31)) and
-            $this->Validate_Validate('number', getRequestStr('profile_birthday_month'),
-                array('allowEmpty' => false, 'integerOnly' => true, 'min' => 1, 'max' => 12)) and
-            $this->Validate_Validate('number', getRequestStr('profile_birthday_year'),
-                array('allowEmpty' => false, 'integerOnly' => true, 'min' => date("Y") - 100, 'max' => date("Y")))
+        if ($this->Validate_Validate('date', getRequestStr('profile_birthday'),
+            array('format' => 'dd.MM.yyyy', 'allowEmpty' => false))
         ) {
-            $aDataToChange['user_profile_birthday'] = date(
-                "Y-m-d H:i:s",
-                mktime(0, 0, 0, getRequestStr('profile_birthday_month'), getRequestStr('profile_birthday_day'),
-                    getRequestStr('profile_birthday_year'))
-            );
+            $iBirthdayTime = strtotime(getRequestStr('profile_birthday'));
+            if ($iBirthdayTime < time() and $iBirthdayTime > strtotime('-100 year')) {
+                $aDataToChange['user_profile_birthday'] = date("Y-m-d H:i:s", $iBirthdayTime);
+            }
         }
         /*
          * получить гео-данные
          */
-        if (getRequest('geo_city')) {
-            $oGeoObject = $this->Geo_GetGeoObject('city', getRequestStr('geo_city'));
-        } elseif (getRequest('geo_region')) {
-            $oGeoObject = $this->Geo_GetGeoObject('region', getRequestStr('geo_region'));
-        } elseif (getRequest('geo_country')) {
-            $oGeoObject = $this->Geo_GetGeoObject('country', getRequestStr('geo_country'));
+        $aGeo = getRequest('geo');
+
+        if (isset($aGeo['city']) && $aGeo['city']) {
+            $oGeoObject = $this->Geo_GetGeoObject('city', (int) $aGeo['city']);
+        } elseif (isset($aGeo['region']) && $aGeo['region']) {
+            $oGeoObject = $this->Geo_GetGeoObject('region', (int) $aGeo['region']);
+        } elseif (isset($aGeo['country']) && $aGeo['country']) {
+            $oGeoObject = $this->Geo_GetGeoObject('country', (int) $aGeo['country']);
         } else {
             $oGeoObject = null;
         }
@@ -1560,7 +1562,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event
         /*
          * статус
          */
-        /*		$sStateCurrent = $this->GetDataFromFilter('state');
+        /*      $sStateCurrent = $this->GetDataFromFilter('state');
                 if (in_array($sStateCurrent, array(ModuleUser::COMPLAINT_STATE_NEW, ModuleUser::COMPLAINT_STATE_READ))) {
                     $aFilter['state'] = $sStateCurrent;
                 }*/
