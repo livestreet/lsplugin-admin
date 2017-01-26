@@ -212,15 +212,6 @@ return array(
                 ),
             ),
             array(
-                'name'         => 'Кеширование',
-                'allowed_keys' => array(
-                    'sys.cache.use',
-                    'sys.cache.type',
-                    'sys.cache.prefix',
-                    'sys.cache.directory_level',
-                ),
-            ),
-            array(
                 'name'         => 'Сжатие CSS, JS',
                 'allowed_keys' => array(
                     'module.asset.css.merge',
