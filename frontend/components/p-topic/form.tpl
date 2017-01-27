@@ -34,6 +34,9 @@
     {* Возможность подключать выбор превью *}
     {component 'admin:field' template='checkbox' name='params[allow_preview]' label='Разрешить добавлять превью изображение'}
 
+    {* CSS класс иконки *}
+    {component 'admin:field' template='text' name='params[css_icon]' label='CSS класс иконки' placeholder='fa fa-file-text-o'}
+
     {* Кнопки *}
     {component 'admin:button' name='type_submit' text="{($type) ? $aLang.plugin.admin.save : $aLang.plugin.admin.add }" value=1 mods='primary'}
 </form>
