@@ -38,7 +38,7 @@
         name  = 'profile_birthday'
         inputAttributes = [ 'data-lsdate-format' => 'DD.MM.YYYY' ]
         inputClasses = 'js-field-date-default'
-        value = {date_format date=$user->getProfileBirthday() format="d.m.Y"}
+        value = ($user->getProfileBirthday()) ? {date_format date=$user->getProfileBirthday() format='d.m.Y'} : ''
         label = $aLang.plugin.admin.users.profile.info.birthday}
 
     {* Местоположение *}

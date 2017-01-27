@@ -338,6 +338,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event
         /*
          * проверить др
          */
+        $aDataToChange['user_profile_birthday'] = null;
         if ($this->Validate_Validate('date', getRequestStr('profile_birthday'),
             array('format' => 'dd.MM.yyyy', 'allowEmpty' => false))
         ) {
