@@ -69,7 +69,7 @@ class PluginAdmin_ModuleRemoteserver extends Module
     /*
      * подпись
      */
-    const USER_AGENT = 'LiveStreet CMS New Admin Panel';
+    const USER_AGENT = 'LiveStreet CMS Admin Panel';
 
 
     /*
@@ -195,11 +195,11 @@ class PluginAdmin_ModuleRemoteserver extends Module
             /*
              * не проверять сертификат безопасности (если имеются проблемы с проверкой сертификата)
              */
-            //CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_SSL_VERIFYPEER => false,
             /*
              * проверять сертифкат
              */
-            CURLOPT_SSL_VERIFYPEER  => true,
+            //CURLOPT_SSL_VERIFYPEER  => true,
             /*
              * путь к файлу с рутовыми CA сертификатами
              */

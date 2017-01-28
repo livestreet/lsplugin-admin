@@ -11,6 +11,8 @@
     {$mods = "$mods installed"}
 {/if}
 
+{$compatibleWithCurrentSitesLSVersion = $plugin->getCompatibleWithCurrentSitesLSVersion()}
+
 <div class="{$component} {cmods name=$component mods=$mods} {$classes}" {cattr list=$attributes}>
     {* Изображение *}
     <img class="{$component}-image" src="{$plugin->getAvatar()}">
@@ -37,7 +39,7 @@
         {component 'admin:p-plugin' template='star-rating' classes="{$component}-rating" rating=$plugin->getMarkPercent() count=$plugin->getCountMark()}
 
         {* Оповещение о совместимости *}
-        {if !$plugin->getCompatibleWithCurrentSitesLSVersion()}
+        {if !$compatibleWithCurrentSitesLSVersion}
             {component 'admin:alert' mods='error' text='Не совместим с установленной версией движка'}
         {/if}
 
@@ -74,7 +76,7 @@
 
     {* Управление *}
     <div class="{$component}-actions">
-        {if ! $plugin->getAlreadyInstalled()}
+        {if ! $plugin->getAlreadyInstalled() && $compatibleWithCurrentSitesLSVersion}
             {if $plugin->getCost()}
                 {component 'admin:button' url=$plugin->getUrlUse() mods='primary' classes='addon-price' text="Купить за {$plugin->getCost()|round} {$aLang.plugin.admin.plugins.install.rubles}"}
             {else}
