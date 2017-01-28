@@ -151,7 +151,6 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event
     public function EventPluginsInstall()
     {
         $this->SetTemplateAction('plugins/install');
-        $aFilter = (array)$this->GetDataFromFilter();
         /*
          * тип аддонов (все, платные, бесплатные)
          */
@@ -163,6 +162,9 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event
         /*
          * версия дополнений
          */
+        if (!isset($_REQUEST['filter']['version'])) {
+            $_REQUEST['filter']['version'] = 4; // 2.0.0
+        }
         $sVersion = $this->GetDataFromFilter('version');
         /*
          * секция
@@ -170,6 +172,8 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event
         $sSection = $this->GetDataFromFilter('section');
 
         $this->SetPagingForApi();
+
+        $aFilter = (array)$this->GetDataFromFilter();
         /*
          * передать весь фильтр в запрос серверу (считаем что он сам корректно распознает все свои get параметры)
          */

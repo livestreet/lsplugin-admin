@@ -20,7 +20,7 @@
     <div class="{$component}-body">
         {* Заголовок *}
         <h2 class="{$component}-title">
-            <a href="{$plugin->getUrl()}">{$plugin->getTitle()}</a>
+            <a href="{$plugin->getUrl()}?utm_source=site&utm_medium=install&utm_campaign=catalog">{$plugin->getTitle()}</a>
         </h2>
 
         <div class="{$component}-info-main">
@@ -31,7 +31,7 @@
             {$user = $plugin->getUser()}
 
             <span class="{$component}-author">
-                от <a href="{$user.profile}" target="_blank" class="{$component}-author-name">{$user.login}</a>
+                от <a href="{$user.profile}?utm_source=site&utm_medium=install&utm_campaign=catalog" target="_blank" class="{$component}-author-name">{$user.login}</a>
             </span>
         </div>
 
