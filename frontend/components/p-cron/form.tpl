@@ -23,6 +23,20 @@
         note  = 'С какой периодичностью запускать задачу, в минутах. Минимальное значение - 5 минуты.'
         label = 'Период'}
 
+    {* Время работы *}
+    {component 'admin:field' template='text'
+        mods  = 'inline'
+        name  = 'task[time_start]'
+        inputClasses = 'js-field-time-default'
+        note  = 'Начало'
+        label = 'Активное время работы'}
+
+    {component 'admin:field' template='text'
+        mods  = 'inline'
+        name  = 'task[time_end]'
+        inputClasses = 'js-field-time-default'
+        note  = 'Конец'}
+
     {* Активность *}
     {component 'admin:field' template='checkbox' name='task[state]' label='Активна'}
 

@@ -229,6 +229,8 @@ class PluginAdmin_ActionAdmin_EventUtils extends Event
                 'method'     => htmlspecialchars_decode($oTask->getMethod()),
                 'period_run' => $oTask->getPeriodRun(),
                 'state'      => $oTask->getState(),
+                'time_start' => $oTask->getTimeStart(),
+                'time_end'   => $oTask->getTimeEnd(),
             );
         }
     }
