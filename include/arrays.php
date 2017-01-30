@@ -28,6 +28,9 @@
  */
 function check_if_array_has_string_keys($aData)
 {
+    if (!$aData) {
+        return false;
+    }
     foreach ($aData as $mKey => $mVal) {
         if (!is_string($mKey)) {
             return false;

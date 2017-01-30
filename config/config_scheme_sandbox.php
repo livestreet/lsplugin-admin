@@ -424,7 +424,7 @@ $config['$config_scheme$'] = array(
                         'allowEmpty' => false,
                     ),
                 ),
-                'allowEmpty'     => false,
+                'allowEmpty'     => true,
             ),
         ),
     ),

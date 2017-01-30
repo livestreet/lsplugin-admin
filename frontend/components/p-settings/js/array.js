@@ -52,7 +52,7 @@ ls.admin_settings_array = (function($) {
 		/**
 		 * Добавить элемент в массив специального вида отображения
 		 */
-		this._element.on('click.admin', '.js-array-add-value', function() {
+		this._element.on('click.admin', '.js-array-add-value', function(event) {
 			this.AddArrayItem(event.target);
 		}.bind(this));
 	};
