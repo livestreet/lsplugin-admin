@@ -11,7 +11,15 @@
         {$item->getMethod()}
     </td>
     <td>{$item->getPlugin()}</td>
-    <td>{$item->getPeriodRun()}</td>
+    <td>
+        {$item->getPeriodRun()}
+        {if $item->getTimeStart()}
+            <br/>с {date_format date=$item->getTimeStart() format='H:i'}
+        {/if}
+        {if $item->getTimeEnd()}
+            <br/>до {date_format date=$item->getTimeEnd() format='H:i'}
+        {/if}
+    </td>
     <td>{$item->getCountRun()}</td>
     <td>{date_format date=$item->getDateRunLast() format='j F Y <\b\r/> H:i:s'}</td>
     <td>
