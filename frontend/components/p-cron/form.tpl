@@ -35,6 +35,7 @@
         mods  = 'inline'
         name  = 'task[time_end]'
         inputClasses = 'js-field-time-default'
+        label = ' '
         note  = 'Конец'}
 
     {* Активность *}
