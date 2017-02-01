@@ -366,7 +366,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event
          */
         if (getRequestStr('password')) {
             if (($sErrorMsg = $this->PluginAdmin_Users_ValidateUserPasswordChange(getRequestStr('password'))) === true) {
-                $aDataToChange['user_password'] = func_encrypt(getRequestStr('password'));
+                $aDataToChange['user_password'] = $this->User_MakeHashPassword(getRequestStr('password'));
             } else {
                 $this->Message_AddError($sErrorMsg, '', true);
                 $this->RedirectToReferer();
