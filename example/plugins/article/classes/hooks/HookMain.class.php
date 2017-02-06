@@ -33,6 +33,10 @@ class PluginArticle_HookMain extends Hook
          * Хук на отображение админки
          */
         $this->AddHook('init_action_admin', 'InitActionAdmin');
+        /**
+         * Начало обработки экшена, выполняется всегда только 1 раз
+         */
+        $this->AddHook('start_action', 'StartAction');
     }
 
     /**
@@ -53,5 +57,13 @@ class PluginArticle_HookMain extends Hook
                 ->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Создать')->SetUrl('create'))
                 ->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Настройки')->SetUrl('/admin/settings/plugin/article'))
         );
+    }
+
+    /**
+     * Добавляем к загрузке компоненты плагина
+     */
+    public function StartAction()
+    {
+        $this->Component_Add('article:p-test');
     }
 }
