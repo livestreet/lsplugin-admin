@@ -8,7 +8,7 @@
 	</author>
 	<homepage>http://livestreet.ru</homepage>
 	<settings>{admin}</settings>
-	<version>1.0</version>
+	<version>1.0.1</version>
 	<requires>
 		<livestreet>2.0.*</livestreet>
 		<plugins>

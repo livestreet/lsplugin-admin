@@ -60,8 +60,6 @@ class PluginAdmin_ActionAdmin extends ActionPlugin
          * по-умолчанию показывать главную страницу
          */
         $this->SetDefaultEvent('index');
-
-        $this->Viewer_AddHtmlTitle($this->Lang_Get('plugin.admin.title'));
         $this->InitMenu();
         /*
          * добавить нужные текстовки
@@ -69,7 +67,15 @@ class PluginAdmin_ActionAdmin extends ActionPlugin
         $this->Lang_AddLangJs(array(
             'plugin.admin.notices.items_per_page.value_changed'
         ));
-        $this->Hook_Run('init_action_admin');
+
+        /**
+         * Запускается только один раз при первой инициализации экшена (не учитывает внутренние редиректы)
+         */
+        if (!$this->Cache_GetLife('init_action_admin')) {
+            $this->Viewer_AddHtmlTitle($this->Lang_Get('plugin.admin.title'));
+            $this->Hook_Run('init_action_admin');
+            $this->Cache_SetLife(1, 'init_action_admin');
+        }
     }
 
 
@@ -553,6 +559,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin
                 ->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Оптимизация')->SetUrl('optimization'))
         )    // /AddSection
         ;
+        $this->Hook_Run('init_admin_menu');
     }
 
 

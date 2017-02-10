@@ -43,6 +43,7 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event
          * получить информацию по обновлениям плагинов
          */
         $aUpdatesInfo = $this->PluginAdmin_Catalog_GetUpdatesInfo();
+        $iCountUpdates = count($aUpdatesInfo);
         $sType = $this->GetParam(1);
         /*
          * проверить тип фильтра
@@ -54,6 +55,11 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event
              */
             case null:
                 $aPluginsInfo = $this->PluginAdmin_Plugins_GetPluginsList();
+                if ($iCountUpdates) {
+                    $sMsg = $this->Lang_Pluralize($iCountUpdates,
+                        $this->Lang_Get('plugin.admin.index.updates.plugins.there_are_n_updates', array('count' => $iCountUpdates)));
+                    $this->Message_AddNotice($sMsg);
+                }
                 break;
             /*
              * активные

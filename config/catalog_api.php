@@ -70,7 +70,7 @@ $config['catalog']['cache']['time'] = array(
     /*
      * получение обновлений (1 час)
      */
-    'plugin_updates_check' => 60 * 60 * 1,
+    'plugin_updates_check' => 60 * 30,
     /*
      * получение дополнений из каталога (1 час)
      */

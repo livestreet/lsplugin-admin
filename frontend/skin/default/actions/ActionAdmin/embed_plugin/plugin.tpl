@@ -12,7 +12,7 @@
 
 
 {block 'layout_page_title'}
-	Управление плагином "<span title="{$oAdminUrl->getPluginCode()}">{$oAdminUrl->getPluginName()}</span>"
+	Плагин &laquo;<span title="{$oAdminUrl->getPluginCode()}">{$oAdminUrl->getPluginName()}</span>&raquo;
 {/block}
 
 
