@@ -36,6 +36,7 @@ jQuery(document).ready(function ($) {
         classes: 'tooltip-light'
     });
 
+    $('[data-type=tabs]').lsTabs();
     $('[data-type=tab]').lsTab();
 
     $('.js-alert').lsAlert();
