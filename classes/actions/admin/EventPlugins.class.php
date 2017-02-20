@@ -43,7 +43,7 @@ class PluginAdmin_ActionAdmin_EventPlugins extends Event
          * получить информацию по обновлениям плагинов
          */
         $aUpdatesInfo = $this->PluginAdmin_Catalog_GetUpdatesInfo();
-        $iCountUpdates = count($aUpdatesInfo);
+        $iCountUpdates = is_array($aUpdatesInfo) ? count($aUpdatesInfo) : 0;
         $sType = $this->GetParam(1);
         /*
          * проверить тип фильтра
