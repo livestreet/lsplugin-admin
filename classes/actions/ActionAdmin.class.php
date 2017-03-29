@@ -39,11 +39,10 @@ class PluginAdmin_ActionAdmin extends ActionPlugin
     public function Init()
     {
         /*
-         * проверка авторизации админа
+         * Если нет прав доступа - перекидываем на 404 страницу
          */
         if (!$this->oUserCurrent = $this->User_GetIsAdmin(true)) {
-            $this->Message_AddError($this->Lang('errors.you_are_not_admin'), $this->Lang_Get('common.error.error'));
-            return Router::Action('error');
+            return parent::EventNotFound();
         }
 
         /*
