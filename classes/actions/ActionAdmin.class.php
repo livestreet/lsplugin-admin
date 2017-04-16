@@ -464,7 +464,8 @@ class PluginAdmin_ActionAdmin extends ActionPlugin
         /*
          * Список шаблонов
          */
-        $this->AddEventPreg('#^skins$#iu', 'Skins::EventSkinsList');
+        $this->AddEventPreg('#^skins$#iu', '#^(?:list)?$#iu', 'Skins::EventSkinsList');
+        $this->AddEventPreg('#^skins$#iu', '#^install$#iu', 'Skins::EventSkinsInstall');
 
         /*
          *
@@ -541,11 +542,12 @@ class PluginAdmin_ActionAdmin extends ActionPlugin
         ->AddSection(
             Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Плагины')->SetName('plugins')->SetUrl('plugins')
                 ->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Список плагинов')->SetUrl('list'))
-                ->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Установить')->SetUrl('install'))
+                ->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Установить')->SetUrl('install')->SetColor('#f00'))
         )// /AddSection
         ->AddSection(
             Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Шаблоны')->SetName('skins')->SetUrl('skins')
                 ->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Список шаблонов')->SetUrl('list'))
+                ->AddItem(Engine::GetEntity('PluginAdmin_Ui_MenuItem')->SetCaption('Установить')->SetUrl('install')->SetColor('#f00'))
         )// /AddSection
         ->AddSection(
             Engine::GetEntity('PluginAdmin_Ui_MenuSection')->SetCaption('Настройки')->SetName('settings')->SetUrl('settings')->setIcon('wrench')

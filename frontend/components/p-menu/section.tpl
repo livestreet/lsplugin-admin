@@ -26,7 +26,7 @@
         <ul class="{$component}-submenu">
             {foreach $section->GetItems() as $item}
                 <li class="{$component}-submenu-item {if $item->GetActive()}active{/if}">
-                    <a href="{$item->GetUrlFull()}">{$item->GetCaption()|escape}</a>
+                    <a href="{$item->GetUrlFull()}" {if $item->GetColor()}style="color: {$item->GetColor()}"{/if}>{$item->GetCaption()|escape}</a>
                 </li>
             {/foreach}
         </ul>

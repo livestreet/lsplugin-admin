@@ -27,6 +27,7 @@
 class PluginAdmin_ActionAdmin_EventSkins extends Event
 {
 
+    protected $iPage = null;
 
     /**
      * Показать список шаблонов
@@ -147,6 +148,86 @@ class PluginAdmin_ActionAdmin_EventSkins extends Event
         $this->Message_AddNotice($this->Lang('notices.template_preview_turned_off'), '', true);
     }
 
-}
 
-?>
+    /**
+     * Установка плагинов (каталог)
+     *
+     * @return mixed
+     */
+    public function EventSkinsInstall()
+    {
+        $this->SetTemplateAction('skins/install');
+        /*
+         * если сортировка не указана - использовать сортировку каталога по-умолчанию
+         */
+        $sOrder = $this->GetDataFromFilter('order') ? $this->GetDataFromFilter('order') : Config::Get('plugin.admin.catalog.remote.addons.default_sorting');
+        /*
+         * версия дополнений
+         */
+        if (!isset($_REQUEST['filter']['version'])) {
+            $_REQUEST['filter']['version'] = 4; // 2.0.0
+        }
+        $sVersion = $this->GetDataFromFilter('version');
+
+        $this->SetPagingForApi();
+
+        $aFilter = (array)$this->GetDataFromFilter();
+        /*
+         * передать весь фильтр в запрос серверу (считаем что он сам корректно распознает все свои get параметры)
+         */
+        $mData = $this->PluginAdmin_Catalog_GetAddonsListFromCatalogByFilterCached(array_merge(
+            $aFilter,
+            array(
+                'page'     => $this->iPage,
+                /*
+                 * показывать только плагины
+                 */
+                'category' => 2
+            )
+        ));
+        /*
+         * есть ли корректный ответ
+         */
+        if (is_array($mData)) {
+            $aPaging = $mData['paging'];
+            $aAddons = $mData['addons'];
+        } else {
+            $aPaging = array();
+            $aAddons = array();
+            /*
+             * показать текст ошибки
+             */
+            $this->Message_AddError($mData, $this->Lang_Get('common.error.error'));
+        }
+
+        /*
+         * подставить путь в пагинации на админку
+         * tip: пагинация добавляет спереди слеш "/page1/, поэтому выходит "install//page1", пришлось вынести из метода
+         */
+        $aPaging['sBaseUrl'] = Router::GetPath('admin') . 'skins/install';
+        /*
+         * подставить сам фильтр в пагинацию, чтобы, например, корректно работала сортировка
+         * tip: каталог устанавливает свои параметры типа и сортировки, которые есть в фильтре,
+         * 		админке эти параметры не нужны т.к. она их получает из фильтра, поэтому параметры заменяются
+         */
+        $aPaging['sGetParams'] = $aFilter ? '?' . http_build_query(array('filter' => $aFilter)) : null;
+
+        $this->Viewer_Assign('sSortOrderCurrent', $sOrder);
+        $this->Viewer_Assign('sVersionCurrent', $sVersion);
+
+        $this->Viewer_Assign('aPaging', $aPaging);
+        $this->Viewer_Assign('aAddons', $aAddons);
+    }
+
+    /**
+     * Задать страницу в пагинации (к-во на страницу фиксировано каталогом)
+     *
+     * @param int $iParamNum номер параметра, в котором нужно искать номер страницы
+     */
+    protected function SetPagingForApi($iParamNum = 1)
+    {
+        if (!$this->iPage = intval(preg_replace('#^page(\d+)$#iu', '$1', $this->GetParam($iParamNum)))) {
+            $this->iPage = 1;
+        }
+    }
+}

@@ -1134,6 +1134,23 @@ return array(
 
     ),
     /*
+     * Шаблоны
+     */
+    'skins'           => array(
+        'plugin'                => array(
+            'installed_count'  => 'Установлен %%count%% раз;Установлен %%count%% раза;Установлен %%count%% раз',
+            'downloaded_count' => 'Скачан %%count%% раз;Скачан %%count%% раза;Скачан %%count%% раз',
+        ),
+
+        /*
+         * установка шаблонов (каталог)
+         */
+        'install'               => array(
+            'title'              => 'Установка шаблонов',
+        ),
+
+    ),
+    /*
      * Настройки
      */
     'settings'          => array(
