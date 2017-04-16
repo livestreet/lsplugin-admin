@@ -65,6 +65,10 @@
             [
                 url => "{router page='admin/utils/optimization/restore-counter-topic'}?security_ls_key={$LIVESTREET_SECURITY_KEY}",
                 text => $aLang.plugin.admin.utils.optimization.restore.counter_topic
+            ],
+            [
+                url => "{router page='admin/utils/optimization/recreate-previews'}?security_ls_key={$LIVESTREET_SECURITY_KEY}",
+                text => $aLang.plugin.admin.utils.optimization.recreate_previews
             ]
         ]}
 

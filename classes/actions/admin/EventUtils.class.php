@@ -154,6 +154,11 @@ class PluginAdmin_ActionAdmin_EventUtils extends Event
                 $this->Cache_Clean();
                 $this->Message_AddNotice($this->Lang('notices.utils.optimization.restore.counter_topic'), '', true);
                 break;
+            case 'recreate-previews':
+                $this->Media_ReCreateFilePreviewAll();
+                $this->Cache_Clean();
+                $this->Message_AddNotice($this->Lang('notices.utils.optimization.recreate_previews'), '', true);
+                break;
             default:
                 $this->Message_AddError($this->Lang('errors.utils.unknown_optimization_action'),
                     $this->Lang_Get('common.error.error'), true);
