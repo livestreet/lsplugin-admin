@@ -209,9 +209,18 @@ class PluginAdmin_ModuleSkin extends Module
          * tip: фильтр меняет формат возвращаемых данных
          */
         if (isset($aFilter['separate_current_skin'])) {
-            $aCurrentSkinData = $aSkins[$this->GetOriginalSkinName()];
-            if (isset($aFilter['delete_current_skin_from_list'])) {
-                unset($aSkins[$this->GetOriginalSkinName()]);
+            $aCurrentSkinData = null;
+            if (isset($aSkins[$this->GetOriginalSkinName()])) {
+                $aCurrentSkinData = $aSkins[$this->GetOriginalSkinName()];
+                if (isset($aFilter['delete_current_skin_from_list'])) {
+                    unset($aSkins[$this->GetOriginalSkinName()]);
+                }
+            } else {
+                $this->Message_AddError(
+                    $this->Lang_Get('plugin.admin.errors.skin.current_error',
+                        array('skin' => $this->GetOriginalSkinName())),
+                    $this->Lang_Get('common.error.error')
+                );
             }
             return array(
                 'skins'   => $aSkins,

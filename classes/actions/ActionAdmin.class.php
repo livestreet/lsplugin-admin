@@ -464,7 +464,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin
         /*
          * Список шаблонов
          */
-        $this->AddEventPreg('#^skins$#iu', '#^(?:list)?$#iu', 'Skins::EventSkinsList');
+        $this->AddEventPreg('#^skins$#iu', '#^(?:list|use|preview|turnoffpreview)?$#iu', 'Skins::EventSkinsList');
         $this->AddEventPreg('#^skins$#iu', '#^install$#iu', 'Skins::EventSkinsInstall');
 
         /*

@@ -96,6 +96,7 @@ return array(
         'skin'                                     => array(
             'activation_version_error'                 => 'Для работы шаблона необходимо ядро LiveStreet версии не ниже <b>%%version%%</b>',
             'activation_requires_error'                => 'Для работы шаблона необходим активированный плагин <b>%%plugin%%</b>',
+            'current_error'                            => 'Активный шаблон <b>%%skin%%</b> отсутствует в системе',
             'unknown_skin'                             => 'Неизвестный шаблон',
             'xml_dont_tells_anything_about_this_theme' => 'В xml-файле текущего шаблона нет никаких сведений об этой теме',
         ),
