@@ -85,12 +85,24 @@ class PluginAdmin_ModuleComments extends Module
          */
         $this->PluginAdmin_Deletecontent_EnableForeignKeysChecking();
         /*
-         * todo: найти родителя и если это "топик" - уменьшить к-во комментариев
-         */
-        /*
          * удалить весь кеш - слишком много зависимостей
          */
         $this->Cache_Clean();
+        /*
+         * Найти родителя и если это "топик" - уменьшить к-во комментариев
+         */
+        if ($oComment->getTargetType() == 'topic') {
+            if ($oTopic = $this->Topic_GetTopicById($oComment->getTargetId())) {
+                $aComments = $this->Comment_GetCommentsByFilter(array('target_id' => $oTopic->getId(), 'target_type' => 'topic', 'publish' => 1), array(), 1, 1,
+                    array());
+                $oTopic->setCountComment($aComments['count']);
+                $this->Topic_UpdateTopic($oTopic);
+            }
+        }
+        /**
+         * Дополнительно вызываем хук
+         */
+        $this->Hook_Run('admin_comment_delete', array('comment' => $oComment, 'target_type' => $oComment->getTargetType()));
     }
 
 }
