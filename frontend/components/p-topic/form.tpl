@@ -34,6 +34,9 @@
     {* Возможность подключать выбор превью *}
     {component 'admin:field' template='checkbox' name='params[allow_preview]' label='Разрешить добавлять превью изображение'}
 
+    {component 'admin:field' template='checkbox' name='params[allow_deferred_all]' label='Разрешить создавать отложенные посты всем'}
+    {component 'admin:field' template='checkbox' name='params[allow_deferred_admin]' label='Разрешить создавать отложенные посты только админам'}
+
     {* CSS класс иконки *}
     {component 'admin:field' template='text' name='params[css_icon]' label='CSS класс иконки' placeholder='fa fa-file-text-o'}
 
