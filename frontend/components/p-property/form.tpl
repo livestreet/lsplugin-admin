@@ -31,7 +31,8 @@
         [ 'value' => 'tags',        'text' => 'Теги' ],
         [ 'value' => 'video_link',  'text' => 'Ссылка на видео' ],
         [ 'value' => 'file',        'text' => 'Файл' ],
-        [ 'value' => 'image',       'text' => 'Изображение' ]
+        [ 'value' => 'image',       'text' => 'Изображение' ],
+        [ 'value' => 'imageset',       'text' => 'Фотосет' ]
     ]}
 
     {component 'admin:field' template='select' name='property[type]' label='Тип поля' items=$types}
