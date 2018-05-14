@@ -15,7 +15,8 @@
         "type-select": "types/type.select.tpl",
         "type-image": "types/type.image.tpl",
         "type-file": "types/type.file.tpl",
-        "type-int": "types/type.int.tpl"
+        "type-int": "types/type.int.tpl",
+        "type-imageset": "types/type.imageset.tpl"
     },
     "scripts": {
         "p-property": "js/property.js"
