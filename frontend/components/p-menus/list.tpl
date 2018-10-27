@@ -12,6 +12,8 @@
                 <th>Название</th>
                 <th>URL</th>
                 <th>Элементов</th>
+                <th>Включен</th>
+                <th>Активный</th>
                 <th class="ls-table-cell-actions">Действие</th>
             </tr>
         </thead>
@@ -25,16 +27,18 @@
                         <i class="fa fa-file" style="margin-left: {$level * 20}px;"></i>
 
                         {if $item->getUrl()}
-                            <a href="{$item->getUrl()}" border="0">{$item->getTitle()}</a>
+                            <a href="{$item->getUrl()}" border="0">{lang name=$item->getTitle()} ({$item->getTitle()})</a>
                         {else}
-                            {$item->getTitle()}
+                            {lang name=$item->getTitle()} ({$item->getTitle()})
                         {/if}
                     </td>
                     <td>{$item->getUrl()}</td>
                     <td>{$item->getCountTargetOfDescendants()}</td>
+                    <td>{$item->getEnable()}</td>
+                    <td>{$item->getActive()}</td>
                     <td class="ls-table-cell-actions">
-                        <a href="{$item->getUrlAdminUpdate()}" class="fa fa-edit" title="{$aLang.plugin.admin.edit}"></a>
-                        <a href="{$item->getUrlAdminRemove()}?security_ls_key={$LIVESTREET_SECURITY_KEY}" class="fa fa-trash-o js-confirm-remove" title="{$aLang.plugin.admin.delete}"></a>
+                        <a href="{router page="admin/menu/{$oMenu->getName()}/update/{$item->getId()}"}" class="fa fa-edit" title="{$aLang.plugin.admin.edit}"></a>
+                        <a href="{router page="admin/menu/{$oMenu->getName()}/remove/{$item->getId()}"}?security_ls_key={$LIVESTREET_SECURITY_KEY}" class="fa fa-trash-o js-confirm-remove" title="{$aLang.plugin.admin.delete}"></a>
                     </td>
                 </tr>
             {/foreach}

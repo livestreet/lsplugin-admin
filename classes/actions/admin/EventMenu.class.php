@@ -54,25 +54,25 @@ class PluginAdmin_ActionAdmin_EventMenu extends Event{
         }
 
         if (getRequest('item_submit')) {
-//            $this->Security_ValidateSendForm();
-//
-//            $oCategory = Engine::GetEntity('ModuleCategory_EntityCategory');
-//            $oCategory->_setDataSafe(getRequest('category'));
-//            $oCategory->setTypeId($oType->getId());
-//            if ($oCategory->_Validate()) {
-//                $oCategory->setTitle(htmlspecialchars($oCategory->getTitle()));
-//                if ($oCategory->getDescription()) {
-//                    $oCategory->setDescription($this->Category_ParserText($oCategory->getDescription(), $oCategory));
-//                }
-//                if ($oCategory->Add()) {
-//                    $this->Message_AddNotice('Добавление прошло успешно', $this->Lang_Get('common.attention'), true);
-//                    Router::LocationAction("admin/categories/" . $oType->getTargetType());
-//                } else {
-//                    $this->Message_AddError('Возникла ошибка при добавлении', $this->Lang_Get('common.error.error'));
-//                }
-//            } else {
-//                $this->Message_AddError($oCategory->_getValidateError(), $this->Lang_Get('common.error.error'));
-//            }
+            $this->Security_ValidateSendForm();
+
+            $oItem = Engine::GetEntity('ModuleMenu_EntityItem');
+            $oItem->_setDataSafe(getRequest('item')); 
+            
+            $oItem->setMenuId($oMenu->getId());
+           
+            if ($oItem->_Validate()) {
+                $oItem->setTitle(htmlspecialchars($oItem->getTitle()));
+               
+                if ($oItem->Add()) {
+                    $this->Message_AddNotice('Добавление прошло успешно', $this->Lang_Get('common.attention'), true);
+                    Router::LocationAction("admin/menu/" . $oMenu->getName());
+                } else {
+                    $this->Message_AddError('Возникла ошибка при добавлении', $this->Lang_Get('common.error.error'));
+                }
+            } else {
+                $this->Message_AddError($oItem->_getValidateError(), $this->Lang_Get('common.error.error'));
+            }
         }
         /**
          * Получаем список пупнктов для данного меню
@@ -87,5 +87,81 @@ class PluginAdmin_ActionAdmin_EventMenu extends Event{
         $this->Viewer_Assign('aItems', $aItems);
         $this->Viewer_Assign('oMenu', $oMenu);
         $this->SetTemplateAction('menu/create');
+    }
+    
+    public function EventCategoryUpdate()
+    {
+        $oMenu = $this->Menu_GetMenuByFilter(['name' => $this->GetParam(0)]);
+        if(!$oMenu){
+            return $this->EventNotFound();
+        }
+        if (!($oItem = $this->Menu_GetItemById($this->GetParam(2)))) {
+            return $this->EventNotFound();
+        }
+        
+        /**
+         * Получаем список пупнктов для данного меню
+         */
+        $aItems = $this->Menu_LoadTreeOfItem([
+            'menu_id' => $oMenu->getId(),
+            '#order'  => array('priority' => 'desc')
+        ]);
+        
+        $aItems = ModuleORM::buildTree($aItems);
+
+        if (getRequest('item_submit')) {
+            $this->Security_ValidateSendForm();
+            $oItem->_setDataSafe(getRequest('item'));
+            
+            if ($oItem->_Validate()) {
+                $oItem->setTitle(htmlspecialchars($oItem->getTitle()));
+               
+                if ($oItem->Save()) {
+                    $this->Message_AddNotice('Сохранение прошло успешно', $this->Lang_Get('common.attention'), true);
+                    Router::LocationAction("admin/menu/" . $oMenu->getName());
+                } else {
+                    $this->Message_AddError('Возникла ошибка при сохранении', $this->Lang_Get('common.error.error'));
+                }
+            } else {
+                $this->Message_AddError($oItem->_getValidateError(), $this->Lang_Get('common.error.error'));
+            }
+        } else {
+            $_REQUEST['item'] = array(
+                'pid'         => $oItem->getPid(),
+                'title'       => htmlspecialchars_decode($oItem->getTitle()),
+                'name'        => $oItem->getName(),
+                'url'         => $oItem->getUrl(),
+                'priority'    => $oItem->getPriority(),
+                'enable'      => $oItem->getEnable(),
+                'active'      => $oItem->getActive(),
+            );
+        }
+
+        $this->Viewer_Assign('oItem', $oItem);
+        $this->Viewer_Assign('aItems', $aItems);
+        $this->Viewer_Assign('oMenu', $oMenu);
+        $this->SetTemplateAction('menu/create');
+    }
+    
+    public function EventCategoryRemove()
+    {
+        $oMenu = $this->Menu_GetMenuByFilter(['name' => $this->GetParam(0)]);
+        if(!$oMenu){
+            return $this->EventNotFound();
+        }
+        if (!($oItem = $this->Menu_GetItemById($this->GetParam(2)))) {
+            return $this->EventNotFound();
+        }
+
+        /**
+         * Удаляем
+         */
+        if ($oItem->Delete()) {
+            $this->Message_AddNotice('Удаление прошло успешно', null, true);
+        } else {
+            $this->Message_AddError('Возникла ошибка при удалении', null, true);
+        }
+
+        Router::LocationAction("admin/menu/{$oMenu->getName()}");
     }
 }

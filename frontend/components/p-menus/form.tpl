@@ -21,18 +21,24 @@
     {/foreach}
 
     {component 'admin:field' template='select' name='item[pid]' label='Вложить в' items=$items}
+    
+    {* Код *}
+    {component 'admin:field' template='text' name='item[name]' label='Код'}
 
     {* Название *}
     {component 'admin:field' template='text' name='item[title]' label='Название'}
-
-    {* Описиание *}
-    {component 'admin:field' template='textarea' name='item[title]' label='Название' escape=false}
 
     {* URL *}
     {component 'admin:field' template='text' name='item[url]' label='Url'}
 
     {* Сортировка *}
     {component 'admin:field' template='text' name='item[priority]' label='Приоритет'}
+    
+    {* Статус *}
+    {component 'admin:field' template='checkbox' name='item[enable]' label='Включен'}
+    
+    {* Активный *}
+    {component 'admin:field' template='checkbox' name='item[active]' label='Активный'}
 
     {* Кнопки *}
     {component 'admin:button' name='item_submit' text="{($_aRequest) ? $aLang.plugin.admin.save : $aLang.plugin.admin.add}" value=1 mods='primary'}

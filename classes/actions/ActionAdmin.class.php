@@ -458,11 +458,9 @@ class PluginAdmin_ActionAdmin extends ActionPlugin
          * Меню
          */
         
-//        $this->AddEventPreg('#^menu$#i', '#^[\w-]+$#i', '#^remove$#i', '#^\d{1,5}$#i', 'Category::EventCategoryRemove');
-//        $this->AddEventPreg('#^menu$#i', '#^[\w-]+$#i', '#^update$#i', '#^\d{1,5}$#i',
-//            'Category::EventCategoryUpdate');
+        $this->AddEventPreg('#^menu$#i', '#^[\w-]+$#i', '#^remove$#i', '#^\d{1,5}$#i', 'Menu::EventCategoryRemove');
+        $this->AddEventPreg('#^menu$#i', '#^[\w-]+$#i', '#^update$#i', '#^\d{1,5}$#i', 'Menu::EventCategoryUpdate');
         $this->AddEventPreg('#^menu$#i', '#^[\w-]+$#i', '#^create$#i', '#^$#i', 'Menu::EventItemCreate');
-//        $this->AddEventPreg( '#^menu$#iu', '#^(list)?$#iu', 'Menu::EventList');
         $this->AddEventPreg('#^menu$#i', '#^[\w-]+$#i', 'Menu::EventList');
         /*
          *
