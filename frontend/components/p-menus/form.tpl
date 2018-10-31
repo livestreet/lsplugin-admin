@@ -15,7 +15,7 @@
 
     {foreach $menuItems as $menuItem}
         {$items[] = [
-            'text' => ''|str_pad:(2 * $menuItem.level):'-'|cat:$menuItem['entity']->getTitle(),
+            'text' => ''|str_pad:(2 * $menuItem.level):'-'|cat:{lang name=$menuItem['entity']->getTitle()},
             'value' => $menuItem['entity']->getId()
         ]}
     {/foreach}
