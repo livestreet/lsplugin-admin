@@ -130,7 +130,10 @@ class PluginAdmin_ActionAdmin extends ActionPlugin
          * Утилиты
          */
         $this->RegisterEventExternal('Utils', 'PluginAdmin_ActionAdmin_EventUtils');
-
+        /*
+         * Меню
+         */
+        $this->RegisterEventExternal('Menu', 'PluginAdmin_ActionAdmin_EventMenu');
 
         /*
          *
@@ -392,6 +395,7 @@ class PluginAdmin_ActionAdmin extends ActionPlugin
          */
         $this->AddEventPreg('#^comments$#iu', '#^delete$#iu', 'Comments::EventFullCommentDelete');
 
+        
         /*
          *
          * --- Плагины ---
@@ -450,7 +454,14 @@ class PluginAdmin_ActionAdmin extends ActionPlugin
             'Settings::EventTopicTypeRemove');
         $this->AddEventPreg('#^settings$#iu', '#^topic-type$#iu', '#^ajax-sort$#iu',
             'Settings::EventTopicTypeAjaxSort');
-
+        /*
+         * Меню
+         */
+        
+        $this->AddEventPreg('#^menu$#i', '#^[\w-]+$#i', '#^remove$#i', '#^\d{1,5}$#i', 'Menu::EventCategoryRemove');
+        $this->AddEventPreg('#^menu$#i', '#^[\w-]+$#i', '#^update$#i', '#^\d{1,5}$#i', 'Menu::EventCategoryUpdate');
+        $this->AddEventPreg('#^menu$#i', '#^[\w-]+$#i', '#^create$#i', '#^$#i', 'Menu::EventItemCreate');
+        $this->AddEventPreg('#^menu$#i', '#^[\w-]+$#i', 'Menu::EventList');
         /*
          *
          * --- Шаблоны ---
