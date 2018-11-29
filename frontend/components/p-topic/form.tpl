@@ -22,8 +22,6 @@
 
     <h5 class="h5">Дополнительные параметры:</h5>
 
-    {* Возможность подключать опросы *}
-    {component 'admin:field' template='checkbox' name='params[allow_poll]' label='Разрешить добавлять опросы'}
 
     {* Возможность отключить текст топика *}
     {component 'admin:field' template='checkbox' name='params[allow_text]' label='Разрешить стандартное поле с текстом'}

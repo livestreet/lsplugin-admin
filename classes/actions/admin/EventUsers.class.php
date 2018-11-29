@@ -196,10 +196,7 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event
          */
         //$iCountNoteUser = $this->User_GetCountUserNotesByUserId($oUser->getId());
 
-        /*
-         * записей на стене
-         */
-        //$iWallItemsCount = $this->Wall_GetCountWall (array ('wall_user_id' => $oUser->getId (), 'pid' => null));
+        
         /*
          * получаем количество созданных блогов
          */
@@ -231,7 +228,6 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event
         $this->Viewer_Assign('iCountFriendsUser', $iCountFriendsUser);
 
         //$this->Viewer_Assign('iCountNoteUser', $iCountNoteUser);
-        //$this->Viewer_Assign('iCountWallUser', $iWallItemsCount);
         /*
          * общее число публикаций и избранного
          */
@@ -248,11 +244,6 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event
             $this->Viewer_Assign('oUserNote', $oUser->getUserNote());
         }
         */
-
-        /*
-         * подсчитать за что, как и сколько раз голосовал пользователь
-         */
-        $aVotedStats = $this->PluginAdmin_Users_GetUserVotingStats($oUser);
 
         /*
          * загрузить начальный список гео данных
@@ -273,7 +264,6 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event
         $this->Viewer_Assign('aGeoCountries', $aCountries['collection']);
         $this->Viewer_Assign('oGeoTarget', $oGeoTarget);
 
-        $this->Viewer_Assign('aUserVotedStat', $aVotedStats);
         $this->Viewer_Assign('oUser', $oUser);
 
         /*
@@ -482,114 +472,6 @@ class PluginAdmin_ActionAdmin_EventUsers extends Event
             'filter_queries'                      => $aQueries,
             'filter_queries_with_original_values' => $aCorrectFieldsWithOriginalValues
         );
-    }
-
-
-    /**
-     * Получить списки голосований пользователя
-     *
-     * @return string
-     */
-    public function EventUserVotesList()
-    {
-        $this->SetTemplateAction('users/votes');
-        $this->SetPaging(2, 'votes.per_page');
-
-        /*
-         * сортировка
-         */
-        $sOrder = $this->GetDataFromFilter('order_field');
-        $sWay = $this->GetDataFromFilter('order_way');
-
-        /*
-         * проверяем корректность id пользователя
-         */
-        if (!$oUser = $this->User_GetUserById((int)$this->GetParam(1))) {
-            return $this->EventNotFound();
-        }
-        /*
-         * проверяем корректность типа обьекта, голоса по которому нужно показать
-         */
-        if (!$sVotingTargetType = $this->GetDataFromFilter('type') or !in_array($sVotingTargetType,
-                array('topic', 'comment', 'blog', 'user'))
-        ) {
-            return $this->EventNotFound();
-        }
-        /*
-         * проверяем направление голосования
-         */
-        if ($sVotingDirection = $this->GetDataFromFilter('dir') and !in_array($sVotingDirection,
-                array('plus', 'minus', 'abstain'))
-        ) {
-            return $this->EventNotFound();
-        }
-        /*
-         * строим фильтр
-         */
-        $aFilter = array(
-            'type'      => $sVotingTargetType,
-            'direction' => $sVotingDirection,
-        );
-
-        /*
-         * получаем данные голосований
-         */
-        $aResult = $this->PluginAdmin_Users_GetUserVotingByFilter(
-            $oUser,
-            $aFilter,
-            array($sOrder => $sWay),
-            $this->iPage,
-            $this->iPerPage
-        );
-
-        /*
-         * дополнить данные голосований названиями обьектов и ссылками на них
-         */
-        $this->PluginAdmin_Users_GetTargetObjectsFromVotingList($aResult['collection']);
-
-        /*
-         * Формируем постраничность
-         */
-        $aPaging = $this->Viewer_MakePaging(
-            $aResult['count'],
-            $this->iPage,
-            $this->iPerPage,
-            Config::Get('pagination.pages.count'),
-            Router::GetPath('admin') . Router::GetActionEvent() . '/votes/' . $oUser->getId(),
-            $this->GetPagingAdditionalParamsByArray(array(
-                'type'        => $sVotingTargetType,
-                'dir'         => $sVotingDirection,
-                'order_field' => $sOrder,
-                'order_way'   => $sWay
-            ))
-        );
-
-        $this->Viewer_Assign('aPaging', $aPaging);
-        $this->Viewer_Assign('aVotingList', $aResult ['collection']);
-        $this->Viewer_Assign('oUser', $oUser);
-        $this->Viewer_Assign('sVotingTargetType', $sVotingTargetType);
-        $this->Viewer_Assign('sVotingDirection', $sVotingDirection);
-
-        /*
-         * сортировка
-         */
-        $this->Viewer_Assign('sOrder', $this->PluginAdmin_Users_GetDefaultSortingOrderIfIncorrect(
-            $sOrder,
-            Config::Get('plugin.admin.votes.correct_sorting_order'),
-            Config::Get('plugin.admin.votes.default_sorting_order')
-        ));
-        $this->Viewer_Assign('sWay', $this->PluginAdmin_Users_GetDefaultOrderDirectionIfIncorrect($sWay));
-        $this->Viewer_Assign('sReverseOrder', $this->PluginAdmin_Users_GetReversedOrderDirection($sWay));
-    }
-
-
-    /**
-     * Изменить количество голосов на странице
-     */
-    public function EventAjaxVotesOnPage()
-    {
-        $this->Viewer_SetResponseAjax('json');
-        $this->PluginAdmin_Users_ChangeVotesPerPage((int)getRequestStr('onpage'));
     }
 
 

@@ -78,39 +78,6 @@
             title=$aLang.plugin.admin.users.profile.info.stats_title
             content=$smarty.capture.profile_section}
 
-        {* Как голосовал пользователь *}
-        {$votings_direction = [
-            plus    => '<i class="p-icon-stats-up"></i>',
-            minus   => '<i class="p-icon-stats-down"></i>',
-            abstain => '&mdash;'
-        ]}
-
-        {capture 'profile_section'}
-            <div class="p-user-table-stats">
-            {foreach ['topic', 'comment', 'blog', 'user'] as $sType}
-                <div class="p-user-table-stats-row">
-                    <div class="p-user-table-stats-header">
-                        <a href="{router page="admin/users/votes/{$user->getId()}"}?filter[type]={$sType}">{$aLang.plugin.admin.users.profile.info.votings[$sType]}</a>
-                    </div>
-                    <ul>
-                        {foreach ['plus', 'minus', 'abstain'] as $sVoteDir}
-                            {if $aUserVotedStat[$sType][$sVoteDir]}
-                                <li title="{$sVoteDir}">
-                                    <a href="{router page="admin/users/votes/{$user->getId()}"}?filter[type]={$sType}&filter[dir]={$sVoteDir}">{$aUserVotedStat[$sType][$sVoteDir]}</a>
-                                    {$votings_direction[$sVoteDir]}
-                                </li>
-                            {/if}
-                        {/foreach}
-                    </ul>
-                </div>
-            {/foreach}
-            </div>
-        {/capture}
-
-        {component 'admin:p-user.profile-section'
-            title=$aLang.plugin.admin.users.profile.info.votings_title
-            content=$smarty.capture.profile_section}
-
         {* Контакты *}
         {$aUserFieldContactValues = $user->getUserFieldValues(true,array('contact'))}
         {$aUserFieldSocialValues = $user->getUserFieldValues(true,array('social'))}
@@ -163,7 +130,6 @@
                 <li class="p-user-menu-item"><a href="{$user->getUserWebPath()}created/"><span>{$aLang.plugin.admin.users.profile.middle_bar.publications}</span></a></li>
                 <li class="p-user-menu-item"><a href="{$user->getUserWebPath()}stream/"><span>{$aLang.plugin.admin.users.profile.middle_bar.activity}</span></a></li>
                 <li class="p-user-menu-item"><a href="{$user->getUserWebPath()}friends/"><span>{$aLang.plugin.admin.users.profile.middle_bar.friends}</span></a></li>
-                <li class="p-user-menu-item"><a href="{$user->getUserWebPath()}wall/"><span>{$aLang.plugin.admin.users.profile.middle_bar.wall}</span></a></li>
                 <li class="p-user-menu-item"><a href="{$user->getUserWebPath()}favourites/"><span>{$aLang.plugin.admin.users.profile.middle_bar.fav}</span></a></li>
             </ul>
         </div>

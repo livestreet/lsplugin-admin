@@ -95,8 +95,7 @@ return array(
                     'acl.create.topic.limit_time',
                     'acl.create.topic.limit_time_rating',
                     'acl.create.topic.limit_rating',
-                    'acl.vote.topic.rating',
-                    'acl.vote.topic.limit_time',
+                   
                 ),
             ),
             array(
@@ -116,8 +115,6 @@ return array(
                     'acl.create.comment.rating',
                     'acl.create.comment.limit_time',
                     'acl.create.comment.limit_time_rating',
-                    'acl.vote.comment.rating',
-                    'acl.vote.comment.limit_time',
                 ),
             ),
         ),
@@ -162,12 +159,7 @@ return array(
             array(
                 'name'         => 'Стена, активность и персональная лента',
                 'allowed_keys' => array(
-                    'module.wall.count_last_reply',
-                    'module.wall.per_page',
-                    'module.wall.text_max',
-                    'module.wall.text_min',
                     'module.stream.count_default',
-                    'module.stream.disable_vote_events',
                     'module.userfeed.count_default',
                 ),
             ),
@@ -178,8 +170,7 @@ return array(
                     'acl.create.talk.limit_time_rating',
                     'acl.create.talk_comment.limit_time',
                     'acl.create.talk_comment.limit_time_rating',
-                    'acl.create.wall.limit_time',
-                    'acl.create.wall.limit_time_rating',
+                    
                 ),
             ),
         ),
@@ -976,84 +967,6 @@ return array(
                 ),
             ),
         ),
-        'acl.create.wall.limit_time'                 => array(
-            'type'        => 'integer',
-            'name'        => 'config_parameters.acl.create.wall.limit_time.name',
-            'description' => 'config_parameters.acl.create.wall.limit_time.description',
-            'validator'   => array(
-                'type'   => 'Number',
-                'params' => array(
-                    'min'         => 0,
-                    'max'         => 60 * 60 * 24,
-                    'integerOnly' => true,
-                    'allowEmpty'  => false,
-                ),
-            ),
-        ),
-        'acl.create.wall.limit_time_rating'          => array(
-            'type'        => 'integer',
-            'name'        => 'config_parameters.acl.create.wall.limit_time_rating.name',
-            'description' => 'config_parameters.acl.create.wall.limit_time_rating.description',
-            'validator'   => array(
-                'type'   => 'Number',
-                'params' => array(
-                    'integerOnly' => true,
-                    'allowEmpty'  => false,
-                ),
-            ),
-        ),
-        'acl.vote.comment.rating'                    => array(
-            'type'        => 'integer',
-            'name'        => 'config_parameters.acl.vote.comment.rating.name',
-            'description' => 'config_parameters.acl.vote.comment.rating.description',
-            'validator'   => array(
-                'type'   => 'Number',
-                'params' => array(
-                    'integerOnly' => true,
-                    'allowEmpty'  => false,
-                ),
-            ),
-        ),
-        'acl.vote.topic.rating'                      => array(
-            'type'        => 'integer',
-            'name'        => 'config_parameters.acl.vote.topic.rating.name',
-            'description' => 'config_parameters.acl.vote.topic.rating.description',
-            'validator'   => array(
-                'type'   => 'Number',
-                'params' => array(
-                    'integerOnly' => true,
-                    'allowEmpty'  => false,
-                ),
-            ),
-        ),
-        'acl.vote.topic.limit_time'                  => array(
-            'type'        => 'integer',
-            'name'        => 'config_parameters.acl.vote.topic.limit_time.name',
-            'description' => 'config_parameters.acl.vote.topic.limit_time.description',
-            'validator'   => array(
-                'type'   => 'Number',
-                'params' => array(
-                    'min'         => 0,
-                    'max'         => 60 * 60 * 24 * 100,
-                    'integerOnly' => true,
-                    'allowEmpty'  => false,
-                ),
-            ),
-        ),
-        'acl.vote.comment.limit_time'                => array(
-            'type'        => 'integer',
-            'name'        => 'config_parameters.acl.vote.comment.limit_time.name',
-            'description' => 'config_parameters.acl.vote.comment.limit_time.description',
-            'validator'   => array(
-                'type'   => 'Number',
-                'params' => array(
-                    'min'         => 0,
-                    'max'         => 60 * 60 * 24 * 100,
-                    'integerOnly' => true,
-                    'allowEmpty'  => false,
-                ),
-            ),
-        ),
         'module.blog.per_page'                       => array(
             'type'        => 'integer',
             'name'        => 'config_parameters.module.blog.per_page.name',
@@ -1673,15 +1586,6 @@ return array(
                 'params' => array(),
             ),
         ),
-        'module.stream.disable_vote_events'          => array(
-            'type'        => 'boolean',
-            'name'        => 'config_parameters.module.stream.disable_vote_events.name',
-            'description' => 'config_parameters.module.stream.disable_vote_events.description',
-            'validator'   => array(
-                'type'   => 'Boolean',
-                'params' => array(),
-            ),
-        ),
         'module.ls.send_general'                     => array(
             'type'        => 'boolean',
             'name'        => 'config_parameters.module.ls.send_general.name',
@@ -1697,42 +1601,6 @@ return array(
             'description' => 'config_parameters.module.ls.use_counter.description',
             'validator'   => array(
                 'type'   => 'Boolean',
-                'params' => array(),
-            ),
-        ),
-        'module.wall.count_last_reply'               => array(
-            'type'        => 'integer',
-            'name'        => 'config_parameters.module.wall.count_last_reply.name',
-            'description' => 'config_parameters.module.wall.count_last_reply.description',
-            'validator'   => array(
-                'type'   => 'Number',
-                'params' => array(),
-            ),
-        ),
-        'module.wall.per_page'                       => array(
-            'type'        => 'integer',
-            'name'        => 'config_parameters.module.wall.per_page.name',
-            'description' => 'config_parameters.module.wall.per_page.description',
-            'validator'   => array(
-                'type'   => 'Number',
-                'params' => array(),
-            ),
-        ),
-        'module.wall.text_max'                       => array(
-            'type'        => 'integer',
-            'name'        => 'config_parameters.module.wall.text_max.name',
-            'description' => 'config_parameters.module.wall.text_max.description',
-            'validator'   => array(
-                'type'   => 'Number',
-                'params' => array(),
-            ),
-        ),
-        'module.wall.text_min'                       => array(
-            'type'        => 'integer',
-            'name'        => 'config_parameters.module.wall.text_min.name',
-            'description' => 'config_parameters.module.wall.text_min.description',
-            'validator'   => array(
-                'type'   => 'Number',
                 'params' => array(),
             ),
         ),

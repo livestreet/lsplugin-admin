@@ -75,52 +75,6 @@ class PluginAdmin_ModuleDeletecontent extends Module
     }
 
 
-    /**
-     * Удаление стены пользователя
-     *
-     * @param $oUser    объект пользователя
-     * @return bool
-     */
-    public function DeleteUserWall($oUser)
-    {
-        /*
-         * построить фильтр
-         */
-        $aFilter = array(
-            /*
-             * условие WHERE
-             */
-            self::FILTER_CONDITIONS => array(
-                /*
-                 * перечисление полей таблицы и их значения
-                 */
-                'wall_user_id' => $oUser->getId(),
-            ),
-            /*
-             * таблица из которой нужно удалить записи
-             */
-            self::FILTER_TABLE      => Config::Get('db.table.wall')
-        );
-        return $this->DeleteContentByFilter($aFilter);
-    }
-
-
-    /**
-     * Удаление записей пользователя на других стенах
-     *
-     * @param $oUser    объект пользователя
-     * @return bool
-     */
-    public function DeleteUserWroteOnWalls($oUser)
-    {
-        $aFilter = array(
-            self::FILTER_CONDITIONS => array(
-                'user_id' => $oUser->getId(),
-            ),
-            self::FILTER_TABLE      => Config::Get('db.table.wall')
-        );
-        return $this->DeleteContentByFilter($aFilter);
-    }
 
 
     /**
@@ -554,24 +508,6 @@ class PluginAdmin_ModuleDeletecontent extends Module
 
 
     /**
-     * Удаление голосов пользователя за другие объекты
-     *
-     * @param $oUser    объект пользователя
-     * @return bool
-     */
-    public function DeleteUserVotes($oUser)
-    {
-        $aFilter = array(
-            self::FILTER_CONDITIONS => array(
-                'user_voter_id' => $oUser->getId(),
-            ),
-            self::FILTER_TABLE      => Config::Get('db.table.vote')
-        );
-        return $this->DeleteContentByFilter($aFilter);
-    }
-
-
-    /**
      * Удаление жалоб от пользователя
      *
      * @param $oUser    объект пользователя
@@ -704,10 +640,7 @@ class PluginAdmin_ModuleDeletecontent extends Module
             $this->Comment_RestoreTree();
         }
 
-        /*
-         * очистить таблицы голосований от записей, указывающих на несуществующие комментарии, целые ветки которых были удалены
-         */
-        $this->DeleteVotingsTargetingCommentsNotExists();
+  
 
         /*
          * очистить таблицы избранного от записей, указывающих на несуществующие комментарии, целые ветки которых были удалены
@@ -795,26 +728,7 @@ class PluginAdmin_ModuleDeletecontent extends Module
      *
      */
 
-    /**
-     * Удаляет записи активности типа "добавление записи на стену", указывающие на несуществующие стены
-     *
-     * @return bool
-     */
-    protected function DeleteStreamWallEventsTargetingWallsNotExists()
-    {
-        $aFilter = array(
-            self::FILTER_CONDITIONS      => array(
-                'event_type' => 'add_wall',
-            ),
-            self::FILTER_TABLE           => Config::Get('db.table.stream_event'),
-            self::FILTER_CONNECTED_FIELD => 'target_id',
-            self::FILTER_SUBQUERY_FIELD  => 'id',
-            self::FILTER_SUBQUERY_TABLE  => Config::Get('db.table.wall'),
-        );
-        return $this->DeleteReferencesToOtherTableRecordsNotExists($aFilter);
-    }
-
-
+   
     /**
      * Удаляет записи активности типа "добавление топика", указывающие на несуществующие топики
      *
@@ -875,84 +789,8 @@ class PluginAdmin_ModuleDeletecontent extends Module
     }
 
 
-    /**
-     * Удаляет записи активности типа "голосование за топик", указывающие на несуществующие топики
-     *
-     * @return bool
-     */
-    protected function DeleteStreamVoteTopicEventsTargetingTopicsNotExists()
-    {
-        $aFilter = array(
-            self::FILTER_CONDITIONS      => array(
-                'event_type' => 'vote_topic',
-            ),
-            self::FILTER_TABLE           => Config::Get('db.table.stream_event'),
-            self::FILTER_CONNECTED_FIELD => 'target_id',
-            self::FILTER_SUBQUERY_FIELD  => 'topic_id',
-            self::FILTER_SUBQUERY_TABLE  => Config::Get('db.table.topic'),
-        );
-        return $this->DeleteReferencesToOtherTableRecordsNotExists($aFilter);
-    }
+    
 
-
-    /**
-     * Удаляет записи активности типа "голосование за комментарий", указывающие на несуществующие комментарии
-     *
-     * @return bool
-     */
-    protected function DeleteStreamVoteCommentEventsTargetingCommentsNotExists()
-    {
-        $aFilter = array(
-            self::FILTER_CONDITIONS      => array(
-                'event_type' => 'vote_comment',
-            ),
-            self::FILTER_TABLE           => Config::Get('db.table.stream_event'),
-            self::FILTER_CONNECTED_FIELD => 'target_id',
-            self::FILTER_SUBQUERY_FIELD  => 'comment_id',
-            self::FILTER_SUBQUERY_TABLE  => Config::Get('db.table.comment'),
-        );
-        return $this->DeleteReferencesToOtherTableRecordsNotExists($aFilter);
-    }
-
-
-    /**
-     * Удаляет записи активности типа "голосование за блог", указывающие на несуществующие блоги
-     *
-     * @return bool
-     */
-    protected function DeleteStreamVoteBlogEventsTargetingBlogsNotExists()
-    {
-        $aFilter = array(
-            self::FILTER_CONDITIONS      => array(
-                'event_type' => 'vote_blog',
-            ),
-            self::FILTER_TABLE           => Config::Get('db.table.stream_event'),
-            self::FILTER_CONNECTED_FIELD => 'target_id',
-            self::FILTER_SUBQUERY_FIELD  => 'blog_id',
-            self::FILTER_SUBQUERY_TABLE  => Config::Get('db.table.blog'),
-        );
-        return $this->DeleteReferencesToOtherTableRecordsNotExists($aFilter);
-    }
-
-
-    /**
-     * Удаляет записи активности типа "голосование за пользователя", указывающие на несуществующих пользователей
-     *
-     * @return bool
-     */
-    protected function DeleteStreamVoteUserEventsTargetingUsersNotExists()
-    {
-        $aFilter = array(
-            self::FILTER_CONDITIONS      => array(
-                'event_type' => 'vote_user',
-            ),
-            self::FILTER_TABLE           => Config::Get('db.table.stream_event'),
-            self::FILTER_CONNECTED_FIELD => 'target_id',
-            self::FILTER_SUBQUERY_FIELD  => 'user_id',
-            self::FILTER_SUBQUERY_TABLE  => Config::Get('db.table.user'),
-        );
-        return $this->DeleteReferencesToOtherTableRecordsNotExists($aFilter);
-    }
 
 
     /**
@@ -1001,10 +839,6 @@ class PluginAdmin_ModuleDeletecontent extends Module
     public function CleanStreamForEventsNotExists()
     {
         /*
-         * Удаляет записи активности типа "добавление записи на стену", указывающие на несуществующие стены
-         */
-        $this->DeleteStreamWallEventsTargetingWallsNotExists();
-        /*
          * Удаляет записи активности типа "добавление топика", указывающие на несуществующие топики
          */
         $this->DeleteStreamTopicEventsTargetingTopicsNotExists();
@@ -1017,22 +851,6 @@ class PluginAdmin_ModuleDeletecontent extends Module
          */
         $this->DeleteStreamBlogEventsTargetingBlogsNotExists();
         /*
-         * Удаляет записи активности типа "голосование за топик", указывающие на несуществующие топики
-         */
-        $this->DeleteStreamVoteTopicEventsTargetingTopicsNotExists();
-        /*
-         * Удаляет записи активности типа "голосование за комментарий", указывающие на несуществующие комментарии
-         */
-        $this->DeleteStreamVoteCommentEventsTargetingCommentsNotExists();
-        /*
-         * Удаляет записи активности типа "голосование за блог", указывающие на несуществующие блоги
-         */
-        $this->DeleteStreamVoteBlogEventsTargetingBlogsNotExists();
-        /*
-         * Удаляет записи активности типа "голосование за пользователя", указывающие на несуществующих пользователей
-         */
-        $this->DeleteStreamVoteUserEventsTargetingUsersNotExists();
-        /*
          * Удаляет записи активности типа "добавление друга", указывающие на несуществующих пользователей
          */
         $this->DeleteStreamAddFriendEventsTargetingUsersNotExists();
@@ -1040,116 +858,6 @@ class PluginAdmin_ModuleDeletecontent extends Module
          * Удаляет записи активности типа "вход в блог", указывающие на несуществующие блоги
          */
         $this->DeleteStreamJoinBlogEventsTargetingBlogsNotExists();
-    }
-
-
-    /*
-     *
-     * --- Очистка таблицы голосований ---
-     *
-     */
-
-    /**
-     * Удаляет записи голосований, указывающие на несуществующие комментарии
-     *
-     * @return bool
-     */
-    protected function DeleteVotingsTargetingCommentsNotExists()
-    {
-        $aFilter = array(
-            self::FILTER_CONDITIONS      => array(
-                'target_type' => 'comment',
-            ),
-            self::FILTER_TABLE           => Config::Get('db.table.vote'),
-            self::FILTER_CONNECTED_FIELD => 'target_id',
-            self::FILTER_SUBQUERY_FIELD  => 'comment_id',
-            self::FILTER_SUBQUERY_TABLE  => Config::Get('db.table.comment'),
-        );
-        return $this->DeleteReferencesToOtherTableRecordsNotExists($aFilter);
-    }
-
-
-    /**
-     * Удаляет записи голосований, указывающие на несуществующие топики
-     *
-     * @return bool
-     */
-    protected function DeleteVotingsTargetingTopicsNotExists()
-    {
-        $aFilter = array(
-            self::FILTER_CONDITIONS      => array(
-                'target_type' => 'topic',
-            ),
-            self::FILTER_TABLE           => Config::Get('db.table.vote'),
-            self::FILTER_CONNECTED_FIELD => 'target_id',
-            self::FILTER_SUBQUERY_FIELD  => 'topic_id',
-            self::FILTER_SUBQUERY_TABLE  => Config::Get('db.table.topic'),
-        );
-        return $this->DeleteReferencesToOtherTableRecordsNotExists($aFilter);
-    }
-
-
-    /**
-     * Удаляет записи голосований, указывающие на несуществующие блоги
-     *
-     * @return bool
-     */
-    protected function DeleteVotingsTargetingBlogsNotExists()
-    {
-        $aFilter = array(
-            self::FILTER_CONDITIONS      => array(
-                'target_type' => 'blog',
-            ),
-            self::FILTER_TABLE           => Config::Get('db.table.vote'),
-            self::FILTER_CONNECTED_FIELD => 'target_id',
-            self::FILTER_SUBQUERY_FIELD  => 'blog_id',
-            self::FILTER_SUBQUERY_TABLE  => Config::Get('db.table.blog'),
-        );
-        return $this->DeleteReferencesToOtherTableRecordsNotExists($aFilter);
-    }
-
-
-    /**
-     * Удаляет записи голосований, указывающие на несуществующих пользователей
-     *
-     * @return bool
-     */
-    protected function DeleteVotingsTargetingUsersNotExists()
-    {
-        $aFilter = array(
-            self::FILTER_CONDITIONS      => array(
-                'target_type' => 'user',
-            ),
-            self::FILTER_TABLE           => Config::Get('db.table.vote'),
-            self::FILTER_CONNECTED_FIELD => 'target_id',
-            self::FILTER_SUBQUERY_FIELD  => 'user_id',
-            self::FILTER_SUBQUERY_TABLE  => Config::Get('db.table.user'),
-        );
-        return $this->DeleteReferencesToOtherTableRecordsNotExists($aFilter);
-    }
-
-
-    /**
-     * Удалить все голосования, указывающие на несуществующие объекты
-     */
-    public function CleanVotingsTableTargetingObjectsNotExists()
-    {
-        /*
-         * удалить голоса за несуществующие топики
-         */
-        $this->DeleteVotingsTargetingTopicsNotExists();
-        /*
-         * удалить голоса за несуществующие блоги
-         */
-        $this->DeleteVotingsTargetingBlogsNotExists();
-        /*
-         * удалить голоса за несуществующих пользователей
-         */
-        $this->DeleteVotingsTargetingUsersNotExists();
-        /*
-         * удалить голоса за несуществующие комментарии
-         */
-        $this->DeleteVotingsTargetingCommentsNotExists();
     }
 
 

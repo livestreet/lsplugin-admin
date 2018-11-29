@@ -190,196 +190,7 @@ class PluginAdmin_ModuleUsers extends Module
     }
 
 
-    /*
-     *
-     * --- Голосования ---
-     *
-     */
-
-    /**
-     * Получить статистическую информацию о том, за что, как и сколько раз голосовал пользователь
-     *
-     * @param $oUser        объект пользователя
-     * @return array        ассоциативный массив голосований за обьекты
-     */
-    public function GetUserVotingStats($oUser)
-    {
-        $sCacheKey = 'get_user_voting_stats_' . $oUser->getId();
-        if (($aData = $this->Cache_Get($sCacheKey)) === false) {
-            $aData = $this->CalcUserVotingStats($oUser);
-            $this->Cache_Set($aData, $sCacheKey, array(
-                'vote_update_topic',
-                'vote_update_comment',
-                'vote_update_blog',
-                'vote_update_user'
-            ), 60 * 30);            // reset every 30 min
-        }
-        return $aData;
-    }
-
-
-    /**
-     * Рассчитать статистику голосования пользователя
-     *
-     * @param $oUser        объект пользователя
-     * @throws Exception
-     * @return array
-     */
-    protected function CalcUserVotingStats($oUser)
-    {
-        /*
-         * заполнить значениями по-умолчанию
-         */
-        $aVotingStats = array(
-            'topic'   => array('plus' => 0, 'minus' => 0, 'abstain' => 0),
-            'comment' => array('plus' => 0, 'minus' => 0, 'abstain' => 0),
-            'blog'    => array('plus' => 0, 'minus' => 0, 'abstain' => 0),
-            'user'    => array('plus' => 0, 'minus' => 0, 'abstain' => 0),
-        );
-        $aResult = $this->oMapper->GetUserVotingStats($oUser->getId());
-        /*
-         * собрать данные в удобном виде
-         */
-        foreach ($aResult as $aData) {
-            switch ($aData['vote_direction']) {
-                case 1:
-                    $aVotingStats[$aData['target_type']]['plus'] = $aData['count'];
-                    break;
-                case -1:
-                    $aVotingStats[$aData['target_type']]['minus'] = $aData['count'];
-                    break;
-                case 0:
-                    $aVotingStats[$aData['target_type']]['abstain'] = $aData['count'];
-                    break;
-                default:
-                    throw new Exception('Admin: error: unknown voting direction "' . $aData['vote_direction'] . '" in ' . __METHOD__);
-            }
-        }
-        return $aVotingStats;
-    }
-
-
-    /**
-     * Получить списки голосований пользователя по фильтру
-     *
-     * @param            $oUser            объект пользователя
-     * @param            $aFilter        фильтр
-     * @param            $aOrder            сортировка
-     * @param int $iPage номер страницы
-     * @param int $iPerPage результатов на страницу
-     * @return mixed                    коллекция и количество
-     */
-    public function GetUserVotingByFilter($oUser, $aFilter, $aOrder = array(), $iPage = 1, $iPerPage = PHP_INT_MAX)
-    {
-        $sCacheKey = 'get_user_voting_list_' . implode('_',
-                array($oUser->getId(), serialize($aFilter), serialize($aOrder), $iPage, $iPerPage));
-        if (($aData = $this->Cache_Get($sCacheKey)) === false) {
-            $aData = $this->oMapper->GetUserVotingListByFilter(
-                $oUser->getId(),
-                $this->BuildFilterForVotingList($aFilter),
-                $this->GetCorrectSortingOrder(
-                    $aOrder,
-                    Config::Get('plugin.admin.votes.correct_sorting_order'),
-                    Config::Get('plugin.admin.votes.default_sorting_order')
-                ),
-                $iPage,
-                $iPerPage
-            );
-            $this->Cache_Set($aData, $sCacheKey, array(
-                'vote_update_topic',
-                'vote_update_comment',
-                'vote_update_blog',
-                'vote_update_user'
-            ), 60 * 30);            // reset every 30 min
-        }
-        return $aData;
-    }
-
-
-    /**
-     * Построить фильтр для запроса списка голосований пользователя
-     *
-     * @param $aFilter            фильтр
-     * @return string            строка sql запроса
-     * @throws Exception
-     */
-    protected function BuildFilterForVotingList($aFilter)
-    {
-        $sWhere = '';
-        /*
-         * тип голосования (топик, блог и т.п.)
-         */
-        if (isset($aFilter['type']) and $aFilter['type']) {
-            $sWhere .= ' AND `target_type` = "' . $aFilter['type'] . '"';
-        }
-        /*
-         * направление голосов (плюс, минус, воздержался)
-         */
-        if (isset($aFilter['direction']) and $aFilter['direction']) {
-            switch ($aFilter['direction']) {
-                case 'plus':
-                    $sWhere .= ' AND `vote_direction` = 1';
-                    break;
-                case 'minus':
-                    $sWhere .= ' AND `vote_direction` = -1';
-                    break;
-                case 'abstain':
-                    $sWhere .= ' AND `vote_direction` = 0';
-                    break;
-                default:
-                    throw new Exception('Admin: error: unknown direction type "' . $aFilter['direction'] . '" for votings in ' . __METHOD__);
-            }
-        }
-        return $sWhere;
-    }
-
-
-    /**
-     * Для списка голосов получить объект и задать новые универсализированные параметры (заголовок и ссылку на сам обьект)
-     *
-     * @param array $aVotingList массив голосов
-     * @throws Exception
-     */
-    public function GetTargetObjectsFromVotingList($aVotingList)
-    {
-        foreach ($aVotingList as $oVote) {
-            switch ($oVote->getTargetType()) {
-                case 'topic':
-                    if ($oTopic = $this->Topic_GetTopicById($oVote->getTargetId())) {
-                        $oVote->setTargetTitle($oTopic->getTitle());
-                        $oVote->setTargetFullUrl($oTopic->getUrl());
-                    }
-                    break;
-                case 'blog':
-                    if ($oBlog = $this->Blog_GetBlogById($oVote->getTargetId())) {
-                        $oVote->setTargetTitle($oBlog->getTitle());
-                        $oVote->setTargetFullUrl($oBlog->getUrlFull());
-                    }
-                    break;
-                case 'user':
-                    if ($oUser = $this->User_GetUserById($oVote->getTargetId())) {
-                        $oVote->setTargetTitle($oUser->getLogin());
-                        $oVote->setTargetFullUrl($oUser->getUserWebPath());
-                    }
-                    break;
-                case 'comment':
-                    if ($oComment = $this->Comment_GetCommentById($oVote->getTargetId())) {
-                        $oVote->setTargetTitle($oComment->getText());
-                        /*
-                         * пока только для топиков
-                         */
-                        if ($oComment->getTargetType() == 'topic') {
-                            $oVote->setTargetFullUrl($oComment->getTarget()->getUrl() . '#comment' . $oComment->getId());
-                        }
-                    }
-                    break;
-                default:
-                    throw new Exception('Admin: error: unsupported target type: "' . $oVote->getTargetType() . '" in ' . __METHOD__);
-            }
-        }
-    }
-
-
+    
     /*
      *
      * --- Изменение количества элементов на страницу ---
@@ -417,25 +228,6 @@ class PluginAdmin_ModuleUsers extends Module
          */
         $aData = array(
             'bans' => array(
-                'per_page' => $iPerPage,
-            )
-        );
-        $this->PluginAdmin_Settings_SaveConfigByKey('admin', $aData);
-    }
-
-
-    /**
-     * Установить количество голосов на странице
-     *
-     * @param $iPerPage        количество
-     */
-    public function ChangeVotesPerPage($iPerPage)
-    {
-        /*
-         * установить количество голосов на странице
-         */
-        $aData = array(
-            'votes' => array(
                 'per_page' => $iPerPage,
             )
         );
@@ -1005,11 +797,7 @@ class PluginAdmin_ModuleUsers extends Module
             }
         }
 
-        /*
-         * удалить голоса за профиль пользователя
-         */
-        $this->Vote_DeleteVoteByTarget($oUser->getId(), 'user');
-
+       
         /*
          * tip: если будут проблемы с удалением объектов выше - можно весь процесс удаления перевести на модуль удаления (как в вызовах ниже)
          */
@@ -1115,19 +903,7 @@ class PluginAdmin_ModuleUsers extends Module
          */
         $this->PluginAdmin_Deletecontent_DeleteUserNotesFromOtherUsers($oUser);
 
-        /*
-         * удалить голоса пользователя за другие объекты
-         */
-        $this->PluginAdmin_Deletecontent_DeleteUserVotes($oUser);
-
-        /*
-         * удалить стену пользователя
-         */
-        $this->PluginAdmin_Deletecontent_DeleteUserWall($oUser);
-        /*
-         * удалить записи пользователя на других стенах
-         */
-        $this->PluginAdmin_Deletecontent_DeleteUserWroteOnWalls($oUser);
+        
         /*
          * удалить жалобы от пользователя
          */

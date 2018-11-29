@@ -204,10 +204,6 @@ class PluginAdmin_ActionAdmin extends ActionPlugin
          */
         $this->AddEventPreg('#^users$#iu', '#^profile$#iu', '#^\d{1,5}$#iu', 'Users::EventUserProfile');
         /*
-         * просмотр в постраничном режиме за что именно голосовал пользователь
-         */
-        $this->AddEventPreg('#^users$#iu', '#^votes$#iu', '#^\d{1,5}$#iu', 'Users::EventUserVotesList');
-        /*
          * список админов
          */
         $this->AddEventPreg('#^users$#iu', '#^admins$#iu', '#^(page(\d{1,5}))?$#iu', 'Users::EventAdminsList');
@@ -362,10 +358,6 @@ class PluginAdmin_ActionAdmin extends ActionPlugin
          * изменение количества пользователей на страницу
          */
         $this->AddEventPreg('#^users$#iu', '#^ajax-on-page$#iu', 'Users::EventAjaxUsersOnPage');
-        /*
-         * изменение количества голосов на страницу
-         */
-        $this->AddEventPreg('#^votes$#iu', '#^ajax-on-page$#iu', 'Users::EventAjaxVotesOnPage');
         /*
          * изменение количества банов на страницу
          */

@@ -186,22 +186,7 @@ $config['$config_scheme$'] = array(
                 'allowEmpty'  => true,
             ),
         ),
-    ),
-
-    'votes.per_page' => array(
-        'type'        => 'integer',
-        'name'        => 'config_parameters.votes.per_page.name',
-        'description' => '',
-        'validator'   => array(
-            'type'   => 'Number',
-            'params' => array(
-                'min'         => 1,
-                'max'         => 500,
-                'integerOnly' => true,
-                'allowEmpty'  => true,
-            ),
-        ),
-    ),
+    )
 );
 
 /*
@@ -246,7 +231,6 @@ $config['$config_sections$'] = array(
         'name'         => 'config_sections.users.title',
         'allowed_keys' => array(
             'users*',
-            'votes*',
         ),
     ),
 );

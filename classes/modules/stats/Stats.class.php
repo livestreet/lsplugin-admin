@@ -546,7 +546,7 @@ class PluginAdmin_ModuleStats extends Module
     public function GetGrowthAndVotingsByTypeAndPeriod(
         $sType,
         $sPeriod = null,
-        $bGatherVotes = true,
+        $bGatherVotes = false,
         $bGatherRatings = true
     ) {
         $aGrowthFilter = $this->GetGrowthFilterForType($sType);
@@ -573,7 +573,7 @@ class PluginAdmin_ModuleStats extends Module
             /*
              * данные голосований (количество и направление)
              */
-            'votings'    => $bGatherVotes ? $this->GetVotingsForTypeAndPeriod($aGrowthFilter, $aPeriod) : null,
+            'votings'    =>  null,
             /*
              * данные рейтингов объектов (количество и тип)
              */
@@ -582,37 +582,7 @@ class PluginAdmin_ModuleStats extends Module
     }
 
 
-    /**
-     * Получить статистику голосов за обьекты указаного типа в периоде
-     *
-     * @param $aGrowthFilter    фильтр
-     * @param $aPeriod            период
-     * @return array            массив (сколько плюсов, минусов и воздержалось)
-     */
-    protected function GetVotingsForTypeAndPeriod($aGrowthFilter, $aPeriod)
-    {
-        $aResult = $this->oMapper->GetVotingsForTypeAndPeriod($aGrowthFilter, $aPeriod);
-        /*
-         * заполнить значениями по-умолчанию
-         */
-        $aVotingStats = array(
-            'positive' => 0,
-            'negative' => 0,
-            'neutral'  => 0
-        );
-        /*
-         * собрать данные в удобном виде
-         */
-        foreach ($aResult as $aData) {
-            $aVotingStats[$aData['vote_direction'] == '1' ? 'positive' : ($aData['vote_direction'] == '-1' ? 'negative' : 'neutral')] = $aData['count'];
-        }
-        /*
-         * всего голосов
-         */
-        $aVotingStats['total'] = array_sum($aVotingStats);
-
-        return $aVotingStats;
-    }
+   
 
 
     /**

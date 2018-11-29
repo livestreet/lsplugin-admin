@@ -155,40 +155,7 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL
     }
 
 
-    /**
-     * Проверяет может ли пользователь голосовать за конкретный комментарий
-     *
-     * @param ModuleUser_EntityUser $oUser
-     * @param ModuleComment_EntityComment $oComment
-     * @return bool
-     */
-    public function CanVoteComment($oUser, $oComment)
-    {
-        return $this->CheckIfReadOnlyModeForCurrentUserIsSet(__FUNCTION__) ? false : call_user_func_array(array(
-                'parent',
-                __FUNCTION__
-            ), func_get_args());
-    }
-
-
-    /**
-     * Проверяет может ли пользователь голосовать за конкретный топик
-     *
-     * @param ModuleUser_EntityUser $oUser
-     * @param ModuleTopic_EntityTopic $oTopic
-     * @param int $iValue
-     * @return bool
-     */
-    public function CanVoteTopic($oUser, $oTopic, $iValue)
-    {
-        return $this->CheckIfReadOnlyModeForCurrentUserIsSet(__FUNCTION__) ? false : call_user_func_array(array(
-                'parent',
-                __FUNCTION__
-            ), func_get_args());
-    }
-
-
-
+    
     /**
      * Проверяет можно ли юзеру слать инвайты
      *
@@ -331,20 +298,7 @@ class PluginAdmin_ModuleACL extends PluginAdmin_Inherits_ModuleACL
     }
 
 
-    /**
-     * Проверка на ограничение по времени на постинг на стене
-     *
-     * @param $oUser
-     * @param $oWall
-     * @return bool
-     */
-    public function CanAddWallTime($oUser, $oWall)
-    {
-        return $this->CheckIfReadOnlyModeForCurrentUserIsSet(__FUNCTION__) ? false : call_user_func_array(array(
-                'parent',
-                __FUNCTION__
-            ), func_get_args());
-    }
+    
 
 
     /**

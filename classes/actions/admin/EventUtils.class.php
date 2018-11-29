@@ -144,11 +144,7 @@ class PluginAdmin_ActionAdmin_EventUtils extends Event
                 $this->Cache_Clean();
                 $this->Message_AddNotice($this->Lang('notices.utils.optimization.restore.counter_favourite'), '', true);
                 break;
-            case 'restore-counter-vote':
-                $this->Topic_RecalculateVote();
-                $this->Cache_Clean();
-                $this->Message_AddNotice($this->Lang('notices.utils.optimization.restore.counter_vote'), '', true);
-                break;
+            
             case 'restore-counter-topic':
                 $this->Blog_RecalculateCountTopic();
                 $this->Cache_Clean();
